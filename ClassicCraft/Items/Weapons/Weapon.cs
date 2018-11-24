@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Weapon : Item
+    public class Weapon : Item
     {
         public enum WeaponType
         {

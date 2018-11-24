@@ -54,19 +54,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Action.cs" />
-    <Compile Include="AutoAttack.cs" />
-    <Compile Include="Bloodthirst.cs" />
-    <Compile Include="Buff.cs" />
-    <Compile Include="Flurry.cs" />
-    <Compile Include="HeroicStrike.cs" />
-    <Compile Include="Item.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="Actions\Action.cs" />
+    <Compile Include="Actions\Spells\DeathWish.cs" />
+    <Compile Include="Actions\Spells\Execute.cs" />
+    <Compile Include="Actions\Spells\Recklessness.cs" />
+    <Compile Include="Auras\Aura.cs" />
+    <Compile Include="Actions\AutoAttack.cs" />
+    <Compile Include="Actions\Spells\Bloodthirst.cs" />
+    <Compile Include="Auras\Effects\DeathWishBuff.cs" />
+    <Compile Include="Auras\Effects\RecklessnessBuff.cs" />
+    <Compile Include="Entities\Boss.cs" />
+    <Compile Include="Auras\Effects\EffectsOnTime\DeepWounds.cs" />
+    <Compile Include="Auras\Effects\Effect.cs" />
+    <Compile Include="Auras\Effects\EffectsOnTime\EffectOnTime.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Auras\Effects\Flurry.cs" />
+    <Compile Include="Actions\Spells\HeroicStrike.cs" />
+    <Compile Include="Items\Item.cs" />
+    <Compile Include="Entities\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Spell.cs" />
-    <Compile Include="Weapon.cs" />
-    <Compile Include="Whirlwind.cs" />
+    <Compile Include="Actions\Spells\Spell.cs" />
+    <Compile Include="Auras\UnbridledWrath.cs" />
+    <Compile Include="Items\Weapons\Weapon.cs" />
+    <Compile Include="Actions\Spells\Whirlwind.cs" />
+    <Compile Include="Utility\Stats.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

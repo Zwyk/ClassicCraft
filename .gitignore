@@ -1,1 +1,12 @@
 ClassicCraft/bin ClassicCraft/obj
+.vs/ClassicCraft/v15/.suo
+.vs/ClassicCraft/v15/Server/sqlite3/storage.ide
+.vs/ClassicCraft/v15/Server/sqlite3/storage.ide-shm
+.vs/ClassicCraft/v15/Server/sqlite3/storage.ide-wal
+ClassicCraft/bin/Debug/ClassicCraft.exe
+ClassicCraft/bin/Debug/ClassicCraft.pdb
+ClassicCraft/obj/Debug/ClassicCraft.csproj.CoreCompileInputs.cache
+ClassicCraft/obj/Debug/ClassicCraft.csprojAssemblyReference.cache
+ClassicCraft/obj/Debug/ClassicCraft.exe
+ClassicCraft/obj/Debug/ClassicCraft.pdb
+ClassicCraft/obj/Debug/DesignTimeResolveAssemblyReferences.cache

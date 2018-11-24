@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Item
+    public class Item
     {
         public int Strength { get; set; }
         public int Agility { get; set; }
         public int Intelligence { get; set; }
+        public int Stamina { get; set; }
 
-        public Item(int str = 0, int agi = 0, int intel = 0)
+        public Item(int str = 0, int agi = 0, int intel = 0, int sta = 0)
         {
             Strength = str;
             Agility = agi;
             Intelligence = intel;
+            Stamina = sta;
         }
     }
 }

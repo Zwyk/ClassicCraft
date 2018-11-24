@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    abstract class Spell : Action
+    public abstract class Spell : Action
     {
         public int RessourceCost { get; set; }
         public bool AffectedByGCD { get; set; }
@@ -21,12 +21,12 @@ namespace ClassicCraft
         public void CommonSpell()
         {
             CommonAction();
-            Player.Instance.Ressource -= RessourceCost;
+            Program.Player.Ressource -= RessourceCost;
         }
 
-        public bool CanUse()
+        public virtual bool CanUse()
         {
-            return Player.Instance.Ressource >= RessourceCost && Available() && (AffectedByGCD ? Player.Instance.HasGCD() : true);
+            return Program.Player.Ressource >= RessourceCost && Available() && (AffectedByGCD ? Program.Player.HasGCD() : true);
         }
 
         public override string ToString()

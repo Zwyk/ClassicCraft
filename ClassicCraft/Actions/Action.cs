@@ -48,7 +48,7 @@ namespace ClassicCraft
         public void CommonAction()
         {
             LockedUntil = Program.currentTime + BaseCD;
-            Player.Instance.StartGCD();
+            Program.Player.StartGCD();
         }
 
         public bool Available()
@@ -63,11 +63,11 @@ namespace ClassicCraft
 
         public void RegisterDamage(ActionResult res)
         {
-            Program.actions.Add(new RegisteredAction(this, res, Program.currentTime));
+            Program.RegisterAction(new RegisteredAction(this, res, Program.currentTime));
 
             if (Program.nbSim < 10)
             {
-                Console.WriteLine("{0:N2} : {1} {2}for {3} damage (rage {4})", Program.currentTime, ToString(), res.Type == ResultType.Crit ? "crits " : "", res.Damage, Player.Instance.Ressource);
+                Console.WriteLine("{0:N2} : {1} {2} for {3} damage (rage {4})", Program.currentTime, ToString(), res.Type, res.Damage, Program.Player.Ressource);
             }
         }
 

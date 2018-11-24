@@ -20,255 +20,184 @@ namespace ClassicCraft
         public ActionResult Result { get; set; }
     }
 
+    public class RegisteredEffect
+    {
+        public RegisteredEffect(Effect effect, int damage, double time)
+        {
+            Effect = effect;
+            Damage = damage;
+            Time = time;
+        }
+
+        public Effect Effect { get; set; }
+        public double Time { get; set; }
+        public int Damage { get; set; }
+    }
+
     class Program
     {
+        public static Boss Boss { get; set; }
+        public static Player Player { get; set; }
+
         public static Random random = new Random();
 
         public static double RATE = 100;
 
         public static double currentTime = 0;
 
-        public static double speedMod = 1;
+        private static List<RegisteredAction> actions;
+        private static List<RegisteredEffect> effects;
+        private static double damage;
 
-        public static List<RegisteredAction> actions;
-        
-        public static double totalTime = 300;
-        public static int nbSim = 1000;
-
-        public static double StdnormalInv(double p)
-        {
-            if (p > 1.0 || p < 0.0)
-            {
-                return 0;
-            }
-
-            if (p == 0.0)
-                return Double.MinValue;
-
-            if (p == 1.0)
-                return Double.MaxValue;
-
-            double q, t, u;
-
-            q = Math.Min(p, 1 - p);
-
-            if (q > 0.02425)
-            {
-                double[] a = new double[6]
-                {
-                  -3.969683028665376e+01,  2.209460984245205e+02,
-                  -2.759285104469687e+02,  1.383577518672690e+02,
-                  -3.066479806614716e+01,  2.506628277459239e+00
-                };
-                double[] b = new double[5]
-                {
-                  -5.447609879822406e+01,  1.615858368580409e+02,
-                  -1.556989798598866e+02,  6.680131188771972e+01,
-                  -1.328068155288572e+01
-                };
-
-                /* Rational approximation for central region. */
-                u = q - 0.5;
-                t = u * u;
-                u = u * (((((a[0] * t + a[1]) * t + a[2]) * t + a[3]) * t + a[4]) * t + a[5])
-                    / (((((b[0] * t + b[1]) * t + b[2]) * t + b[3]) * t + b[4]) * t + 1);
-            }
-            else
-            {
-                double[] c = new double[6]
-                {
-                  -7.784894002430293e-03, -3.223964580411365e-01,
-                  -2.400758277161838e+00, -2.549732539343734e+00,
-                  4.374664141464968e+00,  2.938163982698783e+00
-                };
-                double[] d = new double[4]
-                {
-                  7.784695709041462e-03,  3.224671290700398e-01,
-                  2.445134137142996e+00,  3.754408661907416e+00
-                };
-
-                /* Rational approximation for tail region. */
-                t = Math.Sqrt(-2 * Math.Log(q));
-                u = (((((c[0] * t + c[1]) * t + c[2]) * t + c[3]) * t + c[4]) * t + c[5])
-                    / ((((d[0] * t + d[1]) * t + d[2]) * t + d[3]) * t + 1);
-            }
-
-            /* The relative error of the approximation has absolute value less
-               than 1.15e-9.  One iteration of Halley's rational method (third
-               order) gives full machine precision... */
-            t = StdnormalCdf(u) - q;    /* error */
-            t = t * 2.0 / Math.Sqrt(Math.PI) * Math.Exp(u * u / 2); /* f(u)/df(u) */
-            u = u - t / (1 + u * t / 2);   /* Halley's method */
-
-            return (p > 0.5 ? -u : u);
-        }
-        public static double StdnormalCdf(double u)
-        {
-            if (u == Double.MaxValue)
-                return (u < 0 ? 0.0 : 1.0);
-
-            double y, z;
-
-            y = Math.Abs(u);
-
-            if (y <= 0.46875 * Math.Sqrt(2.0))
-            {
-                double[] a = new double[5]
-                {
-                  1.161110663653770e-002, 3.951404679838207e-001, 2.846603853776254e+001,
-                  1.887426188426510e+002, 3.209377589138469e+003
-                };
-
-                double[] b = new double[5]
-                {
-                  1.767766952966369e-001, 8.344316438579620e+000, 1.725514762600375e+002,
-                  1.813893686502485e+003, 8.044716608901563e+003
-                };
-
-                /* evaluate erf() for |u| <= sqrt(2)*0.46875 */
-                z = y * y;
-                y = u * ((((a[0] * z + a[1]) * z + a[2]) * z + a[3]) * z + a[4])
-                    / ((((b[0] * z + b[1]) * z + b[2]) * z + b[3]) * z + b[4]);
-                return 0.5 + y;
-            }
-
-            z = Math.Exp(-y * y / 2) / 2;
-
-            if (y <= 4.0)
-            {
-                double[] c = new double[9]
-                {
-                  2.15311535474403846e-8, 5.64188496988670089e-1, 8.88314979438837594e00,
-                  6.61191906371416295e01, 2.98635138197400131e02, 8.81952221241769090e02,
-                  1.71204761263407058e03, 2.05107837782607147e03, 1.23033935479799725E03
-                };
-
-                double[] d = new double[9]
-                {
-                  1.00000000000000000e00, 1.57449261107098347e01, 1.17693950891312499e02,
-                  5.37181101862009858e02, 1.62138957456669019e03, 3.29079923573345963e03,
-                  4.36261909014324716e03, 3.43936767414372164e03, 1.23033935480374942e03
-                };
-
-                /* evaluate erfc() for sqrt(2)*0.46875 <= |u| <= sqrt(2)*4.0 */
-                y = y / Math.Sqrt(2.0);
-                y =
-                  ((((((((c[0] * y + c[1]) * y + c[2]) * y + c[3]) * y + c[4]) * y + c[5]) * y + c[6]) * y + c[7]) * y + c[8])
-
-
-                  / ((((((((d[0] * y + d[1]) * y + d[2]) * y + d[3]) * y + d[4]) * y + d[5]) * y + d[6]) * y + d[7]) * y + d[8]);
-
-                y = z * y;
-            }
-            else
-            {
-                double[] p = new double[6]
-                {
-                    1.63153871373020978e-2, 3.05326634961232344e-1, 3.60344899949804439e-1,
-                    1.25781726111229246e-1, 1.60837851487422766e-2, 6.58749161529837803e-4
-                };
-                double[] q = new double[6]
-                {
-                  1.00000000000000000e00, 2.56852019228982242e00, 1.87295284992346047e00,
-                  5.27905102951428412e-1, 6.05183413124413191e-2, 2.33520497626869185e-3
-                };
-
-                /* evaluate erfc() for |u| > sqrt(2)*4.0 */
-                z = z * Math.Sqrt(2.0) / y;
-                y = 2 / (y * y);
-                y = y * (((((p[0] * y + p[1]) * y + p[2]) * y + p[3]) * y + p[4]) * y + p[5])
-                    / (((((q[0] * y + q[1]) * y + q[2]) * y + q[3]) * y + q[4]) * y + q[5]);
-                y = z * (1.0 / Math.Sqrt(Math.PI) - y);
-            }
-
-            return (u < 0.0 ? y : 1 - y);
-        }
-
-        public static double Confidence = 0.95;
-        public static double ConfidenceEstimator = ConfEstimator(Confidence);
-
-        public static double ConfEstimator(double confidence)
-        {
-            return StdnormalInv(1.0 - (1.0 - confidence) / 2.0);
-        }
-
-        public static double MeanStdDev(double[] values)
-        {
-            return Math.Sqrt(Stat.variance(values) / values.Count());
-        }
-
-        public static double StandardError(double meanStdDev)
-        {
-            return ConfidenceEstimator * meanStdDev;
-        }
-
-        public static double ErrorPct(double stdError, double mean)
-        {
-            return stdError / mean * 100;
-        }
+        public static double fightLength = 300;
+        public static int nbSim = 1;
 
         static void Main(string[] args)
         {
-            DateTime start = DateTime.Now;
+            Player = new Player();
+            Boss = new Boss();
 
-            List<List<RegisteredAction>> damages = new List<List<RegisteredAction>>();
+            Boss.MaxLife = 10000;
+            Boss.Life = Boss.MaxLife;
+
+            // Arms
+            Player.Talents.Add("IHS", 3);
+            Player.Talents.Add("DW", 3);
+            Player.Talents.Add("2HS", 3);
+            Player.Talents.Add("Impale", 3);
+
+            // Fury
+            Player.Talents.Add("Cruelty", 5);
+            Player.Talents.Add("UW", 5);
+            Player.Talents.Add("IBS", 5);
+            Player.Talents.Add("DWS", 5);
+            Player.Talents.Add("IE", 2);
+            Player.Talents.Add("Flurry", 5);
+
+            List<List<RegisteredAction>> totalActions = new List<List<RegisteredAction>>();
+            List<List<RegisteredEffect>> totalEffects = new List<List<RegisteredEffect>>();
+            List<double> damages = new List<double>();
+
+            DateTime start = DateTime.Now;
 
             for (int i = 0; i < nbSim; i++)
             {
                 actions = new List<RegisteredAction>();
+                effects = new List<RegisteredEffect>();
+                damage = 0;
 
-                Player p = Player.Instance;
-                p.Reset();
+                Player.Reset();
 
                 List<AutoAttack> autos = new List<AutoAttack>();
                 
-                //p.MH = new Weapon(153, 229, 3.6, true, Weapon.WeaponType.Sword);
-                p.MH = new Weapon(67, 125, 2.4, false, Weapon.WeaponType.Sword);
-                p.OH = new Weapon(67, 125, 2.4, false, Weapon.WeaponType.Sword);
+                Player.MH = new Weapon(229, 334, 3.5, true, Weapon.WeaponType.Sword);
+                //Player.MH = new Weapon(67, 125, 2.4, false, Weapon.WeaponType.Sword);
+                //Player.OH = new Weapon(67, 125, 2.4, false, Weapon.WeaponType.Sword);
                 
-                p.CritChance = 0.2;
-                p.AP = 854;
+                Player.CritRating = 0.208;
+                Player.AP = 1105;
+                Player.HitRating = 0.05;
 
-                autos.Add(new AutoAttack(p.MH, true));
-                if (p.OH != null)
+                autos.Add(new AutoAttack(Player.MH, true));
+                if (Player.OH != null)
                 {
-                    autos.Add(new AutoAttack(p.OH, false));
+                    autos.Add(new AutoAttack(Player.OH, false));
                 }
-
-                speedMod = 1;
 
                 currentTime = 0;
 
                 Whirlwind ww = new Whirlwind();
                 Bloodthirst bt = new Bloodthirst();
                 HeroicStrike hs = new HeroicStrike();
+                hs.RessourceCost -= Player.GetTalentPoints("IHS");
+                Recklessness r = new Recklessness();
+                DeathWish dw = new DeathWish();
+                Execute exec = new Execute();
 
-                while (currentTime < totalTime)
+                Boss.LifePct = 1;
+
+                // Charge
+                Player.Ressource += 15;
+                Player.StartGCD();
+
+                int rota = 1;
+
+                while (currentTime < fightLength)
                 {
-                    if(Player.Instance.GCDUntil <= currentTime)
+                    Boss.LifePct = Math.Max(0, 1 - (currentTime / fightLength) * (16.0/17.0));
+
+                    foreach (Effect e in Player.Effects)
                     {
-                        if(ww.CanUse())
+                        e.CheckEffect();
+                    }
+                    foreach (Effect e in Boss.Effects)
+                    {
+                        e.CheckEffect();
+                    }
+
+                    if((Boss.LifePct > 0.5 || Boss.LifePct <= 0.2) && dw.CanUse())
+                    {
+                        dw.Cast();
+                    }
+                    if((Boss.LifePct > 0.5 || Boss.LifePct <= 0.2) && r.CanUse() && Player.Effects.Any(e => e is DeathWishBuff))
+                    {
+                        r.Cast();
+                    }
+
+                    if(rota == 0)
+                    {
+
+                    }
+                    else if(rota == 1)
+                    {
+                        if(Boss.LifePct > 0.2)
                         {
-                            ww.Cast();
+                            if (ww.CanUse())
+                            {
+                                ww.Cast();
+                            }
+                            else if (bt.CanUse() && Player.Ressource >= ww.RessourceCost + bt.RessourceCost)
+                            {
+                                bt.Cast();
+                            }
+
+                            if (Player.Ressource >= 75)
+                            {
+                                hs.Cast();
+                            }
                         }
-                        else if (bt.CanUse() && Player.Instance.Ressource >= ww.RessourceCost + bt.RessourceCost)
+                        else
+                        {
+                            if (exec.CanUse())
+                            {
+                                exec.Cast();
+                            }
+                        }
+                    }
+                    else if(rota == 2)
+                    {
+                        if (bt.CanUse())
                         {
                             bt.Cast();
                         }
-                    }
+                        else if (ww.CanUse() && Player.Ressource >= ww.RessourceCost + bt.RessourceCost)
+                        {
+                            ww.Cast();
+                        }
 
-                    if(Player.Instance.Ressource >= 75)
-                    {
-                        hs.Cast();
+                        if (Player.Ressource >= 75)
+                        {
+                            hs.Cast();
+                        }
                     }
 
                     foreach (AutoAttack a in autos)
                     {
                         if (a.Available())
                         {
-                            if(a.MH && Player.Instance.applyAtNextAA != null)
+                            if(a.MH && Player.applyAtNextAA != null)
                             {
-                                Player.Instance.applyAtNextAA.DoAction();
+                                Player.applyAtNextAA.DoAction();
                                 a.NextAA();
                             }
                             else
@@ -278,35 +207,97 @@ namespace ClassicCraft
                         }
                     }
 
+                    Player.Effects.RemoveAll(e => e.Ended);
+                    Boss.Effects.RemoveAll(e => e.Ended);
+
                     currentTime += 1 / RATE;
                 }
 
-                damages.Add(actions);
+                damages.Add(damage);
+                totalActions.Add(actions);
+                totalEffects.Add(effects);
             }
 
-            Console.WriteLine("{0:N2} ms", (DateTime.Now - start).TotalMilliseconds);
-            if (nbSim > 1)
+            double time = (DateTime.Now - start).TotalMilliseconds;
+            Console.WriteLine("Total {0:N2} ms, {1:N2} ms by sim", time, time/nbSim);
+            if (nbSim >= 1)
             {
-                double[] dps = damages.Select(a => a.Sum(r => r.Result.Damage) / totalTime).ToArray();
+                double avgTotalDmg = damages.Average();
 
-                double avgDps = dps.Average();
+                int totalAA = totalActions.Select(a => a.Where(t => t.Action is AutoAttack).Count()).Sum();
+                int totalBT = totalActions.Select(a => a.Where(t => t.Action is Bloodthirst).Count()).Sum();
+                int totalWW = totalActions.Select(a => a.Where(t => t.Action is Whirlwind).Count()).Sum();
+                int totalHS = totalActions.Select(a => a.Where(t => t.Action is HeroicStrike).Count()).Sum();
+                int totalDW = totalEffects.Select(a => a.Where(t => t.Effect is DeepWounds).Count()).Sum();
+                int totalExec = totalActions.Select(a => a.Where(t => t.Action is Execute).Count()).Sum();
 
-                double avgDpsBT = damages.Select(a => a.Where(t => t.Action is Bloodthirst).Sum(r => r.Result.Damage) / totalTime).Average();
-                double avgDpsWW = damages.Select(a => a.Where(t => t.Action is Whirlwind).Sum(r => r.Result.Damage) / totalTime).Average();
-                double avgDpsHS = damages.Select(a => a.Where(t => t.Action is HeroicStrike).Sum(r => r.Result.Damage) / totalTime).Average();
+                Console.WriteLine("Average Damage : {0:N2}", avgTotalDmg);
+                Console.WriteLine("Average DPS : {0:N2} dps", avgTotalDmg / fightLength);
 
-                double avgUseBT = damages.Select(a => a.Where(t => t.Action is Bloodthirst).Count()).Average();
-                double avgUseWW = damages.Select(a => a.Where(t => t.Action is Whirlwind).Count()).Average();
-                double avgUseHS = damages.Select(a => a.Where(t => t.Action is HeroicStrike).Count()).Average();
+                if (totalAA > 0)
+                {
+                    double avgDpsAA = totalActions.Select(a => a.Where(t => t.Action is AutoAttack).Sum(r => r.Result.Damage) / fightLength).Average();
+                    double avgUseAA = totalActions.Select(a => a.Where(t => t.Action is AutoAttack).Count()).Average();
+                    double avgDmgAA = totalActions.Select(a => a.Where(t => t.Action is AutoAttack).Sum(r => r.Result.Damage)).Sum() / totalAA;
+                    Console.WriteLine("Average DPS [Auto Attack] : {0:N2} dps average of {1:N2} for {2:N2} uses or 1 use every {3:N2}s", avgDpsAA, avgDmgAA, avgUseAA, fightLength / avgUseAA);
+                }
+                if (totalBT > 0)
+                {
+                    double avgDpsBT = totalActions.Select(a => a.Where(t => t.Action is Bloodthirst).Sum(r => r.Result.Damage) / fightLength).Average();
+                    double avgUseBT = totalActions.Select(a => a.Where(t => t.Action is Bloodthirst).Count()).Average();
+                    double avgDmgBT = totalActions.Select(a => a.Where(t => t.Action is Bloodthirst).Sum(r => r.Result.Damage)).Sum() / totalBT;
+                    Console.WriteLine("Average DPS [Bloodthirst] : {0:N2} dps average of {1:N2} for {2:N2} uses or 1 use every {3:N2}s", avgDpsBT, avgDmgBT, avgUseBT, fightLength / avgUseBT);
+                }
+                if (totalWW > 0)
+                {
+                    double avgDpsWW = totalActions.Select(a => a.Where(t => t.Action is Whirlwind).Sum(r => r.Result.Damage) / fightLength).Average();
+                    double avgUseWW = totalActions.Select(a => a.Where(t => t.Action is Whirlwind).Count()).Average();
+                    double avgDmgWW = totalActions.Select(a => a.Where(t => t.Action is Whirlwind).Sum(r => r.Result.Damage)).Sum() / totalWW;
+                    Console.WriteLine("Average DPS [Whirlwind] : {0:N2} dps average of {1:N2} for {2:N2} uses or 1 use every {3:N2}s", avgDpsWW, avgDmgWW, avgUseWW, fightLength / avgUseWW);
+                }
+                if (totalHS > 0)
+                {
+                    double avgDpsHS = totalActions.Select(a => a.Where(t => t.Action is HeroicStrike).Sum(r => r.Result.Damage) / fightLength).Average();
+                    double avgUseHS = totalActions.Select(a => a.Where(t => t.Action is HeroicStrike).Count()).Average();
+                    double avgDmgHS = totalActions.Select(a => a.Where(t => t.Action is HeroicStrike).Sum(r => r.Result.Damage)).Sum() / totalHS;
+                    Console.WriteLine("Average DPS [Heroic Strike] : {0:N2} dps average of {1:N2} for {2:N2} uses or 1 use every {3:N2}s", avgDpsHS, avgDmgHS, avgUseHS, fightLength / avgUseHS);
+                }
+                if (totalDW > 0)
+                {
+                    double avgDpsDW = totalEffects.Select(a => a.Where(t => t.Effect is DeepWounds).Sum(r => r.Damage) / fightLength).Average();
+                    double avgUseDW = totalEffects.Select(a => a.Where(t => t.Effect is DeepWounds).Count()).Average();
+                    double avgDmgDW = totalEffects.Select(a => a.Where(t => t.Effect is DeepWounds).Sum(r => r.Damage)).Sum() / totalDW;
+                    Console.WriteLine("Average DPS [Deep Wounds] : {0:N2} dps average of {1:N2} for {2:N2} uses or 1 use every {3:N2}s", avgDpsDW, avgDmgDW, avgUseDW, fightLength / avgUseDW);
+                }
+                if (totalExec > 0)
+                {
+                    double avgDpsExec = totalActions.Select(a => a.Where(t => t.Action is Execute).Sum(r => r.Result.Damage) / fightLength).Average();
+                    double avgUseExec = totalActions.Select(a => a.Where(t => t.Action is Execute).Count()).Average();
+                    double avgDmgExec = totalActions.Select(a => a.Where(t => t.Action is Execute).Sum(r => r.Result.Damage)).Sum() / totalExec;
+                    Console.WriteLine("Average DPS [Execute] : {0:N2} dps average of {1:N2} for {2:N2} uses or 1 use every {3:N2}s", avgDpsExec, avgDmgExec, avgUseExec, fightLength / avgUseExec);
+                }
 
-                Console.WriteLine("Average DPS : {0:N2}", avgDps);
-                Console.WriteLine("Average DPS BT : {0:N2} for {1:N2} uses or 1 use every {2:N2}s", avgDpsBT, avgUseBT, totalTime / avgUseBT);
-                Console.WriteLine("Average DPS WW : {0:N2} for {1:N2} uses or 1 use every {2:N2}s", avgDpsWW, avgUseWW, totalTime / avgUseWW);
-                Console.WriteLine("Average DPS HS : {0:N2} for {1:N2} uses or 1 use every {2:N2}s", avgDpsHS, avgUseHS, totalTime / avgUseHS);
-                Console.WriteLine("Error Percent : {0:N2}%", ErrorPct(StandardError(MeanStdDev(dps)), avgDps));
+                Console.WriteLine("Error Percent : {0:N2}%", Stats.ErrorPct(damages.ToArray(), damages.Average()));
             }
 
             Console.ReadKey();
+        }
+
+        public static async Task DoFight()
+        {
+
+        }
+
+        public static void RegisterAction(RegisteredAction action)
+        {
+            actions.Add(action);
+            damage += action.Result.Damage;
+        }
+
+        public static void RegisterEffect(RegisteredEffect effect)
+        {
+            effects.Add(effect);
+            damage += effect.Damage;
         }
 
         public static double Normalization(Weapon w)
@@ -325,12 +316,30 @@ namespace ClassicCraft
             }
         }
 
-        public static double RageGained(int damage, double weaponSpeed, bool crit = false, bool mh = true)
+        public static double DamageMod(ResultType type, int level = 60, int enemyLevel = 63)
         {
-            return (15 * damage) / (4 * RageConversionValue()) + (RageWhiteHitFactor(mh, crit) * weaponSpeed) / 2;
+            switch(type)
+            {
+                case ResultType.Crit: return 2;
+                case ResultType.Hit: return 1;
+                case ResultType.Glancing: return GlancingDamage(level, enemyLevel);
+                default: return 0;
+            }
         }
 
-        public static double RageGained2(int damage, double weaponSpeed, bool crit = false, bool mh = true)
+        public static double GlancingDamage(int level = 60, int enemyLevel = 63)
+        {
+            double low = Math.Max(0.01, Math.Min(0.91, 1.3 - 0.05 * (enemyLevel - level)));
+            double high = Math.Max(0.2, Math.Min(0.99, 1.2 - 0.03 * (enemyLevel - level)));
+            return random.NextDouble() * (high-low) + low;
+        }
+
+        public static double RageGained(int damage, double weaponSpeed, ResultType type, bool mh = true)
+        {
+            return (15 * damage) / (4 * RageConversionValue()) + (RageWhiteHitFactor(mh, type == ResultType.Crit) * weaponSpeed) / 2;
+        }
+
+        public static double RageGained2(int damage)
         {
             return (15 * damage) / RageConversionValue();
         }
