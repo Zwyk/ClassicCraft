@@ -29,13 +29,14 @@ namespace ClassicCraft
         }
     }
 
-    public abstract class Action
+    public abstract class Action : SimulationObject
     {
         public double BaseCD { get; set; }
 
         public double LockedUntil { get; set; }
 
-        public Action(double baseCD)
+        public Action(Simulation s, double baseCD)
+            : base(s)
         {
             BaseCD = baseCD;
             LockedUntil = 0;
@@ -47,27 +48,27 @@ namespace ClassicCraft
 
         public void CommonAction()
         {
-            LockedUntil = Program.currentTime + BaseCD;
-            Program.Player.StartGCD();
+            LockedUntil = Sim.CurrentTime + BaseCD;
+            Sim.Player.StartGCD();
         }
 
         public bool Available()
         {
-            return LockedUntil <= Program.currentTime;
+            return LockedUntil <= Sim.CurrentTime;
         }
 
         public double RemainingCD()
         {
-            return LockedUntil - Program.currentTime;
+            return LockedUntil - Sim.CurrentTime;
         }
 
         public void RegisterDamage(ActionResult res)
         {
-            Program.RegisterAction(new RegisteredAction(this, res, Program.currentTime));
+            Sim.RegisterAction(new RegisteredAction(this, res, Sim.CurrentTime));
 
             if (Program.nbSim < 10)
             {
-                Console.WriteLine("{0:N2} : {1} {2} for {3} damage (rage {4})", Program.currentTime, ToString(), res.Type, res.Damage, Program.Player.Ressource);
+                Console.WriteLine("{0:N2} : {1} {2} for {3} damage (rage {4})", Sim.CurrentTime, ToString(), res.Type, res.Damage, Sim.Player.Ressource);
             }
         }
 

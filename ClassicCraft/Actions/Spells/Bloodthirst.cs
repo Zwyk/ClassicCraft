@@ -10,8 +10,8 @@ namespace ClassicCraft
     {
         static Random random = new Random();
 
-        public Bloodthirst(double baseCD = 6, int ressourceCost = 30)
-            : base(baseCD, ressourceCost) {}
+        public Bloodthirst(Simulation s, double baseCD = 6, int ressourceCost = 30)
+            : base(s, baseCD, ressourceCost) {}
 
         public override void Cast()
         {
@@ -20,27 +20,27 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            ResultType res = Program.Player.YellowAttackEnemy(Program.Boss);
+            ResultType res = Sim.Player.YellowAttackEnemy(Sim.Boss);
 
-            int damage = (int)Math.Round(0.45 * Program.Player.AP
+            int damage = (int)Math.Round(0.45 * Sim.Player.AP
                 * Program.DamageMod(res)
-                * Entity.ArmorMitigation(Program.Boss.Armor)
-                * (res == ResultType.Crit ? 1 + (0.1 * Program.Player.GetTalentPoints("Impale")) : 1)
-                * (Program.Player.DualWielding() ? 1 : (1 + 0.01 * Program.Player.GetTalentPoints("2HS"))));
+                * Entity.ArmorMitigation(Sim.Boss.Armor)
+                * (res == ResultType.Crit ? 1 + (0.1 * Sim.Player.GetTalentPoints("Impale")) : 1)
+                * (Sim.Player.DualWielding() ? 1 : (1 + 0.01 * Sim.Player.GetTalentPoints("2HS"))));
 
             CommonAction();
             if(res != ResultType.Parry && res != ResultType.Dodge)
             {
-                Program.Player.Ressource -= RessourceCost;
+                Sim.Player.Ressource -= RessourceCost;
             }
 
-            if (Program.Player.GetTalentPoints("DW") > 0)
+            if (Sim.Player.GetTalentPoints("DW") > 0)
             {
-                DeepWounds.CheckProc(res, Program.Player.GetTalentPoints("DW"));
+                DeepWounds.CheckProc(Sim, res, Sim.Player.GetTalentPoints("DW"));
             }
-            if (Program.Player.GetTalentPoints("Flurry") > 0)
+            if (Sim.Player.GetTalentPoints("Flurry") > 0)
             {
-                Flurry.CheckProc(res, Program.Player.GetTalentPoints("Flurry"));
+                Flurry.CheckProc(Sim, res, Sim.Player.GetTalentPoints("Flurry"));
             }
 
             RegisterDamage(new ActionResult(res, damage));

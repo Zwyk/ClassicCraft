@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    public class Aura
+    public class Aura : SimulationObject
     {
         //public Entity Source { get; set; }
         public Entity Target { get; set; }
 
-        public Aura(Entity target)
+        public Aura(Simulation s, Entity target)
+            : base(s)
         {
             Target = target;
         }

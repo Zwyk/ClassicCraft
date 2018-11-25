@@ -8,8 +8,8 @@ namespace ClassicCraft
 {
     public class Recklessness : Spell
     {
-        public Recklessness(double baseCD = 300, int ressourceCost = 0, bool gcd = true)
-            : base(baseCD, ressourceCost, gcd)
+        public Recklessness(Simulation s, double baseCD = 300, int ressourceCost = 0, bool gcd = true)
+            : base(s, baseCD, ressourceCost, gcd)
         {
         }
 
@@ -21,14 +21,14 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            if (Program.Player.Effects.Any(e => e is RecklessnessBuff))
+            if (Sim.Player.Effects.Any(e => e is RecklessnessBuff))
             {
-                Effect current = Program.Player.Effects.Where(e => e is RecklessnessBuff).First();
+                Effect current = Sim.Player.Effects.Where(e => e is RecklessnessBuff).First();
                 current.Refresh();
             }
             else
             {
-                RecklessnessBuff r = new RecklessnessBuff(Program.Player);
+                RecklessnessBuff r = new RecklessnessBuff(Sim, Sim.Player);
                 r.StartBuff();
             }
         }

@@ -78,6 +78,8 @@
     <Compile Include="Auras\UnbridledWrath.cs" />
     <Compile Include="Items\Weapons\Weapon.cs" />
     <Compile Include="Actions\Spells\Whirlwind.cs" />
+    <Compile Include="Simulation.cs" />
+    <Compile Include="SimulationObject.cs" />
     <Compile Include="Utility\Stats.cs" />
   </ItemGroup>
   <ItemGroup>

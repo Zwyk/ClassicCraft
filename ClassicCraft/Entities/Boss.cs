@@ -16,11 +16,14 @@ namespace ClassicCraft
             Custom
         }
 
-        public Boss(BossType type = BossType.LightArmor, int customArmor = 0)
-            : base()
+        public Boss(Simulation s, Boss b)
+            : base(s, b.Level, b.MaxLife, b.Armor)
         {
-            Level = 63;
-            Armor = ArmorByType(type, customArmor);
+        }
+
+        public Boss(Simulation s, int level = 63, int maxLife = 100000, BossType type = BossType.LightArmor, int customArmor = 0)
+            : base(s, level, maxLife, ArmorByType(type, customArmor))
+        {
         }
 
         public static int ArmorByType(BossType type, int customArmor = 0)

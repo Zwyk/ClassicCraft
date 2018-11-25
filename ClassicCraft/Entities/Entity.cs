@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    public abstract class Entity
+    public abstract class Entity : SimulationObject
     {
         public static double BASE_MISS = 0.05;
 
@@ -28,15 +28,19 @@ namespace ClassicCraft
 
         public List<Effect> Effects { get; set; }
 
-        public List<Effect> Permanent { get; set; }
-
-        public Entity()
+        public Entity(Simulation s, int level, int maxLife, int armor)
+            : base(s)
         {
+            Level = level;
+            MaxLife = maxLife;
+            Armor = armor;
+
             Reset();
         }
 
         public virtual void Reset()
         {
+            Life = MaxLife;
             Effects = new List<Effect>();
         }
 

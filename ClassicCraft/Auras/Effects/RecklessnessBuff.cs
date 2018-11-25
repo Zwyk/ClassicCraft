@@ -8,8 +8,8 @@ namespace ClassicCraft
 {
     class RecklessnessBuff : Effect
     {
-        public RecklessnessBuff(Entity target, bool friendly = true, double baseLength = 12, int baseStacks = 1)
-            : base(target, friendly, baseLength, baseStacks)
+        public RecklessnessBuff(Simulation s, Entity target, bool friendly = true, double baseLength = 12, int baseStacks = 1)
+            : base(s, target, friendly, baseLength, baseStacks)
         {
         }
 

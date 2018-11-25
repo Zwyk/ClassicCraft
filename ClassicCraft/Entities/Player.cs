@@ -127,11 +127,29 @@ namespace ClassicCraft
 
         #endregion
 
-        public Player()
-            : base()
+        public Player(Simulation s, Player p)
+            : base(s, p.Level, p.MaxLife, p.Armor)
         {
-            Level = 60;
+            Talents = p.Talents;
+            WeaponSkill = p.WeaponSkill;
+            Items = p.Items;
 
+            HitChancesByEnemy = new Dictionary<Entity, HitChances>();
+
+            Strength = p.Strength;
+            Agility = p.Agility;
+            Intelligence = p.Intelligence;
+
+            AP = p.AP;
+            CritRating = p.CritRating;
+            HitRating = p.HitRating;
+
+            Reset();
+        }
+
+        public Player(Simulation s, int level = 60, int maxLife = 1000, int armor = 0)
+            : base(s, level, maxLife, armor)
+        {
             Talents = new Dictionary<string, int>();
 
             WeaponSkill = new Dictionary<Weapon.WeaponType, int>();
@@ -148,8 +166,7 @@ namespace ClassicCraft
 
             HitChancesByEnemy = new Dictionary<Entity, HitChances>();
 
-            HasteMod = 1;
-            DamageMod = 1;
+            Reset();
         }
 
         public int GetTalentPoints(string talent)
@@ -164,15 +181,16 @@ namespace ClassicCraft
             Ressource = 0;
 
             GCDUntil = 0;
-
+            
             HasteMod = 1;
+            DamageMod = 1;
         }
 
         public void CalculateHitChances(Entity enemy = null)
         {
             if(enemy == null)
             {
-                enemy = Program.Boss;
+                enemy = Sim.Boss;
             }
 
             Dictionary<ResultType, double> whiteHitChancesMH = new Dictionary<ResultType, double>();
@@ -205,7 +223,7 @@ namespace ClassicCraft
             yellowHitChances.Add(ResultType.Crit, RealCritChanceYellow(CritRating, yellowHitChances[ResultType.Miss], yellowHitChances[ResultType.Dodge]));
             yellowHitChances.Add(ResultType.Hit, RealHitChanceYellow(yellowHitChances[ResultType.Crit], yellowHitChances[ResultType.Miss], yellowHitChances[ResultType.Dodge]));
 
-            if(HitChancesByEnemy.ContainsKey(enemy))
+            if (HitChancesByEnemy.ContainsKey(enemy))
             {
                 HitChancesByEnemy[enemy] = new HitChances(whiteHitChancesMH, yellowHitChances, whiteHitChancesOH);
             }
@@ -326,12 +344,12 @@ namespace ClassicCraft
 
         public void StartGCD()
         {
-            GCDUntil = Program.currentTime + GCD;
+            GCDUntil = Sim.CurrentTime + GCD;
         }
 
         public bool HasGCD()
         {
-            return GCDUntil <= Program.currentTime;
+            return GCDUntil <= Sim.CurrentTime;
         }
 
         public void CalculateAttributes()

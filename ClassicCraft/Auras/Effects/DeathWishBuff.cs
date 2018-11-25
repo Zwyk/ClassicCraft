@@ -8,8 +8,8 @@ namespace ClassicCraft
 {
     class DeathWishBuff : Effect
     {
-        public DeathWishBuff(Entity target, bool friendly = true, double baseLength = 30, int baseStacks = 1)
-            : base(target, friendly, baseLength, baseStacks)
+        public DeathWishBuff(Simulation s, Entity target, bool friendly = true, double baseLength = 30, int baseStacks = 1)
+            : base(s, target, friendly, baseLength, baseStacks)
         {
         }
 
@@ -17,14 +17,14 @@ namespace ClassicCraft
         {
             base.StartBuff();
 
-            Program.Player.DamageMod *= 1.2;
+            Sim.Player.DamageMod *= 1.2;
         }
 
         public override void EndBuff()
         {
             base.EndBuff();
 
-            Program.Player.DamageMod /= 1.2;
+            Sim.Player.DamageMod /= 1.2;
         }
 
         public override string ToString()

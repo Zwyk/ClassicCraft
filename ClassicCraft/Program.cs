@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ClassicCraft
@@ -36,200 +37,75 @@ namespace ClassicCraft
 
     class Program
     {
-        public static Boss Boss { get; set; }
-        public static Player Player { get; set; }
-
         public static Random random = new Random();
 
-        public static double RATE = 100;
-
-        public static double currentTime = 0;
-
-        private static List<RegisteredAction> actions;
-        private static List<RegisteredEffect> effects;
-        private static double damage;
-
         public static double fightLength = 300;
-        public static int nbSim = 1;
+        public static int nbSim = 100;
+
+        public static List<List<RegisteredAction>> totalActions = new List<List<RegisteredAction>>();
+        public static List<List<RegisteredEffect>> totalEffects = new List<List<RegisteredEffect>>();
+        public static List<double> damages = new List<double>();
 
         static void Main(string[] args)
         {
-            Player = new Player();
-            Boss = new Boss();
-
-            Boss.MaxLife = 10000;
-            Boss.Life = Boss.MaxLife;
-
-            // Arms
-            Player.Talents.Add("IHS", 3);
-            Player.Talents.Add("DW", 3);
-            Player.Talents.Add("2HS", 3);
-            Player.Talents.Add("Impale", 3);
-
-            // Fury
-            Player.Talents.Add("Cruelty", 5);
-            Player.Talents.Add("UW", 5);
-            Player.Talents.Add("IBS", 5);
-            Player.Talents.Add("DWS", 5);
-            Player.Talents.Add("IE", 2);
-            Player.Talents.Add("Flurry", 5);
-
-            List<List<RegisteredAction>> totalActions = new List<List<RegisteredAction>>();
-            List<List<RegisteredEffect>> totalEffects = new List<List<RegisteredEffect>>();
-            List<double> damages = new List<double>();
 
             DateTime start = DateTime.Now;
 
+            Player player = new Player(null);
+            Boss boss = new Boss(null);
+
+            // Arms
+            player.Talents.Add("IHS", 3);
+            player.Talents.Add("DW", 3);
+            player.Talents.Add("2HS", 3);
+            player.Talents.Add("Impale", 3);
+
+            // Fury
+            player.Talents.Add("Cruelty", 5);
+            player.Talents.Add("UW", 5);
+            player.Talents.Add("IBS", 5);
+            player.Talents.Add("DWS", 5);
+            player.Talents.Add("IE", 2);
+            player.Talents.Add("Flurry", 5);
+
+            player.MH = new Weapon(229, 334, 3.5, true, Weapon.WeaponType.Sword);
+            //Player.MH = new Weapon(67, 125, 2.4, false, Weapon.WeaponType.Sword);
+            //Player.OH = new Weapon(67, 125, 2.4, false, Weapon.WeaponType.Sword);
+
+            player.CritRating = 0.208;
+            player.AP = 1105;
+            player.HitRating = 0.05;
+
+            List<Thread> threads = new List<Thread>();
+            
             for (int i = 0; i < nbSim; i++)
             {
-                actions = new List<RegisteredAction>();
-                effects = new List<RegisteredEffect>();
-                damage = 0;
-
-                Player.Reset();
-
-                List<AutoAttack> autos = new List<AutoAttack>();
-                
-                Player.MH = new Weapon(229, 334, 3.5, true, Weapon.WeaponType.Sword);
-                //Player.MH = new Weapon(67, 125, 2.4, false, Weapon.WeaponType.Sword);
-                //Player.OH = new Weapon(67, 125, 2.4, false, Weapon.WeaponType.Sword);
-                
-                Player.CritRating = 0.208;
-                Player.AP = 1105;
-                Player.HitRating = 0.05;
-
-                autos.Add(new AutoAttack(Player.MH, true));
-                if (Player.OH != null)
-                {
-                    autos.Add(new AutoAttack(Player.OH, false));
-                }
-
-                currentTime = 0;
-
-                Whirlwind ww = new Whirlwind();
-                Bloodthirst bt = new Bloodthirst();
-                HeroicStrike hs = new HeroicStrike();
-                hs.RessourceCost -= Player.GetTalentPoints("IHS");
-                Recklessness r = new Recklessness();
-                DeathWish dw = new DeathWish();
-                Execute exec = new Execute();
-
-                Boss.LifePct = 1;
-
-                // Charge
-                Player.Ressource += 15;
-                Player.StartGCD();
-
-                int rota = 1;
-
-                while (currentTime < fightLength)
-                {
-                    Boss.LifePct = Math.Max(0, 1 - (currentTime / fightLength) * (16.0/17.0));
-
-                    foreach (Effect e in Player.Effects)
-                    {
-                        e.CheckEffect();
-                    }
-                    foreach (Effect e in Boss.Effects)
-                    {
-                        e.CheckEffect();
-                    }
-
-                    if((Boss.LifePct > 0.5 || Boss.LifePct <= 0.2) && dw.CanUse())
-                    {
-                        dw.Cast();
-                    }
-                    if((Boss.LifePct > 0.5 || Boss.LifePct <= 0.2) && r.CanUse() && Player.Effects.Any(e => e is DeathWishBuff))
-                    {
-                        r.Cast();
-                    }
-
-                    if(rota == 0)
-                    {
-
-                    }
-                    else if(rota == 1)
-                    {
-                        if(Boss.LifePct > 0.2)
-                        {
-                            if (ww.CanUse())
-                            {
-                                ww.Cast();
-                            }
-                            else if (bt.CanUse() && Player.Ressource >= ww.RessourceCost + bt.RessourceCost)
-                            {
-                                bt.Cast();
-                            }
-
-                            if (Player.Ressource >= 75)
-                            {
-                                hs.Cast();
-                            }
-                        }
-                        else
-                        {
-                            if (exec.CanUse())
-                            {
-                                exec.Cast();
-                            }
-                        }
-                    }
-                    else if(rota == 2)
-                    {
-                        if (bt.CanUse())
-                        {
-                            bt.Cast();
-                        }
-                        else if (ww.CanUse() && Player.Ressource >= ww.RessourceCost + bt.RessourceCost)
-                        {
-                            ww.Cast();
-                        }
-
-                        if (Player.Ressource >= 75)
-                        {
-                            hs.Cast();
-                        }
-                    }
-
-                    foreach (AutoAttack a in autos)
-                    {
-                        if (a.Available())
-                        {
-                            if(a.MH && Player.applyAtNextAA != null)
-                            {
-                                Player.applyAtNextAA.DoAction();
-                                a.NextAA();
-                            }
-                            else
-                            {
-                                a.Cast();
-                            }
-                        }
-                    }
-
-                    Player.Effects.RemoveAll(e => e.Ended);
-                    Boss.Effects.RemoveAll(e => e.Ended);
-
-                    currentTime += 1 / RATE;
-                }
-
-                damages.Add(damage);
-                totalActions.Add(actions);
-                totalEffects.Add(effects);
+                Thread t = new Thread(() => DoSim(player, boss, fightLength));
+                threads.Add(t);
+                t.Start();
             }
 
+            while (damages.Count != nbSim)
+            {
+                Console.Clear();
+                Console.WriteLine("{0:N2}% ({1}/{2})", damages.Count / nbSim * 100, damages.Count, nbSim);
+            }
+            Console.Clear();
+            Console.WriteLine("{0:N2}% ({1}/{2})", damages.Count / nbSim * 100, damages.Count, nbSim);
+
             double time = (DateTime.Now - start).TotalMilliseconds;
-            Console.WriteLine("Total {0:N2} ms, {1:N2} ms by sim", time, time/nbSim);
+            
+            Console.WriteLine("{0} simulations done in {1:N2} ms, for {2:N2} ms by sim", nbSim, time, time/nbSim);
             if (nbSim >= 1)
             {
                 double avgTotalDmg = damages.Average();
 
-                int totalAA = totalActions.Select(a => a.Where(t => t.Action is AutoAttack).Count()).Sum();
-                int totalBT = totalActions.Select(a => a.Where(t => t.Action is Bloodthirst).Count()).Sum();
-                int totalWW = totalActions.Select(a => a.Where(t => t.Action is Whirlwind).Count()).Sum();
-                int totalHS = totalActions.Select(a => a.Where(t => t.Action is HeroicStrike).Count()).Sum();
-                int totalDW = totalEffects.Select(a => a.Where(t => t.Effect is DeepWounds).Count()).Sum();
-                int totalExec = totalActions.Select(a => a.Where(t => t.Action is Execute).Count()).Sum();
+                double totalAA = totalActions.Select(a => a.Where(t => t.Action is AutoAttack).Count()).Sum();
+                double totalBT = totalActions.Select(a => a.Where(t => t.Action is Bloodthirst).Count()).Sum();
+                double totalWW = totalActions.Select(a => a.Where(t => t.Action is Whirlwind).Count()).Sum();
+                double totalHS = totalActions.Select(a => a.Where(t => t.Action is HeroicStrike).Count()).Sum();
+                double totalDW = totalEffects.Select(a => a.Where(t => t.Effect is DeepWounds).Count()).Sum();
+                double totalExec = totalActions.Select(a => a.Where(t => t.Action is Execute).Count()).Sum();
 
                 Console.WriteLine("Average Damage : {0:N2}", avgTotalDmg);
                 Console.WriteLine("Average DPS : {0:N2} dps", avgTotalDmg / fightLength);
@@ -283,21 +159,10 @@ namespace ClassicCraft
             Console.ReadKey();
         }
 
-        public static async Task DoFight()
+        public static void DoSim(Player p, Boss b, double length)
         {
-
-        }
-
-        public static void RegisterAction(RegisteredAction action)
-        {
-            actions.Add(action);
-            damage += action.Result.Damage;
-        }
-
-        public static void RegisterEffect(RegisteredEffect effect)
-        {
-            effects.Add(effect);
-            damage += effect.Damage;
+            Simulation s = new Simulation(p, b, length);
+            s.StartSim();
         }
 
         public static double Normalization(Weapon w)

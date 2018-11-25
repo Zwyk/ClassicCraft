@@ -10,8 +10,8 @@ namespace ClassicCraft
     {
         static Random random = new Random();
 
-        public Whirlwind(double baseCD = 10, int ressourceCost = 25)
-            : base(baseCD, ressourceCost)
+        public Whirlwind(Simulation s, double baseCD = 10, int ressourceCost = 25)
+            : base(s, baseCD, ressourceCost)
         {
         }
 
@@ -22,36 +22,36 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            ResultType res = Program.Player.YellowAttackEnemy(Program.Boss);
+            ResultType res = Sim.Player.YellowAttackEnemy(Sim.Boss);
 
             CommonAction();
             if (res != ResultType.Parry && res != ResultType.Dodge)
             {
-                Program.Player.Ressource -= RessourceCost;
+                Sim.Player.Ressource -= RessourceCost;
             }
 
-            int minDmg = (int)Math.Round(Program.Player.MH.DamageMin + Program.Normalization(Program.Player.MH) * Program.Player.AP / 14);
-            int maxDmg = (int)Math.Round(Program.Player.MH.DamageMax + Program.Normalization(Program.Player.MH) * Program.Player.AP / 14);
+            int minDmg = (int)Math.Round(Sim.Player.MH.DamageMin + Program.Normalization(Sim.Player.MH) * Sim.Player.AP / 14);
+            int maxDmg = (int)Math.Round(Sim.Player.MH.DamageMax + Program.Normalization(Sim.Player.MH) * Sim.Player.AP / 14);
 
-            if (Program.Player.OH != null)
+            if (Sim.Player.OH != null)
             {
-                minDmg += (int)Math.Round(Program.Player.OH.DamageMin + Program.Normalization(Program.Player.OH) * Program.Player.AP / 14);
-                maxDmg += (int)Math.Round(Program.Player.OH.DamageMax + Program.Normalization(Program.Player.OH) * Program.Player.AP / 14);
+                minDmg += (int)Math.Round(Sim.Player.OH.DamageMin + Program.Normalization(Sim.Player.OH) * Sim.Player.AP / 14);
+                maxDmg += (int)Math.Round(Sim.Player.OH.DamageMax + Program.Normalization(Sim.Player.OH) * Sim.Player.AP / 14);
             }
 
             int damage = (int)Math.Round(random.Next(minDmg, maxDmg + 1)
                 * Program.DamageMod(res)
-                * Entity.ArmorMitigation(Program.Boss.Armor)
-                * (res == ResultType.Crit ? 1 + (0.1 * Program.Player.GetTalentPoints("Impale")) : 1 )
-                * (Program.Player.DualWielding() ? 1 : (1 + 0.01 * Program.Player.GetTalentPoints("2HS"))));
+                * Entity.ArmorMitigation(Sim.Boss.Armor)
+                * (res == ResultType.Crit ? 1 + (0.1 * Sim.Player.GetTalentPoints("Impale")) : 1 )
+                * (Sim.Player.DualWielding() ? 1 : (1 + 0.01 * Sim.Player.GetTalentPoints("2HS"))));
 
-            if (Program.Player.GetTalentPoints("DW") > 0)
+            if (Sim.Player.GetTalentPoints("DW") > 0)
             {
-                DeepWounds.CheckProc(res, Program.Player.GetTalentPoints("DW"));
+                DeepWounds.CheckProc(Sim, res, Sim.Player.GetTalentPoints("DW"));
             }
-            if (Program.Player.GetTalentPoints("Flurry") > 0)
+            if (Sim.Player.GetTalentPoints("Flurry") > 0)
             {
-                Flurry.CheckProc(res, Program.Player.GetTalentPoints("Flurry"));
+                Flurry.CheckProc(Sim, res, Sim.Player.GetTalentPoints("Flurry"));
             }
 
             RegisterDamage(new ActionResult(res, damage));
