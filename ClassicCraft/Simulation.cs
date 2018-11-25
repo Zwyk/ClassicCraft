@@ -79,7 +79,7 @@ namespace ClassicCraft
                 {
                     dw.Cast();
                 }
-                if ((Boss.LifePct > 0.5 || Boss.LifePct <= 0.2) && r.CanUse() && Player.Effects.Any(e => e is DeathWishBuff))
+                if (Boss.LifePct <= 0.2 && r.CanUse() && Player.Effects.Any(e => e is DeathWishBuff))
                 {
                     r.Cast();
                 }

@@ -112,9 +112,11 @@ namespace ClassicCraft
         public double CritRating { get; set; }
         public double HitRating { get; set; }
 
+        public int Stamina { get; set; }
         public int Strength { get; set; }
         public int Agility { get; set; }
         public int Intelligence { get; set; }
+        public int Spirit { get; set; }
 
         public double HasteMod { get; set; }
         public double DamageMod { get; set; }
@@ -139,6 +141,8 @@ namespace ClassicCraft
             Strength = p.Strength;
             Agility = p.Agility;
             Intelligence = p.Intelligence;
+            Spirit = p.Spirit;
+            Stamina = p.Stamina;
 
             AP = p.AP;
             CritRating = p.CritRating;
@@ -354,9 +358,19 @@ namespace ClassicCraft
 
         public void CalculateAttributes()
         {
+            CalculateStamina();
             CalculateStrength();
             CalculateAgility();
             CalculateIntelligence();
+            CalculateSpirit();
+        }
+
+        public void CalculateStamina()
+        {
+            foreach (Item i in Items.Values)
+            {
+                Stamina += i.Stamina;
+            }
         }
 
         public void CalculateStrength()
@@ -380,6 +394,14 @@ namespace ClassicCraft
             foreach (Item i in Items.Values)
             {
                 Intelligence += i.Intelligence;
+            }
+        }
+
+        public void CalculateSpirit()
+        {
+            foreach (Item i in Items.Values)
+            {
+                Spirit += i.Spirit;
             }
         }
 
