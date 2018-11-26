@@ -132,10 +132,29 @@ namespace ClassicCraft
 
         public double GCDUntil { get; set; }
 
-        public int AP { get; set; }
+        public double AP
+        {
+            get
+            {
+                return Attributes.GetValue(Attribute.AP);
+            }
+        }
 
-        public double CritRating { get; set; }
-        public double HitRating { get; set; }
+        public double CritRating
+        {
+            get
+            {
+                return Attributes.GetValue(Attribute.CritChance);
+            }
+        }
+
+        public double HitRating
+        {
+            get
+            {
+                return Attributes.GetValue(Attribute.HitChance);
+            }
+        }
 
         public Attributes Attributes { get; set; }
         public Attributes BonusAttributes { get; set; }
@@ -155,6 +174,11 @@ namespace ClassicCraft
         #endregion
 
         public Player(Simulation s, Player p)
+            : this(s, p.Class, p.Race)
+        {
+
+        }
+            /*
             : base(s, p.Level, p.MaxLife, p.Armor)
         {
             Race = p.Race;
@@ -168,12 +192,8 @@ namespace ClassicCraft
 
             Attributes = p.Attributes;
 
-            AP = p.AP;
-            CritRating = p.CritRating;
-            HitRating = p.HitRating;
-
             Reset();
-        }
+        }*/
 
         public Player(Simulation s, Classes c, Races r, int level = 60, int maxLife = 1000, int armor = 0)
             : base(s, level, maxLife, armor)
@@ -183,10 +203,22 @@ namespace ClassicCraft
 
             Talents = new Dictionary<string, int>();
 
+            int skill = Level * 5;
             WeaponSkill = new Dictionary<Weapon.WeaponType, int>();
             foreach (Weapon.WeaponType type in (Weapon.WeaponType[])Enum.GetValues(typeof(Weapon.WeaponType)))
             {
-                WeaponSkill[type] = 300;
+                if(Race == Races.Orc && type == Weapon.WeaponType.Axe)
+                {
+                    WeaponSkill[type] = skill + 5;
+                }
+                else if(Race == Races.Human && (type == Weapon.WeaponType.Mace || type == Weapon.WeaponType.Sword))
+                {
+                    WeaponSkill[type] = skill + 5;
+                }
+                else
+                {
+                    WeaponSkill[type] = skill;
+                }
             }
 
             Items = new Dictionary<Slot, Item>();
@@ -388,13 +420,12 @@ namespace ClassicCraft
             Attributes = new Attributes(new Dictionary<Attribute, double>
             {
                 // TODO : attributs de base par level par classe
-                { Attribute.Stamina, BaseStaByRace(Race) + BonusStrByClass(Class) + 88 },
-                { Attribute.Strength, BaseStrByRace(Race) + BonusAgiByClass(Class) + 97 },
-                { Attribute.Agility, BaseAgiByRace(Race) + BonusIntByClass(Class) + 60 },
-                { Attribute.Intelligence, BaseIntByRace(Race) + BonusStaByClass(Class) },
+                { Attribute.Stamina, BaseStaByRace(Race) + BonusStaByClass(Class) + 88 },
+                { Attribute.Strength, BaseStrByRace(Race) + BonusStrByClass(Class) + 97 },
+                { Attribute.Agility, BaseAgiByRace(Race) + BonusAgiByClass(Class) + 60 },
+                { Attribute.Intelligence, BaseIntByRace(Race) + BonusIntByClass(Class) },
                 { Attribute.Spirit, BaseSpiByRace(Race) + BonusSpiByClass(Class) },
                 { Attribute.AP, 160 },
-                // Base crit / hit
                 // Base armor + dodge + etc.
                 // Base health + mana ?
             });
@@ -413,6 +444,13 @@ namespace ClassicCraft
             Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Strength) * StrToAPRatio(Class));
             Attributes.SetValue(Attribute.RangedAP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Agility) * AgiToRangedAPRatio(Class));
             Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance) + Attributes.GetValue(Attribute.Agility) * AgiToCritRatio(Class));
+
+            if(Class == Classes.Warrior)
+            {
+                Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
+                    + 0.01 * GetTalentPoints("Cruelty")
+                    + 0.03); // Berserker Stance
+            }
         }
 
         public static int StrToAPRatio(Classes c)
@@ -429,9 +467,9 @@ namespace ClassicCraft
         {
             switch(c)
             {
-                case Classes.Hunter: return (double)1 / 53;
-                case Classes.Rogue: return (double)1 / 29;
-                default: return (double)1 / 20;
+                case Classes.Hunter: return (double)1 / 5300;
+                case Classes.Rogue: return (double)1 / 2900;
+                default: return (double)1 / 2000;
             }
         }
 
@@ -571,11 +609,6 @@ namespace ClassicCraft
                     break;
                 case Races.Human:
                     res.SetValue(Attribute.Spirit, (int)Math.Round(a.GetValue(Attribute.Spirit) * 0.05));
-                    res.SetValue(Attribute.SkillSword, 5);
-                    res.SetValue(Attribute.SkillMace, 5);
-                    break;
-                case Races.Orc:
-                    res.SetValue(Attribute.SkillAxe, 5);
                     break;
                 default: break;
             }

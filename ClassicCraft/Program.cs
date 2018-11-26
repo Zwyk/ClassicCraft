@@ -41,8 +41,14 @@ namespace ClassicCraft
         public static Random random = new Random();
 
         public static double fightLength = 300;
-        public static int nbSim = 1000;
+        public static int nbSim = 10;
         public static double targetErrorPct = 0.5;
+        public static bool targetError = true;
+        public static bool threading = true;
+        public static bool logFight = false;
+        public static bool calcDpss = false;
+
+        public static int nbSimTasks = 100;
 
         public static ConcurrentBag<List<RegisteredAction>> totalActions = new ConcurrentBag<List<RegisteredAction>>();
         public static ConcurrentBag<List<RegisteredEffect>> totalEffects = new ConcurrentBag<List<RegisteredEffect>>();
@@ -50,114 +56,102 @@ namespace ClassicCraft
 
         static void Main(string[] args)
         {
-            Player player = new Player(null, Player.Classes.Warrior, Player.Races.Orc);
-            Boss boss = new Boss(null);
+            if (threading) logFight = false;
 
-            // Arms
-            player.Talents.Add("IHS", 3);
-            player.Talents.Add("DW", 3);
-            player.Talents.Add("2HS", 3);
-            player.Talents.Add("Impale", 3);
-
-            // Fury
-            player.Talents.Add("Cruelty", 5);
-            player.Talents.Add("UW", 5);
-            player.Talents.Add("IBS", 5);
-            player.Talents.Add("DWS", 5);
-            player.Talents.Add("IE", 2);
-            player.Talents.Add("Flurry", 5);
-
-            player.MH = new Weapon(player, Slot.Weapon, 229, 334, 3.5, true, Weapon.WeaponType.Sword);
-            //Player.MH = new Weapon(67, 125, 2.4, false, Weapon.WeaponType.Sword);
-            //Player.OH = new Weapon(67, 125, 2.4, false, Weapon.WeaponType.Sword);
-            player.Items[Player.Slot.Back] = new Item(player, Slot.Back, new Attributes(new Dictionary<Attribute, double>()
-                {
-                    { Attribute.Strength, 80 },
-                    { Attribute.Agility, 39 },
-                    { Attribute.Stamina, 138 },
-                    { Attribute.AP, 308 },
-                    { Attribute.CritChance, 0.07 },
-                    { Attribute.HitChance, 0.05 },
-                }));
-
-            player.CalculateAttributes();
-
-            foreach(Attribute a in player.Attributes.Values.Keys)
-            {
-                Console.WriteLine("{0} : {1}", a, player.Attributes.Values[a]);
-            }
-
-            Console.ReadKey();
-
-            return;
-
-            player.CritRating = 0.208;
-            player.AP = 1105;
-            player.HitRating = 0.05;
-            
             DateTime start = DateTime.Now;
 
             List<Task> tasks = new List<Task>();
 
-            if(targetErrorPct == 0)
+            if(!threading && !targetError)
             {
-                for (int i = 0; i < nbSim; i++)
+                for(int i = 0; i < nbSim; i++)
                 {
-                    tasks.Add(Task.Factory.StartNew(() => DoSim(player, boss, fightLength)));
+                    Console.WriteLine("\n\n---SIM NUMBER {0}---\n", i + 1);
+                    DoSim();
                 }
-
-                while (!tasks.All(t => t.IsCompleted))
-                {
-                    Console.Clear();
-                    Console.WriteLine("{0:N2}% ({1}/{2})", (double)damages.Count / nbSim * 100, damages.Count, nbSim);
-                    if (damages.Count > 0)
-                    {
-                        Console.WriteLine("Error Percent : {0:N2}%", Stats.ErrorPct(damages.ToArray(), damages.Average()));
-                    }
-                    Thread.Sleep(TimeSpan.FromSeconds(0.5));
-                }
-                Console.Clear();
-                Console.WriteLine("{0:N2}% ({1}/{2})", (double)damages.Count / nbSim * 100, damages.Count, nbSim);
             }
             else
             {
-                double errorPct;
-
-                for (int i = 0; i < 100; i++)
+                if (!targetError)
                 {
-                    tasks.Add(Task.Factory.StartNew(() => DoSim(player, boss, fightLength)));
-                }
-                
-                errorPct = 100;
-
-                while (errorPct > targetErrorPct)
-                {
-                    while (tasks.Count(t => !t.IsCompleted) < 1000)
+                    for (int i = 0; i < nbSim; i++)
                     {
-                        tasks.Add(Task.Factory.StartNew(() => DoSim(player, boss, fightLength)));
+                        tasks.Add(Task.Factory.StartNew(() => DoSim()));
                     }
 
-                    if(damages.Count > 100)
+                    while (!tasks.All(t => t.IsCompleted))
                     {
-                        errorPct = Stats.ErrorPct(damages.ToArray(), damages.Average());
+                        if (!logFight)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("{0:N2}% ({1}/{2})", (double)damages.Count / nbSim * 100, damages.Count, nbSim);
+                        }
+
+                        if (damages.Count > 0)
+                        {
+                            Console.WriteLine("Error Percent : {0:N2}%", Stats.ErrorPct(damages.ToArray(), damages.Average()));
+                        }
+                        Thread.Sleep(TimeSpan.FromSeconds(0.5));
                     }
 
-                    Console.Clear();
-                    Console.WriteLine("Sims done : {0:N2}", damages.Count);
-                    Console.WriteLine("Sims running : {0:N2}", tasks.Count(t => !t.IsCompleted));
-                    Console.WriteLine("Error Percent : {0:N2}%", errorPct);
-
-                    Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                    if (!logFight)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("{0:N2}% ({1}/{2})", (double)damages.Count / nbSim * 100, damages.Count, nbSim);
+                    }
                 }
+                else
+                {
+                    double errorPct = 100;
 
-                Task.WaitAll(tasks.ToArray());
+                    while (errorPct > targetErrorPct)
+                    {
+                        while (tasks.Count(t => !t.IsCompleted) < nbSimTasks)
+                        {
+                            tasks.Add(Task.Factory.StartNew(() => DoSim()));
+                        }
 
-                nbSim = tasks.Count;
+                        if (damages.Count > 0)
+                        {
+                            errorPct = Stats.ErrorPct(damages.ToArray(), damages.Average());
+                        }
+
+                        Console.Clear();
+                        Console.WriteLine("Sims done : {0:N2}", damages.Count);
+                        Console.WriteLine("Sims running : {0:N2}", tasks.Count(t => !t.IsCompleted));
+                        Console.WriteLine("Error Percent : {0:N2}%", errorPct);
+
+                        Thread.Sleep(TimeSpan.FromSeconds(0.1));
+                    }
+
+                    Task.WaitAll(tasks.ToArray());
+
+                    nbSim = tasks.Count;
+                }
+            }
+
+            if(!logFight)
+            {
+                Console.Clear();
             }
 
             double time = (DateTime.Now - start).TotalMilliseconds;
+            
+            if(calcDpss)
+            {
+                Dictionary<double, double> dpss = new Dictionary<double, double>();
 
-            Console.Clear();
+                int dpsOver = 10;
+
+                for (int i = 0; i < fightLength; i++)
+                {
+                    double dmg = totalActions.Average(l => l.Where(a => a.Time >= i - dpsOver && a.Time < i).Sum(ac => (double)ac.Result.Damage / dpsOver))
+                        + totalEffects.Average(l => l.Where(a => a.Time >= i - dpsOver && a.Time < i).Sum(ac => (double)ac.Damage / dpsOver));
+
+                    dpss.Add(i, dmg);
+                }
+            }
+
             Console.WriteLine("{0} simulations done in {1:N2} ms, for {2:N2} ms by sim", nbSim, time, time/nbSim);
             if (nbSim >= 1)
             {
@@ -222,9 +216,43 @@ namespace ClassicCraft
             Console.ReadKey();
         }
 
-        public static void DoSim(Player p, Boss b, double length)
+        public static void DoSim()
         {
-            Simulation s = new Simulation(p, b, length);
+            Player player = new Player(null, Player.Classes.Warrior, Player.Races.Orc);
+            Boss boss = new Boss(null);
+
+            // Arms
+            player.Talents.Add("IHS", 3);
+            player.Talents.Add("DW", 3);
+            player.Talents.Add("2HS", 3);
+            player.Talents.Add("Impale", 3);
+
+            // Fury
+            player.Talents.Add("Cruelty", 5);
+            player.Talents.Add("UW", 5);
+            player.Talents.Add("IBS", 5);
+            player.Talents.Add("DWS", 5);
+            player.Talents.Add("IE", 2);
+            player.Talents.Add("Flurry", 5);
+
+            player.MH = new Weapon(player, Slot.Weapon, 229, 334, 3.5, true, Weapon.WeaponType.Sword);
+            //Player.MH = new Weapon(67, 125, 2.4, false, Weapon.WeaponType.Sword);
+            //Player.OH = new Weapon(67, 125, 2.4, false, Weapon.WeaponType.Sword);
+            player.Items[Player.Slot.Back] = new Item(player, Slot.Back, new Attributes(new Dictionary<Attribute, double>()
+                {
+                    { Attribute.Strength, 80 },
+                    { Attribute.Agility, 39 },
+                    { Attribute.Stamina, 138 },
+                    { Attribute.AP, 308 },
+                    { Attribute.CritChance, 0.07 },
+                    { Attribute.HitChance, 0.05 },
+                }));
+
+            player.CalculateAttributes();
+
+            player.Attributes.SetValue(Attribute.AP, player.Attributes.GetValue(Attribute.AP) + 232 * 1 + (0.05 * player.GetTalentPoints("IBS")));
+
+            Simulation s = new Simulation(player, boss, fightLength);
             s.StartSim();
         }
 

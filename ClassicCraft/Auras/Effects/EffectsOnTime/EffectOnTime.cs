@@ -8,15 +8,16 @@ namespace ClassicCraft
 {
     public abstract class EffectOnTime : Effect
     {
-        public static int TICK_DELAY = 3;
+        public int TickDelay { get; set; }
 
         public double NextTick { get; set; }
         public int TickDamage { get; set; }
 
-        public EffectOnTime(Player p, Entity target, bool friendly, double baseLength, int baseStacks = 1)
+        public EffectOnTime(Player p, Entity target, bool friendly, double baseLength, int baseStacks = 1, int tickDelay = 3)
             : base(p, target, friendly, baseLength, baseStacks)
         {
-            NextTick = Player.Sim.CurrentTime + TICK_DELAY;
+            TickDelay = tickDelay;
+            NextTick = Player.Sim.CurrentTime + TickDelay;
         }
 
         public override void StartBuff()
@@ -30,8 +31,8 @@ namespace ClassicCraft
         {
             if (!Ended && NextTick <= Player.Sim.CurrentTime)
             {
-                ApplyDamage(TickDamage);
-                NextTick += TICK_DELAY;
+                ApplyTick(TickDamage);
+                NextTick += TickDelay;
             }
 
             base.CheckEffect();
@@ -42,15 +43,15 @@ namespace ClassicCraft
             base.Refresh();
 
             TickDamage = GetTickDamage();
-            NextTick = Player.Sim.CurrentTime + TICK_DELAY;
+            NextTick = Player.Sim.CurrentTime + TickDelay;
         }
         public abstract int GetTickDamage();
 
-        public void ApplyDamage(int damage)
+        public virtual void ApplyTick(int damage)
         {
             Player.Sim.RegisterEffect(new RegisteredEffect(this, damage, Player.Sim.CurrentTime));
 
-            if (Program.nbSim < 10)
+            if(Program.logFight)
             {
                 Console.WriteLine("{0:N2} : {1} for {2} damage", Player.Sim.CurrentTime, ToString(), damage, Player.Ressource);
             }

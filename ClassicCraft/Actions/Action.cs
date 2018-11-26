@@ -48,8 +48,13 @@ namespace ClassicCraft
 
         public void CommonAction()
         {
-            LockedUntil = Player.Sim.CurrentTime + BaseCD;
+            CDAction();
             Player.StartGCD();
+        }
+
+        public void CDAction()
+        {
+            LockedUntil = Player.Sim.CurrentTime + BaseCD;
         }
 
         public bool Available()
@@ -66,9 +71,17 @@ namespace ClassicCraft
         {
             Player.Sim.RegisterAction(new RegisteredAction(this, res, Player.Sim.CurrentTime));
 
-            if (Program.nbSim < 10)
+            if(Program.logFight)
             {
                 Console.WriteLine("{0:N2} : {1} {2} for {3} damage (rage {4})", Player.Sim.CurrentTime, ToString(), res.Type, res.Damage, Player.Ressource);
+            }
+        }
+
+        public void LogAction()
+        {
+            if(Program.logFight)
+            {
+                Console.WriteLine("{0:N2} : {1} cast (rage {2})", Player.Sim.CurrentTime, ToString(), Player.Ressource);
             }
         }
 

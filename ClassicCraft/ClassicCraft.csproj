@@ -55,13 +55,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\Action.cs" />
+    <Compile Include="Actions\Spells\BattleShout.cs" />
+    <Compile Include="Actions\Spells\BloodFury.cs" />
+    <Compile Include="Actions\Spells\Bloodrage.cs" />
     <Compile Include="Actions\Spells\DeathWish.cs" />
     <Compile Include="Actions\Spells\Execute.cs" />
     <Compile Include="Actions\Spells\Recklessness.cs" />
     <Compile Include="Auras\Aura.cs" />
     <Compile Include="Actions\AutoAttack.cs" />
     <Compile Include="Actions\Spells\Bloodthirst.cs" />
+    <Compile Include="Auras\Effects\BattleShoutBuff.cs" />
+    <Compile Include="Auras\Effects\BloodFuryBuff.cs" />
     <Compile Include="Auras\Effects\DeathWishBuff.cs" />
+    <Compile Include="Auras\Effects\EffectsOnTime\BloodrageBuff.cs" />
     <Compile Include="Auras\Effects\RecklessnessBuff.cs" />
     <Compile Include="Entities\Boss.cs" />
     <Compile Include="Auras\Effects\EffectsOnTime\DeepWounds.cs" />

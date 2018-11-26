@@ -24,8 +24,10 @@ namespace ClassicCraft
 
         public Simulation(Player player, Boss boss, double fightLength)
         {
-            Player = new Player(this, player);
-            Boss = new Boss(this, boss);
+            Player = player;
+            Boss = boss;
+            player.Sim = this;
+            Boss.Sim = this;
             FightLength = fightLength;
             Actions = new List<RegisteredAction>();
             Effects = new List<RegisteredEffect>();
@@ -53,12 +55,19 @@ namespace ClassicCraft
             Recklessness r = new Recklessness(Player);
             DeathWish dw = new DeathWish(Player);
             Execute exec = new Execute(Player);
+            BloodFury bf = new BloodFury(Player);
+            Bloodrage br = new Bloodrage(Player);
+            BattleShout bs = new BattleShout(Player);
 
             Boss.LifePct = 1;
 
+
+
+            // Pre-cast Battle Shout (starts GCD as Charge would)
+            bs.Cast();
+
             // Charge
             Player.Ressource += 15;
-            Player.StartGCD();
 
             int rota = 1;
 
@@ -73,6 +82,20 @@ namespace ClassicCraft
                 foreach (Effect e in Boss.Effects)
                 {
                     e.CheckEffect();
+                }
+
+                if(br.CanUse())
+                {
+                    br.Cast();
+                }
+                if(bf.CanUse())
+                {
+                    bf.Cast();
+                }
+
+                if (bs.CanUse() && (!Player.Effects.Any(e => e is BattleShoutBuff) || ((BattleShoutBuff)Player.Effects.Where(e => e is BattleShoutBuff).First()).RemainingTime() < Player.GCD))
+                {
+                    bs.Cast();
                 }
 
                 if ((Boss.LifePct > 0.5 || Boss.LifePct <= 0.2) && dw.CanUse())

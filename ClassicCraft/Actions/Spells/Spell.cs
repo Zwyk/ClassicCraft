@@ -20,7 +20,13 @@ namespace ClassicCraft
 
         public void CommonSpell()
         {
-            CommonAction();
+            CDAction();
+
+            if (AffectedByGCD)
+            {
+                Player.StartGCD();
+            }
+
             Player.Ressource -= RessourceCost;
         }
 

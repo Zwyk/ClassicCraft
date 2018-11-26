@@ -31,6 +31,13 @@ namespace ClassicCraft
                 RecklessnessBuff r = new RecklessnessBuff(Player, Player);
                 r.StartBuff();
             }
+
+            LogAction();
+        }
+
+        public override string ToString()
+        {
+            return "Reck";
         }
     }
 }

@@ -42,7 +42,7 @@ namespace ClassicCraft
                 * (Player.DualWielding() ? 1 : 1.03)
                 * Ratio);
 
-            return (int)Math.Round(damage / BaseLength * TICK_DELAY);
+            return (int)Math.Round(damage / BaseLength * TickDelay);
         }
 
         public override string ToString()

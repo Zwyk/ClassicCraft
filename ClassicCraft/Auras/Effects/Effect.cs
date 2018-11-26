@@ -32,6 +32,11 @@ namespace ClassicCraft
             Ended = false;
         }
 
+        public double RemainingTime()
+        {
+            return End - Player.Sim.CurrentTime;
+        }
+
         public virtual void CheckEffect()
         {
             if (End < Player.Sim.CurrentTime)
@@ -46,7 +51,7 @@ namespace ClassicCraft
             End = Player.Sim.CurrentTime + BaseLength;
             AppliedTimes.Add(Player.Sim.CurrentTime);
 
-            if (Program.nbSim < 10)
+            if(Program.logFight)
             {
                 Console.WriteLine("{0:N2} : {1} refreshed", Player.Sim.CurrentTime, ToString());
             }
@@ -56,7 +61,7 @@ namespace ClassicCraft
         {
             Target.Effects.Add(this);
 
-            if (Program.nbSim < 10)
+            if(Program.logFight)
             {
                 Console.WriteLine("{0:N2} : {1} started", Player.Sim.CurrentTime, ToString());
             }
@@ -81,7 +86,7 @@ namespace ClassicCraft
             End = Player.Sim.CurrentTime;
             Ended = true;
 
-            if(Program.nbSim < 10)
+            if(Program.logFight)
             {
                 Console.WriteLine("{0:N2} : {1} ended", Player.Sim.CurrentTime, ToString());
             }
