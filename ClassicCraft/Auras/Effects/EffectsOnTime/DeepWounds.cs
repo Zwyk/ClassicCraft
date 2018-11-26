@@ -10,23 +10,23 @@ namespace ClassicCraft
     {
         public double Ratio { get; set; }
 
-        public DeepWounds(Simulation s, int points, Entity target, bool friendly = false, double baseLength = 12, int baseStacks = 1)
-            : base(s, target, friendly, baseLength, baseStacks)
+        public DeepWounds(Player p, int points, Entity target, bool friendly = false, double baseLength = 12, int baseStacks = 1)
+            : base(p, target, friendly, baseLength, baseStacks)
         {
             Ratio = 0.2 * points;
         }
 
-        public static void CheckProc(Simulation sim, ResultType type, int points)
+        public static void CheckProc(Player p, ResultType type, int points)
         {
             if (type == ResultType.Crit)
             {
-                if (sim.Boss.Effects.Any(e => e is DeepWounds))
+                if (p.Sim.Boss.Effects.Any(e => e is DeepWounds))
                 {
-                    sim.Boss.Effects.Where(e => e is DeepWounds).First().Refresh();
+                    p.Sim.Boss.Effects.Where(e => e is DeepWounds).First().Refresh();
                 }
                 else
                 {
-                    DeepWounds dw = new DeepWounds(sim, points, sim.Boss);
+                    DeepWounds dw = new DeepWounds(p, points, p.Sim.Boss);
                     dw.StartBuff();
                 }
             }
@@ -34,12 +34,12 @@ namespace ClassicCraft
 
         public override int GetTickDamage()
         {
-            int minDmg = (int)Math.Round(Sim.Player.MH.DamageMin + Sim.Player.MH.Speed * Sim.Player.AP / 14);
-            int maxDmg = (int)Math.Round(Sim.Player.MH.DamageMax + Sim.Player.MH.Speed * Sim.Player.AP / 14);
+            int minDmg = (int)Math.Round(Player.MH.DamageMin + Player.MH.Speed * Player.AP / 14);
+            int maxDmg = (int)Math.Round(Player.MH.DamageMax + Player.MH.Speed * Player.AP / 14);
 
             int damage = (int)Math.Round((minDmg + maxDmg) / 2
-                * Entity.ArmorMitigation(Sim.Boss.Armor)
-                * (Sim.Player.DualWielding() ? 1 : 1.03)
+                * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
+                * (Player.DualWielding() ? 1 : 1.03)
                 * Ratio);
 
             return (int)Math.Round(damage / BaseLength * TICK_DELAY);

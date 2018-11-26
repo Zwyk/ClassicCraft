@@ -8,18 +8,18 @@ namespace ClassicCraft
 {
     public class UnbridledWrath : Aura
     {
-        public UnbridledWrath(Simulation s, Entity target)
-            : base(s, target)
+        public UnbridledWrath(Player p, Entity target)
+            : base(p, target)
         {
         }
 
-        public static void CheckProc(Simulation sim, ResultType res, int points)
+        public static void CheckProc(Player p, ResultType res, int points)
         {
             if(res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block)
             {
                 if(Program.random.NextDouble() < (0.08 * points))
                 {
-                    sim.Player.Ressource += 1;
+                    p.Ressource += 1;
                 }
             }
         }

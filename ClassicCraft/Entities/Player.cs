@@ -22,6 +22,31 @@ namespace ClassicCraft
             public Dictionary<ResultType, double> YellowHitChances { get; set; }
         }
 
+        public enum Races
+        {
+            Human,
+            Dwarf,
+            NightElf,
+            Gnome,
+            Orc,
+            Undead,
+            Tauren,
+            Troll
+        }
+
+        public enum Classes
+        {
+            Priest,
+            Rogue,
+            Warrior,
+            Mage,
+            Druid,
+            Hunter,
+            Warlock,
+            Shaman,
+            Paladin
+        }
+
         public enum Slot
         {
             Head,
@@ -112,14 +137,14 @@ namespace ClassicCraft
         public double CritRating { get; set; }
         public double HitRating { get; set; }
 
-        public int Stamina { get; set; }
-        public int Strength { get; set; }
-        public int Agility { get; set; }
-        public int Intelligence { get; set; }
-        public int Spirit { get; set; }
+        public Attributes Attributes { get; set; }
+        public Attributes BonusAttributes { get; set; }
 
         public double HasteMod { get; set; }
         public double DamageMod { get; set; }
+
+        public Races Race { get; set; }
+        public Classes Class { get; set; }
 
         public Action applyAtNextAA = null;
 
@@ -132,17 +157,16 @@ namespace ClassicCraft
         public Player(Simulation s, Player p)
             : base(s, p.Level, p.MaxLife, p.Armor)
         {
+            Race = p.Race;
+            Class = p.Class;
+
             Talents = p.Talents;
             WeaponSkill = p.WeaponSkill;
             Items = p.Items;
 
             HitChancesByEnemy = new Dictionary<Entity, HitChances>();
 
-            Strength = p.Strength;
-            Agility = p.Agility;
-            Intelligence = p.Intelligence;
-            Spirit = p.Spirit;
-            Stamina = p.Stamina;
+            Attributes = p.Attributes;
 
             AP = p.AP;
             CritRating = p.CritRating;
@@ -151,9 +175,12 @@ namespace ClassicCraft
             Reset();
         }
 
-        public Player(Simulation s, int level = 60, int maxLife = 1000, int armor = 0)
+        public Player(Simulation s, Classes c, Races r, int level = 60, int maxLife = 1000, int armor = 0)
             : base(s, level, maxLife, armor)
         {
+            Race = r;
+            Class = c;
+
             Talents = new Dictionary<string, int>();
 
             WeaponSkill = new Dictionary<Weapon.WeaponType, int>();
@@ -358,51 +385,202 @@ namespace ClassicCraft
 
         public void CalculateAttributes()
         {
-            CalculateStamina();
-            CalculateStrength();
-            CalculateAgility();
-            CalculateIntelligence();
-            CalculateSpirit();
-        }
-
-        public void CalculateStamina()
-        {
-            foreach (Item i in Items.Values)
+            Attributes = new Attributes(new Dictionary<Attribute, double>
             {
-                Stamina += i.Stamina;
-            }
-        }
+                // TODO : attributs de base par level par classe
+                { Attribute.Stamina, BaseStaByRace(Race) + BonusStrByClass(Class) + 88 },
+                { Attribute.Strength, BaseStrByRace(Race) + BonusAgiByClass(Class) + 97 },
+                { Attribute.Agility, BaseAgiByRace(Race) + BonusIntByClass(Class) + 60 },
+                { Attribute.Intelligence, BaseIntByRace(Race) + BonusStaByClass(Class) },
+                { Attribute.Spirit, BaseSpiByRace(Race) + BonusSpiByClass(Class) },
+                { Attribute.AP, 160 },
+                // Base crit / hit
+                // Base armor + dodge + etc.
+                // Base health + mana ?
+            });
 
-        public void CalculateStrength()
-        {
             foreach(Item i in Items.Values)
             {
-                Strength += i.Strength;
+                if(i != null)
+                {
+                    Attributes += i.Attributes;
+                }
+            }
+
+            Attributes += BonusAttributesByRace(Race, Attributes);
+
+            Attributes.SetValue(Attribute.Health, 20 + (Attributes.GetValue(Attribute.Stamina) - 20) * 10);
+            Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Strength) * StrToAPRatio(Class));
+            Attributes.SetValue(Attribute.RangedAP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Agility) * AgiToRangedAPRatio(Class));
+            Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance) + Attributes.GetValue(Attribute.Agility) * AgiToCritRatio(Class));
+        }
+
+        public static int StrToAPRatio(Classes c)
+        {
+            return (c == Classes.Druid || c == Classes.Warrior || c == Classes.Shaman || c == Classes.Paladin) ? 2 : 1;
+        }
+
+        public static int AgiToRangedAPRatio(Classes c)
+        {
+            return (c == Classes.Warrior || c == Classes.Hunter || c == Classes.Rogue) ? 2 : 1;
+        }
+
+        public static double AgiToCritRatio(Classes c)
+        {
+            switch(c)
+            {
+                case Classes.Hunter: return (double)1 / 53;
+                case Classes.Rogue: return (double)1 / 29;
+                default: return (double)1 / 20;
             }
         }
 
-        public void CalculateAgility()
+        public static int BaseStrByRace(Races r)
         {
-            foreach (Item i in Items.Values)
+            switch (r)
             {
-                Agility += i.Agility;
+                case Races.Human: return 20;
+                case Races.Dwarf: return 22;
+                case Races.NightElf: return 17;
+                case Races.Gnome: return 15;
+                case Races.Orc: return 23;
+                case Races.Undead: return 19;
+                case Races.Tauren: return 25;
+                case Races.Troll: return 21;
+                default: return 0;
             }
         }
 
-        public void CalculateIntelligence()
+        public static int BaseAgiByRace(Races r)
         {
-            foreach (Item i in Items.Values)
+            switch (r)
             {
-                Intelligence += i.Intelligence;
+                case Races.Human: return 20;
+                case Races.Dwarf: return 16;
+                case Races.NightElf: return 25;
+                case Races.Gnome: return 23;
+                case Races.Orc: return 17;
+                case Races.Undead: return 18;
+                case Races.Tauren: return 15;
+                case Races.Troll: return 22;
+                default: return 0;
             }
         }
 
-        public void CalculateSpirit()
+        public static int BaseStaByRace(Races r)
         {
-            foreach (Item i in Items.Values)
+            switch (r)
             {
-                Spirit += i.Spirit;
+                case Races.Human: return 20;
+                case Races.Dwarf: return 23;
+                case Races.NightElf: return 19;
+                case Races.Gnome: return 19;
+                case Races.Orc: return 22;
+                case Races.Undead: return 21;
+                case Races.Tauren: return 22;
+                case Races.Troll: return 21;
+                default: return 0;
             }
+        }
+
+        public static int BaseIntByRace(Races r)
+        {
+            switch (r)
+            {
+                case Races.Human: return 20;
+                case Races.Dwarf: return 19;
+                case Races.NightElf: return 20;
+                case Races.Gnome: return 24;
+                case Races.Orc: return 17;
+                case Races.Undead: return 18;
+                case Races.Tauren: return 15;
+                case Races.Troll: return 16;
+                default: return 0;
+            }
+        }
+
+        public static int BaseSpiByRace(Races r)
+        {
+            switch (r)
+            {
+                case Races.Human: return 21;
+                case Races.Dwarf: return 19;
+                case Races.NightElf: return 20;
+                case Races.Gnome: return 20;
+                case Races.Orc: return 23;
+                case Races.Undead: return 25;
+                case Races.Tauren: return 22;
+                case Races.Troll: return 21;
+                default: return 0;
+            }
+        }
+
+        public static int BonusStrByClass(Classes c)
+        {
+            switch (c)
+            {
+                case Classes.Warrior: return 3;
+                default: return 0;
+            }
+        }
+
+        public static int BonusAgiByClass(Classes c)
+        {
+            switch (c)
+            {
+                case Classes.Warrior: return 0;
+                default: return 0;
+            }
+        }
+
+        public static int BonusStaByClass(Classes c)
+        {
+            switch (c)
+            {
+                case Classes.Warrior: return 2;
+                default: return 0;
+            }
+        }
+
+        public static int BonusIntByClass(Classes c)
+        {
+            switch (c)
+            {
+                case Classes.Warrior: return 0;
+                default: return 0;
+            }
+        }
+
+        public static int BonusSpiByClass(Classes c)
+        {
+            switch (c)
+            {
+                case Classes.Warrior: return 0;
+                default: return 0;
+            }
+        }
+
+        public Attributes BonusAttributesByRace(Races r, Attributes a)
+        {
+            Attributes res = new Attributes();
+
+            switch(r)
+            {
+                case Races.Gnome:
+                    res.SetValue(Attribute.Intelligence, (int)Math.Round(a.GetValue(Attribute.Intelligence) * 0.05));
+                    break;
+                case Races.Human:
+                    res.SetValue(Attribute.Spirit, (int)Math.Round(a.GetValue(Attribute.Spirit) * 0.05));
+                    res.SetValue(Attribute.SkillSword, 5);
+                    res.SetValue(Attribute.SkillMace, 5);
+                    break;
+                case Races.Orc:
+                    res.SetValue(Attribute.SkillAxe, 5);
+                    break;
+                default: break;
+            }
+
+            return res;
         }
 
         public override double BlockChance()

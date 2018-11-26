@@ -8,19 +8,22 @@ namespace ClassicCraft
 {
     public class Item
     {
-        public int Stamina { get; set; }
-        public int Strength { get; set; }
-        public int Agility { get; set; }
-        public int Intelligence { get; set; }
-        public int Spirit { get; set; }
+        public delegate void ItemEffect();
 
-        public Item(int str = 0, int agi = 0, int intel = 0, int sta = 0, int spi = 0)
+        public Player Player { get; set; }
+
+        public Slot Slot { get; set; }
+
+        public Attributes Attributes { get; set; }
+
+        public ItemEffect SpecialEffect { get; set; }
+
+        public Item(Player p, Slot slot, Attributes attributes = null, ItemEffect effect = null)
         {
-            Strength = str;
-            Agility = agi;
-            Intelligence = intel;
-            Stamina = sta;
-            Spirit = spi;
+            Player = p;
+            Slot = slot;
+            Attributes = new Attributes(attributes);
+            SpecialEffect = effect;
         }
     }
 }

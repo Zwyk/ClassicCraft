@@ -8,8 +8,8 @@ namespace ClassicCraft
 {
     public class DeathWish : Spell
     {
-        public DeathWish(Simulation s, double baseCD = 180, int ressourceCost = 10, bool gcd = true)
-            : base(s, baseCD, ressourceCost, gcd)
+        public DeathWish(Player p, double baseCD = 180, int ressourceCost = 10, bool gcd = true)
+            : base(p, baseCD, ressourceCost, gcd)
         {
         }
 
@@ -21,14 +21,14 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            if (Sim.Player.Effects.Any(e => e is DeathWishBuff))
+            if (Player.Effects.Any(e => e is DeathWishBuff))
             {
-                Effect current = Sim.Player.Effects.Where(e => e is DeathWishBuff).First();
+                Effect current = Player.Effects.Where(e => e is DeathWishBuff).First();
                 current.Refresh();
             }
             else
             {
-                DeathWishBuff dw = new DeathWishBuff(Sim, Sim.Player);
+                DeathWishBuff dw = new DeathWishBuff(Player, Player);
                 dw.StartBuff();
             }
         }

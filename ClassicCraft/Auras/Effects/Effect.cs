@@ -17,12 +17,12 @@ namespace ClassicCraft
         public List<double> AppliedTimes { get; set; }
         public bool Ended { get; set; }
 
-        public Effect(Simulation s, Entity target, bool friendly, double baseLength, int baseStacks = 1)
-            : base(s, target)
+        public Effect(Player p, Entity target, bool friendly, double baseLength, int baseStacks = 1)
+            : base(p, target)
         {
             Target = target;
             Friendly = friendly;
-            Start = Sim.CurrentTime;
+            Start = Player.Sim.CurrentTime;
             BaseLength = baseLength;
             End = Start + BaseLength;
             BaseStacks = baseStacks;
@@ -34,7 +34,7 @@ namespace ClassicCraft
 
         public virtual void CheckEffect()
         {
-            if (End < Sim.CurrentTime)
+            if (End < Player.Sim.CurrentTime)
             {
                 EndBuff();
             }
@@ -43,12 +43,12 @@ namespace ClassicCraft
         public virtual void Refresh()
         {
             CurrentStacks = BaseStacks;
-            End = Sim.CurrentTime + BaseLength;
-            AppliedTimes.Add(Sim.CurrentTime);
+            End = Player.Sim.CurrentTime + BaseLength;
+            AppliedTimes.Add(Player.Sim.CurrentTime);
 
             if (Program.nbSim < 10)
             {
-                Console.WriteLine("{0:N2} : {1} refreshed", Sim.CurrentTime, ToString());
+                Console.WriteLine("{0:N2} : {1} refreshed", Player.Sim.CurrentTime, ToString());
             }
         }
 
@@ -58,7 +58,7 @@ namespace ClassicCraft
 
             if (Program.nbSim < 10)
             {
-                Console.WriteLine("{0:N2} : {1} started", Sim.CurrentTime, ToString());
+                Console.WriteLine("{0:N2} : {1} started", Player.Sim.CurrentTime, ToString());
             }
         }
 
@@ -78,12 +78,12 @@ namespace ClassicCraft
 
         public virtual void EndBuff()
         {
-            End = Sim.CurrentTime;
+            End = Player.Sim.CurrentTime;
             Ended = true;
 
             if(Program.nbSim < 10)
             {
-                Console.WriteLine("{0:N2} : {1} ended", Sim.CurrentTime, ToString());
+                Console.WriteLine("{0:N2} : {1} ended", Player.Sim.CurrentTime, ToString());
             }
         }
 

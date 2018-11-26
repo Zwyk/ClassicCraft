@@ -42,7 +42,7 @@ namespace ClassicCraft
 
         public static double fightLength = 300;
         public static int nbSim = 1000;
-        public static double targetErrorPct = 0;
+        public static double targetErrorPct = 0.5;
 
         public static ConcurrentBag<List<RegisteredAction>> totalActions = new ConcurrentBag<List<RegisteredAction>>();
         public static ConcurrentBag<List<RegisteredEffect>> totalEffects = new ConcurrentBag<List<RegisteredEffect>>();
@@ -50,10 +50,7 @@ namespace ClassicCraft
 
         static void Main(string[] args)
         {
-
-            DateTime start = DateTime.Now;
-
-            Player player = new Player(null);
+            Player player = new Player(null, Player.Classes.Warrior, Player.Races.Orc);
             Boss boss = new Boss(null);
 
             // Arms
@@ -70,13 +67,35 @@ namespace ClassicCraft
             player.Talents.Add("IE", 2);
             player.Talents.Add("Flurry", 5);
 
-            player.MH = new Weapon(229, 334, 3.5, true, Weapon.WeaponType.Sword);
+            player.MH = new Weapon(player, Slot.Weapon, 229, 334, 3.5, true, Weapon.WeaponType.Sword);
             //Player.MH = new Weapon(67, 125, 2.4, false, Weapon.WeaponType.Sword);
             //Player.OH = new Weapon(67, 125, 2.4, false, Weapon.WeaponType.Sword);
+            player.Items[Player.Slot.Back] = new Item(player, Slot.Back, new Attributes(new Dictionary<Attribute, double>()
+                {
+                    { Attribute.Strength, 80 },
+                    { Attribute.Agility, 39 },
+                    { Attribute.Stamina, 138 },
+                    { Attribute.AP, 308 },
+                    { Attribute.CritChance, 0.07 },
+                    { Attribute.HitChance, 0.05 },
+                }));
+
+            player.CalculateAttributes();
+
+            foreach(Attribute a in player.Attributes.Values.Keys)
+            {
+                Console.WriteLine("{0} : {1}", a, player.Attributes.Values[a]);
+            }
+
+            Console.ReadKey();
+
+            return;
 
             player.CritRating = 0.208;
             player.AP = 1105;
             player.HitRating = 0.05;
+            
+            DateTime start = DateTime.Now;
 
             List<Task> tasks = new List<Task>();
 
@@ -104,22 +123,41 @@ namespace ClassicCraft
             {
                 double errorPct;
 
-                do
+                for (int i = 0; i < 100; i++)
                 {
                     tasks.Add(Task.Factory.StartNew(() => DoSim(player, boss, fightLength)));
-                    errorPct = damages.Count > 0 ? Stats.ErrorPct(damages.ToArray(), damages.Average()) : 100;
-                    //Console.WriteLine("Error Percent : {0:N2}%", Stats.ErrorPct(damages.ToArray(), damages.Average()));
                 }
-                while (errorPct > targetErrorPct);
                 
+                errorPct = 100;
+
+                while (errorPct > targetErrorPct)
+                {
+                    while (tasks.Count(t => !t.IsCompleted) < 1000)
+                    {
+                        tasks.Add(Task.Factory.StartNew(() => DoSim(player, boss, fightLength)));
+                    }
+
+                    if(damages.Count > 100)
+                    {
+                        errorPct = Stats.ErrorPct(damages.ToArray(), damages.Average());
+                    }
+
+                    Console.Clear();
+                    Console.WriteLine("Sims done : {0:N2}", damages.Count);
+                    Console.WriteLine("Sims running : {0:N2}", tasks.Count(t => !t.IsCompleted));
+                    Console.WriteLine("Error Percent : {0:N2}%", errorPct);
+
+                    Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                }
+
                 Task.WaitAll(tasks.ToArray());
 
                 nbSim = tasks.Count;
             }
 
-
             double time = (DateTime.Now - start).TotalMilliseconds;
-            
+
+            Console.Clear();
             Console.WriteLine("{0} simulations done in {1:N2} ms, for {2:N2} ms by sim", nbSim, time, time/nbSim);
             if (nbSim >= 1)
             {
@@ -132,7 +170,7 @@ namespace ClassicCraft
                 double totalHS = totalActions.Select(a => a.Where(t => t.Action is HeroicStrike).Count()).Sum();
                 double totalDW = totalEffects.Select(a => a.Where(t => t.Effect is DeepWounds).Count()).Sum();
                 double totalExec = totalActions.Select(a => a.Where(t => t.Action is Execute).Count()).Sum();
-
+                
                 Console.WriteLine("Error Percent : {0:N2}%", Stats.ErrorPct(damages.ToArray(), damages.Average()));
                 Console.WriteLine("Average Damage : {0:N2} (+/- {1:N2})", avgTotalDmg, Stats.MeanStdDev(damages.ToArray()));
                 Console.WriteLine("Average DPS : {0:N2} dps (+/- {1:N2})", avgTotalDmg / fightLength, Stats.MeanStdDev(dps));

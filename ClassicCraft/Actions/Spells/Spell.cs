@@ -11,8 +11,8 @@ namespace ClassicCraft
         public int RessourceCost { get; set; }
         public bool AffectedByGCD { get; set; }
 
-        public Spell(Simulation s, double baseCD, int ressourceCost, bool gcd = true)
-            : base(s, baseCD)
+        public Spell(Player p, double baseCD, int ressourceCost, bool gcd = true)
+            : base(p, baseCD)
         {
             RessourceCost = ressourceCost;
             AffectedByGCD = gcd;
@@ -21,12 +21,12 @@ namespace ClassicCraft
         public void CommonSpell()
         {
             CommonAction();
-            Sim.Player.Ressource -= RessourceCost;
+            Player.Ressource -= RessourceCost;
         }
 
         public virtual bool CanUse()
         {
-            return Sim.Player.Ressource >= RessourceCost && Available() && (AffectedByGCD ? Sim.Player.HasGCD() : true);
+            return Player.Ressource >= RessourceCost && Available() && (AffectedByGCD ? Player.HasGCD() : true);
         }
 
         public override string ToString()

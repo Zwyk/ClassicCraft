@@ -72,6 +72,7 @@
     <Compile Include="Actions\Spells\HeroicStrike.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Entities\Player.cs" />
+    <Compile Include="Items\Slot.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Actions\Spells\Spell.cs" />
@@ -79,7 +80,9 @@
     <Compile Include="Items\Weapons\Weapon.cs" />
     <Compile Include="Actions\Spells\Whirlwind.cs" />
     <Compile Include="Simulation.cs" />
+    <Compile Include="PlayerObject.cs" />
     <Compile Include="SimulationObject.cs" />
+    <Compile Include="Attribute.cs" />
     <Compile Include="Utility\Stats.cs" />
   </ItemGroup>
   <ItemGroup>

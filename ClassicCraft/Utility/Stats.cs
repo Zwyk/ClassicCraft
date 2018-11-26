@@ -189,5 +189,15 @@ namespace ClassicCraft
         {
             return stdError / mean * 100;
         }
+
+        public static double EstimateN(double targetErrorPct, double[] values, double mean)
+        {
+            return (10000 * Math.Pow(ConfidenceEstimator, 2) * Stat.variance(values)) / (Math.Pow(targetErrorPct, 2) * Math.Pow(mean, 2));
+        }
+
+        public static double EstimateN(double targetErrorPct, double variance, double mean)
+        {
+            return (10000 * Math.Pow(ConfidenceEstimator, 2) * variance) / (Math.Pow(targetErrorPct, 2) * Math.Pow(mean, 2));
+        }
     }
 }

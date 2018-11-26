@@ -10,17 +10,17 @@ namespace ClassicCraft
     {
         public double Haste { get; set; }
 
-        public Flurry(Simulation s, int points, Entity target, double baseLength = 15, int stacks = 3)
-            : base(s, target, true, baseLength, stacks)
+        public Flurry(Player p, int points, Entity target, double baseLength = 15, int stacks = 3)
+            : base(p, target, true, baseLength, stacks)
         {
             Haste = 1 + 0.1 + ((points - 1) * 0.05);
         }
 
-        public static void CheckProc(Simulation sim, ResultType type, int points)
+        public static void CheckProc(Player p, ResultType type, int points)
         {
-            if (sim.Player.Effects.Any(e => e is Flurry))
+            if (p.Effects.Any(e => e is Flurry))
             {
-                Effect current = sim.Player.Effects.Where(e => e is Flurry).First();
+                Effect current = p.Effects.Where(e => e is Flurry).First();
                 if (type == ResultType.Crit)
                 {
                     current.Refresh();
@@ -32,7 +32,7 @@ namespace ClassicCraft
             }
             else if (type == ResultType.Crit)
             {
-                Flurry flu = new Flurry(sim, points, sim.Player);
+                Flurry flu = new Flurry(p, points, p);
                 flu.StartBuff();
             }
         }
@@ -41,14 +41,14 @@ namespace ClassicCraft
         {
             base.StartBuff();
 
-            Sim.Player.HasteMod *= Haste;
+            Player.HasteMod *= Haste;
         }
 
         public override void EndBuff()
         {
             base.EndBuff();
 
-            Sim.Player.HasteMod /= Haste;
+            Player.HasteMod /= Haste;
         }
 
         public override string ToString()

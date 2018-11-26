@@ -38,21 +38,21 @@ namespace ClassicCraft
         {
             List<AutoAttack> autos = new List<AutoAttack>();
 
-            autos.Add(new AutoAttack(this, Player.MH, true));
+            autos.Add(new AutoAttack(Player, Player.MH, true));
             if (Player.OH != null)
             {
-                autos.Add(new AutoAttack(this, Player.OH, false));
+                autos.Add(new AutoAttack(Player, Player.OH, false));
             }
 
             CurrentTime = 0;
 
-            Whirlwind ww = new Whirlwind(this);
-            Bloodthirst bt = new Bloodthirst(this);
-            HeroicStrike hs = new HeroicStrike(this);
+            Whirlwind ww = new Whirlwind(Player);
+            Bloodthirst bt = new Bloodthirst(Player);
+            HeroicStrike hs = new HeroicStrike(Player);
             hs.RessourceCost -= Player.GetTalentPoints("IHS");
-            Recklessness r = new Recklessness(this);
-            DeathWish dw = new DeathWish(this);
-            Execute exec = new Execute(this);
+            Recklessness r = new Recklessness(Player);
+            DeathWish dw = new DeathWish(Player);
+            Execute exec = new Execute(Player);
 
             Boss.LifePct = 1;
 

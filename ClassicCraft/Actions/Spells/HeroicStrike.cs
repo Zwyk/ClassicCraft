@@ -8,53 +8,53 @@ namespace ClassicCraft
 {
     class HeroicStrike : Spell
     {
-        public HeroicStrike(Simulation s, double baseCD = 0, int ressourceCost = 15, bool gcd = true)
-            : base(s, baseCD, ressourceCost, gcd)
+        public HeroicStrike(Player p, double baseCD = 0, int ressourceCost = 15, bool gcd = true)
+            : base(p, baseCD, ressourceCost, gcd)
         {
         }
 
         public override void Cast()
         {
-            Sim.Player.applyAtNextAA = this;
+            Player.applyAtNextAA = this;
         }
 
         public override void DoAction()
         {
-            Sim.Player.applyAtNextAA = null;
+            Player.applyAtNextAA = null;
 
             Random random = new Random();
 
-            Weapon weapon = Sim.Player.MH;
+            Weapon weapon = Player.MH;
 
-            LockedUntil = Sim.CurrentTime + weapon.Speed / Sim.Player.HasteMod;
+            LockedUntil = Player.Sim.CurrentTime + weapon.Speed / Player.HasteMod;
             
-            ResultType res = Sim.Player.YellowAttackEnemy(Sim.Boss);
+            ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
 
-            int minDmg = (int)Math.Round(weapon.DamageMin + weapon.Speed * Sim.Player.AP / 14);
-            int maxDmg = (int)Math.Round(weapon.DamageMax + weapon.Speed * Sim.Player.AP / 14);
+            int minDmg = (int)Math.Round(weapon.DamageMin + weapon.Speed * Player.AP / 14);
+            int maxDmg = (int)Math.Round(weapon.DamageMax + weapon.Speed * Player.AP / 14);
 
             int damage = (int)Math.Round((random.Next(minDmg, maxDmg + 1) + 157)
                 * Program.DamageMod(res)
-                * Entity.ArmorMitigation(Sim.Boss.Armor)
-                * (res == ResultType.Crit ? 1 + (0.1 * Sim.Player.GetTalentPoints("Impale")) : 1)
-                * (Sim.Player.DualWielding() ? 1 : (1 + 0.01 * Sim.Player.GetTalentPoints("2HS"))));
+                * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
+                * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1)
+                * (Player.DualWielding() ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
 
             if (res != ResultType.Parry && res != ResultType.Dodge)
             {
-                Sim.Player.Ressource -= RessourceCost;
+                Player.Ressource -= RessourceCost;
             }
 
-            if (Sim.Player.GetTalentPoints("DW") > 0)
+            if (Player.GetTalentPoints("DW") > 0)
             {
-                DeepWounds.CheckProc(Sim, res, Sim.Player.GetTalentPoints("DW"));
+                DeepWounds.CheckProc(Player, res, Player.GetTalentPoints("DW"));
             }
-            if (Sim.Player.GetTalentPoints("Flurry") > 0)
+            if (Player.GetTalentPoints("Flurry") > 0)
             {
-                Flurry.CheckProc(Sim, res, Sim.Player.GetTalentPoints("Flurry"));
+                Flurry.CheckProc(Player, res, Player.GetTalentPoints("Flurry"));
             }
-            if (Sim.Player.GetTalentPoints("UW") > 0)
+            if (Player.GetTalentPoints("UW") > 0)
             {
-                UnbridledWrath.CheckProc(Sim, res, Sim.Player.GetTalentPoints("UW"));
+                UnbridledWrath.CheckProc(Player, res, Player.GetTalentPoints("UW"));
             }
 
             RegisterDamage(new ActionResult(res, damage));

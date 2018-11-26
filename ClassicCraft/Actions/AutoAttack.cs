@@ -13,8 +13,8 @@ namespace ClassicCraft
         public bool MH { get; set; }
         public Weapon Weapon { get; set; }
 
-        public AutoAttack(Simulation s, Weapon weapon, bool mh)
-            : base(s, weapon.Speed)
+        public AutoAttack(Player p, Weapon weapon, bool mh)
+            : base(p, weapon.Speed)
         {
             Weapon = weapon;
             MH = mh;
@@ -29,31 +29,31 @@ namespace ClassicCraft
         {
             NextAA();
 
-            ResultType res = Sim.Player.WhiteAttackEnemy(Sim.Boss, MH);
+            ResultType res = Player.WhiteAttackEnemy(Player.Sim.Boss, MH);
 
-            int minDmg = (int)Math.Round(Weapon.DamageMin + Weapon.Speed * Sim.Player.AP / 14);
-            int maxDmg = (int)Math.Round(Weapon.DamageMax + Weapon.Speed * Sim.Player.AP / 14);
+            int minDmg = (int)Math.Round(Weapon.DamageMin + Weapon.Speed * Player.AP / 14);
+            int maxDmg = (int)Math.Round(Weapon.DamageMax + Weapon.Speed * Player.AP / 14);
 
             int damage = 0;
 
             damage = (int)Math.Round(random.Next(minDmg, maxDmg + 1)
                 * Program.DamageMod(res)
-                * Entity.ArmorMitigation(Sim.Boss.Armor)
-                * (Sim.Player.DualWielding() ? (MH ? 1 : 0.5 * (1 + (0.05 * Sim.Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Sim.Player.GetTalentPoints("2HS"))));
+                * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
+                * (Player.DualWielding() ? (MH ? 1 : 0.5 * (1 + (0.05 * Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
 
-            Sim.Player.Ressource += (int)Math.Round(Program.RageGained(damage, Weapon.Speed, res, MH));
+            Player.Ressource += (int)Math.Round(Program.RageGained(damage, Weapon.Speed, res, MH));
 
-            if(Sim.Player.GetTalentPoints("DW") > 0)
+            if(Player.GetTalentPoints("DW") > 0)
             {
-                DeepWounds.CheckProc(Sim, res, Sim.Player.GetTalentPoints("DW"));
+                DeepWounds.CheckProc(Player, res, Player.GetTalentPoints("DW"));
             }
-            if (Sim.Player.GetTalentPoints("Flurry") > 0)
+            if(Player.GetTalentPoints("Flurry") > 0)
             {
-                Flurry.CheckProc(Sim, res, Sim.Player.GetTalentPoints("Flurry"));
+                Flurry.CheckProc(Player, res, Player.GetTalentPoints("Flurry"));
             }
-            if(Sim.Player.GetTalentPoints("UW") > 0)
+            if(Player.GetTalentPoints("UW") > 0)
             {
-                UnbridledWrath.CheckProc(Sim, res, Sim.Player.GetTalentPoints("UW"));
+                UnbridledWrath.CheckProc(Player, res, Player.GetTalentPoints("UW"));
             }
 
             RegisterDamage(new ActionResult(res, damage));
@@ -61,7 +61,7 @@ namespace ClassicCraft
 
         public void NextAA()
         {
-            LockedUntil = Sim.CurrentTime + Weapon.Speed / Sim.Player.HasteMod;
+            LockedUntil = Player.Sim.CurrentTime + Weapon.Speed / Player.HasteMod;
         }
 
         public override string ToString()
