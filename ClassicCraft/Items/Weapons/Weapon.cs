@@ -24,8 +24,8 @@ namespace ClassicCraft
         public bool TwoHanded { get; set; }
         public WeaponType Type { get; set; }
 
-        public Weapon(Player p, Slot slot, int min, int max, double speed, bool twoHanded, WeaponType type, Attributes attributes = null, ItemEffect effect = null)
-            : base(p, slot, attributes, effect)
+        public Weapon(Player p, Slot slot, int min, int max, double speed, bool twoHanded, WeaponType type, Attributes attributes = null, int id = 0, string name = "New Item", ItemEffect effect = null)
+            : base(p, slot, attributes, id, name, effect)
         {
             DamageMin = min;
             DamageMax = max;

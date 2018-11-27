@@ -144,7 +144,7 @@ namespace ClassicCraft
         {
             get
             {
-                return Attributes.GetValue(Attribute.CritChance);
+                return Attributes.GetValue(Attribute.CritChance)/100;
             }
         }
 
@@ -152,7 +152,7 @@ namespace ClassicCraft
         {
             get
             {
-                return Attributes.GetValue(Attribute.HitChance);
+                return Attributes.GetValue(Attribute.HitChance)/100;
             }
         }
 

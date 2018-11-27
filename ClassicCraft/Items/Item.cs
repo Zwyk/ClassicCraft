@@ -18,12 +18,29 @@ namespace ClassicCraft
 
         public ItemEffect SpecialEffect { get; set; }
 
-        public Item(Player p, Slot slot, Attributes attributes = null, ItemEffect effect = null)
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public Item(Player p = null, Slot slot = Slot.Any, Attributes attributes = null, int id = 0, string name = "New Item", ItemEffect effect = null)
         {
             Player = p;
             Slot = slot;
             Attributes = new Attributes(attributes);
+            Id = id;
+            Name = name;
             SpecialEffect = effect;
+        }
+
+        public override string ToString()
+        {
+            string attributes = "";
+            foreach(Attribute a in Attributes.Values.Keys)
+            {
+                attributes += "[" + a + ":" + Attributes.Values[a] + "]";
+            }
+
+            return String.Format("[{0}] ({1}) {2} : {3}", Slot, Id, Name, attributes);
         }
     }
 }

@@ -183,11 +183,6 @@ namespace ClassicCraft
             Ended = true;
         }
 
-        private void DoFight()
-        {
-
-        }
-
         public void RegisterAction(RegisteredAction action)
         {
             Actions.Add(action);

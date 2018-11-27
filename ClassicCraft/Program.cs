@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace ClassicCraft
 {
@@ -40,6 +41,8 @@ namespace ClassicCraft
     {
         public static Random random = new Random();
 
+        public static string projectPath = "./../..";
+
         public static double fightLength = 300;
         public static int nbSim = 10;
         public static double targetErrorPct = 0.5;
@@ -56,6 +59,27 @@ namespace ClassicCraft
 
         static void Main(string[] args)
         {
+            Item test = new Item(null, Slot.Back, new Attributes(new Dictionary<Attribute, double>()
+                {
+                    { Attribute.Strength, 80 },
+                    { Attribute.Agility, 39 },
+                    { Attribute.Stamina, 138 },
+                    { Attribute.AP, 308 },
+                    { Attribute.CritChance, 7 },
+                    { Attribute.HitChance, 5 },
+                }));
+
+            Console.WriteLine(test);
+            List<JsonUtil.JsonItem> items = JsonConvert.DeserializeObject<List<JsonUtil.JsonItem>>(System.IO.File.ReadAllText("./../../" + "items.json"));
+
+            foreach(JsonUtil.JsonItem i in items)
+            {
+                Console.WriteLine(JsonUtil.JsonItem.ToItem(i));
+            }
+
+            Console.ReadKey();
+
+            return;
             if (threading) logFight = false;
 
             DateTime start = DateTime.Now;

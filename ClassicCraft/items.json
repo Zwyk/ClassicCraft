@@ -1,0 +1,28 @@
+[
+	{
+	  "Name": "Test 1",
+	  "Id": 0,
+	  "Slot": "Back",
+	  "Stats": {
+	    "Str": 80.0,
+	    "Agi": 39.0,
+	    "Sta": 138.0,
+	    "AP": 308.0,
+	    "CritChance": 7.0,
+	    "HitChance": 5.0
+	  }
+	},
+	{
+	  "Name": "Test 2",
+	  "Id": 0,
+	  "Slot": "Head",
+	  "Stats": {
+	    "Str": 80.0,
+	    "Agi": 39.0,
+	    "Sta": 138.0,
+	    "AP": 308.0,
+	    "CritChance": 7.0,
+	    "HitChance": 5.0
+	  }
+	}
+]

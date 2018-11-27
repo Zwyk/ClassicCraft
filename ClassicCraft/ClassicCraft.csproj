@@ -79,6 +79,7 @@
     <Compile Include="Items\Item.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Items\Slot.cs" />
+    <Compile Include="JsonUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Actions\Spells\Spell.cs" />
