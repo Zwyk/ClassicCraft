@@ -69,5 +69,27 @@ namespace ClassicCraft
                 default: throw new Exception("Slot not found");
             }
         }
+
+        public static List<Player.Slot> ToPlayerSlot(Slot s)
+        {
+            switch(s)
+            {
+                case Slot.Any: return new List<Player.Slot>((Player.Slot[])Enum.GetValues(typeof(Player.Slot)));
+                case Slot.Head: return new List<Player.Slot>() { Player.Slot.Head };
+                case Slot.Neck: return new List<Player.Slot>() { Player.Slot.Neck };
+                case Slot.Shoulders: return new List<Player.Slot>() { Player.Slot.Shoulders };
+                case Slot.Back: return new List<Player.Slot>() { Player.Slot.Back };
+                case Slot.Chest: return new List<Player.Slot>() { Player.Slot.Chest };
+                case Slot.Wrist: return new List<Player.Slot>() { Player.Slot.Wrist };
+                case Slot.Hands: return new List<Player.Slot>() { Player.Slot.Hands };
+                case Slot.Waist: return new List<Player.Slot>() { Player.Slot.Waist };
+                case Slot.Legs: return new List<Player.Slot>() { Player.Slot.Legs };
+                case Slot.Feet: return new List<Player.Slot>() { Player.Slot.Feet };
+                case Slot.Ring: return new List<Player.Slot>() { Player.Slot.Ring1, Player.Slot.Ring2 };
+                case Slot.Trinket: return new List<Player.Slot>() { Player.Slot.Trinket1, Player.Slot.Trinket2 };
+                case Slot.Weapon: return new List<Player.Slot>() { Player.Slot.OH, Player.Slot.MH };
+                default: throw new Exception("Slot not eligible for Player Slot");
+            }
+        }
     }
 }

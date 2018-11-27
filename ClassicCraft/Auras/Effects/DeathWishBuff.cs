@@ -29,7 +29,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "DWBuff";
+            return "Death Wish's Buff";
         }
     }
 }

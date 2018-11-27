@@ -67,21 +67,21 @@ namespace ClassicCraft
             return LockedUntil - Player.Sim.CurrentTime;
         }
 
-        public void RegisterDamage(ActionResult res)
+        public virtual void RegisterDamage(ActionResult res)
         {
             Player.Sim.RegisterAction(new RegisteredAction(this, res, Player.Sim.CurrentTime));
 
             if(Program.logFight)
             {
-                Console.WriteLine("{0:N2} : {1} {2} for {3} damage (rage {4})", Player.Sim.CurrentTime, ToString(), res.Type, res.Damage, Player.Ressource);
+                Program.Log(String.Format("{0:N2} : {1} {2} for {3} damage (rage {4})", Player.Sim.CurrentTime, ToString(), res.Type, res.Damage, Player.Ressource));
             }
         }
 
-        public void LogAction()
+        public virtual void LogAction()
         {
             if(Program.logFight)
             {
-                Console.WriteLine("{0:N2} : {1} cast (rage {2})", Player.Sim.CurrentTime, ToString(), Player.Ressource);
+                Program.Log(String.Format("{0:N2} : {1} cast (rage {2})", Player.Sim.CurrentTime, ToString(), Player.Ressource));
             }
         }
 

@@ -61,8 +61,6 @@ namespace ClassicCraft
 
             Boss.LifePct = 1;
 
-
-
             // Pre-cast Battle Shout (starts GCD as Charge would)
             bs.Cast();
 

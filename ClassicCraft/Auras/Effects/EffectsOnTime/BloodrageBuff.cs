@@ -24,13 +24,13 @@ namespace ClassicCraft
 
             if(Program.logFight)
             {
-                Console.WriteLine("{0:N2} : {1} for {2} rage ({3})", Player.Sim.CurrentTime, ToString(), damage, Player.Ressource);
+                Program.Log(String.Format("{0:N2} : {1} for {2} rage (rage {3})", Player.Sim.CurrentTime, ToString(), 1, Player.Ressource));
             }
         }
 
         public override string ToString()
         {
-            return "BrBuff";
+            return "Bloodrage Buff";
         }
     }
 }

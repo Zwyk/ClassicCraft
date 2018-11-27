@@ -1,0 +1,55 @@
+{
+  "FightLength": 300.0,
+  "NbSim": 1000,
+  "TargetErrorPct": 0.5,
+  "TargetError": true,
+  "LogFight": false,
+  "Player": {
+    "Class": "Warrior",
+    "Level": 60,
+    "Race": "Orc",
+    "Talents": "",
+    "MH": {
+      "DamageMin": 229,
+      "DamageMax": 334,
+      "Speed": 3.5,
+      "TwoHanded": true,
+      "Type": "Sword",
+      "Name": "New Item",
+      "Id": 0,
+      "Slot": "Weapon",
+      "Stats": {
+        "AP": 86
+      }
+    },
+    "OH": null,
+    "Equipment": {
+      "Head": null,
+      "Neck": null,
+      "Shoulders": null,
+      "Back": {
+        "Name": "New Item",
+        "Id": 0,
+        "Slot": "Back",
+        "Stats": {
+          "Str": 80.0,
+          "Agi": 39.0,
+          "Sta": 138.0,
+          "AP": 222.0,
+          "CritChance": 9.0,
+          "HitChance": 5.0
+        }
+      },
+      "Chest": null,
+      "Wrist": null,
+      "Hands": null,
+      "Waist": null,
+      "Legs": null,
+      "Feed": null,
+      "Ring1": null,
+      "Ring2": null,
+      "Trinket1": null,
+      "Trinket2": null,
+    }
+  }
+}

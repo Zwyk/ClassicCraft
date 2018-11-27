@@ -34,6 +34,38 @@ namespace ClassicCraft
             Troll
         }
 
+        public static Races ToRace(string s)
+        {
+            switch (s)
+            {
+                case "Human": return Races.Human;
+                case "Dwarf": return Races.Dwarf;
+                case "NightElf": return Races.NightElf;
+                case "Gnome": return Races.Gnome;
+                case "Orc": return Races.Orc;
+                case "Undead": return Races.Undead;
+                case "Tauren": return Races.Tauren;
+                case "Troll": return Races.Troll;
+                default: throw new Exception("Race not found");
+            }
+        }
+
+        public static string FromRace(Races r)
+        {
+            switch (r)
+            {
+                case Races.Human: return "Human";
+                case Races.Dwarf: return "Dwarf";
+                case Races.NightElf: return "NightElf";
+                case Races.Gnome: return "Gnome";
+                case Races.Orc: return "Orc";
+                case Races.Undead: return "Undead";
+                case Races.Tauren: return "Tauren";
+                case Races.Troll: return "Troll";
+                default: throw new Exception("Race not found");
+            }
+        }
+
         public enum Classes
         {
             Priest,
@@ -45,6 +77,40 @@ namespace ClassicCraft
             Warlock,
             Shaman,
             Paladin
+        }
+
+        public static Classes ToClass(string s)
+        {
+            switch(s)
+            {
+                case "Priest": return Classes.Priest;
+                case "Rogue": return Classes.Rogue;
+                case "Warrior": return Classes.Warrior;
+                case "Mage": return Classes.Mage;
+                case "Druid": return Classes.Druid;
+                case "Hunter": return Classes.Hunter;
+                case "Warlock": return Classes.Warlock;
+                case "Shaman": return Classes.Shaman;
+                case "Paladin": return Classes.Paladin;
+                default: throw new Exception("Class not found");
+            }
+        }
+
+        public static string FromClass(Classes c)
+        {
+            switch(c)
+            {
+                case Classes.Priest: return "Priest";
+                case Classes.Rogue: return "Rogue";
+                case Classes.Warrior: return "Warrior";
+                case Classes.Mage: return "Mage";
+                case Classes.Druid: return "Druid";
+                case Classes.Hunter: return "Hunter";
+                case Classes.Warlock: return "Warlock";
+                case Classes.Shaman: return "Shaman";
+                case Classes.Paladin: return "Paladin";
+                default: throw new Exception("Class not found");
+            }
         }
 
         public enum Slot
@@ -65,6 +131,54 @@ namespace ClassicCraft
             Trinket2,
             MH,
             OH
+        }
+
+        public static Slot ToSlot(string s)
+        {
+            switch(s)
+            {
+                case "Head": return Slot.Head;
+                case "Neck": return Slot.Neck;
+                case "Shoulders": return Slot.Shoulders;
+                case "Back": return Slot.Back;
+                case "Chest": return Slot.Chest;
+                case "Wrist": return Slot.Wrist;
+                case "Hands": return Slot.Hands;
+                case "Waist": return Slot.Waist;
+                case "Legs": return Slot.Legs;
+                case "Feet": return Slot.Feet;
+                case "Ring1": return Slot.Ring1;
+                case "Ring2": return Slot.Ring2;
+                case "Trinket1": return Slot.Trinket1;
+                case "Trinket2": return Slot.Trinket2;
+                case "MH": return Slot.MH;
+                case "OH": return Slot.OH;
+                default: throw new Exception("Slot not found");
+            }
+        }
+
+        public static string FromSlot(Slot s)
+        {
+            switch(s)
+            {
+                case Slot.Head: return "Head";
+                case Slot.Neck: return "Neck";
+                case Slot.Shoulders: return "Shoulders";
+                case Slot.Back: return "Back";
+                case Slot.Chest: return "Chest";
+                case Slot.Wrist: return "Wrist";
+                case Slot.Hands: return "Hands";
+                case Slot.Waist: return "Waist";
+                case Slot.Legs: return "Legs";
+                case Slot.Feet: return "Feed";
+                case Slot.Ring1: return "Ring1";
+                case Slot.Ring2: return "Ring2";
+                case Slot.Trinket1: return "Trinket1";
+                case Slot.Trinket2: return "Trinket2";
+                case Slot.MH: return "MH";
+                case Slot.OH: return "OH";
+                default: throw new Exception("Slot not found");
+            }
         }
 
         #region Propriétés
@@ -95,7 +209,7 @@ namespace ClassicCraft
             }
         }
 
-        public Dictionary<Slot, Item> Items { get; set; }
+        public Dictionary<Slot, Item> Equipment { get; set; }
 
         public Dictionary<string, int> Talents { get; set; }
 
@@ -103,11 +217,11 @@ namespace ClassicCraft
         {
             get
             {
-                return (Weapon)Items[Slot.MH];
+                return (Weapon)Equipment[Slot.MH];
             }
             set
             {
-                Items[Slot.MH] = value;
+                Equipment[Slot.MH] = value;
             }
         }
 
@@ -115,9 +229,9 @@ namespace ClassicCraft
         {
             get
             {
-                if(Items[Slot.OH] != null)
+                if(Equipment[Slot.OH] != null)
                 {
-                    return (Weapon)Items[Slot.OH];
+                    return (Weapon)Equipment[Slot.OH];
                 }
                 else
                 {
@@ -126,7 +240,7 @@ namespace ClassicCraft
             }
             set
             {
-                Items[Slot.OH] = value;
+                Equipment[Slot.OH] = value;
             }
         }
 
@@ -173,29 +287,17 @@ namespace ClassicCraft
 
         #endregion
 
+        public Player(Player p)
+            : this(null, p.Class, p.Race)
+        {
+        }
+
         public Player(Simulation s, Player p)
             : this(s, p.Class, p.Race)
         {
-
         }
-            /*
-            : base(s, p.Level, p.MaxLife, p.Armor)
-        {
-            Race = p.Race;
-            Class = p.Class;
 
-            Talents = p.Talents;
-            WeaponSkill = p.WeaponSkill;
-            Items = p.Items;
-
-            HitChancesByEnemy = new Dictionary<Entity, HitChances>();
-
-            Attributes = p.Attributes;
-
-            Reset();
-        }*/
-
-        public Player(Simulation s, Classes c, Races r, int level = 60, int maxLife = 1000, int armor = 0)
+        public Player(Simulation s = null, Classes c = Classes.Warrior, Races r = Races.Orc, int level = 60, int maxLife = 1000, int armor = 0)
             : base(s, level, maxLife, armor)
         {
             Race = r;
@@ -221,10 +323,10 @@ namespace ClassicCraft
                 }
             }
 
-            Items = new Dictionary<Slot, Item>();
+            Equipment = new Dictionary<Slot, Item>();
             foreach (Slot slot in (Slot[])Enum.GetValues(typeof(Slot)))
             {
-                Items[slot] = null;
+                Equipment[slot] = null;
             }
 
             HitChancesByEnemy = new Dictionary<Entity, HitChances>();
@@ -430,7 +532,7 @@ namespace ClassicCraft
                 // Base health + mana ?
             });
 
-            foreach(Item i in Items.Values)
+            foreach(Item i in Equipment.Values)
             {
                 if(i != null)
                 {

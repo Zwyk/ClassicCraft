@@ -59,7 +59,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "WW";
+            return "Whirlwind";
         }
     }
 }

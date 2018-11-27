@@ -53,7 +53,7 @@ namespace ClassicCraft
 
             if(Program.logFight)
             {
-                Console.WriteLine("{0:N2} : {1} refreshed", Player.Sim.CurrentTime, ToString());
+                Program.Log(String.Format("{0:N2} : {1} refreshed", Player.Sim.CurrentTime, ToString()));
             }
         }
 
@@ -63,7 +63,7 @@ namespace ClassicCraft
 
             if(Program.logFight)
             {
-                Console.WriteLine("{0:N2} : {1} started", Player.Sim.CurrentTime, ToString());
+                Program.Log(String.Format("{0:N2} : {1} started", Player.Sim.CurrentTime, ToString()));
             }
         }
 
@@ -88,7 +88,7 @@ namespace ClassicCraft
 
             if(Program.logFight)
             {
-                Console.WriteLine("{0:N2} : {1} ended", Player.Sim.CurrentTime, ToString());
+                Program.Log(String.Format("{0:N2} : {1} ended", Player.Sim.CurrentTime, ToString()));
             }
         }
 

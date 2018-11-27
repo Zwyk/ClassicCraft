@@ -47,7 +47,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "DW";
+            return "Deep Wounds";
         }
     }
 }

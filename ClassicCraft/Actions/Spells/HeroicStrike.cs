@@ -62,7 +62,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "HS";
+            return "Heroic Strike";
         }
     }
 }

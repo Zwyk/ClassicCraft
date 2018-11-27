@@ -22,6 +22,11 @@ namespace ClassicCraft
 
         public string Name { get; set; }
 
+        public Item(Slot slot = Slot.Any, Attributes attributes = null, int id = 0, string name = "New Item", ItemEffect effect = null)
+            : this(null, slot, attributes, id, name, effect)
+        {
+        }
+
         public Item(Player p = null, Slot slot = Slot.Any, Attributes attributes = null, int id = 0, string name = "New Item", ItemEffect effect = null)
         {
             Player = p;

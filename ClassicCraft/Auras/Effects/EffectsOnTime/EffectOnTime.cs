@@ -53,7 +53,7 @@ namespace ClassicCraft
 
             if(Program.logFight)
             {
-                Console.WriteLine("{0:N2} : {1} for {2} damage", Player.Sim.CurrentTime, ToString(), damage, Player.Ressource);
+                Program.Log(String.Format("{0:N2} : {1} for {2} damage", Player.Sim.CurrentTime, ToString(), damage, Player.Ressource));
             }
         }
 

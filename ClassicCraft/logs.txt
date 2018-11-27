@@ -1,0 +1,1040 @@
+
+
+---SIM NUMBER 1---
+
+0,00 : Battle Shout's Buff started
+0,00 : Battle Shout cast (rage 0)
+0,00 : Bloodrage Buff started
+0,00 : Bloodrage cast for 10 rage (rage 25)
+0,00 : Blood Fury's Buff started
+0,00 : Blood Fury cast (rage 25)
+0,00 : AA MH Hit for 199 damage (rage 33)
+0,00 : AA OH Hit for 98 damage (rage 37)
+1,00 : Bloodrage Buff for 1 rage (rage 38)
+1,50 : Death Wish's Buff started
+1,50 : Death Wish cast (rage 28)
+2,00 : Bloodrage Buff for 1 rage (rage 29)
+2,31 : Deep Wounds started
+2,31 : Flurry started
+2,31 : AA OH Crit for 236 damage (rage 38)
+2,61 : AA MH Miss for 0 damage (rage 43)
+3,01 : Bloodrage Buff for 1 rage (rage 44)
+3,01 : Whirlwind Hit for 367 damage (rage 19)
+4,01 : Bloodrage Buff for 1 rage (rage 20)
+4,62 : Flurry ended
+4,62 : AA MH Miss for 0 damage (rage 25)
+4,62 : Flurry ended
+4,62 : AA OH Hit for 114 damage (rage 29)
+5,01 : Bloodrage Buff for 1 rage (rage 30)
+5,32 : Deep Wounds for 31 damage
+6,01 : Bloodrage Buff for 1 rage (rage 31)
+6,63 : AA MH Miss for 0 damage (rage 36)
+6,93 : AA OH Hit for 120 damage (rage 41)
+7,01 : Bloodrage Buff for 1 rage (rage 42)
+8,01 : Bloodrage Buff for 1 rage (rage 43)
+8,32 : Deep Wounds for 31 damage
+9,01 : Bloodrage Buff for 1 rage (rage 44)
+9,93 : AA OH Miss for 0 damage (rage 46)
+10,01 : Bloodrage Buff for 1 rage (rage 47)
+10,01 : Bloodrage Buff ended
+10,02 : AA MH Miss for 0 damage (rage 52)
+11,32 : Deep Wounds for 31 damage
+12,93 : Deep Wounds refreshed
+12,93 : Flurry started
+12,93 : AA OH Crit for 249 damage (rage 61)
+12,94 : Deep Wounds refreshed
+12,94 : Flurry refreshed
+12,94 : Bloodthirst Crit for 710 damage (rage 31)
+13,41 : AA MH Hit for 194 damage (rage 39)
+14,45 : Whirlwind Hit for 332 damage (rage 14)
+15,01 : Blood Fury's Buff ended
+15,93 : Flurry ended
+15,93 : AA OH Hit for 120 damage (rage 19)
+15,95 : Deep Wounds for 31 damage
+16,02 : AA MH Hit for 191 damage (rage 27)
+18,23 : AA OH Hit for 127 damage (rage 31)
+18,94 : Deep Wounds for 31 damage
+19,40 : AA MH Miss for 0 damage (rage 36)
+21,22 : AA OH Hit for 108 damage (rage 41)
+21,94 : Deep Wounds for 31 damage
+22,78 : AA MH Hit for 193 damage (rage 49)
+24,21 : AA OH Hit for 124 damage (rage 53)
+24,45 : Whirlwind Hit for 402 damage (rage 28)
+24,94 : Deep Wounds for 31 damage
+24,94 : Deep Wounds ended
+26,16 : AA MH Hit for 208 damage (rage 36)
+27,20 : AA OH Hit for 123 damage (rage 40)
+29,54 : AA MH Hit for 208 damage (rage 48)
+30,19 : AA OH Hit for 121 damage (rage 52)
+31,50 : Death Wish's Buff ended
+32,92 : AA MH Miss for 0 damage (rage 57)
+32,93 : Bloodthirst Dodge for 0 damage (rage 57)
+33,18 : AA OH Hit for 99 damage (rage 61)
+34,45 : Whirlwind Hit for 333 damage (rage 36)
+36,18 : Deep Wounds started
+36,18 : Flurry started
+36,18 : AA OH Crit for 211 damage (rage 44)
+36,31 : AA MH Hit for 207 damage (rage 52)
+38,92 : AA MH Hit for 218 damage (rage 61)
+38,94 : Flurry ended
+38,94 : Bloodthirst Hit for 273 damage (rage 31)
+39,18 : AA OH Miss for 0 damage (rage 33)
+39,19 : Deep Wounds for 31 damage
+41,53 : AA MH Hit for 180 damage (rage 41)
+42,18 : AA OH Hit for 108 damage (rage 45)
+42,19 : Deep Wounds for 31 damage
+44,46 : Whirlwind Hit for 353 damage (rage 20)
+44,92 : AA MH Miss for 0 damage (rage 25)
+45,18 : AA OH Hit for 108 damage (rage 30)
+45,19 : Deep Wounds for 31 damage
+48,18 : AA OH Hit for 99 damage (rage 35)
+48,19 : Deep Wounds for 31 damage
+48,19 : Deep Wounds ended
+48,31 : AA MH Miss for 0 damage (rage 40)
+51,18 : AA OH Dodge for 0 damage (rage 42)
+51,70 : AA MH Hit for 209 damage (rage 50)
+54,18 : AA OH Hit for 125 damage (rage 54)
+54,47 : Whirlwind Hit for 388 damage (rage 29)
+55,09 : AA MH Miss for 0 damage (rage 34)
+57,18 : AA OH Miss for 0 damage (rage 36)
+58,48 : AA MH Hit for 210 damage (rage 44)
+60,01 : Bloodrage Buff started
+60,01 : Bloodrage cast for 10 rage (rage 54)
+60,18 : AA OH Hit for 125 damage (rage 58)
+60,19 : Deep Wounds started
+60,19 : Flurry started
+60,19 : Bloodthirst Crit for 710 damage (rage 28)
+61,02 : Bloodrage Buff for 1 rage (rage 29)
+61,87 : AA MH Hit for 226 damage (rage 37)
+62,02 : Bloodrage Buff for 1 rage (rage 38)
+63,02 : Bloodrage Buff for 1 rage (rage 39)
+63,18 : AA OH Hit for 98 damage (rage 44)
+63,20 : Deep Wounds for 31 damage
+64,02 : Bloodrage Buff for 1 rage (rage 45)
+64,48 : Flurry ended
+64,48 : Whirlwind Hit for 346 damage (rage 20)
+64,48 : Flurry ended
+64,48 : AA MH Hit for 228 damage (rage 28)
+65,02 : Bloodrage Buff for 1 rage (rage 29)
+65,48 : AA OH Hit for 104 damage (rage 34)
+66,01 : Bloodrage Buff for 1 rage (rage 35)
+66,19 : Deep Wounds for 31 damage
+67,01 : Bloodrage Buff for 1 rage (rage 36)
+67,86 : Deep Wounds refreshed
+67,86 : Flurry started
+67,86 : AA MH Crit for 409 damage (rage 52)
+68,01 : Bloodrage Buff for 1 rage (rage 53)
+69,01 : Bloodrage Buff for 1 rage (rage 54)
+69,37 : AA OH Hit for 114 damage (rage 58)
+69,38 : Bloodthirst Hit for 273 damage (rage 28)
+70,01 : Bloodrage Buff for 1 rage (rage 29)
+70,01 : Bloodrage Buff ended
+70,86 : Deep Wounds for 31 damage
+72,26 : Deep Wounds refreshed
+72,26 : Flurry refreshed
+72,26 : AA MH Crit for 396 damage (rage 46)
+72,36 : AA OH Hit for 107 damage (rage 51)
+74,48 : Whirlwind Hit for 411 damage (rage 26)
+75,26 : Deep Wounds for 31 damage
+75,35 : Flurry ended
+75,35 : AA OH Hit for 109 damage (rage 31)
+75,64 : AA MH Hit for 199 damage (rage 40)
+78,26 : Deep Wounds for 31 damage
+78,34 : AA OH Hit for 114 damage (rage 44)
+80,04 : AA MH Miss for 0 damage (rage 49)
+81,26 : Deep Wounds for 31 damage
+82,23 : AA OH Hit for 101 damage (rage 53)
+84,26 : Deep Wounds for 31 damage
+84,26 : Deep Wounds ended
+84,44 : AA MH Hit for 226 damage (rage 62)
+84,45 : Bloodthirst Hit for 273 damage (rage 32)
+85,95 : Whirlwind Hit for 335 damage (rage 7)
+86,12 : AA OH Hit for 105 damage (rage 11)
+88,84 : AA MH Hit for 196 damage (rage 19)
+90,01 : Deep Wounds started
+90,01 : Flurry started
+90,01 : AA OH Crit for 252 damage (rage 28)
+93,01 : Deep Wounds for 31 damage
+93,24 : AA MH Miss for 0 damage (rage 33)
+93,90 : AA OH Hit for 99 damage (rage 37)
+95,95 : Flurry ended
+95,95 : Whirlwind Hit for 398 damage (rage 12)
+96,01 : Deep Wounds for 31 damage
+96,62 : AA MH Hit for 206 damage (rage 21)
+96,89 : AA OH Miss for 0 damage (rage 23)
+99,01 : Deep Wounds for 31 damage
+100,78 : Deep Wounds refreshed
+100,78 : Flurry started
+100,78 : AA OH Crit for 196 damage (rage 30)
+101,02 : AA MH Dodge for 0 damage (rage 35)
+103,78 : Deep Wounds for 31 damage
+104,40 : AA MH Hit for 189 damage (rage 43)
+104,67 : Flurry ended
+104,67 : AA OH Miss for 0 damage (rage 45)
+105,95 : Whirlwind Hit for 425 damage (rage 20)
+106,78 : Deep Wounds for 31 damage
+107,66 : AA OH Hit for 118 damage (rage 24)
+107,78 : AA MH Hit for 179 damage (rage 31)
+109,78 : Deep Wounds for 31 damage
+111,55 : AA OH Hit for 119 damage (rage 36)
+112,18 : AA MH Hit for 222 damage (rage 45)
+112,78 : Deep Wounds for 31 damage
+112,78 : Deep Wounds ended
+115,44 : AA OH Hit for 110 damage (rage 49)
+115,95 : Whirlwind Hit for 358 damage (rage 24)
+116,58 : AA MH Miss for 0 damage (rage 29)
+118,50 : Battle Shout's Buff refreshed
+118,50 : Battle Shout cast (rage 29)
+119,33 : AA OH Hit for 105 damage (rage 23)
+120,00 : Blood Fury's Buff started
+120,00 : Blood Fury cast (rage 23)
+120,01 : Bloodrage Buff started
+120,01 : Bloodrage cast for 10 rage (rage 33)
+120,98 : AA MH Hit for 234 damage (rage 42)
+121,01 : Bloodrage Buff for 1 rage (rage 43)
+122,01 : Bloodrage Buff for 1 rage (rage 44)
+123,01 : Bloodrage Buff for 1 rage (rage 45)
+123,22 : AA OH Hit for 126 damage (rage 49)
+124,01 : Bloodrage Buff for 1 rage (rage 50)
+125,01 : Bloodrage Buff for 1 rage (rage 51)
+125,38 : AA MH Miss for 0 damage (rage 56)
+125,39 : Bloodthirst Hit for 273 damage (rage 26)
+126,01 : Bloodrage Buff for 1 rage (rage 27)
+126,89 : Whirlwind Hit for 411 damage (rage 2)
+127,01 : Bloodrage Buff for 1 rage (rage 3)
+127,11 : Deep Wounds started
+127,11 : Flurry started
+127,11 : AA OH Crit for 240 damage (rage 12)
+128,01 : Bloodrage Buff for 1 rage (rage 13)
+129,01 : Bloodrage Buff for 1 rage (rage 14)
+129,78 : AA MH Hit for 208 damage (rage 22)
+130,01 : Bloodrage Buff for 1 rage (rage 23)
+130,01 : Bloodrage Buff ended
+130,12 : Deep Wounds for 31 damage
+131,00 : AA OH Miss for 0 damage (rage 25)
+133,12 : Deep Wounds for 31 damage
+133,17 : Flurry ended
+133,17 : AA MH Hit for 226 damage (rage 34)
+134,00 : AA OH Hit for 126 damage (rage 39)
+135,01 : Blood Fury's Buff ended
+136,12 : Deep Wounds for 31 damage
+136,56 : AA MH Miss for 0 damage (rage 44)
+136,90 : Whirlwind Dodge for 0 damage (rage 44)
+137,89 : AA OH Miss for 0 damage (rage 46)
+139,12 : Deep Wounds for 31 damage
+139,12 : Deep Wounds ended
+140,96 : AA MH Hit for 216 damage (rage 55)
+140,97 : Bloodthirst Hit for 273 damage (rage 25)
+141,78 : AA OH Hit for 97 damage (rage 30)
+145,36 : AA MH Hit for 188 damage (rage 38)
+145,67 : AA OH Hit for 111 damage (rage 42)
+146,91 : Whirlwind Hit for 435 damage (rage 17)
+149,56 : AA OH Hit for 125 damage (rage 21)
+149,76 : AA MH Hit for 200 damage (rage 30)
+153,45 : AA OH Hit for 98 damage (rage 35)
+154,16 : AA MH Hit for 192 damage (rage 43)
+156,92 : Whirlwind Dodge for 0 damage (rage 43)
+157,34 : AA OH Hit for 127 damage (rage 47)
+158,56 : AA MH Miss for 0 damage (rage 52)
+161,23 : AA OH Hit for 115 damage (rage 57)
+161,24 : Bloodthirst Hit for 273 damage (rage 27)
+162,96 : AA MH Hit for 183 damage (rage 35)
+165,12 : AA OH Hit for 109 damage (rage 40)
+166,93 : Whirlwind Hit for 367 damage (rage 15)
+167,36 : AA MH Hit for 224 damage (rage 23)
+169,01 : AA OH Hit for 120 damage (rage 28)
+171,76 : AA MH Miss for 0 damage (rage 33)
+172,90 : AA OH Hit for 106 damage (rage 38)
+176,16 : AA MH Miss for 0 damage (rage 43)
+176,79 : AA OH Hit for 114 damage (rage 47)
+176,94 : Deep Wounds started
+176,94 : Flurry started
+176,94 : Whirlwind Crit for 926 damage (rage 22)
+179,95 : Deep Wounds for 31 damage
+180,02 : Bloodrage Buff started
+180,02 : Bloodrage cast for 10 rage (rage 32)
+180,56 : AA MH Hit for 213 damage (rage 40)
+180,68 : AA OH Miss for 0 damage (rage 42)
+181,03 : Bloodrage Buff for 1 rage (rage 43)
+182,03 : Bloodrage Buff for 1 rage (rage 44)
+182,95 : Deep Wounds for 31 damage
+183,03 : Bloodrage Buff for 1 rage (rage 45)
+183,68 : Flurry ended
+183,68 : AA OH Hit for 126 damage (rage 50)
+183,95 : AA MH Hit for 215 damage (rage 58)
+183,96 : Bloodthirst Hit for 273 damage (rage 28)
+184,03 : Bloodrage Buff for 1 rage (rage 29)
+185,03 : Bloodrage Buff for 1 rage (rage 30)
+185,95 : Deep Wounds for 31 damage
+186,03 : Bloodrage Buff for 1 rage (rage 31)
+186,68 : AA OH Hit for 107 damage (rage 35)
+186,95 : Whirlwind Hit for 424 damage (rage 10)
+187,03 : Bloodrage Buff for 1 rage (rage 11)
+188,03 : Bloodrage Buff for 1 rage (rage 12)
+188,35 : AA MH Miss for 0 damage (rage 17)
+188,95 : Deep Wounds for 31 damage
+188,95 : Deep Wounds ended
+189,03 : Bloodrage Buff for 1 rage (rage 18)
+190,03 : Bloodrage Buff for 1 rage (rage 19)
+190,03 : Bloodrage Buff ended
+190,57 : AA OH Miss for 0 damage (rage 21)
+192,75 : Deep Wounds started
+192,75 : Flurry started
+192,75 : AA MH Crit for 373 damage (rage 36)
+194,46 : AA OH Hit for 112 damage (rage 40)
+195,76 : Deep Wounds for 31 damage
+196,96 : Deep Wounds refreshed
+196,96 : Flurry refreshed
+196,96 : Whirlwind Crit for 997 damage (rage 15)
+197,15 : AA MH Miss for 0 damage (rage 20)
+197,46 : AA OH Hit for 100 damage (rage 25)
+199,97 : Deep Wounds for 31 damage
+200,46 : Flurry ended
+200,46 : AA OH Hit for 101 damage (rage 30)
+200,54 : AA MH Hit for 186 damage (rage 38)
+202,97 : Deep Wounds for 31 damage
+203,46 : AA OH Hit for 101 damage (rage 42)
+204,94 : Deep Wounds refreshed
+204,94 : Flurry started
+204,94 : AA MH Crit for 429 damage (rage 58)
+204,95 : Bloodthirst Hit for 273 damage (rage 28)
+206,97 : Whirlwind Hit for 421 damage (rage 3)
+207,35 : Flurry ended
+207,35 : AA OH Dodge for 0 damage (rage 5)
+207,95 : Deep Wounds for 31 damage
+209,34 : AA MH Dodge for 0 damage (rage 10)
+210,35 : AA OH Hit for 98 damage (rage 14)
+210,95 : Deep Wounds for 31 damage
+213,74 : AA MH Hit for 206 damage (rage 23)
+213,95 : Deep Wounds for 31 damage
+214,24 : AA OH Hit for 120 damage (rage 27)
+216,95 : Deep Wounds for 31 damage
+216,95 : Deep Wounds ended
+216,98 : Whirlwind Hit for 385 damage (rage 2)
+218,13 : AA OH Hit for 116 damage (rage 6)
+218,14 : AA MH Hit for 218 damage (rage 14)
+222,02 : AA OH Hit for 113 damage (rage 18)
+222,54 : AA MH Hit for 204 damage (rage 26)
+225,91 : AA OH Miss for 0 damage (rage 28)
+226,94 : AA MH Hit for 216 damage (rage 36)
+226,99 : Whirlwind Hit for 412 damage (rage 11)
+229,80 : AA OH Hit for 124 damage (rage 16)
+231,34 : AA MH Miss for 0 damage (rage 21)
+233,69 : AA OH Hit for 124 damage (rage 25)
+235,74 : AA MH Miss for 0 damage (rage 30)
+237,00 : Whirlwind Hit for 370 damage (rage 5)
+237,58 : AA OH Hit for 122 damage (rage 10)
+238,51 : Battle Shout's Buff ended
+238,51 : Battle Shout's Buff refreshed
+238,51 : Battle Shout cast (rage 10)
+240,01 : Blood Fury's Buff started
+240,01 : Blood Fury cast (rage 0)
+240,03 : Bloodrage Buff started
+240,03 : Bloodrage cast for 10 rage (rage 10)
+240,03 : Battle Shout's Buff started
+240,03 : Battle Shout cast (rage 10)
+240,14 : AA MH Hit for 211 damage (rage 8)
+241,04 : Bloodrage Buff for 1 rage (rage 9)
+241,47 : AA OH Hit for 100 damage (rage 14)
+242,04 : Bloodrage Buff for 1 rage (rage 15)
+243,04 : Bloodrage Buff for 1 rage (rage 16)
+244,04 : Bloodrage Buff for 1 rage (rage 17)
+244,54 : Deep Wounds started
+244,54 : Flurry started
+244,54 : AA MH Crit for 402 damage (rage 33)
+245,04 : Bloodrage Buff for 1 rage (rage 34)
+245,36 : AA OH Hit for 120 damage (rage 38)
+246,04 : Bloodrage Buff for 1 rage (rage 39)
+247,01 : Whirlwind Hit for 338 damage (rage 14)
+247,04 : Bloodrage Buff for 1 rage (rage 15)
+247,55 : Deep Wounds for 31 damage
+248,04 : Bloodrage Buff for 1 rage (rage 16)
+248,36 : Deep Wounds refreshed
+248,36 : Flurry refreshed
+248,36 : AA OH Crit for 215 damage (rage 24)
+248,94 : AA MH Hit for 218 damage (rage 32)
+249,04 : Bloodrage Buff for 1 rage (rage 33)
+250,04 : Bloodrage Buff for 1 rage (rage 34)
+250,04 : Bloodrage Buff ended
+251,36 : AA OH Hit for 109 damage (rage 39)
+251,37 : Deep Wounds for 31 damage
+252,33 : Flurry ended
+252,33 : AA MH Hit for 227 damage (rage 48)
+254,36 : AA OH Miss for 0 damage (rage 50)
+254,37 : Deep Wounds for 31 damage
+255,00 : Death Wish's Buff started
+255,00 : Death Wish cast (rage 40)
+255,02 : Blood Fury's Buff ended
+255,72 : AA MH Hit for 220 damage (rage 49)
+256,51 : Recklessness' Buff started
+256,51 : Recklesness cast (rage 49)
+257,37 : Deep Wounds for 31 damage
+258,02 : Deep Wounds refreshed
+258,02 : Flurry started
+258,02 : Execute Crit for 1712 damage (rage 0)
+258,25 : AA OH Miss for 0 damage (rage 2)
+260,12 : AA MH Miss for 0 damage (rage 7)
+261,03 : Deep Wounds for 31 damage
+261,25 : Deep Wounds refreshed
+261,25 : Flurry refreshed
+261,25 : AA OH Crit for 222 damage (rage 15)
+261,26 : Deep Wounds refreshed
+261,26 : Flurry refreshed
+261,26 : Execute Crit for 975 damage (rage 0)
+263,51 : Deep Wounds refreshed
+263,51 : Flurry refreshed
+263,51 : AA MH Crit for 459 damage (rage 17)
+263,52 : Deep Wounds refreshed
+263,52 : Flurry refreshed
+263,52 : Execute Crit for 1018 damage (rage 0)
+264,25 : Deep Wounds refreshed
+264,25 : Flurry refreshed
+264,25 : AA OH Crit for 224 damage (rage 9)
+266,90 : AA MH Miss for 0 damage (rage 14)
+267,25 : AA OH Miss for 0 damage (rage 16)
+267,26 : Deep Wounds for 31 damage
+267,26 : Deep Wounds refreshed
+267,26 : Flurry refreshed
+267,26 : Execute Crit for 997 damage (rage 0)
+268,52 : Recklessness' Buff ended
+270,25 : AA OH Dodge for 0 damage (rage 2)
+270,27 : Deep Wounds for 31 damage
+270,29 : AA MH Miss for 0 damage (rage 7)
+273,25 : Flurry ended
+273,25 : AA OH Hit for 112 damage (rage 11)
+273,27 : Deep Wounds for 31 damage
+273,68 : AA MH Hit for 217 damage (rage 20)
+273,69 : Deep Wounds refreshed
+273,69 : Flurry started
+273,69 : Execute Crit for 1083 damage (rage 0)
+276,25 : AA OH Dodge for 0 damage (rage 2)
+276,70 : Deep Wounds for 31 damage
+278,08 : AA MH Hit for 235 damage (rage 10)
+279,25 : Flurry ended
+279,25 : AA OH Hit for 125 damage (rage 15)
+279,26 : Execute Hit for 375 damage (rage 0)
+279,70 : Deep Wounds for 31 damage
+281,47 : AA MH Hit for 231 damage (rage 9)
+282,25 : Deep Wounds refreshed
+282,25 : Flurry started
+282,25 : AA OH Crit for 198 damage (rage 16)
+282,26 : Execute Miss for 0 damage (rage 0)
+285,01 : Death Wish's Buff ended
+285,26 : Deep Wounds for 31 damage
+285,87 : AA MH Hit for 207 damage (rage 9)
+286,14 : Deep Wounds refreshed
+286,14 : Flurry refreshed
+286,14 : AA OH Crit for 226 damage (rage 18)
+286,15 : Execute Hit for 400 damage (rage 0)
+289,14 : AA OH Hit for 118 damage (rage 4)
+289,15 : Deep Wounds for 31 damage
+289,26 : Flurry ended
+289,26 : AA MH Hit for 181 damage (rage 11)
+292,14 : AA OH Hit for 117 damage (rage 15)
+292,15 : Deep Wounds for 31 damage
+292,15 : Execute Hit for 375 damage (rage 0)
+292,65 : AA MH Miss for 0 damage (rage 5)
+295,15 : Deep Wounds for 31 damage
+296,03 : AA OH Hit for 113 damage (rage 9)
+297,05 : AA MH Hit for 234 damage (rage 17)
+297,06 : Execute Hit for 392 damage (rage 0)
+298,15 : Deep Wounds for 31 damage
+298,15 : Deep Wounds ended
+299,92 : AA OH Hit for 114 damage (rage 4)
+
+
+---SIM NUMBER 2---
+
+0,00 : Battle Shout's Buff started
+0,00 : Battle Shout cast (rage 0)
+0,00 : Bloodrage Buff started
+0,00 : Bloodrage cast for 10 rage (rage 25)
+0,00 : Blood Fury's Buff started
+0,00 : Blood Fury cast (rage 25)
+0,00 : AA MH Hit for 182 damage (rage 33)
+0,00 : AA OH Miss for 0 damage (rage 35)
+1,00 : Bloodrage Buff for 1 rage (rage 36)
+1,50 : Death Wish's Buff started
+1,50 : Death Wish cast (rage 26)
+2,00 : Bloodrage Buff for 1 rage (rage 27)
+2,31 : AA OH Hit for 108 damage (rage 32)
+2,61 : AA MH Hit for 195 damage (rage 41)
+3,01 : Bloodrage Buff for 1 rage (rage 42)
+3,01 : Whirlwind Hit for 359 damage (rage 17)
+4,01 : Bloodrage Buff for 1 rage (rage 18)
+4,62 : AA OH Hit for 118 damage (rage 23)
+5,01 : Bloodrage Buff for 1 rage (rage 24)
+5,22 : AA MH Hit for 231 damage (rage 32)
+6,01 : Bloodrage Buff for 1 rage (rage 33)
+6,93 : AA OH Hit for 103 damage (rage 38)
+7,01 : Bloodrage Buff for 1 rage (rage 39)
+7,83 : AA MH Dodge for 0 damage (rage 44)
+8,01 : Bloodrage Buff for 1 rage (rage 45)
+9,01 : Bloodrage Buff for 1 rage (rage 46)
+9,24 : AA OH Hit for 99 damage (rage 50)
+10,01 : Bloodrage Buff for 1 rage (rage 51)
+10,01 : Bloodrage Buff ended
+10,44 : AA MH Hit for 201 damage (rage 60)
+10,45 : Bloodthirst Hit for 273 damage (rage 30)
+11,55 : AA OH Hit for 102 damage (rage 35)
+13,02 : Whirlwind Hit for 382 damage (rage 10)
+13,05 : Deep Wounds started
+13,05 : Flurry started
+13,05 : AA MH Crit for 366 damage (rage 25)
+13,86 : AA OH Hit for 115 damage (rage 29)
+15,01 : Blood Fury's Buff ended
+15,63 : AA OH Hit for 117 damage (rage 33)
+15,66 : Flurry ended
+15,66 : AA MH Hit for 189 damage (rage 42)
+16,06 : Deep Wounds for 31 damage
+17,40 : AA OH Miss for 0 damage (rage 44)
+17,66 : Deep Wounds refreshed
+17,66 : Flurry started
+17,66 : AA MH Crit for 447 damage (rage 61)
+17,67 : Bloodthirst Hit for 273 damage (rage 31)
+19,70 : AA OH Hit for 111 damage (rage 36)
+20,26 : Flurry ended
+20,26 : AA MH Hit for 208 damage (rage 45)
+20,66 : Deep Wounds for 31 damage
+21,47 : AA OH Miss for 0 damage (rage 47)
+22,26 : AA MH Hit for 221 damage (rage 55)
+23,02 : Deep Wounds refreshed
+23,02 : Flurry started
+23,02 : Whirlwind Crit for 1044 damage (rage 30)
+23,77 : AA OH Hit for 99 damage (rage 35)
+24,86 : AA MH Hit for 206 damage (rage 43)
+25,54 : Flurry ended
+25,54 : AA OH Hit for 123 damage (rage 47)
+26,02 : Deep Wounds for 31 damage
+26,86 : AA MH Hit for 195 damage (rage 56)
+26,87 : Bloodthirst Hit for 273 damage (rage 26)
+27,31 : AA OH Hit for 103 damage (rage 31)
+29,02 : Deep Wounds for 31 damage
+29,46 : AA MH Hit for 228 damage (rage 39)
+29,61 : Deep Wounds refreshed
+29,61 : Flurry started
+29,61 : AA OH Crit for 205 damage (rage 46)
+31,50 : Death Wish's Buff ended
+31,91 : AA OH Hit for 112 damage (rage 50)
+32,06 : AA MH Dodge for 0 damage (rage 55)
+32,61 : Deep Wounds for 31 damage
+32,87 : Flurry ended
+32,87 : Bloodthirst Hit for 273 damage (rage 25)
+33,68 : AA OH Hit for 127 damage (rage 29)
+34,07 : Deep Wounds refreshed
+34,07 : Flurry started
+34,07 : AA MH Crit for 361 damage (rage 44)
+34,38 : Whirlwind Hit for 356 damage (rage 19)
+35,99 : AA OH Hit for 112 damage (rage 23)
+36,68 : Flurry ended
+36,68 : AA MH Hit for 199 damage (rage 31)
+37,08 : Deep Wounds for 31 damage
+37,76 : AA OH Miss for 0 damage (rage 33)
+38,69 : AA MH Hit for 222 damage (rage 42)
+40,07 : AA OH Hit for 115 damage (rage 46)
+40,08 : Deep Wounds for 31 damage
+41,30 : AA MH Hit for 206 damage (rage 54)
+42,38 : Deep Wounds refreshed
+42,38 : Flurry started
+42,38 : AA OH Crit for 239 damage (rage 62)
+42,39 : Bloodthirst Hit for 273 damage (rage 32)
+43,91 : AA MH Hit for 211 damage (rage 40)
+44,39 : Flurry ended
+44,39 : Whirlwind Hit for 332 damage (rage 15)
+44,69 : AA OH Miss for 0 damage (rage 17)
+45,39 : Deep Wounds for 31 damage
+45,92 : AA MH Hit for 229 damage (rage 26)
+47,00 : AA OH Miss for 0 damage (rage 28)
+48,39 : Deep Wounds for 31 damage
+48,53 : AA MH Hit for 209 damage (rage 36)
+49,31 : AA OH Miss for 0 damage (rage 38)
+51,14 : AA MH Hit for 234 damage (rage 46)
+51,39 : Deep Wounds for 31 damage
+51,62 : AA OH Dodge for 0 damage (rage 48)
+53,75 : AA MH Hit for 227 damage (rage 57)
+53,76 : Bloodthirst Dodge for 0 damage (rage 57)
+53,93 : AA OH Dodge for 0 damage (rage 59)
+54,39 : Deep Wounds for 31 damage
+54,39 : Deep Wounds ended
+55,27 : Whirlwind Hit for 368 damage (rage 34)
+56,24 : AA OH Hit for 100 damage (rage 38)
+56,36 : AA MH Hit for 229 damage (rage 46)
+58,55 : AA OH Hit for 121 damage (rage 51)
+58,97 : Deep Wounds started
+58,97 : Flurry started
+58,97 : AA MH Crit for 470 damage (rage 68)
+59,77 : Bloodthirst Hit for 273 damage (rage 38)
+60,01 : Bloodrage Buff started
+60,01 : Bloodrage cast for 10 rage (rage 48)
+60,86 : Deep Wounds refreshed
+60,86 : Flurry refreshed
+60,86 : AA OH Crit for 243 damage (rage 57)
+61,02 : Bloodrage Buff for 1 rage (rage 58)
+61,58 : AA MH Hit for 223 damage (rage 66)
+62,02 : Bloodrage Buff for 1 rage (rage 67)
+62,63 : AA OH Hit for 127 damage (rage 72)
+63,02 : Bloodrage Buff for 1 rage (rage 73)
+63,59 : Flurry ended
+63,59 : AA MH Hit for 193 damage (rage 81)
+63,87 : Deep Wounds for 31 damage
+64,02 : Bloodrage Buff for 1 rage (rage 82)
+64,40 : AA OH Hit for 114 damage (rage 86)
+65,02 : Bloodrage Buff for 1 rage (rage 87)
+65,28 : Whirlwind Hit for 406 damage (rage 62)
+65,59 : Heroic Strike Hit for 272 damage (rage 51)
+66,01 : Bloodrage Buff for 1 rage (rage 52)
+66,70 : AA OH Dodge for 0 damage (rage 54)
+66,86 : Deep Wounds for 31 damage
+67,01 : Bloodrage Buff for 1 rage (rage 55)
+67,01 : Bloodthirst Hit for 273 damage (rage 25)
+68,01 : Bloodrage Buff for 1 rage (rage 26)
+68,19 : AA MH Hit for 207 damage (rage 34)
+69,00 : AA OH Miss for 0 damage (rage 36)
+69,01 : Bloodrage Buff for 1 rage (rage 37)
+69,86 : Deep Wounds for 31 damage
+70,01 : Bloodrage Buff for 1 rage (rage 38)
+70,01 : Bloodrage Buff ended
+70,79 : AA MH Hit for 179 damage (rage 45)
+71,30 : AA OH Dodge for 0 damage (rage 47)
+72,86 : Deep Wounds for 31 damage
+72,86 : Deep Wounds ended
+73,39 : AA MH Hit for 235 damage (rage 56)
+73,40 : Bloodthirst Hit for 273 damage (rage 26)
+73,60 : AA OH Dodge for 0 damage (rage 28)
+75,28 : Whirlwind Hit for 366 damage (rage 3)
+75,90 : Deep Wounds started
+75,90 : Flurry started
+75,90 : AA OH Crit for 202 damage (rage 10)
+75,99 : AA MH Hit for 212 damage (rage 18)
+77,99 : AA MH Hit for 191 damage (rage 26)
+78,20 : Flurry ended
+78,20 : AA OH Hit for 105 damage (rage 30)
+78,90 : Deep Wounds for 31 damage
+79,97 : AA OH Hit for 110 damage (rage 35)
+79,99 : AA MH Hit for 198 damage (rage 43)
+81,90 : Deep Wounds for 31 damage
+82,27 : AA OH Hit for 106 damage (rage 47)
+82,59 : AA MH Hit for 221 damage (rage 56)
+82,60 : Bloodthirst Hit for 273 damage (rage 26)
+84,57 : AA OH Hit for 126 damage (rage 30)
+84,90 : Deep Wounds for 31 damage
+85,19 : AA MH Hit for 218 damage (rage 39)
+85,28 : Whirlwind Hit for 337 damage (rage 14)
+86,87 : AA OH Hit for 124 damage (rage 19)
+87,79 : Deep Wounds refreshed
+87,79 : Flurry started
+87,79 : AA MH Crit for 372 damage (rage 35)
+89,17 : AA OH Hit for 126 damage (rage 40)
+90,39 : AA MH Hit for 183 damage (rage 48)
+90,79 : Deep Wounds for 31 damage
+90,94 : Flurry ended
+90,94 : AA OH Hit for 107 damage (rage 52)
+92,39 : AA MH Hit for 194 damage (rage 60)
+92,40 : Bloodthirst Hit for 273 damage (rage 30)
+92,71 : AA OH Hit for 98 damage (rage 35)
+93,79 : Deep Wounds for 31 damage
+94,99 : AA MH Hit for 218 damage (rage 43)
+95,01 : AA OH Hit for 109 damage (rage 48)
+95,28 : Whirlwind Hit for 352 damage (rage 23)
+96,79 : Deep Wounds for 31 damage
+97,31 : AA OH Hit for 103 damage (rage 27)
+97,59 : Deep Wounds refreshed
+97,59 : Flurry started
+97,59 : AA MH Crit for 382 damage (rage 43)
+99,61 : AA OH Miss for 0 damage (rage 45)
+100,19 : AA MH Hit for 218 damage (rage 53)
+100,59 : Deep Wounds for 31 damage
+101,38 : Flurry ended
+101,38 : AA OH Miss for 0 damage (rage 55)
+101,39 : Bloodthirst Hit for 273 damage (rage 25)
+102,19 : AA MH Hit for 204 damage (rage 34)
+103,15 : AA OH Hit for 112 damage (rage 38)
+103,59 : Deep Wounds for 31 damage
+104,79 : AA MH Miss for 0 damage (rage 43)
+105,28 : Whirlwind Hit for 358 damage (rage 18)
+105,45 : AA OH Hit for 111 damage (rage 22)
+106,59 : Deep Wounds for 31 damage
+107,39 : Deep Wounds refreshed
+107,39 : Flurry started
+107,39 : AA MH Crit for 384 damage (rage 38)
+107,75 : Deep Wounds refreshed
+107,75 : Flurry refreshed
+107,75 : AA OH Crit for 225 damage (rage 47)
+109,52 : AA OH Miss for 0 damage (rage 49)
+109,99 : AA MH Hit for 203 damage (rage 57)
+110,00 : Flurry ended
+110,00 : Bloodthirst Hit for 273 damage (rage 27)
+110,75 : Deep Wounds for 31 damage
+111,29 : Deep Wounds refreshed
+111,29 : Flurry started
+111,29 : AA OH Crit for 253 damage (rage 35)
+111,99 : AA MH Hit for 186 damage (rage 44)
+113,59 : AA OH Hit for 116 damage (rage 48)
+113,99 : Flurry ended
+113,99 : AA MH Hit for 201 damage (rage 57)
+114,29 : Deep Wounds for 31 damage
+115,28 : Whirlwind Hit for 387 damage (rage 32)
+115,36 : AA OH Hit for 119 damage (rage 36)
+115,99 : AA MH Hit for 212 damage (rage 44)
+117,29 : Deep Wounds for 31 damage
+117,66 : AA OH Miss for 0 damage (rage 46)
+118,50 : Battle Shout's Buff refreshed
+118,50 : Battle Shout cast (rage 46)
+118,59 : AA MH Miss for 0 damage (rage 41)
+119,96 : AA OH Hit for 115 damage (rage 46)
+120,00 : Blood Fury's Buff started
+120,00 : Blood Fury cast (rage 46)
+120,01 : Bloodrage Buff started
+120,01 : Bloodrage cast for 10 rage (rage 56)
+120,01 : Bloodthirst Hit for 273 damage (rage 26)
+120,29 : Deep Wounds for 31 damage
+121,01 : Bloodrage Buff for 1 rage (rage 27)
+121,19 : AA MH Hit for 181 damage (rage 34)
+122,01 : Bloodrage Buff for 1 rage (rage 35)
+122,26 : AA OH Hit for 98 damage (rage 39)
+123,01 : Bloodrage Buff for 1 rage (rage 40)
+123,29 : Deep Wounds for 31 damage
+123,29 : Deep Wounds ended
+123,79 : AA MH Hit for 186 damage (rage 49)
+124,01 : Bloodrage Buff for 1 rage (rage 50)
+124,56 : AA OH Hit for 125 damage (rage 55)
+125,01 : Bloodrage Buff for 1 rage (rage 56)
+125,28 : Whirlwind Hit for 427 damage (rage 31)
+126,01 : Bloodrage Buff for 1 rage (rage 32)
+126,39 : AA MH Hit for 226 damage (rage 41)
+126,86 : AA OH Hit for 106 damage (rage 46)
+127,01 : Bloodrage Buff for 1 rage (rage 47)
+128,01 : Bloodrage Buff for 1 rage (rage 48)
+129,00 : AA MH Hit for 204 damage (rage 56)
+129,01 : Bloodrage Buff for 1 rage (rage 57)
+129,01 : Bloodthirst Hit for 273 damage (rage 27)
+129,17 : AA OH Hit for 118 damage (rage 32)
+130,01 : Bloodrage Buff for 1 rage (rage 33)
+130,01 : Bloodrage Buff ended
+131,48 : Deep Wounds started
+131,48 : Flurry started
+131,48 : AA OH Crit for 208 damage (rage 40)
+131,61 : AA MH Hit for 181 damage (rage 48)
+133,62 : AA MH Hit for 197 damage (rage 56)
+133,79 : Flurry ended
+133,79 : AA OH Hit for 99 damage (rage 61)
+134,49 : Deep Wounds for 31 damage
+135,01 : Blood Fury's Buff ended
+135,02 : Bloodthirst Hit for 273 damage (rage 31)
+135,56 : AA OH Hit for 122 damage (rage 35)
+135,63 : AA MH Dodge for 0 damage (rage 40)
+136,53 : Whirlwind Hit for 386 damage (rage 15)
+137,49 : Deep Wounds for 31 damage
+137,87 : AA OH Hit for 99 damage (rage 19)
+138,24 : AA MH Hit for 230 damage (rage 27)
+140,18 : AA OH Miss for 0 damage (rage 29)
+140,49 : Deep Wounds for 31 damage
+140,85 : AA MH Dodge for 0 damage (rage 34)
+142,49 : AA OH Hit for 125 damage (rage 38)
+143,46 : AA MH Dodge for 0 damage (rage 43)
+143,49 : Deep Wounds for 31 damage
+143,49 : Deep Wounds ended
+144,80 : AA OH Hit for 122 damage (rage 47)
+146,07 : AA MH Hit for 207 damage (rage 56)
+146,08 : Bloodthirst Hit for 273 damage (rage 26)
+147,11 : AA OH Hit for 111 damage (rage 30)
+147,59 : Whirlwind Miss for 0 damage (rage 5)
+148,68 : AA MH Dodge for 0 damage (rage 10)
+149,42 : AA OH Hit for 110 damage (rage 15)
+151,29 : AA MH Hit for 189 damage (rage 24)
+151,73 : AA OH Hit for 122 damage (rage 28)
+153,90 : AA MH Hit for 205 damage (rage 37)
+154,04 : AA OH Hit for 125 damage (rage 42)
+156,35 : AA OH Hit for 114 damage (rage 46)
+156,51 : AA MH Hit for 203 damage (rage 55)
+156,52 : Bloodthirst Hit for 273 damage (rage 25)
+158,03 : Whirlwind Hit for 387 damage (rage 0)
+158,66 : AA OH Hit for 116 damage (rage 4)
+159,12 : AA MH Hit for 213 damage (rage 13)
+160,97 : AA OH Hit for 116 damage (rage 18)
+161,73 : AA MH Hit for 188 damage (rage 27)
+163,28 : AA OH Miss for 0 damage (rage 29)
+164,34 : AA MH Miss for 0 damage (rage 34)
+165,59 : AA OH Miss for 0 damage (rage 36)
+166,95 : AA MH Hit for 214 damage (rage 45)
+167,90 : AA OH Hit for 103 damage (rage 49)
+168,04 : Whirlwind Hit for 427 damage (rage 24)
+169,56 : Deep Wounds started
+169,56 : Flurry started
+169,56 : AA MH Crit for 427 damage (rage 40)
+170,21 : AA OH Miss for 0 damage (rage 42)
+171,98 : AA OH Miss for 0 damage (rage 44)
+172,17 : Flurry ended
+172,17 : AA MH Hit for 206 damage (rage 52)
+172,57 : Deep Wounds for 31 damage
+173,75 : Deep Wounds refreshed
+173,75 : Flurry started
+173,75 : AA OH Crit for 203 damage (rage 59)
+173,76 : Bloodthirst Hit for 273 damage (rage 29)
+174,18 : AA MH Miss for 0 damage (rage 34)
+176,06 : Flurry ended
+176,06 : AA OH Dodge for 0 damage (rage 36)
+176,19 : AA MH Miss for 0 damage (rage 41)
+176,76 : Deep Wounds for 31 damage
+177,83 : AA OH Hit for 114 damage (rage 46)
+178,05 : Whirlwind Hit for 417 damage (rage 21)
+178,80 : AA MH Hit for 207 damage (rage 30)
+179,76 : Deep Wounds for 31 damage
+180,02 : Bloodrage Buff started
+180,02 : Bloodrage cast for 10 rage (rage 40)
+180,14 : AA OH Dodge for 0 damage (rage 42)
+181,03 : Bloodrage Buff for 1 rage (rage 43)
+181,41 : AA MH Hit for 224 damage (rage 52)
+182,03 : Bloodrage Buff for 1 rage (rage 53)
+182,45 : AA OH Hit for 102 damage (rage 57)
+182,46 : Bloodthirst Hit for 273 damage (rage 27)
+182,76 : Deep Wounds for 31 damage
+183,03 : Bloodrage Buff for 1 rage (rage 28)
+184,02 : AA MH Hit for 207 damage (rage 36)
+184,03 : Bloodrage Buff for 1 rage (rage 37)
+184,76 : AA OH Hit for 120 damage (rage 42)
+185,03 : Bloodrage Buff for 1 rage (rage 43)
+185,76 : Deep Wounds for 31 damage
+185,76 : Deep Wounds ended
+186,03 : Bloodrage Buff for 1 rage (rage 44)
+186,63 : AA MH Hit for 210 damage (rage 52)
+187,03 : Bloodrage Buff for 1 rage (rage 53)
+187,07 : AA OH Hit for 115 damage (rage 57)
+188,03 : Bloodrage Buff for 1 rage (rage 58)
+188,06 : Whirlwind Hit for 333 damage (rage 33)
+189,03 : Bloodrage Buff for 1 rage (rage 34)
+189,24 : AA MH Hit for 231 damage (rage 42)
+189,38 : AA OH Hit for 112 damage (rage 46)
+190,03 : Bloodrage Buff for 1 rage (rage 47)
+190,03 : Bloodrage Buff ended
+191,69 : Deep Wounds started
+191,69 : Flurry started
+191,69 : AA OH Crit for 234 damage (rage 55)
+191,70 : Bloodthirst Hit for 273 damage (rage 25)
+191,85 : AA MH Hit for 207 damage (rage 34)
+193,86 : Flurry ended
+193,86 : AA MH Dodge for 0 damage (rage 39)
+194,00 : AA OH Hit for 121 damage (rage 43)
+194,70 : Deep Wounds for 31 damage
+195,87 : AA MH Hit for 217 damage (rage 52)
+196,31 : AA OH Hit for 116 damage (rage 56)
+197,70 : Deep Wounds for 31 damage
+197,71 : Bloodthirst Hit for 273 damage (rage 26)
+198,48 : AA MH Hit for 219 damage (rage 35)
+198,62 : AA OH Miss for 0 damage (rage 37)
+199,22 : Deep Wounds refreshed
+199,22 : Flurry started
+199,22 : Whirlwind Crit for 1096 damage (rage 12)
+200,93 : AA OH Hit for 103 damage (rage 16)
+201,09 : AA MH Hit for 179 damage (rage 23)
+202,23 : Deep Wounds for 31 damage
+202,70 : Flurry ended
+202,70 : AA OH Hit for 99 damage (rage 28)
+203,10 : AA MH Miss for 0 damage (rage 33)
+204,47 : AA OH Dodge for 0 damage (rage 35)
+205,23 : Deep Wounds for 31 damage
+205,71 : AA MH Hit for 189 damage (rage 43)
+206,78 : AA OH Hit for 119 damage (rage 48)
+208,23 : Deep Wounds for 31 damage
+208,32 : AA MH Miss for 0 damage (rage 53)
+209,09 : AA OH Hit for 99 damage (rage 57)
+209,10 : Bloodthirst Hit for 273 damage (rage 27)
+210,61 : Whirlwind Hit for 353 damage (rage 2)
+210,93 : Deep Wounds refreshed
+210,93 : Flurry started
+210,93 : AA MH Crit for 411 damage (rage 18)
+211,40 : AA OH Hit for 127 damage (rage 22)
+213,17 : AA OH Hit for 99 damage (rage 26)
+213,54 : Flurry ended
+213,54 : AA MH Hit for 183 damage (rage 35)
+213,94 : Deep Wounds for 31 damage
+214,94 : AA OH Hit for 98 damage (rage 40)
+215,55 : AA MH Miss for 0 damage (rage 45)
+216,94 : Deep Wounds for 31 damage
+217,25 : AA OH Hit for 125 damage (rage 50)
+218,16 : AA MH Hit for 202 damage (rage 58)
+218,17 : Bloodthirst Hit for 273 damage (rage 28)
+219,56 : AA OH Miss for 0 damage (rage 30)
+219,94 : Deep Wounds for 31 damage
+220,62 : Whirlwind Hit for 378 damage (rage 5)
+220,77 : AA MH Hit for 215 damage (rage 14)
+221,87 : AA OH Hit for 111 damage (rage 18)
+222,94 : Deep Wounds for 31 damage
+222,94 : Deep Wounds ended
+223,38 : AA MH Miss for 0 damage (rage 23)
+224,18 : AA OH Hit for 123 damage (rage 27)
+225,99 : AA MH Hit for 214 damage (rage 36)
+226,49 : AA OH Hit for 111 damage (rage 41)
+228,60 : AA MH Hit for 216 damage (rage 49)
+228,80 : AA OH Miss for 0 damage (rage 51)
+230,63 : Whirlwind Hit for 388 damage (rage 26)
+231,11 : AA OH Dodge for 0 damage (rage 28)
+231,21 : AA MH Miss for 0 damage (rage 33)
+233,42 : Deep Wounds started
+233,42 : Flurry started
+233,42 : AA OH Crit for 231 damage (rage 41)
+233,82 : AA MH Hit for 179 damage (rage 48)
+235,73 : AA OH Hit for 108 damage (rage 52)
+235,83 : Flurry ended
+235,83 : AA MH Dodge for 0 damage (rage 57)
+235,84 : Bloodthirst Dodge for 0 damage (rage 57)
+236,43 : Deep Wounds for 31 damage
+237,35 : Battle Shout's Buff refreshed
+237,35 : Battle Shout cast (rage 57)
+237,50 : AA OH Miss for 0 damage (rage 49)
+237,84 : AA MH Miss for 0 damage (rage 54)
+239,43 : Deep Wounds for 31 damage
+239,81 : AA OH Hit for 127 damage (rage 58)
+240,01 : Blood Fury's Buff started
+240,01 : Blood Fury cast (rage 58)
+240,03 : Bloodrage Buff started
+240,03 : Bloodrage cast for 10 rage (rage 68)
+240,45 : AA MH Hit for 232 damage (rage 76)
+240,64 : Whirlwind Hit for 364 damage (rage 51)
+241,04 : Bloodrage Buff for 1 rage (rage 52)
+242,04 : Bloodrage Buff for 1 rage (rage 53)
+242,12 : AA OH Hit for 112 damage (rage 57)
+242,15 : Bloodthirst Hit for 273 damage (rage 27)
+242,43 : Deep Wounds for 31 damage
+243,04 : Bloodrage Buff for 1 rage (rage 28)
+243,06 : Heroic Strike Hit for 292 damage (rage 17)
+244,04 : Bloodrage Buff for 1 rage (rage 18)
+244,43 : AA OH Hit for 102 damage (rage 22)
+245,04 : Bloodrage Buff for 1 rage (rage 23)
+245,43 : Deep Wounds for 31 damage
+245,43 : Deep Wounds ended
+245,67 : AA MH Hit for 184 damage (rage 32)
+246,04 : Bloodrage Buff for 1 rage (rage 33)
+246,74 : Deep Wounds started
+246,74 : Flurry started
+246,74 : AA OH Crit for 231 damage (rage 42)
+247,04 : Bloodrage Buff for 1 rage (rage 43)
+248,04 : Bloodrage Buff for 1 rage (rage 44)
+248,28 : AA MH Hit for 204 damage (rage 53)
+249,04 : Bloodrage Buff for 1 rage (rage 54)
+249,05 : AA OH Hit for 122 damage (rage 58)
+249,06 : Flurry ended
+249,06 : Bloodthirst Hit for 273 damage (rage 28)
+249,75 : Deep Wounds for 31 damage
+250,04 : Bloodrage Buff for 1 rage (rage 29)
+250,04 : Bloodrage Buff ended
+250,29 : AA MH Hit for 219 damage (rage 37)
+250,65 : Whirlwind Hit for 366 damage (rage 12)
+250,82 : AA OH Hit for 99 damage (rage 16)
+252,75 : Deep Wounds for 31 damage
+252,90 : AA MH Hit for 212 damage (rage 25)
+253,13 : AA OH Hit for 123 damage (rage 29)
+255,00 : Death Wish's Buff started
+255,00 : Death Wish cast (rage 19)
+255,02 : Blood Fury's Buff ended
+255,44 : AA OH Hit for 110 damage (rage 23)
+255,51 : AA MH Hit for 216 damage (rage 31)
+255,75 : Deep Wounds for 31 damage
+256,51 : Recklessness' Buff started
+256,51 : Recklesness cast (rage 31)
+257,75 : Deep Wounds refreshed
+257,75 : Flurry started
+257,75 : AA OH Crit for 233 damage (rage 39)
+258,02 : Deep Wounds refreshed
+258,02 : Flurry refreshed
+258,02 : Execute Crit for 1495 damage (rage 0)
+258,12 : Deep Wounds refreshed
+258,12 : Flurry refreshed
+258,12 : AA MH Crit for 367 damage (rage 15)
+259,53 : Deep Wounds refreshed
+259,53 : Flurry refreshed
+259,53 : Execute Crit for 975 damage (rage 0)
+260,06 : AA OH Miss for 0 damage (rage 2)
+260,13 : Deep Wounds refreshed
+260,13 : Flurry refreshed
+260,13 : AA MH Crit for 378 damage (rage 18)
+261,04 : Deep Wounds refreshed
+261,04 : Flurry refreshed
+261,04 : Execute Crit for 1040 damage (rage 0)
+261,83 : Deep Wounds refreshed
+261,83 : Flurry refreshed
+261,83 : AA OH Crit for 253 damage (rage 8)
+262,14 : AA MH Miss for 0 damage (rage 13)
+263,60 : Deep Wounds refreshed
+263,60 : Flurry refreshed
+263,60 : AA OH Crit for 216 damage (rage 21)
+263,61 : Deep Wounds refreshed
+263,61 : Flurry refreshed
+263,61 : Execute Crit for 1105 damage (rage 0)
+264,15 : Deep Wounds refreshed
+264,15 : Flurry refreshed
+264,15 : AA MH Crit for 396 damage (rage 17)
+265,12 : Deep Wounds refreshed
+265,12 : Flurry refreshed
+265,12 : Execute Crit for 1018 damage (rage 0)
+265,37 : Deep Wounds refreshed
+265,37 : Flurry refreshed
+265,37 : AA OH Crit for 217 damage (rage 9)
+266,16 : AA MH Miss for 0 damage (rage 14)
+267,14 : Deep Wounds refreshed
+267,14 : Flurry refreshed
+267,14 : AA OH Crit for 235 damage (rage 23)
+267,15 : Deep Wounds refreshed
+267,15 : Flurry refreshed
+267,15 : Execute Crit for 1148 damage (rage 0)
+268,17 : Deep Wounds refreshed
+268,17 : Flurry refreshed
+268,17 : AA MH Crit for 450 damage (rage 17)
+268,52 : Recklessness' Buff ended
+268,66 : Execute Hit for 392 damage (rage 0)
+268,91 : AA OH Miss for 0 damage (rage 2)
+270,18 : Flurry ended
+270,18 : AA MH Miss for 0 damage (rage 7)
+270,68 : AA OH Hit for 99 damage (rage 12)
+271,18 : Deep Wounds for 31 damage
+272,19 : AA MH Hit for 181 damage (rage 20)
+272,20 : Execute Dodge for 0 damage (rage 20)
+272,99 : AA OH Hit for 101 damage (rage 25)
+273,71 : Execute Hit for 458 damage (rage 0)
+274,18 : Deep Wounds for 31 damage
+274,80 : AA MH Hit for 186 damage (rage 8)
+275,30 : AA OH Hit for 117 damage (rage 13)
+277,18 : Deep Wounds for 31 damage
+277,41 : AA MH Hit for 189 damage (rage 21)
+277,42 : Execute Hit for 425 damage (rage 0)
+277,61 : AA OH Hit for 98 damage (rage 4)
+279,92 : AA OH Hit for 125 damage (rage 8)
+280,02 : AA MH Miss for 0 damage (rage 13)
+280,18 : Deep Wounds for 31 damage
+280,18 : Deep Wounds ended
+282,23 : AA OH Hit for 105 damage (rage 17)
+282,24 : Execute Hit for 392 damage (rage 0)
+282,63 : AA MH Hit for 201 damage (rage 9)
+284,54 : AA OH Hit for 98 damage (rage 13)
+285,01 : Death Wish's Buff ended
+285,24 : AA MH Hit for 179 damage (rage 21)
+285,25 : Execute Dodge for 0 damage (rage 21)
+286,76 : Execute Hit for 425 damage (rage 0)
+286,85 : AA OH Hit for 106 damage (rage 4)
+287,85 : AA MH Hit for 188 damage (rage 13)
+289,16 : Deep Wounds started
+289,16 : Flurry started
+289,16 : AA OH Crit for 228 damage (rage 21)
+289,17 : Execute Hit for 425 damage (rage 0)
+290,46 : Deep Wounds refreshed
+290,46 : Flurry refreshed
+290,46 : AA MH Crit for 458 damage (rage 17)
+290,68 : Execute Hit for 392 damage (rage 0)
+291,47 : AA OH Hit for 122 damage (rage 4)
+292,47 : Flurry ended
+292,47 : AA MH Hit for 222 damage (rage 13)
+293,24 : AA OH Hit for 107 damage (rage 17)
+293,25 : Deep Wounds refreshed
+293,25 : Flurry started
+293,25 : Execute Crit for 1018 damage (rage 0)
+294,48 : AA MH Miss for 0 damage (rage 5)
+295,55 : AA OH Hit for 113 damage (rage 9)
+296,26 : Deep Wounds for 31 damage
+296,49 : Flurry ended
+296,49 : AA MH Hit for 215 damage (rage 17)
+296,50 : Execute Dodge for 0 damage (rage 17)
+297,32 : AA OH Hit for 102 damage (rage 21)
+298,01 : Execute Hit for 425 damage (rage 0)
+298,50 : AA MH Hit for 229 damage (rage 8)
+299,26 : Deep Wounds for 31 damage
+299,63 : AA OH Miss for 0 damage (rage 10)

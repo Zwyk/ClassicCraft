@@ -37,7 +37,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "DeathWish";
+            return "Death Wish";
         }
     }
 }

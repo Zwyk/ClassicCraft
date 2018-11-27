@@ -15,7 +15,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "RecklessnessBuff";
+            return "Recklessness' Buff";
         }
     }
 }

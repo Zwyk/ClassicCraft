@@ -29,7 +29,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "BFBuff";
+            return "Blood Fury's Buff";
         }
     }
 }
