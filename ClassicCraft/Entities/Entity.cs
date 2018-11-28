@@ -28,12 +28,12 @@ namespace ClassicCraft
 
         public List<Effect> Effects { get; set; }
 
-        public Entity(Simulation s, int level, int maxLife, int armor)
+        public Entity(Simulation s, int level, int armor, int maxLife)
             : base(s)
         {
             Level = level;
-            MaxLife = maxLife;
             Armor = armor;
+            MaxLife = maxLife;
 
             Reset();
         }

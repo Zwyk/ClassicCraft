@@ -39,16 +39,27 @@ namespace ClassicCraft
 
         public override void StartBuff()
         {
-            base.StartBuff();
+            Target.Effects.Add(this);
 
             Player.HasteMod *= Haste;
+
+            if (Program.logFight)
+            {
+                Program.Log(String.Format("{0:N2} : {1} started (haste = {2})", Player.Sim.CurrentTime, ToString(), Player.HasteMod));
+            }
         }
 
         public override void EndBuff()
         {
-            base.EndBuff();
+            End = Player.Sim.CurrentTime;
+            Ended = true;
 
             Player.HasteMod /= Haste;
+
+            if (Program.logFight)
+            {
+                Program.Log(String.Format("{0:N2} : {1} ended (haste = {2})", Player.Sim.CurrentTime, ToString(), Player.HasteMod));
+            }
         }
 
         public override string ToString()

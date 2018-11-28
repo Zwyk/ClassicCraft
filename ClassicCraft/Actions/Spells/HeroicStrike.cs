@@ -44,6 +44,8 @@ namespace ClassicCraft
                 Player.Ressource -= RessourceCost;
             }
 
+            RegisterDamage(new ActionResult(res, damage));
+
             if (Player.GetTalentPoints("DW") > 0)
             {
                 DeepWounds.CheckProc(Player, res, Player.GetTalentPoints("DW"));
@@ -56,8 +58,6 @@ namespace ClassicCraft
             {
                 UnbridledWrath.CheckProc(Player, res, Player.GetTalentPoints("UW"));
             }
-
-            RegisterDamage(new ActionResult(res, damage));
         }
 
         public override string ToString()

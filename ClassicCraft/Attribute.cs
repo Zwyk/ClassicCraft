@@ -16,6 +16,7 @@ namespace ClassicCraft
         Health,
         Mana,
         Armor,
+        AS,
         AP,
         RangedAP,
         SP,
@@ -47,12 +48,13 @@ namespace ClassicCraft
                 case "HP": return Attribute.Health;
                 case "Mana": return Attribute.Mana;
                 case "Armor": return Attribute.Armor;
+                case "AS": return Attribute.AS;
                 case "AP": return Attribute.AP;
                 case "RAP": return Attribute.RangedAP;
                 case "SP": return Attribute.SP;
                 case "HSP": return Attribute.HSP;
-                case "HitChance": return Attribute.HitChance;
-                case "CritChance": return Attribute.CritChance;
+                case "Hit": return Attribute.HitChance;
+                case "Crit": return Attribute.CritChance;
                 case "MP5": return Attribute.MP5;
                 case "Sword": return Attribute.SkillSword;
                 case "Axe": return Attribute.SkillAxe;
@@ -78,12 +80,13 @@ namespace ClassicCraft
                 case Attribute.Health: return "HP";
                 case Attribute.Mana: return "Mana";
                 case Attribute.Armor: return "Armor";
+                case Attribute.AS: return "AS";
                 case Attribute.AP: return "AP";
                 case Attribute.RangedAP: return "RAP";
                 case Attribute.SP: return "SP";
                 case Attribute.HSP: return "HSP";
-                case Attribute.HitChance: return "HitChance";
-                case Attribute.CritChance: return "CritChance";
+                case Attribute.HitChance: return "Hit";
+                case Attribute.CritChance: return "Crit";
                 case Attribute.MP5: return "MP5";
                 case Attribute.SkillSword: return "Sword";
                 case Attribute.SkillAxe: return "Axe";

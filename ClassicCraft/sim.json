@@ -1,26 +1,26 @@
 {
   "FightLength": 300.0,
-  "NbSim": 2,
+  "NbSim": 1,
   "TargetErrorPct": 0.5,
   "TargetError": true,
-  "LogFight": true,
+  "LogFight": false,
+  "Boss" : {
+    "Level": 63,
+    "Armor": 4400
+  },
   "Player": {
-    "Class": "Warrior",
-    "Level": 60,
-    "Race": "Orc",
-    "Talents": "",
     "MH": {
       "DamageMin": 119,
       "DamageMax": 221,
       "Speed": 2.6,
       "TwoHanded": false,
       "Type": "Axe",
-      "Name": "New Item",
+      "Name": "Hatchet of Sundered Bone",
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
         "AP": 36,
-        "CritChance": 1
+        "Crit": 1
       }
     },
     "OH": {
@@ -29,40 +29,129 @@
       "Speed": 2.3,
       "TwoHanded": false,
       "Type": "Axe",
-      "Name": "New Item",
+      "Name": "Crul'shorukh, Edge of Chaos",
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
         "AP": 36,
       }
     },
+    "Ranged": {
+      "Type": "Crossbow",
+      "Name": "Crossbow of Imminent Doom",
+      "Stats": {
+        "Str": 5,
+        "Agi": 7,
+        "Hit": 1,
+      }
+    },
     "Equipment": {
-      "Head": null,
-      "Neck": null,
-      "Shoulders": null,
-      "Back": {
-        "Name": "New Item",
-        "Id": 0,
-        "Slot": "Back",
+      "Head": {
+        "Name": "Lionheart Helm",
         "Stats": {
-          "Str": 80.0,
-          "Agi": 39.0,
-          "Sta": 138.0,
-          "AP": 222.0,
-          "CritChance": 9.0,
-          "HitChance": 5.0
+          "Str": 18,
+          "Crit": 2,
+          "Hit": 2,
         }
       },
-      "Chest": null,
-      "Wrist": null,
-      "Hands": null,
-      "Waist": null,
-      "Legs": null,
-      "Feed": null,
-      "Ring1": null,
-      "Ring2": null,
-      "Trinket1": null,
-      "Trinket2": null,
+      "Neck": {
+        "Name": "Barbed Choker",
+        "Stats": {
+          "AP": 44,
+          "Crit": 1,
+        }
+      },
+      "Shoulders": {
+        "Name": "Conqueror's Spaulders",
+        "Stats": {
+          "Str": 20,
+          "Agi": 16,
+          "Hit": 1
+        }
+      },
+      "Back": {
+        "Name": "Cloak of Concentrated Hatred",
+        "Stats": {
+          "Str": 11,
+          "Agi": 16,
+          "Hit": 1
+        }
+      },
+      "Chest": {
+        "Name": "Plated Abomination Ribcage",
+        "Stats": {
+          "Str": 45,
+          "Hit": 1,
+          "Crit": 1
+        }
+      },
+      "Wrist": {
+        "Name": "Wristguards of Vengeance",
+        "Stats": {
+          "Str": 24,
+          "Crit": 1
+        }
+      },
+      "Hands": {
+        "Name": "Gauntlets of Annihilation",
+        "Stats": {
+          "Str": 35,
+          "Crit": 1,
+          "Hit": 1
+        }
+      },
+      "Waist": {
+        "Name": "Girdle of the Mentor",
+        "Stats": {
+          "Str": 21,
+          "Agi": 20,
+          "Hit": 1,
+          "Crit": 1
+        }
+      },
+      "Legs": {
+        "Name": "Titanic Leggings",
+        "Stats": {
+          "Str": 30,
+          "Hit": 2,
+          "Crit": 1
+        }
+      },
+      "Feet": {
+        "Name": "Chromatic Boots",
+        "Stats": {
+          "Str": 20,
+          "Agi": 20,
+          "Hit": 1
+        }
+      },
+      "Ring1": {
+        "Name": "Quick Strike Ring",
+        "Stats": {
+          "Str": 5,
+          "AP": 30,
+          "Crit": 1
+        }
+      },
+      "Ring2": {
+        "Name": "Master Dragonslayer's Ring",
+        "Stats": {
+          "AP": 48,
+          "Hit": 1
+        }
+      },
+      "Trinket1": {
+        "Name": "Blackhand's Breadth",
+        "Stats": {
+          "Crit": 2
+        }
+      },
+      "Trinket2": {
+        "Name": "Blackhand's Breadth",
+        "Stats": {
+          "Crit": 2
+        }
+      },
     }
   }
 }

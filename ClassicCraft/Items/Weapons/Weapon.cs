@@ -16,6 +16,10 @@ namespace ClassicCraft
             Spear,
             Staff,
             Dagger,
+            Bow,
+            Crossbow,
+            Gun,
+            Throwable
         }
 
         public static string TypeToString(WeaponType wt)
@@ -28,6 +32,10 @@ namespace ClassicCraft
                 case WeaponType.Spear: return "Spear";
                 case WeaponType.Staff: return "Staff";
                 case WeaponType.Dagger: return "Dagger";
+                case WeaponType.Bow: return "Bow";
+                case WeaponType.Crossbow: return "Crossbow";
+                case WeaponType.Gun: return "Gun";
+                case WeaponType.Throwable: return "Throwable";
                 default: throw new Exception("WeaponType not found");
             }
         }
@@ -42,6 +50,10 @@ namespace ClassicCraft
                 case "Spear": return WeaponType.Spear;
                 case "Staff": return WeaponType.Staff;
                 case "Dagger": return WeaponType.Dagger;
+                case "Bow": return WeaponType.Bow;
+                case "Crossbow": return WeaponType.Crossbow;
+                case "Gun": return WeaponType.Gun;
+                case "Throwable": return WeaponType.Throwable;
                 default: throw new Exception("WeaponType not found");
             }
         }

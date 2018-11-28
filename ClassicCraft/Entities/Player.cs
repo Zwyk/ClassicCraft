@@ -130,7 +130,8 @@ namespace ClassicCraft
             Trinket1,
             Trinket2,
             MH,
-            OH
+            OH,
+            Ranged
         }
 
         public static Slot ToSlot(string s)
@@ -153,6 +154,7 @@ namespace ClassicCraft
                 case "Trinket2": return Slot.Trinket2;
                 case "MH": return Slot.MH;
                 case "OH": return Slot.OH;
+                case "Ranged": return Slot.Ranged;
                 default: throw new Exception("Slot not found");
             }
         }
@@ -170,13 +172,14 @@ namespace ClassicCraft
                 case Slot.Hands: return "Hands";
                 case Slot.Waist: return "Waist";
                 case Slot.Legs: return "Legs";
-                case Slot.Feet: return "Feed";
+                case Slot.Feet: return "Feet";
                 case Slot.Ring1: return "Ring1";
                 case Slot.Ring2: return "Ring2";
                 case Slot.Trinket1: return "Trinket1";
                 case Slot.Trinket2: return "Trinket2";
                 case Slot.MH: return "MH";
                 case Slot.OH: return "OH";
+                case Slot.Ranged: return "Ranged";
                 default: throw new Exception("Slot not found");
             }
         }
@@ -229,7 +232,7 @@ namespace ClassicCraft
         {
             get
             {
-                if(Equipment[Slot.OH] != null)
+                if (Equipment[Slot.OH] != null)
                 {
                     return (Weapon)Equipment[Slot.OH];
                 }
@@ -241,6 +244,25 @@ namespace ClassicCraft
             set
             {
                 Equipment[Slot.OH] = value;
+            }
+        }
+
+        public Weapon Ranged
+        {
+            get
+            {
+                if (Equipment[Slot.Ranged] != null)
+                {
+                    return (Weapon)Equipment[Slot.Ranged];
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                Equipment[Slot.Ranged] = value;
             }
         }
 
@@ -258,7 +280,7 @@ namespace ClassicCraft
         {
             get
             {
-                return Attributes.GetValue(Attribute.CritChance)/100;
+                return Attributes.GetValue(Attribute.CritChance);
             }
         }
 
@@ -266,7 +288,7 @@ namespace ClassicCraft
         {
             get
             {
-                return Attributes.GetValue(Attribute.HitChance)/100;
+                return Attributes.GetValue(Attribute.HitChance);
             }
         }
 
@@ -287,23 +309,30 @@ namespace ClassicCraft
 
         #endregion
 
-        public Player(Player p)
-            : this(null, p.Class, p.Race)
+        public Player(Player p, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null)
+            : this(null, p, items, talents)
         {
         }
 
-        public Player(Simulation s, Player p)
-            : this(s, p.Class, p.Race)
+        public Player(Simulation s, Player p, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null)
+            : this(s, p.Class, p.Race, p.Level, p.Armor, p.MaxLife, items, talents)
         {
         }
 
-        public Player(Simulation s = null, Classes c = Classes.Warrior, Races r = Races.Orc, int level = 60, int maxLife = 1000, int armor = 0)
-            : base(s, level, maxLife, armor)
+        public Player(Simulation s = null, Classes c = Classes.Warrior, Races r = Races.Orc, int level = 60, int armor = 0, int maxLife = 1000, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null)
+            : base(s, level, armor, maxLife)
         {
             Race = r;
             Class = c;
 
-            Talents = new Dictionary<string, int>();
+            if(talents == null)
+            {
+                Talents = new Dictionary<string, int>();
+            }
+            else
+            {
+                Talents = new Dictionary<string, int>(talents);
+            }
 
             int skill = Level * 5;
             WeaponSkill = new Dictionary<Weapon.WeaponType, int>();
@@ -323,10 +352,17 @@ namespace ClassicCraft
                 }
             }
 
-            Equipment = new Dictionary<Slot, Item>();
-            foreach (Slot slot in (Slot[])Enum.GetValues(typeof(Slot)))
+            if(items == null)
             {
-                Equipment[slot] = null;
+                Equipment = new Dictionary<Slot, Item>();
+                foreach (Slot slot in (Slot[])Enum.GetValues(typeof(Slot)))
+                {
+                    Equipment[slot] = null;
+                }
+            }
+            else
+            {
+                Equipment = new Dictionary<Slot, Item>(items);
             }
 
             HitChancesByEnemy = new Dictionary<Entity, HitChances>();
@@ -547,7 +583,7 @@ namespace ClassicCraft
             Attributes.SetValue(Attribute.RangedAP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Agility) * AgiToRangedAPRatio(Class));
             Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance) + Attributes.GetValue(Attribute.Agility) * AgiToCritRatio(Class));
 
-            if(Class == Classes.Warrior)
+            if (Class == Classes.Warrior)
             {
                 Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
                     + 0.01 * GetTalentPoints("Cruelty")
@@ -726,6 +762,18 @@ namespace ClassicCraft
         public override double ParryChance()
         {
             return 0;
+        }
+
+        public override string ToString()
+        {
+            string stats = "";
+            foreach (Attribute a in Attributes.Values.Keys)
+            {
+                double val = Attributes.Values[a];
+                if (a == Attribute.CritChance || a == Attribute.HitChance || a == Attribute.AS) val *= 100;
+                stats += "[" + a + ":" + val + "]";
+            }
+            return String.Format("{0} {1} level {2} --- Stats : {3}", Race, Class, Level, stats);
         }
     }
 }

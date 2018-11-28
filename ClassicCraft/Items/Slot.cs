@@ -43,8 +43,7 @@ namespace ClassicCraft
                 case "Ring": return Slot.Ring;
                 case "Trinket": return Slot.Trinket;
                 case "Weapon": return Slot.Weapon;
-                case "Any": return Slot.Any;
-                default: throw new Exception("Slot not found : " + s);
+                default: return Slot.Any;
             }
         }
 

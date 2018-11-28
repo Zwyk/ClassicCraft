@@ -48,6 +48,8 @@ namespace ClassicCraft
                 Player.Ressource = 0;
             }
 
+            RegisterDamage(new ActionResult(res, damage));
+
             if (Player.GetTalentPoints("DW") > 0)
             {
                 DeepWounds.CheckProc(Player, res, Player.GetTalentPoints("DW"));
@@ -56,8 +58,6 @@ namespace ClassicCraft
             {
                 Flurry.CheckProc(Player, res, Player.GetTalentPoints("Flurry"));
             }
-
-            RegisterDamage(new ActionResult(res, damage));
         }
 
         public override string ToString()

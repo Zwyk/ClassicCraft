@@ -72,7 +72,7 @@ namespace ClassicCraft
             while (CurrentTime < FightLength)
             {
                 Boss.LifePct = Math.Max(0, 1 - (CurrentTime / FightLength) * (16.0 / 17.0));
-
+                
                 foreach (Effect e in Player.Effects)
                 {
                     e.CheckEffect();
@@ -82,7 +82,10 @@ namespace ClassicCraft
                     e.CheckEffect();
                 }
 
-                if(br.CanUse())
+                Player.Effects.RemoveAll(e => e.Ended);
+                Boss.Effects.RemoveAll(e => e.Ended);
+
+                if (br.CanUse())
                 {
                     br.Cast();
                 }
@@ -96,11 +99,15 @@ namespace ClassicCraft
                     bs.Cast();
                 }
 
-                if ((Boss.LifePct > 0.5 || Boss.LifePct <= 0.2) && dw.CanUse())
+                if (dw.CanUse() &&
+                    (((Boss.LifePct - 0.22) * FightLength > dw.BaseCD)
+                    || Boss.LifePct <= 0.2))
                 {
                     dw.Cast();
                 }
-                if (Boss.LifePct <= 0.2 && r.CanUse() && Player.Effects.Any(e => e is DeathWishBuff))
+                if (r.CanUse() && 
+                    (((Boss.LifePct - 0.22) * FightLength > r.BaseCD)
+                    || (Boss.LifePct <= 0.2 && Player.Effects.Any(e => e is DeathWishBuff))))
                 {
                     r.Cast();
                 }

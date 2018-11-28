@@ -21,7 +21,7 @@ namespace ClassicCraft
         public override void DoAction()
         {
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
-
+            
             int damage = (int)Math.Round(0.45 * Player.AP
                 * Program.DamageMod(res)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
@@ -34,6 +34,8 @@ namespace ClassicCraft
                 Player.Ressource -= RessourceCost;
             }
 
+            RegisterDamage(new ActionResult(res, damage));
+
             if (Player.GetTalentPoints("DW") > 0)
             {
                 DeepWounds.CheckProc(Player, res, Player.GetTalentPoints("DW"));
@@ -42,8 +44,6 @@ namespace ClassicCraft
             {
                 Flurry.CheckProc(Player, res, Player.GetTalentPoints("Flurry"));
             }
-
-            RegisterDamage(new ActionResult(res, damage));
         }
 
         public override string ToString()

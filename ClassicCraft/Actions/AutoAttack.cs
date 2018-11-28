@@ -43,7 +43,9 @@ namespace ClassicCraft
 
             Player.Ressource += (int)Math.Round(Program.RageGained(damage, Weapon.Speed, res, MH));
 
-            if(Player.GetTalentPoints("DW") > 0)
+            RegisterDamage(new ActionResult(res, damage));
+
+            if (Player.GetTalentPoints("DW") > 0)
             {
                 DeepWounds.CheckProc(Player, res, Player.GetTalentPoints("DW"));
             }
@@ -55,8 +57,6 @@ namespace ClassicCraft
             {
                 UnbridledWrath.CheckProc(Player, res, Player.GetTalentPoints("UW"));
             }
-
-            RegisterDamage(new ActionResult(res, damage));
         }
 
         public void NextAA()

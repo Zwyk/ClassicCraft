@@ -12,33 +12,41 @@ namespace ClassicCraft
         {
             NoArmor,
             LightArmor,
-            HeavyArmor,
-            Custom
+            HeavyArmor
         }
 
         public Boss(Boss b)
-            : base(null, b.Level, b.MaxLife, b.Armor)
+            : base(null, b.Level, b.Armor, b.MaxLife)
+        {
+        }
+
+        public Boss(int level = 63, int customArmor = 4400, int maxLife = 100000)
+            : base(null, level, customArmor, maxLife)
         {
         }
 
         public Boss(Simulation s, Boss b)
-            : base(s, b.Level, b.MaxLife, b.Armor)
+            : base(s, b.Level, b.Armor, b.MaxLife)
         {
         }
 
-        public Boss(Simulation s = null, int level = 63, int maxLife = 100000, BossType type = BossType.LightArmor, int customArmor = 0)
-            : base(s, level, maxLife, ArmorByType(type, customArmor))
+        public Boss(Simulation s, int level = 63, int customArmor = 4400, int maxLife = 100000)
+            : base(s, level, customArmor, maxLife)
         {
         }
 
-        public static int ArmorByType(BossType type, int customArmor = 0)
+        public Boss(Simulation s, int level = 63, BossType type = BossType.LightArmor, int maxLife = 100000)
+            : base(s, level, ArmorByType(type), maxLife)
+        {
+        }
+
+        public static int ArmorByType(BossType type)
         {
             switch(type)
             {
                 case BossType.HeavyArmor: return 5600;
                 case BossType.LightArmor: return 4400;
-                case BossType.Custom: return customArmor;
-                default:  return 0;
+                default: return 0;
             }
         }
 
@@ -50,6 +58,11 @@ namespace ClassicCraft
         public override double ParryChance()
         {
             return 0;
+        }
+
+        public override string ToString()
+        {
+            return String.Format("Level {0}, {1} Armor\n", Level, Armor);
         }
     }
 }

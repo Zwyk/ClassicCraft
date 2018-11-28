@@ -1,0 +1,68 @@
+{
+  "FightLength": 300.0,
+  "NbSim": 2,
+  "TargetErrorPct": 0.5,
+  "TargetError": true,
+  "LogFight": true,
+  "Player": {
+    "Class": "Warrior",
+    "Level": 60,
+    "Race": "Orc",
+    "Talents": "",
+    "MH": {
+      "DamageMin": 119,
+      "DamageMax": 221,
+      "Speed": 2.6,
+      "TwoHanded": false,
+      "Type": "Axe",
+      "Name": "New Item",
+      "Id": 0,
+      "Slot": "Weapon",
+      "Stats": {
+        "AP": 36,
+        "CritChance": 1
+      }
+    },
+    "OH": {
+      "DamageMin": 101,
+      "DamageMax": 188,
+      "Speed": 2.3,
+      "TwoHanded": false,
+      "Type": "Axe",
+      "Name": "New Item",
+      "Id": 0,
+      "Slot": "Weapon",
+      "Stats": {
+        "AP": 36,
+      }
+    },
+    "Equipment": {
+      "Head": null,
+      "Neck": null,
+      "Shoulders": null,
+      "Back": {
+        "Name": "New Item",
+        "Id": 0,
+        "Slot": "Back",
+        "Stats": {
+          "Str": 80.0,
+          "Agi": 39.0,
+          "Sta": 138.0,
+          "AP": 222.0,
+          "CritChance": 9.0,
+          "HitChance": 5.0
+        }
+      },
+      "Chest": null,
+      "Wrist": null,
+      "Hands": null,
+      "Waist": null,
+      "Legs": null,
+      "Feed": null,
+      "Ring1": null,
+      "Ring2": null,
+      "Trinket1": null,
+      "Trinket2": null,
+    }
+  }
+}

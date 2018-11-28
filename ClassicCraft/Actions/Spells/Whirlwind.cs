@@ -45,6 +45,8 @@ namespace ClassicCraft
                 * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1 )
                 * (Player.DualWielding() ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
 
+            RegisterDamage(new ActionResult(res, damage));
+
             if (Player.GetTalentPoints("DW") > 0)
             {
                 DeepWounds.CheckProc(Player, res, Player.GetTalentPoints("DW"));
@@ -53,8 +55,6 @@ namespace ClassicCraft
             {
                 Flurry.CheckProc(Player, res, Player.GetTalentPoints("Flurry"));
             }
-
-            RegisterDamage(new ActionResult(res, damage));
         }
 
         public override string ToString()
