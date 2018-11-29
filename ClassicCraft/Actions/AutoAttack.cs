@@ -61,7 +61,7 @@ namespace ClassicCraft
 
         public void NextAA()
         {
-            LockedUntil = Player.Sim.CurrentTime + Weapon.Speed / Player.HasteMod;
+            LockedUntil += Weapon.Speed / Player.HasteMod;
         }
 
         public override string ToString()

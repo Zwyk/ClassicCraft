@@ -8,7 +8,7 @@ namespace ClassicCraft
 {
     public class Simulation
     {
-        public static double RATE = 100;
+        public static double RATE = 20;
 
         public Player Player { get; set; }
         public Boss Boss { get; set; }
