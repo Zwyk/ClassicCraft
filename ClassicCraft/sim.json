@@ -21,6 +21,11 @@
       "Stats": {
         "AP": 36,
         "Crit": 1
+      },
+      "Enchantment": {
+        "Stats": {
+          "Str": 0
+        }
       }
     },
     "OH": {

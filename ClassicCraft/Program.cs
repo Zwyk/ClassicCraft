@@ -53,12 +53,16 @@ namespace ClassicCraft
         public static Boss bossBase = null;
 
         public static double fightLength = 300;
+        public static double fightLengthMod = 0.2;
         public static int nbSim = 1000;
         public static double targetErrorPct = 0.5;
         public static bool targetError = true;
         public static bool threading = true;
         public static bool logFight = false;
         public static bool calcDpss = false;
+
+        //public static List<Attribute> toWeight = null;
+        //public static Attribute weighted;
 
         public static int nbTasksForSims = 100;
 
@@ -74,12 +78,14 @@ namespace ClassicCraft
             JsonUtil.JsonSim jsonSim = JsonConvert.DeserializeObject<JsonUtil.JsonSim>(simString);
 
             fightLength = jsonSim.FightLength;
+            fightLengthMod = jsonSim.FightLengthMod;
             nbSim = jsonSim.NbSim;
             targetErrorPct = jsonSim.TargetErrorPct;
             targetError = jsonSim.TargetError;
             logFight = jsonSim.LogFight;
+            //toWeight = JsonUtil.ToAttributes(jsonSim.SimStatWeight);
 
-            Log(String.Format("Fight length : {0} seconds", fightLength));
+            Log(String.Format("Fight length : {0} seconds (+/- {1}%)", fightLength, fightLengthMod*100));
 
             if (logFight)
             {
@@ -91,9 +97,10 @@ namespace ClassicCraft
                 }
             }
 
-            playerBase = new Player(); // TODO race, classe etc.
-
-            playerBase.Equipment = JsonUtil.ToEquipment(jsonSim.Player.MH, jsonSim.Player.OH, jsonSim.Player.Ranged, jsonSim.Player.Equipment);
+            playerBase = new Player
+            {
+                Equipment = JsonUtil.ToEquipment(jsonSim.Player.MH, jsonSim.Player.OH, jsonSim.Player.Ranged, jsonSim.Player.Equipment)
+            }; // TODO race, classe etc.
 
             // Arms
             playerBase.Talents.Add("IHS", 3);
@@ -126,10 +133,10 @@ namespace ClassicCraft
             DateTime start = DateTime.Now;
 
             List<Task> tasks = new List<Task>();
-
-            if(!threading && !targetError)
+            
+            if (!threading && !targetError)
             {
-                for(int i = 0; i < nbSim; i++)
+                for (int i = 0; i < nbSim; i++)
                 {
                     Log(String.Format("\n\n---SIM NUMBER {0}---\n", i + 1));
                     DoSim();
@@ -186,7 +193,7 @@ namespace ClassicCraft
                         Console.WriteLine("Sims running : {0:N2}", tasks.Count(t => !t.IsCompleted));
                         Console.WriteLine("Error Percent : {0:N2}%", errorPct);
 
-                        Thread.Sleep(TimeSpan.FromSeconds(0.1));
+                        Thread.Sleep(TimeSpan.FromSeconds(0.2));
                     }
 
                     Task.WaitAll(tasks.ToArray());
@@ -238,44 +245,44 @@ namespace ClassicCraft
                 
                 if (totalAA > 0)
                 {
-                    double avgDpsAA = totalActions.Average(a => a.Where(t => t.Action is AutoAttack).Sum(r => r.Result.Damage) / fightLength);
+                    double avgDpsAA = totalActions.Average(a => a.Where(t => t.Action is AutoAttack).Sum(r => r.Result.Damage / fightLength));
                     double avgUseAA = totalActions.Average(a => a.Count(t => t.Action is AutoAttack));
-                    double avgDmgAA = totalActions.Sum((a => a.Where(t => t.Action is AutoAttack).Sum(r => r.Result.Damage))) / totalAA;
+                    double avgDmgAA = totalActions.Sum(a => a.Where(t => t.Action is AutoAttack).Sum(r => r.Result.Damage / totalAA));
                     Log(String.Format("Average DPS [Auto Attack] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsAA, avgDmgAA, avgUseAA, fightLength / avgUseAA, avgDpsAA / avgDps * 100));
                 }
                 if (totalBT > 0)
                 {
-                    double avgDpsBT = totalActions.Average(a => a.Where(t => t.Action is Bloodthirst).Sum(r => r.Result.Damage) / fightLength);
+                    double avgDpsBT = totalActions.Average(a => a.Where(t => t.Action is Bloodthirst).Sum(r => r.Result.Damage / fightLength));
                     double avgUseBT = totalActions.Average(a => a.Count(t => t.Action is Bloodthirst));
-                    double avgDmgBT = totalActions.Sum(a => a.Where(t => t.Action is Bloodthirst).Sum(r => r.Result.Damage)) / totalBT;
+                    double avgDmgBT = totalActions.Sum(a => a.Where(t => t.Action is Bloodthirst).Sum(r => r.Result.Damage / totalBT));
                     Log(String.Format("Average DPS [Bloodthirst] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsBT, avgDmgBT, avgUseBT, fightLength / avgUseBT, avgDpsBT / avgDps * 100));
                 }
                 if (totalWW > 0)
                 {
-                    double avgDpsWW = totalActions.Average(a => a.Where(t => t.Action is Whirlwind).Sum(r => r.Result.Damage) / fightLength);
+                    double avgDpsWW = totalActions.Average(a => a.Where(t => t.Action is Whirlwind).Sum(r => r.Result.Damage / fightLength));
                     double avgUseWW = totalActions.Average(a => a.Count(t => t.Action is Whirlwind));
-                    double avgDmgWW = totalActions.Sum(a => a.Where(t => t.Action is Whirlwind).Sum(r => r.Result.Damage)) / totalWW;
+                    double avgDmgWW = totalActions.Sum(a => a.Where(t => t.Action is Whirlwind).Sum(r => r.Result.Damage / totalWW));
                     Log(String.Format("Average DPS [Whirlwind] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsWW, avgDmgWW, avgUseWW, fightLength / avgUseWW, avgDpsWW / avgDps * 100));
                 }
                 if (totalHS > 0)
                 {
-                    double avgDpsHS = totalActions.Average(a => a.Where(t => t.Action is HeroicStrike).Sum(r => r.Result.Damage) / fightLength);
+                    double avgDpsHS = totalActions.Average(a => a.Where(t => t.Action is HeroicStrike).Sum(r => r.Result.Damage / fightLength));
                     double avgUseHS = totalActions.Average(a => a.Count(t => t.Action is HeroicStrike));
-                    double avgDmgHS = totalActions.Sum(a => a.Where(t => t.Action is HeroicStrike).Sum(r => r.Result.Damage)) / totalHS;
+                    double avgDmgHS = totalActions.Sum(a => a.Where(t => t.Action is HeroicStrike).Sum(r => r.Result.Damage / totalHS));
                     Log(String.Format("Average DPS [Heroic Strike] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsHS, avgDmgHS, avgUseHS, fightLength / avgUseHS, avgDpsHS / avgDps * 100));
                 }
                 if (totalDW > 0)
                 {
-                    double avgDpsDW = totalEffects.Average(a => a.Where(t => t.Effect is DeepWounds).Sum(r => r.Damage) / fightLength);
+                    double avgDpsDW = totalEffects.Average(a => a.Where(t => t.Effect is DeepWounds).Sum(r => r.Damage / fightLength));
                     double avgUseDW = totalEffects.Average(a => a.Count(t => t.Effect is DeepWounds));
-                    double avgDmgDW = totalEffects.Sum(a => a.Where(t => t.Effect is DeepWounds).Sum(r => r.Damage)) / totalDW;
+                    double avgDmgDW = totalEffects.Sum(a => a.Where(t => t.Effect is DeepWounds).Sum(r => r.Damage / totalDW));
                     Log(String.Format("Average DPS [Deep Wounds] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsDW, avgDmgDW, avgUseDW, fightLength / avgUseDW, avgDpsDW / avgDps * 100));
                 }
                 if (totalExec > 0)
                 {
-                    double avgDpsExec = totalActions.Average(a => a.Where(t => t.Action is Execute).Sum(r => r.Result.Damage) / fightLength);
+                    double avgDpsExec = totalActions.Average(a => a.Where(t => t.Action is Execute).Sum(r => r.Result.Damage / fightLength));
                     double avgUseExec = totalActions.Average(a => a.Count(t => t.Action is Execute));
-                    double avgDmgExec = totalActions.Sum(a => a.Where(t => t.Action is Execute).Sum(r => r.Result.Damage)) / totalExec;
+                    double avgDmgExec = totalActions.Sum(a => a.Where(t => t.Action is Execute).Sum(r => r.Result.Damage / totalExec));
                     Log(String.Format("Average DPS [Execute] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsExec, avgDmgExec, avgUseExec, fightLength / avgUseExec, avgDpsExec / avgDps * 100));
                 }
             }
@@ -306,6 +313,13 @@ namespace ClassicCraft
 
             player.HasteMod = 1 + (player.Attributes.GetValue(Attribute.AS));
 
+            /*
+            if(toWeight != null)
+            {
+                player.Attributes.SetValue(weighted, player.Attributes.GetValue(weighted) + 10);
+            }
+            */
+            
             Simulation s = new Simulation(player, boss, fightLength);
             s.StartSim();
         }

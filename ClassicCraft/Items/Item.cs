@@ -16,24 +16,27 @@ namespace ClassicCraft
 
         public Attributes Attributes { get; set; }
 
+        public Enchantment Enchantment { get; set; }
+
         public ItemEffect SpecialEffect { get; set; }
 
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public Item(Slot slot = Slot.Any, Attributes attributes = null, int id = 0, string name = "New Item", ItemEffect effect = null)
-            : this(null, slot, attributes, id, name, effect)
+        public Item(Slot slot = Slot.Any, Attributes attributes = null, int id = 0, string name = "New Item", Enchantment enchantment = null, ItemEffect effect = null)
+            : this(null, slot, attributes, id, name, enchantment, effect)
         {
         }
 
-        public Item(Player p = null, Slot slot = Slot.Any, Attributes attributes = null, int id = 0, string name = "New Item", ItemEffect effect = null)
+        public Item(Player p = null, Slot slot = Slot.Any, Attributes attributes = null, int id = 0, string name = "New Item", Enchantment enchantment = null, ItemEffect effect = null)
         {
             Player = p;
             Slot = slot;
             Attributes = new Attributes(attributes);
             Id = id;
             Name = name;
+            Enchantment = enchantment;
             SpecialEffect = effect;
         }
 

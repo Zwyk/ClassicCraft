@@ -14,13 +14,15 @@ namespace ClassicCraft
             public int Id { get; set; }
             public string Slot { get; set; }
             public Dictionary<string, double> Stats { get; set; }
+            public JsonEnchantment Enchantment { get; set; }
 
-            public JsonItem(int id = 0, string name = "New Item", string slot = "Any", Dictionary<string, double> attributes = null)
+            public JsonItem(int id = 0, string name = "New Item", string slot = "Any", Dictionary<string, double> attributes = null, JsonEnchantment enchantment = null)
             {
                 Name = name;
                 Id = id;
                 Slot = slot;
                 Stats = attributes;
+                Enchantment = enchantment;
             }
 
             public static Item ToItem(JsonItem ji)
@@ -29,7 +31,7 @@ namespace ClassicCraft
                 if (ji == null) return null;
                 else
                 {
-                    Item res = new Item(null, SlotUtil.FromString(ji.Slot), new Attributes(ji.Stats), ji.Id, ji.Name, null);
+                    Item res = new Item(null, SlotUtil.FromString(ji.Slot), new Attributes(ji.Stats), ji.Id, ji.Name, ClassicCraft.Enchantment.ToEnchantment(ji.Enchantment), null);
                     res.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100);
                     res.Attributes.SetValue(Attribute.HitChance, res.Attributes.GetValue(Attribute.HitChance) / 100);
                     res.Attributes.SetValue(Attribute.AS, res.Attributes.GetValue(Attribute.AS) / 100);
@@ -42,7 +44,7 @@ namespace ClassicCraft
                 if (i == null) return null;
                 else
                 {
-                    JsonItem res = new JsonItem(i.Id, i.Name, SlotUtil.ToString(i.Slot), Attributes.ToStringDic(i.Attributes));
+                    JsonItem res = new JsonItem(i.Id, i.Name, SlotUtil.ToString(i.Slot), Attributes.ToStringDic(i.Attributes), ClassicCraft.Enchantment.FromEnchantment(i.Enchantment));
                     if (res.Stats.ContainsKey("CritChance")) res.Stats["CritChance"] *= 100;
                     if (res.Stats.ContainsKey("HitChance")) res.Stats["HitChance"] *= 100;
                     if (res.Stats.ContainsKey("AS")) res.Stats["AS"] *= 100;
@@ -59,8 +61,8 @@ namespace ClassicCraft
             public bool TwoHanded { get; set; }
             public string Type { get; set; }
 
-            public JsonWeapon(int damageMin = 1, int damageMax = 2, double speed = 1, bool twoHanded = true, string type = "Axe", int id = 0, string name = "New Item", Dictionary<string, double> attributes = null)
-                : base(id, name, "Weapon", attributes)
+            public JsonWeapon(int damageMin = 1, int damageMax = 2, double speed = 1, bool twoHanded = true, string type = "Axe", int id = 0, string name = "New Item", Dictionary<string, double> attributes = null, JsonEnchantment enchantment = null)
+                : base(id, name, "Weapon", attributes, enchantment)
             {
                 DamageMin = damageMin;
                 DamageMax = damageMax;
@@ -75,7 +77,7 @@ namespace ClassicCraft
                 if (jw == null) return null;
                 else
                 {
-                    Weapon res = new Weapon(null, jw.DamageMin, jw.DamageMax, jw.Speed, jw.TwoHanded, Weapon.StringToType(jw.Type), new Attributes(jw.Stats), jw.Id, jw.Name, null);
+                    Weapon res = new Weapon(null, jw.DamageMin, jw.DamageMax, jw.Speed, jw.TwoHanded, Weapon.StringToType(jw.Type), new Attributes(jw.Stats), jw.Id, jw.Name, ClassicCraft.Enchantment.ToEnchantment(jw.Enchantment), null);
                     res.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100);
                     res.Attributes.SetValue(Attribute.HitChance, res.Attributes.GetValue(Attribute.HitChance) / 100);
                     res.Attributes.SetValue(Attribute.AS, res.Attributes.GetValue(Attribute.AS) / 100);
@@ -88,7 +90,7 @@ namespace ClassicCraft
                 if (w == null) return null;
                 else
                 {
-                    JsonWeapon res = new JsonWeapon(w.DamageMin, w.DamageMax, w.Speed, w.TwoHanded, Weapon.TypeToString(w.Type), w.Id, w.Name, Attributes.ToStringDic(w.Attributes));
+                    JsonWeapon res = new JsonWeapon(w.DamageMin, w.DamageMax, w.Speed, w.TwoHanded, Weapon.TypeToString(w.Type), w.Id, w.Name, Attributes.ToStringDic(w.Attributes), ClassicCraft.Enchantment.FromEnchantment(w.Enchantment));
                     if (res.Stats.ContainsKey("CritChance")) res.Stats["CritChance"] *= 100;
                     if (res.Stats.ContainsKey("HitChance")) res.Stats["HitChance"] *= 100;
                     if (res.Stats.ContainsKey("AS")) res.Stats["AS"] *= 100;
@@ -188,22 +190,52 @@ namespace ClassicCraft
         public class JsonSim
         {
             public double FightLength { get; set; }
+            public double FightLengthMod { get; set; }
             public int NbSim { get; set; }
             public double TargetErrorPct { get; set; }
             public bool TargetError { get; set; }
             public bool LogFight { get; set; }
+            public List<string> SimStatWeight { get; set; }
             public JsonBoss Boss { get; set; }
             public JsonPlayer Player { get; set; }
 
-            public JsonSim(JsonPlayer player = null, JsonBoss boss = null, double fightLength = 300, int nbSim = 1000, double targetErrorPct = 0.5, bool targetError = true, bool logFight = false)
+            public JsonSim(JsonPlayer player = null, JsonBoss boss = null, double fightLength = 300, double fightLengthMod = 0.2, int nbSim = 1000, double targetErrorPct = 0.5, bool targetError = true, bool logFight = false, List<string> simStatWeight = null)
             {
                 Player = player;
                 Boss = boss;
                 FightLength = fightLength;
+                FightLengthMod = fightLengthMod;
                 NbSim = nbSim;
                 TargetErrorPct = targetErrorPct;
                 TargetError = targetError;
                 LogFight = logFight;
+                SimStatWeight = simStatWeight;
+            }
+        }
+
+        public static List<Attribute> ToAttributes(List<string> attributes)
+        {
+            if (attributes == null) return null;
+
+            List<Attribute> res = new List<Attribute>();
+            foreach(string s in attributes)
+            {
+                res.Add(AttributeUtil.FromString(s));
+            }
+            return res;
+        }
+
+        public class JsonEnchantment
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public Dictionary<string, double> Stats { get; set; }
+
+            public JsonEnchantment(int id = 0, string name = "Enchantment", Dictionary<string, double> stats = null)
+            {
+                Id = id;
+                Name = name;
+                Stats = stats;
             }
         }
     }

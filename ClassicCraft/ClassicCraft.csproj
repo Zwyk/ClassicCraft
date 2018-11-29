@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\MathematicalLibrary.1.1.0\lib\FSharp.Core.dll</HintPath>
@@ -76,6 +79,7 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Auras\Effects\Flurry.cs" />
     <Compile Include="Actions\Spells\HeroicStrike.cs" />
+    <Compile Include="Items\Enchantment.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Items\Slot.cs" />

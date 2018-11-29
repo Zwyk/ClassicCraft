@@ -1,4 +1,4 @@
-Fight length : 300 seconds
+Fight length : 300 seconds (+/- 0%)
 
 Player :
 Orc Warrior level 60 --- Stats : [Stamina:112][Strength:357][Agility:156][Intelligence:17][Spirit:23][AP:1068][CritChance:29,8][HitChance:12][AS:0][Health:940][RangedAP:1380]
@@ -6,12 +6,12 @@ Orc Warrior level 60 --- Stats : [Stamina:112][Strength:357][Agility:156][Intell
 Boss :
 Level 63, 4400 Armor
 
-Error Percent : 0,47%
-Average Damage : 102 427,36 (+/- 243,67)
-Average DPS : 341,42 dps (+/- 0,81)
-Average DPS [Auto Attack] : 176,04 dps (51,56%), average of 194,12 damage for 272,06 uses or 1 use every 1,10s
-Average DPS [Bloodthirst] : 52,12 dps (15,26%), average of 430,86 damage for 36,29 uses or 1 use every 8,27s
-Average DPS [Whirlwind] : 46,34 dps (13,57%), average of 555,89 damage for 25,01 uses or 1 use every 12,00s
-Average DPS [Heroic Strike] : 16,99 dps (4,98%), average of 413,71 damage for 12,32 uses or 1 use every 24,35s
-Average DPS [Deep Wounds] : 5,54 dps (1,62%), average of 34,00 damage for 48,91 uses or 1 use every 6,13s
-Average DPS [Execute] : 44,40 dps (13,00%), average of 748,33 damage for 17,80 uses or 1 use every 16,86s
+Error Percent : 0,45%
+Average Damage : 102 653,49 (+/- 233,42)
+Average DPS : 342,18 dps (+/- 0,78)
+Average DPS [Auto Attack] : 176,28 dps (51,52%), average of 193,89 damage for 272,75 uses or 1 use every 1,10s
+Average DPS [Bloodthirst] : 52,25 dps (15,27%), average of 430,38 damage for 36,42 uses or 1 use every 8,24s
+Average DPS [Whirlwind] : 47,10 dps (13,76%), average of 565,07 damage for 25,01 uses or 1 use every 12,00s
+Average DPS [Heroic Strike] : 17,24 dps (5,04%), average of 419,20 damage for 12,34 uses or 1 use every 24,31s
+Average DPS [Deep Wounds] : 5,51 dps (1,61%), average of 34,00 damage for 48,63 uses or 1 use every 6,17s
+Average DPS [Execute] : 43,79 dps (12,80%), average of 720,38 damage for 18,24 uses or 1 use every 16,45s

@@ -100,14 +100,14 @@ namespace ClassicCraft
                 }
 
                 if (dw.CanUse() &&
-                    (((Boss.LifePct - 0.22) * FightLength > dw.BaseCD)
-                    || Boss.LifePct <= 0.2))
+                    (FightLength - CurrentTime <= 30
+                    || FightLength - CurrentTime >= dw.BaseCD + 30))
                 {
                     dw.Cast();
                 }
-                if (r.CanUse() && 
-                    (((Boss.LifePct - 0.22) * FightLength > r.BaseCD)
-                    || (Boss.LifePct <= 0.2 && Player.Effects.Any(e => e is DeathWishBuff))))
+                if (r.CanUse() &&
+                    (FightLength - CurrentTime <= 15
+                    || FightLength - CurrentTime >= r.BaseCD + 15))
                 {
                     r.Cast();
                 }

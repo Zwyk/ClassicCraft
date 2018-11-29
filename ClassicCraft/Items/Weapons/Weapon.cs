@@ -64,8 +64,8 @@ namespace ClassicCraft
         public bool TwoHanded { get; set; }
         public WeaponType Type { get; set; }
 
-        public Weapon(Player p = null, int min = 1, int max = 2, double speed = 1, bool twoHanded = true, WeaponType type = WeaponType.Axe, Attributes attributes = null, int id = 0, string name = "New Item", ItemEffect effect = null)
-            : base(p, Slot.Weapon, attributes, id, name, effect)
+        public Weapon(Player p = null, int min = 1, int max = 2, double speed = 1, bool twoHanded = true, WeaponType type = WeaponType.Axe, Attributes attributes = null, int id = 0, string name = "New Item", Enchantment enchantment = null, ItemEffect effect = null)
+            : base(p, Slot.Weapon, attributes, id, name, enchantment, effect)
         {
             DamageMin = min;
             DamageMax = max;
@@ -74,8 +74,8 @@ namespace ClassicCraft
             Type = type;
         }
 
-        public Weapon(int min, int max, double speed, bool twoHanded, WeaponType type, Attributes attributes = null, int id = 0, string name = "New Item", ItemEffect effect = null)
-            : this(null, min, max, speed, twoHanded, type, attributes, id, name, effect)
+        public Weapon(int min, int max, double speed, bool twoHanded, WeaponType type, Attributes attributes = null, int id = 0, string name = "New Item", Enchantment enchantment = null, ItemEffect effect = null)
+            : this(null, min, max, speed, twoHanded, type, attributes, id, name, enchantment, effect)
         {
         }
 

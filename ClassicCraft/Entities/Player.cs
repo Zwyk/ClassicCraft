@@ -573,6 +573,10 @@ namespace ClassicCraft
                 if(i != null)
                 {
                     Attributes += i.Attributes;
+                    if(i.Enchantment != null)
+                    {
+                        Attributes += i.Enchantment.Attributes;
+                    }
                 }
             }
 
