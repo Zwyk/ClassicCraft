@@ -1,14 +1,22 @@
 {
   "FightLength": 300.0,
-  "NbSim": 1,
   "TargetErrorPct": 0.5,
   "TargetError": true,
   "LogFight": false,
+  "NbSim": 10,
   "Boss" : {
     "Level": 63,
-    "Armor": 4400
+    "Armor": 4400,
+    "Debuffs": [
+      "SunderArmor"
+    ]
   },
   "Player": {
+    "Buffs": [
+      {
+        "Name": "WindfuryTotem"
+      }
+    ],
     "MH": {
       "DamageMin": 119,
       "DamageMax": 221,

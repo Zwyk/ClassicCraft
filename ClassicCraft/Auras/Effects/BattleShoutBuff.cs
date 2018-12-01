@@ -17,14 +17,14 @@ namespace ClassicCraft
         {
             base.StartBuff();
 
-            Player.Attributes.SetValue(Attribute.AP, Player.Attributes.GetValue(Attribute.AP) + 232 * 1 + (0.05 * Player.GetTalentPoints("IBS")));
+            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) + 232 * 1 + (0.05 * Player.GetTalentPoints("IBS")));
         }
 
         public override void EndBuff()
         {
             base.EndBuff();
 
-            Player.Attributes.SetValue(Attribute.AP, Player.Attributes.GetValue(Attribute.AP) - 232 * 1 + (0.05 * Player.GetTalentPoints("IBS")));
+            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) - 232 * 1 + (0.05 * Player.GetTalentPoints("IBS")));
         }
 
         public override string ToString()

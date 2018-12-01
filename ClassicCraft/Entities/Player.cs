@@ -216,6 +216,8 @@ namespace ClassicCraft
 
         public Dictionary<string, int> Talents { get; set; }
 
+        public List<Enchantment> Buffs { get; set; }
+
         public Weapon MH
         {
             get
@@ -272,7 +274,7 @@ namespace ClassicCraft
         {
             get
             {
-                return Attributes.GetValue(Attribute.AP);
+                return Attributes.GetValue(Attribute.AP) + BonusAttributes.GetValue(Attribute.AP);
             }
         }
 
@@ -280,7 +282,7 @@ namespace ClassicCraft
         {
             get
             {
-                return Attributes.GetValue(Attribute.CritChance);
+                return Attributes.GetValue(Attribute.CritChance) + BonusAttributes.GetValue(Attribute.CritChance);
             }
         }
 
@@ -288,7 +290,7 @@ namespace ClassicCraft
         {
             get
             {
-                return Attributes.GetValue(Attribute.HitChance);
+                return Attributes.GetValue(Attribute.HitChance) + BonusAttributes.GetValue(Attribute.HitChance);
             }
         }
 
@@ -307,32 +309,29 @@ namespace ClassicCraft
 
         public Dictionary<Entity, HitChances> HitChancesByEnemy { get; set; }
 
+        public bool WindfuryTotem { get; set; }
+
         #endregion
 
-        public Player(Player p, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null)
-            : this(null, p, items, talents)
+        public Player(Player p, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null)
+            : this(null, p, items, talents, buffs)
         {
         }
 
-        public Player(Simulation s, Player p, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null)
-            : this(s, p.Class, p.Race, p.Level, p.Armor, p.MaxLife, items, talents)
+        public Player(Simulation s, Player p, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null)
+            : this(s, p.Class, p.Race, p.Level, p.Armor, p.MaxLife, items, talents, buffs)
         {
         }
 
-        public Player(Simulation s = null, Classes c = Classes.Warrior, Races r = Races.Orc, int level = 60, int armor = 0, int maxLife = 1000, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null)
+        public Player(Simulation s = null, Classes c = Classes.Warrior, Races r = Races.Orc, int level = 60, int armor = 0, int maxLife = 1000, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null)
             : base(s, level, armor, maxLife)
         {
             Race = r;
             Class = c;
-
-            if(talents == null)
-            {
-                Talents = new Dictionary<string, int>();
-            }
-            else
-            {
-                Talents = new Dictionary<string, int>(talents);
-            }
+            
+            Talents = talents;
+            
+            Buffs = buffs;
 
             int skill = Level * 5;
             WeaponSkill = new Dictionary<Weapon.WeaponType, int>();
@@ -372,7 +371,7 @@ namespace ClassicCraft
 
         public int GetTalentPoints(string talent)
         {
-            return Talents.ContainsKey(talent) ? Talents[talent] : 0;
+            return Talents != null && Talents.ContainsKey(talent) ? Talents[talent] : 0;
         }
 
         public override void Reset()
@@ -385,6 +384,8 @@ namespace ClassicCraft
             
             HasteMod = 1;
             DamageMod = 1;
+
+            BonusAttributes = new Attributes();
         }
 
         public void CalculateHitChances(Entity enemy = null)
@@ -491,7 +492,7 @@ namespace ClassicCraft
                 CalculateHitChances(enemy);
             }
 
-            return PickFromTable(MH ? HitChancesByEnemy[enemy].WhiteHitChancesMH : HitChancesByEnemy[enemy].WhiteHitChancesOH, Program.random.NextDouble());
+            return PickFromTable(MH ? HitChancesByEnemy[enemy].WhiteHitChancesMH : HitChancesByEnemy[enemy].WhiteHitChancesOH, Sim.random.NextDouble());
         }
 
         public ResultType YellowAttackEnemy(Entity enemy)
@@ -501,7 +502,7 @@ namespace ClassicCraft
                 CalculateHitChances(enemy);
             }
 
-            return PickFromTable(HitChancesByEnemy[enemy].YellowHitChances, Program.random.NextDouble());
+            return PickFromTable(HitChancesByEnemy[enemy].YellowHitChances, Sim.random.NextDouble());
         }
 
         public ResultType PickFromTable(Dictionary<ResultType, double> table, double rand)
@@ -516,14 +517,17 @@ namespace ClassicCraft
                 pickTable[ResultType.Crit] = 1;
             }
             
-            /*
-            string debug = "";
+            
+            string debug = "rand " + rand;
             foreach (ResultType type in pickTable.Keys)
             {
                 debug += " | " + type + " - " + table[type];
             }
-            Console.WriteLine(debug);
-            */
+            if(Program.logFight)
+            {
+                Program.Log(debug);
+            }
+            
 
             double i = 0;
             foreach(ResultType type in pickTable.Keys)
@@ -568,16 +572,29 @@ namespace ClassicCraft
                 // Base health + mana ?
             });
 
-            foreach(Item i in Equipment.Values)
+            foreach(Item i in Equipment.Values.Where(v => v != null))
             {
-                if(i != null)
+                Attributes += i.Attributes;
+                if(i.Enchantment != null)
                 {
-                    Attributes += i.Attributes;
-                    if(i.Enchantment != null)
+                    Attributes += i.Enchantment.Attributes;
+                    if(i.Enchantment.Attributes.GetValue(Attribute.WeaponDamage) > 0 && i is Weapon)
                     {
-                        Attributes += i.Enchantment.Attributes;
+                        Weapon w = (Weapon)i;
+                        int bonus = (int)Math.Round(i.Enchantment.Attributes.GetValue(Attribute.WeaponDamage));
+                        w.DamageMin += bonus;
+                        w.DamageMax += bonus;
                     }
                 }
+            }
+
+            int wbonus = (int)Math.Round(Attributes.GetValue(Attribute.WeaponDamage));
+            MH.DamageMin += wbonus;
+            MH.DamageMax += wbonus;
+            if(OH != null)
+            {
+                OH.DamageMin += wbonus;
+                OH.DamageMax += wbonus;
             }
 
             Attributes += BonusAttributesByRace(Race, Attributes);
@@ -587,11 +604,18 @@ namespace ClassicCraft
             Attributes.SetValue(Attribute.RangedAP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Agility) * AgiToRangedAPRatio(Class));
             Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance) + Attributes.GetValue(Attribute.Agility) * AgiToCritRatio(Class));
 
+            HasteMod = 1 + Attributes.GetValue(Attribute.AS);
+
             if (Class == Classes.Warrior)
             {
                 Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
                     + 0.01 * GetTalentPoints("Cruelty")
                     + 0.03); // Berserker Stance
+            }
+
+            foreach (Enchantment e in Buffs.Where(v => v != null))
+            {
+                Attributes += e.Attributes;
             }
         }
 
@@ -770,14 +794,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            string stats = "";
-            foreach (Attribute a in Attributes.Values.Keys)
-            {
-                double val = Attributes.Values[a];
-                if (a == Attribute.CritChance || a == Attribute.HitChance || a == Attribute.AS) val *= 100;
-                stats += "[" + a + ":" + val + "]";
-            }
-            return String.Format("{0} {1} level {2} --- Stats : {3}", Race, Class, Level, stats);
+            return string.Format("{0} {1} level {2} | Stats : {3}", Race, Class, Level, Attributes);
         }
     }
 }

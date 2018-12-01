@@ -157,12 +157,14 @@ namespace ClassicCraft
             public int Level { get; set; }
             public string Race { get; set; }
             public string Talents { get; set; }
+            public Dictionary<string, bool> Cooldowns { get; set; }
+            public List<JsonEnchantment> Buffs { get; set; }
             public JsonWeapon MH { get; set; }
             public JsonWeapon OH { get; set; }
             public JsonWeapon Ranged { get; set; }
             public Dictionary<string, JsonItem> Equipment { get; set; }
 
-            public JsonPlayer(JsonWeapon mh = null, JsonWeapon oh = null, JsonWeapon ranged = null, Dictionary<string, JsonItem> equipment = null, string @class = "Warrior", int level = 60, string race = "Orc", string talents = "")
+            public JsonPlayer(JsonWeapon mh = null, JsonWeapon oh = null, JsonWeapon ranged = null, Dictionary<string, JsonItem> equipment = null, string @class = "Warrior", int level = 60, string race = "Orc", string talents = "", List<JsonEnchantment> buffs = null, Dictionary<string, bool> cooldowns = null)
             {
                 MH = mh;
                 OH = oh;
@@ -172,6 +174,25 @@ namespace ClassicCraft
                 Race = race;
                 Talents = talents;
                 Equipment = equipment;
+                Buffs = buffs;
+                Cooldowns = cooldowns;
+            }
+
+            // TODO race, classe etc.
+            public static Player ToPlayer(JsonPlayer jp)
+            {
+                List<Enchantment> buffs = new List<Enchantment>();
+                foreach(JsonEnchantment je in jp.Buffs)
+                {
+                    buffs.Add(Enchantment.ToEnchantment(je));
+                }
+
+                return new Player
+                {
+                    Equipment = ToEquipment(jp.MH, jp.OH, jp.Ranged, jp.Equipment),
+                    Buffs = buffs,
+                    WindfuryTotem = jp.Buffs != null && jp.Buffs.Select(b => b.Name).Contains("WindfuryTotem")
+                };
             }
         }
 
@@ -179,11 +200,29 @@ namespace ClassicCraft
         {
             public int Level { get; set; }
             public int Armor { get; set; }
+            public List<string> Debuffs { get; set; }
 
-            public JsonBoss(int level = 63, int armor = 4400)
+            public JsonBoss(int level = 63, int armor = 4400, List<string> debuffs = null)
             {
                 Level = level;
                 Armor = armor;
+                Debuffs = debuffs;
+            }
+
+            public static Boss ToBoss(JsonBoss jb, double armorPen = 0)
+            {
+                int armor = jb.Armor - (int)Math.Round(armorPen);
+                List<string> debuffs = jb.Debuffs;
+
+                if (debuffs != null && debuffs.Count > 0)
+                {
+                    armor -= (debuffs.Contains("SunderArmor") ? 2250 : 0)
+                        + (debuffs.Contains("CurseOfRecklessness") ? 640 : 0)
+                        + (debuffs.Contains("FaerieFire") ? 505 : 0)
+                        + (debuffs.Contains("Annihilator") ? 600 : 0);
+                }
+
+                return new Boss(jb.Level, Math.Max(0, armor));
             }
         }
 

@@ -40,7 +40,7 @@ namespace ClassicCraft
 
     class Program
     {
-        public static Random random = new Random();
+        private static Random random = new Random();
 
         public static string simJsonFileName = "sim.json";
         public static string itemsJsonFileName = "items.json";
@@ -64,7 +64,7 @@ namespace ClassicCraft
         //public static List<Attribute> toWeight = null;
         //public static Attribute weighted;
 
-        public static int nbTasksForSims = 100;
+        public static int nbTasksForSims = 1000;
 
         public static ConcurrentBag<List<RegisteredAction>> totalActions = new ConcurrentBag<List<RegisteredAction>>();
         public static ConcurrentBag<List<RegisteredEffect>> totalEffects = new ConcurrentBag<List<RegisteredEffect>>();
@@ -85,7 +85,7 @@ namespace ClassicCraft
             logFight = jsonSim.LogFight;
             //toWeight = JsonUtil.ToAttributes(jsonSim.SimStatWeight);
 
-            Log(String.Format("Fight length : {0} seconds (+/- {1}%)", fightLength, fightLengthMod*100));
+            Log(string.Format("Fight length : {0} seconds (+/- {1}%)", fightLength, fightLengthMod*100));
 
             if (logFight)
             {
@@ -97,12 +97,10 @@ namespace ClassicCraft
                 }
             }
 
-            playerBase = new Player
-            {
-                Equipment = JsonUtil.ToEquipment(jsonSim.Player.MH, jsonSim.Player.OH, jsonSim.Player.Ranged, jsonSim.Player.Equipment)
-            }; // TODO race, classe etc.
+            playerBase = JsonUtil.JsonPlayer.ToPlayer(jsonSim.Player);
 
             // Arms
+            playerBase.Talents = new Dictionary<string, int>();
             playerBase.Talents.Add("IHS", 3);
             playerBase.Talents.Add("DW", 3);
             playerBase.Talents.Add("2HS", 3);
@@ -118,12 +116,10 @@ namespace ClassicCraft
 
             playerBase.CalculateAttributes();
 
-            playerBase.HasteMod = 1 + (playerBase.Attributes.GetValue(Attribute.AS));
-
             Log("\nPlayer :");
             Log(playerBase.ToString());
 
-            bossBase = new Boss(jsonSim.Boss.Level, jsonSim.Boss.Armor);
+            bossBase = JsonUtil.JsonBoss.ToBoss(jsonSim.Boss, playerBase.Attributes.GetValue(Attribute.ArmorPen));
 
             Log("\nBoss :");
             Log(bossBase.ToString());
@@ -138,7 +134,7 @@ namespace ClassicCraft
             {
                 for (int i = 0; i < nbSim; i++)
                 {
-                    Log(String.Format("\n\n---SIM NUMBER {0}---\n", i + 1));
+                    Log(string.Format("\n\n---SIM NUMBER {0}---\n", i + 1));
                     DoSim();
                 }
             }
@@ -174,14 +170,23 @@ namespace ClassicCraft
                 }
                 else
                 {
+                    nbSim = 0;
+
                     double errorPct = 100;
 
                     while (errorPct > targetErrorPct)
                     {
                         while (tasks.Count(t => !t.IsCompleted) < nbTasksForSims)
                         {
+                            nbSim++;
                             tasks.Add(Task.Factory.StartNew(() => DoSim()));
                         }
+
+                        foreach (Task t in tasks.Where(t => t.IsCompleted))
+                        {
+                            t.Dispose();
+                        }
+                        tasks.RemoveAll(t => t.IsCompleted);
 
                         if (damages.Count > 0)
                         {
@@ -193,12 +198,12 @@ namespace ClassicCraft
                         Console.WriteLine("Sims running : {0:N2}", tasks.Count(t => !t.IsCompleted));
                         Console.WriteLine("Error Percent : {0:N2}%", errorPct);
 
-                        Thread.Sleep(TimeSpan.FromSeconds(0.2));
+                        Thread.Sleep(TimeSpan.FromSeconds(0.5));
                     }
 
-                    Task.WaitAll(tasks.ToArray());
+                    Console.WriteLine("Ending");
 
-                    nbSim = tasks.Count;
+                    Task.WaitAll(tasks.ToArray());
                 }
             }
 
@@ -239,51 +244,51 @@ namespace ClassicCraft
                 double totalDW = totalEffects.Select(a => a.Where(t => t.Effect is DeepWounds).Count()).Sum();
                 double totalExec = totalActions.Select(a => a.Where(t => t.Action is Execute).Count()).Sum();
                 
-                Log(String.Format("Error Percent : {0:N2}%", Stats.ErrorPct(damages.ToArray(), damages.Average())));
-                Log(String.Format("Average Damage : {0:N2} (+/- {1:N2})", avgTotalDmg, Stats.MeanStdDev(damages.ToArray())));
-                Log(String.Format("Average DPS : {0:N2} dps (+/- {1:N2})", avgDps, Stats.MeanStdDev(dps)));
+                Log(string.Format("Error Percent : {0:N2}%", Stats.ErrorPct(damages.ToArray(), damages.Average())));
+                Log(string.Format("Average Damage : {0:N2} (+/- {1:N2})", avgTotalDmg, Stats.MeanStdDev(damages.ToArray())));
+                Log(string.Format("Average DPS : {0:N2} dps (+/- {1:N2})", avgDps, Stats.MeanStdDev(dps)));
                 
                 if (totalAA > 0)
                 {
                     double avgDpsAA = totalActions.Average(a => a.Where(t => t.Action is AutoAttack).Sum(r => r.Result.Damage / fightLength));
                     double avgUseAA = totalActions.Average(a => a.Count(t => t.Action is AutoAttack));
                     double avgDmgAA = totalActions.Sum(a => a.Where(t => t.Action is AutoAttack).Sum(r => r.Result.Damage / totalAA));
-                    Log(String.Format("Average DPS [Auto Attack] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsAA, avgDmgAA, avgUseAA, fightLength / avgUseAA, avgDpsAA / avgDps * 100));
+                    Log(string.Format("Average DPS [Auto Attack] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsAA, avgDmgAA, avgUseAA, fightLength / avgUseAA, avgDpsAA / avgDps * 100));
                 }
                 if (totalBT > 0)
                 {
                     double avgDpsBT = totalActions.Average(a => a.Where(t => t.Action is Bloodthirst).Sum(r => r.Result.Damage / fightLength));
                     double avgUseBT = totalActions.Average(a => a.Count(t => t.Action is Bloodthirst));
                     double avgDmgBT = totalActions.Sum(a => a.Where(t => t.Action is Bloodthirst).Sum(r => r.Result.Damage / totalBT));
-                    Log(String.Format("Average DPS [Bloodthirst] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsBT, avgDmgBT, avgUseBT, fightLength / avgUseBT, avgDpsBT / avgDps * 100));
+                    Log(string.Format("Average DPS [Bloodthirst] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsBT, avgDmgBT, avgUseBT, fightLength / avgUseBT, avgDpsBT / avgDps * 100));
                 }
                 if (totalWW > 0)
                 {
                     double avgDpsWW = totalActions.Average(a => a.Where(t => t.Action is Whirlwind).Sum(r => r.Result.Damage / fightLength));
                     double avgUseWW = totalActions.Average(a => a.Count(t => t.Action is Whirlwind));
                     double avgDmgWW = totalActions.Sum(a => a.Where(t => t.Action is Whirlwind).Sum(r => r.Result.Damage / totalWW));
-                    Log(String.Format("Average DPS [Whirlwind] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsWW, avgDmgWW, avgUseWW, fightLength / avgUseWW, avgDpsWW / avgDps * 100));
+                    Log(string.Format("Average DPS [Whirlwind] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsWW, avgDmgWW, avgUseWW, fightLength / avgUseWW, avgDpsWW / avgDps * 100));
                 }
                 if (totalHS > 0)
                 {
                     double avgDpsHS = totalActions.Average(a => a.Where(t => t.Action is HeroicStrike).Sum(r => r.Result.Damage / fightLength));
                     double avgUseHS = totalActions.Average(a => a.Count(t => t.Action is HeroicStrike));
                     double avgDmgHS = totalActions.Sum(a => a.Where(t => t.Action is HeroicStrike).Sum(r => r.Result.Damage / totalHS));
-                    Log(String.Format("Average DPS [Heroic Strike] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsHS, avgDmgHS, avgUseHS, fightLength / avgUseHS, avgDpsHS / avgDps * 100));
+                    Log(string.Format("Average DPS [Heroic Strike] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsHS, avgDmgHS, avgUseHS, fightLength / avgUseHS, avgDpsHS / avgDps * 100));
                 }
                 if (totalDW > 0)
                 {
                     double avgDpsDW = totalEffects.Average(a => a.Where(t => t.Effect is DeepWounds).Sum(r => r.Damage / fightLength));
                     double avgUseDW = totalEffects.Average(a => a.Count(t => t.Effect is DeepWounds));
                     double avgDmgDW = totalEffects.Sum(a => a.Where(t => t.Effect is DeepWounds).Sum(r => r.Damage / totalDW));
-                    Log(String.Format("Average DPS [Deep Wounds] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsDW, avgDmgDW, avgUseDW, fightLength / avgUseDW, avgDpsDW / avgDps * 100));
+                    Log(string.Format("Average DPS [Deep Wounds] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsDW, avgDmgDW, avgUseDW, fightLength / avgUseDW, avgDpsDW / avgDps * 100));
                 }
                 if (totalExec > 0)
                 {
                     double avgDpsExec = totalActions.Average(a => a.Where(t => t.Action is Execute).Sum(r => r.Result.Damage / fightLength));
                     double avgUseExec = totalActions.Average(a => a.Count(t => t.Action is Execute));
                     double avgDmgExec = totalActions.Sum(a => a.Where(t => t.Action is Execute).Sum(r => r.Result.Damage / totalExec));
-                    Log(String.Format("Average DPS [Execute] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsExec, avgDmgExec, avgUseExec, fightLength / avgUseExec, avgDpsExec / avgDps * 100));
+                    Log(string.Format("Average DPS [Execute] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsExec, avgDmgExec, avgUseExec, fightLength / avgUseExec, avgDpsExec / avgDps * 100));
                 }
             }
             
@@ -307,11 +312,11 @@ namespace ClassicCraft
                 i.Player = player;
             }
 
+            //player.CalculateAttributes();
+            player.Attributes = playerBase.Attributes;
+            player.WindfuryTotem = playerBase.WindfuryTotem;
+
             Boss boss = new Boss(bossBase);
-
-            player.CalculateAttributes();
-
-            player.HasteMod = 1 + (player.Attributes.GetValue(Attribute.AS));
 
             /*
             if(toWeight != null)
@@ -319,84 +324,9 @@ namespace ClassicCraft
                 player.Attributes.SetValue(weighted, player.Attributes.GetValue(weighted) + 10);
             }
             */
-            
+
             Simulation s = new Simulation(player, boss, fightLength);
             s.StartSim();
-        }
-
-        public static double Normalization(Weapon w)
-        {
-            if(w.Type == Weapon.WeaponType.Dagger)
-            {
-                return 1.7;
-            }
-            else if(w.TwoHanded)
-            {
-                return 3.3;
-            }
-            else
-            {
-                return 2.4;
-            }
-        }
-
-        public static double DamageMod(ResultType type, int level = 60, int enemyLevel = 63)
-        {
-            switch(type)
-            {
-                case ResultType.Crit: return 2;
-                case ResultType.Hit: return 1;
-                case ResultType.Glancing: return GlancingDamage(level, enemyLevel);
-                default: return 0;
-            }
-        }
-
-        public static double GlancingDamage(int level = 60, int enemyLevel = 63)
-        {
-            double low = Math.Max(0.01, Math.Min(0.91, 1.3 - 0.05 * (enemyLevel - level)));
-            double high = Math.Max(0.2, Math.Min(0.99, 1.2 - 0.03 * (enemyLevel - level)));
-            return random.NextDouble() * (high-low) + low;
-        }
-
-        public static double RageGained(int damage, double weaponSpeed, ResultType type, bool mh = true)
-        {
-            return (15 * damage) / (4 * RageConversionValue()) + (RageWhiteHitFactor(mh, type == ResultType.Crit) * weaponSpeed) / 2;
-        }
-
-        public static double RageGained2(int damage)
-        {
-            return (15 * damage) / RageConversionValue();
-        }
-
-        public static double RageConversionValue(int level = 60)
-        {
-            return 0.0091107836*level*level + 3.225598133*level + 4.2652911;
-        }
-
-        public static double RageWhiteHitFactor(bool mh, bool crit)
-        {
-            if(mh)
-            {
-                if(crit)
-                {
-                    return 7.0;
-                }
-                else
-                {
-                    return 3.5;
-                }
-            }
-            else
-            {
-                if(crit)
-                {
-                    return 3.5;
-                }
-                else
-                {
-                    return 1.75;
-                }
-            }
         }
     }
 }

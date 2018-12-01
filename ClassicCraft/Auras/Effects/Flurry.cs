@@ -16,16 +16,16 @@ namespace ClassicCraft
             Haste = 1 + 0.1 + ((points - 1) * 0.05);
         }
 
-        public static void CheckProc(Player p, ResultType type, int points)
+        public static void CheckProc(Player p, ResultType type, int points, bool windfuryaa = false)
         {
-            if (p.Effects.Any(e => e is Flurry))
+            if (p.Effects.Any(e => e is Flurry && e.CurrentStacks > 0))
             {
                 Effect current = p.Effects.Where(e => e is Flurry).First();
                 if (type == ResultType.Crit)
                 {
                     current.Refresh();
                 }
-                else
+                else if(!windfuryaa)
                 {
                     current.StackRemove();
                 }
@@ -45,7 +45,7 @@ namespace ClassicCraft
 
             if (Program.logFight)
             {
-                Program.Log(String.Format("{0:N2} : {1} started (haste = {2})", Player.Sim.CurrentTime, ToString(), Player.HasteMod));
+                Program.Log(string.Format("{0:N2} : {1} started (haste = {2})", Player.Sim.CurrentTime, ToString(), Player.HasteMod));
             }
         }
 
@@ -58,7 +58,7 @@ namespace ClassicCraft
 
             if (Program.logFight)
             {
-                Program.Log(String.Format("{0:N2} : {1} ended (haste = {2})", Player.Sim.CurrentTime, ToString(), Player.HasteMod));
+                Program.Log(string.Format("{0:N2} : {1} ended (haste = {2})", Player.Sim.CurrentTime, ToString(), Player.HasteMod));
             }
         }
 

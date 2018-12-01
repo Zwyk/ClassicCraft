@@ -63,6 +63,9 @@
     <Compile Include="Actions\Spells\Bloodrage.cs" />
     <Compile Include="Actions\Spells\DeathWish.cs" />
     <Compile Include="Actions\Spells\Execute.cs" />
+    <Compile Include="Actions\Spells\Potions\JujuFlurry.cs" />
+    <Compile Include="Actions\Spells\Potions\MightyRage.cs" />
+    <Compile Include="Actions\Spells\Potions\Potion.cs" />
     <Compile Include="Actions\Spells\Recklessness.cs" />
     <Compile Include="Auras\Aura.cs" />
     <Compile Include="Actions\AutoAttack.cs" />
@@ -71,6 +74,8 @@
     <Compile Include="Auras\Effects\BloodFuryBuff.cs" />
     <Compile Include="Auras\Effects\DeathWishBuff.cs" />
     <Compile Include="Auras\Effects\EffectsOnTime\BloodrageBuff.cs" />
+    <Compile Include="Auras\Effects\Potions\JujuFlurryBuff.cs" />
+    <Compile Include="Auras\Effects\Potions\MightyRageBuff.cs" />
     <Compile Include="Auras\Effects\RecklessnessBuff.cs" />
     <Compile Include="Entities\Boss.cs" />
     <Compile Include="Auras\Effects\EffectsOnTime\DeepWounds.cs" />

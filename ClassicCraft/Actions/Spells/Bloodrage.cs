@@ -41,7 +41,7 @@ namespace ClassicCraft
         {
             if (Program.logFight)
             {
-                Program.Log(String.Format("{0:N2} : {1} cast for 10 rage (rage {2})", Player.Sim.CurrentTime, ToString(), Player.Ressource));
+                Program.Log(string.Format("{0:N2} : {1} cast for 10 rage (rage {2})", Player.Sim.CurrentTime, ToString(), Player.Ressource));
             }
         }
 

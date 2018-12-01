@@ -33,7 +33,7 @@ namespace ClassicCraft
         {
             Player = p;
             Slot = slot;
-            Attributes = new Attributes(attributes);
+            Attributes = attributes;
             Id = id;
             Name = name;
             Enchantment = enchantment;
@@ -48,7 +48,7 @@ namespace ClassicCraft
                 attributes += "[" + a + ":" + Attributes.Values[a] + "]";
             }
 
-            return String.Format("[{0}] ({1}) {2} : {3}", Slot, Id, Name, attributes);
+            return string.Format("[{0}] ({1}) {2} : {3}", Slot, Id, Name, attributes);
         }
     }
 }

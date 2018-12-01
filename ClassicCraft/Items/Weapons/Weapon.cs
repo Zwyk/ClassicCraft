@@ -87,7 +87,7 @@ namespace ClassicCraft
                 attributes += "[" + a + ":" + Attributes.Values[a] + "]";
             }
 
-            return String.Format("[{0}] ({1}) {2} : {3} | {4}-{5} at {6}, 2H = {7}, Type = {8}", Slot, Id, Name, attributes, DamageMin, DamageMax, Speed, TwoHanded, Type);
+            return string.Format("[{0}] ({1}) {2} : {3} | {4}-{5} at {6}, 2H = {7}, Type = {8}", Slot, Id, Name, attributes, DamageMin, DamageMax, Speed, TwoHanded, Type);
         }
     }
 }

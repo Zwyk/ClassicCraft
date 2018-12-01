@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class BloodFuryBuff : Effect
+    class JujuFlurryBuff : Effect
     {
-        public static int LENGTH = 15;
+        public static int LENGTH = 20;
 
-        public BloodFuryBuff(Player p, bool friendly = true, double baseLength = 15, int baseStacks = 1)
-            : base(p, p, friendly, baseLength, baseStacks)
+        public JujuFlurryBuff(Player p, double baseLength = 20)
+            : base(p, p, true, baseLength, 1)
         {
         }
 
@@ -19,19 +19,19 @@ namespace ClassicCraft
         {
             base.StartBuff();
 
-            Player.DamageMod *= 1.25;
+            Player.HasteMod *= 1.03;
         }
 
         public override void EndBuff()
         {
             base.EndBuff();
 
-            Player.DamageMod /= 1.25;
+            Player.HasteMod /= 1.03;
         }
 
         public override string ToString()
         {
-            return "Blood Fury's Buff";
+            return "Juju Flurry Buff";
         }
     }
 }

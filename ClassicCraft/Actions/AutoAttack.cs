@@ -8,8 +8,6 @@ namespace ClassicCraft
 {
     class AutoAttack : Action
     {
-        static Random random = new Random();
-
         public bool MH { get; set; }
         public Weapon Weapon { get; set; }
 
@@ -27,21 +25,25 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
+            DoAA();
             NextAA();
+        }
 
+        public void DoAA(int bonusAP = 0, bool didWf = false)
+        {
             ResultType res = Player.WhiteAttackEnemy(Player.Sim.Boss, MH);
 
-            int minDmg = (int)Math.Round(Weapon.DamageMin + Weapon.Speed * Player.AP / 14);
-            int maxDmg = (int)Math.Round(Weapon.DamageMax + Weapon.Speed * Player.AP / 14);
+            int minDmg = (int)Math.Round(Weapon.DamageMin + Weapon.Speed * (Player.AP + bonusAP) / 14);
+            int maxDmg = (int)Math.Round(Weapon.DamageMax + Weapon.Speed * (Player.AP + bonusAP) / 14);
 
             int damage = 0;
 
-            damage = (int)Math.Round(random.Next(minDmg, maxDmg + 1)
-                * Program.DamageMod(res)
+            damage = (int)Math.Round(Player.Sim.random.Next(minDmg, maxDmg + 1)
+                * Player.Sim.DamageMod(res)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
                 * (Player.DualWielding() ? (MH ? 1 : 0.5 * (1 + (0.05 * Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
 
-            Player.Ressource += (int)Math.Round(Program.RageGained(damage, Weapon.Speed, res, MH));
+            Player.Ressource += (int)Math.Round(Simulation.RageGained(damage, Weapon.Speed, res, MH));
 
             RegisterDamage(new ActionResult(res, damage));
 
@@ -49,13 +51,28 @@ namespace ClassicCraft
             {
                 DeepWounds.CheckProc(Player, res, Player.GetTalentPoints("DW"));
             }
-            if(Player.GetTalentPoints("Flurry") > 0)
+            if (Player.GetTalentPoints("Flurry") > 0)
             {
-                Flurry.CheckProc(Player, res, Player.GetTalentPoints("Flurry"));
+                Flurry.CheckProc(Player, res, Player.GetTalentPoints("Flurry"), didWf);
             }
-            if(Player.GetTalentPoints("UW") > 0)
+            if (Player.GetTalentPoints("UW") > 0)
             {
                 UnbridledWrath.CheckProc(Player, res, Player.GetTalentPoints("UW"));
+            }
+
+            if(MH && !didWf && Player.WindfuryTotem)
+            {
+                if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Glancing)
+                {
+                    if (Player.Sim.random.NextDouble() < 0.2)
+                    {
+                        if(Program.logFight)
+                        {
+                            Program.Log(string.Format("{0:N2} : Windfury procs", Player.Sim.CurrentTime));
+                        }
+                        DoAA(315, true);
+                    }
+                }
             }
         }
 

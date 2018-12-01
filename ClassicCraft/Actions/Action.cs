@@ -73,7 +73,7 @@ namespace ClassicCraft
 
             if(Program.logFight)
             {
-                Program.Log(String.Format("{0:N2} : {1} {2} for {3} damage (rage {4})", Player.Sim.CurrentTime, ToString(), res.Type, res.Damage, Player.Ressource));
+                Program.Log(string.Format("{0:N2} : {1} {2} for {3} damage (rage {4})", Player.Sim.CurrentTime, ToString(), res.Type, res.Damage, Player.Ressource));
             }
         }
 
@@ -81,7 +81,7 @@ namespace ClassicCraft
         {
             if(Program.logFight)
             {
-                Program.Log(String.Format("{0:N2} : {1} cast (rage {2})", Player.Sim.CurrentTime, ToString(), Player.Ressource));
+                Program.Log(string.Format("{0:N2} : {1} cast (rage {2})", Player.Sim.CurrentTime, ToString(), Player.Ressource));
             }
         }
 

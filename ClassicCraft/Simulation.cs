@@ -22,6 +22,8 @@ namespace ClassicCraft
 
         public bool Ended { get; set; }
 
+        public Random random = new Random();
+
         public Simulation(Player player, Boss boss, double fightLength)
         {
             Player = player;
@@ -52,12 +54,18 @@ namespace ClassicCraft
             Bloodthirst bt = new Bloodthirst(Player);
             HeroicStrike hs = new HeroicStrike(Player);
             hs.RessourceCost -= Player.GetTalentPoints("IHS");
-            Recklessness r = new Recklessness(Player);
-            DeathWish dw = new DeathWish(Player);
             Execute exec = new Execute(Player);
-            BloodFury bf = new BloodFury(Player);
             Bloodrage br = new Bloodrage(Player);
             BattleShout bs = new BattleShout(Player);
+
+            Dictionary<Spell, int> cds = new Dictionary<Spell, int>()
+            {
+                { new DeathWish(Player), DeathWishBuff.LENGTH },
+                { new JujuFlurry(Player), JujuFlurryBuff.LENGTH },
+                { new MightyRage(Player), MightyRageBuff.LENGTH },
+                { new Recklessness(Player), RecklessnessBuff.LENGTH },
+                { new BloodFury(Player), BloodFuryBuff.LENGTH },
+            };
 
             Boss.LifePct = 1;
 
@@ -89,27 +97,21 @@ namespace ClassicCraft
                 {
                     br.Cast();
                 }
-                if(bf.CanUse())
-                {
-                    bf.Cast();
-                }
 
                 if (bs.CanUse() && (!Player.Effects.Any(e => e is BattleShoutBuff) || ((BattleShoutBuff)Player.Effects.Where(e => e is BattleShoutBuff).First()).RemainingTime() < Player.GCD))
                 {
                     bs.Cast();
                 }
 
-                if (dw.CanUse() &&
-                    (FightLength - CurrentTime <= 30
-                    || FightLength - CurrentTime >= dw.BaseCD + 30))
+
+                foreach(Spell cd in cds.Keys)
                 {
-                    dw.Cast();
-                }
-                if (r.CanUse() &&
-                    (FightLength - CurrentTime <= 15
-                    || FightLength - CurrentTime >= r.BaseCD + 15))
-                {
-                    r.Cast();
+                    if(cd.CanUse() &&
+                        (FightLength - CurrentTime <= cds[cd]
+                        || FightLength - CurrentTime >= cd.BaseCD + cds[cd]))
+                    {
+                        cd.Cast();
+                    }
                 }
 
                 if (rota == 0)
@@ -198,6 +200,81 @@ namespace ClassicCraft
         {
             Effects.Add(effect);
             Damage += effect.Damage;
+        }
+
+        public static double Normalization(Weapon w)
+        {
+            if (w.Type == Weapon.WeaponType.Dagger)
+            {
+                return 1.7;
+            }
+            else if (w.TwoHanded)
+            {
+                return 3.3;
+            }
+            else
+            {
+                return 2.4;
+            }
+        }
+
+        public double DamageMod(ResultType type, int level = 60, int enemyLevel = 63)
+        {
+            switch (type)
+            {
+                case ResultType.Crit: return 2;
+                case ResultType.Hit: return 1;
+                case ResultType.Glancing: return GlancingDamage(level, enemyLevel);
+                default: return 0;
+            }
+        }
+
+        public double GlancingDamage(int level = 60, int enemyLevel = 63)
+        {
+            double low = Math.Max(0.01, Math.Min(0.91, 1.3 - 0.05 * (enemyLevel - level)));
+            double high = Math.Max(0.2, Math.Min(0.99, 1.2 - 0.03 * (enemyLevel - level)));
+            return random.NextDouble() * (high - low) + low;
+        }
+
+        public static double RageGained(int damage, double weaponSpeed, ResultType type, bool mh = true)
+        {
+            return (15 * damage) / (4 * RageConversionValue()) + (RageWhiteHitFactor(mh, type == ResultType.Crit) * weaponSpeed) / 2;
+        }
+
+        public static double RageGained2(int damage)
+        {
+            return (15 * damage) / RageConversionValue();
+        }
+
+        public static double RageConversionValue(int level = 60)
+        {
+            return 0.0091107836 * level * level + 3.225598133 * level + 4.2652911;
+        }
+
+        public static double RageWhiteHitFactor(bool mh, bool crit)
+        {
+            if (mh)
+            {
+                if (crit)
+                {
+                    return 7.0;
+                }
+                else
+                {
+                    return 3.5;
+                }
+            }
+            else
+            {
+                if (crit)
+                {
+                    return 3.5;
+                }
+                else
+                {
+                    return 1.75;
+                }
+            }
         }
     }
 }

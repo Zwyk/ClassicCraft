@@ -16,6 +16,7 @@ namespace ClassicCraft
         Health,
         Mana,
         Armor,
+        ArmorPen,
         AS,
         AP,
         RangedAP,
@@ -32,6 +33,7 @@ namespace ClassicCraft
         SkillDagger,
         Skill1H,
         Skill2H,
+        WeaponDamage,
     }
 
     public class AttributeUtil
@@ -48,6 +50,7 @@ namespace ClassicCraft
                 case "HP": return Attribute.Health;
                 case "Mana": return Attribute.Mana;
                 case "Armor": return Attribute.Armor;
+                case "ArmorPen": return Attribute.ArmorPen;
                 case "AS": return Attribute.AS;
                 case "AP": return Attribute.AP;
                 case "RAP": return Attribute.RangedAP;
@@ -64,6 +67,7 @@ namespace ClassicCraft
                 case "Dagger": return Attribute.SkillDagger;
                 case "1H": return Attribute.Skill1H;
                 case "2H": return Attribute.Skill2H;
+                case "WDmg": return Attribute.WeaponDamage;
                 default: throw new Exception("Attribute not found : " + s);
             }
         }
@@ -80,6 +84,7 @@ namespace ClassicCraft
                 case Attribute.Health: return "HP";
                 case Attribute.Mana: return "Mana";
                 case Attribute.Armor: return "Armor";
+                case Attribute.ArmorPen: return "ArmorPen";
                 case Attribute.AS: return "AS";
                 case Attribute.AP: return "AP";
                 case Attribute.RangedAP: return "RAP";
@@ -96,6 +101,7 @@ namespace ClassicCraft
                 case Attribute.SkillDagger: return "Dagger";
                 case Attribute.Skill1H: return "1H";
                 case Attribute.Skill2H: return "2H";
+                case Attribute.WeaponDamage: return "WDmg";
                 default: throw new Exception("Attribute not found");
             }
         }
@@ -106,20 +112,23 @@ namespace ClassicCraft
         public Dictionary<Attribute, double> Values { get; set; }
 
         public Attributes(Attributes a)
-            : this(a == null ? new Dictionary<Attribute, double>() : a.Values) { }
+            : this(a.Values) { }
 
         public Attributes(Dictionary<Attribute, double> values)
         {
-            Values = new Dictionary<Attribute, double>(values);
+            Values = values;
         }
 
         public Attributes(Dictionary<string, double> values)
         {
             Values = new Dictionary<Attribute, double>();
 
-            foreach(string s in values.Keys)
+            if(values != null)
             {
-                Values.Add(AttributeUtil.FromString(s), values[s]);
+                foreach (string s in values.Keys)
+                {
+                    Values.Add(AttributeUtil.FromString(s), values[s]);
+                }
             }
         }
 
@@ -147,6 +156,8 @@ namespace ClassicCraft
 
         public void SetValue(Attribute a, double val)
         {
+            if (Values == null) Values = new Dictionary<Attribute, double>();
+
             if(Values.ContainsKey(a))
             {
                 Values[a] = val;
@@ -159,7 +170,7 @@ namespace ClassicCraft
 
         public double GetValue(Attribute a)
         {
-            if(Values.ContainsKey(a))
+            if(Values != null && Values.ContainsKey(a))
             {
                 return Values[a];
             }
@@ -177,6 +188,18 @@ namespace ClassicCraft
             }
 
             return new Attributes(b);
+        }
+
+        public override string ToString()
+        {
+            string stats = "";
+            foreach (Attribute a in Values.Keys)
+            {
+                double val = Values[a];
+                if (a == Attribute.CritChance || a == Attribute.HitChance || a == Attribute.AS) val *= 100;
+                stats += "[" + a + ":" + val + "]";
+            }
+            return stats;
         }
     }
 }

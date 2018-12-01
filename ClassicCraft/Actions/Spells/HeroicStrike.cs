@@ -34,7 +34,7 @@ namespace ClassicCraft
             int maxDmg = (int)Math.Round(weapon.DamageMax + weapon.Speed * Player.AP / 14);
 
             int damage = (int)Math.Round((random.Next(minDmg, maxDmg + 1) + 157)
-                * Program.DamageMod(res)
+                * Player.Sim.DamageMod(res)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
                 * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1)
                 * (Player.DualWielding() ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));

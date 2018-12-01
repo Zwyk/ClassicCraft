@@ -17,7 +17,7 @@ namespace ClassicCraft
         {
             if(res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block)
             {
-                if(Program.random.NextDouble() < (0.08 * points))
+                if(p.Sim.random.NextDouble() < (0.08 * points))
                 {
                     p.Ressource += 1;
                 }
