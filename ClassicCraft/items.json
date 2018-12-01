@@ -4,25 +4,25 @@
 	  "Id": 0,
 	  "Slot": "Back",
 	  "Stats": {
-	    "Str": 80.0,
-	    "Agi": 39.0,
-	    "Sta": 138.0,
-	    "AP": 308.0,
-	    "CritChance": 7.0,
-	    "HitChance": 5.0
+	    "Str": 8.0,
+	    "Agi": 9.0,
+	    "Sta": 1.0,
+	    "AP": 3.0,
+	    "Crit": 7.0,
+	    "Hit": 5.0
 	  }
 	},
 	{
 	  "Name": "Test 2",
-	  "Id": 0,
+	  "Id": 1,
 	  "Slot": "Head",
 	  "Stats": {
-	    "Str": 80.0,
-	    "Agi": 39.0,
-	    "Sta": 138.0,
-	    "AP": 308.0,
-	    "CritChance": 7.0,
-	    "HitChance": 5.0
+	    "Str": 8.0,
+	    "Agi": 3.0,
+	    "Sta": 8.0,
+	    "AP": 8.0,
+	    "Crit": 7.0,
+	    "Hit": 5.0
 	  }
 	}
 ]

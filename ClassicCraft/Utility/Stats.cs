@@ -165,9 +165,28 @@ namespace ClassicCraft
             return StdnormalInv(1.0 - (1.0 - confidence) / 2.0);
         }
 
+        public static double Variance(double[] values)
+        {
+            double mean = 0.0;
+            double sum = 0.0;
+            double stdDev = 0.0;
+            int n = 0;
+            foreach (double val in values)
+            {
+                n++;
+                double delta = val - mean;
+                mean += delta / n;
+                sum += delta * (val - mean);
+            }
+            if (1 < n)
+                stdDev = sum / n;
+
+            return stdDev;
+        }
+
         public static double MeanStdDev(double[] values)
         {
-            return Math.Sqrt(Stat.variance(values) / values.Count());
+            return Math.Sqrt(Variance(values) / values.Count());
         }
 
         public static double StandardError(double meanStdDev)
@@ -192,7 +211,7 @@ namespace ClassicCraft
 
         public static double EstimateN(double targetErrorPct, double[] values, double mean)
         {
-            return (10000 * Math.Pow(ConfidenceEstimator, 2) * Stat.variance(values)) / (Math.Pow(targetErrorPct, 2) * Math.Pow(mean, 2));
+            return (10000 * Math.Pow(ConfidenceEstimator, 2) * Variance(values)) / (Math.Pow(targetErrorPct, 2) * Math.Pow(mean, 2));
         }
 
         public static double EstimateN(double targetErrorPct, double variance, double mean)

@@ -7,12 +7,12 @@ Boss :
 Level 63, 405 Armor
 
 Error Percent : 0,09%
-Average Damage : 249 986,45 (+/- 117,69)
-Average DPS : 833,29 dps (+/- 0,39)
-Average DPS [Auto Attack] : 352,93 dps (42,35%), average of 401,89 damage for 263,45 uses or 1 use every 1,14s
-Average DPS [Bloodthirst] : 117,32 dps (14,08%), average of 983,62 damage for 35,78 uses or 1 use every 8,38s
-Average DPS [Whirlwind] : 95,77 dps (11,49%), average of 1 149,24 damage for 25,00 uses or 1 use every 12,00s
-Average DPS [Heroic Strike] : 134,88 dps (16,19%), average of 821,16 damage for 49,28 uses or 1 use every 6,09s
-Average DPS [Hamstring] : 4,02 dps (0,48%), average of 53,04 damage for 20,97 uses or 1 use every 14,31s
-Average DPS [Execute] : 119,33 dps (14,32%), average of 1 572,95 damage for 22,76 uses or 1 use every 13,18s
-Average DPS [Deep Wounds] : 9,04 dps (1,08%), average of 68,32 damage for 39,69 ticks or 1 tick every 7,56s
+Average Damage : 249 089,06 (+/- 119,61)
+Average DPS : 830,30 dps (+/- 0,40)
+Average DPS [Auto Attack] : 351,28 dps (42,31%), average of 400,69 damage for 263,01 uses or 1 use every 1,14s
+Average DPS [Bloodthirst] : 116,22 dps (14,00%), average of 976,91 damage for 35,69 uses or 1 use every 8,41s
+Average DPS [Whirlwind] : 95,70 dps (11,53%), average of 1 148,43 damage for 25,00 uses or 1 use every 12,00s
+Average DPS [Heroic Strike] : 135,15 dps (16,28%), average of 826,39 damage for 49,06 uses or 1 use every 6,11s
+Average DPS [Hamstring] : 4,02 dps (0,48%), average of 53,05 damage for 21,16 uses or 1 use every 14,18s
+Average DPS [Execute] : 118,84 dps (14,31%), average of 1 567,05 damage for 22,75 uses or 1 use every 13,19s
+Average DPS [Deep Wounds] : 9,09 dps (1,09%), average of 68,27 damage for 39,94 ticks or 1 tick every 7,51s
