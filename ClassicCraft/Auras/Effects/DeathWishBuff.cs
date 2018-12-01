@@ -10,8 +10,8 @@ namespace ClassicCraft
     {
         public static int LENGTH = 30;
 
-        public DeathWishBuff(Player p, Entity target, bool friendly = true, double baseLength = 30, int baseStacks = 1)
-            : base(p, target, friendly, baseLength, baseStacks)
+        public DeathWishBuff(Player p)
+            : base(p, p, true, LENGTH, 1)
         {
         }
 

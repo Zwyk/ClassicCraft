@@ -59,10 +59,14 @@ namespace ClassicCraft
             {
                 UnbridledWrath.CheckProc(Player, res, Player.GetTalentPoints("UW"));
             }
+            if((MH && Player.MH.Enchantment.Name == "Crusader") || (!MH && Player.OH.Enchantment.Name == "Crusader"))
+            {
+                Crusader.CheckProc(Player, res, Weapon.Speed);
+            }
 
             if(MH && !didWf && Player.WindfuryTotem)
             {
-                if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Glancing)
+                if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glancing)
                 {
                     if (Player.Sim.random.NextDouble() < 0.2)
                     {

@@ -32,9 +32,18 @@ namespace ClassicCraft
                 else
                 {
                     Item res = new Item(null, SlotUtil.FromString(ji.Slot), new Attributes(ji.Stats), ji.Id, ji.Name, ClassicCraft.Enchantment.ToEnchantment(ji.Enchantment), null);
-                    res.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100);
-                    res.Attributes.SetValue(Attribute.HitChance, res.Attributes.GetValue(Attribute.HitChance) / 100);
-                    res.Attributes.SetValue(Attribute.AS, res.Attributes.GetValue(Attribute.AS) / 100);
+                    if(res.Attributes != null)
+                    {
+                        res.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100);
+                        res.Attributes.SetValue(Attribute.HitChance, res.Attributes.GetValue(Attribute.HitChance) / 100);
+                        res.Attributes.SetValue(Attribute.AS, res.Attributes.GetValue(Attribute.AS) / 100);
+                    }
+                    if (res.Enchantment != null)
+                    {
+                        res.Enchantment.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100);
+                        res.Enchantment.Attributes.SetValue(Attribute.HitChance, res.Attributes.GetValue(Attribute.HitChance) / 100);
+                        res.Enchantment.Attributes.SetValue(Attribute.AS, res.Attributes.GetValue(Attribute.AS) / 100);
+                    }
                     return res;
                 }
             }
@@ -45,9 +54,18 @@ namespace ClassicCraft
                 else
                 {
                     JsonItem res = new JsonItem(i.Id, i.Name, SlotUtil.ToString(i.Slot), Attributes.ToStringDic(i.Attributes), ClassicCraft.Enchantment.FromEnchantment(i.Enchantment));
-                    if (res.Stats.ContainsKey("CritChance")) res.Stats["CritChance"] *= 100;
-                    if (res.Stats.ContainsKey("HitChance")) res.Stats["HitChance"] *= 100;
-                    if (res.Stats.ContainsKey("AS")) res.Stats["AS"] *= 100;
+                    if(res.Stats != null)
+                    {
+                        if (res.Stats.ContainsKey("CritChance")) res.Stats["CritChance"] *= 100;
+                        if (res.Stats.ContainsKey("HitChance")) res.Stats["HitChance"] *= 100;
+                        if (res.Stats.ContainsKey("AS")) res.Stats["AS"] *= 100;
+                    }
+                    if(res.Enchantment != null)
+                    {
+                        if (res.Enchantment.Stats.ContainsKey("CritChance")) res.Enchantment.Stats["CritChance"] *= 100;
+                        if (res.Enchantment.Stats.ContainsKey("HitChance")) res.Enchantment.Stats["HitChance"] *= 100;
+                        if (res.Enchantment.Stats.ContainsKey("AS")) res.Enchantment.Stats["AS"] *= 100;
+                    }
                     return res;
                 }
             }
@@ -60,8 +78,9 @@ namespace ClassicCraft
             public double Speed { get; set; }
             public bool TwoHanded { get; set; }
             public string Type { get; set; }
+            public JsonEnchantment Buff { get; set; }
 
-            public JsonWeapon(int damageMin = 1, int damageMax = 2, double speed = 1, bool twoHanded = true, string type = "Axe", int id = 0, string name = "New Item", Dictionary<string, double> attributes = null, JsonEnchantment enchantment = null)
+            public JsonWeapon(int damageMin = 1, int damageMax = 2, double speed = 1, bool twoHanded = true, string type = "Axe", int id = 0, string name = "New Item", Dictionary<string, double> attributes = null, JsonEnchantment enchantment = null, JsonEnchantment buffs = null)
                 : base(id, name, "Weapon", attributes, enchantment)
             {
                 DamageMin = damageMin;
@@ -69,6 +88,7 @@ namespace ClassicCraft
                 Speed = speed;
                 TwoHanded = twoHanded;
                 Type = type;
+                Buff = buffs;
             }
 
             public static Weapon ToWeapon(JsonWeapon jw)
@@ -77,10 +97,25 @@ namespace ClassicCraft
                 if (jw == null) return null;
                 else
                 {
-                    Weapon res = new Weapon(null, jw.DamageMin, jw.DamageMax, jw.Speed, jw.TwoHanded, Weapon.StringToType(jw.Type), new Attributes(jw.Stats), jw.Id, jw.Name, ClassicCraft.Enchantment.ToEnchantment(jw.Enchantment), null);
-                    res.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100);
-                    res.Attributes.SetValue(Attribute.HitChance, res.Attributes.GetValue(Attribute.HitChance) / 100);
-                    res.Attributes.SetValue(Attribute.AS, res.Attributes.GetValue(Attribute.AS) / 100);
+                    Weapon res = new Weapon(null, jw.DamageMin, jw.DamageMax, jw.Speed, jw.TwoHanded, Weapon.StringToType(jw.Type), new Attributes(jw.Stats), jw.Id, jw.Name, ClassicCraft.Enchantment.ToEnchantment(jw.Enchantment), ClassicCraft.Enchantment.ToEnchantment(jw.Buff), null);
+                    if(res.Attributes != null)
+                    {
+                        res.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100);
+                        res.Attributes.SetValue(Attribute.HitChance, res.Attributes.GetValue(Attribute.HitChance) / 100);
+                        res.Attributes.SetValue(Attribute.AS, res.Attributes.GetValue(Attribute.AS) / 100);
+                    }
+                    if(res.Enchantment != null)
+                    {
+                        res.Enchantment.Attributes.SetValue(Attribute.CritChance, res.Enchantment.Attributes.GetValue(Attribute.CritChance) / 100);
+                        res.Enchantment.Attributes.SetValue(Attribute.HitChance, res.Enchantment.Attributes.GetValue(Attribute.HitChance) / 100);
+                        res.Enchantment.Attributes.SetValue(Attribute.AS, res.Enchantment.Attributes.GetValue(Attribute.AS) / 100);
+                    }
+                    if(res.Buff != null)
+                    {
+                        res.Buff.Attributes.SetValue(Attribute.CritChance, res.Buff.Attributes.GetValue(Attribute.CritChance) / 100);
+                        res.Buff.Attributes.SetValue(Attribute.HitChance, res.Buff.Attributes.GetValue(Attribute.HitChance) / 100);
+                        res.Buff.Attributes.SetValue(Attribute.AS, res.Buff.Attributes.GetValue(Attribute.AS) / 100);
+                    }
                     return res;
                 }
             }
@@ -90,10 +125,25 @@ namespace ClassicCraft
                 if (w == null) return null;
                 else
                 {
-                    JsonWeapon res = new JsonWeapon(w.DamageMin, w.DamageMax, w.Speed, w.TwoHanded, Weapon.TypeToString(w.Type), w.Id, w.Name, Attributes.ToStringDic(w.Attributes), ClassicCraft.Enchantment.FromEnchantment(w.Enchantment));
-                    if (res.Stats.ContainsKey("CritChance")) res.Stats["CritChance"] *= 100;
-                    if (res.Stats.ContainsKey("HitChance")) res.Stats["HitChance"] *= 100;
-                    if (res.Stats.ContainsKey("AS")) res.Stats["AS"] *= 100;
+                    JsonWeapon res = new JsonWeapon(w.DamageMin, w.DamageMax, w.Speed, w.TwoHanded, Weapon.TypeToString(w.Type), w.Id, w.Name, Attributes.ToStringDic(w.Attributes), ClassicCraft.Enchantment.FromEnchantment(w.Enchantment), ClassicCraft.Enchantment.FromEnchantment(w.Buff));
+                    if(res.Stats != null)
+                    {
+                        if (res.Stats.ContainsKey("CritChance")) res.Stats["CritChance"] *= 100;
+                        if (res.Stats.ContainsKey("HitChance")) res.Stats["HitChance"] *= 100;
+                        if (res.Stats.ContainsKey("AS")) res.Stats["AS"] *= 100;
+                    }
+                    if(res.Enchantment != null)
+                    {
+                        if (res.Enchantment.Stats.ContainsKey("CritChance")) res.Enchantment.Stats["CritChance"] *= 100;
+                        if (res.Enchantment.Stats.ContainsKey("HitChance")) res.Enchantment.Stats["HitChance"] *= 100;
+                        if (res.Enchantment.Stats.ContainsKey("AS")) res.Enchantment.Stats["AS"] *= 100;
+                    }
+                    if(res.Buff != null)
+                    {
+                        if (res.Buff.Stats.ContainsKey("CritChance")) res.Buff.Stats["CritChance"] *= 100;
+                        if (res.Buff.Stats.ContainsKey("HitChance")) res.Buff.Stats["HitChance"] *= 100;
+                        if (res.Buff.Stats.ContainsKey("AS")) res.Buff.Stats["AS"] *= 100;
+                    }
                     return res;
                 }
             }
@@ -178,21 +228,52 @@ namespace ClassicCraft
                 Cooldowns = cooldowns;
             }
 
-            // TODO race, classe etc.
             public static Player ToPlayer(JsonPlayer jp)
             {
                 List<Enchantment> buffs = new List<Enchantment>();
-                foreach(JsonEnchantment je in jp.Buffs)
+                if(jp.Buffs != null)
                 {
-                    buffs.Add(Enchantment.ToEnchantment(je));
+                    foreach (JsonEnchantment je in jp.Buffs.Where(v => v != null))
+                    {
+                        Enchantment e = Enchantment.ToEnchantment(je);
+                        if (e != null)
+                        {
+                            if (e.Attributes != null)
+                            {
+                                e.Attributes.SetValue(Attribute.CritChance, e.Attributes.GetValue(Attribute.CritChance) / 100);
+                                e.Attributes.SetValue(Attribute.HitChance, e.Attributes.GetValue(Attribute.HitChance) / 100);
+                                e.Attributes.SetValue(Attribute.AS, e.Attributes.GetValue(Attribute.AS) / 100);
+                            }
+
+                            buffs.Add(e);
+                        }
+                    }
                 }
 
-                return new Player
+                return new Player(null, Player.Classes.Warrior)
                 {
+                    // TODO race, classe etc.
                     Equipment = ToEquipment(jp.MH, jp.OH, jp.Ranged, jp.Equipment),
                     Buffs = buffs,
-                    WindfuryTotem = jp.Buffs != null && jp.Buffs.Select(b => b.Name).Contains("WindfuryTotem")
+                    WindfuryTotem = jp.Buffs != null && jp.Buffs.Select(b => b.Name).Contains("Windfury Totem"),
+                    Cooldowns = jp.Cooldowns.Where(v => v.Value == true).Select(c => c.Key).ToList()
                 };
+            }
+
+            public static Player.Races ToRace(string s)
+            {
+                switch(s)
+                {
+                    case "Dwarf": return Player.Races.Dwarf;
+                    case "Gnome": return Player.Races.Gnome;
+                    case "Human": return Player.Races.Human;
+                    case "Night Elf": return Player.Races.NightElf;
+                    case "Orc": return Player.Races.Orc;
+                    case "Troll": return Player.Races.Troll;
+                    case "Tauren": return Player.Races.Tauren;
+                    case "Undead": return Player.Races.Undead;
+                    default: throw new Exception("Race not found");
+                }
             }
         }
 
@@ -216,9 +297,9 @@ namespace ClassicCraft
 
                 if (debuffs != null && debuffs.Count > 0)
                 {
-                    armor -= (debuffs.Contains("SunderArmor") ? 2250 : 0)
-                        + (debuffs.Contains("CurseOfRecklessness") ? 640 : 0)
-                        + (debuffs.Contains("FaerieFire") ? 505 : 0)
+                    armor -= (debuffs.Contains("Expose Armor") ? 2550 : (debuffs.Contains("Sunder Armor") ? 2250 : 0))
+                        + (debuffs.Contains("Curse of Recklessness") ? 640 : 0)
+                        + (debuffs.Contains("Faerie Fire") ? 505 : 0)
                         + (debuffs.Contains("Annihilator") ? 600 : 0);
                 }
 
@@ -234,11 +315,13 @@ namespace ClassicCraft
             public double TargetErrorPct { get; set; }
             public bool TargetError { get; set; }
             public bool LogFight { get; set; }
+            public bool BossAutoLife { get; set; }
+            public double BossLowLifeTime { get; set; }
             public List<string> SimStatWeight { get; set; }
             public JsonBoss Boss { get; set; }
             public JsonPlayer Player { get; set; }
 
-            public JsonSim(JsonPlayer player = null, JsonBoss boss = null, double fightLength = 300, double fightLengthMod = 0.2, int nbSim = 1000, double targetErrorPct = 0.5, bool targetError = true, bool logFight = false, List<string> simStatWeight = null)
+            public JsonSim(JsonPlayer player = null, JsonBoss boss = null, double fightLength = 300, double fightLengthMod = 0.2, int nbSim = 1000, double targetErrorPct = 0.5, bool targetError = true, bool logFight = false, List<string> simStatWeight = null, bool bossAutoLife = true, double bossLowLifeTime = 0)
             {
                 Player = player;
                 Boss = boss;
@@ -249,6 +332,8 @@ namespace ClassicCraft
                 TargetError = targetError;
                 LogFight = logFight;
                 SimStatWeight = simStatWeight;
+                BossAutoLife = bossAutoLife;
+                BossLowLifeTime = bossLowLifeTime;
             }
         }
 

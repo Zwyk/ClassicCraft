@@ -1,21 +1,84 @@
 {
-  "FightLength": 300.0,
-  "TargetErrorPct": 0.5,
+  "FightLength": 300,
+  "TargetErrorPct": 0.1,
   "TargetError": true,
   "LogFight": false,
-  "NbSim": 10,
+  "NbSim": 1,
+  "BossAutoLife": true,
+  "BossLowLifeTime": 0,
   "Boss" : {
     "Level": 63,
     "Armor": 4400,
     "Debuffs": [
-      "SunderArmor"
+      "Sunder Armor",
+      "Curse of Recklessness",
+      "Faerie Fire",
+      "Annihilator"
     ]
   },
   "Player": {
+    "Race": "Orc",
+    "Cooldowns": {
+      "Racial": true,
+      "Death Wish": true,
+      "Recklessness": true,
+      "Juju Flurry": true,
+      "Mighty Rage": true,
+    },
     "Buffs": [
       {
-        "Name": "WindfuryTotem"
-      }
+        "Name": "Windfury Totem"
+      },
+      {
+        "Name": "Trueshot Aura",
+        "Stats": {
+          "AP": 100
+        }
+      },
+      {
+        "Name": "Mark of the Wild",
+        "Stats": {
+          "Agi": 16,
+          "Str": 16,
+        }
+      },
+      {
+        "Name": "Elixir of Giants",
+        "Stats": {
+          "Str": 25,
+        }
+      },
+      {
+        "Name": "R.O.I.D.S.",
+        "Stats": {
+          "Str": 25,
+        }
+      },
+      {
+        "Name": "Juju Power",
+        "Stats": {
+          "Str": 30,
+        }
+      },
+      {
+        "Name": "Juju Might",
+        "Stats": {
+          "AP": 40,
+        }
+      },
+      {
+        "Name": "Smoked Desert Dumplings",
+        "Stats": {
+          "Str": 20,
+        }
+      },
+      {
+        "Name": "Elixir of the Mongoose",
+        "Stats": {
+          "Agi": 25,
+          "Crit": 2
+        }
+      },
     ],
     "MH": {
       "DamageMin": 119,
@@ -26,14 +89,12 @@
       "Name": "Hatchet of Sundered Bone",
       "Id": 0,
       "Slot": "Weapon",
+      "Enchantment": {
+        "Name": "Crusader"
+      },
       "Stats": {
         "AP": 36,
         "Crit": 1
-      },
-      "Enchantment": {
-        "Stats": {
-          "Str": 0
-        }
       }
     },
     "OH": {
@@ -47,6 +108,14 @@
       "Slot": "Weapon",
       "Stats": {
         "AP": 36,
+      },
+      "Enchantment": {
+        "Name": "Crusader"
+      },
+      "Buff": {
+        "Stats": {
+          "Crit": 2
+        }
       }
     },
     "Ranged": {
@@ -65,6 +134,12 @@
           "Str": 18,
           "Crit": 2,
           "Hit": 2,
+        },
+        "Enchantment": {
+          "Name": "Libram of Voracity Str",
+          "Stats": {
+            "Str": 8
+          }
         }
       },
       "Neck": {
@@ -80,6 +155,13 @@
           "Str": 20,
           "Agi": 16,
           "Hit": 1
+        },
+        "Enchantment": {
+          "Name": "Might of the Scourge",
+          "Stats": {
+            "Crit": 1,
+            "AP": 26
+          }
         }
       },
       "Back": {
@@ -88,6 +170,12 @@
           "Str": 11,
           "Agi": 16,
           "Hit": 1
+        },
+        "Enchantment": {
+          "Name": "Lesser Agility",
+          "Stats": {
+            "Agi": 3
+          }
         }
       },
       "Chest": {
@@ -96,6 +184,13 @@
           "Str": 45,
           "Hit": 1,
           "Crit": 1
+        },
+        "Enchantment": {
+          "Name": "Greater Stats",
+          "Stats": {
+            "Str": 4,
+            "Agi": 4
+          }
         }
       },
       "Wrist": {
@@ -103,6 +198,12 @@
         "Stats": {
           "Str": 24,
           "Crit": 1
+        },
+        "Enchantment": {
+          "Name": "Superior Strength",
+          "Stats": {
+            "Str": 9
+          }
         }
       },
       "Hands": {
@@ -111,6 +212,12 @@
           "Str": 35,
           "Crit": 1,
           "Hit": 1
+        },
+        "Enchantment": {
+          "Name": "Greater Strength",
+          "Stats": {
+            "Str": 7
+          }
         }
       },
       "Waist": {
@@ -128,6 +235,12 @@
           "Str": 30,
           "Hit": 2,
           "Crit": 1
+        },
+        "Enchantment": {
+          "Name": "Libram of Voracity Str",
+          "Stats": {
+            "Str": 8
+          }
         }
       },
       "Feet": {
@@ -136,6 +249,12 @@
           "Str": 20,
           "Agi": 20,
           "Hit": 1
+        },
+        "Enchantment": {
+          "Name": "Greater Agility",
+          "Stats": {
+            "Agi": 7
+          }
         }
       },
       "Ring1": {

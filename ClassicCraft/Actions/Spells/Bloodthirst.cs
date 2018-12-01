@@ -8,10 +8,13 @@ namespace ClassicCraft
 {
     class Bloodthirst : Spell
     {
+        public static int COST = 30;
+        public static int CD = 6;
+
         static Random random = new Random();
 
-        public Bloodthirst(Player p, double baseCD = 6, int ressourceCost = 30)
-            : base(p, baseCD, ressourceCost) {}
+        public Bloodthirst(Player p)
+            : base(p, CD, COST) {}
 
         public override void Cast()
         {
@@ -43,6 +46,10 @@ namespace ClassicCraft
             if (Player.GetTalentPoints("Flurry") > 0)
             {
                 Flurry.CheckProc(Player, res, Player.GetTalentPoints("Flurry"));
+            }
+            if (Player.MH.Enchantment.Name == "Crusader")
+            {
+                Crusader.CheckProc(Player, res, Player.MH.Speed);
             }
         }
 

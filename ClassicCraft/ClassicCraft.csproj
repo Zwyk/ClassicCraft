@@ -59,10 +59,12 @@
   <ItemGroup>
     <Compile Include="Actions\Action.cs" />
     <Compile Include="Actions\Spells\BattleShout.cs" />
+    <Compile Include="Actions\Spells\Berserking.cs" />
     <Compile Include="Actions\Spells\BloodFury.cs" />
     <Compile Include="Actions\Spells\Bloodrage.cs" />
     <Compile Include="Actions\Spells\DeathWish.cs" />
     <Compile Include="Actions\Spells\Execute.cs" />
+    <Compile Include="Actions\Spells\Hamstring.cs" />
     <Compile Include="Actions\Spells\Potions\JujuFlurry.cs" />
     <Compile Include="Actions\Spells\Potions\MightyRage.cs" />
     <Compile Include="Actions\Spells\Potions\Potion.cs" />
@@ -71,9 +73,11 @@
     <Compile Include="Actions\AutoAttack.cs" />
     <Compile Include="Actions\Spells\Bloodthirst.cs" />
     <Compile Include="Auras\Effects\BattleShoutBuff.cs" />
+    <Compile Include="Auras\Effects\BerserkingBuff.cs" />
     <Compile Include="Auras\Effects\BloodFuryBuff.cs" />
     <Compile Include="Auras\Effects\DeathWishBuff.cs" />
     <Compile Include="Auras\Effects\EffectsOnTime\BloodrageBuff.cs" />
+    <Compile Include="Auras\Effects\Enchants\Crusader.cs" />
     <Compile Include="Auras\Effects\Potions\JujuFlurryBuff.cs" />
     <Compile Include="Auras\Effects\Potions\MightyRageBuff.cs" />
     <Compile Include="Auras\Effects\RecklessnessBuff.cs" />

@@ -8,7 +8,7 @@ namespace ClassicCraft
 {
     public class Simulation
     {
-        public static double RATE = 20;
+        public static double RATE = 10;
 
         public Player Player { get; set; }
         public Boss Boss { get; set; }
@@ -20,11 +20,14 @@ namespace ClassicCraft
 
         public double CurrentTime { get; set; }
 
+        public bool AutoBossLife { get; set; }
+        public double LowLifeTime { get; set; }
+
         public bool Ended { get; set; }
 
         public Random random = new Random();
 
-        public Simulation(Player player, Boss boss, double fightLength)
+        public Simulation(Player player, Boss boss, double fightLength, bool autoBossLife = true, double lowLifeTime = 0)
         {
             Player = player;
             Boss = boss;
@@ -35,6 +38,9 @@ namespace ClassicCraft
             Effects = new List<RegisteredEffect>();
             Damage = 0;
             CurrentTime = 0;
+            AutoBossLife = autoBossLife;
+            LowLifeTime = lowLifeTime;
+
             Ended = false;
         }
 
@@ -57,15 +63,33 @@ namespace ClassicCraft
             Execute exec = new Execute(Player);
             Bloodrage br = new Bloodrage(Player);
             BattleShout bs = new BattleShout(Player);
+            Hamstring ham = new Hamstring(Player);
 
-            Dictionary<Spell, int> cds = new Dictionary<Spell, int>()
+            Dictionary<Spell, int> cds = null;
+            if (Player.Cooldowns != null)
             {
-                { new DeathWish(Player), DeathWishBuff.LENGTH },
-                { new JujuFlurry(Player), JujuFlurryBuff.LENGTH },
-                { new MightyRage(Player), MightyRageBuff.LENGTH },
-                { new Recklessness(Player), RecklessnessBuff.LENGTH },
-                { new BloodFury(Player), BloodFuryBuff.LENGTH },
-            };
+                cds = new Dictionary<Spell, int>();
+                foreach (string s in Player.Cooldowns)
+                {
+                    switch (s)
+                    {
+                        case "Death Wish": cds.Add(new DeathWish(Player), DeathWishBuff.LENGTH); break;
+                        case "Juju Flurry": cds.Add(new JujuFlurry(Player), JujuFlurryBuff.LENGTH); break;
+                        case "Mighty Rage": cds.Add(new MightyRage(Player), MightyRageBuff.LENGTH); break;
+                        case "Recklessness": cds.Add(new Recklessness(Player), RecklessnessBuff.LENGTH); break;
+                        case "Racial":
+                            if (Player.Race == Player.Races.Orc)
+                            {
+                                cds.Add(new BloodFury(Player), BloodFuryBuff.LENGTH);
+                            }
+                            else if (Player.Race == Player.Races.Troll)
+                            {
+                                cds.Add(new Berserking(Player), BerserkingBuff.LENGTH);
+                            }
+                            break;
+                    }
+                }
+            }
 
             Boss.LifePct = 1;
 
@@ -79,7 +103,14 @@ namespace ClassicCraft
 
             while (CurrentTime < FightLength)
             {
-                Boss.LifePct = Math.Max(0, 1 - (CurrentTime / FightLength) * (16.0 / 17.0));
+                if(AutoBossLife)
+                {
+                    Boss.LifePct = Math.Max(0, 1 - (CurrentTime / FightLength) * (16.0 / 17.0));
+                }
+                else if(CurrentTime >= LowLifeTime && Boss.LifePct == 1)
+                {
+                    Boss.LifePct = 0.10;
+                }
                 
                 foreach (Effect e in Player.Effects)
                 {
@@ -104,13 +135,16 @@ namespace ClassicCraft
                 }
 
 
-                foreach(Spell cd in cds.Keys)
+                if(cds != null)
                 {
-                    if(cd.CanUse() &&
-                        (FightLength - CurrentTime <= cds[cd]
-                        || FightLength - CurrentTime >= cd.BaseCD + cds[cd]))
+                    foreach (Spell cd in cds.Keys)
                     {
-                        cd.Cast();
+                        if (cd.CanUse() &&
+                            (FightLength - CurrentTime <= cds[cd]
+                            || FightLength - CurrentTime >= cd.BaseCD + cds[cd]))
+                        {
+                            cd.Cast();
+                        }
                     }
                 }
 
@@ -126,12 +160,16 @@ namespace ClassicCraft
                         {
                             ww.Cast();
                         }
-                        else if (bt.CanUse() && Player.Ressource >= ww.RessourceCost + bt.RessourceCost)
+                        else if (bt.CanUse() && Player.Ressource >= ww.RessourceCost + bt.RessourceCost && ww.RemainingCD() >= Player.GCD)
                         {
                             bt.Cast();
                         }
+                        else if(ham.CanUse() && Player.Ressource >= Bloodthirst.COST + Whirlwind.COST + Hamstring.COST && ww.RemainingCD() >= Player.GCD && bt.RemainingCD() >= Player.GCD && (!Player.Effects.Any(e => e is Flurry) || ((Flurry)Player.Effects.Where(f => f is Flurry).First()).CurrentStacks < 3))
+                        {
+                            ham.Cast();
+                        }
 
-                        if (Player.Ressource >= 75)
+                        if (Player.Ressource >= Bloodthirst.COST + Whirlwind.COST + HeroicStrike.COST && hs.CanUse())
                         {
                             hs.Cast();
                         }
@@ -146,16 +184,16 @@ namespace ClassicCraft
                 }
                 else if (rota == 2)
                 {
-                    if (bt.CanUse())
-                    {
-                        bt.Cast();
-                    }
-                    else if (ww.CanUse() && Player.Ressource >= ww.RessourceCost + bt.RessourceCost)
+                    if (ww.CanUse())
                     {
                         ww.Cast();
                     }
+                    else if (bt.CanUse() && Player.Ressource >= ww.RessourceCost + bt.RessourceCost)
+                    {
+                        bt.Cast();
+                    }
 
-                    if (Player.Ressource >= 75)
+                    if (Player.Ressource >= Bloodthirst.COST + Whirlwind.COST + HeroicStrike.COST && hs.CanUse())
                     {
                         hs.Cast();
                     }

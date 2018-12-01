@@ -243,7 +243,8 @@ namespace ClassicCraft
                 double totalHS = totalActions.Select(a => a.Where(t => t.Action is HeroicStrike).Count()).Sum();
                 double totalDW = totalEffects.Select(a => a.Where(t => t.Effect is DeepWounds).Count()).Sum();
                 double totalExec = totalActions.Select(a => a.Where(t => t.Action is Execute).Count()).Sum();
-                
+                double totalHam = totalActions.Select(a => a.Where(t => t.Action is Hamstring).Count()).Sum();
+
                 Log(string.Format("Error Percent : {0:N2}%", Stats.ErrorPct(damages.ToArray(), damages.Average())));
                 Log(string.Format("Average Damage : {0:N2} (+/- {1:N2})", avgTotalDmg, Stats.MeanStdDev(damages.ToArray())));
                 Log(string.Format("Average DPS : {0:N2} dps (+/- {1:N2})", avgDps, Stats.MeanStdDev(dps)));
@@ -276,12 +277,12 @@ namespace ClassicCraft
                     double avgDmgHS = totalActions.Sum(a => a.Where(t => t.Action is HeroicStrike).Sum(r => r.Result.Damage / totalHS));
                     Log(string.Format("Average DPS [Heroic Strike] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsHS, avgDmgHS, avgUseHS, fightLength / avgUseHS, avgDpsHS / avgDps * 100));
                 }
-                if (totalDW > 0)
+                if (totalHam > 0)
                 {
-                    double avgDpsDW = totalEffects.Average(a => a.Where(t => t.Effect is DeepWounds).Sum(r => r.Damage / fightLength));
-                    double avgUseDW = totalEffects.Average(a => a.Count(t => t.Effect is DeepWounds));
-                    double avgDmgDW = totalEffects.Sum(a => a.Where(t => t.Effect is DeepWounds).Sum(r => r.Damage / totalDW));
-                    Log(string.Format("Average DPS [Deep Wounds] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsDW, avgDmgDW, avgUseDW, fightLength / avgUseDW, avgDpsDW / avgDps * 100));
+                    double avgDpsHam = totalActions.Average(a => a.Where(t => t.Action is Hamstring).Sum(r => r.Result.Damage / fightLength));
+                    double avgUseHam = totalActions.Average(a => a.Count(t => t.Action is Hamstring));
+                    double avgDmgHam = totalActions.Sum(a => a.Where(t => t.Action is Hamstring).Sum(r => r.Result.Damage / totalExec));
+                    Log(string.Format("Average DPS [Hamstring] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsHam, avgDmgHam, avgUseHam, fightLength / avgUseHam, avgDpsHam / avgDps * 100));
                 }
                 if (totalExec > 0)
                 {
@@ -290,12 +291,21 @@ namespace ClassicCraft
                     double avgDmgExec = totalActions.Sum(a => a.Where(t => t.Action is Execute).Sum(r => r.Result.Damage / totalExec));
                     Log(string.Format("Average DPS [Execute] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsExec, avgDmgExec, avgUseExec, fightLength / avgUseExec, avgDpsExec / avgDps * 100));
                 }
+                if (totalDW > 0)
+                {
+                    double avgDpsDW = totalEffects.Average(a => a.Where(t => t.Effect is DeepWounds).Sum(r => r.Damage / fightLength));
+                    double avgUseDW = totalEffects.Average(a => a.Count(t => t.Effect is DeepWounds));
+                    double avgDmgDW = totalEffects.Sum(a => a.Where(t => t.Effect is DeepWounds).Sum(r => r.Damage / totalDW));
+                    Log(string.Format("Average DPS [Deep Wounds] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} ticks or 1 tick every {3:N2}s", avgDpsDW, avgDmgDW, avgUseDW, fightLength / avgUseDW, avgDpsDW / avgDps * 100));
+                }
             }
             
             File.WriteAllText(debug ? Path.Combine(debugPath, logsFileName) : logsFileName, logs);
             Console.WriteLine("Logs written");
 
-            Console.ReadKey();
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+
+            //Console.ReadKey();
         }
 
         public static void Log(string log)
@@ -315,6 +325,7 @@ namespace ClassicCraft
             //player.CalculateAttributes();
             player.Attributes = playerBase.Attributes;
             player.WindfuryTotem = playerBase.WindfuryTotem;
+            player.Cooldowns = playerBase.Cooldowns;
 
             Boss boss = new Boss(bossBase);
 

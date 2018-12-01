@@ -8,8 +8,10 @@ namespace ClassicCraft
 {
     class MightyRage : Potion
     {
-        public MightyRage(Player p, double baseCD = 120)
-            : base(p, baseCD)
+        public static int CD = 120;
+
+        public MightyRage(Player p)
+            : base(p, CD)
         {
         }
 

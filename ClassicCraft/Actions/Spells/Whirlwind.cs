@@ -8,10 +8,11 @@ namespace ClassicCraft
 {
     class Whirlwind : Spell
     {
-        static Random random = new Random();
+        public static int COST = 25;
+        public static int CD = 10;
 
-        public Whirlwind(Player p, double baseCD = 10, int ressourceCost = 25)
-            : base(p, baseCD, ressourceCost)
+        public Whirlwind(Player p)
+            : base(p, CD, COST)
         {
         }
 
@@ -39,7 +40,7 @@ namespace ClassicCraft
                 maxDmg += (int)Math.Round(Player.OH.DamageMax + Simulation.Normalization(Player.OH) * Player.AP / 14);
             }
 
-            int damage = (int)Math.Round(random.Next(minDmg, maxDmg + 1)
+            int damage = (int)Math.Round(Player.Sim.random.Next(minDmg, maxDmg + 1)
                 * Player.Sim.DamageMod(res)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
                 * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1 )
@@ -54,6 +55,10 @@ namespace ClassicCraft
             if (Player.GetTalentPoints("Flurry") > 0)
             {
                 Flurry.CheckProc(Player, res, Player.GetTalentPoints("Flurry"));
+            }
+            if (Player.MH.Enchantment.Name == "Crusader")
+            {
+                Crusader.CheckProc(Player, res, Player.MH.Speed);
             }
         }
 

@@ -8,8 +8,11 @@ namespace ClassicCraft
 {
     public class Recklessness : Spell
     {
-        public Recklessness(Player p, double baseCD = 300, int ressourceCost = 0, bool gcd = true)
-            : base(p, baseCD, ressourceCost, gcd)
+        public static int COST = 0;
+        public static int CD = 300;
+
+        public Recklessness(Player p)
+            : base(p, CD, COST, true)
         {
         }
 
@@ -28,7 +31,7 @@ namespace ClassicCraft
             }
             else
             {
-                RecklessnessBuff r = new RecklessnessBuff(Player, Player);
+                RecklessnessBuff r = new RecklessnessBuff(Player);
                 r.StartBuff();
             }
 

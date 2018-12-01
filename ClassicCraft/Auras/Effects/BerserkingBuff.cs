@@ -6,24 +6,25 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class BloodFuryBuff : Effect
+    class BerserkingBuff : Effect
     {
-        public static int LENGTH = 15;
+        public static int LENGTH = 10;
 
         public double Bonus { get; set; }
 
-        public BloodFuryBuff(Player p)
+        public BerserkingBuff(Player p, double bonusPct = 30)
             : base(p, p, true, LENGTH, 1)
         {
+            Bonus = 1 + bonusPct / 100;
         }
 
         public override void StartBuff()
         {
             base.StartBuff();
 
-            Bonus = Player.AP * 0.25;
+            //Bonus = 1.1 + 0.2 * (1 - Player.LifePct);
 
-            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) + Bonus);
+            Player.HasteMod *= Bonus;
         }
 
         public override void EndBuff()

@@ -8,8 +8,10 @@ namespace ClassicCraft
 {
     public class JujuFlurry : Potion
     {
-        public JujuFlurry(Player p, double baseCD = 60)
-            : base(p, baseCD)
+        public static int CD = 60;
+
+        public JujuFlurry(Player p)
+            : base(p, CD)
         {
         }
 

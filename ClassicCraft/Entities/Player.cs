@@ -311,6 +311,8 @@ namespace ClassicCraft
 
         public bool WindfuryTotem { get; set; }
 
+        public List<string> Cooldowns { get; set; }
+
         #endregion
 
         public Player(Player p, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null)
@@ -408,12 +410,12 @@ namespace ClassicCraft
             if (DualWielding())
             {
                 whiteHitChancesOH = new Dictionary<ResultType, double>();
-                whiteHitChancesOH.Add(ResultType.Miss, MissChance(true, HitRating, WeaponSkill[OH.Type], enemy.Level));
+                whiteHitChancesOH.Add(ResultType.Miss, MissChance(true, HitRating + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.HitChance)), WeaponSkill[OH.Type], enemy.Level));
                 whiteHitChancesOH.Add(ResultType.Dodge, enemy.DodgeChance(WeaponSkill[OH.Type]));
                 whiteHitChancesOH.Add(ResultType.Parry, enemy.ParryChance());
                 whiteHitChancesOH.Add(ResultType.Glancing, GlancingChance(WeaponSkill[OH.Type], enemy.Level));
                 whiteHitChancesOH.Add(ResultType.Block, enemy.BlockChance());
-                whiteHitChancesOH.Add(ResultType.Crit, RealCritChance(CritRating, whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glancing], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
+                whiteHitChancesOH.Add(ResultType.Crit, RealCritChance(CritRating + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.CritChance)), whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glancing], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
                 whiteHitChancesOH.Add(ResultType.Hit, RealHitChance(whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glancing], whiteHitChancesOH[ResultType.Crit], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
             }
 
@@ -517,7 +519,7 @@ namespace ClassicCraft
                 pickTable[ResultType.Crit] = 1;
             }
             
-            
+            /*
             string debug = "rand " + rand;
             foreach (ResultType type in pickTable.Keys)
             {
@@ -527,7 +529,7 @@ namespace ClassicCraft
             {
                 Program.Log(debug);
             }
-            
+            */
 
             double i = 0;
             foreach(ResultType type in pickTable.Keys)
@@ -572,19 +574,19 @@ namespace ClassicCraft
                 // Base health + mana ?
             });
 
-            foreach(Item i in Equipment.Values.Where(v => v != null))
+            foreach(Slot s in Equipment.Keys.Where(v => Equipment[v] != null))
             {
+                Item i = Equipment[s];
                 Attributes += i.Attributes;
                 if(i.Enchantment != null)
                 {
                     Attributes += i.Enchantment.Attributes;
-                    if(i.Enchantment.Attributes.GetValue(Attribute.WeaponDamage) > 0 && i is Weapon)
-                    {
-                        Weapon w = (Weapon)i;
-                        int bonus = (int)Math.Round(i.Enchantment.Attributes.GetValue(Attribute.WeaponDamage));
-                        w.DamageMin += bonus;
-                        w.DamageMax += bonus;
-                    }
+                }
+                if (s == Slot.MH)
+                {
+                    Weapon w = ((Weapon)i);
+                    if (w.Buff != null)
+                    Attributes += w.Buff.Attributes;
                 }
             }
 
@@ -790,6 +792,26 @@ namespace ClassicCraft
         public override double ParryChance()
         {
             return 0;
+        }
+
+        public Dictionary<Spell, int> CooldownsListToSpellsDic(List<string> cds)
+        {
+            Dictionary<Spell, int> res = new Dictionary<Spell, int>();
+
+            foreach(string s in cds)
+            {
+                switch(s)
+                {
+                    case "DeathWish": res.Add(new DeathWish(this), DeathWishBuff.LENGTH); break;
+                    case "JujuFlurry": res.Add(new JujuFlurry(this), JujuFlurryBuff.LENGTH); break;
+                    case "MightyRage": res.Add(new MightyRage(this), MightyRageBuff.LENGTH); break;
+                    case "Recklessness": res.Add(new Recklessness(this), RecklessnessBuff.LENGTH); break;
+                    case "BloodFury": res.Add(new BloodFury(this), BloodFuryBuff.LENGTH); break;
+                    case "Berserking": res.Add(new Berserking(this), BerserkingBuff.LENGTH); break;
+                }
+            }
+
+            return res;
         }
 
         public override string ToString()

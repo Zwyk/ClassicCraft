@@ -8,8 +8,11 @@ namespace ClassicCraft
 {
     public class DeathWish : Spell
     {
-        public DeathWish(Player p, double baseCD = 180, int ressourceCost = 10, bool gcd = true)
-            : base(p, baseCD, ressourceCost, gcd)
+        public static int COST = 10;
+        public static int CD = 180;
+
+        public DeathWish(Player p)
+            : base(p, CD, COST, true)
         {
         }
 
@@ -28,7 +31,7 @@ namespace ClassicCraft
             }
             else
             {
-                DeathWishBuff dw = new DeathWishBuff(Player, Player);
+                DeathWishBuff dw = new DeathWishBuff(Player);
                 dw.StartBuff();
             }
 

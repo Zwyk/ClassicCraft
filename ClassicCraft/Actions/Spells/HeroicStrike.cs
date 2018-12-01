@@ -8,9 +8,17 @@ namespace ClassicCraft
 {
     class HeroicStrike : Spell
     {
-        public HeroicStrike(Player p, double baseCD = 0, int ressourceCost = 15, bool gcd = true)
-            : base(p, baseCD, ressourceCost, gcd)
+        public static int COST = 15;
+        public static int CD = 0;
+
+        public HeroicStrike(Player p)
+            : base(p, CD, COST, true)
         {
+        }
+
+        public override bool CanUse()
+        {
+            return Player.Ressource >= RessourceCost && Player.applyAtNextAA == null;
         }
 
         public override void Cast()
@@ -57,6 +65,10 @@ namespace ClassicCraft
             if (Player.GetTalentPoints("UW") > 0)
             {
                 UnbridledWrath.CheckProc(Player, res, Player.GetTalentPoints("UW"));
+            }
+            if (Player.MH.Enchantment.Name == "Crusader")
+            {
+                Crusader.CheckProc(Player, res, Player.MH.Speed);
             }
         }
 

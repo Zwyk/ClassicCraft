@@ -6,20 +6,14 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Execute : Spell
+    class Hamstring : Spell
     {
-        public static int COST = 15;
         public static int CD = 0;
+        public static int COST = 10;
 
-        public Execute(Player p)
-            : base(p, CD, COST, true)
+        public Hamstring(Player p)
+            : base(p, 0, 10, true)
         {
-
-        }
-
-        public override bool CanUse()
-        {
-            return Player.Sim.Boss.LifePct <= 0.2 && base.CanUse();
         }
 
         public override void Cast()
@@ -31,15 +25,7 @@ namespace ClassicCraft
         {
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
 
-            int reducedCost;
-            switch(Player.GetTalentPoints("IE"))
-            {
-                case 2: reducedCost = 5; break;
-                case 1: reducedCost = 2; break;
-                default: reducedCost = 0; break;
-            }
-
-            int damage = (int)Math.Round((600 + (Player.Ressource - (15 - reducedCost)) * 15)
+            int damage = (int)Math.Round(45
                 * Player.Sim.DamageMod(res)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
                 * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1)
@@ -48,7 +34,7 @@ namespace ClassicCraft
             CommonAction();
             if (res != ResultType.Parry && res != ResultType.Dodge)
             {
-                Player.Ressource = 0;
+                Player.Ressource -= RessourceCost;
             }
 
             RegisterDamage(new ActionResult(res, damage));
@@ -69,7 +55,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Execute";
+            return "Hamstring";
         }
     }
 }

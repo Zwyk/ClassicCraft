@@ -1,17 +1,18 @@
 Fight length : 300 seconds (+/- 0%)
 
 Player :
-Orc Warrior level 60 | Stats : [Stamina:112][Strength:357][Agility:156][Intelligence:17][Spirit:23][AP:1068][CritChance:29,8][HitChance:12][AS:0][Health:940][RangedAP:1380]
+Orc Warrior level 60 | Stats : [Stamina:112][Strength:509][Agility:211][Intelligence:17][Spirit:23][AP:1306][CritChance:32,56][HitChance:12,09][AS:0][Health:940][RangedAP:1506]
 
 Boss :
-Level 63, 2150 Armor
+Level 63, 405 Armor
 
-Error Percent : 0,21%
-Average Damage : 155 151,00 (+/- 168,38)
-Average DPS : 517,17 dps (+/- 0,56)
-Average DPS [Auto Attack] : 238,17 dps (46,05%), average of 257,38 damage for 277,60 uses or 1 use every 1,08s
-Average DPS [Bloodthirst] : 74,46 dps (14,40%), average of 571,92 damage for 39,06 uses or 1 use every 7,68s
-Average DPS [Whirlwind] : 60,51 dps (11,70%), average of 726,10 damage for 25,00 uses or 1 use every 12,00s
-Average DPS [Heroic Strike] : 60,58 dps (11,71%), average of 545,28 damage for 33,33 uses or 1 use every 9,00s
-Average DPS [Deep Wounds] : 6,98 dps (1,35%), average of 44,47 damage for 47,09 uses or 1 use every 6,37s
-Average DPS [Execute] : 76,47 dps (14,79%), average of 1 078,58 damage for 21,27 uses or 1 use every 14,10s
+Error Percent : 0,09%
+Average Damage : 249 986,45 (+/- 117,69)
+Average DPS : 833,29 dps (+/- 0,39)
+Average DPS [Auto Attack] : 352,93 dps (42,35%), average of 401,89 damage for 263,45 uses or 1 use every 1,14s
+Average DPS [Bloodthirst] : 117,32 dps (14,08%), average of 983,62 damage for 35,78 uses or 1 use every 8,38s
+Average DPS [Whirlwind] : 95,77 dps (11,49%), average of 1 149,24 damage for 25,00 uses or 1 use every 12,00s
+Average DPS [Heroic Strike] : 134,88 dps (16,19%), average of 821,16 damage for 49,28 uses or 1 use every 6,09s
+Average DPS [Hamstring] : 4,02 dps (0,48%), average of 53,04 damage for 20,97 uses or 1 use every 14,31s
+Average DPS [Execute] : 119,33 dps (14,32%), average of 1 572,95 damage for 22,76 uses or 1 use every 13,18s
+Average DPS [Deep Wounds] : 9,04 dps (1,08%), average of 68,32 damage for 39,69 ticks or 1 tick every 7,56s
