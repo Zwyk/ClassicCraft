@@ -34,11 +34,13 @@ namespace ClassicCraft
             int minDmg = (int)Math.Round(Player.MH.DamageMin + Simulation.Normalization(Player.MH) * Player.AP / 14);
             int maxDmg = (int)Math.Round(Player.MH.DamageMax + Simulation.Normalization(Player.MH) * Player.AP / 14);
 
+            /*
             if (Player.OH != null)
             {
                 minDmg += (int)Math.Round(Player.OH.DamageMin + Simulation.Normalization(Player.OH) * Player.AP / 14);
                 maxDmg += (int)Math.Round(Player.OH.DamageMax + Simulation.Normalization(Player.OH) * Player.AP / 14);
             }
+            */
 
             int damage = (int)Math.Round(Player.Sim.random.Next(minDmg, maxDmg + 1)
                 * Player.Sim.DamageMod(res)

@@ -20,7 +20,7 @@ namespace ClassicCraft
 
         public double CurrentTime { get; set; }
 
-        public bool AutoBossLife { get; set; }
+        public bool AutoLife { get; set; }
         public double LowLifeTime { get; set; }
 
         public bool Ended { get; set; }
@@ -38,7 +38,7 @@ namespace ClassicCraft
             Effects = new List<RegisteredEffect>();
             Damage = 0;
             CurrentTime = 0;
-            AutoBossLife = autoBossLife;
+            AutoLife = autoBossLife;
             LowLifeTime = lowLifeTime;
 
             Ended = false;
@@ -103,7 +103,7 @@ namespace ClassicCraft
 
             while (CurrentTime < FightLength)
             {
-                if(AutoBossLife)
+                if(AutoLife)
                 {
                     Boss.LifePct = Math.Max(0, 1 - (CurrentTime / FightLength) * (16.0 / 17.0));
                 }
@@ -124,7 +124,7 @@ namespace ClassicCraft
                 Player.Effects.RemoveAll(e => e.Ended);
                 Boss.Effects.RemoveAll(e => e.Ended);
 
-                if (br.CanUse())
+                if (br.CanUse() && Player.Ressource <= 90)
                 {
                     br.Cast();
                 }
@@ -156,13 +156,13 @@ namespace ClassicCraft
                 {
                     if (Boss.LifePct > 0.2)
                     {
-                        if (ww.CanUse())
-                        {
-                            ww.Cast();
-                        }
-                        else if (bt.CanUse() && Player.Ressource >= ww.RessourceCost + bt.RessourceCost && ww.RemainingCD() >= Player.GCD)
+                        if (bt.CanUse())
                         {
                             bt.Cast();
+                        }
+                        else if (ww.CanUse() && Player.Ressource >= ww.RessourceCost + bt.RessourceCost && bt.RemainingCD() >= Player.GCD)
+                        {
+                            ww.Cast();
                         }
                         else if(ham.CanUse() && Player.Ressource >= Bloodthirst.COST + Whirlwind.COST + Hamstring.COST && ww.RemainingCD() >= Player.GCD && bt.RemainingCD() >= Player.GCD && (!Player.Effects.Any(e => e is Flurry) || ((Flurry)Player.Effects.Where(f => f is Flurry).First()).CurrentStacks < 3))
                         {
@@ -191,6 +191,10 @@ namespace ClassicCraft
                     else if (bt.CanUse() && Player.Ressource >= ww.RessourceCost + bt.RessourceCost)
                     {
                         bt.Cast();
+                    }
+                    else if (ham.CanUse() && Player.Ressource >= Bloodthirst.COST + Whirlwind.COST + Hamstring.COST && ww.RemainingCD() >= Player.GCD && bt.RemainingCD() >= Player.GCD && (!Player.Effects.Any(e => e is Flurry) || ((Flurry)Player.Effects.Where(f => f is Flurry).First()).CurrentStacks < 3))
+                    {
+                        ham.Cast();
                     }
 
                     if (Player.Ressource >= Bloodthirst.COST + Whirlwind.COST + HeroicStrike.COST && hs.CanUse())
@@ -260,10 +264,22 @@ namespace ClassicCraft
         {
             switch (type)
             {
+                // TODO BLOCK / BLOCKCRIT
                 case ResultType.Crit: return 2;
                 case ResultType.Hit: return 1;
                 case ResultType.Glancing: return GlancingDamage(level, enemyLevel);
                 default: return 0;
+            }
+        }
+
+        public double RageDamageMod(ResultType type, int level = 60, int enemyLevel = 63)
+        {
+            switch (type)
+            {
+                case ResultType.Crit: return 2;
+                case ResultType.Glancing: return GlancingDamage(level, enemyLevel);
+                case ResultType.Miss: return 0;
+                default: return 1;
             }
         }
 
@@ -274,19 +290,21 @@ namespace ClassicCraft
             return random.NextDouble() * (high - low) + low;
         }
 
-        public static double RageGained(int damage, double weaponSpeed, ResultType type, bool mh = true)
+        public static double RageGained(int damage, int level = 60)
         {
-            return (15 * damage) / (4 * RageConversionValue()) + (RageWhiteHitFactor(mh, type == ResultType.Crit) * weaponSpeed) / 2;
+            return Math.Max(1, damage / RageConversionValue(level) * 7.5);
         }
 
-        public static double RageGained2(int damage)
+        /*
+        public static double RageGained2(int damage, double weaponSpeed, ResultType type, bool mh = true, int level = 60)
         {
-            return (15 * damage) / RageConversionValue();
+            return Math.Max(1, (15 * damage) / (4 * RageConversionValue(level)) + (RageWhiteHitFactor(mh, type == ResultType.Crit) * weaponSpeed) / 2);
         }
+        */
 
         public static double RageConversionValue(int level = 60)
         {
-            return 0.0091107836 * level * level + 3.225598133 * level + 4.2652911;
+            return 0.0091107836 * Math.Pow(level,2) + 3.225598133 * level + 4.2652911;
         }
 
         public static double RageWhiteHitFactor(bool mh, bool crit)

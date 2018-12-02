@@ -54,6 +54,9 @@ namespace ClassicCraft
 
         public static double fightLength = 300;
         public static double fightLengthMod = 0.2;
+        public static bool bossAutoLife = true;
+        public static double bossLowLifeTime = 0;
+
         public static int nbSim = 1000;
         public static double targetErrorPct = 0.5;
         public static bool targetError = true;
@@ -81,6 +84,9 @@ namespace ClassicCraft
 
                 fightLength = jsonSim.FightLength;
                 fightLengthMod = jsonSim.FightLengthMod;
+                bossAutoLife = jsonSim.BossAutoLife;
+                bossLowLifeTime = jsonSim.BossLowLifeTime;
+
                 nbSim = jsonSim.NbSim;
                 targetErrorPct = jsonSim.TargetErrorPct;
                 targetError = jsonSim.TargetError;
@@ -344,7 +350,7 @@ namespace ClassicCraft
             }
             */
 
-            Simulation s = new Simulation(player, boss, fightLength);
+            Simulation s = new Simulation(player, boss, fightLength, bossAutoLife, bossLowLifeTime);
             s.StartSim();
         }
     }

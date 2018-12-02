@@ -36,14 +36,16 @@ namespace ClassicCraft
             int minDmg = (int)Math.Round(Weapon.DamageMin + Weapon.Speed * (Player.AP + bonusAP) / 14);
             int maxDmg = (int)Math.Round(Weapon.DamageMax + Weapon.Speed * (Player.AP + bonusAP) / 14);
 
-            int damage = 0;
-
-            damage = (int)Math.Round(Player.Sim.random.Next(minDmg, maxDmg + 1)
-                * Player.Sim.DamageMod(res)
+            double baseDamage = 
+                Player.Sim.random.Next(minDmg, maxDmg + 1)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
-                * (Player.DualWielding() ? (MH ? 1 : 0.5 * (1 + (0.05 * Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
+                * (Player.DualWielding() ? (MH ? 1 : 0.5 * (1 + (0.05 * Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Player.GetTalentPoints("2HS")));
 
-            Player.Ressource += (int)Math.Round(Simulation.RageGained(damage, Weapon.Speed, res, MH));
+            int rageDamage = (int)Math.Round(baseDamage * Player.Sim.RageDamageMod(res));
+            int damage = (int)Math.Round(baseDamage * Player.Sim.DamageMod(res));
+
+            //Player.Ressource += (int)Math.Round(Simulation.RageGained(damage, Weapon.Speed, res, MH, Player.Level));
+            Player.Ressource += (int)Math.Round(Simulation.RageGained(damage, Player.Level));
 
             RegisterDamage(new ActionResult(res, damage));
 
