@@ -432,7 +432,7 @@ namespace ClassicCraft
             EnergyTick = 0;
             Combo = 0;
 
-            HasteMod = 1;
+            HasteMod = CalcHaste();
             DamageMod = 1;
 
             BonusAttributes = new Attributes();
@@ -673,8 +673,6 @@ namespace ClassicCraft
             Attributes.SetValue(Attribute.RangedAP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Agility) * AgiToRangedAPRatio(Class));
             Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance) + Attributes.GetValue(Attribute.Agility) * AgiToCritRatio(Class));
 
-            HasteMod = 1 + Attributes.GetValue(Attribute.AS);
-
             if (Class == Classes.Warrior)
             {
                 Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
@@ -693,6 +691,13 @@ namespace ClassicCraft
             {
                 Attributes += e.Attributes;
             }
+
+            HasteMod = CalcHaste();
+        }
+
+        public double CalcHaste()
+        {
+            return 1 + (Attributes != null ? Attributes.GetValue(Attribute.Haste) : 0);
         }
 
         public static int StrToAPRatio(Classes c)

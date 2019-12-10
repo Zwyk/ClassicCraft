@@ -67,14 +67,13 @@ namespace ClassicCraft
             Shift shift = new Shift(Player);
             MCP mcp = new MCP(Player);
 
+            Player.HasteMod = Player.CalcHaste();
             if(Player.Equipment[Player.Slot.MH].Name == "Manual Crowd Pummeler")
             {
                 mcp.Cast();
             }
 
             Player.Resource = 100;
-
-            int rota = 1;
 
             int t = 0;
             while (CurrentTime < FightLength)
@@ -103,25 +102,27 @@ namespace ClassicCraft
 
                 Player.CheckEnergyTick();
 
+                int rota = 1;
+
                 if (rota == 0)
                 {
 
                 }
                 else if (rota == 1)
                 {
-                    if(Player.Combo > 4 && fb.CanUse())
-                    {
-                        fb.Cast();
-                    }
-                    else if(Player.Combo < 5 && shred.CanUse())
+                    if (Player.Combo < 5 && shred.CanUse())
                     {
                         shred.Cast();
                     }
-                    else if (Player.Combo < 5 && Player.Resource < 28 && shift.CanUse())
+                    else if (Player.Combo > 4 && Player.Resource > fb.ResourceCost + shred.ResourceCost - (20 * (Player.GCDUntil - CurrentTime) / Player.GCD) && shred.CanUse())
                     {
-                        shift.Cast();
+                        shred.Cast();
                     }
-                    else if (Player.Combo == 5 && Player.Resource < 15 && shift.CanUse())
+                    else if (Player.Combo > 4 && fb.CanUse())
+                    {
+                        fb.Cast();
+                    }
+                    else if (Player.Resource < 28 && shift.CanUse())
                     {
                         shift.Cast();
                     }
@@ -170,6 +171,8 @@ namespace ClassicCraft
             BattleShout bs = new BattleShout(Player);
             Hamstring ham = new Hamstring(Player);
 
+            Player.HasteMod = Player.CalcHaste();
+
             Dictionary<Spell, int> cds = null;
             if (Player.Cooldowns != null)
             {
@@ -201,8 +204,6 @@ namespace ClassicCraft
 
             // Charge
             Player.Resource += 15;
-
-            int rota = 1;
 
             while (CurrentTime < FightLength)
             {
@@ -250,6 +251,8 @@ namespace ClassicCraft
                         }
                     }
                 }
+
+                int rota = 1;
 
                 if (rota == 0)
                 {

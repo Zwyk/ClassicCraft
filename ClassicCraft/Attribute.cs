@@ -17,7 +17,7 @@ namespace ClassicCraft
         Mana,
         Armor,
         ArmorPen,
-        AS,
+        Haste,
         AP,
         RangedAP,
         SP,
@@ -51,7 +51,7 @@ namespace ClassicCraft
                 case "Mana": return Attribute.Mana;
                 case "Armor": return Attribute.Armor;
                 case "ArmorPen": return Attribute.ArmorPen;
-                case "AS": return Attribute.AS;
+                case "Haste": return Attribute.Haste;
                 case "AP": return Attribute.AP;
                 case "RAP": return Attribute.RangedAP;
                 case "SP": return Attribute.SP;
@@ -85,7 +85,7 @@ namespace ClassicCraft
                 case Attribute.Mana: return "Mana";
                 case Attribute.Armor: return "Armor";
                 case Attribute.ArmorPen: return "ArmorPen";
-                case Attribute.AS: return "AS";
+                case Attribute.Haste: return "Haste";
                 case Attribute.AP: return "AP";
                 case Attribute.RangedAP: return "RAP";
                 case Attribute.SP: return "SP";
@@ -196,7 +196,7 @@ namespace ClassicCraft
             foreach (Attribute a in Values.Keys)
             {
                 double val = Values[a];
-                if (a == Attribute.CritChance || a == Attribute.HitChance || a == Attribute.AS) val *= 100;
+                if (a == Attribute.CritChance || a == Attribute.HitChance || a == Attribute.Haste) val *= 100;
                 stats += "[" + a + ":" + val + "]";
             }
             return stats;

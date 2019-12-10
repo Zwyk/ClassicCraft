@@ -36,13 +36,13 @@ namespace ClassicCraft
                     {
                         res.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100);
                         res.Attributes.SetValue(Attribute.HitChance, res.Attributes.GetValue(Attribute.HitChance) / 100);
-                        res.Attributes.SetValue(Attribute.AS, res.Attributes.GetValue(Attribute.AS) / 100);
+                        res.Attributes.SetValue(Attribute.Haste, res.Attributes.GetValue(Attribute.Haste) / 100);
                     }
                     if (res.Enchantment != null)
                     {
                         res.Enchantment.Attributes.SetValue(Attribute.CritChance, res.Enchantment.Attributes.GetValue(Attribute.CritChance) / 100);
                         res.Enchantment.Attributes.SetValue(Attribute.HitChance, res.Enchantment.Attributes.GetValue(Attribute.HitChance) / 100);
-                        res.Enchantment.Attributes.SetValue(Attribute.AS, res.Enchantment.Attributes.GetValue(Attribute.AS) / 100);
+                        res.Enchantment.Attributes.SetValue(Attribute.Haste, res.Enchantment.Attributes.GetValue(Attribute.Haste) / 100);
                     }
                     return res;
                 }
@@ -102,19 +102,19 @@ namespace ClassicCraft
                     {
                         res.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100);
                         res.Attributes.SetValue(Attribute.HitChance, res.Attributes.GetValue(Attribute.HitChance) / 100);
-                        res.Attributes.SetValue(Attribute.AS, res.Attributes.GetValue(Attribute.AS) / 100);
+                        res.Attributes.SetValue(Attribute.Haste, res.Attributes.GetValue(Attribute.Haste) / 100);
                     }
                     if(res.Enchantment != null)
                     {
                         res.Enchantment.Attributes.SetValue(Attribute.CritChance, res.Enchantment.Attributes.GetValue(Attribute.CritChance) / 100);
                         res.Enchantment.Attributes.SetValue(Attribute.HitChance, res.Enchantment.Attributes.GetValue(Attribute.HitChance) / 100);
-                        res.Enchantment.Attributes.SetValue(Attribute.AS, res.Enchantment.Attributes.GetValue(Attribute.AS) / 100);
+                        res.Enchantment.Attributes.SetValue(Attribute.Haste, res.Enchantment.Attributes.GetValue(Attribute.Haste) / 100);
                     }
                     if(res.Buff != null)
                     {
                         res.Buff.Attributes.SetValue(Attribute.CritChance, res.Buff.Attributes.GetValue(Attribute.CritChance) / 100);
                         res.Buff.Attributes.SetValue(Attribute.HitChance, res.Buff.Attributes.GetValue(Attribute.HitChance) / 100);
-                        res.Buff.Attributes.SetValue(Attribute.AS, res.Buff.Attributes.GetValue(Attribute.AS) / 100);
+                        res.Buff.Attributes.SetValue(Attribute.Haste, res.Buff.Attributes.GetValue(Attribute.Haste) / 100);
                     }
                     return res;
                 }
@@ -242,7 +242,7 @@ namespace ClassicCraft
                             {
                                 e.Attributes.SetValue(Attribute.CritChance, e.Attributes.GetValue(Attribute.CritChance) / 100);
                                 e.Attributes.SetValue(Attribute.HitChance, e.Attributes.GetValue(Attribute.HitChance) / 100);
-                                e.Attributes.SetValue(Attribute.AS, e.Attributes.GetValue(Attribute.AS) / 100);
+                                e.Attributes.SetValue(Attribute.Haste, e.Attributes.GetValue(Attribute.Haste) / 100);
                             }
 
                             buffs.Add(e);

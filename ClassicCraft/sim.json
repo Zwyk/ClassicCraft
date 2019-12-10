@@ -1,6 +1,6 @@
 {
   "FightLength": 120,
-  "TargetErrorPct": 0.2,
+  "TargetErrorPct": 0.1,
   "TargetError": true,
   "LogFight": false,
   "NbSim": 1,
@@ -24,7 +24,10 @@
       {
         "Name": "Test",
         "Stats": {
-          "AP": 0
+          "Hit": 0,
+          "Crit": 0,
+          "AP": 0,
+          "Haste": 0,
         }
       },
       {
@@ -145,8 +148,8 @@
       "Wrist": {
         "Name": "Blackmist",
         "Stats": {
-          "Hit": 1,
-          "Str": 5
+          "Agi": 10,
+          "AP": 24
         },
         "Enchantment": {
           "Name": "Superior Strength",
