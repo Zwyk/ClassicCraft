@@ -1,17 +1,14 @@
-Fight length : 300 seconds (+/- 0%)
+Fight length : 120 seconds (+/- 0%)
 
 Player :
-Orc Warrior level 60 | Stats : [Stamina:112][Strength:509][Agility:211][Intelligence:17][Spirit:23][AP:1306][CritChance:32,56][HitChance:12,09][AS:0][Health:940][RangedAP:1506]
+Tauren Druid level 60 | Stats : [Stamina:110][Strength:275,52][Agility:206][Intelligence:16,2][Spirit:22][AP:1409,04][CritChance:21,75][HitChance:8][AS:0][Health:920][RangedAP:1133,04]
 
 Boss :
-Level 63, 405 Armor
+Level 63, 1005 Armor (15,45% mitigation)
 
 Error Percent : 0,09%
-Average Damage : 236 067,07 (+/- 112,05)
-Average DPS : 786,89 dps (+/- 0,37)
-Average DPS [Auto Attack] : 324,78 dps (41,27%), average of 393,21 damage for 247,79 uses or 1 use every 1,21s
-Average DPS [Bloodthirst] : 135,33 dps (17,20%), average of 966,63 damage for 42,00 uses or 1 use every 7,14s
-Average DPS [Heroic Strike] : 171,12 dps (21,75%), average of 826,78 damage for 62,09 uses or 1 use every 4,83s
-Average DPS [Hamstring] : 13,11 dps (1,67%), average of 161,59 damage for 68,67 uses or 1 use every 4,37s
-Average DPS [Execute] : 134,22 dps (17,06%), average of 1 654,51 damage for 24,34 uses or 1 use every 12,33s
-Average DPS [Deep Wounds] : 8,34 dps (1,06%), average of 68,41 damage for 36,56 ticks or 1 tick every 8,21s
+Average Damage : 38 884,78 (+/- 18,50)
+Average DPS : 324,04 dps (+/- 0,15)
+Average DPS [Auto Attack] : 155,07 dps (47,86%), average of 155,07 damage for 120,00 uses or 1 use every 1,00s
+Average DPS [Shred] : 122,39 dps (37,77%), average of 557,13 damage for 26,36 uses or 1 use every 4,55s
+Average DPS [Ferocious Bite] : 46,57 dps (14,37%), average of 1 022,71 damage for 5,46 uses or 1 use every 21,96s

@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Hamstring : Spell
+    class Bloodthirst : Spell
     {
-        public static int CD = 0;
-        public static int COST = 10;
+        public static int COST = 30;
+        public static int CD = 6;
 
-        public Hamstring(Player p)
-            : base(p, 0, 10, true)
-        {
-        }
+        static Random random = new Random();
+
+        public Bloodthirst(Player p)
+            : base(p, CD, COST) {}
 
         public override void Cast()
         {
@@ -24,17 +24,22 @@ namespace ClassicCraft
         public override void DoAction()
         {
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
-
-            int damage = (int)Math.Round(45
+            
+            int damage = (int)Math.Round(0.45 * Player.AP
                 * Player.Sim.DamageMod(res)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
                 * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1)
                 * (Player.DualWielding() ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
 
             CommonAction();
-            if (res != ResultType.Parry && res != ResultType.Dodge)
+            if(res == ResultType.Parry || res == ResultType.Dodge)
             {
-                Player.Ressource -= RessourceCost;
+                // TODO à vérifier
+                Player.Resource -= ResourceCost / 2;
+            }
+            else
+            {
+                Player.Resource -= ResourceCost;
             }
 
             RegisterDamage(new ActionResult(res, damage));
@@ -47,7 +52,7 @@ namespace ClassicCraft
             {
                 Flurry.CheckProc(Player, res, Player.GetTalentPoints("Flurry"));
             }
-            if (Player.MH.Enchantment.Name == "Crusader")
+            if (Player.MH.Enchantment != null && Player.MH.Enchantment.Name == "Crusader")
             {
                 Crusader.CheckProc(Player, res, Player.MH.Speed);
             }
@@ -55,7 +60,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Hamstring";
+            return "Bloodthirst";
         }
     }
 }

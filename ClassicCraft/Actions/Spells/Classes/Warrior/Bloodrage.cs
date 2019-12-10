@@ -24,7 +24,7 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            Player.Ressource += 10;
+            Player.Resource += 10;
 
             if (Player.Effects.Any(e => e is BloodrageBuff))
             {
@@ -44,7 +44,7 @@ namespace ClassicCraft
         {
             if (Program.logFight)
             {
-                Program.Log(string.Format("{0:N2} : {1} cast for 10 rage (rage {2})", Player.Sim.CurrentTime, ToString(), Player.Ressource));
+                Program.Log(string.Format("{0:N2} : {1} cast for 10 rage (rage {2})", Player.Sim.CurrentTime, ToString(), Player.Resource));
             }
         }
 

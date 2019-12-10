@@ -62,7 +62,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return string.Format("Level {0}, {1} Armor\n", Level, Armor);
+            return string.Format("Level {0}, {1} Armor ({2:N2}% mitigation)\n", Level, Armor, (1-ArmorMitigation(Armor))*100);
         }
     }
 }

@@ -20,11 +20,11 @@ namespace ClassicCraft
 
         public override void ApplyTick(int damage)
         {
-            Player.Ressource += 1;
+            Player.Resource += 1;
 
             if(Program.logFight)
             {
-                Program.Log(string.Format("{0:N2} : {1} for {2} rage (rage {3})", Player.Sim.CurrentTime, ToString(), 1, Player.Ressource));
+                Program.Log(string.Format("{0:N2} : {1} for {2} rage (rage {3})", Player.Sim.CurrentTime, ToString(), 1, Player.Resource));
             }
         }
 

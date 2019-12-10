@@ -8,3 +8,4 @@ D:\VSProjects\ClassicCraft\ClassicCraft\obj\Release\ClassicCraft.csproj.CoreComp
 D:\VSProjects\ClassicCraft\ClassicCraft\obj\Release\ClassicCraft.csproj.CopyComplete
 D:\VSProjects\ClassicCraft\ClassicCraft\obj\Release\ClassicCraft.exe
 D:\VSProjects\ClassicCraft\ClassicCraft\obj\Release\ClassicCraft.pdb
+D:\VSProjects\ClassicCraft\ClassicCraft\obj\Release\ClassicCraft.csprojAssemblyReference.cache

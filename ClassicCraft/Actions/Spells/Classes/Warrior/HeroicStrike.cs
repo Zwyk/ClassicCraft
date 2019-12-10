@@ -18,7 +18,7 @@ namespace ClassicCraft
 
         public override bool CanUse()
         {
-            return Player.Ressource >= RessourceCost && Player.applyAtNextAA == null;
+            return Player.Resource >= ResourceCost && Player.applyAtNextAA == null;
         }
 
         public override void Cast()
@@ -47,9 +47,14 @@ namespace ClassicCraft
                 * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1)
                 * (Player.DualWielding() ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
 
-            if (res != ResultType.Parry && res != ResultType.Dodge)
+            if (res == ResultType.Parry || res == ResultType.Dodge)
             {
-                Player.Ressource -= RessourceCost;
+                // TODO à vérifier
+                Player.Resource -= ResourceCost / 2;
+            }
+            else
+            {
+                Player.Resource -= ResourceCost;
             }
 
             RegisterDamage(new ActionResult(res, damage));
@@ -66,7 +71,7 @@ namespace ClassicCraft
             {
                 UnbridledWrath.CheckProc(Player, res, Player.GetTalentPoints("UW"));
             }
-            if (Player.MH.Enchantment.Name == "Crusader")
+            if (Player.MH.Enchantment != null && Player.MH.Enchantment.Name == "Crusader")
             {
                 Crusader.CheckProc(Player, res, Player.MH.Speed);
             }

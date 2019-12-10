@@ -188,29 +188,74 @@ namespace ClassicCraft
 
         public static double GCD = 1.5;
 
-        private int ressource;
-        public int Ressource
+        private int resource;
+        public int Resource
         {
             get
             {
-                return ressource;
+                return resource;
             }
             set
             {
-                if(value > 100)
+                if (value > 100)
                 {
-                    ressource = 100;
+                    resource = 100;
                 }
-                else if(value < 0)
+                else if (value < 0)
                 {
-                    ressource = 0;
+                    resource = 0;
                 }
                 else
                 {
-                    ressource = value;
+                    resource = value;
                 }
             }
         }
+
+        private int mana;
+        public int Mana
+        {
+            get
+            {
+                return mana;
+            }
+            set
+            {
+                if (value < 0)
+                {
+                    mana = 0;
+                }
+                else
+                {
+                    mana = value;
+                }
+            }
+        }
+
+        private int combo;
+        public int Combo
+        {
+            get
+            {
+                return combo;
+            }
+            set
+            {
+                if (value < 0)
+                {
+                    combo = 0;
+                }
+                else if (value > 5)
+                {
+                    combo = 5;
+                }
+                else
+                {
+                    combo = value;
+                }
+            }
+        }
+
 
         public Dictionary<Slot, Item> Equipment { get; set; }
 
@@ -269,6 +314,7 @@ namespace ClassicCraft
         }
 
         public double GCDUntil { get; set; }
+        public double EnergyTick { get; set; }
 
         public double AP
         {
@@ -380,10 +426,12 @@ namespace ClassicCraft
         {
             base.Reset();
 
-            Ressource = 0;
+            Resource = 0;
 
             GCDUntil = 0;
-            
+            EnergyTick = 0;
+            Combo = 0;
+
             HasteMod = 1;
             DamageMod = 1;
 
@@ -439,6 +487,7 @@ namespace ClassicCraft
 
         #region WhiteAttackChances
 
+        // TODO : Revoir les valeurs pour Classic par rapport au weapon skill
         public static double MissChance(bool dualWield, double hitRating, int skill, int enemyLevel)
         {
             int enemySkill = enemyLevel * 5;
@@ -559,6 +608,16 @@ namespace ClassicCraft
             return GCDUntil <= Sim.CurrentTime;
         }
 
+        public void CheckEnergyTick()
+        {
+            if(Sim.CurrentTime >= EnergyTick + 2)
+            {
+                // Meh
+                EnergyTick = EnergyTick + 2;
+                Resource += 20;
+            }
+        }
+
         public void CalculateAttributes()
         {
             Attributes = new Attributes(new Dictionary<Attribute, double>
@@ -571,14 +630,14 @@ namespace ClassicCraft
                 { Attribute.Spirit, BaseSpiByRace(Race) + BonusSpiByClass(Class) },
                 { Attribute.AP, 160 },
                 // Base armor + dodge + etc.
-                // Base health + mana ?
+                // Base health + mana
             });
 
             foreach(Slot s in Equipment.Keys.Where(v => Equipment[v] != null))
             {
                 Item i = Equipment[s];
                 Attributes += i.Attributes;
-                if(i.Enchantment != null)
+                if (i.Enchantment != null)
                 {
                     Attributes += i.Enchantment.Attributes;
                 }
@@ -601,8 +660,16 @@ namespace ClassicCraft
 
             Attributes += BonusAttributesByRace(Race, Attributes);
 
+            if(Class == Classes.Druid)
+            {
+                Attributes.SetValue(Attribute.Intelligence, Attributes.GetValue(Attribute.Intelligence)
+                    * (1 + 0.04 * GetTalentPoints("HW")));
+                Attributes.SetValue(Attribute.Strength, Attributes.GetValue(Attribute.Strength)
+                    * (1 + 0.04 * GetTalentPoints("HW")));
+            }
+
             Attributes.SetValue(Attribute.Health, 20 + (Attributes.GetValue(Attribute.Stamina) - 20) * 10);
-            Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Strength) * StrToAPRatio(Class));
+            Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Strength) * StrToAPRatio(Class) + Attributes.GetValue(Attribute.Agility) * AgiToAPRatio(Class));
             Attributes.SetValue(Attribute.RangedAP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Agility) * AgiToRangedAPRatio(Class));
             Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance) + Attributes.GetValue(Attribute.Agility) * AgiToCritRatio(Class));
 
@@ -612,7 +679,14 @@ namespace ClassicCraft
             {
                 Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
                     + 0.01 * GetTalentPoints("Cruelty")
-                    + 0.03); // Berserker Stance
+                    + 0.03); // Berserker Stance, move elsewhere for stance dancing ?
+            }
+            else if (Class == Classes.Druid)
+            {
+                Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
+                    + 0.01 * GetTalentPoints("SC"));
+                Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP)
+                    + (0.5 * GetTalentPoints("PS")) * Level);
             }
 
             foreach (Enchantment e in Buffs.Where(v => v != null))
@@ -629,6 +703,11 @@ namespace ClassicCraft
         public static int AgiToRangedAPRatio(Classes c)
         {
             return (c == Classes.Warrior || c == Classes.Hunter || c == Classes.Rogue) ? 2 : 1;
+        }
+
+        public static int AgiToAPRatio(Classes c)
+        {
+            return (c == Classes.Druid || c == Classes.Hunter || c == Classes.Rogue) ? 1 : 0;
         }
 
         public static double AgiToCritRatio(Classes c)

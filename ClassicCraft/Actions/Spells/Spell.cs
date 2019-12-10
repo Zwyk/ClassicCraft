@@ -8,13 +8,13 @@ namespace ClassicCraft
 {
     public abstract class Spell : Action
     {
-        public int RessourceCost { get; set; }
+        public int ResourceCost { get; set; }
         public bool AffectedByGCD { get; set; }
 
-        public Spell(Player p, double baseCD, int ressourceCost, bool gcd = true)
+        public Spell(Player p, double baseCD, int resourceCost, bool gcd = true)
             : base(p, baseCD)
         {
-            RessourceCost = ressourceCost;
+            ResourceCost = resourceCost;
             AffectedByGCD = gcd;
         }
 
@@ -27,12 +27,12 @@ namespace ClassicCraft
                 Player.StartGCD();
             }
 
-            Player.Ressource -= RessourceCost;
+            Player.Resource -= ResourceCost;
         }
 
         public virtual bool CanUse()
         {
-            return Player.Ressource >= RessourceCost && Available() && (AffectedByGCD ? Player.HasGCD() : true);
+            return Player.Resource >= ResourceCost && Available() && (AffectedByGCD ? Player.HasGCD() : true);
         }
 
         public override string ToString()

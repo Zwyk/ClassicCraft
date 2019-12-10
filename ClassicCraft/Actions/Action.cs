@@ -67,13 +67,28 @@ namespace ClassicCraft
             return LockedUntil - Player.Sim.CurrentTime;
         }
 
+        public string ResourceName()
+        {
+            switch(Player.Class)
+            {
+                case Player.Classes.Druid: return "energy";
+                case Player.Classes.Warrior: return "rage";
+                default: return "resource";
+            }
+        }
+
         public virtual void RegisterDamage(ActionResult res)
         {
             Player.Sim.RegisterAction(new RegisteredAction(this, res, Player.Sim.CurrentTime));
 
             if(Program.logFight)
             {
-                Program.Log(string.Format("{0:N2} : {1} {2} for {3} damage (rage {4})", Player.Sim.CurrentTime, ToString(), res.Type, res.Damage, Player.Ressource));
+                string log = string.Format("{0:N2} : {1} {2} for {3} damage ({5} {4})", Player.Sim.CurrentTime, ToString(), res.Type, res.Damage, Player.Resource, ResourceName());
+                if(Player.Class == Player.Classes.Druid)
+                {
+                    log += "[combo " + Player.Combo + "]";
+                }
+                Program.Log(log);
             }
         }
 
@@ -81,7 +96,12 @@ namespace ClassicCraft
         {
             if(Program.logFight)
             {
-                Program.Log(string.Format("{0:N2} : {1} cast (rage {2})", Player.Sim.CurrentTime, ToString(), Player.Ressource));
+                string log = string.Format("{0:N2} : {1} cast ({3} {2})", Player.Sim.CurrentTime, ToString(), Player.Resource, ResourceName());
+                if (Player.Class == Player.Classes.Druid)
+                {
+                    log += "[combo " + Player.Combo + "]";
+                }
+                Program.Log(log);
             }
         }
 

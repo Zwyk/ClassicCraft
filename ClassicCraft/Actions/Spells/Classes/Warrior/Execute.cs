@@ -39,16 +39,21 @@ namespace ClassicCraft
                 default: reducedCost = 0; break;
             }
 
-            int damage = (int)Math.Round((600 + (Player.Ressource - (15 - reducedCost)) * 15)
+            int damage = (int)Math.Round((600 + (Player.Resource - (15 - reducedCost)) * 15)
                 * Player.Sim.DamageMod(res)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
                 * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1)
                 * (Player.DualWielding() ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
 
             CommonAction();
-            if (res != ResultType.Parry && res != ResultType.Dodge)
+            if (res == ResultType.Parry || res == ResultType.Dodge)
             {
-                Player.Ressource = 0;
+                // TODO à vérifier
+                Player.Resource = ResourceCost / 2;
+            }
+            else
+            {
+                Player.Resource = 0;
             }
 
             RegisterDamage(new ActionResult(res, damage));
@@ -61,7 +66,7 @@ namespace ClassicCraft
             {
                 Flurry.CheckProc(Player, res, Player.GetTalentPoints("Flurry"));
             }
-            if (Player.MH.Enchantment.Name == "Crusader")
+            if (Player.MH.Enchantment != null && Player.MH.Enchantment.Name == "Crusader")
             {
                 Crusader.CheckProc(Player, res, Player.MH.Speed);
             }

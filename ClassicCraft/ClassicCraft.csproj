@@ -49,36 +49,39 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\Action.cs" />
-    <Compile Include="Actions\Spells\BattleShout.cs" />
-    <Compile Include="Actions\Spells\Berserking.cs" />
-    <Compile Include="Actions\Spells\BloodFury.cs" />
-    <Compile Include="Actions\Spells\Bloodrage.cs" />
-    <Compile Include="Actions\Spells\DeathWish.cs" />
-    <Compile Include="Actions\Spells\Execute.cs" />
-    <Compile Include="Actions\Spells\Hamstring.cs" />
+    <Compile Include="Actions\Spells\Classes\Druid\FerociousBite.cs" />
+    <Compile Include="Actions\Spells\Classes\Warrior\BattleShout.cs" />
+    <Compile Include="Actions\Spells\Classes\Warrior\Berserking.cs" />
+    <Compile Include="Actions\Spells\Classes\Warrior\BloodFury.cs" />
+    <Compile Include="Actions\Spells\Classes\Warrior\Bloodrage.cs" />
+    <Compile Include="Actions\Spells\Classes\Warrior\DeathWish.cs" />
+    <Compile Include="Actions\Spells\Classes\Warrior\Execute.cs" />
+    <Compile Include="Actions\Spells\Classes\Warrior\Hamstring.cs" />
     <Compile Include="Actions\Spells\Potions\JujuFlurry.cs" />
     <Compile Include="Actions\Spells\Potions\MightyRage.cs" />
     <Compile Include="Actions\Spells\Potions\Potion.cs" />
-    <Compile Include="Actions\Spells\Recklessness.cs" />
+    <Compile Include="Actions\Spells\Classes\Warrior\Recklessness.cs" />
     <Compile Include="Auras\Aura.cs" />
     <Compile Include="Actions\AutoAttack.cs" />
-    <Compile Include="Actions\Spells\Bloodthirst.cs" />
-    <Compile Include="Auras\Effects\BattleShoutBuff.cs" />
-    <Compile Include="Auras\Effects\BerserkingBuff.cs" />
-    <Compile Include="Auras\Effects\BloodFuryBuff.cs" />
-    <Compile Include="Auras\Effects\DeathWishBuff.cs" />
-    <Compile Include="Auras\Effects\EffectsOnTime\BloodrageBuff.cs" />
+    <Compile Include="Actions\Spells\Classes\Warrior\Bloodthirst.cs" />
+    <Compile Include="Actions\Spells\Classes\Druid\Shred.cs" />
+    <Compile Include="Auras\Effects\Classes\Druid\OmenBuff.cs" />
+    <Compile Include="Auras\Effects\Classes\Warrior\BattleShoutBuff.cs" />
+    <Compile Include="Auras\Effects\Classes\Warrior\BerserkingBuff.cs" />
+    <Compile Include="Auras\Effects\Classes\Warrior\BloodFuryBuff.cs" />
+    <Compile Include="Auras\Effects\Classes\Warrior\DeathWishBuff.cs" />
+    <Compile Include="Auras\Effects\Classes\Warrior\BloodrageBuff.cs" />
     <Compile Include="Auras\Effects\Enchants\Crusader.cs" />
     <Compile Include="Auras\Effects\Potions\JujuFlurryBuff.cs" />
     <Compile Include="Auras\Effects\Potions\MightyRageBuff.cs" />
-    <Compile Include="Auras\Effects\RecklessnessBuff.cs" />
+    <Compile Include="Auras\Effects\Classes\Warrior\RecklessnessBuff.cs" />
     <Compile Include="Entities\Boss.cs" />
-    <Compile Include="Auras\Effects\EffectsOnTime\DeepWounds.cs" />
+    <Compile Include="Auras\Effects\Classes\Warrior\DeepWounds.cs" />
     <Compile Include="Auras\Effects\Effect.cs" />
-    <Compile Include="Auras\Effects\EffectsOnTime\EffectOnTime.cs" />
+    <Compile Include="Auras\Effects\EffectOnTime.cs" />
     <Compile Include="Entities\Entity.cs" />
-    <Compile Include="Auras\Effects\Flurry.cs" />
-    <Compile Include="Actions\Spells\HeroicStrike.cs" />
+    <Compile Include="Auras\Effects\Classes\Warrior\Flurry.cs" />
+    <Compile Include="Actions\Spells\Classes\Warrior\HeroicStrike.cs" />
     <Compile Include="Items\Enchantment.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Entities\Player.cs" />
@@ -89,7 +92,7 @@
     <Compile Include="Actions\Spells\Spell.cs" />
     <Compile Include="Auras\UnbridledWrath.cs" />
     <Compile Include="Items\Weapons\Weapon.cs" />
-    <Compile Include="Actions\Spells\Whirlwind.cs" />
+    <Compile Include="Actions\Spells\Classes\Warrior\Whirlwind.cs" />
     <Compile Include="Simulation.cs" />
     <Compile Include="PlayerObject.cs" />
     <Compile Include="SimulationObject.cs" />
@@ -99,6 +102,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Auras\Effects\EffectsOnTime\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

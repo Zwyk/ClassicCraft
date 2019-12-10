@@ -21,7 +21,7 @@ namespace ClassicCraft
         {
             base.StartBuff();
 
-            Bonus = 232 * 1 + (0.05 * Player.GetTalentPoints("IBS"));
+            Bonus = 232 * (1 + (0.05 * Player.GetTalentPoints("IBS")));
 
             Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) + Bonus);
         }

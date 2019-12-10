@@ -40,9 +40,9 @@ namespace ClassicCraft
                     }
                     if (res.Enchantment != null)
                     {
-                        res.Enchantment.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100);
-                        res.Enchantment.Attributes.SetValue(Attribute.HitChance, res.Attributes.GetValue(Attribute.HitChance) / 100);
-                        res.Enchantment.Attributes.SetValue(Attribute.AS, res.Attributes.GetValue(Attribute.AS) / 100);
+                        res.Enchantment.Attributes.SetValue(Attribute.CritChance, res.Enchantment.Attributes.GetValue(Attribute.CritChance) / 100);
+                        res.Enchantment.Attributes.SetValue(Attribute.HitChance, res.Enchantment.Attributes.GetValue(Attribute.HitChance) / 100);
+                        res.Enchantment.Attributes.SetValue(Attribute.AS, res.Enchantment.Attributes.GetValue(Attribute.AS) / 100);
                     }
                     return res;
                 }
@@ -157,15 +157,15 @@ namespace ClassicCraft
             {
                 if (slot == Player.Slot.MH)
                 {
-                    res.Add(slot, JsonWeapon.ToWeapon(mh));
+                    res.Add(slot, mh == null ? null : JsonWeapon.ToWeapon(mh));
                 }
                 else if (slot == Player.Slot.OH)
                 {
-                    res.Add(slot, JsonWeapon.ToWeapon(oh));
+                    res.Add(slot, oh == null ? null : JsonWeapon.ToWeapon(oh));
                 }
                 else if (slot == Player.Slot.Ranged)
                 {
-                    res.Add(slot, JsonWeapon.ToWeapon(ranged));
+                    res.Add(slot, ranged == null ? null : JsonWeapon.ToWeapon(ranged));
                 }
                 else
                 {
@@ -250,9 +250,8 @@ namespace ClassicCraft
                     }
                 }
 
-                return new Player(null, Player.Classes.Warrior)
+                return new Player(null, ToClass(jp.Class), ToRace(jp.Race))
                 {
-                    // TODO race, classe etc.
                     Equipment = ToEquipment(jp.MH, jp.OH, jp.Ranged, jp.Equipment),
                     Buffs = buffs,
                     WindfuryTotem = jp.Buffs != null && jp.Buffs.Select(b => b.Name).Contains("Windfury Totem"),
@@ -262,7 +261,7 @@ namespace ClassicCraft
 
             public static Player.Races ToRace(string s)
             {
-                switch(s)
+                switch (s)
                 {
                     case "Dwarf": return Player.Races.Dwarf;
                     case "Gnome": return Player.Races.Gnome;
@@ -272,7 +271,24 @@ namespace ClassicCraft
                     case "Troll": return Player.Races.Troll;
                     case "Tauren": return Player.Races.Tauren;
                     case "Undead": return Player.Races.Undead;
-                    default: throw new Exception("Race not found");
+                    default: throw new Exception("Race not found : " + s);
+                }
+            }
+
+            public static Player.Classes ToClass(string s)
+            {
+                switch (s)
+                {
+                    case "Druid": return Player.Classes.Druid;
+                    case "Hunter": return Player.Classes.Hunter;
+                    case "Mage": return Player.Classes.Mage;
+                    case "Paladin": return Player.Classes.Paladin;
+                    case "Priest": return Player.Classes.Priest;
+                    case "Rogue": return Player.Classes.Rogue;
+                    case "Shaman": return Player.Classes.Shaman ;
+                    case "Warlock": return Player.Classes.Warlock;
+                    case "Warrior": return Player.Classes.Warrior;
+                    default: throw new Exception("Class not found : " + s);
                 }
             }
         }

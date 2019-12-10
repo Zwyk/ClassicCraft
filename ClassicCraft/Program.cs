@@ -107,20 +107,44 @@ namespace ClassicCraft
 
                 playerBase = JsonUtil.JsonPlayer.ToPlayer(jsonSim.Player);
 
-                // Arms
+                // Talents
                 playerBase.Talents = new Dictionary<string, int>();
+
+
+                // WARRIOR
+                // Arms
+                /*
                 playerBase.Talents.Add("IHS", 3);
                 playerBase.Talents.Add("DW", 3);
                 playerBase.Talents.Add("2HS", 3);
                 playerBase.Talents.Add("Impale", 2);
-
+                */
                 // Fury
+                /*
                 playerBase.Talents.Add("Cruelty", 5);
                 playerBase.Talents.Add("UW", 5);
                 playerBase.Talents.Add("IBS", 5);
-                playerBase.Talents.Add("DWS", 5);
+                playerBase.Talents.Add("DWS", 3); //playerBase.Talents.Add("DWS", 5);
                 playerBase.Talents.Add("IE", 2);
                 playerBase.Talents.Add("Flurry", 5);
+                */
+
+                // DRUID
+                // Balance
+                playerBase.Talents.Add("NW", 5);
+                playerBase.Talents.Add("NS", 3);
+                playerBase.Talents.Add("OC", 1);
+                // Feral
+                playerBase.Talents.Add("Fero", 5);
+                playerBase.Talents.Add("FA", 5);
+                playerBase.Talents.Add("SC", 3);
+                playerBase.Talents.Add("IS", 2);
+                playerBase.Talents.Add("PS", 3);
+                playerBase.Talents.Add("BF", 2);
+                playerBase.Talents.Add("SF", 2);
+                playerBase.Talents.Add("HW", 2);
+                // Resto
+                playerBase.Talents.Add("Furor", 5);
 
                 playerBase.CalculateAttributes();
 
@@ -244,19 +268,23 @@ namespace ClassicCraft
                     double avgTotalDmg = damages.Average();
                     double[] dps = damages.Select(d => d / fightLength).ToArray();
                     double avgDps = avgTotalDmg / fightLength;
-
+                    
                     double totalAA = totalActions.Select(a => a.Where(t => t.Action is AutoAttack).Count()).Sum();
+                    double totalSH = totalActions.Select(a => a.Where(t => t.Action is Shred).Count()).Sum();
+                    double totalFB = totalActions.Select(a => a.Where(t => t.Action is FerociousBite).Count()).Sum();
+                    /*
                     double totalBT = totalActions.Select(a => a.Where(t => t.Action is Bloodthirst).Count()).Sum();
                     double totalWW = totalActions.Select(a => a.Where(t => t.Action is Whirlwind).Count()).Sum();
                     double totalHS = totalActions.Select(a => a.Where(t => t.Action is HeroicStrike).Count()).Sum();
                     double totalDW = totalEffects.Select(a => a.Where(t => t.Effect is DeepWounds).Count()).Sum();
                     double totalExec = totalActions.Select(a => a.Where(t => t.Action is Execute).Count()).Sum();
                     double totalHam = totalActions.Select(a => a.Where(t => t.Action is Hamstring).Count()).Sum();
+                    */
 
                     Log(string.Format("Error Percent : {0:N2}%", Stats.ErrorPct(damages.ToArray(), damages.Average())));
                     Log(string.Format("Average Damage : {0:N2} (+/- {1:N2})", avgTotalDmg, Stats.MeanStdDev(damages.ToArray())));
                     Log(string.Format("Average DPS : {0:N2} dps (+/- {1:N2})", avgDps, Stats.MeanStdDev(dps)));
-
+                    
                     if (totalAA > 0)
                     {
                         double avgDpsAA = totalActions.Average(a => a.Where(t => t.Action is AutoAttack).Sum(r => r.Result.Damage / fightLength));
@@ -264,6 +292,7 @@ namespace ClassicCraft
                         double avgDmgAA = totalActions.Sum(a => a.Where(t => t.Action is AutoAttack).Sum(r => r.Result.Damage / totalAA));
                         Log(string.Format("Average DPS [Auto Attack] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsAA, avgDmgAA, avgUseAA, fightLength / avgUseAA, avgDpsAA / avgDps * 100));
                     }
+                    /*
                     if (totalBT > 0)
                     {
                         double avgDpsBT = totalActions.Average(a => a.Where(t => t.Action is Bloodthirst).Sum(r => r.Result.Damage / fightLength));
@@ -305,6 +334,21 @@ namespace ClassicCraft
                         double avgUseDW = totalEffects.Average(a => a.Count(t => t.Effect is DeepWounds));
                         double avgDmgDW = totalEffects.Sum(a => a.Where(t => t.Effect is DeepWounds).Sum(r => r.Damage / totalDW));
                         Log(string.Format("Average DPS [Deep Wounds] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} ticks or 1 tick every {3:N2}s", avgDpsDW, avgDmgDW, avgUseDW, fightLength / avgUseDW, avgDpsDW / avgDps * 100));
+                    }
+                    */
+                    if (totalSH > 0)
+                    {
+                        double avgSpellDps = totalActions.Average(a => a.Where(t => t.Action is Shred).Sum(r => r.Result.Damage / fightLength));
+                        double avgUse = totalActions.Average(a => a.Count(t => t.Action is Shred));
+                        double avgDmg = totalActions.Sum(a => a.Where(t => t.Action is Shred).Sum(r => r.Result.Damage / totalSH));
+                        Log(string.Format("Average DPS [Shred] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgSpellDps, avgDmg, avgUse, fightLength / avgUse, avgSpellDps / avgDps * 100));
+                    }
+                    if (totalFB > 0)
+                    {
+                        double avgSpellDps = totalActions.Average(a => a.Where(t => t.Action is FerociousBite).Sum(r => r.Result.Damage / fightLength));
+                        double avgUse = totalActions.Average(a => a.Count(t => t.Action is FerociousBite));
+                        double avgDmg = totalActions.Sum(a => a.Where(t => t.Action is FerociousBite).Sum(r => r.Result.Damage / totalFB));
+                        Log(string.Format("Average DPS [Ferocious Bite] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgSpellDps, avgDmg, avgUse, fightLength / avgUse, avgSpellDps / avgDps * 100));
                     }
                 }
 

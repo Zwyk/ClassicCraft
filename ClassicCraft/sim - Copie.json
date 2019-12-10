@@ -1,5 +1,5 @@
 {
-  "FightLength": 120,
+  "FightLength": 90,
   "TargetErrorPct": 0.1,
   "TargetError": true,
   "LogFight": false,
@@ -12,26 +12,23 @@
     "Debuffs": [
       "Sunder Armor",
       "Curse of Recklessness",
-      "Faerie Fire"
+      "Faerie Fire",
+      "Annihilator"
     ]
   },
   "Player": {
-    "Race": "Tauren",
-    "Class": "Druid",
+    "Race": "Orc",
+    "Class": "Warrior",
     "Cooldowns": {
+      "Racial": true,
+      "Death Wish": true,
+      "Recklessness": true,
+      "Juju Flurry": false,
+      "Mighty Rage": true,
     },
     "Buffs": [
       {
-        "Name": "Leader of the Pack",
-        "Stats": {
-          "Crit": 3
-        }
-      },
-      {
-        "Name": "Battle Shout",
-        "Stats": {
-          "AP": 241
-        }
+        "Name": "Windfury Totem"
       },
       {
         "Name": "Trueshot Aura",
@@ -59,9 +56,9 @@
         }
       },
       {
-        "Name": "Squid",
+        "Name": "Smoked Desert Dumplings",
         "Stats": {
-          "Agi": 10,
+          "Str": 20,
         }
       },
       {
@@ -73,25 +70,58 @@
       },
     ],
     "MH": {
-      "DamageMin": 129,
-      "DamageMax": 194,
-      "Speed": 3.0,
-      "TwoHanded": true,
-      "Type": "Mace",
-      "Name": "Bonecrusher",
+      "DamageMin": 119,
+      "DamageMax": 221,
+      "Speed": 2.6,
+      "TwoHanded": false,
+      "Type": "Axe",
+      "Name": "Hatchet of Sundered Bone",
       "Id": 0,
       "Slot": "Weapon",
       "Enchantment": {
+        "Name": "Crusader"
       },
       "Stats": {
-        "Str": 30,
+        "AP": 36,
         "Crit": 1
+      }
+    },
+    "OH": {
+      "DamageMin": 101,
+      "DamageMax": 188,
+      "Speed": 2.3,
+      "TwoHanded": false,
+      "Type": "Axe",
+      "Name": "Crul'shorukh, Edge of Chaos",
+      "Id": 0,
+      "Slot": "Weapon",
+      "Stats": {
+        "AP": 36,
+      },
+      "Enchantment": {
+        "Name": "Crusader"
+      },
+      "Buff": {
+        "Stats": {
+          "Crit": 2
+        }
+      }
+    },
+    "Ranged": {
+      "Type": "Crossbow",
+      "Name": "Crossbow of Imminent Doom",
+      "Stats": {
+        "Str": 5,
+        "Agi": 7,
+        "Hit": 1,
       }
     },
     "Equipment": {
       "Head": {
-        "Name": "Wolfshead Helm",
+        "Name": "Mark of the Unforgiven",
         "Stats": {
+          "Hit": 2,
+          "Crit": 1,
         }
       },
       "Neck": {
@@ -124,9 +154,9 @@
       "Chest": {
         "Name": "Savage Gladiator Chain",
         "Stats": {
-          "Str": 8,
-          "Agi": 8,
-          "AP": 60
+          "Str": 13,
+          "Agi": 14,
+          "Crit": 2
         },
         "Enchantment": {
           "Name": "Greater Stats",
@@ -137,10 +167,10 @@
         }
       },
       "Wrist": {
-        "Name": "Blackmist",
+        "Name": "Battleborn Armbraces",
         "Stats": {
           "Hit": 1,
-          "Str": 5
+          "Crit": 1
         },
         "Enchantment": {
           "Name": "Superior Strength",
@@ -164,10 +194,10 @@
         }
       },
       "Waist": {
-        "Name": "Shadowcraft",
+        "Name": "Omokk's Girth Restrainer",
         "Stats": {
-          "Str": 9,
-          "Agi": 14
+          "Str": 15,
+          "Crit": 1
         }
       },
       "Legs": {
@@ -178,16 +208,17 @@
         },
       },
       "Feet": {
-        "Name": "Shadowcraft",
+        "Name": "Battlechaser's Greaves",
         "Stats": {
-          "Agi": 21,
+          "Str": 14,
+          "Agi": 13,
         },
       },
       "Ring1": {
-        "Name": "Elven Ring",
+        "Name": "Painweaver Band",
         "Stats": {
-          "Agi": 15,
-          "Hit": 1
+          "AP": 16,
+          "Crit": 1
         }
       },
       "Ring2": {
@@ -198,10 +229,9 @@
         }
       },
       "Trinket1": {
-        "Name": "Rune of the Guard Captain",
+        "Name": "Blackhand's Breadth",
         "Stats": {
-          "Hit": 1,
-          "AP": 20
+          "Crit": 2
         }
       },
       "Trinket2": {

@@ -8,7 +8,7 @@ namespace ClassicCraft
 {
     public class Simulation
     {
-        public static double RATE = 10;
+        public static double RATE = 30;
 
         public Player Player { get; set; }
         public Boss Boss { get; set; }
@@ -46,6 +46,95 @@ namespace ClassicCraft
 
         public void StartSim()
         {
+            switch (Player.Class)
+            {
+                case Player.Classes.Warrior: Warrior(); break;
+                case Player.Classes.Druid: Druid(); break;
+            }
+        }
+
+        private void Druid()
+        {
+            List<AutoAttack> autos = new List<AutoAttack>();
+
+            autos.Add(new AutoAttack(Player, Player.MH, true));
+            CurrentTime = 0;
+            Boss.LifePct = 1;
+            
+            Shred shred = new Shred(Player);
+            shred.ResourceCost -= Player.GetTalentPoints("IS") * 6;
+            FerociousBite fb = new FerociousBite(Player);
+
+            // Charge
+            Player.Resource = 100;
+
+            int rota = 1;
+
+            while (CurrentTime < FightLength)
+            {
+                if (AutoLife)
+                {
+                    Boss.LifePct = Math.Max(0, 1 - (CurrentTime / FightLength) * (16.0 / 17.0));
+                }
+                else if (CurrentTime >= LowLifeTime && Boss.LifePct == 1)
+                {
+                    Boss.LifePct = 0.10;
+                }
+
+                foreach (Effect e in Player.Effects)
+                {
+                    e.CheckEffect();
+                }
+                foreach (Effect e in Boss.Effects)
+                {
+                    e.CheckEffect();
+                }
+
+                Player.Effects.RemoveAll(e => e.Ended);
+                Boss.Effects.RemoveAll(e => e.Ended);
+
+                Player.CheckEnergyTick();
+
+                if (rota == 0)
+                {
+
+                }
+                else if (rota == 1)
+                {
+                    if(Player.Combo > 4 && fb.CanUse())
+                    {
+                        fb.Cast();
+                    }
+                    else if(Player.Combo < 5 && shred.CanUse())
+                    {
+                        shred.Cast();
+                    }
+                    // TODO powershift
+                }
+
+                foreach (AutoAttack a in autos)
+                {
+                    if (a.Available())
+                    {
+                        a.Cast();
+                    }
+                }
+
+                Player.Effects.RemoveAll(e => e.Ended);
+                Boss.Effects.RemoveAll(e => e.Ended);
+
+                CurrentTime += 1 / RATE;
+            }
+
+            Program.damages.Add(Damage);
+            Program.totalActions.Add(Actions);
+            Program.totalEffects.Add(Effects);
+
+            Ended = true;
+        }
+
+        private void Warrior()
+        {
             List<AutoAttack> autos = new List<AutoAttack>();
 
             autos.Add(new AutoAttack(Player, Player.MH, true));
@@ -55,11 +144,12 @@ namespace ClassicCraft
             }
 
             CurrentTime = 0;
+            Boss.LifePct = 1;
 
             Whirlwind ww = new Whirlwind(Player);
             Bloodthirst bt = new Bloodthirst(Player);
             HeroicStrike hs = new HeroicStrike(Player);
-            hs.RessourceCost -= Player.GetTalentPoints("IHS");
+            hs.ResourceCost -= Player.GetTalentPoints("IHS");
             Execute exec = new Execute(Player);
             Bloodrage br = new Bloodrage(Player);
             BattleShout bs = new BattleShout(Player);
@@ -91,13 +181,11 @@ namespace ClassicCraft
                 }
             }
 
-            Boss.LifePct = 1;
-
             // Pre-cast Battle Shout (starts GCD as Charge would)
             bs.Cast();
 
             // Charge
-            Player.Ressource += 15;
+            Player.Resource += 15;
 
             int rota = 1;
 
@@ -124,7 +212,7 @@ namespace ClassicCraft
                 Player.Effects.RemoveAll(e => e.Ended);
                 Boss.Effects.RemoveAll(e => e.Ended);
 
-                if (br.CanUse() && Player.Ressource <= 90)
+                if (br.CanUse() && Player.Resource <= 90)
                 {
                     br.Cast();
                 }
@@ -160,16 +248,16 @@ namespace ClassicCraft
                         {
                             bt.Cast();
                         }
-                        else if (ww.CanUse() && Player.Ressource >= ww.RessourceCost + bt.RessourceCost && bt.RemainingCD() >= Player.GCD)
+                        else if (ww.CanUse() && Player.Resource >= ww.ResourceCost + bt.ResourceCost && bt.RemainingCD() >= Player.GCD)
                         {
                             ww.Cast();
                         }
-                        else if(ham.CanUse() && Player.Ressource >= Bloodthirst.COST + Whirlwind.COST + Hamstring.COST && ww.RemainingCD() >= Player.GCD && bt.RemainingCD() >= Player.GCD && (!Player.Effects.Any(e => e is Flurry) || ((Flurry)Player.Effects.Where(f => f is Flurry).First()).CurrentStacks < 3))
+                        else if(ham.CanUse() && Player.Resource >= Bloodthirst.COST + Whirlwind.COST + Hamstring.COST && ww.RemainingCD() >= Player.GCD && bt.RemainingCD() >= Player.GCD && (!Player.Effects.Any(e => e is Flurry) || ((Flurry)Player.Effects.Where(f => f is Flurry).First()).CurrentStacks < 3))
                         {
                             ham.Cast();
                         }
 
-                        if (Player.Ressource >= Bloodthirst.COST + Whirlwind.COST + HeroicStrike.COST && hs.CanUse())
+                        if (Player.Resource >= Bloodthirst.COST + Whirlwind.COST + HeroicStrike.COST && hs.CanUse())
                         {
                             hs.Cast();
                         }
@@ -188,16 +276,16 @@ namespace ClassicCraft
                     {
                         ww.Cast();
                     }
-                    else if (bt.CanUse() && Player.Ressource >= ww.RessourceCost + bt.RessourceCost)
+                    else if (bt.CanUse() && Player.Resource >= ww.ResourceCost + bt.ResourceCost)
                     {
                         bt.Cast();
                     }
-                    else if (ham.CanUse() && Player.Ressource >= Bloodthirst.COST + Whirlwind.COST + Hamstring.COST && ww.RemainingCD() >= Player.GCD && bt.RemainingCD() >= Player.GCD && (!Player.Effects.Any(e => e is Flurry) || ((Flurry)Player.Effects.Where(f => f is Flurry).First()).CurrentStacks < 3))
+                    else if (ham.CanUse() && Player.Resource >= Bloodthirst.COST + Whirlwind.COST + Hamstring.COST && ww.RemainingCD() >= Player.GCD && bt.RemainingCD() >= Player.GCD && (!Player.Effects.Any(e => e is Flurry) || ((Flurry)Player.Effects.Where(f => f is Flurry).First()).CurrentStacks < 3))
                     {
                         ham.Cast();
                     }
 
-                    if (Player.Ressource >= Bloodthirst.COST + Whirlwind.COST + HeroicStrike.COST && hs.CanUse())
+                    if (Player.Resource >= Bloodthirst.COST + Whirlwind.COST + HeroicStrike.COST && hs.CanUse())
                     {
                         hs.Cast();
                     }

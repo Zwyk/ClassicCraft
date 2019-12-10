@@ -19,7 +19,7 @@ namespace ClassicCraft
             {
                 if(p.Sim.random.NextDouble() < (0.08 * points))
                 {
-                    p.Ressource += 1;
+                    p.Resource += 1;
                 }
             }
         }

@@ -12,7 +12,7 @@ namespace ClassicCraft
         public Weapon Weapon { get; set; }
 
         public AutoAttack(Player p, Weapon weapon, bool mh)
-            : base(p, weapon.Speed)
+            : base(p, p.Class == Player.Classes.Druid ? 1 : weapon.Speed)
         {
             Weapon = weapon;
             MH = mh;
@@ -33,50 +33,75 @@ namespace ClassicCraft
         {
             ResultType res = Player.WhiteAttackEnemy(Player.Sim.Boss, MH);
 
-            int minDmg = (int)Math.Round(Weapon.DamageMin + Weapon.Speed * (Player.AP + bonusAP) / 14);
-            int maxDmg = (int)Math.Round(Weapon.DamageMax + Weapon.Speed * (Player.AP + bonusAP) / 14);
+            int minDmg = (int)Math.Round((Player.Class == Player.Classes.Druid ? Player.Level * 0.85 : (Weapon.DamageMin + Weapon.Speed)) + (Player.AP + bonusAP) / 14);
+            int maxDmg = (int)Math.Round((Player.Class == Player.Classes.Druid ? Player.Level * 1.25 : (Weapon.DamageMax + Weapon.Speed)) + (Player.AP + bonusAP) / 14);
 
             double baseDamage = 
                 Player.Sim.random.Next(minDmg, maxDmg + 1)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
                 * (Player.DualWielding() ? (MH ? 1 : 0.5 * (1 + (0.05 * Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Player.GetTalentPoints("2HS")));
 
-            int rageDamage = (int)Math.Round(baseDamage * Player.Sim.RageDamageMod(res));
             int damage = (int)Math.Round(baseDamage * Player.Sim.DamageMod(res));
 
-            //Player.Ressource += (int)Math.Round(Simulation.RageGained(damage, Weapon.Speed, res, MH, Player.Level));
-            Player.Ressource += (int)Math.Round(Simulation.RageGained(damage, Player.Level));
+            if (Player.Class == Player.Classes.Warrior)
+            {
+                //Player.Resource += (int)Math.Round(Simulation.RageGained(damage, Weapon.Speed, res, MH, Player.Level));
+                Player.Resource += (int)Math.Round(Simulation.RageGained(damage, Player.Level));
+            }
 
             RegisterDamage(new ActionResult(res, damage));
 
-            if (Player.GetTalentPoints("DW") > 0)
+            if(Player.Class == Player.Classes.Druid)
             {
-                DeepWounds.CheckProc(Player, res, Player.GetTalentPoints("DW"));
-            }
-            if (Player.GetTalentPoints("Flurry") > 0)
-            {
-                Flurry.CheckProc(Player, res, Player.GetTalentPoints("Flurry"), didWf);
-            }
-            if (Player.GetTalentPoints("UW") > 0)
-            {
-                UnbridledWrath.CheckProc(Player, res, Player.GetTalentPoints("UW"));
-            }
-            if((MH && Player.MH.Enchantment.Name == "Crusader") || (!MH && Player.OH.Enchantment.Name == "Crusader"))
-            {
-                Crusader.CheckProc(Player, res, Weapon.Speed);
-            }
-
-            if(MH && !didWf && Player.WindfuryTotem)
-            {
-                if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glancing)
+                if (Player.GetTalentPoints("OC") > 0 
+                    && (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Glancing || res == ResultType.Block) 
+                    && Player.Sim.random.NextDouble() < OmenBuff.PROC_RATE)
                 {
-                    if (Player.Sim.random.NextDouble() < 0.2)
+                    if (Player.Effects.Any(e => e is OmenBuff))
                     {
-                        if(Program.logFight)
+                        Player.Effects.Where(e => e is OmenBuff).First().Refresh();
+                    }
+                    else
+                    {
+                        OmenBuff ob = new OmenBuff(Player);
+                        ob.StartBuff();
+                    }
+                }
+            }
+            else if(Player.Class == Player.Classes.Warrior)
+            {
+                if (Player.GetTalentPoints("DW") > 0)
+                {
+                    DeepWounds.CheckProc(Player, res, Player.GetTalentPoints("DW"));
+                }
+                if (Player.GetTalentPoints("Flurry") > 0)
+                {
+                    Flurry.CheckProc(Player, res, Player.GetTalentPoints("Flurry"), didWf);
+                }
+                if (Player.GetTalentPoints("UW") > 0)
+                {
+                    UnbridledWrath.CheckProc(Player, res, Player.GetTalentPoints("UW"));
+                }
+            }
+            if (Player.Class != Player.Classes.Druid)
+            {
+                if ((MH && Player.MH.Enchantment != null && Player.MH.Enchantment.Name == "Crusader") || (!MH && Player.OH.Enchantment != null && Player.OH.Enchantment.Name == "Crusader"))
+                {
+                    Crusader.CheckProc(Player, res, Weapon.Speed);
+                }
+
+                if (MH && !didWf && Player.WindfuryTotem)
+                {
+                    if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glancing)
+                    {
+                        if (Player.Sim.random.NextDouble() < 0.2)
                         {
-                            Program.Log(string.Format("{0:N2} : Windfury procs", Player.Sim.CurrentTime));
+                            if (Program.logFight)
+                            {
+                                Program.Log(string.Format("{0:N2} : Windfury procs", Player.Sim.CurrentTime));
+                            }
+                            DoAA(315, true);
                         }
-                        DoAA(315, true);
                     }
                 }
             }
@@ -84,7 +109,7 @@ namespace ClassicCraft
 
         public void NextAA()
         {
-            LockedUntil += Weapon.Speed / Player.HasteMod;
+            LockedUntil += BaseCD / Player.HasteMod;
         }
 
         public override string ToString()

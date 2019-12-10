@@ -26,10 +26,7 @@ namespace ClassicCraft
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
 
             CommonAction();
-            if (res != ResultType.Parry && res != ResultType.Dodge)
-            {
-                Player.Ressource -= RessourceCost;
-            }
+            Player.Resource -= ResourceCost;
 
             int minDmg = (int)Math.Round(Player.MH.DamageMin + Simulation.Normalization(Player.MH) * Player.AP / 14);
             int maxDmg = (int)Math.Round(Player.MH.DamageMax + Simulation.Normalization(Player.MH) * Player.AP / 14);
@@ -58,7 +55,7 @@ namespace ClassicCraft
             {
                 Flurry.CheckProc(Player, res, Player.GetTalentPoints("Flurry"));
             }
-            if (Player.MH.Enchantment.Name == "Crusader")
+            if (Player.MH.Enchantment != null && Player.MH.Enchantment.Name == "Crusader")
             {
                 Crusader.CheckProc(Player, res, Player.MH.Speed);
             }

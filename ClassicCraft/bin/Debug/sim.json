@@ -1,8 +1,8 @@
 {
-  "FightLength": 300,
+  "FightLength": 120,
   "TargetErrorPct": 0.1,
-  "TargetError": true,
-  "LogFight": false,
+  "TargetError": false,
+  "LogFight": true,
   "NbSim": 1,
   "BossAutoLife": true,
   "BossLowLifeTime": 0,
@@ -12,22 +12,26 @@
     "Debuffs": [
       "Sunder Armor",
       "Curse of Recklessness",
-      "Faerie Fire",
-      "Annihilator"
+      "Faerie Fire"
     ]
   },
   "Player": {
-    "Race": "Orc",
+    "Race": "Tauren",
+    "Class": "Druid",
     "Cooldowns": {
-      "Racial": true,
-      "Death Wish": true,
-      "Recklessness": true,
-      "Juju Flurry": true,
-      "Mighty Rage": true,
     },
     "Buffs": [
       {
-        "Name": "Windfury Totem"
+        "Name": "Leader of the Pack",
+        "Stats": {
+          "Crit": 3
+        }
+      },
+      {
+        "Name": "Battle Shout",
+        "Stats": {
+          "AP": 241
+        }
       },
       {
         "Name": "Trueshot Aura",
@@ -55,21 +59,9 @@
         }
       },
       {
-        "Name": "Juju Power",
+        "Name": "Squid",
         "Stats": {
-          "Str": 30,
-        }
-      },
-      {
-        "Name": "Juju Might",
-        "Stats": {
-          "AP": 40,
-        }
-      },
-      {
-        "Name": "Smoked Desert Dumplings",
-        "Stats": {
-          "Str": 20,
+          "Agi": 10,
         }
       },
       {
@@ -81,95 +73,50 @@
       },
     ],
     "MH": {
-      "DamageMin": 119,
-      "DamageMax": 221,
-      "Speed": 2.6,
-      "TwoHanded": false,
-      "Type": "Axe",
-      "Name": "Hatchet of Sundered Bone",
+      "DamageMin": 129,
+      "DamageMax": 194,
+      "Speed": 3.0,
+      "TwoHanded": true,
+      "Type": "Mace",
+      "Name": "Bonecrusher",
       "Id": 0,
       "Slot": "Weapon",
       "Enchantment": {
-        "Name": "Crusader"
       },
       "Stats": {
-        "AP": 36,
+        "Str": 30,
         "Crit": 1
       }
     },
     "OH": {
-      "DamageMin": 101,
-      "DamageMax": 188,
-      "Speed": 2.3,
-      "TwoHanded": false,
-      "Type": "Axe",
-      "Name": "Crul'shorukh, Edge of Chaos",
-      "Id": 0,
-      "Slot": "Weapon",
-      "Stats": {
-        "AP": 36,
-      },
-      "Enchantment": {
-        "Name": "Crusader"
-      },
-      "Buff": {
-        "Stats": {
-          "Crit": 2
-        }
-      }
     },
     "Ranged": {
-      "Type": "Crossbow",
-      "Name": "Crossbow of Imminent Doom",
-      "Stats": {
-        "Str": 5,
-        "Agi": 7,
-        "Hit": 1,
-      }
     },
     "Equipment": {
       "Head": {
-        "Name": "Lionheart Helm",
+        "Name": "Wolfshead Helm",
         "Stats": {
-          "Str": 18,
-          "Crit": 2,
-          "Hit": 2,
-        },
-        "Enchantment": {
-          "Name": "Libram of Voracity Str",
-          "Stats": {
-            "Str": 8
-          }
         }
       },
       "Neck": {
-        "Name": "Barbed Choker",
+        "Name": "Mark of Fordring",
         "Stats": {
-          "AP": 44,
+          "AP": 26,
           "Crit": 1,
         }
       },
       "Shoulders": {
-        "Name": "Conqueror's Spaulders",
+        "Name": "Truestike Shoulders",
         "Stats": {
-          "Str": 20,
-          "Agi": 16,
-          "Hit": 1
+          "Hit": 2,
+          "AP": 24,
         },
-        "Enchantment": {
-          "Name": "Might of the Scourge",
-          "Stats": {
-            "Crit": 1,
-            "AP": 26
-          }
-        }
       },
       "Back": {
-        "Name": "Cloak of Concentrated Hatred",
-        "Stats": {
-          "Str": 11,
-          "Agi": 16,
-          "Hit": 1
+	      "Name": "Cape of the Black Baron",
+	      "Stats": {
+	        "Agi": 15,
+	        "AP": 20
         },
         "Enchantment": {
           "Name": "Lesser Agility",
@@ -179,11 +126,11 @@
         }
       },
       "Chest": {
-        "Name": "Plated Abomination Ribcage",
+        "Name": "Savage Gladiator Chain",
         "Stats": {
-          "Str": 45,
-          "Hit": 1,
-          "Crit": 1
+          "Str": 8,
+          "Agi": 8,
+          "AP": 60
         },
         "Enchantment": {
           "Name": "Greater Stats",
@@ -194,10 +141,10 @@
         }
       },
       "Wrist": {
-        "Name": "Wristguards of Vengeance",
+        "Name": "Blackmist",
         "Stats": {
-          "Str": 24,
-          "Crit": 1
+          "Hit": 1,
+          "Str": 5
         },
         "Enchantment": {
           "Name": "Superior Strength",
@@ -207,11 +154,11 @@
         }
       },
       "Hands": {
-        "Name": "Gauntlets of Annihilation",
+        "Name": "Devilsaur Gauntlets",
         "Stats": {
-          "Str": 35,
+          "AP": 28,
           "Crit": 1,
-          "Hit": 1
+          "Hit": 2
         },
         "Enchantment": {
           "Name": "Greater Strength",
@@ -221,61 +168,44 @@
         }
       },
       "Waist": {
-        "Name": "Girdle of the Mentor",
+        "Name": "Shadowcraft",
         "Stats": {
-          "Str": 21,
-          "Agi": 20,
-          "Hit": 1,
-          "Crit": 1
+          "Str": 9,
+          "Agi": 14
         }
       },
       "Legs": {
-        "Name": "Titanic Leggings",
+        "Name": "Devilsaur Leggings",
         "Stats": {
-          "Str": 30,
-          "Hit": 2,
+          "AP": 46,
           "Crit": 1
         },
-        "Enchantment": {
-          "Name": "Libram of Voracity Str",
-          "Stats": {
-            "Str": 8
-          }
-        }
       },
       "Feet": {
-        "Name": "Chromatic Boots",
+        "Name": "Shadowcraft",
         "Stats": {
-          "Str": 20,
-          "Agi": 20,
-          "Hit": 1
+          "Agi": 21,
         },
-        "Enchantment": {
-          "Name": "Greater Agility",
-          "Stats": {
-            "Agi": 7
-          }
-        }
       },
       "Ring1": {
-        "Name": "Quick Strike Ring",
+        "Name": "Elven Ring",
         "Stats": {
-          "Str": 5,
-          "AP": 30,
-          "Crit": 1
+          "Agi": 15,
+          "Hit": 1
         }
       },
       "Ring2": {
-        "Name": "Master Dragonslayer's Ring",
+        "Name": "Blackstone Ring",
         "Stats": {
-          "AP": 48,
+          "AP": 20,
           "Hit": 1
         }
       },
       "Trinket1": {
-        "Name": "Blackhand's Breadth",
+        "Name": "Rune of the Guard Captain",
         "Stats": {
-          "Crit": 2
+          "Hit": 1,
+          "AP": 20
         }
       },
       "Trinket2": {

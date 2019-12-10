@@ -16,6 +16,7 @@
   },
   "Player": {
     "Race": "Orc",
+    "Class": "Warrior",
     "Cooldowns": {
       "Racial": true,
       "Death Wish": true,
@@ -51,17 +52,14 @@
       }
     },
     "OH": {
-      "DamageMin": 68,
-      "DamageMax": 127,
-      "Speed": 2.4,
+      "DamageMin": 52,
+      "DamageMax": 97,
+      "Speed": 1.8,
       "TwoHanded": false,
-      "Type": "Axe",
-      "Name": "Bonechill Hammer",
+      "Type": "Sword",
+      "Name": "Dal'Rend",
       "Id": 0,
       "Slot": "Weapon",
-      "Stats": {
-        "AP": 36,
-      },
     },
     "Ranged": {
       "Type": "Crossbow",
@@ -88,19 +86,19 @@
       "Shoulders": {
         "Name": "Blabla",
         "Stats": {
-          "Str": 10,
+          "Str": 0,
         },
       },
       "Back": {
         "Name": "Deep River Cloak",
         "Stats": {
-          "Agi": 11,
+          "Str": 12,
         },
       },
       "Chest": {
         "Name": "Warrior's Embrace",
         "Stats": {
-          "Agi": 4,
+          "Agi": 0,
         },
       },
       "Wrist": {
@@ -113,8 +111,8 @@
       "Hands": {
         "Name": "Gauntlets of Valor",
         "Stats": {
-          "Str": 17,
-          "Agi": 3,
+          "Hit": 2,
+          "Agi": 9,
         },
       },
       "Waist": {
@@ -159,9 +157,10 @@
         }
       },
       "Trinket2": {
-        "Name": "Hand of Justice",
+        "Name": "Star",
         "Stats": {
-          "AP": 20
+          "Str": 25,
+          "Agi": 25,
         }
       },
     }

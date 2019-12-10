@@ -1,0 +1,74 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ClassicCraft
+{
+    class Shred : Spell
+    {
+        public static int COST = 60;
+        public static int CD = 0;
+
+        static Random random = new Random();
+
+        public Shred(Player p)
+            : base(p, CD, COST) { }
+
+        public override void Cast()
+        {
+            DoAction();
+        }
+
+        public override void DoAction()
+        {
+            ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
+
+            int minDmg = (int)Math.Round(Player.Level * 0.85 + Player.AP / 14);
+            int maxDmg = (int)Math.Round(Player.Level * 1.25 + Player.AP / 14);
+
+            int damage = (int)Math.Round(
+                (Player.Sim.random.Next(minDmg, maxDmg + 1) * 2.25 + 180)
+                * (1 + Player.GetTalentPoints("NW") * 0.02)
+                * Player.Sim.DamageMod(res)
+                * Entity.ArmorMitigation(Player.Sim.Boss.Armor));
+
+            CommonAction();
+
+            int cost = ResourceCost;
+            if(Player.Effects.Any(e => e is OmenBuff))
+            {
+                cost = 0;
+                Player.Effects.Where(e => e is OmenBuff).First().StackRemove();
+            }
+
+            if (res == ResultType.Parry || res == ResultType.Dodge)
+            {
+                // TODO à vérifier
+                Player.Resource -= cost / 2;
+            }
+            else
+            {
+                Player.Resource -= cost;
+            }
+
+            if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glancing)
+            {
+                Player.Combo++;
+            }
+
+            if (res == ResultType.Crit && Player.Sim.random.NextDouble() < 0.5 * Player.GetTalentPoints("BF"))
+            {
+                Player.Combo++;
+            }
+
+            RegisterDamage(new ActionResult(res, damage));
+        }
+
+        public override string ToString()
+        {
+            return "Shred";
+        }
+    }
+}

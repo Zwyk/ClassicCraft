@@ -19,7 +19,7 @@ namespace ClassicCraft
         {
             base.StartBuff();
 
-            Player.Ressource += Player.Sim.random.Next(45, 347);
+            Player.Resource += Player.Sim.random.Next(45, 347);
             Player.BonusAttributes.SetValue(Attribute.Strength, Player.BonusAttributes.GetValue(Attribute.Strength) + 60);
             Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) + 120);
         }
