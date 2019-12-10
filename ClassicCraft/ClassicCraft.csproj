@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Actions\Action.cs" />
     <Compile Include="Actions\Spells\Classes\Druid\FerociousBite.cs" />
+    <Compile Include="Actions\Spells\Classes\Druid\Shift.cs" />
     <Compile Include="Actions\Spells\Classes\Warrior\BattleShout.cs" />
     <Compile Include="Actions\Spells\Classes\Warrior\Berserking.cs" />
     <Compile Include="Actions\Spells\Classes\Warrior\BloodFury.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Actions\Spells\Classes\Warrior\DeathWish.cs" />
     <Compile Include="Actions\Spells\Classes\Warrior\Execute.cs" />
     <Compile Include="Actions\Spells\Classes\Warrior\Hamstring.cs" />
+    <Compile Include="Actions\Spells\MCP.cs" />
     <Compile Include="Actions\Spells\Potions\JujuFlurry.cs" />
     <Compile Include="Actions\Spells\Potions\MightyRage.cs" />
     <Compile Include="Actions\Spells\Potions\Potion.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="Auras\Effects\Classes\Warrior\DeathWishBuff.cs" />
     <Compile Include="Auras\Effects\Classes\Warrior\BloodrageBuff.cs" />
     <Compile Include="Auras\Effects\Enchants\Crusader.cs" />
+    <Compile Include="Auras\Effects\MCPBuff.cs" />
     <Compile Include="Auras\Effects\Potions\JujuFlurryBuff.cs" />
     <Compile Include="Auras\Effects\Potions\MightyRageBuff.cs" />
     <Compile Include="Auras\Effects\Classes\Warrior\RecklessnessBuff.cs" />
@@ -93,6 +96,7 @@
     <Compile Include="Auras\UnbridledWrath.cs" />
     <Compile Include="Items\Weapons\Weapon.cs" />
     <Compile Include="Actions\Spells\Classes\Warrior\Whirlwind.cs" />
+    <Compile Include="Randomer.cs" />
     <Compile Include="Simulation.cs" />
     <Compile Include="PlayerObject.cs" />
     <Compile Include="SimulationObject.cs" />

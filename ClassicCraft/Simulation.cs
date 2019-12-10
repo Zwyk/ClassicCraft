@@ -25,7 +25,7 @@ namespace ClassicCraft
 
         public bool Ended { get; set; }
 
-        public Random random = new Random();
+        public static Random random = new Random();
 
         public Simulation(Player player, Boss boss, double fightLength, bool autoBossLife = true, double lowLifeTime = 0)
         {
@@ -64,14 +64,22 @@ namespace ClassicCraft
             Shred shred = new Shred(Player);
             shred.ResourceCost -= Player.GetTalentPoints("IS") * 6;
             FerociousBite fb = new FerociousBite(Player);
+            Shift shift = new Shift(Player);
+            MCP mcp = new MCP(Player);
 
-            // Charge
+            if(Player.Equipment[Player.Slot.MH].Name == "Manual Crowd Pummeler")
+            {
+                mcp.Cast();
+            }
+
             Player.Resource = 100;
 
             int rota = 1;
 
+            int t = 0;
             while (CurrentTime < FightLength)
             {
+                t++;
                 if (AutoLife)
                 {
                     Boss.LifePct = Math.Max(0, 1 - (CurrentTime / FightLength) * (16.0 / 17.0));
@@ -109,7 +117,14 @@ namespace ClassicCraft
                     {
                         shred.Cast();
                     }
-                    // TODO powershift
+                    else if (Player.Combo < 5 && Player.Resource < 28 && shift.CanUse())
+                    {
+                        shift.Cast();
+                    }
+                    else if (Player.Combo == 5 && Player.Resource < 15 && shift.CanUse())
+                    {
+                        shift.Cast();
+                    }
                 }
 
                 foreach (AutoAttack a in autos)
@@ -125,7 +140,7 @@ namespace ClassicCraft
 
                 CurrentTime += 1 / RATE;
             }
-
+            
             Program.damages.Add(Damage);
             Program.totalActions.Add(Actions);
             Program.totalEffects.Add(Effects);

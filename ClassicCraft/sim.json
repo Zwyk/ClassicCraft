@@ -1,6 +1,6 @@
 {
   "FightLength": 120,
-  "TargetErrorPct": 0.1,
+  "TargetErrorPct": 0.2,
   "TargetError": true,
   "LogFight": false,
   "NbSim": 1,
@@ -21,6 +21,12 @@
     "Cooldowns": {
     },
     "Buffs": [
+      {
+        "Name": "Test",
+        "Stats": {
+          "AP": 0
+        }
+      },
       {
         "Name": "Leader of the Pack",
         "Stats": {
@@ -73,19 +79,19 @@
       },
     ],
     "MH": {
-      "DamageMin": 129,
-      "DamageMax": 194,
-      "Speed": 3.0,
+      "DamageMin": 46,
+      "DamageMax": 70,
+      "Speed": 2.0,
       "TwoHanded": true,
       "Type": "Mace",
-      "Name": "Bonecrusher",
+      "Name": "Manual Crowd Pummeler",
       "Id": 0,
       "Slot": "Weapon",
       "Enchantment": {
       },
       "Stats": {
-        "Str": 30,
-        "Crit": 1
+        "Str": 16,
+        "Agi": 5
       }
     },
     "Equipment": {

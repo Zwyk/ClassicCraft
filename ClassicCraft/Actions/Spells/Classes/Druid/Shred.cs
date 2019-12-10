@@ -29,7 +29,7 @@ namespace ClassicCraft
             int maxDmg = (int)Math.Round(Player.Level * 1.25 + Player.AP / 14);
 
             int damage = (int)Math.Round(
-                (Player.Sim.random.Next(minDmg, maxDmg + 1) * 2.25 + 180)
+                (Randomer.Next(minDmg, maxDmg + 1) * 2.25 + 180)
                 * (1 + Player.GetTalentPoints("NW") * 0.02)
                 * Player.Sim.DamageMod(res)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor));
@@ -58,7 +58,7 @@ namespace ClassicCraft
                 Player.Combo++;
             }
 
-            if (res == ResultType.Crit && Player.Sim.random.NextDouble() < 0.5 * Player.GetTalentPoints("BF"))
+            if (res == ResultType.Crit && Randomer.NextDouble() < 0.5 * Player.GetTalentPoints("BF"))
             {
                 Player.Combo++;
             }

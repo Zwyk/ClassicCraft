@@ -61,7 +61,7 @@ namespace ClassicCraft
             }
 
             int damage = (int)Math.Round(
-                (Player.Sim.random.Next(minDmg, maxDmg + 1) + Player.AP * 0.15 + 2.5 * (Player.Resource - cost))
+                (Randomer.Next(minDmg, maxDmg + 1) + Player.AP * 0.15 + 2.5 * (Player.Resource - cost))
                 * (1 + Player.GetTalentPoints("FA") * 0.03)
                 * Player.Sim.DamageMod(res)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor));
@@ -83,7 +83,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Shred";
+            return "Ferocious Bite";
         }
     }
 }

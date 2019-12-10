@@ -39,7 +39,7 @@ namespace ClassicCraft
             }
             */
 
-            int damage = (int)Math.Round(Player.Sim.random.Next(minDmg, maxDmg + 1)
+            int damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
                 * Player.Sim.DamageMod(res)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
                 * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1 )

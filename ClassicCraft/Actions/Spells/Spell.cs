@@ -18,7 +18,7 @@ namespace ClassicCraft
             AffectedByGCD = gcd;
         }
 
-        public void CommonSpell()
+        public virtual void CommonSpell()
         {
             CDAction();
 

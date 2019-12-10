@@ -37,7 +37,7 @@ namespace ClassicCraft
             int maxDmg = (int)Math.Round((Player.Class == Player.Classes.Druid ? Player.Level * 1.25 : (Weapon.DamageMax + Weapon.Speed)) + (Player.AP + bonusAP) / 14);
 
             double baseDamage = 
-                Player.Sim.random.Next(minDmg, maxDmg + 1)
+                Randomer.Next(minDmg, maxDmg + 1)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
                 * (Player.DualWielding() ? (MH ? 1 : 0.5 * (1 + (0.05 * Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Player.GetTalentPoints("2HS")));
 
@@ -55,7 +55,7 @@ namespace ClassicCraft
             {
                 if (Player.GetTalentPoints("OC") > 0 
                     && (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Glancing || res == ResultType.Block) 
-                    && Player.Sim.random.NextDouble() < OmenBuff.PROC_RATE)
+                    && Randomer.NextDouble() < OmenBuff.PROC_RATE)
                 {
                     if (Player.Effects.Any(e => e is OmenBuff))
                     {
@@ -94,7 +94,7 @@ namespace ClassicCraft
                 {
                     if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glancing)
                     {
-                        if (Player.Sim.random.NextDouble() < 0.2)
+                        if (Randomer.NextDouble() < 0.2)
                         {
                             if (Program.logFight)
                             {

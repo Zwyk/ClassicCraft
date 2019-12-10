@@ -264,7 +264,7 @@ namespace ClassicCraft
                 if (nbSim >= 1)
                 {
                     Console.WriteLine("{0} simulations done in {1:N2} ms, for {2:N2} ms by sim", nbSim, time, time / nbSim);
-
+                    
                     double avgTotalDmg = damages.Average();
                     double[] dps = damages.Select(d => d / fightLength).ToArray();
                     double avgDps = avgTotalDmg / fightLength;
@@ -281,6 +281,7 @@ namespace ClassicCraft
                     double totalHam = totalActions.Select(a => a.Where(t => t.Action is Hamstring).Count()).Sum();
                     */
 
+                    Log(string.Format("Nb simulations : {0}", damages.Count));
                     Log(string.Format("Error Percent : {0:N2}%", Stats.ErrorPct(damages.ToArray(), damages.Average())));
                     Log(string.Format("Average Damage : {0:N2} (+/- {1:N2})", avgTotalDmg, Stats.MeanStdDev(damages.ToArray())));
                     Log(string.Format("Average DPS : {0:N2} dps (+/- {1:N2})", avgDps, Stats.MeanStdDev(dps)));
@@ -369,6 +370,11 @@ namespace ClassicCraft
         public static void Log(string log)
         {
             logs += log + "\n";
+        }
+
+        public static void Debug(string str)
+        {
+            System.Diagnostics.Debug.WriteLine(str);
         }
 
         public static void DoSim()

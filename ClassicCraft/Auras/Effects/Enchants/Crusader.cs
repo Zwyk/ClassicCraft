@@ -22,7 +22,7 @@ namespace ClassicCraft
         {
             if (type == ResultType.Hit || type == ResultType.Crit || type == ResultType.Block || type == ResultType.Glancing)
             {
-                if (p.Sim.random.NextDouble() < weaponSpeed * 1.82 / 100)
+                if (Randomer.NextDouble() < weaponSpeed * 1.82 / 100)
                 {
                     if (p.Effects.Any(e => e is Crusader))
                     {

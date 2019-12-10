@@ -493,7 +493,7 @@ namespace ClassicCraft
             int enemySkill = enemyLevel * 5;
             int skillDif = Math.Abs(enemySkill - skill);
 
-            return Math.Max(0, Math.Max(BASE_MISS + (dualWield ? 0.19 : 0) - hitRating, 0) + (skillDif > 10 ? 0.02 : 0) + (skillDif > 10 ? (enemySkill - skill - 10) * 0.004 : (enemySkill - skill) * 0.001));
+            return Math.Max(0, BASE_MISS + (dualWield ? 0.19 : 0) - hitRating + (skillDif > 10 ? 0.02 : 0) + (skillDif > 10 ? (enemySkill - skill - 10) * 0.004 : (enemySkill - skill) * 0.001));
         }
 
         public static double GlancingChance(int level, int enemyLevel)
@@ -521,7 +521,7 @@ namespace ClassicCraft
             int enemySkill = enemyLevel * 5;
             int skillDif = Math.Abs(enemySkill - skill);
 
-            return Math.Max(0, Math.Max(BASE_MISS - hitRating, 0) + (skillDif > 10 ? 0.02 : 0) + (skillDif > 10 ? (enemySkill - skill - 10) * 0.004 : (enemySkill - skill) * 0.001));
+            return Math.Max(0, BASE_MISS - hitRating + (skillDif > 10 ? 0.02 : 0) + (skillDif > 10 ? (enemySkill - skill - 10) * 0.004 : (enemySkill - skill) * 0.001));
         }
 
         public static double RealCritChanceYellow(double netCritChance, double realMiss, double enemyDodgeChance)
@@ -543,7 +543,7 @@ namespace ClassicCraft
                 CalculateHitChances(enemy);
             }
 
-            return PickFromTable(MH ? HitChancesByEnemy[enemy].WhiteHitChancesMH : HitChancesByEnemy[enemy].WhiteHitChancesOH, Sim.random.NextDouble());
+            return PickFromTable(MH ? HitChancesByEnemy[enemy].WhiteHitChancesMH : HitChancesByEnemy[enemy].WhiteHitChancesOH, Randomer.NextDouble());
         }
 
         public ResultType YellowAttackEnemy(Entity enemy)
@@ -553,7 +553,7 @@ namespace ClassicCraft
                 CalculateHitChances(enemy);
             }
 
-            return PickFromTable(HitChancesByEnemy[enemy].YellowHitChances, Sim.random.NextDouble());
+            return PickFromTable(HitChancesByEnemy[enemy].YellowHitChances, Randomer.NextDouble());
         }
 
         public ResultType PickFromTable(Dictionary<ResultType, double> table, double rand)

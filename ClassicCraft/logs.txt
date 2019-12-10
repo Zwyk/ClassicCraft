@@ -1,14 +1,15 @@
 Fight length : 120 seconds (+/- 0%)
 
 Player :
-Tauren Druid level 60 | Stats : [Stamina:110][Strength:275,52][Agility:206][Intelligence:16,2][Spirit:22][AP:1409,04][CritChance:21,75][HitChance:8][AS:0][Health:920][RangedAP:1133,04]
+Tauren Druid level 60 | Stats : [Stamina:110][Strength:260,4][Agility:211][Intelligence:16,2][Spirit:22][AP:1383,8][CritChance:21][HitChance:8][AS:0][Health:920][RangedAP:1112,8]
 
 Boss :
 Level 63, 1005 Armor (15,45% mitigation)
 
-Error Percent : 0,09%
-Average Damage : 38 884,78 (+/- 18,50)
-Average DPS : 324,04 dps (+/- 0,15)
-Average DPS [Auto Attack] : 155,07 dps (47,86%), average of 155,07 damage for 120,00 uses or 1 use every 1,00s
-Average DPS [Shred] : 122,39 dps (37,77%), average of 557,13 damage for 26,36 uses or 1 use every 4,55s
-Average DPS [Ferocious Bite] : 46,57 dps (14,37%), average of 1 022,71 damage for 5,46 uses or 1 use every 21,96s
+Nb simulations : 3368
+Error Percent : 0,14%
+Average Damage : 63 546,02 (+/- 43,84)
+Average DPS : 529,55 dps (+/- 0,37)
+Average DPS [Auto Attack] : 235,06 dps (44,39%), average of 156,71 damage for 180,00 uses or 1 use every 0,67s
+Average DPS [Shred] : 207,83 dps (39,25%), average of 572,34 damage for 43,57 uses or 1 use every 2,75s
+Average DPS [Ferocious Bite] : 86,66 dps (16,36%), average of 1 089,48 damage for 9,54 uses or 1 use every 12,57s
