@@ -21,6 +21,11 @@ namespace ClassicCraft
             DoAction();
         }
 
+        public override bool CanUse()
+        {
+            return (Player.Effects.Any(e => e is ClearCasting) || Player.Resource >= ResourceCost) && Available() && (AffectedByGCD ? Player.HasGCD() : true);
+        }
+
         public override void DoAction()
         {
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
@@ -37,10 +42,10 @@ namespace ClassicCraft
             CommonAction();
 
             int cost = ResourceCost;
-            if(Player.Effects.Any(e => e is OmenBuff))
+            if(Player.Effects.Any(e => e is ClearCasting))
             {
                 cost = 0;
-                Player.Effects.Where(e => e is OmenBuff).First().StackRemove();
+                Player.Effects.Where(e => e is ClearCasting).First().StackRemove();
             }
 
             if (res == ResultType.Parry || res == ResultType.Dodge)

@@ -1,6 +1,7 @@
 {
   "FightLength": 120,
-  "TargetErrorPct": 0.1,
+  "FightLengthMod": 0.2,
+  "TargetErrorPct": 0.05,
   "TargetError": true,
   "LogFight": false,
   "NbSim": 1,
@@ -8,7 +9,7 @@
   "BossLowLifeTime": 0,
   "Boss" : {
     "Level": 63,
-    "Armor": 4400,
+    "Armor": 3731,
     "Debuffs": [
       "Sunder Armor",
       "Curse of Recklessness",
@@ -90,12 +91,12 @@
       "Name": "Manual Crowd Pummeler",
       "Id": 0,
       "Slot": "Weapon",
-      "Enchantment": {
-      },
       "Stats": {
         "Str": 16,
         "Agi": 5
-      }
+      },
+      "Enchantment": {
+      },
     },
     "Equipment": {
       "Head": {
@@ -118,16 +119,16 @@
         },
       },
       "Back": {
-	      "Name": "Cape of the Black Baron",
-	      "Stats": {
-	        "Agi": 15,
-	        "AP": 20
+		"Name": "Cape of the Black Baron",
+		"Stats": {
+			"Agi": 15,
+			"AP": 20
         },
-        "Enchantment": {
-          "Name": "Lesser Agility",
-          "Stats": {
-            "Agi": 3
-          }
+		"Enchantment": {
+		  "Name": "Lesser Agility",
+		  "Stats": {
+		    "Agi": 3
+		  }
         }
       },
       "Chest": {
@@ -148,8 +149,8 @@
       "Wrist": {
         "Name": "Blackmist",
         "Stats": {
-          "Agi": 10,
-          "AP": 24
+          "Str": 5,
+          "Hit": 1
         },
         "Enchantment": {
           "Name": "Superior Strength",
@@ -216,7 +217,7 @@
       "Trinket2": {
         "Name": "Blackhand's Breadth",
         "Stats": {
-          "Crit": 2
+          "Crit": 0
         }
       },
     }

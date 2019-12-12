@@ -684,7 +684,7 @@ namespace ClassicCraft
                 Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
                     + 0.01 * GetTalentPoints("SC"));
                 Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP)
-                    + (0.5 * GetTalentPoints("PS")) * Level);
+                    + 0.5 * GetTalentPoints("PS") * Level);
             }
 
             foreach (Enchantment e in Buffs.Where(v => v != null))

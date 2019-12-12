@@ -6,6 +6,20 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
+    public class SimResult
+    {
+        public double FightLength;
+        public List<RegisteredAction> Actions;
+        public List<RegisteredEffect> Effects;
+
+        public SimResult(double fightLength)
+        {
+            FightLength = fightLength;
+            Actions = new List<RegisteredAction>();
+            Effects = new List<RegisteredEffect>();
+        }
+    }
+
     public class Simulation
     {
         public static double RATE = 30;
@@ -14,8 +28,7 @@ namespace ClassicCraft
         public Boss Boss { get; set; }
         public double FightLength { get; set; }
 
-        private List<RegisteredAction> Actions { get; set; }
-        private List<RegisteredEffect> Effects { get; set; }
+        private SimResult Results { get; set; }
         private double Damage { get; set; }
 
         public double CurrentTime { get; set; }
@@ -27,15 +40,14 @@ namespace ClassicCraft
 
         public static Random random = new Random();
 
-        public Simulation(Player player, Boss boss, double fightLength, bool autoBossLife = true, double lowLifeTime = 0)
+        public Simulation(Player player, Boss boss, double fightLength, bool autoBossLife = true, double lowLifeTime = 0, double fightLengthMod = 0.2)
         {
             Player = player;
             Boss = boss;
             player.Sim = this;
             Boss.Sim = this;
-            FightLength = fightLength;
-            Actions = new List<RegisteredAction>();
-            Effects = new List<RegisteredEffect>();
+            FightLength = fightLength * (1 + fightLengthMod/2 - (Randomer.NextDouble() * fightLengthMod));
+            Results = new SimResult(FightLength);
             Damage = 0;
             CurrentTime = 0;
             AutoLife = autoBossLife;
@@ -110,11 +122,11 @@ namespace ClassicCraft
                 }
                 else if (rota == 1)
                 {
-                    if (Player.Combo < 5 && shred.CanUse())
-                    {
-                        shred.Cast();
-                    }
-                    else if (Player.Combo > 4 && Player.Resource > fb.ResourceCost + shred.ResourceCost - (20 * (Player.GCDUntil - CurrentTime) / Player.GCD) && shred.CanUse())
+                    if(shred.CanUse() && (
+                        Player.Combo < 5
+                        || Player.Effects.Any(e => e is ClearCasting)
+                        || (Player.Combo > 4 && Player.Resource > fb.ResourceCost + shred.ResourceCost - (20 * (Player.GCDUntil - CurrentTime) / Player.GCD))
+                        ))
                     {
                         shred.Cast();
                     }
@@ -141,10 +153,9 @@ namespace ClassicCraft
 
                 CurrentTime += 1 / RATE;
             }
-            
-            Program.damages.Add(Damage);
-            Program.totalActions.Add(Actions);
-            Program.totalEffects.Add(Effects);
+
+            Program.AddSimDps(Damage / FightLength);
+            Program.AddSimResult(Results);
 
             Ended = true;
         }
@@ -330,23 +341,22 @@ namespace ClassicCraft
 
                 CurrentTime += 1 / RATE;
             }
-
-            Program.damages.Add(Damage);
-            Program.totalActions.Add(Actions);
-            Program.totalEffects.Add(Effects);
+            
+            Program.AddSimDps(Damage / FightLength);
+            Program.AddSimResult(Results);
 
             Ended = true;
         }
 
         public void RegisterAction(RegisteredAction action)
         {
-            Actions.Add(action);
+            Results.Actions.Add(action);
             Damage += action.Result.Damage;
         }
 
         public void RegisterEffect(RegisteredEffect effect)
         {
-            Effects.Add(effect);
+            Results.Effects.Add(effect);
             Damage += effect.Damage;
         }
 

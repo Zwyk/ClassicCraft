@@ -67,7 +67,7 @@
     <Compile Include="Actions\AutoAttack.cs" />
     <Compile Include="Actions\Spells\Classes\Warrior\Bloodthirst.cs" />
     <Compile Include="Actions\Spells\Classes\Druid\Shred.cs" />
-    <Compile Include="Auras\Effects\Classes\Druid\OmenBuff.cs" />
+    <Compile Include="Auras\Effects\Classes\Druid\ClearCasting.cs" />
     <Compile Include="Auras\Effects\Classes\Warrior\BattleShoutBuff.cs" />
     <Compile Include="Auras\Effects\Classes\Warrior\BerserkingBuff.cs" />
     <Compile Include="Auras\Effects\Classes\Warrior\BloodFuryBuff.cs" />

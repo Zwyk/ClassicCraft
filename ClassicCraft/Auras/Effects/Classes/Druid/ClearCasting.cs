@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class OmenBuff : Effect
+    class ClearCasting : Effect
     {
         public static double PROC_RATE = 0.06;
 
         public static int LENGTH = 15;
 
-        public OmenBuff(Player p)
+        public ClearCasting(Player p)
             : base(p, p, true, LENGTH, 1)
         {
         }

@@ -55,15 +55,15 @@ namespace ClassicCraft
             {
                 if (Player.GetTalentPoints("OC") > 0 
                     && (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Glancing || res == ResultType.Block) 
-                    && Randomer.NextDouble() < OmenBuff.PROC_RATE)
+                    && Randomer.NextDouble() < ClearCasting.PROC_RATE)
                 {
-                    if (Player.Effects.Any(e => e is OmenBuff))
+                    if (Player.Effects.Any(e => e is ClearCasting))
                     {
-                        Player.Effects.Where(e => e is OmenBuff).First().Refresh();
+                        Player.Effects.Where(e => e is ClearCasting).First().Refresh();
                     }
                     else
                     {
-                        OmenBuff ob = new OmenBuff(Player);
+                        ClearCasting ob = new ClearCasting(Player);
                         ob.StartBuff();
                     }
                 }
