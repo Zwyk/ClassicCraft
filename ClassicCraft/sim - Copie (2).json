@@ -1,16 +1,19 @@
 {
-  "FightLength": 300,
+  "FightLength": 120,
+  "FightLengthMod": 0.2,
   "TargetErrorPct": 0.1,
   "TargetError": true,
   "LogFight": false,
   "NbSim": 1,
+  "StatsWeights": true,
   "BossAutoLife": true,
   "BossLowLifeTime": 0,
   "Boss" : {
     "Level": 63,
-    "Armor": 4400,
+    "Armor": 3731,
     "Debuffs": [
       "Sunder Armor",
+      "Curse of Recklessness",
       "Faerie Fire"
     ]
   },
@@ -29,10 +32,56 @@
         "Name": "Windfury Totem"
       },
       {
+        "Name": "Test",
+        "Stats": {
+          "Hit": 0,
+          "Crit": 0,
+          "AP": 0,
+          "Haste": 0,
+        }
+      },
+      {
+        "Name": "Leader of the Pack",
+        "Stats": {
+          "Crit": 3
+        }
+      },
+      {
+        "Name": "Battle Shout",
+        "Stats": {
+          "AP": 241
+        }
+      },
+      {
+        "Name": "Trueshot Aura",
+        "Stats": {
+          "AP": 100
+        }
+      },
+      {
         "Name": "Mark of the Wild",
         "Stats": {
           "Agi": 16,
           "Str": 16,
+        }
+      },
+      {
+        "Name": "Elixir of Giants",
+        "Stats": {
+          "Str": 25,
+        }
+      },
+      {
+        "Name": "R.O.I.D.S.",
+        "Stats": {
+          "Str": 25,
+        }
+      },
+      {
+        "Name": "Elixir of the Mongoose",
+        "Stats": {
+          "Agi": 25,
+          "Crit": 2
         }
       },
     ],

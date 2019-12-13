@@ -44,8 +44,9 @@ namespace ClassicCraft
 
         public static string simJsonFileName = "sim.json";
         public static string itemsJsonFileName = "items.json";
+        public static string logsFileDir = "Logs";
         public static string logsFileName = "logs";
-        public static string ext = ".txt";
+        public static string txt = ".txt";
 
         public static bool debug = false;
         public static string debugPath = ".\\..\\..";
@@ -65,7 +66,7 @@ namespace ClassicCraft
         public static bool logFight = false;
         public static bool calcDpss = false;
 
-        public static bool simWeights = true;
+        public static bool statsWeights = false;
 
         //public static List<Attribute> toWeight = null;
         //public static Attribute weighted;
@@ -115,7 +116,7 @@ namespace ClassicCraft
                 targetErrorPct = jsonSim.TargetErrorPct;
                 targetError = jsonSim.TargetError;
                 logFight = jsonSim.LogFight;
-                //toWeight = JsonUtil.ToAttributes(jsonSim.SimStatWeight);
+                statsWeights = jsonSim.StatsWeights;
                 
                 Log(string.Format("Date : {0}\n", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")));
                 Log(string.Format("Fight length : {0} seconds (+/- {1}%)", fightLength, fightLengthMod * 100));
@@ -136,40 +137,41 @@ namespace ClassicCraft
                 playerBase.Talents = new Dictionary<string, int>();
 
 
-                // WARRIOR
-                // Arms
-                /*
-                playerBase.Talents.Add("IHS", 3);
-                playerBase.Talents.Add("DW", 3);
-                playerBase.Talents.Add("2HS", 3);
-                playerBase.Talents.Add("Impale", 2);
-                */
-                // Fury
-                /*
-                playerBase.Talents.Add("Cruelty", 5);
-                playerBase.Talents.Add("UW", 5);
-                playerBase.Talents.Add("IBS", 5);
-                playerBase.Talents.Add("DWS", 3); //playerBase.Talents.Add("DWS", 5);
-                playerBase.Talents.Add("IE", 2);
-                playerBase.Talents.Add("Flurry", 5);
-                */
-
-                // DRUID
-                // Balance
-                playerBase.Talents.Add("NW", 5);
-                playerBase.Talents.Add("NS", 3);
-                playerBase.Talents.Add("OC", 1);
-                // Feral
-                playerBase.Talents.Add("Fero", 5);
-                playerBase.Talents.Add("FA", 5);
-                playerBase.Talents.Add("SC", 3);
-                playerBase.Talents.Add("IS", 2);
-                playerBase.Talents.Add("PS", 3);
-                playerBase.Talents.Add("BF", 2);
-                playerBase.Talents.Add("SF", 2);
-                playerBase.Talents.Add("HW", 5);
-                // Resto
-                playerBase.Talents.Add("Furor", 5);
+                if(playerBase.Class == Player.Classes.Warrior)
+                {
+                    // FURY
+                    // Arms
+                    playerBase.Talents.Add("IHS", 3);
+                    playerBase.Talents.Add("DW", 3);
+                    playerBase.Talents.Add("2HS", 3);
+                    playerBase.Talents.Add("Impale", 2);
+                    // Fury
+                    playerBase.Talents.Add("Cruelty", 5);
+                    playerBase.Talents.Add("UW", 5);
+                    playerBase.Talents.Add("IBS", 5);
+                    playerBase.Talents.Add("DWS", 5);
+                    playerBase.Talents.Add("IE", 2);
+                    playerBase.Talents.Add("Flurry", 5);
+                }
+                else if(playerBase.Class == Player.Classes.Druid)
+                {
+                    // FERAL
+                    // Balance
+                    playerBase.Talents.Add("NW", 5);
+                    playerBase.Talents.Add("NS", 3);
+                    playerBase.Talents.Add("OC", 1);
+                    // Feral
+                    playerBase.Talents.Add("Fero", 5);
+                    playerBase.Talents.Add("FA", 5);
+                    playerBase.Talents.Add("SC", 3);
+                    playerBase.Talents.Add("IS", 2);
+                    playerBase.Talents.Add("PS", 3);
+                    playerBase.Talents.Add("BF", 2);
+                    playerBase.Talents.Add("SF", 2);
+                    playerBase.Talents.Add("HW", 5);
+                    // Resto
+                    playerBase.Talents.Add("Furor", 5);
+                }
 
                 playerBase.CalculateAttributes();
 
@@ -178,7 +180,7 @@ namespace ClassicCraft
 
                 bossBase = JsonUtil.JsonBoss.ToBoss(jsonSim.Boss, playerBase.Attributes.GetValue(Attribute.ArmorPen));
 
-                Log("\nBoss :");
+                Log("\nBoss (after raid debuffs) :");
                 Log(bossBase.ToString());
 
                 if (logFight) threading = false;
@@ -190,7 +192,7 @@ namespace ClassicCraft
                 Enchantment we = new Enchantment(0, "Weights", new Attributes(new Dictionary<Attribute, double>()));
                 playerBase.Buffs.Add(we);
                 
-                for(int done = 0; done < (simWeights ? simOrder.Count : 1); done++)
+                for(int done = 0; done < (statsWeights ? simOrder.Count : 1); done++)
                 {
                     CurrentDpsList = new List<double>();
                     CurrentResults = new List<SimResult>();
@@ -324,14 +326,14 @@ namespace ClassicCraft
                 Console.WriteLine(endMsg2);
                 Log(endMsg2);
 
-                if (simWeights)
+                if (statsWeights)
                 {
                     double baseDps = DamagesList["Base"].Average();
                     double apDps = DamagesList["+50 AP"].Average();
                     double hitDps = DamagesList["+1% Hit"].Average();
                     double critDps = DamagesList["+1% Crit"].Average();
 
-                    Log("DPS :\n");
+                    Log("\nDPS :");
                     Log(string.Format("Base : {0:N2} DPS", baseDps));
                     Log(string.Format("+50 AP : {0:N2} DPS", apDps));
                     Log(string.Format("+1% Hit : {0:N2} DPS", hitDps));
@@ -455,8 +457,14 @@ namespace ClassicCraft
                     }
                 }
 
-                string path = debug ? Path.Combine(debugPath, logsFileName + ext) : logsFileName + DateTime.Now.ToString("_yyyyMMdd-HHmmssfff") + ext;
+                if(!debug)
+                {
+                    Directory.CreateDirectory(logsFileDir);
+                }
+
+                string path = debug ? Path.Combine(debugPath, logsFileDir, logsFileName + txt) : Path.Combine(logsFileDir, logsFileName + DateTime.Now.ToString("_yyyyMMdd-HHmmss-fff") + txt);
                 File.WriteAllText(path, logs);
+
                 Console.WriteLine("Logs written in " + path);
             }
             catch(Exception e)

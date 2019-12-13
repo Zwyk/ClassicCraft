@@ -1,31 +1,54 @@
 {
-  "FightLength": 300,
+  "FightLength": 120,
+  "FightLengthMod": 0.2,
   "TargetErrorPct": 0.1,
   "TargetError": true,
   "LogFight": false,
   "NbSim": 1,
+  "StatsWeights": true,
   "BossAutoLife": true,
   "BossLowLifeTime": 0,
   "Boss" : {
     "Level": 63,
-    "Armor": 4400,
+    "Armor": 3731,
     "Debuffs": [
       "Sunder Armor",
+      "Curse of Recklessness",
       "Faerie Fire"
     ]
   },
   "Player": {
-    "Race": "Orc",
+    "Race": "Tauren",
+    "Class": "Druid",
     "Cooldowns": {
-      "Racial": true,
-      "Death Wish": true,
-      "Recklessness": false,
-      "Juju Flurry": false,
-      "Mighty Rage": false,
     },
     "Buffs": [
       {
-        "Name": "Windfury Totem"
+        "Name": "Test",
+        "Stats": {
+          "Hit": 0,
+          "Crit": 0,
+          "AP": 0,
+          "Haste": 0,
+        }
+      },
+      {
+        "Name": "Leader of the Pack",
+        "Stats": {
+          "Crit": 3
+        }
+      },
+      {
+        "Name": "Battle Shout",
+        "Stats": {
+          "AP": 241
+        }
+      },
+      {
+        "Name": "Trueshot Aura",
+        "Stats": {
+          "AP": 100
+        }
       },
       {
         "Name": "Mark of the Wild",
@@ -34,118 +57,152 @@
           "Str": 16,
         }
       },
+      {
+        "Name": "Elixir of Giants",
+        "Stats": {
+          "Str": 25,
+        }
+      },
+      {
+        "Name": "R.O.I.D.S.",
+        "Stats": {
+          "Str": 25,
+        }
+      },
+      {
+        "Name": "Squid",
+        "Stats": {
+          "Agi": 10,
+        }
+      },
+      {
+        "Name": "Elixir of the Mongoose",
+        "Stats": {
+          "Agi": 25,
+          "Crit": 2
+        }
+      },
     ],
     "MH": {
-      "DamageMin": 81,
-      "DamageMax": 151,
-      "Speed": 2.8,
-      "TwoHanded": false,
-      "Type": "Sword",
-      "Name": "Serathil",
+      "DamageMin": 46,
+      "DamageMax": 70,
+      "Speed": 2.0,
+      "TwoHanded": true,
+      "Type": "Mace",
+      "Name": "Manual Crowd Pummeler",
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
-        "Str": 4,
-        "Crit": 1,
-        "AP": 50,
-      }
-    },
-    "OH": {
-      "DamageMin": 68,
-      "DamageMax": 127,
-      "Speed": 2.4,
-      "TwoHanded": false,
-      "Type": "Axe",
-      "Name": "Bonechill Hammer",
-      "Id": 0,
-      "Slot": "Weapon",
-      "Stats": {
-        "AP": 36,
+        "Str": 16,
+        "Agi": 5
       },
-    },
-    "Ranged": {
-      "Type": "Crossbow",
-      "Name": "Blackcrow",
-      "Stats": {
-        "Agi": 3,
-        "Hit": 1,
-      }
+      "Enchantment": {
+      },
     },
     "Equipment": {
       "Head": {
-        "Name": "Golem Skull Helm",
+        "Name": "Wolfshead Helm",
         "Stats": {
-          "Str": 18,
-        },
+        }
       },
       "Neck": {
-        "Name": "Woven Ivy Necklace",
+        "Name": "Mark of Fordring",
         "Stats": {
-          "Agi": 9,
-          "Str": 6,
+          "AP": 26,
+          "Crit": 1,
         }
       },
       "Shoulders": {
-        "Name": "Blabla",
+        "Name": "Truestike Shoulders",
         "Stats": {
-          "Str": 10,
+          "Hit": 2,
+          "AP": 24,
         },
       },
       "Back": {
-        "Name": "Deep River Cloak",
-        "Stats": {
-          "Agi": 11,
+    "Name": "Cape of the Black Baron",
+    "Stats": {
+      "Agi": 15,
+      "AP": 20
         },
+    "Enchantment": {
+      "Name": "Lesser Agility",
+      "Stats": {
+        "Agi": 3
+      }
+        }
       },
       "Chest": {
-        "Name": "Warrior's Embrace",
+        "Name": "Savage Gladiator Chain",
         "Stats": {
-          "Agi": 4,
+          "Str": 8,
+          "Agi": 8,
+          "AP": 60
         },
+        "Enchantment": {
+          "Name": "Greater Stats",
+          "Stats": {
+            "Str": 4,
+            "Agi": 4
+          }
+        }
       },
       "Wrist": {
-        "Name": "Bracers of Valor",
+        "Name": "Blackmist",
         "Stats": {
-          "Str": 7,
-          "Agi": 3
+          "Str": 5,
+          "Hit": 1
         },
+        "Enchantment": {
+          "Name": "Superior Strength",
+          "Stats": {
+            "Str": 9
+          }
+        }
       },
       "Hands": {
-        "Name": "Gauntlets of Valor",
+        "Name": "Devilsaur Gauntlets",
         "Stats": {
-          "Str": 17,
-          "Agi": 3,
+          "AP": 28,
+          "Crit": 1,
+          "Hit": 2
         },
+        "Enchantment": {
+          "Name": "Greater Strength",
+          "Stats": {
+            "Str": 7
+          }
+        }
       },
       "Waist": {
-        "Name": "Girdle of Valor",
+        "Name": "Shadowcraft",
         "Stats": {
-          "Str": 14,
-          "Agi": 7,
+          "Str": 9,
+          "Agi": 14
         }
       },
       "Legs": {
-        "Name": "Direwing Legguards",
+        "Name": "Devilsaur Leggings",
         "Stats": {
-          "Str": 15,
-          "Agi": 15,
+          "AP": 46,
+          "Crit": 1
         },
       },
       "Feet": {
-        "Name": "Ribsteel Footguards",
+        "Name": "Shadowcraft",
         "Stats": {
-          "Str": 10,
-          "Agi": 10,
+          "Agi": 21,
         },
       },
       "Ring1": {
-        "Name": "Innervating Band",
+        "Name": "Elven Ring",
         "Stats": {
           "Agi": 15,
+          "Hit": 1
         }
       },
       "Ring2": {
-        "Name": "Machin",
+        "Name": "Blackstone Ring",
         "Stats": {
           "AP": 20,
           "Hit": 1
@@ -155,13 +212,13 @@
         "Name": "Rune of the Guard Captain",
         "Stats": {
           "Hit": 1,
-          "AP": 20,
+          "AP": 20
         }
       },
       "Trinket2": {
-        "Name": "Hand of Justice",
+        "Name": "Blackhand's Breadth",
         "Stats": {
-          "AP": 20
+          "Crit": 0
         }
       },
     }

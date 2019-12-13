@@ -5,6 +5,7 @@
   "TargetError": true,
   "LogFight": false,
   "NbSim": 1,
+  "StatsWeights": true,
   "BossAutoLife": true,
   "BossLowLifeTime": 0,
   "Boss" : {

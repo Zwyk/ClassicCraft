@@ -328,16 +328,16 @@ namespace ClassicCraft
             public double FightLength { get; set; }
             public double FightLengthMod { get; set; }
             public int NbSim { get; set; }
+            public bool StatsWeights { get; set; }
             public double TargetErrorPct { get; set; }
             public bool TargetError { get; set; }
             public bool LogFight { get; set; }
             public bool BossAutoLife { get; set; }
             public double BossLowLifeTime { get; set; }
-            public List<string> SimStatWeight { get; set; }
             public JsonBoss Boss { get; set; }
             public JsonPlayer Player { get; set; }
 
-            public JsonSim(JsonPlayer player = null, JsonBoss boss = null, double fightLength = 300, double fightLengthMod = 0.2, int nbSim = 1000, double targetErrorPct = 0.5, bool targetError = true, bool logFight = false, List<string> simStatWeight = null, bool bossAutoLife = true, double bossLowLifeTime = 0)
+            public JsonSim(JsonPlayer player = null, JsonBoss boss = null, double fightLength = 300, double fightLengthMod = 0.2, int nbSim = 1000, double targetErrorPct = 0.5, bool targetError = true, bool logFight = false, bool statsWeights = false, bool bossAutoLife = true, double bossLowLifeTime = 0)
             {
                 Player = player;
                 Boss = boss;
@@ -347,7 +347,7 @@ namespace ClassicCraft
                 TargetErrorPct = targetErrorPct;
                 TargetError = targetError;
                 LogFight = logFight;
-                SimStatWeight = simStatWeight;
+                StatsWeights = statsWeights;
                 BossAutoLife = bossAutoLife;
                 BossLowLifeTime = bossLowLifeTime;
             }
