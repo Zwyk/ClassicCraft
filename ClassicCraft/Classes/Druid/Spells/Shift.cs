@@ -8,46 +8,33 @@ namespace ClassicCraft
 {
     class Shift : Spell
     {
-        public static int COST = 0;
         public static int CD = 0;
 
         static Random random = new Random();
 
         public Shift(Player p)
-            : base(p, CD, COST) { }
-
-
-        public override void CommonSpell()
-        {
-            CDAction();
-
-            if (AffectedByGCD)
-            {
-                Player.StartGCD();
-            }
-
-            Player.Mana -= ResourceCost;
-        }
+            : base(p, CD, (int)(p.BaseMana * 0.55), true, true) {  }
+        
 
         public override bool CanUse()
         {
-            return Player.Mana >= ResourceCost && Available() && (AffectedByGCD ? Player.HasGCD() : true);
+            return Player.Mana >= Cost && Available() && (AffectedByGCD ? Player.HasGCD() : true);
         }
 
         public override void Cast()
         {
+            CommonManaSpell();
             DoAction();
         }
 
         public override void DoAction()
         {
-            CommonAction();
-
             Player.Resource = 0
                 + ((Randomer.NextDouble() < Player.GetTalentPoints("Furor") * 0.2) ? 40 : 0)
                 + (Player.Equipment[Player.Slot.Head].Name == "Wolfshead Helm" ? 20 : 0);
 
             LogAction();
+            Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Hit, 0), Player.Sim.CurrentTime));
         }
 
         public override string ToString()

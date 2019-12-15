@@ -18,7 +18,7 @@ namespace ClassicCraft
 
         public override void Cast()
         {
-            CommonSpell();
+            CommonRessourceSpell();
             DoAction();
         }
 

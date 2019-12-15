@@ -6,55 +6,35 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class HeroicStrike : Spell
+    class Hamstring : Spell
     {
-        public static int COST = 15;
         public static int CD = 0;
+        public static int COST = 10;
 
-        public HeroicStrike(Player p)
-            : base(p, CD, COST, true)
+        public Hamstring(Player p)
+            : base(p, 0, 10, true)
         {
-        }
-
-        public override bool CanUse()
-        {
-            return Player.Resource >= ResourceCost && Player.applyAtNextAA == null;
         }
 
         public override void Cast()
         {
-            Player.applyAtNextAA = this;
+            DoAction();
         }
 
         public override void DoAction()
         {
-            Player.applyAtNextAA = null;
-
-            Random random = new Random();
-
-            Weapon weapon = Player.MH;
-
-            LockedUntil = Player.Sim.CurrentTime + weapon.Speed / Player.HasteMod;
-            
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
 
-            int minDmg = (int)Math.Round(weapon.DamageMin + weapon.Speed * Player.AP / 14);
-            int maxDmg = (int)Math.Round(weapon.DamageMax + weapon.Speed * Player.AP / 14);
-
-            int damage = (int)Math.Round((random.Next(minDmg, maxDmg + 1) + 157)
+            int damage = (int)Math.Round(45
                 * Player.Sim.DamageMod(res)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
                 * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1)
                 * (Player.DualWielding() ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
 
-            if (res == ResultType.Parry || res == ResultType.Dodge)
+            CommonAction();
+            if (res != ResultType.Parry && res != ResultType.Dodge)
             {
-                // TODO à vérifier
-                Player.Resource -= ResourceCost / 2;
-            }
-            else
-            {
-                Player.Resource -= ResourceCost;
+                Player.Resource -= Cost;
             }
 
             RegisterDamage(new ActionResult(res, damage));
@@ -67,10 +47,6 @@ namespace ClassicCraft
             {
                 Flurry.CheckProc(Player, res, Player.GetTalentPoints("Flurry"));
             }
-            if (Player.GetTalentPoints("UW") > 0)
-            {
-                UnbridledWrath.CheckProc(Player, res, Player.GetTalentPoints("UW"));
-            }
             if (Player.MH.Enchantment != null && Player.MH.Enchantment.Name == "Crusader")
             {
                 Crusader.CheckProc(Player, res, Player.MH.Speed);
@@ -79,7 +55,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Heroic Strike";
+            return "Hamstring";
         }
     }
 }

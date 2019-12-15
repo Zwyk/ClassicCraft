@@ -101,6 +101,10 @@ namespace ClassicCraft
                 {
                     log += "[combo " + Player.Combo + "]";
                 }
+                if(Player.Attributes.GetValue(Attribute.Mana) > 0)
+                {
+                    log += " - Mana " + Player.Mana + "/" + Player.Attributes.GetValue(Attribute.Mana);
+                }
                 Program.Log(log);
             }
         }

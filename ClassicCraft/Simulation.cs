@@ -74,18 +74,23 @@ namespace ClassicCraft
             Boss.LifePct = 1;
             
             Shred shred = new Shred(Player);
-            shred.ResourceCost -= Player.GetTalentPoints("IS") * 6;
+            shred.Cost -= Player.GetTalentPoints("IS") * 6;
             FerociousBite fb = new FerociousBite(Player);
             Shift shift = new Shift(Player);
             MCP mcp = new MCP(Player);
+            Innervate innerv = new Innervate(Player);
 
             Player.HasteMod = Player.CalcHaste();
-            if(Player.Equipment[Player.Slot.MH].Name == "Manual Crowd Pummeler")
+
+            bool shifted = true;
+
+            Player.Resource = 100;
+            Player.Mana = Player.MaxMana;
+
+            if (Player.Equipment[Player.Slot.MH].Name == "Manual Crowd Pummeler")
             {
                 mcp.Cast();
             }
-
-            Player.Resource = 100;
 
             int t = 0;
             while (CurrentTime < FightLength)
@@ -113,6 +118,7 @@ namespace ClassicCraft
                 Boss.Effects.RemoveAll(e => e.Ended);
 
                 Player.CheckEnergyTick();
+                Player.CheckManaTick();
 
                 int rota = 1;
 
@@ -122,21 +128,34 @@ namespace ClassicCraft
                 }
                 else if (rota == 1)
                 {
-                    if(shred.CanUse() && (
-                        Player.Combo < 5
-                        || Player.Effects.Any(e => e is ClearCasting)
-                        || (Player.Combo > 4 && Player.Resource > fb.ResourceCost + shred.ResourceCost - (20 * (Player.GCDUntil - CurrentTime) / Player.GCD))
-                        ))
+                    if(shifted)
                     {
-                        shred.Cast();
+                        if (shred.CanUse() && (
+                            Player.Combo < 5
+                            || Player.Effects.Any(e => e is ClearCasting)
+                            || (Player.Combo > 4 && Player.Resource > fb.Cost + shred.Cost - (20 * (Player.GCDUntil - CurrentTime) / Player.GCD))
+                            ))
+                        {
+                            shred.Cast();
+                        }
+                        else if (Player.Combo > 4 && fb.CanUse())
+                        {
+                            fb.Cast();
+                        }
+                        else if (Player.Resource < 28 && shift.CanUse() && (innerv.Available() || Player.Effects.Any(e => e is InnervateBuff) || ((int)((double)Player.Mana / shift.Cost)) * 3.5 + 5 >= FightLength - CurrentTime || !(Player.ManaTicking() && Player.Mana + Player.MPT() < Player.MaxMana)))
+                        {
+                            shift.Cast();
+                        }
+                        else if (Player.Mana < shift.Cost && innerv.CanUse())
+                        {
+                            innerv.Cast();
+                            shifted = false;
+                        }
                     }
-                    else if (Player.Combo > 4 && fb.CanUse())
-                    {
-                        fb.Cast();
-                    }
-                    else if (Player.Resource < 28 && shift.CanUse())
+                    else if(shift.CanUse())
                     {
                         shift.Cast();
+                        shifted = true;
                     }
                 }
 
@@ -176,7 +195,7 @@ namespace ClassicCraft
             Whirlwind ww = new Whirlwind(Player);
             Bloodthirst bt = new Bloodthirst(Player);
             HeroicStrike hs = new HeroicStrike(Player);
-            hs.ResourceCost -= Player.GetTalentPoints("IHS");
+            hs.Cost -= Player.GetTalentPoints("IHS");
             Execute exec = new Execute(Player);
             Bloodrage br = new Bloodrage(Player);
             BattleShout bs = new BattleShout(Player);
@@ -244,10 +263,12 @@ namespace ClassicCraft
                     br.Cast();
                 }
 
+                /*
                 if (bs.CanUse() && (!Player.Effects.Any(e => e is BattleShoutBuff) || ((BattleShoutBuff)Player.Effects.Where(e => e is BattleShoutBuff).First()).RemainingTime() < Player.GCD))
                 {
                     bs.Cast();
                 }
+                */
 
 
                 if(cds != null)
@@ -277,7 +298,7 @@ namespace ClassicCraft
                         {
                             bt.Cast();
                         }
-                        else if (ww.CanUse() && Player.Resource >= ww.ResourceCost + bt.ResourceCost && bt.RemainingCD() >= Player.GCD)
+                        else if (ww.CanUse() && Player.Resource >= ww.Cost + bt.Cost && bt.RemainingCD() >= Player.GCD)
                         {
                             ww.Cast();
                         }
@@ -305,7 +326,7 @@ namespace ClassicCraft
                     {
                         ww.Cast();
                     }
-                    else if (bt.CanUse() && Player.Resource >= ww.ResourceCost + bt.ResourceCost)
+                    else if (bt.CanUse() && Player.Resource >= ww.Cost + bt.Cost)
                     {
                         bt.Cast();
                     }

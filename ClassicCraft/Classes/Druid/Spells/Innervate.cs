@@ -6,32 +6,31 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Berserking : Spell
+    class Innervate : Spell
     {
-        public static int COST = 5;
-        public static int CD = 180;
+        public static int CD = 360;
 
-        public Berserking(Player p)
-            : base(p, CD, COST, false)
+        public Innervate(Player p)
+               : base(p, CD, (int)(p.BaseMana * 0.05), true, true)
         {
         }
 
         public override void Cast()
         {
-            CommonSpell();
+            CommonManaSpell();
             DoAction();
         }
 
         public override void DoAction()
         {
-            if (Player.Effects.Any(e => e is BerserkingBuff))
+            if (Player.Effects.Any(e => e is InnervateBuff))
             {
-                Effect current = Player.Effects.Where(e => e is BerserkingBuff).First();
+                Effect current = Player.Effects.Where(e => e is InnervateBuff).First();
                 current.Refresh();
             }
             else
             {
-                BerserkingBuff r = new BerserkingBuff(Player);
+                InnervateBuff r = new InnervateBuff(Player);
                 r.StartBuff();
             }
 
@@ -40,7 +39,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Berserking";
+            return "Innervate";
         }
     }
 }

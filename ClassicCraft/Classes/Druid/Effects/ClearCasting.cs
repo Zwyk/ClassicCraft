@@ -19,7 +19,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Omen of Clarity Buff";
+            return "Clearcasting";
         }
     }
 }

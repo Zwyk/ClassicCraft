@@ -48,7 +48,7 @@ namespace ClassicCraft
         public static string logsFileName = "logs";
         public static string txt = ".txt";
 
-        public static bool debug = false;
+        public static bool debug = true;
         public static string debugPath = ".\\..\\..";
 
         public static Player playerBase = null;
@@ -82,7 +82,7 @@ namespace ClassicCraft
 
         public static string logs = "";
         
-        public static List<string> simOrder = new List<string>(){ "Base", "+1% Hit", "+1% Crit", "+50 AP" };
+        public static List<string> simOrder = new List<string>(){ "Base", "+1% Hit", "+1% Crit", "+50 AP", "+50 Int", "+50 Spi" };
         public static Dictionary<string, Attributes> simBonusAttribs = new Dictionary<string, Attributes>()
                 {
                     { "Base", new Attributes() },
@@ -97,6 +97,14 @@ namespace ClassicCraft
                     { "+50 AP", new Attributes(new Dictionary<Attribute, double>()
                             {
                                 { Attribute.AP, 50 }
+                            })},
+                    { "+50 Int", new Attributes(new Dictionary<Attribute, double>()
+                            {
+                                { Attribute.Intellect, 50 }
+                            })},
+                    { "+50 Spi", new Attributes(new Dictionary<Attribute, double>()
+                            {
+                                { Attribute.Spirit, 50 }
                             })},
                 };
 
@@ -136,41 +144,72 @@ namespace ClassicCraft
                 // Talents
                 playerBase.Talents = new Dictionary<string, int>();
 
-
-                if(playerBase.Class == Player.Classes.Warrior)
+                string ptal = jsonSim.Player.Talents;
+                if (playerBase.Class == Player.Classes.Warrior)
                 {
-                    // FURY
+                    if (ptal == null || ptal == "")
+                    {
+                        if(playerBase.MH.TwoHanded)
+                        {
+                            // DPS Fury 2M 30305001332-05052005025010051
+                            ptal = "30305001332-05052005025010051";
+                        }
+                        else
+                        {
+                            // DPS Fury 1M 30305001302-05050005525010051
+                            ptal = "30305001302-05050005525010051";
+                        }
+                    }
+
+                    string[] talents = ptal.Split('-');
+                    string arms = talents.Length > 0 ? talents[0] : "";
+                    string fury = talents.Length > 1 ? talents[1] : "";
+                    string prot = talents.Length > 2 ? talents[2] : "";
+
                     // Arms
-                    playerBase.Talents.Add("IHS", 3);
-                    playerBase.Talents.Add("DW", 3);
-                    playerBase.Talents.Add("2HS", 3);
-                    playerBase.Talents.Add("Impale", 2);
+                    playerBase.Talents.Add("IHS", arms.Length > 0 ? (int)Char.GetNumericValue(arms[0]) : 0);
+                    playerBase.Talents.Add("DW", arms.Length > 8 ? (int)Char.GetNumericValue(arms[8]) : 0);
+                    playerBase.Talents.Add("2HS", arms.Length > 9 ? (int)Char.GetNumericValue(arms[9]) : 0);
+                    playerBase.Talents.Add("Impale", arms.Length > 10 ? (int)Char.GetNumericValue(arms[10]) : 0);
                     // Fury
-                    playerBase.Talents.Add("Cruelty", 5);
-                    playerBase.Talents.Add("UW", 5);
-                    playerBase.Talents.Add("IBS", 5);
-                    playerBase.Talents.Add("DWS", 5);
-                    playerBase.Talents.Add("IE", 2);
-                    playerBase.Talents.Add("Flurry", 5);
+                    playerBase.Talents.Add("Cruelty", fury.Length > 1 ? (int)Char.GetNumericValue(fury[1]) : 0);
+                    playerBase.Talents.Add("UW", fury.Length > 3 ? (int)Char.GetNumericValue(fury[3]) : 0);
+                    playerBase.Talents.Add("IBS", fury.Length > 7 ? (int)Char.GetNumericValue(fury[7]) : 0);
+                    playerBase.Talents.Add("DWS", fury.Length > 8 ? (int)Char.GetNumericValue(fury[8]) : 0);
+                    playerBase.Talents.Add("IE", fury.Length > 9 ? (int)Char.GetNumericValue(fury[9]) : 0);
+                    playerBase.Talents.Add("Flurry", fury.Length > 15 ? (int)Char.GetNumericValue(fury[15]) : 0);
+
+                    simOrder.Remove("+50 Int");
+                    simOrder.Remove("+50 Spi");
                 }
                 else if(playerBase.Class == Player.Classes.Druid)
                 {
-                    // FERAL
+                    if(ptal == null || ptal == "")
+                    {
+                        // DPS Feral 014005301-5500021323202151-05
+                        ptal = "014005301-5500021323202151-05";
+                    }
+                    
+                    string[] talents = ptal.Split('-');
+                    string balance = talents.Length > 0 ? talents[0] : "";
+                    string feral = talents.Length > 1 ? talents[1] : "";
+                    string resto = talents.Length > 2 ? talents[2] : "";
+
                     // Balance
-                    playerBase.Talents.Add("NW", 5);
-                    playerBase.Talents.Add("NS", 3);
-                    playerBase.Talents.Add("OC", 1);
+                    playerBase.Talents.Add("NW", balance.Length > 5 ? (int)Char.GetNumericValue(balance[5]) : 0);
+                    playerBase.Talents.Add("NS", balance.Length > 6 ? (int)Char.GetNumericValue(balance[6]) : 0);
+                    playerBase.Talents.Add("OC", balance.Length > 8 ? (int)Char.GetNumericValue(balance[8]) : 0);
                     // Feral
-                    playerBase.Talents.Add("Fero", 5);
-                    playerBase.Talents.Add("FA", 5);
-                    playerBase.Talents.Add("SC", 3);
-                    playerBase.Talents.Add("IS", 2);
-                    playerBase.Talents.Add("PS", 3);
-                    playerBase.Talents.Add("BF", 2);
-                    playerBase.Talents.Add("SF", 2);
-                    playerBase.Talents.Add("HW", 5);
+                    playerBase.Talents.Add("Fero", feral.Length > 0 ? (int)Char.GetNumericValue(feral[0]) : 0);
+                    playerBase.Talents.Add("FA", feral.Length > 1 ? (int)Char.GetNumericValue(feral[1]) : 0);
+                    playerBase.Talents.Add("SC", feral.Length > 7 ? (int)Char.GetNumericValue(feral[7]) : 0);
+                    playerBase.Talents.Add("IS", feral.Length > 8 ? (int)Char.GetNumericValue(feral[8]) : 0);
+                    playerBase.Talents.Add("PS", feral.Length > 9 ? (int)Char.GetNumericValue(feral[9]) : 0);
+                    playerBase.Talents.Add("BF", feral.Length > 10 ? (int)Char.GetNumericValue(feral[10]) : 0);
+                    playerBase.Talents.Add("SF", feral.Length > 12 ? (int)Char.GetNumericValue(feral[12]) : 0);
+                    playerBase.Talents.Add("HW", feral.Length > 14 ? (int)Char.GetNumericValue(feral[14]) : 0);
                     // Resto
-                    playerBase.Talents.Add("Furor", 5);
+                    playerBase.Talents.Add("Furor", resto.Length > 1 ? (int)Char.GetNumericValue(resto[1]) : 0);
                 }
 
                 playerBase.CalculateAttributes();
@@ -243,7 +282,10 @@ namespace ClassicCraft
                         }
                         else
                         {
-                            nbSim = 0;
+                            if(done == 0)
+                            {
+                                nbSim = 0;
+                            }
 
                             double errorPct = 100;
 
@@ -332,20 +374,28 @@ namespace ClassicCraft
                     double apDps = DamagesList["+50 AP"].Average();
                     double hitDps = DamagesList["+1% Hit"].Average();
                     double critDps = DamagesList["+1% Crit"].Average();
+                    double intDps = DamagesList["+50 Int"].Average();
+                    double spiDps = DamagesList["+50 Spi"].Average();
 
                     Log("\nDPS :");
                     Log(string.Format("Base : {0:N2} DPS", baseDps));
                     Log(string.Format("+50 AP : {0:N2} DPS", apDps));
                     Log(string.Format("+1% Hit : {0:N2} DPS", hitDps));
                     Log(string.Format("+1% Crit : {0:N2} DPS", critDps));
+                    Log(string.Format("+50 Int : {0:N2} DPS", intDps));
+                    Log(string.Format("+50 Spi: {0:N2} DPS", spiDps));
 
                     double apDif = (apDps - baseDps) / 50;
+                    double intDif = (intDps - baseDps) / 50;
+                    double spiDif = (spiDps - baseDps) / 50;
                     double hitDif = hitDps - baseDps;
                     double critDif = critDps - baseDps;
 
                     if (apDif < 0) apDif = 0;
                     if (hitDif < 0) hitDif = 0;
                     if (critDif < 0) critDif = 0;
+                    if (intDif < 0) intDif = 0;
+                    if (spiDif < 0) intDif = 0;
 
                     double agiDpsCalc = Player.AgiToAPRatio(playerBase.Class) * apDif + Player.AgiToCritRatio(playerBase.Class) * 100 * critDif;
                     double strDpsCalc = apDif * Player.StrToAPRatio(playerBase.Class) * (playerBase.Class == Player.Classes.Druid ? (1 + 0.04 * playerBase.GetTalentPoints("HW")) : 1);
@@ -356,12 +406,16 @@ namespace ClassicCraft
                     Log(string.Format("1% Crit = {0:N4} DPS", critDif));
                     Log(string.Format("1 Agi = {0:N4} DPS", agiDpsCalc));
                     Log(string.Format("1 Str = {0:N4} DPS", strDpsCalc));
+                    Log(string.Format("1 Int = {0:N4} DPS", intDif));
+                    Log(string.Format("1 Spi = {0:N4} DPS", spiDif));
 
-                    Log("\nWeights ratio for 1 AP :\n");
+                    Log("\nWeights ratio for 1 AP :");
                     Log(string.Format("1% Hit = {0:N4} AP", hitDif/apDif));
                     Log(string.Format("1% Crit = {0:N4} AP", critDif/apDif));
                     Log(string.Format("1 Agi = {0:N4} AP", agiDpsCalc/apDif));
-                    Log(string.Format("1 Str = {0:N4} AP", strDpsCalc/apDif));
+                    Log(string.Format("1 Str = {0:N4} AP", strDpsCalc / apDif));
+                    Log(string.Format("1 Int = {0:N4} AP", intDif / apDif));
+                    Log(string.Format("1 Spi = {0:N4} AP", spiDif / apDif));
                 }
                 else if (nbSim >= 1)
                 {
@@ -387,6 +441,7 @@ namespace ClassicCraft
                     {
                         double totalSH = totalActions.Select(a => a.Where(t => t.Action is Shred).Count()).Sum();
                         double totalFB = totalActions.Select(a => a.Where(t => t.Action is FerociousBite).Count()).Sum();
+                        double totalShift = totalActions.Select(a => a.Where(t => t.Action is Shift).Count()).Sum();
 
                         if (totalSH > 0)
                         {
@@ -401,6 +456,11 @@ namespace ClassicCraft
                             double avgUse = totalActions.Average(a => a.Count(t => t.Action is FerociousBite));
                             double avgDmg = totalActions.Sum(a => a.Where(t => t.Action is FerociousBite).Sum(r => r.Result.Damage / totalFB));
                             Log(string.Format("Average DPS [Ferocious Bite] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgSpellDps, avgDmg, avgUse, fightLength / avgUse, avgSpellDps / avgDps * 100));
+                        }
+                        if (totalShift > 0)
+                        {
+                            double avgUse = totalActions.Average(a => a.Count(t => t.Action is Shift));
+                            Log(string.Format("[Shift] : {0:N2} uses or 1 use every {1:N2}s", avgUse, fightLength / avgUse));
                         }
                     }
                     else if(playerBase.Class == Player.Classes.Warrior)
@@ -462,7 +522,7 @@ namespace ClassicCraft
                     Directory.CreateDirectory(logsFileDir);
                 }
 
-                string path = debug ? Path.Combine(debugPath, logsFileDir, logsFileName + txt) : Path.Combine(logsFileDir, logsFileName + DateTime.Now.ToString("_yyyyMMdd-HHmmss-fff") + txt);
+                string path = debug ? Path.Combine(debugPath, logsFileName + txt) : Path.Combine(logsFileDir, logsFileName + DateTime.Now.ToString("_yyyyMMdd-HHmmss-fff") + txt);
                 File.WriteAllText(path, logs);
 
                 Console.WriteLine("Logs written in " + path);
@@ -517,6 +577,7 @@ namespace ClassicCraft
             player.Attributes = playerBase.Attributes;
             player.WindfuryTotem = playerBase.WindfuryTotem;
             player.Cooldowns = playerBase.Cooldowns;
+            player.BaseMana = playerBase.BaseMana;
 
             Boss boss = new Boss(bossBase);
 

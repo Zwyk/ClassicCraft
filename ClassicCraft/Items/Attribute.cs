@@ -11,7 +11,7 @@ namespace ClassicCraft
         Stamina,
         Strength,
         Agility,
-        Intelligence,
+        Intellect,
         Spirit,
         Health,
         Mana,
@@ -45,7 +45,7 @@ namespace ClassicCraft
                 case "Sta": return Attribute.Stamina;
                 case "Str": return Attribute.Strength;
                 case "Agi": return Attribute.Agility;
-                case "Int": return Attribute.Intelligence;
+                case "Int": return Attribute.Intellect;
                 case "Spi": return Attribute.Spirit;
                 case "HP": return Attribute.Health;
                 case "Mana": return Attribute.Mana;
@@ -79,7 +79,7 @@ namespace ClassicCraft
                 case Attribute.Stamina: return "Sta";
                 case Attribute.Strength: return "Str";
                 case Attribute.Agility: return "Agi";
-                case Attribute.Intelligence: return "Int";
+                case Attribute.Intellect: return "Int";
                 case Attribute.Spirit: return "Spi";
                 case Attribute.Health: return "HP";
                 case Attribute.Mana: return "Mana";

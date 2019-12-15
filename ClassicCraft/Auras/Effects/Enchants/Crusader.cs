@@ -10,12 +10,11 @@ namespace ClassicCraft
     {
         public static int LENGTH = 15;
 
-        public double Bonus { get; set; }
+        public static double BONUS = 100;
 
         public Crusader(Player p)
             : base(p, p, true, LENGTH, 1)
         {
-            Bonus = 100;
         }
 
         public static void CheckProc(Player p, ResultType type, double weaponSpeed)
@@ -42,16 +41,16 @@ namespace ClassicCraft
         {
             base.StartBuff();
 
-            Player.BonusAttributes.SetValue(Attribute.Strength, Player.BonusAttributes.GetValue(Attribute.Strength) + Bonus);
-            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) + Bonus*2);
+            Player.BonusAttributes.SetValue(Attribute.Strength, Player.BonusAttributes.GetValue(Attribute.Strength) + BONUS);
+            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) + BONUS*2);
         }
 
         public override void EndBuff()
         {
             base.EndBuff();
 
-            Player.BonusAttributes.SetValue(Attribute.Strength, Player.BonusAttributes.GetValue(Attribute.Strength) - Bonus);
-            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) - Bonus*2);
+            Player.BonusAttributes.SetValue(Attribute.Strength, Player.BonusAttributes.GetValue(Attribute.Strength) - BONUS);
+            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) - BONUS*2);
         }
 
         public override string ToString()

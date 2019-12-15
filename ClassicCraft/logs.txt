@@ -1,32 +1,37 @@
-Date : 2019/12/12 20:27:25
+Date : 2019/12/15 14:32:34
 
 Fight length : 120 seconds (+/- 20%)
 
 Player :
-Tauren Druid level 60 | Stats : [Stamina:110][Strength:282][Agility:211][Intelligence:18][Spirit:22][AP:1427][CritChance:19][HitChance:8][Haste:0][Health:920][RangedAP:1156]
+Tauren Druid level 60 | Stats : [Strength:232,8][Agility:191][Stamina:72][Intellect:118,8][Spirit:125][Health:2023][Mana:3026][CritChance:20,55][HitChance:8][Haste:0][AP:1331,6][RangedAP:1522,6]
 
-Boss :
+Boss (after raid debuffs) :
 Level 63, 336 Armor (5,76% mitigation)
 
-25184 simulations done in 65 745,88 ms, for 2,61 ms by sim
-Overall accuracy of results : +/- 0,05%
-DPS :
+67657 simulations done in 46 498,62 ms, for 0,69 ms by sim
+Overall accuracy of results : +/- 0,09%
 
-Base : 593,31 DPS
-+50 AP : 601,79 DPS
-+1% Hit : 599,72 DPS
-+1% Crit : 598,39 DPS
+DPS :
+Base : 513,30 DPS
++50 AP : 523,43 DPS
++1% Hit : 519,21 DPS
++1% Crit : 518,18 DPS
++50 Int : 519,52 DPS
++50 Spi: 519,20 DPS
 
 Weights by DPS :
-1 AP = 0,1696 DPS
-1% Hit = 6,4063 DPS
-1% Crit = 5,0736 DPS
-1 Agi = 0,4233 DPS
-1 Str = 0,4070 DPS
+1 AP = 0,2025 DPS
+1% Hit = 5,9118 DPS
+1% Crit = 4,8777 DPS
+1 Agi = 0,4464 DPS
+1 Str = 0,4860 DPS
+1 Int = 0,1244 DPS
+1 Spi = 0,1179 DPS
 
 Weights ratio for 1 AP :
-
-1% Hit = 37,7783 AP
-1% Crit = 29,9192 AP
-1 Agi = 2,4960 AP
+1% Hit = 29,1950 AP
+1% Crit = 24,0880 AP
+1 Agi = 2,2044 AP
 1 Str = 2,4000 AP
+1 Int = 0,6145 AP
+1 Spi = 0,5820 AP

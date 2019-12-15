@@ -6,33 +6,33 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    public class DeathWish : Spell
+    class Berserking : Spell
     {
-        public static int COST = 10;
+        public static int COST = 5;
         public static int CD = 180;
 
-        public DeathWish(Player p)
-            : base(p, CD, COST, true)
+        public Berserking(Player p)
+            : base(p, CD, COST, false)
         {
         }
 
         public override void Cast()
         {
-            CommonSpell();
+            CommonRessourceSpell();
             DoAction();
         }
 
         public override void DoAction()
         {
-            if (Player.Effects.Any(e => e is DeathWishBuff))
+            if (Player.Effects.Any(e => e is BerserkingBuff))
             {
-                Effect current = Player.Effects.Where(e => e is DeathWishBuff).First();
+                Effect current = Player.Effects.Where(e => e is BerserkingBuff).First();
                 current.Refresh();
             }
             else
             {
-                DeathWishBuff dw = new DeathWishBuff(Player);
-                dw.StartBuff();
+                BerserkingBuff r = new BerserkingBuff(Player);
+                r.StartBuff();
             }
 
             LogAction();
@@ -40,7 +40,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Death Wish";
+            return "Berserking";
         }
     }
 }

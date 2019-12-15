@@ -1,7 +1,7 @@
 {
   "FightLength": 120,
   "FightLengthMod": 0.2,
-  "TargetErrorPct": 0.05,
+  "TargetErrorPct": 0.1,
   "TargetError": true,
   "LogFight": false,
   "NbSim": 1,
@@ -20,6 +20,7 @@
   "Player": {
     "Race": "Tauren",
     "Class": "Druid",
+    "Talents": "014005301-5500021323202151-05",
     "Cooldowns": {
     },
     "Buffs": [
@@ -120,16 +121,16 @@
         },
       },
       "Back": {
-		"Name": "Cape of the Black Baron",
-		"Stats": {
-			"Agi": 15,
-			"AP": 20
+        "Name": "Cape of the Black Baron",
+        "Stats": {
+          "Agi": 15,
+          "AP": 20
         },
-		"Enchantment": {
-		  "Name": "Lesser Agility",
-		  "Stats": {
-		    "Agi": 3
-		  }
+        "Enchantment": {
+          "Name": "Lesser Agility",
+          "Stats": {
+            "Agi": 3
+          }
         }
       },
       "Chest": {
@@ -143,7 +144,9 @@
           "Name": "Greater Stats",
           "Stats": {
             "Str": 4,
-            "Agi": 4
+            "Agi": 4,
+            "Int": 4,
+            "Spi": 4,
           }
         }
       },
@@ -178,7 +181,8 @@
         "Name": "Shadowcraft",
         "Stats": {
           "Str": 9,
-          "Agi": 14
+          "Agi": 14,
+          "Spi": 9,
         }
       },
       "Legs": {

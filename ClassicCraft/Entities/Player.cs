@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     public class Player : Entity
     {
+        #region Util
+
         public class HitChances
         {
             public HitChances(Dictionary<ResultType, double> whiteHitChancesMH, Dictionary<ResultType, double> yellowHitChances, Dictionary<ResultType, double> whiteHitChancesOH = null)
@@ -184,6 +186,8 @@ namespace ClassicCraft
             }
         }
 
+        #endregion
+
         #region Propriétés
 
         public static double GCD = 1.5;
@@ -212,6 +216,13 @@ namespace ClassicCraft
             }
         }
 
+        public double BaseMana { get; set; }
+
+        public int MaxMana
+        {
+            get { return (int)Attributes.GetValue(Attribute.Mana); }
+        }
+
         private int mana;
         public int Mana
         {
@@ -223,14 +234,23 @@ namespace ClassicCraft
             {
                 if (value < 0)
                 {
-                    mana = 0;
+                    value = 0;
                 }
-                else
+                else if(value > MaxMana)
                 {
-                    mana = value;
+                    value = MaxMana;
                 }
+
+                if (value < mana)
+                {
+                    LastManaExpenditure = Sim.CurrentTime;
+                }
+
+                mana = value;
             }
         }
+
+        public double LastManaExpenditure = -1000;
 
         private int combo;
         public int Combo
@@ -314,7 +334,11 @@ namespace ClassicCraft
         }
 
         public double GCDUntil { get; set; }
-        public double EnergyTick { get; set; }
+        public double ResourcesTick { get; set; }
+        public double ManaTick { get; set; }
+
+        public double MPTRatio { get; set; }
+        public double CastingRegenPct { get; set; }
 
         public double AP
         {
@@ -429,11 +453,13 @@ namespace ClassicCraft
             Resource = 0;
 
             GCDUntil = 0;
-            EnergyTick = 0;
+            ResourcesTick = 0;
             Combo = 0;
 
             HasteMod = CalcHaste();
             DamageMod = 1;
+            MPTRatio = 1;
+            CastingRegenPct = 0;
 
             BonusAttributes = new Attributes();
         }
@@ -610,28 +636,47 @@ namespace ClassicCraft
 
         public void CheckEnergyTick()
         {
-            if(Sim.CurrentTime >= EnergyTick + 2)
+            if (Sim.CurrentTime >= ResourcesTick + 2)
             {
-                // Meh
-                EnergyTick = EnergyTick + 2;
+                ResourcesTick = ResourcesTick + 2;
                 Resource += 20;
+            }
+        }
+
+        public double ManaPct()
+        {
+            return (double)Mana / MaxMana;
+        }
+
+        public bool ManaTicking()
+        {
+            return CastingRegenPct > 0 || Sim.CurrentTime >= LastManaExpenditure + 5;
+        }
+
+        public void CheckManaTick()
+        {
+            if (ManaTicking() && Sim.CurrentTime >= ManaTick + 2)
+            {
+                ManaTick = ManaTick < LastManaExpenditure + 5 ? (CastingRegenPct > 0 ? Sim.CurrentTime : LastManaExpenditure + 5) : ManaTick + 2;
+                Mana += (int)(MPT() * (Sim.CurrentTime < LastManaExpenditure + 5 ? CastingRegenPct : 1) * MPTRatio);
+            }
+        }
+
+        public double MPT()
+        {
+            switch(Class)
+            {
+                case Classes.Warlock: return 8 + Attributes.GetValue(Attribute.Spirit) / 4;
+                case Classes.Mage: return 13 + Attributes.GetValue(Attribute.Spirit) / 4;
+                case Classes.Priest: return 13 + Attributes.GetValue(Attribute.Spirit) / 4;
+                default: return 15 + Attributes.GetValue(Attribute.Spirit) / 5;
             }
         }
 
         public void CalculateAttributes()
         {
-            Attributes = new Attributes(new Dictionary<Attribute, double>
-            {
-                // TODO : attributs de base par level par classe
-                { Attribute.Stamina, BaseStaByRace(Race) + BonusStaByClass(Class) + 88 },
-                { Attribute.Strength, BaseStrByRace(Race) + BonusStrByClass(Class) + 97 },
-                { Attribute.Agility, BaseAgiByRace(Race) + BonusAgiByClass(Class) + 60 },
-                { Attribute.Intelligence, BaseIntByRace(Race) + BonusIntByClass(Class) },
-                { Attribute.Spirit, BaseSpiByRace(Race) + BonusSpiByClass(Class) },
-                { Attribute.AP, 160 },
-                // Base armor + dodge + etc.
-                // Base health + mana
-            });
+            Attributes = CaseAttributes(Class, Race);
+            BaseMana = Attributes.GetValue(Attribute.Mana);
 
             foreach(Slot s in Equipment.Keys.Where(v => Equipment[v] != null))
             {
@@ -658,20 +703,10 @@ namespace ClassicCraft
                 OH.DamageMax += wbonus;
             }
 
-            Attributes += BonusAttributesByRace(Race, Attributes);
-
-            if(Class == Classes.Druid)
+            foreach (Enchantment e in Buffs.Where(v => v != null))
             {
-                Attributes.SetValue(Attribute.Intelligence, Attributes.GetValue(Attribute.Intelligence)
-                    * (1 + 0.04 * GetTalentPoints("HW")));
-                Attributes.SetValue(Attribute.Strength, Attributes.GetValue(Attribute.Strength)
-                    * (1 + 0.04 * GetTalentPoints("HW")));
+                Attributes += e.Attributes;
             }
-
-            Attributes.SetValue(Attribute.Health, 20 + (Attributes.GetValue(Attribute.Stamina) - 20) * 10);
-            Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Strength) * StrToAPRatio(Class) + Attributes.GetValue(Attribute.Agility) * AgiToAPRatio(Class));
-            Attributes.SetValue(Attribute.RangedAP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Agility) * AgiToRangedAPRatio(Class));
-            Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance) + Attributes.GetValue(Attribute.Agility) * AgiToCritRatio(Class));
 
             if (Class == Classes.Warrior)
             {
@@ -681,16 +716,26 @@ namespace ClassicCraft
             }
             else if (Class == Classes.Druid)
             {
+                Attributes.SetValue(Attribute.Intellect, Attributes.GetValue(Attribute.Intellect)
+                    * (1 + 0.04 * GetTalentPoints("HW")));
+                Attributes.SetValue(Attribute.Strength, Attributes.GetValue(Attribute.Strength)
+                    * (1 + 0.04 * GetTalentPoints("HW")));
                 Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
                     + 0.01 * GetTalentPoints("SC"));
                 Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP)
                     + 0.5 * GetTalentPoints("PS") * Level);
             }
 
-            foreach (Enchantment e in Buffs.Where(v => v != null))
+            Attributes += BonusAttributesByRace(Race, Attributes);
+
+            Attributes.SetValue(Attribute.Health, Attributes.GetValue(Attribute.Health) + 20 + (Attributes.GetValue(Attribute.Stamina) - 20) * 10);
+            if(Attributes.GetValue(Attribute.Mana) > 0)
             {
-                Attributes += e.Attributes;
+                Attributes.SetValue(Attribute.Mana, Attributes.GetValue(Attribute.Mana) + Attributes.GetValue(Attribute.Intellect) * 15);
             }
+            Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Strength) * StrToAPRatio(Class) + Attributes.GetValue(Attribute.Agility) * AgiToAPRatio(Class));
+            Attributes.SetValue(Attribute.RangedAP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Agility) * AgiToRangedAPRatio(Class));
+            Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance) + Attributes.GetValue(Attribute.Agility) * AgiToCritRatio(Class));
 
             HasteMod = CalcHaste();
         }
@@ -725,131 +770,419 @@ namespace ClassicCraft
             }
         }
 
-        public static int BaseStrByRace(Races r)
+        public static Attributes CaseAttributes(Classes c, Races r, int level = 60)
         {
-            switch (r)
-            {
-                case Races.Human: return 20;
-                case Races.Dwarf: return 22;
-                case Races.NightElf: return 17;
-                case Races.Gnome: return 15;
-                case Races.Orc: return 23;
-                case Races.Undead: return 19;
-                case Races.Tauren: return 25;
-                case Races.Troll: return 21;
-                default: return 0;
-            }
-        }
+            // TODO : by level
 
-        public static int BaseAgiByRace(Races r)
-        {
-            switch (r)
-            {
-                case Races.Human: return 20;
-                case Races.Dwarf: return 16;
-                case Races.NightElf: return 25;
-                case Races.Gnome: return 23;
-                case Races.Orc: return 17;
-                case Races.Undead: return 18;
-                case Races.Tauren: return 15;
-                case Races.Troll: return 22;
-                default: return 0;
-            }
-        }
+            Attributes res = new Attributes();
 
-        public static int BaseStaByRace(Races r)
-        {
-            switch (r)
-            {
-                case Races.Human: return 20;
-                case Races.Dwarf: return 23;
-                case Races.NightElf: return 19;
-                case Races.Gnome: return 19;
-                case Races.Orc: return 22;
-                case Races.Undead: return 21;
-                case Races.Tauren: return 22;
-                case Races.Troll: return 21;
-                default: return 0;
-            }
-        }
-
-        public static int BaseIntByRace(Races r)
-        {
-            switch (r)
-            {
-                case Races.Human: return 20;
-                case Races.Dwarf: return 19;
-                case Races.NightElf: return 20;
-                case Races.Gnome: return 24;
-                case Races.Orc: return 17;
-                case Races.Undead: return 18;
-                case Races.Tauren: return 15;
-                case Races.Troll: return 16;
-                default: return 0;
-            }
-        }
-
-        public static int BaseSpiByRace(Races r)
-        {
-            switch (r)
-            {
-                case Races.Human: return 21;
-                case Races.Dwarf: return 19;
-                case Races.NightElf: return 20;
-                case Races.Gnome: return 20;
-                case Races.Orc: return 23;
-                case Races.Undead: return 25;
-                case Races.Tauren: return 22;
-                case Races.Troll: return 21;
-                default: return 0;
-            }
-        }
-
-        public static int BonusStrByClass(Classes c)
-        {
             switch (c)
             {
-                case Classes.Warrior: return 3;
-                default: return 0;
+                case Classes.Druid:
+                    switch (r)
+                    {
+                        case Races.NightElf:
+                            res.Values.Add(Attribute.Strength, 62);
+                            res.Values.Add(Attribute.Agility, 65);
+                            res.Values.Add(Attribute.Stamina, 69);
+                            res.Values.Add(Attribute.Intellect, 100);
+                            res.Values.Add(Attribute.Spirit, 110);
+                            res.Values.Add(Attribute.Health, 1483);
+                            res.Values.Add(Attribute.Mana, 1244);
+                            break;
+                        case Races.Tauren:
+                            res.Values.Add(Attribute.Strength, 70);
+                            res.Values.Add(Attribute.Agility, 55);
+                            res.Values.Add(Attribute.Stamina, 72);
+                            res.Values.Add(Attribute.Intellect, 95);
+                            res.Values.Add(Attribute.Spirit, 112);
+                            res.Values.Add(Attribute.Health, 1483);
+                            res.Values.Add(Attribute.Mana, 1244);
+                            break;
+                        default: break;
+                    }
+                    break;
+                case Classes.Hunter:
+                    switch (r)
+                    {
+                        case Races.Dwarf:
+                            res.Values.Add(Attribute.Strength, 57);
+                            res.Values.Add(Attribute.Agility, 121);
+                            res.Values.Add(Attribute.Stamina, 93);
+                            res.Values.Add(Attribute.Intellect, 64);
+                            res.Values.Add(Attribute.Spirit, 69);
+                            res.Values.Add(Attribute.Health, 1467);
+                            res.Values.Add(Attribute.Mana, 1720);
+                            break;
+                        case Races.NightElf:
+                            res.Values.Add(Attribute.Strength, 52);
+                            res.Values.Add(Attribute.Agility, 130);
+                            res.Values.Add(Attribute.Stamina, 89);
+                            res.Values.Add(Attribute.Intellect, 65);
+                            res.Values.Add(Attribute.Spirit, 70);
+                            res.Values.Add(Attribute.Health, 1467);
+                            res.Values.Add(Attribute.Mana, 1720);
+                            break;
+                        case Races.Orc:
+                            res.Values.Add(Attribute.Strength, 58);
+                            res.Values.Add(Attribute.Agility, 122);
+                            res.Values.Add(Attribute.Stamina, 92);
+                            res.Values.Add(Attribute.Intellect, 62);
+                            res.Values.Add(Attribute.Spirit, 73);
+                            res.Values.Add(Attribute.Health, 1467);
+                            res.Values.Add(Attribute.Mana, 1720);
+                            break;
+                        case Races.Tauren:
+                            res.Values.Add(Attribute.Strength, 60);
+                            res.Values.Add(Attribute.Agility, 120);
+                            res.Values.Add(Attribute.Stamina, 92);
+                            res.Values.Add(Attribute.Intellect, 60);
+                            res.Values.Add(Attribute.Spirit, 72);
+                            res.Values.Add(Attribute.Health, 1467);
+                            res.Values.Add(Attribute.Mana, 1720);
+                            break;
+                        case Races.Troll:
+                            res.Values.Add(Attribute.Strength, 56);
+                            res.Values.Add(Attribute.Agility, 127);
+                            res.Values.Add(Attribute.Stamina, 91);
+                            res.Values.Add(Attribute.Intellect, 61);
+                            res.Values.Add(Attribute.Spirit, 71);
+                            res.Values.Add(Attribute.Health, 1467);
+                            res.Values.Add(Attribute.Mana, 1720);
+                            break;
+                        default: break;
+                    }
+                    break;
+                case Classes.Mage:
+                    switch (r)
+                    {
+                        case Races.Gnome:
+                            res.Values.Add(Attribute.Strength, 25);
+                            res.Values.Add(Attribute.Agility, 38);
+                            res.Values.Add(Attribute.Stamina, 44);
+                            res.Values.Add(Attribute.Intellect, 133);
+                            res.Values.Add(Attribute.Spirit, 120);
+                            res.Values.Add(Attribute.Health, 1360);
+                            res.Values.Add(Attribute.Mana, 1273);
+                            break;
+                        case Races.Human:
+                            res.Values.Add(Attribute.Strength, 30);
+                            res.Values.Add(Attribute.Agility, 35);
+                            res.Values.Add(Attribute.Stamina, 45);
+                            res.Values.Add(Attribute.Intellect, 125);
+                            res.Values.Add(Attribute.Spirit, 126);
+                            res.Values.Add(Attribute.Health, 1360);
+                            res.Values.Add(Attribute.Mana, 1273);
+                            break;
+                        case Races.Troll:
+                            res.Values.Add(Attribute.Strength, 31);
+                            res.Values.Add(Attribute.Agility, 37);
+                            res.Values.Add(Attribute.Stamina, 46);
+                            res.Values.Add(Attribute.Intellect, 121);
+                            res.Values.Add(Attribute.Spirit, 121);
+                            res.Values.Add(Attribute.Health, 1360);
+                            res.Values.Add(Attribute.Mana, 1273);
+                            break;
+                        case Races.Undead:
+                            res.Values.Add(Attribute.Strength, 29);
+                            res.Values.Add(Attribute.Agility, 33);
+                            res.Values.Add(Attribute.Stamina, 46);
+                            res.Values.Add(Attribute.Intellect, 123);
+                            res.Values.Add(Attribute.Spirit, 125);
+                            res.Values.Add(Attribute.Health, 1360);
+                            res.Values.Add(Attribute.Mana, 1273);
+                            break;
+                        default: break;
+                    }
+                    break;
+                case Classes.Paladin:
+                    switch (r)
+                    {
+                        case Races.Dwarf:
+                            res.Values.Add(Attribute.Strength, 107);
+                            res.Values.Add(Attribute.Agility, 61);
+                            res.Values.Add(Attribute.Stamina, 103);
+                            res.Values.Add(Attribute.Intellect, 69);
+                            res.Values.Add(Attribute.Spirit, 74);
+                            res.Values.Add(Attribute.Health, 1381);
+                            res.Values.Add(Attribute.Mana, 1512);
+                            break;
+                        case Races.Human:
+                            res.Values.Add(Attribute.Strength, 105);
+                            res.Values.Add(Attribute.Agility, 65);
+                            res.Values.Add(Attribute.Stamina, 100);
+                            res.Values.Add(Attribute.Intellect, 70);
+                            res.Values.Add(Attribute.Spirit, 78);
+                            res.Values.Add(Attribute.Health, 1381);
+                            res.Values.Add(Attribute.Mana, 1510);
+                            break;
+                        default: break;
+                    }
+                    break;
+                case Classes.Priest:
+                    switch (r)
+                    {
+                        case Races.Dwarf:
+                            res.Values.Add(Attribute.Strength, 37);
+                            res.Values.Add(Attribute.Agility, 36);
+                            res.Values.Add(Attribute.Stamina, 53);
+                            res.Values.Add(Attribute.Intellect, 119);
+                            res.Values.Add(Attribute.Spirit, 124);
+                            res.Values.Add(Attribute.Health, 1387);
+                            res.Values.Add(Attribute.Mana, 1436);
+                            break;
+                        case Races.Human:
+                            res.Values.Add(Attribute.Strength, 35);
+                            res.Values.Add(Attribute.Agility, 40);
+                            res.Values.Add(Attribute.Stamina, 50);
+                            res.Values.Add(Attribute.Intellect, 120);
+                            res.Values.Add(Attribute.Spirit, 131);
+                            res.Values.Add(Attribute.Health, 1387);
+                            res.Values.Add(Attribute.Mana, 1436);
+                            break;
+                        case Races.NightElf:
+                            res.Values.Add(Attribute.Strength, 32);
+                            res.Values.Add(Attribute.Agility, 45);
+                            res.Values.Add(Attribute.Stamina, 49);
+                            res.Values.Add(Attribute.Intellect, 120);
+                            res.Values.Add(Attribute.Spirit, 125);
+                            res.Values.Add(Attribute.Health, 1387);
+                            res.Values.Add(Attribute.Mana, 1436);
+                            break;
+                        case Races.Troll:
+                            res.Values.Add(Attribute.Strength, 36);
+                            res.Values.Add(Attribute.Agility, 42);
+                            res.Values.Add(Attribute.Stamina, 51);
+                            res.Values.Add(Attribute.Intellect, 116);
+                            res.Values.Add(Attribute.Spirit, 126);
+                            res.Values.Add(Attribute.Health, 1387);
+                            res.Values.Add(Attribute.Mana, 1436);
+                            break;
+                        case Races.Undead:
+                            res.Values.Add(Attribute.Strength, 34);
+                            res.Values.Add(Attribute.Agility, 38);
+                            res.Values.Add(Attribute.Stamina, 51);
+                            res.Values.Add(Attribute.Intellect, 118);
+                            res.Values.Add(Attribute.Spirit, 130);
+                            res.Values.Add(Attribute.Health, 1387);
+                            res.Values.Add(Attribute.Mana, 1436);
+                            break;
+                        default: break;
+                    }
+                    break;
+                case Classes.Rogue:
+                    switch (r)
+                    {
+                        case Races.Dwarf:
+                            res.Values.Add(Attribute.Strength, 82);
+                            res.Values.Add(Attribute.Agility, 126);
+                            res.Values.Add(Attribute.Stamina, 78);
+                            res.Values.Add(Attribute.Intellect, 34);
+                            res.Values.Add(Attribute.Spirit, 49);
+                            res.Values.Add(Attribute.Health, 1523);
+                            break;
+                        case Races.Gnome:
+                            res.Values.Add(Attribute.Strength, 75);
+                            res.Values.Add(Attribute.Agility, 133);
+                            res.Values.Add(Attribute.Stamina, 74);
+                            res.Values.Add(Attribute.Intellect, 40);
+                            res.Values.Add(Attribute.Spirit, 50);
+                            res.Values.Add(Attribute.Health, 1523);
+                            break;
+                        case Races.Human:
+                            res.Values.Add(Attribute.Strength, 80);
+                            res.Values.Add(Attribute.Agility, 130);
+                            res.Values.Add(Attribute.Stamina, 75);
+                            res.Values.Add(Attribute.Intellect, 35);
+                            res.Values.Add(Attribute.Spirit, 52);
+                            res.Values.Add(Attribute.Health, 1523);
+                            break;
+                        case Races.NightElf:
+                            res.Values.Add(Attribute.Strength, 77);
+                            res.Values.Add(Attribute.Agility, 135);
+                            res.Values.Add(Attribute.Stamina, 74);
+                            res.Values.Add(Attribute.Intellect, 35);
+                            res.Values.Add(Attribute.Spirit, 50);
+                            res.Values.Add(Attribute.Health, 1523);
+                            break;
+                        case Races.Orc:
+                            res.Values.Add(Attribute.Strength, 83);
+                            res.Values.Add(Attribute.Agility, 127);
+                            res.Values.Add(Attribute.Stamina, 77);
+                            res.Values.Add(Attribute.Intellect, 32);
+                            res.Values.Add(Attribute.Spirit, 53);
+                            res.Values.Add(Attribute.Health, 1523);
+                            break;
+                        case Races.Troll:
+                            res.Values.Add(Attribute.Strength, 81);
+                            res.Values.Add(Attribute.Agility, 132);
+                            res.Values.Add(Attribute.Stamina, 76);
+                            res.Values.Add(Attribute.Intellect, 31);
+                            res.Values.Add(Attribute.Spirit, 51);
+                            res.Values.Add(Attribute.Health, 1523);
+                            break;
+                        case Races.Undead:
+                            res.Values.Add(Attribute.Strength, 79);
+                            res.Values.Add(Attribute.Agility, 128);
+                            res.Values.Add(Attribute.Stamina, 76);
+                            res.Values.Add(Attribute.Intellect, 33);
+                            res.Values.Add(Attribute.Spirit, 55);
+                            res.Values.Add(Attribute.Health, 1523);
+                            break;
+                        default: break;
+                    }
+                    break;
+                case Classes.Shaman:
+                    switch (r)
+                    {
+                        case Races.Orc:
+                            res.Values.Add(Attribute.Strength, 88);
+                            res.Values.Add(Attribute.Agility, 52);
+                            res.Values.Add(Attribute.Stamina, 97);
+                            res.Values.Add(Attribute.Intellect, 87);
+                            res.Values.Add(Attribute.Spirit, 103);
+                            res.Values.Add(Attribute.Health, 1280);
+                            res.Values.Add(Attribute.Mana, 1520);
+                            break;
+                        case Races.Tauren:
+                            res.Values.Add(Attribute.Strength, 90);
+                            res.Values.Add(Attribute.Agility, 50);
+                            res.Values.Add(Attribute.Stamina, 97);
+                            res.Values.Add(Attribute.Intellect, 85);
+                            res.Values.Add(Attribute.Spirit, 102);
+                            res.Values.Add(Attribute.Health, 1280);
+                            res.Values.Add(Attribute.Mana, 1520);
+                            break;
+                        case Races.Troll:
+                            res.Values.Add(Attribute.Strength, 86);
+                            res.Values.Add(Attribute.Agility, 57);
+                            res.Values.Add(Attribute.Stamina, 96);
+                            res.Values.Add(Attribute.Intellect, 86);
+                            res.Values.Add(Attribute.Spirit, 101);
+                            res.Values.Add(Attribute.Health, 1280);
+                            res.Values.Add(Attribute.Mana, 1520);
+                            break;
+                        default: break;
+                    }
+                    break;
+                case Classes.Warlock:
+                    switch (r)
+                    {
+                        case Races.Gnome:
+                            res.Values.Add(Attribute.Strength, 40);
+                            res.Values.Add(Attribute.Agility, 53);
+                            res.Values.Add(Attribute.Stamina, 64);
+                            res.Values.Add(Attribute.Intellect, 119);
+                            res.Values.Add(Attribute.Spirit, 115);
+                            res.Values.Add(Attribute.Health, 1414);
+                            res.Values.Add(Attribute.Mana, 1373);
+                            break;
+                        case Races.Human:
+                            res.Values.Add(Attribute.Strength, 45);
+                            res.Values.Add(Attribute.Agility, 50);
+                            res.Values.Add(Attribute.Stamina, 65);
+                            res.Values.Add(Attribute.Intellect, 110);
+                            res.Values.Add(Attribute.Spirit, 120);
+                            res.Values.Add(Attribute.Health, 1414);
+                            res.Values.Add(Attribute.Mana, 1373);
+                            break;
+                        case Races.Orc:
+                            res.Values.Add(Attribute.Strength, 48);
+                            res.Values.Add(Attribute.Agility, 47);
+                            res.Values.Add(Attribute.Stamina, 66);
+                            res.Values.Add(Attribute.Intellect, 107);
+                            res.Values.Add(Attribute.Spirit, 118);
+                            res.Values.Add(Attribute.Health, 1414);
+                            res.Values.Add(Attribute.Mana, 1373);
+                            break;
+                        case Races.Undead:
+                            res.Values.Add(Attribute.Strength, 44);
+                            res.Values.Add(Attribute.Agility, 48);
+                            res.Values.Add(Attribute.Stamina, 66);
+                            res.Values.Add(Attribute.Intellect, 108);
+                            res.Values.Add(Attribute.Spirit, 120);
+                            res.Values.Add(Attribute.Health, 1414);
+                            res.Values.Add(Attribute.Mana, 1373);
+                            break;
+                        default: break;
+                    }
+                    break;
+                case Classes.Warrior:
+                    switch (r)
+                    {
+                        case Races.Dwarf:
+                            res.Values.Add(Attribute.Strength, 122);
+                            res.Values.Add(Attribute.Agility, 76);
+                            res.Values.Add(Attribute.Stamina, 113);
+                            res.Values.Add(Attribute.Intellect, 29);
+                            res.Values.Add(Attribute.Spirit, 44);
+                            res.Values.Add(Attribute.Health, 1689);
+                            break;
+                        case Races.Gnome:
+                            res.Values.Add(Attribute.Strength, 115);
+                            res.Values.Add(Attribute.Agility, 83);
+                            res.Values.Add(Attribute.Stamina, 109);
+                            res.Values.Add(Attribute.Intellect, 35);
+                            res.Values.Add(Attribute.Spirit, 45);
+                            res.Values.Add(Attribute.Health, 1689);
+                            break;
+                        case Races.Human:
+                            res.Values.Add(Attribute.Strength, 120);
+                            res.Values.Add(Attribute.Agility, 80);
+                            res.Values.Add(Attribute.Stamina, 110);
+                            res.Values.Add(Attribute.Intellect, 30);
+                            res.Values.Add(Attribute.Spirit, 47);
+                            res.Values.Add(Attribute.Health, 1689);
+                            break;
+                        case Races.NightElf:
+                            res.Values.Add(Attribute.Strength, 117);
+                            res.Values.Add(Attribute.Agility, 85);
+                            res.Values.Add(Attribute.Stamina, 109);
+                            res.Values.Add(Attribute.Intellect, 30);
+                            res.Values.Add(Attribute.Spirit, 45);
+                            res.Values.Add(Attribute.Health, 1689);
+                            break;
+                        case Races.Orc:
+                            res.Values.Add(Attribute.Strength, 123);
+                            res.Values.Add(Attribute.Agility, 77);
+                            res.Values.Add(Attribute.Stamina, 112);
+                            res.Values.Add(Attribute.Intellect, 27);
+                            res.Values.Add(Attribute.Spirit, 48);
+                            res.Values.Add(Attribute.Health, 1689);
+                            break;
+                        case Races.Tauren:
+                            res.Values.Add(Attribute.Strength, 125);
+                            res.Values.Add(Attribute.Agility, 75);
+                            res.Values.Add(Attribute.Stamina, 112);
+                            res.Values.Add(Attribute.Intellect, 27);
+                            res.Values.Add(Attribute.Spirit, 47);
+                            res.Values.Add(Attribute.Health, 1689);
+                            break;
+                        case Races.Troll:
+                            res.Values.Add(Attribute.Strength, 121);
+                            res.Values.Add(Attribute.Agility, 82);
+                            res.Values.Add(Attribute.Stamina, 111);
+                            res.Values.Add(Attribute.Intellect, 26);
+                            res.Values.Add(Attribute.Spirit, 46);
+                            res.Values.Add(Attribute.Health, 1689);
+                            break;
+                        case Races.Undead:
+                            res.Values.Add(Attribute.Strength, 119);
+                            res.Values.Add(Attribute.Agility, 78);
+                            res.Values.Add(Attribute.Stamina, 111);
+                            res.Values.Add(Attribute.Intellect, 28);
+                            res.Values.Add(Attribute.Spirit, 50);
+                            res.Values.Add(Attribute.Health, 1689);
+                            break;
+                        default: break;
+                    }
+                    break;
+                default: break;
             }
-        }
 
-        public static int BonusAgiByClass(Classes c)
-        {
-            switch (c)
-            {
-                case Classes.Warrior: return 0;
-                default: return 0;
-            }
+            return res;
         }
-
-        public static int BonusStaByClass(Classes c)
-        {
-            switch (c)
-            {
-                case Classes.Warrior: return 2;
-                default: return 0;
-            }
-        }
-
-        public static int BonusIntByClass(Classes c)
-        {
-            switch (c)
-            {
-                case Classes.Warrior: return 0;
-                default: return 0;
-            }
-        }
-
-        public static int BonusSpiByClass(Classes c)
-        {
-            switch (c)
-            {
-                case Classes.Warrior: return 0;
-                default: return 0;
-            }
-        }
-
+        
         public Attributes BonusAttributesByRace(Races r, Attributes a)
         {
             Attributes res = new Attributes();
@@ -857,10 +1190,10 @@ namespace ClassicCraft
             switch(r)
             {
                 case Races.Gnome:
-                    res.SetValue(Attribute.Intelligence, (int)Math.Round(a.GetValue(Attribute.Intelligence) * 0.05));
+                    res.SetValue(Attribute.Intellect, a.GetValue(Attribute.Intellect) * 0.05);
                     break;
                 case Races.Human:
-                    res.SetValue(Attribute.Spirit, (int)Math.Round(a.GetValue(Attribute.Spirit) * 0.05));
+                    res.SetValue(Attribute.Spirit, a.GetValue(Attribute.Spirit) * 0.05);
                     break;
                 default: break;
             }

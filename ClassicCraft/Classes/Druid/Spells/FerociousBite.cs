@@ -42,7 +42,7 @@ namespace ClassicCraft
 
         public override bool CanUse()
         {
-            return (Player.Effects.Any(e => e is ClearCasting) || Player.Resource >= ResourceCost) && Available() && (AffectedByGCD ? Player.HasGCD() : true) && Player.Combo > 0;
+            return (Player.Effects.Any(e => e is ClearCasting) || Player.Resource >= Cost) && Available() && (AffectedByGCD ? Player.HasGCD() : true) && Player.Combo > 0;
         }
 
         public override void DoAction()
@@ -53,7 +53,7 @@ namespace ClassicCraft
             int maxDmg = max[Player.Combo - 1];
 
 
-            int cost = ResourceCost;
+            int cost = Cost;
             if (Player.Effects.Any(e => e is ClearCasting))
             {
                 cost = 0;

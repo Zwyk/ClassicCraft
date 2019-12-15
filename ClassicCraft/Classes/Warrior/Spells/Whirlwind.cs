@@ -6,20 +6,14 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Execute : Spell
+    class Whirlwind : Spell
     {
-        public static int COST = 15;
-        public static int CD = 0;
+        public static int COST = 25;
+        public static int CD = 10;
 
-        public Execute(Player p)
-            : base(p, CD, COST, true)
+        public Whirlwind(Player p)
+            : base(p, CD, COST)
         {
-
-        }
-
-        public override bool CanUse()
-        {
-            return Player.Sim.Boss.LifePct <= 0.2 && base.CanUse();
         }
 
         public override void Cast()
@@ -31,30 +25,25 @@ namespace ClassicCraft
         {
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
 
-            int reducedCost;
-            switch(Player.GetTalentPoints("IE"))
-            {
-                case 2: reducedCost = 5; break;
-                case 1: reducedCost = 2; break;
-                default: reducedCost = 0; break;
-            }
+            CommonAction();
+            Player.Resource -= Cost;
 
-            int damage = (int)Math.Round((600 + (Player.Resource - (15 - reducedCost)) * 15)
+            int minDmg = (int)Math.Round(Player.MH.DamageMin + Simulation.Normalization(Player.MH) * Player.AP / 14);
+            int maxDmg = (int)Math.Round(Player.MH.DamageMax + Simulation.Normalization(Player.MH) * Player.AP / 14);
+
+            /*
+            if (Player.OH != null)
+            {
+                minDmg += (int)Math.Round(Player.OH.DamageMin + Simulation.Normalization(Player.OH) * Player.AP / 14);
+                maxDmg += (int)Math.Round(Player.OH.DamageMax + Simulation.Normalization(Player.OH) * Player.AP / 14);
+            }
+            */
+
+            int damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
                 * Player.Sim.DamageMod(res)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
-                * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1)
+                * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1 )
                 * (Player.DualWielding() ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
-
-            CommonAction();
-            if (res == ResultType.Parry || res == ResultType.Dodge)
-            {
-                // TODO à vérifier
-                Player.Resource = ResourceCost / 2;
-            }
-            else
-            {
-                Player.Resource = 0;
-            }
 
             RegisterDamage(new ActionResult(res, damage));
 
@@ -74,7 +63,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Execute";
+            return "Whirlwind";
         }
     }
 }

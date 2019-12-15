@@ -6,32 +6,32 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    public class Recklessness : Spell
+    class BattleShout : Spell
     {
-        public static int COST = 0;
-        public static int CD = 300;
+        public static int COST = 10;
+        public static int CD = 0;
 
-        public Recklessness(Player p)
+        public BattleShout(Player p)
             : base(p, CD, COST, true)
         {
         }
 
         public override void Cast()
         {
-            CommonSpell();
             DoAction();
+            CommonRessourceSpell();
         }
 
         public override void DoAction()
         {
-            if (Player.Effects.Any(e => e is RecklessnessBuff))
+            if (Player.Effects.Any(e => e is BattleShoutBuff))
             {
-                Effect current = Player.Effects.Where(e => e is RecklessnessBuff).First();
+                Effect current = Player.Effects.Where(e => e is BattleShoutBuff).First();
                 current.Refresh();
             }
             else
             {
-                RecklessnessBuff r = new RecklessnessBuff(Player);
+                BattleShoutBuff r = new BattleShoutBuff(Player);
                 r.StartBuff();
             }
 
@@ -40,7 +40,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Recklesness";
+            return "Battle Shout";
         }
     }
 }

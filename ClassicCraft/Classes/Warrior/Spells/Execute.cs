@@ -6,14 +6,20 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Hamstring : Spell
+    class Execute : Spell
     {
+        public static int COST = 15;
         public static int CD = 0;
-        public static int COST = 10;
 
-        public Hamstring(Player p)
-            : base(p, 0, 10, true)
+        public Execute(Player p)
+            : base(p, CD, COST, true)
         {
+
+        }
+
+        public override bool CanUse()
+        {
+            return Player.Sim.Boss.LifePct <= 0.2 && base.CanUse();
         }
 
         public override void Cast()
@@ -25,16 +31,29 @@ namespace ClassicCraft
         {
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
 
-            int damage = (int)Math.Round(45
+            int reducedCost;
+            switch(Player.GetTalentPoints("IE"))
+            {
+                case 2: reducedCost = 5; break;
+                case 1: reducedCost = 2; break;
+                default: reducedCost = 0; break;
+            }
+
+            int damage = (int)Math.Round((600 + (Player.Resource - (15 - reducedCost)) * 15)
                 * Player.Sim.DamageMod(res)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
                 * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1)
                 * (Player.DualWielding() ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
 
             CommonAction();
-            if (res != ResultType.Parry && res != ResultType.Dodge)
+            if (res == ResultType.Parry || res == ResultType.Dodge)
             {
-                Player.Resource -= ResourceCost;
+                // TODO à vérifier
+                Player.Resource = Cost / 2;
+            }
+            else
+            {
+                Player.Resource = 0;
             }
 
             RegisterDamage(new ActionResult(res, damage));
@@ -55,7 +74,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Hamstring";
+            return "Execute";
         }
     }
 }
