@@ -82,7 +82,7 @@ namespace ClassicCraft
 
         public static string logs = "";
         
-        public static List<string> simOrder = new List<string>(){ "Base", "+1% Hit", "+1% Crit", "+50 AP", "+50 Int", "+50 Spi" };
+        public static List<string> simOrder = new List<string>(){ "Base", "+1% Hit", "+1% Crit", "+1% Haste", "+50 AP", "+50 Int", "+50 Spi" };
         public static Dictionary<string, Attributes> simBonusAttribs = new Dictionary<string, Attributes>()
                 {
                     { "Base", new Attributes() },
@@ -93,6 +93,10 @@ namespace ClassicCraft
                     { "+1% Crit", new Attributes(new Dictionary<Attribute, double>()
                             {
                                 { Attribute.CritChance, 0.01 }
+                            })},
+                    { "+1% Haste", new Attributes(new Dictionary<Attribute, double>()
+                            {
+                                { Attribute.Haste, 0.01 }
                             })},
                     { "+50 AP", new Attributes(new Dictionary<Attribute, double>()
                             {
@@ -371,51 +375,57 @@ namespace ClassicCraft
                 if (statsWeights)
                 {
                     double baseDps = DamagesList["Base"].Average();
-                    double apDps = DamagesList["+50 AP"].Average();
-                    double hitDps = DamagesList["+1% Hit"].Average();
-                    double critDps = DamagesList["+1% Crit"].Average();
-                    double intDps = DamagesList["+50 Int"].Average();
-                    double spiDps = DamagesList["+50 Spi"].Average();
-
-                    Log("\nDPS :");
-                    Log(string.Format("Base : {0:N2} DPS", baseDps));
-                    Log(string.Format("+50 AP : {0:N2} DPS", apDps));
-                    Log(string.Format("+1% Hit : {0:N2} DPS", hitDps));
-                    Log(string.Format("+1% Crit : {0:N2} DPS", critDps));
-                    Log(string.Format("+50 Int : {0:N2} DPS", intDps));
-                    Log(string.Format("+50 Spi: {0:N2} DPS", spiDps));
-
-                    double apDif = (apDps - baseDps) / 50;
-                    double intDif = (intDps - baseDps) / 50;
-                    double spiDif = (spiDps - baseDps) / 50;
-                    double hitDif = hitDps - baseDps;
-                    double critDif = critDps - baseDps;
-
-                    if (apDif < 0) apDif = 0;
-                    if (hitDif < 0) hitDif = 0;
-                    if (critDif < 0) critDif = 0;
-                    if (intDif < 0) intDif = 0;
-                    if (spiDif < 0) intDif = 0;
-
-                    double agiDpsCalc = Player.AgiToAPRatio(playerBase.Class) * apDif + Player.AgiToCritRatio(playerBase.Class) * 100 * critDif;
-                    double strDpsCalc = apDif * Player.StrToAPRatio(playerBase.Class) * (playerBase.Class == Player.Classes.Druid ? (1 + 0.04 * playerBase.GetTalentPoints("HW")) : 1);
+                    Log(string.Format("\nBase : {0:N2} DPS", baseDps));
 
                     Log("\nWeights by DPS :");
-                    Log(string.Format("1 AP = {0:N4} DPS", apDif));
-                    Log(string.Format("1% Hit = {0:N4} DPS", hitDif));
-                    Log(string.Format("1% Crit = {0:N4} DPS", critDif));
-                    Log(string.Format("1 Agi = {0:N4} DPS", agiDpsCalc));
-                    Log(string.Format("1 Str = {0:N4} DPS", strDpsCalc));
-                    Log(string.Format("1 Int = {0:N4} DPS", intDif));
-                    Log(string.Format("1 Spi = {0:N4} DPS", spiDif));
 
-                    Log("\nWeights ratio for 1 AP :");
-                    Log(string.Format("1% Hit = {0:N4} AP", hitDif/apDif));
-                    Log(string.Format("1% Crit = {0:N4} AP", critDif/apDif));
-                    Log(string.Format("1 Agi = {0:N4} AP", agiDpsCalc/apDif));
-                    Log(string.Format("1 Str = {0:N4} AP", strDpsCalc / apDif));
-                    Log(string.Format("1 Int = {0:N4} AP", intDif / apDif));
-                    Log(string.Format("1 Spi = {0:N4} AP", spiDif / apDif));
+                    double apDps = DamagesList["+50 AP"].Average();
+                    double apDif = (apDps - baseDps) / 50;
+                    if (apDif < 0) apDif = 0;
+                    Log(string.Format("1 AP = {0:N4} DPS", apDif));
+
+                    double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * (playerBase.Class == Player.Classes.Druid ? (1 + 0.04 * playerBase.GetTalentPoints("HW")) : 1);
+                    Log(string.Format("1 Str = {0:N4} DPS = {1:N4} AP", strDif, strDif / apDif));
+
+                    if (simOrder.Contains("+1% Crit"))
+                    {
+                        double critDps = DamagesList["+1% Crit"].Average();
+                        double critDif = critDps - baseDps;
+                        if (critDif < 0) critDif = 0;
+
+                        double agiDif = Player.AgiToAPRatio(playerBase.Class) * apDif + Player.AgiToCritRatio(playerBase.Class) * 100 * critDif;
+                        Log(string.Format("1 Agi = {0:N4} DPS = {1:N4} AP", agiDif, agiDif / apDif));
+
+                        Log(string.Format("1% Crit = {0:N4} DPS = {1:N4} AP", critDif, critDif / apDif));
+                    }
+                    if (simOrder.Contains("+1% Hit"))
+                    {
+                        double hitDps = DamagesList["+1% Hit"].Average();
+                        double hitDif = hitDps - baseDps;
+                        if (hitDif < 0) hitDif = 0;
+                        Log(string.Format("1% Hit = {0:N4} DPS = {1:N4} AP", hitDif, hitDif / apDif));
+                    }
+                    if (simOrder.Contains("+1% Haste"))
+                    {
+                        double hasteDps = DamagesList["+1% Haste"].Average();
+                        double hasteDif = hasteDps - baseDps;
+                        if (hasteDif < 0) hasteDif = 0;
+                        Log(string.Format("1% Haste = {0:N4} DPS = {1:N4} AP", hasteDif, hasteDif / apDif));
+                    }
+                    if (simOrder.Contains("+50 Int"))
+                    {
+                        double intDps = DamagesList["+50 Int"].Average();
+                        double intDif = (intDps - baseDps) / 50;
+                        if (intDif < 0) intDif = 0;
+                        Log(string.Format("1 Int = {0:N4} DPS = {1:N4} AP", intDif, intDif / apDif));
+                    }
+                    if (simOrder.Contains("+50 Spi"))
+                    {
+                        double spiDps = DamagesList["+50 Spi"].Average();
+                        double spiDif = (spiDps - baseDps) / 50;
+                        if (spiDif < 0) spiDif = 0;
+                        Log(string.Format("1 Spi = {0:N4} DPS = {1:N4} AP", spiDif, spiDif / apDif));
+                    }
                 }
                 else if (nbSim >= 1)
                 {

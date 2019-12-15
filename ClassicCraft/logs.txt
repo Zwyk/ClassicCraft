@@ -1,4 +1,4 @@
-Date : 2019/12/15 14:32:34
+Date : 2019/12/15 18:43:32
 
 Fight length : 120 seconds (+/- 20%)
 
@@ -8,30 +8,16 @@ Tauren Druid level 60 | Stats : [Strength:232,8][Agility:191][Stamina:72][Intell
 Boss (after raid debuffs) :
 Level 63, 336 Armor (5,76% mitigation)
 
-67657 simulations done in 46 498,62 ms, for 0,69 ms by sim
+76330 simulations done in 52 048,45 ms, for 0,68 ms by sim
 Overall accuracy of results : +/- 0,09%
-
-DPS :
-Base : 513,30 DPS
-+50 AP : 523,43 DPS
-+1% Hit : 519,21 DPS
-+1% Crit : 518,18 DPS
-+50 Int : 519,52 DPS
-+50 Spi: 519,20 DPS
+Base : 513,81 DPS
 
 Weights by DPS :
-1 AP = 0,2025 DPS
-1% Hit = 5,9118 DPS
-1% Crit = 4,8777 DPS
-1 Agi = 0,4464 DPS
-1 Str = 0,4860 DPS
-1 Int = 0,1244 DPS
-1 Spi = 0,1179 DPS
-
-Weights ratio for 1 AP :
-1% Hit = 29,1950 AP
-1% Crit = 24,0880 AP
-1 Agi = 2,2044 AP
-1 Str = 2,4000 AP
-1 Int = 0,6145 AP
-1 Spi = 0,5820 AP
+1 AP = 0,2017 DPS
+1 Str = 0,4840 DPS = 2,4000 AP
+1 Agi = 0,4440 DPS = 2,2020 AP
+1% Crit = 4,8476 DPS = 24,0391 AP
+1% Hit = 5,6121 DPS = 27,8302 AP
+1% Haste = 3,3910 DPS = 16,8158 AP
+1 Int = 0,1116 DPS = 0,5536 AP
+1 Spi = 0,1165 DPS = 0,5778 AP
