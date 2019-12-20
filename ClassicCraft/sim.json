@@ -107,10 +107,11 @@
         }
       },
       "Neck": {
-        "Name": "Mark of Fordring",
+        "Name": "Onyxia Tooth Pendant",
         "Stats": {
-          "AP": 26,
+          "Agi": 12,
           "Crit": 1,
+          "Hit": 1,
         }
       },
       "Shoulders": {

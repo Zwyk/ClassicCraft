@@ -186,11 +186,20 @@ namespace ClassicCraft
             }
         }
 
+        public enum Forms
+        {
+            Human,
+            Bear,
+            Cat,
+        }
+
         #endregion
 
         #region Propriétés
 
         public static double GCD = 1.5;
+
+        public Forms Form { get; set; }
 
         private int resource;
         public int Resource
@@ -461,6 +470,8 @@ namespace ClassicCraft
             MPTRatio = 1;
             CastingRegenPct = 0;
 
+            Form = Forms.Human;
+
             BonusAttributes = new Attributes();
         }
 
@@ -621,7 +632,7 @@ namespace ClassicCraft
 
         public bool DualWielding()
         {
-            return OH != null;
+            return !MH.TwoHanded && OH != null;
         }
 
         public void StartGCD()

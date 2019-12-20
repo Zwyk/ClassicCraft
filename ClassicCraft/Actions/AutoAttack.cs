@@ -12,7 +12,7 @@ namespace ClassicCraft
         public Weapon Weapon { get; set; }
 
         public AutoAttack(Player p, Weapon weapon, bool mh)
-            : base(p, p.Class == Player.Classes.Druid ? 1 : weapon.Speed)
+            : base(p, weapon.Speed)
         {
             Weapon = weapon;
             MH = mh;
@@ -33,8 +33,8 @@ namespace ClassicCraft
         {
             ResultType res = Player.WhiteAttackEnemy(Player.Sim.Boss, MH);
 
-            int minDmg = (int)Math.Round((Player.Class == Player.Classes.Druid ? Player.Level * 0.85 : (Weapon.DamageMin + Weapon.Speed)) + (Player.AP + bonusAP) / 14);
-            int maxDmg = (int)Math.Round((Player.Class == Player.Classes.Druid ? Player.Level * 1.25 : (Weapon.DamageMax + Weapon.Speed)) + (Player.AP + bonusAP) / 14);
+            int minDmg = (int)Math.Round((Player.Form == Player.Forms.Cat ? Player.Level * 0.85 : (Weapon.DamageMin + Weapon.Speed)) + (Player.AP + bonusAP) / 14);
+            int maxDmg = (int)Math.Round((Player.Form == Player.Forms.Cat ? Player.Level * 1.25 : (Weapon.DamageMax + Weapon.Speed)) + (Player.AP + bonusAP) / 14);
 
             double baseDamage = 
                 Randomer.Next(minDmg, maxDmg + 1)
@@ -45,7 +45,6 @@ namespace ClassicCraft
 
             if (Player.Class == Player.Classes.Warrior)
             {
-                //Player.Resource += (int)Math.Round(Simulation.RageGained(damage, Weapon.Speed, res, MH, Player.Level));
                 Player.Resource += (int)Math.Round(Simulation.RageGained(damage, Player.Level));
             }
 
@@ -83,7 +82,8 @@ namespace ClassicCraft
                     UnbridledWrath.CheckProc(Player, res, Player.GetTalentPoints("UW"));
                 }
             }
-            if (Player.Class != Player.Classes.Druid)
+
+            if (Player.Form == Player.Forms.Human)
             {
                 if ((MH && Player.MH.Enchantment != null && Player.MH.Enchantment.Name == "Crusader") || (!MH && Player.OH.Enchantment != null && Player.OH.Enchantment.Name == "Crusader"))
                 {
@@ -109,7 +109,12 @@ namespace ClassicCraft
 
         public void NextAA()
         {
-            LockedUntil += BaseCD / Player.HasteMod;
+            LockedUntil += CurrentSpeed();
+        }
+
+        public double CurrentSpeed()
+        {
+            return (Player.Form == Player.Forms.Cat ? 1 : BaseCD) / Player.HasteMod;
         }
 
         public override string ToString()

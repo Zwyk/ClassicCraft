@@ -67,22 +67,17 @@ namespace ClassicCraft
 
         private void Druid()
         {
-            List<AutoAttack> autos = new List<AutoAttack>();
-
-            autos.Add(new AutoAttack(Player, Player.MH, true));
+            AutoAttack auto = new AutoAttack(Player, Player.MH, true);
             CurrentTime = 0;
             Boss.LifePct = 1;
             
             Shred shred = new Shred(Player);
-            shred.Cost -= Player.GetTalentPoints("IS") * 6;
             FerociousBite fb = new FerociousBite(Player);
             Shift shift = new Shift(Player);
             MCP mcp = new MCP(Player);
             Innervate innerv = new Innervate(Player);
 
             Player.HasteMod = Player.CalcHaste();
-
-            bool shifted = true;
 
             Player.Resource = 100;
             Player.Mana = Player.MaxMana;
@@ -128,7 +123,7 @@ namespace ClassicCraft
                 }
                 else if (rota == 1)
                 {
-                    if(shifted)
+                    if(Player.Form == Player.Forms.Cat)
                     {
                         if (shred.CanUse() && (
                             Player.Combo < 5
@@ -142,29 +137,28 @@ namespace ClassicCraft
                         {
                             fb.Cast();
                         }
-                        else if (Player.Resource < 28 && shift.CanUse() && (innerv.Available() || Player.Effects.Any(e => e is InnervateBuff) || ((int)((double)Player.Mana / shift.Cost)) * 3.5 + 5 >= FightLength - CurrentTime || !(Player.ManaTicking() && Player.Mana + Player.MPT() < Player.MaxMana)))
+                        else if (Player.Resource < shred.Cost - 20 && shift.CanUse() && (innerv.Available() || Player.Effects.Any(e => e is InnervateBuff) || ((int)((double)Player.Mana / shift.Cost)) * 4 + 5 >= FightLength - CurrentTime || !(Player.ManaTicking() && Player.Mana + Player.MPT() < Player.MaxMana)))
                         {
                             shift.Cast();
                         }
                         else if (Player.Mana < shift.Cost && innerv.CanUse())
                         {
+                            Player.Form = Player.Forms.Human;
+                            ResetAATimer(auto);
                             innerv.Cast();
-                            shifted = false;
                         }
                     }
-                    else if(shift.CanUse())
+                    else if(Player.Form == Player.Forms.Human && shift.CanUse())
                     {
+                        Player.Form = Player.Forms.Cat;
+                        ResetAATimer(auto);
                         shift.Cast();
-                        shifted = true;
                     }
                 }
-
-                foreach (AutoAttack a in autos)
+                
+                if (auto.Available())
                 {
-                    if (a.Available())
-                    {
-                        a.Cast();
-                    }
+                    auto.Cast();
                 }
 
                 Player.Effects.RemoveAll(e => e.Ended);
@@ -367,6 +361,19 @@ namespace ClassicCraft
             Program.AddSimResult(Results);
 
             Ended = true;
+        }
+
+        private void ResetAATimer(AutoAttack auto)
+        {
+            auto.NextAA();
+        }
+
+        private void ResetAATimers(List<AutoAttack> autos)
+        {
+            foreach (AutoAttack a in autos)
+            {
+                ResetAATimer(a);
+            }
         }
 
         public void RegisterAction(RegisteredAction action)

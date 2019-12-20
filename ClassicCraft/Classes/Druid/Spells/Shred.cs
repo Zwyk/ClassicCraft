@@ -14,7 +14,7 @@ namespace ClassicCraft
         static Random random = new Random();
 
         public Shred(Player p)
-            : base(p, CD, COST) { }
+            : base(p, CD, COST - p.GetTalentPoints("IS") * 6) { }
 
         public override void Cast()
         {
