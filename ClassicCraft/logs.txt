@@ -1,4 +1,4 @@
-Date : 2019/12/15 23:47:20
+Date : 2019/12/21 13:20:46
 
 Fight length : 120 seconds (+/- 20%)
 
@@ -8,17 +8,21 @@ Tauren Druid level 60 | Stats : [Strength:232,8][Agility:203][Stamina:72][Intell
 Boss (after raid debuffs) :
 Level 63, 336 Armor (5,76% mitigation)
 
-72924 simulations done in 49 290,17 ms, for 0,68 ms by sim
+10446 simulations done in 6 676,16 ms, for 0,64 ms by sim
 Overall accuracy of results : +/- 0,09%
+Nb simulations : 10446
+Error Percent : 0,09%
 
-Base : 520,96 DPS
-
-Weights by DPS :
-1 AP = 0,2023 DPS
-1 Str = 0,4856 DPS = 2,4000 AP
-1 Agi = 0,4644 DPS = 2,2956 AP
-1% Crit = 5,2424 DPS = 25,9111 AP
-1% Hit = 0,0000 DPS = 0,0000 AP
-1% Haste = 3,5038 DPS = 17,3181 AP
-1 Int = 0,1806 DPS = 0,8926 AP
-1 Spi = 0,1695 DPS = 0,8375 AP
+Average DPS : 520,99 dps (+/- 0,24)
+Average DPS [AA MH] : 249,69 dps (47,93%)
+	Average of 170,88 damage for 175,35 uses (or 1 use every 0,68s)
+	0,00% Miss, 73,32% Hit, 21,09% Crit, 0,00% Glancing, 5,59% Other
+Average DPS [Shred] : 194,77 dps (37,39%)
+	Average of 631,91 damage for 36,99 uses (or 1 use every 3,24s)
+	0,00% Miss, 74,50% Hit, 19,91% Crit, 0,00% Glancing, 5,59% Other
+Average DPS [Ferocious Bite] : 76,09 dps (14,61%)
+	Average of 1 190,88 damage for 7,67 uses (or 1 use every 15,65s)
+	0,00% Miss, 74,56% Hit, 19,94% Crit, 0,00% Glancing, 5,50% Other
+Average DPS [Shift] : 0,00 dps (0,00%)
+	Average of 0,00 damage for 12,36 uses (or 1 use every 9,71s)
+	0,00% Miss, 100,00% Hit, 0,00% Crit, 0,00% Glancing, 0,00% Other

@@ -372,6 +372,10 @@ namespace ClassicCraft
                 Console.WriteLine(endMsg2);
                 Log(endMsg2);
 
+                string endMsg3 = string.Format("Generating statistics...");
+                Console.WriteLine(endMsg3);
+                Log(endMsg3);
+
                 if (statsWeights)
                 {
                     double baseDps = DamagesList["Base"].Average();
@@ -436,98 +440,39 @@ namespace ClassicCraft
 
                     Log(string.Format("Nb simulations : {0}", CurrentDpsList.Count));
                     Log(string.Format("Error Percent : {0:N2}%", Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average())));
-                    Log(string.Format("Average DPS : {0:N2} dps (+/- {1:N2})", avgDps, Stats.MeanStdDev(CurrentDpsList.ToArray())));
+                    Log(string.Format("\nAverage DPS : {0:N2} dps (+/- {1:N2})", avgDps, Stats.MeanStdDev(CurrentDpsList.ToArray())));
 
-                    double totalAA = totalActions.Select(a => a.Where(t => t.Action is AutoAttack).Count()).Sum();
-                    if (totalAA > 0)
-                    {
-                        double avgDpsAA = totalActions.Average(a => a.Where(t => t.Action is AutoAttack).Sum(r => r.Result.Damage / fightLength));
-                        double avgUseAA = totalActions.Average(a => a.Count(t => t.Action is AutoAttack));
-                        double avgDmgAA = totalActions.Sum(a => a.Where(t => t.Action is AutoAttack).Sum(r => r.Result.Damage / totalAA));
-                        Log(string.Format("Average DPS [Auto Attack] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsAA, avgDmgAA, avgUseAA, fightLength / avgUseAA, avgDpsAA / avgDps * 100));
-                    }
+                    List<string> actionStat = new List<string>() { "AA MH", "AA OH" };
 
                     if (playerBase.Class == Player.Classes.Druid)
                     {
-                        double totalSH = totalActions.Select(a => a.Where(t => t.Action is Shred).Count()).Sum();
-                        double totalFB = totalActions.Select(a => a.Where(t => t.Action is FerociousBite).Count()).Sum();
-                        double totalShift = totalActions.Select(a => a.Where(t => t.Action is Shift).Count()).Sum();
-
-                        if (totalSH > 0)
-                        {
-                            double avgSpellDps = totalActions.Average(a => a.Where(t => t.Action is Shred).Sum(r => r.Result.Damage / fightLength));
-                            double avgUse = totalActions.Average(a => a.Count(t => t.Action is Shred));
-                            double avgDmg = totalActions.Sum(a => a.Where(t => t.Action is Shred).Sum(r => r.Result.Damage / totalSH));
-                            Log(string.Format("Average DPS [Shred] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgSpellDps, avgDmg, avgUse, fightLength / avgUse, avgSpellDps / avgDps * 100));
-                        }
-                        if (totalFB > 0)
-                        {
-                            double avgSpellDps = totalActions.Average(a => a.Where(t => t.Action is FerociousBite).Sum(r => r.Result.Damage / fightLength));
-                            double avgUse = totalActions.Average(a => a.Count(t => t.Action is FerociousBite));
-                            double avgDmg = totalActions.Sum(a => a.Where(t => t.Action is FerociousBite).Sum(r => r.Result.Damage / totalFB));
-                            Log(string.Format("Average DPS [Ferocious Bite] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgSpellDps, avgDmg, avgUse, fightLength / avgUse, avgSpellDps / avgDps * 100));
-                        }
-                        if (totalShift > 0)
-                        {
-                            double avgUse = totalActions.Average(a => a.Count(t => t.Action is Shift));
-                            Log(string.Format("[Shift] : {0:N2} uses or 1 use every {1:N2}s", avgUse, fightLength / avgUse));
-                        }
+                        actionStat.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift" });
                     }
                     else if(playerBase.Class == Player.Classes.Warrior)
                     {
-                        double totalBT = totalActions.Select(a => a.Where(t => t.Action is Bloodthirst).Count()).Sum();
-                        double totalWW = totalActions.Select(a => a.Where(t => t.Action is Whirlwind).Count()).Sum();
-                        double totalHS = totalActions.Select(a => a.Where(t => t.Action is HeroicStrike).Count()).Sum();
-                        double totalDW = totalEffects.Select(a => a.Where(t => t.Effect is DeepWounds).Count()).Sum();
-                        double totalExec = totalActions.Select(a => a.Where(t => t.Action is Execute).Count()).Sum();
-                        double totalHam = totalActions.Select(a => a.Where(t => t.Action is Hamstring).Count()).Sum();
+                        actionStat.AddRange(new List<string>() { "Bloodthirst", "Whirlwind", "Heroic Strike", "Execute", "Deep Wounds", "Hamstring" });
+                    }
 
-                        if (totalBT > 0)
+                    foreach(string ac in actionStat)
+                    {
+                        double totalAc = totalActions.Select(a => a.Where(t => t.Action.ToString().Equals(ac)).Count()).Sum();
+                        if(totalAc > 0)
                         {
-                            double avgDpsBT = totalActions.Average(a => a.Where(t => t.Action is Bloodthirst).Sum(r => r.Result.Damage / fightLength));
-                            double avgUseBT = totalActions.Average(a => a.Count(t => t.Action is Bloodthirst));
-                            double avgDmgBT = totalActions.Sum(a => a.Where(t => t.Action is Bloodthirst).Sum(r => r.Result.Damage / totalBT));
-                            Log(string.Format("Average DPS [Bloodthirst] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsBT, avgDmgBT, avgUseBT, fightLength / avgUseBT, avgDpsBT / avgDps * 100));
-                        }
-                        if (totalWW > 0)
-                        {
-                            double avgDpsWW = totalActions.Average(a => a.Where(t => t.Action is Whirlwind).Sum(r => r.Result.Damage / fightLength));
-                            double avgUseWW = totalActions.Average(a => a.Count(t => t.Action is Whirlwind));
-                            double avgDmgWW = totalActions.Sum(a => a.Where(t => t.Action is Whirlwind).Sum(r => r.Result.Damage / totalWW));
-                            Log(string.Format("Average DPS [Whirlwind] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsWW, avgDmgWW, avgUseWW, fightLength / avgUseWW, avgDpsWW / avgDps * 100));
-                        }
-                        if (totalHS > 0)
-                        {
-                            double avgDpsHS = totalActions.Average(a => a.Where(t => t.Action is HeroicStrike).Sum(r => r.Result.Damage / fightLength));
-                            double avgUseHS = totalActions.Average(a => a.Count(t => t.Action is HeroicStrike));
-                            double avgDmgHS = totalActions.Sum(a => a.Where(t => t.Action is HeroicStrike).Sum(r => r.Result.Damage / totalHS));
-                            Log(string.Format("Average DPS [Heroic Strike] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsHS, avgDmgHS, avgUseHS, fightLength / avgUseHS, avgDpsHS / avgDps * 100));
-                        }
-                        if (totalHam > 0)
-                        {
-                            double avgDpsHam = totalActions.Average(a => a.Where(t => t.Action is Hamstring).Sum(r => r.Result.Damage / fightLength));
-                            double avgUseHam = totalActions.Average(a => a.Count(t => t.Action is Hamstring));
-                            double avgDmgHam = totalActions.Sum(a => a.Where(t => t.Action is Hamstring).Sum(r => r.Result.Damage / totalExec));
-                            Log(string.Format("Average DPS [Hamstring] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsHam, avgDmgHam, avgUseHam, fightLength / avgUseHam, avgDpsHam / avgDps * 100));
-                        }
-                        if (totalExec > 0)
-                        {
-                            double avgDpsExec = totalActions.Average(a => a.Where(t => t.Action is Execute).Sum(r => r.Result.Damage / fightLength));
-                            double avgUseExec = totalActions.Average(a => a.Count(t => t.Action is Execute));
-                            double avgDmgExec = totalActions.Sum(a => a.Where(t => t.Action is Execute).Sum(r => r.Result.Damage / totalExec));
-                            Log(string.Format("Average DPS [Execute] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} uses or 1 use every {3:N2}s", avgDpsExec, avgDmgExec, avgUseExec, fightLength / avgUseExec, avgDpsExec / avgDps * 100));
-                        }
-                        if (totalDW > 0)
-                        {
-                            double avgDpsDW = totalEffects.Average(a => a.Where(t => t.Effect is DeepWounds).Sum(r => r.Damage / fightLength));
-                            double avgUseDW = totalEffects.Average(a => a.Count(t => t.Effect is DeepWounds));
-                            double avgDmgDW = totalEffects.Sum(a => a.Where(t => t.Effect is DeepWounds).Sum(r => r.Damage / totalDW));
-                            Log(string.Format("Average DPS [Deep Wounds] : {0:N2} dps ({4:N2}%), average of {1:N2} damage for {2:N2} ticks or 1 tick every {3:N2}s", avgDpsDW, avgDmgDW, avgUseDW, fightLength / avgUseDW, avgDpsDW / avgDps * 100));
+                            double avgAcUse = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac)));
+                            double avgAcDps = totalActions.Average(a => a.Where(t => t.Action.ToString().Equals(ac)).Sum(r => r.Result.Damage / fightLength));
+                            double avgAcDmg = totalActions.Sum(a => a.Where(t => t.Action.ToString().Equals(ac)).Sum(r => r.Result.Damage / totalAc));
+                            string res = "Average stats for [" + ac + "] : ";
+                            res += string.Format("{0:N2} DPS ({1:N2}%)\n\tAverage of {2:N2} damage for {3:N2} uses (or 1 use every {4:N2}s)", avgAcDps, avgAcDps / avgDps * 100, avgAcDmg, avgAcUse, fightLength / avgAcUse);
+                            double avgAcHit = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Hit));
+                            double avgAcCrit = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Crit));
+                            double avgAcMiss = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Miss));
+                            res += string.Format("\n\t{0:N2}% Miss, {1:N2}% Hit, {2:N2}% Crit, {3:N2}% Other", avgAcMiss / avgAcUse * 100, avgAcHit / avgAcUse * 100, avgAcCrit / avgAcUse * 100, (1 - (avgAcHit + avgAcCrit + avgAcMiss) / avgAcUse) * 100);
+                            Log(res);
                         }
                     }
                 }
 
-                if(!debug)
+                if (!debug)
                 {
                     Directory.CreateDirectory(logsFileDir);
                 }
