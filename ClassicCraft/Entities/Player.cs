@@ -383,6 +383,7 @@ namespace ClassicCraft
         public Classes Class { get; set; }
 
         public Action applyAtNextAA = null;
+        public int nextAABonus = 0;
 
         public Dictionary<Weapon.WeaponType, int> WeaponSkill { get; set; }
 
@@ -475,6 +476,112 @@ namespace ClassicCraft
             BonusAttributes = new Attributes();
         }
 
+        public void ExtraAA(bool wf = false)
+        {
+            if(wf) nextAABonus = 315;
+            if (applyAtNextAA != null)
+            {
+                applyAtNextAA.DoAction();
+            }
+            else
+            {
+                Sim.autos[0].DoAA(true, wf);
+            }
+            Sim.autos[0].NextAA();
+        }
+
+        public void CheckOnHits(bool isMH, ResultType res, bool extra = false, bool wf = false)
+        {
+            if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glancing)
+            {
+                if (Class == Classes.Druid)
+                {
+                    if (GetTalentPoints("OC") > 0
+                        && Randomer.NextDouble() < ClearCasting.PROC_RATE)
+                    {
+                        if (Effects.Any(e => e is ClearCasting))
+                        {
+                            Effects.Where(e => e is ClearCasting).First().Refresh();
+                        }
+                        else
+                        {
+                            ClearCasting ob = new ClearCasting(this);
+                            ob.StartBuff();
+                        }
+                    }
+                }
+                else if (Class == Classes.Warrior)
+                {
+                    if (GetTalentPoints("DW") > 0)
+                    {
+                        DeepWounds.CheckProc(this, res, GetTalentPoints("DW"));
+                    }
+                    if (GetTalentPoints("Flurry") > 0)
+                    {
+                        Flurry.CheckProc(this, res, GetTalentPoints("Flurry"), extra);
+                    }
+                    if (GetTalentPoints("UW") > 0)
+                    {
+                        UnbridledWrath.CheckProc(this, res, GetTalentPoints("UW"));
+                    }
+                }
+
+                if (Form == Forms.Human)
+                {
+                    if ((isMH && MH.Enchantment != null && MH.Enchantment.Name == "Crusader") || (!isMH && OH.Enchantment != null && OH.Enchantment.Name == "Crusader"))
+                    {
+                        Crusader.CheckProc(this, res, MH.Speed);
+                    }
+
+                    if (isMH && !wf && WindfuryTotem)
+                    {
+                        if (Randomer.NextDouble() < 0.2)
+                        {
+                            if (Program.logFight)
+                            {
+                                Program.Log(string.Format("{0:N2} : Windfury procs", Sim.CurrentTime));
+                            }
+
+                            ExtraAA(true);
+                        }
+                    }
+                }
+
+                if ((Equipment[Slot.Trinket1]?.Name == "Hand of Justice" || Equipment[Slot.Trinket2]?.Name == "Hand of Justice") && Randomer.NextDouble() < 0.02)
+                {
+                    if (Program.logFight)
+                    {
+                        Program.Log(string.Format("{0:N2} : Hand of Justice procs", Sim.CurrentTime));
+                    }
+                    ExtraAA();
+                }
+                if (((isMH && MH?.Name == "Flurry Axe") || (!isMH && OH?.Name == "Flury Axe")) && Randomer.NextDouble() < 0.0466)
+                {
+                    if (Program.logFight)
+                    {
+                        Program.Log(string.Format("{0:N2} : Flurry Axe procs", Sim.CurrentTime));
+                    }
+                    ExtraAA();
+                }
+                if (((isMH && MH?.Name == "Thrash Blade") || (!isMH && OH?.Name == "Thrash Blade")) && Randomer.NextDouble() < 0.044)
+                {
+                    if (Program.logFight)
+                    {
+                        Program.Log(string.Format("{0:N2} : Thrash Blade procs", Sim.CurrentTime));
+                    }
+                    ExtraAA();
+                }
+                if (((isMH && MH?.Name == "Deathbringer") || (!isMH && OH?.Name == "Deathbringer")) && Randomer.NextDouble() < 0.044)
+                {
+                    if (Program.logFight)
+                    {
+                        Program.Log(string.Format("{0:N2} : Deathbringer procs", Sim.CurrentTime));
+                    }
+                    
+                }
+            }
+        }
+
         public void CalculateHitChances(Entity enemy = null)
         {
             if(enemy == null)
@@ -486,9 +593,9 @@ namespace ClassicCraft
             whiteHitChancesMH.Add(ResultType.Miss, MissChance(DualWielding(), HitRating, WeaponSkill[MH.Type], enemy.Level));
             whiteHitChancesMH.Add(ResultType.Dodge, enemy.DodgeChance(WeaponSkill[MH.Type]));
             whiteHitChancesMH.Add(ResultType.Parry, enemy.ParryChance());
-            whiteHitChancesMH.Add(ResultType.Glancing, GlancingChance(WeaponSkill[MH.Type], enemy.Level));
+            whiteHitChancesMH.Add(ResultType.Glancing, GlancingChance(Level, enemy.Level));
             whiteHitChancesMH.Add(ResultType.Block, enemy.BlockChance());
-            whiteHitChancesMH.Add(ResultType.Crit, RealCritChance(CritRating, whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glancing], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
+            whiteHitChancesMH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritRating + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glancing], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
             whiteHitChancesMH.Add(ResultType.Hit, RealHitChance(whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glancing], whiteHitChancesMH[ResultType.Crit], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
 
             Dictionary<ResultType, double> whiteHitChancesOH = null;
@@ -498,9 +605,9 @@ namespace ClassicCraft
                 whiteHitChancesOH.Add(ResultType.Miss, MissChance(true, HitRating + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.HitChance)), WeaponSkill[OH.Type], enemy.Level));
                 whiteHitChancesOH.Add(ResultType.Dodge, enemy.DodgeChance(WeaponSkill[OH.Type]));
                 whiteHitChancesOH.Add(ResultType.Parry, enemy.ParryChance());
-                whiteHitChancesOH.Add(ResultType.Glancing, GlancingChance(WeaponSkill[OH.Type], enemy.Level));
+                whiteHitChancesOH.Add(ResultType.Glancing, GlancingChance(Level, enemy.Level));
                 whiteHitChancesOH.Add(ResultType.Block, enemy.BlockChance());
-                whiteHitChancesOH.Add(ResultType.Crit, RealCritChance(CritRating + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.CritChance)), whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glancing], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
+                whiteHitChancesOH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritRating + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glancing], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
                 whiteHitChancesOH.Add(ResultType.Hit, RealHitChance(whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glancing], whiteHitChancesOH[ResultType.Crit], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
             }
 
@@ -509,7 +616,7 @@ namespace ClassicCraft
             yellowHitChances.Add(ResultType.Dodge, enemy.DodgeChance(WeaponSkill[MH.Type]));
             yellowHitChances.Add(ResultType.Parry, enemy.ParryChance());
             yellowHitChances.Add(ResultType.Block, enemy.BlockChance());
-            yellowHitChances.Add(ResultType.Crit, RealCritChanceYellow(CritRating, yellowHitChances[ResultType.Miss], yellowHitChances[ResultType.Dodge]));
+            yellowHitChances.Add(ResultType.Crit, RealCritChanceYellow(CritWithSuppression(CritRating + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), yellowHitChances[ResultType.Miss], yellowHitChances[ResultType.Dodge]));
             yellowHitChances.Add(ResultType.Hit, RealHitChanceYellow(yellowHitChances[ResultType.Crit], yellowHitChances[ResultType.Miss], yellowHitChances[ResultType.Dodge]));
 
             if (HitChancesByEnemy.ContainsKey(enemy))
@@ -522,15 +629,20 @@ namespace ClassicCraft
             }
         }
 
+        public static double CritWithSuppression(double critChance, int level, int enemyLevel)
+        {
+            int skillDif = level * 5 - enemyLevel * 5;
+            return critChance + skillDif * (skillDif >= 0 ? 0.0004 : 0.002);
+        }
+
         #region WhiteAttackChances
 
-        // TODO : Revoir les valeurs pour Classic par rapport au weapon skill
         public static double MissChance(bool dualWield, double hitRating, int skill, int enemyLevel)
         {
             int enemySkill = enemyLevel * 5;
-            int skillDif = Math.Abs(enemySkill - skill);
+            int skillDif = enemySkill - skill;
 
-            return Math.Max(0, BASE_MISS + (dualWield ? 0.19 : 0) - hitRating + (skillDif > 10 ? 0.02 : 0) + (skillDif > 10 ? (enemySkill - skill - 10) * 0.004 : (enemySkill - skill) * 0.001));
+            return Math.Max(0, BASE_MISS + (dualWield ? 0.19 : 0) - hitRating + (skillDif > 10 ? 0.01 : 0) + skillDif * (skillDif > 10 ? 0.002 : 0.001));
         }
 
         public static double GlancingChance(int level, int enemyLevel)
@@ -556,9 +668,9 @@ namespace ClassicCraft
         public static double MissChanceYellow(double hitRating, int skill, int enemyLevel)
         {
             int enemySkill = enemyLevel * 5;
-            int skillDif = Math.Abs(enemySkill - skill);
+            int skillDif = enemySkill - skill;
 
-            return Math.Max(0, BASE_MISS - hitRating + (skillDif > 10 ? 0.02 : 0) + (skillDif > 10 ? (enemySkill - skill - 10) * 0.004 : (enemySkill - skill) * 0.001));
+            return Math.Max(0, BASE_MISS - hitRating + (skillDif > 10 ? 0.01 : 0) + skillDif * (skillDif > 10 ? 0.002 : 0.001));
         }
 
         public static double RealCritChanceYellow(double netCritChance, double realMiss, double enemyDodgeChance)

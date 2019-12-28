@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class AutoAttack : Action
+    public class AutoAttack : Action
     {
         public bool MH { get; set; }
         public Weapon Weapon { get; set; }
@@ -29,12 +29,14 @@ namespace ClassicCraft
             NextAA();
         }
 
-        public void DoAA(int bonusAP = 0, bool didWf = false)
+        public void DoAA(bool extra = false, bool wf = false)
         {
             ResultType res = Player.WhiteAttackEnemy(Player.Sim.Boss, MH);
 
-            int minDmg = (int)Math.Round((Player.Form == Player.Forms.Cat ? Player.Level * 0.85 : (Weapon.DamageMin + Weapon.Speed)) + (Player.AP + bonusAP) / 14);
-            int maxDmg = (int)Math.Round((Player.Form == Player.Forms.Cat ? Player.Level * 1.25 : (Weapon.DamageMax + Weapon.Speed)) + (Player.AP + bonusAP) / 14);
+            int minDmg = (int)Math.Round((Player.Form == Player.Forms.Cat ? Player.Level * 0.85 : (Weapon.DamageMin + Weapon.Speed)) + (Player.AP + Player.nextAABonus) / 14);
+            int maxDmg = (int)Math.Round((Player.Form == Player.Forms.Cat ? Player.Level * 1.25 : (Weapon.DamageMax + Weapon.Speed)) + (Player.AP + Player.nextAABonus) / 14);
+
+            Player.nextAABonus = 0;
 
             double baseDamage = 
                 Randomer.Next(minDmg, maxDmg + 1)
@@ -49,62 +51,8 @@ namespace ClassicCraft
             }
 
             RegisterDamage(new ActionResult(res, damage));
-
-            if(Player.Class == Player.Classes.Druid)
-            {
-                if (Player.GetTalentPoints("OC") > 0 
-                    && (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Glancing || res == ResultType.Block) 
-                    && Randomer.NextDouble() < ClearCasting.PROC_RATE)
-                {
-                    if (Player.Effects.Any(e => e is ClearCasting))
-                    {
-                        Player.Effects.Where(e => e is ClearCasting).First().Refresh();
-                    }
-                    else
-                    {
-                        ClearCasting ob = new ClearCasting(Player);
-                        ob.StartBuff();
-                    }
-                }
-            }
-            else if(Player.Class == Player.Classes.Warrior)
-            {
-                if (Player.GetTalentPoints("DW") > 0)
-                {
-                    DeepWounds.CheckProc(Player, res, Player.GetTalentPoints("DW"));
-                }
-                if (Player.GetTalentPoints("Flurry") > 0)
-                {
-                    Flurry.CheckProc(Player, res, Player.GetTalentPoints("Flurry"), didWf);
-                }
-                if (Player.GetTalentPoints("UW") > 0)
-                {
-                    UnbridledWrath.CheckProc(Player, res, Player.GetTalentPoints("UW"));
-                }
-            }
-
-            if (Player.Form == Player.Forms.Human)
-            {
-                if ((MH && Player.MH.Enchantment != null && Player.MH.Enchantment.Name == "Crusader") || (!MH && Player.OH.Enchantment != null && Player.OH.Enchantment.Name == "Crusader"))
-                {
-                    Crusader.CheckProc(Player, res, Weapon.Speed);
-                }
-
-                if (MH && !didWf && Player.WindfuryTotem)
-                {
-                    if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glancing)
-                    {
-                        if (Randomer.NextDouble() < 0.2)
-                        {
-                            if (Program.logFight)
-                            {
-                                Program.Log(string.Format("{0:N2} : Windfury procs", Player.Sim.CurrentTime));
-                            }
-                            DoAA(315, true);
-                        }
-                    }
-                }
-            }
+            
+            Player.CheckOnHits(MH, res, extra, wf);
         }
 
         public void NextAA()

@@ -38,8 +38,10 @@ namespace ClassicCraft
             
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
 
-            int minDmg = (int)Math.Round(weapon.DamageMin + weapon.Speed * Player.AP / 14);
-            int maxDmg = (int)Math.Round(weapon.DamageMax + weapon.Speed * Player.AP / 14);
+            int minDmg = (int)Math.Round(weapon.DamageMin + weapon.Speed * (Player.AP + Player.nextAABonus) / 14);
+            int maxDmg = (int)Math.Round(weapon.DamageMax + weapon.Speed * (Player.AP + Player.nextAABonus) / 14);
+
+            Player.nextAABonus = 0;
 
             int damage = (int)Math.Round((random.Next(minDmg, maxDmg + 1) + 157)
                 * Player.Sim.DamageMod(res)
@@ -59,22 +61,7 @@ namespace ClassicCraft
 
             RegisterDamage(new ActionResult(res, damage));
 
-            if (Player.GetTalentPoints("DW") > 0)
-            {
-                DeepWounds.CheckProc(Player, res, Player.GetTalentPoints("DW"));
-            }
-            if (Player.GetTalentPoints("Flurry") > 0)
-            {
-                Flurry.CheckProc(Player, res, Player.GetTalentPoints("Flurry"));
-            }
-            if (Player.GetTalentPoints("UW") > 0)
-            {
-                UnbridledWrath.CheckProc(Player, res, Player.GetTalentPoints("UW"));
-            }
-            if (Player.MH.Enchantment != null && Player.MH.Enchantment.Name == "Crusader")
-            {
-                Crusader.CheckProc(Player, res, Player.MH.Speed);
-            }
+            Player.CheckOnHits(true, res);
         }
 
         public override string ToString()

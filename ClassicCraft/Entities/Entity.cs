@@ -52,7 +52,7 @@ namespace ClassicCraft
 
         public double DodgeChance(int attackerSkill)
         {
-            return Math.Max(0.05 + 0.0004 * Math.Abs(Level * 5 - attackerSkill), 0);
+            return Math.Max(0.05 + 0.001 * (Level * 5 - attackerSkill), 0);
         }
 
         public abstract double BlockChance();

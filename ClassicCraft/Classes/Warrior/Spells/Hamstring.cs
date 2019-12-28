@@ -39,18 +39,7 @@ namespace ClassicCraft
 
             RegisterDamage(new ActionResult(res, damage));
 
-            if (Player.GetTalentPoints("DW") > 0)
-            {
-                DeepWounds.CheckProc(Player, res, Player.GetTalentPoints("DW"));
-            }
-            if (Player.GetTalentPoints("Flurry") > 0)
-            {
-                Flurry.CheckProc(Player, res, Player.GetTalentPoints("Flurry"));
-            }
-            if (Player.MH.Enchantment != null && Player.MH.Enchantment.Name == "Crusader")
-            {
-                Crusader.CheckProc(Player, res, Player.MH.Speed);
-            }
+            Player.CheckOnHits(true, res);
         }
 
         public override string ToString()

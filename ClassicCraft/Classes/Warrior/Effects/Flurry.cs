@@ -16,7 +16,7 @@ namespace ClassicCraft
             Haste = 1 + 0.1 + ((points - 1) * 0.05);
         }
 
-        public static void CheckProc(Player p, ResultType type, int points, bool windfuryaa = false)
+        public static void CheckProc(Player p, ResultType type, int points, bool extraAA = false)
         {
             if (p.Effects.Any(e => e is Flurry && e.CurrentStacks > 0))
             {
@@ -25,7 +25,7 @@ namespace ClassicCraft
                 {
                     current.Refresh();
                 }
-                else if(!windfuryaa)
+                else if(!extraAA)
                 {
                     current.StackRemove();
                 }

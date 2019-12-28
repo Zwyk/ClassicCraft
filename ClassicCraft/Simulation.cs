@@ -38,6 +38,8 @@ namespace ClassicCraft
 
         public bool Ended { get; set; }
 
+        public List<AutoAttack> autos = new List<AutoAttack>();
+
         public static Random random = new Random();
 
         public Simulation(Player player, Boss boss, double fightLength, bool autoBossLife = true, double lowLifeTime = 0, double fightLengthMod = 0.2)
@@ -67,7 +69,8 @@ namespace ClassicCraft
 
         private void Druid()
         {
-            AutoAttack auto = new AutoAttack(Player, Player.MH, true);
+            autos.Add(new AutoAttack(Player, Player.MH, true));
+
             CurrentTime = 0;
             Boss.LifePct = 1;
             
@@ -144,21 +147,21 @@ namespace ClassicCraft
                         else if (Player.Mana < shift.Cost && innerv.CanUse())
                         {
                             Player.Form = Player.Forms.Human;
-                            ResetAATimer(auto);
+                            ResetAATimer(autos[0]);
                             innerv.Cast();
                         }
                     }
                     else if(Player.Form == Player.Forms.Human && shift.CanUse())
                     {
                         Player.Form = Player.Forms.Cat;
-                        ResetAATimer(auto);
+                        ResetAATimer(autos[0]);
                         shift.Cast();
                     }
                 }
                 
-                if (auto.Available())
+                if (autos[0].Available())
                 {
-                    auto.Cast();
+                    autos[0].Cast();
                 }
 
                 Player.Effects.RemoveAll(e => e.Ended);
@@ -175,8 +178,6 @@ namespace ClassicCraft
 
         private void Warrior()
         {
-            List<AutoAttack> autos = new List<AutoAttack>();
-
             autos.Add(new AutoAttack(Player, Player.MH, true));
             if (Player.OH != null)
             {

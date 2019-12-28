@@ -79,6 +79,8 @@ namespace ClassicCraft
             }
 
             RegisterDamage(new ActionResult(res, damage));
+            
+            Player.CheckOnHits(true, res);
         }
 
         public override string ToString()

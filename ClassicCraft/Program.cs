@@ -442,6 +442,7 @@ namespace ClassicCraft
                     Log(string.Format("Error Percent : {0:N2}%", Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average())));
                     Log(string.Format("\nAverage DPS : {0:N2} dps (+/- {1:N2})", avgDps, Stats.MeanStdDev(CurrentDpsList.ToArray())));
 
+                    /*
                     List<string> actionStat = new List<string>() { "AA MH", "AA OH" };
 
                     if (playerBase.Class == Player.Classes.Druid)
@@ -452,24 +453,48 @@ namespace ClassicCraft
                     {
                         actionStat.AddRange(new List<string>() { "Bloodthirst", "Whirlwind", "Heroic Strike", "Execute", "Deep Wounds", "Hamstring" });
                     }
+                    */
 
-                    foreach(string ac in actionStat)
+                    List<string> logList = new List<string>();
+                    foreach (List<string> l in totalActions.Select(a => a.Select(t => t.Action.ToString())))
+                    {
+                        logList.AddRange(l.Distinct());
+                    }
+                    logList = logList.Distinct().OrderBy(a => a).ToList();
+
+                    foreach (string ac in logList)
                     {
                         double totalAc = totalActions.Select(a => a.Where(t => t.Action.ToString().Equals(ac)).Count()).Sum();
-                        if(totalAc > 0)
+                        if (totalAc > 0)
                         {
                             double avgAcUse = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac)));
                             double avgAcDps = totalActions.Average(a => a.Where(t => t.Action.ToString().Equals(ac)).Sum(r => r.Result.Damage / fightLength));
                             double avgAcDmg = totalActions.Sum(a => a.Where(t => t.Action.ToString().Equals(ac)).Sum(r => r.Result.Damage / totalAc));
                             string res = "Average stats for [" + ac + "] : ";
                             res += string.Format("{0:N2} DPS ({1:N2}%)\n\tAverage of {2:N2} damage for {3:N2} uses (or 1 use every {4:N2}s)", avgAcDps, avgAcDps / avgDps * 100, avgAcDmg, avgAcUse, fightLength / avgAcUse);
-                            double avgAcHit = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Hit));
-                            double avgAcCrit = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Crit));
-                            double avgAcMiss = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Miss));
-                            res += string.Format("\n\t{0:N2}% Miss, {1:N2}% Hit, {2:N2}% Crit, {3:N2}% Other", avgAcMiss / avgAcUse * 100, avgAcHit / avgAcUse * 100, avgAcCrit / avgAcUse * 100, (1 - (avgAcHit + avgAcCrit + avgAcMiss) / avgAcUse) * 100);
+                            double hitPct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Hit)) / avgAcUse * 100;
+                            double critPct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Crit)) / avgAcUse * 100;
+                            double missPct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Miss)) / avgAcUse * 100;
+                            double glancePct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Glancing)) / avgAcUse * 100;
+                            double dodgePct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Dodge)) / avgAcUse * 100;
+                            res += string.Format("\n\t{0:N2}% Miss, {1:N2}% Hit, {2:N2}% Crit, {3:N2}% Glancing, {4:N2}% Dodge", missPct, hitPct, critPct, glancePct, dodgePct);
                             Log(res);
                         }
                     }
+
+                    /*
+                    actionStat = new List<string>();
+                    foreach (List<string> l in totalEffects.Select(a => a.Select(t => t.Effect.ToString())))
+                    {
+                        actionStat.AddRange(l.Distinct());
+                    }
+                    actionStat = actionStat.Distinct().OrderBy(a => a).ToList();
+
+                    foreach (string ac in actionStat)
+                    {
+                        // TODO uptime of effects
+                    }
+                    */
                 }
 
                 if (!debug)

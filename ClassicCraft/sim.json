@@ -1,7 +1,7 @@
 {
   "FightLength": 120,
   "FightLengthMod": 0.2,
-  "TargetErrorPct": 0.1,
+  "TargetErrorPct": 0.5,
   "TargetError": true,
   "LogFight": false,
   "NbSim": 1,
@@ -221,9 +221,9 @@
         }
       },
       "Trinket2": {
-        "Name": "Blackhand's Breadth",
+        "Name": "Hand of Justice",
         "Stats": {
-          "Crit": 0
+          "AP": 20
         }
       },
     }
