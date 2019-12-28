@@ -1,24 +1,26 @@
 {
-  "FightLength": 300,
-  "TargetErrorPct": 0.1,
+  "FightLength": 120,
+  "FightLengthMod": 0.2,
+  "TargetErrorPct": 0.2,
   "TargetError": true,
   "LogFight": false,
   "NbSim": 1,
+  "StatsWeights": true,
   "BossAutoLife": true,
   "BossLowLifeTime": 0,
   "Boss" : {
     "Level": 63,
-    "Armor": 4400,
+    "Armor": 3731,
     "Debuffs": [
       "Sunder Armor",
       "Curse of Recklessness",
-      "Faerie Fire",
-      "Annihilator"
+      "Faerie Fire"
     ]
   },
   "Player": {
     "Race": "Orc",
     "Class": "Warrior",
+    "Talents": "30305001302-05050005525010051",
     "Cooldowns": {
       "Racial": true,
       "Death Wish": true,
@@ -29,6 +31,21 @@
     "Buffs": [
       {
         "Name": "Windfury Totem"
+      },
+      {
+        "Name": "Test",
+        "Stats": {
+          "Hit": 0,
+          "Crit": 0,
+          "AP": 0,
+          "Haste": 0,
+        }
+      },
+      {
+        "Name": "Battle Shout",
+        "Stats": {
+          "AP": 241
+        }
       },
       {
         "Name": "Trueshot Aura",
@@ -50,27 +67,21 @@
         }
       },
       {
+        "Name": "Ground Scorpok Assay",
+        "Stats": {
+          "Agi": 25,
+        }
+      },
+      {
         "Name": "R.O.I.D.S.",
         "Stats": {
           "Str": 25,
         }
       },
       {
-        "Name": "Juju Power",
+        "Name": "Blessed Sunfruit",
         "Stats": {
-          "Str": 30,
-        }
-      },
-      {
-        "Name": "Juju Might",
-        "Stats": {
-          "AP": 40,
-        }
-      },
-      {
-        "Name": "Smoked Desert Dumplings",
-        "Stats": {
-          "Str": 20,
+          "Str": 10,
         }
       },
       {
@@ -80,51 +91,56 @@
           "Crit": 2
         }
       },
+      {
+        "Name": "Juju Power",
+        "Stats": {
+          "AP": 40,
+        }
+      },
+      {
+        "Name": "Juju Might",
+        "Stats": {
+          "Str": 30,
+        }
+      },
     ],
     "MH": {
-      "DamageMin": 119,
-      "DamageMax": 221,
-      "Speed": 2.6,
+      "DamageMin": 114,
+      "DamageMax": 213,
+      "Speed": 2.9,
       "TwoHanded": false,
       "Type": "Axe",
-      "Name": "Hatchet of Sundered Bone",
+      "Name": "Deathbringer",
       "Id": 0,
       "Slot": "Weapon",
-      "Enchantment": {
-        "Name": "Crusader"
-      },
       "Stats": {
-        "AP": 36,
-        "Crit": 1
+      },
+      "Enchantment":
+      {
+        "Name": "Crusader",
       }
     },
     "OH": {
-      "DamageMin": 101,
-      "DamageMax": 188,
-      "Speed": 2.3,
+      "DamageMin": 37,
+      "DamageMax": 69,
+      "Speed": 1.5,
       "TwoHanded": false,
       "Type": "Axe",
-      "Name": "Crul'shorukh, Edge of Chaos",
+      "Name": "Flurry Axe",
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
-        "AP": 36,
       },
-      "Enchantment": {
-        "Name": "Crusader"
-      },
-      "Buff": {
-        "Stats": {
-          "Crit": 2
-        }
+      "Enchantment":
+      {
+        "Name": "Crusader",
       }
     },
     "Ranged": {
-      "Type": "Crossbow",
-      "Name": "Crossbow of Imminent Doom",
+      "Type": "Bow",
+      "Name": "Striker's Mark",
       "Stats": {
-        "Str": 5,
-        "Agi": 7,
+        "AP": 22,
         "Hit": 1,
       }
     },
@@ -132,45 +148,37 @@
       "Head": {
         "Name": "Lionheart Helm",
         "Stats": {
-          "Str": 18,
-          "Crit": 2,
           "Hit": 2,
+          "Crit": 2,
+          "Str": 18,
         },
         "Enchantment": {
-          "Name": "Libram of Voracity Str",
+          "Name": "Lesser Arcane Amalgamation",
           "Stats": {
             "Str": 8
           }
         }
       },
       "Neck": {
-        "Name": "Barbed Choker",
+        "Name": "Onyxia Tooth Pendant",
         "Stats": {
-          "AP": 44,
           "Crit": 1,
+          "Hit": 1,
+          "Agi": 12,
         }
       },
       "Shoulders": {
-        "Name": "Conqueror's Spaulders",
+        "Name": "Truestrike",
         "Stats": {
-          "Str": 20,
-          "Agi": 16,
-          "Hit": 1
+          "Hit": 2,
+          "AP": 24
         },
-        "Enchantment": {
-          "Name": "Might of the Scourge",
-          "Stats": {
-            "Crit": 1,
-            "AP": 26
-          }
-        }
       },
       "Back": {
-        "Name": "Cloak of Concentrated Hatred",
+        "Name": "Puissant Cape",
         "Stats": {
-          "Str": 11,
-          "Agi": 16,
-          "Hit": 1
+          "Hit": 1,
+          "AP": 40
         },
         "Enchantment": {
           "Name": "Lesser Agility",
@@ -180,25 +188,26 @@
         }
       },
       "Chest": {
-        "Name": "Plated Abomination Ribcage",
+        "Name": "Savage Gladiator Chain",
         "Stats": {
-          "Str": 45,
-          "Hit": 1,
-          "Crit": 1
+          "Str": 13,
+          "Agi": 14,
+          "Crit": 2,
         },
         "Enchantment": {
           "Name": "Greater Stats",
           "Stats": {
             "Str": 4,
-            "Agi": 4
+            "Agi": 4,
+            "Int": 4,
+            "Spi": 4,
           }
         }
       },
       "Wrist": {
-        "Name": "Wristguards of Vengeance",
+        "Name": "Wristguards of Stability",
         "Stats": {
           "Str": 24,
-          "Crit": 1
         },
         "Enchantment": {
           "Name": "Superior Strength",
@@ -208,11 +217,11 @@
         }
       },
       "Hands": {
-        "Name": "Gauntlets of Annihilation",
+        "Name": "Devilsaur Gauntlets",
         "Stats": {
-          "Str": 35,
+          "AP": 28,
           "Crit": 1,
-          "Hit": 1
+          "Hit": 2
         },
         "Enchantment": {
           "Name": "Greater Strength",
@@ -222,61 +231,52 @@
         }
       },
       "Waist": {
-        "Name": "Girdle of the Mentor",
+        "Name": "Onslaught Girdle",
         "Stats": {
-          "Str": 21,
-          "Agi": 20,
+          "Str": 31,
+          "Crit": 1,
           "Hit": 1,
-          "Crit": 1
         }
       },
       "Legs": {
-        "Name": "Titanic Leggings",
+        "Name": "Devilsaur Leggings",
         "Stats": {
-          "Str": 30,
-          "Hit": 2,
+          "AP": 46,
           "Crit": 1
         },
         "Enchantment": {
-          "Name": "Libram of Voracity Str",
+          "Name": "Lesser Arcane Amalgamation",
           "Stats": {
             "Str": 8
           }
         }
       },
       "Feet": {
-        "Name": "Chromatic Boots",
+        "Name": "Battlechaser's Greaves",
         "Stats": {
-          "Str": 20,
-          "Agi": 20,
-          "Hit": 1
+          "Str": 14,
+          "Agi": 13,
         },
-        "Enchantment": {
-          "Name": "Greater Agility",
-          "Stats": {
-            "Agi": 7
-          }
-        }
       },
       "Ring1": {
-        "Name": "Quick Strike Ring",
+        "Name": "Band of Accuria",
         "Stats": {
-          "Str": 5,
-          "AP": 30,
-          "Crit": 1
+          "Agi": 16,
+          "Hit": 2
         }
       },
       "Ring2": {
-        "Name": "Master Dragonslayer's Ring",
+        "Name": "Quick Strike Ring",
         "Stats": {
-          "AP": 48,
-          "Hit": 1
+          "AP": 30,
+          "Str": 5,
+          "Crit": 1
         }
       },
       "Trinket1": {
-        "Name": "Blackhand's Breadth",
+        "Name": "Hand of Justice",
         "Stats": {
-          "Crit": 2
+          "AP": 20
         }
       },
       "Trinket2": {
@@ -284,7 +284,7 @@
         "Stats": {
           "Crit": 2
         }
-      },
+      }
     }
   }
 }

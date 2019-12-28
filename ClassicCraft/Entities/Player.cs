@@ -555,7 +555,7 @@ namespace ClassicCraft
                     }
                     ExtraAA();
                 }
-                if (((isMH && MH?.Name == "Flurry Axe") || (!isMH && OH?.Name == "Flury Axe")) && Randomer.NextDouble() < 0.0466)
+                if (((isMH && MH?.Name == "Flurry Axe") || (!isMH && OH?.Name == "Flurry Axe")) && Randomer.NextDouble() < 0.0466)
                 {
                     if (Program.logFight)
                     {

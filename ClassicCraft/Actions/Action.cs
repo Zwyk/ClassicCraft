@@ -46,6 +46,8 @@ namespace ClassicCraft
 
         public abstract void DoAction();
 
+        public abstract bool CanUse();
+
         public void CommonAction()
         {
             CDAction();

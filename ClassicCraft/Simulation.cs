@@ -79,6 +79,7 @@ namespace ClassicCraft
             Shift shift = new Shift(Player);
             MCP mcp = new MCP(Player);
             Innervate innerv = new Innervate(Player);
+            Player.Form = Player.Forms.Cat;
 
             Player.HasteMod = Player.CalcHaste();
 
@@ -118,13 +119,9 @@ namespace ClassicCraft
                 Player.CheckEnergyTick();
                 Player.CheckManaTick();
 
-                int rota = 1;
+                string rota = "SHRED + FB + SHIFT + INNERV";
 
-                if (rota == 0)
-                {
-
-                }
-                else if (rota == 1)
+                if (rota == "SHRED + FB + SHIFT + INNERV")
                 {
                     if(Player.Form == Player.Forms.Cat)
                     {
@@ -225,7 +222,7 @@ namespace ClassicCraft
             }
 
             // Pre-cast Battle Shout (starts GCD as Charge would)
-            bs.Cast();
+            //bs.Cast();
 
             // Charge
             Player.Resource += 15;
@@ -279,13 +276,9 @@ namespace ClassicCraft
                     }
                 }
 
-                int rota = 1;
+                string rota = "BT > WW > HAM + HS + EXEC";
 
-                if (rota == 0)
-                {
-
-                }
-                else if (rota == 1)
+                if (rota == "BT > WW > HAM + HS + EXEC")
                 {
                     if (Boss.LifePct > 0.2)
                     {
@@ -302,7 +295,7 @@ namespace ClassicCraft
                             ham.Cast();
                         }
 
-                        if (Player.Resource >= Bloodthirst.COST + Whirlwind.COST + HeroicStrike.COST && hs.CanUse())
+                        if (!Player.MH.TwoHanded && Player.Resource >= Bloodthirst.COST + Whirlwind.COST + HeroicStrike.COST && hs.CanUse())
                         {
                             hs.Cast();
                         }
@@ -315,26 +308,6 @@ namespace ClassicCraft
                         }
                     }
                 }
-                else if (rota == 2)
-                {
-                    if (ww.CanUse())
-                    {
-                        ww.Cast();
-                    }
-                    else if (bt.CanUse() && Player.Resource >= ww.Cost + bt.Cost)
-                    {
-                        bt.Cast();
-                    }
-                    else if (ham.CanUse() && Player.Resource >= Bloodthirst.COST + Whirlwind.COST + Hamstring.COST && ww.RemainingCD() >= Player.GCD && bt.RemainingCD() >= Player.GCD && (!Player.Effects.Any(e => e is Flurry) || ((Flurry)Player.Effects.Where(f => f is Flurry).First()).CurrentStacks < 3))
-                    {
-                        ham.Cast();
-                    }
-
-                    if (Player.Resource >= Bloodthirst.COST + Whirlwind.COST + HeroicStrike.COST && hs.CanUse())
-                    {
-                        hs.Cast();
-                    }
-                }
 
                 foreach (AutoAttack a in autos)
                 {
@@ -342,8 +315,16 @@ namespace ClassicCraft
                     {
                         if (a.MH && Player.applyAtNextAA != null)
                         {
-                            Player.applyAtNextAA.DoAction();
-                            a.NextAA();
+                            if (Player.applyAtNextAA.CanUse())
+                            {
+                                Player.applyAtNextAA.DoAction();
+                                a.NextAA();
+                            }
+                            else
+                            {
+                                Player.applyAtNextAA = null;
+                                a.Cast();
+                            }  
                         }
                         else
                         {
@@ -437,15 +418,13 @@ namespace ClassicCraft
 
         public static double RageGained(int damage, int level = 60)
         {
-            return Math.Max(1, damage / RageConversionValue(level) * 7.5);
+            return Math.Max(1, 7.5 * damage / RageConversionValue(level));
         }
 
-        /*
-        public static double RageGained2(int damage, double weaponSpeed, ResultType type, bool mh = true, int level = 60)
+        public static double RageGained2(int damage, double speed, bool mh, bool crit, int level = 60)
         {
-            return Math.Max(1, (15 * damage) / (4 * RageConversionValue(level)) + (RageWhiteHitFactor(mh, type == ResultType.Crit) * weaponSpeed) / 2);
+            return Math.Max(15 * damage / RageConversionValue(level), 15 * damage / (4 * RageConversionValue(level)) + (RageWhiteHitFactor(mh, crit) * speed / 2));
         }
-        */
 
         public static double RageConversionValue(int level = 60)
         {
@@ -454,28 +433,7 @@ namespace ClassicCraft
 
         public static double RageWhiteHitFactor(bool mh, bool crit)
         {
-            if (mh)
-            {
-                if (crit)
-                {
-                    return 7.0;
-                }
-                else
-                {
-                    return 3.5;
-                }
-            }
-            else
-            {
-                if (crit)
-                {
-                    return 3.5;
-                }
-                else
-                {
-                    return 1.75;
-                }
-            }
+            return 1.25 * (mh ? 2 : 1) * (crit ? 2 : 1);
         }
     }
 }

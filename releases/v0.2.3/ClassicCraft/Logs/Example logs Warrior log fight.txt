@@ -1,0 +1,463 @@
+Date : 2019/12/28 18:51:43
+
+Fight length : 120 seconds (+/- 20%)
+
+Player :
+Orc Warrior level 60 | Stats : [Strength:370][Agility:205][Stamina:112][Intellect:31][Spirit:52][Health:2629][HitChance:12][CritChance:31,25][Haste:0][AP:1331][RangedAP:1741]
+
+Boss (after raid debuffs) :
+Level 63, 336 Armor (5,76% mitigation)
+
+
+
+---SIM NUMBER 1---
+
+0,00 : Bloodrage Buff started
+0,00 : Bloodrage cast for 10 rage (rage 25)
+0,00 : Juju Flurry Buff started
+0,00 : Juju Flurry Potion cast (rage 25)
+0,00 : AA MH Dodge for 0 damage (rage 26)
+0,00 : AA OH Dodge for 0 damage (rage 27)
+1,03 : Bloodrage Buff for 1 rage (rage 28)
+1,47 : AA OH Dodge for 0 damage (rage 29)
+2,00 : Bloodrage Buff for 1 rage (rage 30)
+2,00 : Bloodthirst Hit for 564 damage (rage 0)
+2,00 : Windfury procs
+2,00 : AA MH Glancing for 509 damage (rage 17)
+2,93 : AA OH Crit for 250 damage (rage 25)
+2,93 : Deep Wounds started
+2,93 : Flurry started (haste = 1,339)
+3,03 : Bloodrage Buff for 1 rage (rage 26)
+4,03 : Bloodrage Buff for 1 rage (rage 27)
+4,03 : AA OH Glancing for 103 damage (rage 30)
+5,03 : Bloodrage Buff for 1 rage (rage 31)
+5,17 : AA OH Hit for 107 damage (rage 34)
+5,63 : AA MH Glancing for 414 damage (rage 47)
+5,63 : Flurry ended (haste = 1,03)
+5,97 : Deep Wounds for 62 damage
+6,03 : Bloodrage Buff for 1 rage (rage 49)
+6,30 : AA OH Glancing for 98 damage (rage 52)
+7,03 : Bloodrage Buff for 1 rage (rage 53)
+7,73 : AA OH Glancing for 107 damage (rage 56)
+8,03 : Bloodrage Buff for 1 rage (rage 57)
+8,03 : Bloodthirst Hit for 564 damage (rage 27)
+8,03 : Deathbringer procs
+8,47 : AA MH Glancing for 398 damage (rage 40)
+8,97 : Deep Wounds for 62 damage
+9,03 : Bloodrage Buff for 1 rage (rage 42)
+9,20 : AA OH Glancing for 103 damage (rage 45)
+10,03 : Bloodrage Buff for 1 rage (rage 46)
+10,03 : Bloodrage Buff ended
+10,67 : AA OH Glancing for 116 damage (rage 50)
+11,27 : AA MH Miss for 0 damage (rage 51)
+11,97 : Deep Wounds for 62 damage
+12,10 : AA OH Hit for 120 damage (rage 55)
+12,10 : Flurry Axe procs
+12,10 : AA MH Crit for 820 damage (rage 82)
+12,10 : Deep Wounds refreshed
+12,10 : Flurry started (haste = 1,339)
+12,13 : Whirlwind Hit for 379 damage (rage 57)
+13,23 : AA OH Dodge for 0 damage (rage 59)
+14,07 : Bloodthirst Hit for 564 damage (rage 29)
+14,07 : Windfury procs
+14,07 : AA MH Miss for 0 damage (rage 31)
+14,37 : AA OH Dodge for 0 damage (rage 32)
+14,97 : Deep Wounds for 62 damage
+15,47 : AA OH Crit for 212 damage (rage 39)
+15,47 : Deep Wounds refreshed
+15,47 : Flurry refreshed
+16,60 : AA OH Glancing for 113 damage (rage 44)
+17,70 : AA OH Crit for 241 damage (rage 53)
+17,70 : Deep Wounds refreshed
+17,70 : Flurry refreshed
+17,70 : Hand of Justice procs
+17,70 : AA MH Glancing for 407 damage (rage 66)
+17,70 : Flurry Axe procs
+17,70 : AA MH Crit for 822 damage (rage 93)
+17,70 : Deep Wounds refreshed
+17,70 : Flurry refreshed
+17,70 : Crusader started
+17,93 : Deep Wounds for 62 damage
+18,83 : AA OH Hit for 119 damage (rage 97)
+19,97 : AA OH Hit for 122 damage (rage 100)
+20,00 : Juju Flurry Buff ended
+20,07 : Bloodthirst Hit for 649 damage (rage 70)
+20,07 : Flurry ended (haste = 1)
+20,93 : Deep Wounds for 62 damage
+21,07 : AA OH Crit for 267 damage (rage 79)
+21,07 : Deep Wounds refreshed
+21,07 : Flurry started (haste = 1,3)
+22,13 : Whirlwind Crit for 882 damage (rage 55)
+22,13 : Deep Wounds refreshed
+22,13 : Flurry refreshed
+22,23 : AA OH Hit for 133 damage (rage 59)
+22,77 : AA MH Miss for 0 damage (rage 61)
+23,40 : AA OH Glancing for 122 damage (rage 65)
+23,63 : Hamstring Hit for 42 damage (rage 56)
+23,63 : Flurry ended (haste = 1)
+23,63 : Windfury procs
+23,63 : AA MH Crit for 950 damage (rage 87)
+23,63 : Deep Wounds refreshed
+23,63 : Flurry started (haste = 1,3)
+23,93 : Deep Wounds for 68 damage
+24,53 : AA OH Hit for 125 damage (rage 91)
+25,70 : AA OH Hit for 125 damage (rage 95)
+26,07 : Bloodthirst Crit for 1558 damage (rage 66)
+26,07 : Deep Wounds refreshed
+26,07 : Flurry refreshed
+26,07 : Deathbringer procs
+26,83 : AA OH Hit for 121 damage (rage 70)
+26,93 : Deep Wounds for 68 damage
+27,23 : AA MH Crit for 963 damage (rage 100)
+27,23 : Deep Wounds refreshed
+27,23 : Flurry refreshed
+28,00 : AA OH Hit for 137 damage (rage 100)
+28,03 : Hamstring Hit for 42 damage (rage 90)
+29,17 : AA OH Crit for 263 damage (rage 99)
+29,17 : Deep Wounds refreshed
+29,17 : Flurry refreshed
+29,43 : AA MH Glancing for 397 damage (rage 100)
+29,43 : Windfury procs
+29,43 : AA MH Crit for 1099 damage (rage 100)
+29,43 : Deep Wounds refreshed
+29,43 : Flurry refreshed
+29,93 : Deep Wounds for 68 damage
+30,30 : AA OH Hit for 124 damage (rage 100)
+30,33 : Hamstring Crit for 102 damage (rage 90)
+30,33 : Deep Wounds refreshed
+30,33 : Flurry refreshed
+31,47 : AA OH Hit for 137 damage (rage 94)
+32,07 : Bloodthirst Hit for 649 damage (rage 64)
+32,07 : Windfury procs
+32,07 : Heroic Strike Hit for 619 damage (rage 53)
+32,07 : Flurry ended (haste = 1)
+32,60 : AA OH Crit for 266 damage (rage 63)
+32,60 : Deep Wounds refreshed
+32,60 : Flurry started (haste = 1,3)
+32,70 : Crusader ended
+32,93 : Deep Wounds for 68 damage
+33,60 : Whirlwind Crit for 835 damage (rage 39)
+33,60 : Deep Wounds refreshed
+33,60 : Flurry refreshed
+33,60 : Deathbringer procs
+33,77 : AA OH Hit for 110 damage (rage 43)
+34,93 : AA OH Glancing for 121 damage (rage 47)
+35,93 : Deep Wounds for 62 damage
+36,07 : AA OH Crit for 243 damage (rage 56)
+36,07 : Deep Wounds refreshed
+36,07 : Flurry refreshed
+36,80 : AA MH Crit for 750 damage (rage 81)
+36,80 : Deep Wounds refreshed
+36,80 : Flurry refreshed
+37,23 : AA OH Dodge for 0 damage (rage 83)
+38,10 : Bloodthirst Crit for 1355 damage (rage 53)
+38,10 : Deep Wounds refreshed
+38,10 : Flurry refreshed
+38,40 : AA OH Dodge for 0 damage (rage 54)
+38,93 : Deep Wounds for 62 damage
+39,03 : AA MH Crit for 805 damage (rage 80)
+39,03 : Deep Wounds refreshed
+39,03 : Flurry refreshed
+39,53 : AA OH Hit for 116 damage (rage 85)
+39,63 : Hamstring Crit for 102 damage (rage 75)
+39,63 : Deep Wounds refreshed
+39,63 : Flurry refreshed
+40,70 : AA OH Hit for 112 damage (rage 79)
+41,17 : Hamstring Hit for 42 damage (rage 69)
+41,27 : AA MH Glancing for 409 damage (rage 83)
+41,27 : Flurry ended (haste = 1)
+41,27 : Windfury procs
+41,27 : AA MH Glancing for 438 damage (rage 98)
+41,83 : AA OH Crit for 238 damage (rage 100)
+41,83 : Deep Wounds refreshed
+41,83 : Flurry started (haste = 1,3)
+41,93 : Deep Wounds for 62 damage
+43,00 : AA OH Hit for 120 damage (rage 100)
+44,13 : Bloodthirst Hit for 564 damage (rage 70)
+44,17 : AA OH Hit for 107 damage (rage 73)
+44,17 : Flurry ended (haste = 1)
+44,93 : Deep Wounds for 62 damage
+45,67 : Whirlwind Hit for 385 damage (rage 48)
+45,67 : AA OH Crit for 247 damage (rage 57)
+45,67 : Deep Wounds refreshed
+45,67 : Flurry started (haste = 1,3)
+46,80 : AA OH Hit for 120 damage (rage 62)
+47,07 : AA MH Glancing for 421 damage (rage 77)
+47,20 : Hamstring Hit for 42 damage (rage 68)
+47,20 : Flurry ended (haste = 1)
+47,97 : Deep Wounds for 62 damage
+47,97 : AA OH Hit for 121 damage (rage 72)
+47,97 : Crusader started
+47,97 : Hand of Justice procs
+47,97 : Heroic Strike Crit for 1339 damage (rage 61)
+47,97 : Deep Wounds refreshed
+47,97 : Flurry started (haste = 1,3)
+49,10 : AA OH Glancing for 117 damage (rage 66)
+50,17 : Bloodthirst Hit for 649 damage (rage 36)
+50,27 : AA OH Glancing for 122 damage (rage 41)
+50,27 : Flurry ended (haste = 1)
+50,97 : Deep Wounds for 68 damage
+51,53 : AA MH Crit for 833 damage (rage 68)
+51,53 : Deep Wounds refreshed
+51,53 : Flurry started (haste = 1,3)
+51,77 : AA OH Crit for 244 damage (rage 77)
+51,77 : Deep Wounds refreshed
+51,77 : Flurry refreshed
+52,93 : AA OH Hit for 137 damage (rage 81)
+52,97 : Hamstring Hit for 42 damage (rage 72)
+53,77 : AA MH Glancing for 467 damage (rage 87)
+53,77 : Flurry ended (haste = 1)
+53,97 : Deep Wounds for 68 damage
+54,07 : AA OH Hit for 121 damage (rage 91)
+54,07 : Crusader refreshed
+55,57 : AA OH Hit for 125 damage (rage 96)
+55,57 : Flurry Axe procs
+55,57 : Heroic Strike Crit for 1339 damage (rage 84)
+55,57 : Deep Wounds refreshed
+55,57 : Flurry started (haste = 1,3)
+56,20 : Bloodthirst Hit for 649 damage (rage 54)
+56,73 : AA OH Hit for 137 damage (rage 59)
+56,97 : Deep Wounds for 68 damage
+57,73 : Whirlwind Crit for 966 damage (rage 35)
+57,73 : Deep Wounds refreshed
+57,73 : Flurry refreshed
+57,90 : AA OH Hit for 135 damage (rage 40)
+57,90 : Crusader refreshed
+58,90 : AA MH Dodge for 0 damage (rage 41)
+59,03 : AA OH Glancing for 114 damage (rage 45)
+59,97 : Deep Wounds for 68 damage
+60,03 : Bloodrage Buff started
+60,03 : Bloodrage cast for 10 rage (rage 55)
+60,20 : AA OH Glancing for 117 damage (rage 59)
+60,20 : Flurry ended (haste = 1)
+61,07 : Bloodrage Buff for 1 rage (rage 61)
+61,13 : AA MH Hit for 430 damage (rage 75)
+61,70 : AA OH Crit for 238 damage (rage 83)
+61,70 : Deep Wounds refreshed
+61,70 : Flurry started (haste = 1,3)
+62,07 : Bloodrage Buff for 1 rage (rage 85)
+62,23 : Bloodthirst Hit for 649 damage (rage 55)
+62,83 : AA OH Hit for 125 damage (rage 59)
+62,97 : Deep Wounds for 68 damage
+63,07 : Bloodrage Buff for 1 rage (rage 60)
+64,00 : AA OH Crit for 264 damage (rage 69)
+64,00 : Deep Wounds refreshed
+64,00 : Flurry refreshed
+64,03 : AA MH Crit for 997 damage (rage 100)
+64,03 : Deep Wounds refreshed
+64,03 : Flurry refreshed
+64,07 : Bloodrage Buff for 1 rage (rage 100)
+65,07 : Bloodrage Buff for 1 rage (rage 100)
+65,17 : AA OH Dodge for 0 damage (rage 100)
+65,97 : Deep Wounds for 68 damage
+66,07 : Bloodrage Buff for 1 rage (rage 100)
+66,27 : AA MH Glancing for 478 damage (rage 100)
+66,30 : AA OH Hit for 129 damage (rage 100)
+67,07 : Bloodrage Buff for 1 rage (rage 100)
+67,47 : AA OH Hit for 124 damage (rage 100)
+67,47 : Flurry ended (haste = 1)
+68,07 : Bloodrage Buff for 1 rage (rage 100)
+68,27 : Bloodthirst Hit for 649 damage (rage 70)
+68,27 : Deathbringer procs
+68,50 : AA MH Glancing for 427 damage (rage 85)
+68,97 : Deep Wounds for 68 damage
+68,97 : AA OH Crit for 245 damage (rage 94)
+68,97 : Deep Wounds refreshed
+68,97 : Flurry started (haste = 1,3)
+69,07 : Bloodrage Buff for 1 rage (rage 96)
+69,80 : Whirlwind Dodge for 0 damage (rage 71)
+70,07 : Bloodrage Buff for 1 rage (rage 72)
+70,07 : Bloodrage Buff ended
+70,10 : AA OH Hit for 137 damage (rage 76)
+71,27 : AA OH Crit for 244 damage (rage 85)
+71,27 : Deep Wounds refreshed
+71,27 : Flurry refreshed
+71,40 : AA MH Crit for 876 damage (rage 100)
+71,40 : Deep Wounds refreshed
+71,40 : Flurry refreshed
+71,97 : Deep Wounds for 68 damage
+72,43 : AA OH Hit for 123 damage (rage 100)
+72,47 : Hamstring Crit for 102 damage (rage 90)
+72,47 : Deep Wounds refreshed
+72,47 : Flurry refreshed
+72,93 : Crusader ended
+73,57 : AA OH Hit for 118 damage (rage 95)
+73,63 : AA MH Miss for 0 damage (rage 97)
+74,30 : Bloodthirst Hit for 564 damage (rage 67)
+74,73 : AA OH Crit for 216 damage (rage 75)
+74,73 : Deep Wounds refreshed
+74,73 : Flurry refreshed
+74,97 : Deep Wounds for 62 damage
+75,83 : AA MH Dodge for 0 damage (rage 76)
+75,90 : AA OH Hit for 117 damage (rage 80)
+75,93 : Hamstring Dodge for 0 damage (rage 81)
+77,03 : AA OH Hit for 116 damage (rage 85)
+77,47 : Hamstring Dodge for 0 damage (rage 85)
+77,97 : Deep Wounds for 62 damage
+78,07 : AA MH Glancing for 365 damage (rage 97)
+78,07 : Flurry ended (haste = 1)
+78,07 : Windfury procs
+78,07 : AA MH Miss for 0 damage (rage 98)
+78,20 : AA OH Crit for 214 damage (rage 100)
+78,20 : Deep Wounds refreshed
+78,20 : Flurry started (haste = 1,3)
+79,33 : AA OH Hit for 125 damage (rage 100)
+80,33 : Bloodthirst Hit for 564 damage (rage 70)
+80,50 : AA OH Hit for 119 damage (rage 74)
+80,50 : Flurry ended (haste = 1)
+80,97 : Deep Wounds for 62 damage
+81,87 : Death Wish's Buff started
+81,87 : Death Wish cast (rage 64)
+82,00 : AA OH Crit for 237 damage (rage 72)
+82,00 : Deep Wounds refreshed
+82,00 : Flurry started (haste = 1,3)
+83,17 : AA OH Dodge for 0 damage (rage 73)
+83,40 : Whirlwind Crit for 934 damage (rage 48)
+83,40 : Deep Wounds refreshed
+83,40 : Flurry refreshed
+83,87 : AA MH Glancing for 360 damage (rage 61)
+83,97 : Deep Wounds for 62 damage
+84,30 : AA OH Crit for 225 damage (rage 68)
+84,30 : Deep Wounds refreshed
+84,30 : Flurry refreshed
+85,47 : AA OH Crit for 238 damage (rage 76)
+85,47 : Deep Wounds refreshed
+85,47 : Flurry refreshed
+85,47 : Crusader started
+86,10 : AA MH Hit for 455 damage (rage 91)
+86,37 : Bloodthirst Hit for 649 damage (rage 61)
+86,60 : AA OH Crit for 249 damage (rage 70)
+86,60 : Deep Wounds refreshed
+86,60 : Flurry refreshed
+86,97 : Deep Wounds for 68 damage
+87,77 : AA OH Hit for 135 damage (rage 75)
+87,77 : Crusader refreshed
+87,90 : Hamstring Hit for 42 damage (rage 66)
+88,33 : AA MH Hit for 414 damage (rage 79)
+88,33 : Flurry ended (haste = 1)
+88,93 : AA OH Hit for 121 damage (rage 84)
+89,43 : Hamstring Hit for 42 damage (rage 74)
+89,97 : Deep Wounds for 68 damage
+90,43 : AA OH Crit for 254 damage (rage 82)
+90,43 : Deep Wounds refreshed
+90,43 : Flurry started (haste = 1,3)
+91,23 : AA MH Glancing for 407 damage (rage 95)
+91,57 : AA OH Hit for 124 damage (rage 100)
+91,60 : Juju Flurry Buff started
+91,60 : Juju Flurry Potion cast (rage 100)
+91,60 : Mighty Rage Buff started
+91,60 : Juju Flurry Potion cast (rage 100)
+92,40 : Bloodthirst Hit for 700 damage (rage 70)
+92,40 : Flurry ended (haste = 1,03)
+92,73 : AA OH Hit for 135 damage (rage 74)
+92,97 : Deep Wounds for 68 damage
+93,47 : AA MH Glancing for 478 damage (rage 90)
+93,93 : Whirlwind Crit for 1086 damage (rage 66)
+93,93 : Deep Wounds refreshed
+93,93 : Flurry started (haste = 1,339)
+93,93 : Windfury procs
+93,93 : Heroic Strike Hit for 643 damage (rage 54)
+94,20 : AA OH Crit for 277 damage (rage 64)
+94,20 : Deep Wounds refreshed
+94,20 : Flurry refreshed
+95,30 : AA OH Glancing for 132 damage (rage 69)
+95,30 : Crusader refreshed
+95,47 : Execute Hit for 1414 damage (rage 0)
+95,97 : Deep Wounds for 72 damage
+96,43 : AA OH Glancing for 132 damage (rage 4)
+96,43 : Flurry ended (haste = 1,03)
+96,60 : Blood Fury's Buff started
+96,60 : Blood Fury cast (rage 5)
+97,00 : Recklessness' Buff started
+97,00 : Recklesness cast (rage 5)
+97,90 : AA OH Glancing for 147 damage (rage 10)
+98,47 : AA MH Glancing for 527 damage (rage 27)
+98,47 : Windfury procs
+98,47 : AA MH Crit for 1282 damage (rage 69)
+98,47 : Deep Wounds refreshed
+98,47 : Flurry started (haste = 1,339)
+98,53 : Execute Crit for 3359 damage (rage 0)
+98,53 : Deep Wounds refreshed
+98,53 : Flurry refreshed
+98,53 : Windfury procs
+98,53 : AA MH Miss for 0 damage (rage 2)
+98,97 : Deep Wounds for 84 damage
+99,33 : AA OH Glancing for 167 damage (rage 7)
+100,47 : AA OH Dodge for 0 damage (rage 8)
+101,57 : AA OH Glancing for 145 damage (rage 13)
+101,97 : Deep Wounds for 84 damage
+102,70 : AA OH Crit for 333 damage (rage 25)
+102,70 : Deep Wounds refreshed
+102,70 : Flurry refreshed
+102,73 : Execute Crit for 1866 damage (rage 0)
+102,73 : Deep Wounds refreshed
+102,73 : Flurry refreshed
+103,83 : AA OH Glancing for 161 damage (rage 5)
+104,93 : AA OH Crit for 319 damage (rage 15)
+104,93 : Deep Wounds refreshed
+104,93 : Flurry refreshed
+104,97 : Deep Wounds for 84 damage
+104,97 : Execute Crit for 1527 damage (rage 0)
+104,97 : Deep Wounds refreshed
+104,97 : Flurry refreshed
+104,97 : AA MH Glancing for 567 damage (rage 19)
+104,97 : Crusader refreshed
+104,97 : Windfury procs
+104,97 : AA MH Crit for 1282 damage (rage 62)
+104,97 : Deep Wounds refreshed
+104,97 : Flurry refreshed
+106,07 : AA OH Crit for 306 damage (rage 72)
+106,07 : Deep Wounds refreshed
+106,07 : Flurry refreshed
+106,50 : Execute Crit for 3495 damage (rage 0)
+106,50 : Deep Wounds refreshed
+106,50 : Flurry refreshed
+107,17 : AA OH Glancing for 148 damage (rage 5)
+107,97 : Deep Wounds for 84 damage
+108,30 : AA OH Glancing for 158 damage (rage 11)
+109,27 : AA MH Glancing for 556 damage (rage 30)
+109,27 : Flurry ended (haste = 1,03)
+109,27 : Windfury procs
+109,27 : AA MH Glancing for 636 damage (rage 51)
+109,30 : Execute Crit for 2748 damage (rage 0)
+109,30 : Deep Wounds refreshed
+109,30 : Flurry started (haste = 1,339)
+109,43 : AA OH Glancing for 147 damage (rage 6)
+110,53 : AA OH Glancing for 148 damage (rage 12)
+110,97 : Deep Wounds for 84 damage
+1 simulations done in 34,97 ms, for 34,97 ms by sim
+Overall accuracy of results : ±0,00%
+
+Average DPS : 659,41 dps (±0,00)
+
+Average stats for [AA MH] : 178,66 DPS (27,09%)
+	Average of 498,58 damage for 43,00 uses (or 1 use every 2,79s)
+	13,95% Miss, 6,98% Hit, 27,91% Crit, 44,19% Glancing, 6,98% Dodge
+
+Average stats for [AA OH] : 114,56 DPS (17,37%)
+	Average of 147,82 damage for 93,00 uses (or 1 use every 1,29s)
+	0,00% Miss, 39,78% Hit, 26,88% Crit, 23,66% Glancing, 9,68% Dodge
+
+Average stats for [Bloodthirst] : 96,17 DPS (14,58%)
+	Average of 721,25 damage for 16,00 uses (or 1 use every 7,50s)
+	0,00% Miss, 87,50% Hit, 12,50% Crit, 0,00% Glancing, 0,00% Dodge
+
+Average stats for [Whirlwind] : 45,56 DPS (6,91%)
+	Average of 683,38 damage for 8,00 uses (or 1 use every 15,00s)
+	0,00% Miss, 25,00% Hit, 62,50% Crit, 0,00% Glancing, 12,50% Dodge
+
+Average stats for [Heroic Strike] : 32,83 DPS (4,98%)
+	Average of 985,00 damage for 4,00 uses (or 1 use every 30,00s)
+	0,00% Miss, 50,00% Hit, 50,00% Crit, 0,00% Glancing, 0,00% Dodge
+
+Average stats for [Execute] : 120,08 DPS (18,21%)
+	Average of 2 401,50 damage for 6,00 uses (or 1 use every 20,00s)
+	0,00% Miss, 16,67% Hit, 83,33% Crit, 0,00% Glancing, 0,00% Dodge
+
+Average stats for [Hamstring] : 5,00 DPS (0,76%)
+	Average of 50,00 damage for 12,00 uses (or 1 use every 10,00s)
+	0,00% Miss, 58,33% Hit, 25,00% Crit, 0,00% Glancing, 16,67% Dodge
+
+Average stats for [Deep Wounds] : 20,35 DPS (3,09%)
+	Average of 67,83 damage for 36,00 ticks (or 1 tick every 3,33s)
+	90,00% Uptime

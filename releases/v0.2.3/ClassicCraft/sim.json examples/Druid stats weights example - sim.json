@@ -3,9 +3,9 @@
   "FightLengthMod": 0.2,
   "TargetErrorPct": 0.2,
   "TargetError": true,
-  "LogFight": true,
+  "LogFight": false,
   "NbSim": 1,
-  "StatsWeights": false,
+  "StatsWeights": true,
   "BossAutoLife": true,
   "BossLowLifeTime": 0,
   "Boss" : {

@@ -31,10 +31,22 @@ namespace ClassicCraft
 
         public void DoAA(bool extra = false, bool wf = false)
         {
-            ResultType res = Player.WhiteAttackEnemy(Player.Sim.Boss, MH);
+            ResultType res;
+            if(Player.Class == Player.Classes.Warrior && !MH && Player.applyAtNextAA != null)
+            {
+                res = Player.YellowAttackEnemy(Player.Sim.Boss);
+            }
+            else
+            {
+                res = Player.WhiteAttackEnemy(Player.Sim.Boss, MH);
+            }
 
-            int minDmg = (int)Math.Round((Player.Form == Player.Forms.Cat ? Player.Level * 0.85 : (Weapon.DamageMin + Weapon.Speed)) + (Player.AP + Player.nextAABonus) / 14);
-            int maxDmg = (int)Math.Round((Player.Form == Player.Forms.Cat ? Player.Level * 1.25 : (Weapon.DamageMax + Weapon.Speed)) + (Player.AP + Player.nextAABonus) / 14);
+            int minDmg = (int)Math.Round(
+                Player.Form == Player.Forms.Cat ? Player.Level * 0.85 + (Player.AP + Player.nextAABonus) / 14 :
+                Weapon.DamageMin + Weapon.Speed * (Player.AP + Player.nextAABonus) / 14);
+            int maxDmg = (int)Math.Round(
+                Player.Form == Player.Forms.Cat ? Player.Level * 1.25 + (Player.AP + Player.nextAABonus) / 14 : 
+                Weapon.DamageMax + Weapon.Speed * (Player.AP + Player.nextAABonus) / 14);
 
             Player.nextAABonus = 0;
 
@@ -48,6 +60,7 @@ namespace ClassicCraft
             if (Player.Class == Player.Classes.Warrior)
             {
                 Player.Resource += (int)Math.Round(Simulation.RageGained(damage, Player.Level));
+                //Player.Resource += (int)Math.Round(Simulation.RageGained2(damage, Weapon.Speed, MH, res == ResultType.Crit, Player.Level));
             }
 
             RegisterDamage(new ActionResult(res, damage));
@@ -68,6 +81,11 @@ namespace ClassicCraft
         public override string ToString()
         {
             return "AA " + (MH ? "MH" : "OH");
+        }
+
+        public override bool CanUse()
+        {
+            return Available();
         }
     }
 }

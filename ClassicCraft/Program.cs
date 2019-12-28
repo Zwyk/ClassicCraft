@@ -48,7 +48,7 @@ namespace ClassicCraft
         public static string logsFileName = "logs";
         public static string txt = ".txt";
 
-        public static bool debug = true;
+        public static bool debug = false;
         public static string debugPath = ".\\..\\..";
 
         public static Player playerBase = null;
@@ -135,7 +135,9 @@ namespace ClassicCraft
 
                 if (logFight)
                 {
+                    threading = false;
                     targetError = false;
+                    statsWeights = false;
 
                     if (nbSim > 10)
                     {
@@ -226,8 +228,6 @@ namespace ClassicCraft
                 Log("\nBoss (after raid debuffs) :");
                 Log(bossBase.ToString());
 
-                if (logFight) threading = false;
-
                 DateTime start = DateTime.Now;
 
                 List<Task> tasks = new List<Task>();
@@ -273,7 +273,7 @@ namespace ClassicCraft
 
                                 if (CurrentDpsList.Count > 0)
                                 {
-                                    Console.WriteLine("Error Percent : {0:N2}%", Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average()));
+                                    Console.WriteLine("Precision : ±{0:N2}%", Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average()));
                                 }
                                 Thread.Sleep(TimeSpan.FromSeconds(0.5));
                             }
@@ -316,9 +316,10 @@ namespace ClassicCraft
                                 }
 
                                 Console.Clear();
+                                Console.WriteLine("Simulating {0} DPS, aiming for ±{1:N2}% precision...", simOrder[done], targetErrorPct);
                                 Console.WriteLine("Sims done : {0:N2}", CurrentDpsList.Count);
                                 Console.WriteLine("Sims running : {0:N2}", tasks.Count(t => !t.IsCompleted));
-                                Console.WriteLine("Error Percent : {0:N2}%", errorPct);
+                                Console.WriteLine("Current precision : ±{0:N2}%", errorPct);
 
                                 Thread.Sleep(TimeSpan.FromSeconds(0.5));
                             }
@@ -368,13 +369,12 @@ namespace ClassicCraft
                 Console.WriteLine(endMsg1);
                 Log(endMsg1);
 
-                string endMsg2 = string.Format("Overall accuracy of results : +/- {0:N2}%", ErrorList.Average());
+                string endMsg2 = string.Format("Overall accuracy of results : ±{0:N2}%", ErrorList.Average());
                 Console.WriteLine(endMsg2);
                 Log(endMsg2);
 
-                string endMsg3 = string.Format("Generating statistics...");
+                string endMsg3 = string.Format("\nGenerating statistics...");
                 Console.WriteLine(endMsg3);
-                Log(endMsg3);
 
                 if (statsWeights)
                 {
@@ -438,29 +438,14 @@ namespace ClassicCraft
                     List<List<RegisteredAction>> totalActions = ResultsList["Base"].Select(r => r.Actions).ToList();
                     List<List<RegisteredEffect>> totalEffects = ResultsList["Base"].Select(r => r.Effects).ToList();
 
-                    Log(string.Format("Nb simulations : {0}", CurrentDpsList.Count));
-                    Log(string.Format("Error Percent : {0:N2}%", Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average())));
-                    Log(string.Format("\nAverage DPS : {0:N2} dps (+/- {1:N2})", avgDps, Stats.MeanStdDev(CurrentDpsList.ToArray())));
+                    Log(string.Format("\nAverage DPS : {0:N2} dps (±{1:N2})", avgDps, Stats.MeanStdDev(CurrentDpsList.ToArray())));
 
-                    /*
-                    List<string> actionStat = new List<string>() { "AA MH", "AA OH" };
-
-                    if (playerBase.Class == Player.Classes.Druid)
-                    {
-                        actionStat.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift" });
-                    }
+                    //List<string> logList = totalActions.SelectMany(a => a.Select(t => t.Action.ToString()).OrderBy(b => b)).Distinct().ToList();
+                    List<string> logList = new List<string>() { "AA MH", "AA OH" };
+                    if(playerBase.Class == Player.Classes.Druid)
+                        logList.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift" });
                     else if(playerBase.Class == Player.Classes.Warrior)
-                    {
-                        actionStat.AddRange(new List<string>() { "Bloodthirst", "Whirlwind", "Heroic Strike", "Execute", "Deep Wounds", "Hamstring" });
-                    }
-                    */
-
-                    List<string> logList = new List<string>();
-                    foreach (List<string> l in totalActions.Select(a => a.Select(t => t.Action.ToString())))
-                    {
-                        logList.AddRange(l.Distinct());
-                    }
-                    logList = logList.Distinct().OrderBy(a => a).ToList();
+                        logList.AddRange(new List<string>() { "Bloodthirst", "Whirlwind", "Heroic Strike", "Execute", "Hamstring" });
 
                     foreach (string ac in logList)
                     {
@@ -470,7 +455,7 @@ namespace ClassicCraft
                             double avgAcUse = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac)));
                             double avgAcDps = totalActions.Average(a => a.Where(t => t.Action.ToString().Equals(ac)).Sum(r => r.Result.Damage / fightLength));
                             double avgAcDmg = totalActions.Sum(a => a.Where(t => t.Action.ToString().Equals(ac)).Sum(r => r.Result.Damage / totalAc));
-                            string res = "Average stats for [" + ac + "] : ";
+                            string res = "\nAverage stats for [" + ac + "] : ";
                             res += string.Format("{0:N2} DPS ({1:N2}%)\n\tAverage of {2:N2} damage for {3:N2} uses (or 1 use every {4:N2}s)", avgAcDps, avgAcDps / avgDps * 100, avgAcDmg, avgAcUse, fightLength / avgAcUse);
                             double hitPct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Hit)) / avgAcUse * 100;
                             double critPct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Crit)) / avgAcUse * 100;
@@ -482,19 +467,26 @@ namespace ClassicCraft
                         }
                     }
 
-                    /*
-                    actionStat = new List<string>();
-                    foreach (List<string> l in totalEffects.Select(a => a.Select(t => t.Effect.ToString())))
-                    {
-                        actionStat.AddRange(l.Distinct());
-                    }
-                    actionStat = actionStat.Distinct().OrderBy(a => a).ToList();
+                    //logList = totalEffects.SelectMany(a => a.Select(t => t.Effect.ToString()).OrderBy(b => b)).Distinct().ToList();
+                    logList = new List<string>() { };
+                    if (playerBase.Class == Player.Classes.Warrior)
+                        logList.AddRange(new List<string>() { "Deep Wounds" });
 
-                    foreach (string ac in actionStat)
+                    foreach (string ac in logList)
                     {
-                        // TODO uptime of effects
+                        double totalAc = totalEffects.Select(a => a.Where(t => t.Effect.ToString().Equals(ac)).Count()).Sum();
+                        if(totalAc > 0)
+                        {
+                            double avgAcUse = totalEffects.Average(a => a.Count(t => t.Effect.ToString().Equals(ac)));
+                            double avgAcDps = totalEffects.Average(a => a.Where(t => t.Effect.ToString().Equals(ac)).Sum(r => r.Damage / fightLength));
+                            double avgAcDmg = totalEffects.Sum(a => a.Where(t => t.Effect.ToString().Equals(ac)).Sum(r => r.Damage / totalAc));
+                            string res = "\nAverage stats for [" + ac + "] : ";
+                            res += string.Format("{0:N2} DPS ({1:N2}%)\n\tAverage of {2:N2} damage for {3:N2} ticks (or 1 tick every {4:N2}s)", avgAcDps, avgAcDps / avgDps * 100, avgAcDmg, avgAcUse, fightLength / avgAcUse);
+                            double uptime = 3 / (fightLength / avgAcUse) * 100;
+                            res += string.Format("\n\t{0:N2}% Uptime", uptime);
+                            Log(res);
+                        }
                     }
-                    */
                 }
 
                 if (!debug)

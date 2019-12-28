@@ -44,7 +44,7 @@ namespace ClassicCraft
             Player.Mana -= Cost;
         }
 
-        public virtual bool CanUse()
+        public override bool CanUse()
         {
             return (UseMana ? Player.Mana >= Cost : Player.Resource >= Cost) && Available() && (AffectedByGCD ? Player.HasGCD() : true);
         }

@@ -1,0 +1,327 @@
+Date : 2019/12/28 18:49:36
+
+Fight length : 120 seconds (+/- 20%)
+
+Player :
+Tauren Druid level 60 | Stats : [Strength:321,6][Agility:235][Stamina:72][Intellect:118,8][Spirit:126][Health:2023][Mana:3026][CritChance:24,75][HitChance:8][Haste:0][AP:1547,2][RangedAP:1782,2]
+
+Boss (after raid debuffs) :
+Level 63, 336 Armor (5,76% mitigation)
+
+
+
+---SIM NUMBER 1---
+
+0,00 : MCP Buff started
+0,00 : MCP cast (energy 100)[combo 0] - Mana 3026/3026
+0,00 : Shred Dodge for 0 damage (energy 76)[combo 0]
+0,00 : AA MH Crit for 324 damage (energy 76)[combo 0]
+0,67 : AA MH Crit for 334 damage (energy 76)[combo 0]
+1,33 : AA MH Hit for 175 damage (energy 76)[combo 0]
+1,50 : Shred Hit for 597 damage (energy 28)[combo 1]
+2,00 : AA MH Crit for 330 damage (energy 48)[combo 1]
+2,67 : AA MH Glancing for 156 damage (energy 48)[combo 1]
+3,03 : Shred Hit for 576 damage (energy 0)[combo 2]
+3,37 : AA MH Glancing for 156 damage (energy 0)[combo 2]
+4,03 : AA MH Hit for 168 damage (energy 20)[combo 2]
+4,57 : Shift cast (energy 60)[combo 2] - Mana 2548/3026
+4,70 : AA MH Hit for 168 damage (energy 60)[combo 2]
+5,37 : AA MH Hit for 153 damage (energy 60)[combo 2]
+6,03 : AA MH Crit for 322 damage (energy 80)[combo 2]
+6,10 : Shred Crit for 1152 damage (energy 32)[combo 4]
+6,70 : AA MH Hit for 170 damage (energy 32)[combo 4]
+7,37 : AA MH Hit for 160 damage (energy 32)[combo 4]
+8,03 : Shred Hit for 620 damage (energy 4)[combo 5]
+8,03 : AA MH Glancing for 159 damage (energy 4)[combo 5]
+8,70 : AA MH Glancing for 159 damage (energy 4)[combo 5]
+9,37 : AA MH Crit for 320 damage (energy 4)[combo 5]
+9,57 : Shift cast (energy 60)[combo 5] - Mana 2070/3026
+10,03 : AA MH Glancing for 162 damage (energy 80)[combo 5]
+10,70 : AA MH Glancing for 154 damage (energy 80)[combo 5]
+11,10 : Ferocious Bite Hit for 1158 damage (energy 0)[combo 0]
+11,37 : AA MH Glancing for 148 damage (energy 0)[combo 0]
+12,03 : AA MH Crit for 309 damage (energy 20)[combo 0]
+12,03 : Clearcasting started
+12,63 : Clearcasting ended
+12,63 : Shred Hit for 576 damage (energy 20)[combo 1]
+12,70 : AA MH Glancing for 160 damage (energy 20)[combo 1]
+13,37 : AA MH Hit for 169 damage (energy 20)[combo 1]
+14,03 : AA MH Hit for 170 damage (energy 40)[combo 1]
+14,70 : AA MH Hit for 171 damage (energy 40)[combo 1]
+15,37 : AA MH Hit for 154 damage (energy 40)[combo 1]
+16,03 : Shred Hit for 616 damage (energy 12)[combo 2]
+16,03 : Clearcasting started
+16,03 : AA MH Crit for 313 damage (energy 12)[combo 2]
+16,70 : AA MH Hit for 174 damage (energy 12)[combo 2]
+17,33 : AA MH Glancing for 153 damage (energy 12)[combo 2]
+17,53 : Clearcasting ended
+17,53 : Shred Miss for 0 damage (energy 12)[combo 2]
+18,00 : AA MH Crit for 345 damage (energy 32)[combo 2]
+18,67 : AA MH Glancing for 165 damage (energy 32)[combo 2]
+19,33 : AA MH Glancing for 160 damage (energy 32)[combo 2]
+20,00 : Shred Hit for 592 damage (energy 4)[combo 3]
+20,00 : AA MH Glancing for 157 damage (energy 4)[combo 3]
+20,67 : AA MH Hit for 170 damage (energy 4)[combo 3]
+21,33 : AA MH Glancing for 152 damage (energy 4)[combo 3]
+21,50 : Shift cast (energy 60)[combo 3] - Mana 1752/3026
+22,00 : AA MH Crit for 319 damage (energy 80)[combo 3]
+22,67 : AA MH Crit for 324 damage (energy 80)[combo 3]
+23,00 : Shred Crit for 1185 damage (energy 32)[combo 5]
+23,33 : AA MH Hit for 175 damage (energy 32)[combo 5]
+24,00 : AA MH Glancing for 159 damage (energy 52)[combo 5]
+24,50 : Ferocious Bite Crit for 2089 damage (energy 0)[combo 0]
+24,67 : AA MH Glancing for 159 damage (energy 0)[combo 0]
+24,67 : Clearcasting started
+25,33 : AA MH Glancing for 154 damage (energy 0)[combo 0]
+26,00 : Clearcasting ended
+26,00 : Shred Hit for 595 damage (energy 20)[combo 1]
+26,00 : AA MH Glancing for 168 damage (energy 20)[combo 1]
+26,67 : AA MH Glancing for 141 damage (energy 20)[combo 1]
+27,33 : AA MH Glancing for 144 damage (energy 20)[combo 1]
+27,50 : Shift cast (energy 60)[combo 1] - Mana 1314/3026
+28,00 : AA MH Glancing for 163 damage (energy 80)[combo 1]
+28,67 : AA MH Hit for 164 damage (energy 80)[combo 1]
+29,00 : Shred Hit for 576 damage (energy 32)[combo 2]
+29,33 : AA MH Dodge for 0 damage (energy 32)[combo 2]
+30,00 : AA MH Glancing for 151 damage (energy 52)[combo 2]
+30,50 : Shred Hit for 585 damage (energy 4)[combo 3]
+30,67 : AA MH Glancing for 161 damage (energy 4)[combo 3]
+31,33 : AA MH Glancing for 153 damage (energy 4)[combo 3]
+32,00 : Shift cast (energy 60)[combo 3] - Mana 836/3026
+32,00 : AA MH Glancing for 146 damage (energy 60)[combo 3]
+32,67 : AA MH Crit for 309 damage (energy 60)[combo 3]
+33,33 : AA MH Dodge for 0 damage (energy 60)[combo 3]
+33,53 : Shred Hit for 599 damage (energy 12)[combo 4]
+34,00 : AA MH Hit for 158 damage (energy 32)[combo 4]
+34,67 : AA MH Dodge for 0 damage (energy 32)[combo 4]
+35,33 : AA MH Hit for 161 damage (energy 32)[combo 4]
+36,00 : Shred Hit for 585 damage (energy 4)[combo 5]
+36,00 : AA MH Glancing for 157 damage (energy 4)[combo 5]
+36,67 : AA MH Glancing for 169 damage (energy 4)[combo 5]
+37,33 : AA MH Hit for 165 damage (energy 4)[combo 5]
+37,53 : Shift cast (energy 60)[combo 5] - Mana 398/3026
+38,00 : AA MH Crit for 322 damage (energy 80)[combo 5]
+38,67 : AA MH Glancing for 162 damage (energy 80)[combo 5]
+38,67 : Clearcasting started
+39,07 : Clearcasting ended
+39,07 : Shred Hit for 613 damage (energy 80)[combo 5]
+39,33 : AA MH Hit for 164 damage (energy 80)[combo 5]
+40,00 : AA MH Glancing for 167 damage (energy 100)[combo 5]
+40,60 : Shred Hit for 597 damage (energy 52)[combo 5]
+40,67 : AA MH Crit for 322 damage (energy 52)[combo 5]
+41,33 : AA MH Glancing for 150 damage (energy 52)[combo 5]
+42,00 : AA MH Hit for 173 damage (energy 72)[combo 5]
+42,00 : Hand of Justice procs
+42,00 : AA MH Crit for 347 damage (energy 72)[combo 5]
+42,00 : Clearcasting started
+42,13 : Clearcasting ended
+42,13 : Shred Hit for 567 damage (energy 72)[combo 5]
+43,33 : AA MH Crit for 336 damage (energy 72)[combo 5]
+43,67 : Ferocious Bite Hit for 1133 damage (energy 0)[combo 0]
+44,00 : AA MH Glancing for 153 damage (energy 20)[combo 0]
+44,00 : Clearcasting started
+44,67 : AA MH Hit for 164 damage (energy 20)[combo 0]
+45,20 : Clearcasting ended
+45,20 : Shred Hit for 616 damage (energy 20)[combo 1]
+45,33 : AA MH Glancing for 147 damage (energy 20)[combo 1]
+46,03 : AA MH Glancing for 160 damage (energy 40)[combo 1]
+46,70 : AA MH Hit for 163 damage (energy 40)[combo 1]
+47,37 : AA MH Dodge for 0 damage (energy 40)[combo 1]
+48,03 : Shred Hit for 620 damage (energy 12)[combo 2]
+48,03 : Clearcasting started
+48,03 : AA MH Glancing for 162 damage (energy 12)[combo 2]
+48,70 : AA MH Hit for 163 damage (energy 12)[combo 2]
+49,37 : AA MH Glancing for 142 damage (energy 12)[combo 2]
+49,57 : Clearcasting ended
+49,57 : Shred Crit for 1180 damage (energy 12)[combo 4]
+50,03 : AA MH Glancing for 171 damage (energy 32)[combo 4]
+50,70 : AA MH Hit for 161 damage (energy 32)[combo 4]
+50,70 : Clearcasting started
+51,10 : Clearcasting ended
+51,10 : Shred Hit for 567 damage (energy 32)[combo 5]
+51,37 : AA MH Crit for 332 damage (energy 32)[combo 5]
+52,03 : AA MH Glancing for 158 damage (energy 52)[combo 5]
+52,63 : Ferocious Bite Dodge for 0 damage (energy 17)[combo 5]
+52,70 : AA MH Glancing for 149 damage (energy 17)[combo 5]
+53,37 : AA MH Glancing for 161 damage (energy 17)[combo 5]
+54,03 : AA MH Hit for 172 damage (energy 37)[combo 5]
+54,17 : Ferocious Bite Hit for 1000 damage (energy 0)[combo 0]
+54,70 : AA MH Crit for 317 damage (energy 0)[combo 0]
+55,37 : AA MH Glancing for 159 damage (energy 0)[combo 0]
+55,70 : Shift cast (energy 60)[combo 0] - Mana 200/3026
+56,03 : AA MH Glancing for 155 damage (energy 80)[combo 0]
+56,70 : AA MH Dodge for 0 damage (energy 80)[combo 0]
+57,23 : Shred Crit for 1166 damage (energy 32)[combo 2]
+57,37 : AA MH Crit for 328 damage (energy 32)[combo 2]
+57,37 : Clearcasting started
+58,03 : AA MH Hit for 162 damage (energy 52)[combo 2]
+58,70 : AA MH Glancing for 170 damage (energy 52)[combo 2]
+58,77 : Clearcasting ended
+58,77 : Shred Crit for 1213 damage (energy 52)[combo 4]
+59,37 : AA MH Crit for 305 damage (energy 52)[combo 4]
+60,03 : AA MH Glancing for 164 damage (energy 72)[combo 4]
+60,30 : Shred Hit for 585 damage (energy 24)[combo 5]
+60,30 : Hand of Justice procs
+60,30 : AA MH Crit for 324 damage (energy 24)[combo 5]
+61,37 : AA MH Glancing for 161 damage (energy 24)[combo 5]
+61,37 : Clearcasting started
+61,83 : Clearcasting ended
+61,83 : Shred Hit for 592 damage (energy 24)[combo 5]
+62,03 : AA MH Crit for 319 damage (energy 44)[combo 5]
+62,70 : AA MH Hit for 156 damage (energy 44)[combo 5]
+63,37 : Ferocious Bite Crit for 2119 damage (energy 0)[combo 0]
+63,37 : AA MH Hit for 163 damage (energy 0)[combo 0]
+64,03 : AA MH Glancing for 153 damage (energy 20)[combo 0]
+64,70 : AA MH Glancing for 166 damage (energy 20)[combo 0]
+64,90 : Innervate's Buff started
+64,90 : Innervate cast (energy 20)[combo 0] - Mana 258/3026
+66,70 : AA MH Glancing for 230 damage (energy 40)[combo 0]
+68,03 : AA MH Hit for 259 damage (energy 60)[combo 0]
+68,77 : Shift cast (energy 60)[combo 0] - Mana 182/3026
+70,03 : AA MH Crit for 317 damage (energy 80)[combo 0]
+70,30 : Shred Hit for 602 damage (energy 32)[combo 1]
+70,70 : AA MH Hit for 170 damage (energy 32)[combo 1]
+71,37 : AA MH Crit for 320 damage (energy 32)[combo 1]
+72,03 : Shred Hit for 569 damage (energy 4)[combo 2]
+72,03 : AA MH Hit for 174 damage (energy 4)[combo 2]
+72,70 : AA MH Glancing for 145 damage (energy 4)[combo 2]
+73,37 : AA MH Glancing for 146 damage (energy 4)[combo 2]
+73,57 : Shift cast (energy 60)[combo 2] - Mana 106/3026
+74,03 : AA MH Hit for 161 damage (energy 80)[combo 2]
+74,70 : AA MH Hit for 170 damage (energy 80)[combo 2]
+75,10 : Shred Hit for 592 damage (energy 32)[combo 3]
+75,37 : AA MH Hit for 173 damage (energy 32)[combo 3]
+76,03 : AA MH Crit for 330 damage (energy 52)[combo 3]
+76,63 : Shred Crit for 1180 damage (energy 4)[combo 5]
+76,70 : AA MH Crit for 319 damage (energy 4)[combo 5]
+77,37 : AA MH Hit for 164 damage (energy 4)[combo 5]
+78,03 : AA MH Hit for 168 damage (energy 24)[combo 5]
+78,17 : Shift cast (energy 60)[combo 5] - Mana 30/3026
+78,70 : AA MH Crit for 322 damage (energy 60)[combo 5]
+79,37 : AA MH Hit for 163 damage (energy 60)[combo 5]
+79,70 : Ferocious Bite Hit for 1071 damage (energy 0)[combo 0]
+80,03 : AA MH Hit for 170 damage (energy 20)[combo 0]
+80,70 : AA MH Crit for 322 damage (energy 20)[combo 0]
+81,37 : AA MH Glancing for 147 damage (energy 20)[combo 0]
+82,03 : AA MH Crit for 307 damage (energy 40)[combo 0]
+82,70 : AA MH Glancing for 162 damage (energy 40)[combo 0]
+83,37 : AA MH Glancing for 158 damage (energy 40)[combo 0]
+84,03 : Shred Crit for 1180 damage (energy 12)[combo 2]
+84,03 : AA MH Hit for 175 damage (energy 12)[combo 2]
+84,70 : AA MH Glancing for 148 damage (energy 12)[combo 2]
+84,93 : Innervate's Buff ended
+85,37 : AA MH Glancing for 148 damage (energy 12)[combo 2]
+86,03 : AA MH Hit for 163 damage (energy 32)[combo 2]
+86,70 : AA MH Glancing for 145 damage (energy 32)[combo 2]
+87,37 : AA MH Crit for 307 damage (energy 32)[combo 2]
+88,03 : Shred Hit for 588 damage (energy 4)[combo 3]
+88,03 : AA MH Hit for 158 damage (energy 4)[combo 3]
+88,70 : AA MH Crit for 313 damage (energy 4)[combo 3]
+89,37 : AA MH Glancing for 159 damage (energy 4)[combo 3]
+90,03 : AA MH Glancing for 143 damage (energy 24)[combo 3]
+90,70 : AA MH Hit for 166 damage (energy 24)[combo 3]
+91,37 : AA MH Glancing for 162 damage (energy 24)[combo 3]
+92,03 : AA MH Hit for 169 damage (energy 44)[combo 3]
+92,70 : AA MH Glancing for 154 damage (energy 44)[combo 3]
+93,37 : AA MH Glancing for 170 damage (energy 44)[combo 3]
+94,03 : Shred Crit for 1190 damage (energy 16)[combo 5]
+94,03 : AA MH Glancing for 161 damage (energy 16)[combo 5]
+94,70 : AA MH Hit for 157 damage (energy 16)[combo 5]
+95,37 : AA MH Glancing for 164 damage (energy 16)[combo 5]
+96,03 : Ferocious Bite Hit for 1018 damage (energy 0)[combo 0]
+96,03 : AA MH Hit for 175 damage (energy 0)[combo 0]
+96,70 : AA MH Crit for 345 damage (energy 0)[combo 0]
+97,37 : AA MH Glancing for 166 damage (energy 0)[combo 0]
+98,03 : AA MH Glancing for 149 damage (energy 20)[combo 0]
+98,70 : AA MH Glancing for 147 damage (energy 20)[combo 0]
+98,70 : Clearcasting started
+98,73 : Clearcasting ended
+98,73 : Shred Hit for 583 damage (energy 20)[combo 1]
+99,37 : AA MH Glancing for 145 damage (energy 20)[combo 1]
+100,03 : AA MH Hit for 167 damage (energy 40)[combo 1]
+100,70 : AA MH Glancing for 165 damage (energy 40)[combo 1]
+101,37 : AA MH Crit for 328 damage (energy 40)[combo 1]
+102,03 : Shred Hit for 602 damage (energy 12)[combo 2]
+102,03 : AA MH Miss for 0 damage (energy 12)[combo 2]
+102,70 : AA MH Crit for 347 damage (energy 12)[combo 2]
+103,37 : AA MH Hit for 160 damage (energy 12)[combo 2]
+104,03 : AA MH Glancing for 161 damage (energy 32)[combo 2]
+104,03 : Clearcasting started
+104,07 : Clearcasting ended
+104,07 : Shred Hit for 595 damage (energy 32)[combo 3]
+104,70 : AA MH Hit for 169 damage (energy 32)[combo 3]
+105,37 : AA MH Glancing for 159 damage (energy 32)[combo 3]
+106,03 : Shred Hit for 616 damage (energy 4)[combo 4]
+106,03 : AA MH Crit for 305 damage (energy 4)[combo 4]
+106,70 : AA MH Glancing for 157 damage (energy 4)[combo 4]
+107,37 : AA MH Hit for 155 damage (energy 4)[combo 4]
+108,03 : AA MH Glancing for 156 damage (energy 24)[combo 4]
+108,70 : AA MH Crit for 313 damage (energy 24)[combo 4]
+109,37 : AA MH Hit for 171 damage (energy 24)[combo 4]
+110,03 : AA MH Hit for 160 damage (energy 44)[combo 4]
+110,70 : AA MH Dodge for 0 damage (energy 44)[combo 4]
+111,37 : AA MH Glancing for 171 damage (energy 44)[combo 4]
+112,03 : Shred Crit for 1180 damage (energy 16)[combo 5]
+112,03 : AA MH Glancing for 144 damage (energy 16)[combo 5]
+112,70 : AA MH Hit for 173 damage (energy 16)[combo 5]
+113,37 : AA MH Hit for 157 damage (energy 16)[combo 5]
+114,03 : Ferocious Bite Hit for 1016 damage (energy 0)[combo 0]
+114,03 : AA MH Hit for 157 damage (energy 0)[combo 0]
+114,70 : AA MH Glancing for 145 damage (energy 0)[combo 0]
+115,37 : AA MH Dodge for 0 damage (energy 0)[combo 0]
+116,03 : AA MH Hit for 166 damage (energy 20)[combo 0]
+116,70 : AA MH Hit for 156 damage (energy 20)[combo 0]
+117,37 : AA MH Glancing for 165 damage (energy 20)[combo 0]
+118,03 : AA MH Glancing for 147 damage (energy 40)[combo 0]
+118,70 : AA MH Crit for 343 damage (energy 40)[combo 0]
+119,37 : AA MH Glancing for 162 damage (energy 40)[combo 0]
+120,03 : Shred Crit for 1152 damage (energy 12)[combo 2]
+120,03 : AA MH Glancing for 157 damage (energy 12)[combo 2]
+120,70 : AA MH Hit for 175 damage (energy 12)[combo 2]
+121,37 : AA MH Glancing for 153 damage (energy 12)[combo 2]
+121,57 : Shift cast (energy 60)[combo 2] - Mana 955/3026
+122,03 : AA MH Glancing for 161 damage (energy 80)[combo 2]
+122,70 : AA MH Glancing for 165 damage (energy 80)[combo 2]
+123,10 : Shred Hit for 602 damage (energy 32)[combo 3]
+123,37 : AA MH Crit for 320 damage (energy 32)[combo 3]
+124,03 : AA MH Glancing for 159 damage (energy 52)[combo 3]
+124,63 : Shred Hit for 609 damage (energy 4)[combo 4]
+124,70 : AA MH Crit for 309 damage (energy 4)[combo 4]
+124,70 : Clearcasting started
+125,37 : AA MH Hit for 161 damage (energy 4)[combo 4]
+126,03 : AA MH Glancing for 169 damage (energy 24)[combo 4]
+126,03 : Hand of Justice procs
+126,03 : AA MH Glancing for 142 damage (energy 24)[combo 4]
+126,17 : Clearcasting ended
+126,17 : Shred Hit for 599 damage (energy 24)[combo 5]
+127,37 : AA MH Crit for 322 damage (energy 24)[combo 5]
+127,70 : Shift cast (energy 60)[combo 5] - Mana 517/3026
+128,03 : AA MH Crit for 347 damage (energy 80)[combo 5]
+128,70 : AA MH Hit for 169 damage (energy 80)[combo 5]
+129,23 : Ferocious Bite Crit for 2290 damage (energy 0)[combo 0]
+129,23 : Clearcasting started
+129,37 : AA MH Glancing for 158 damage (energy 0)[combo 0]
+130,03 : AA MH Crit for 319 damage (energy 20)[combo 0]
+130,70 : AA MH Hit for 156 damage (energy 20)[combo 0]
+130,77 : Clearcasting ended
+130,77 : Shred Hit for 599 damage (energy 20)[combo 1]
+1 simulations done in 26,93 ms, for 26,93 ms by sim
+Overall accuracy of results : ±0,00%
+
+Average DPS : 605,13 dps (±0,00)
+
+Average stats for [AA MH] : 302,75 DPS (50,03%)
+	Average of 189,22 damage for 192,00 uses (or 1 use every 0,63s)
+	0,52% Miss, 30,73% Hit, 21,35% Crit, 43,75% Glancing, 3,65% Dodge
+
+Average stats for [Shred] : 251,73 DPS (41,60%)
+	Average of 702,51 damage for 43,00 uses (or 1 use every 2,79s)
+	2,33% Miss, 72,09% Hit, 23,26% Crit, 0,00% Glancing, 2,33% Dodge
+
+Average stats for [Ferocious Bite] : 107,45 DPS (17,76%)
+	Average of 1 289,40 damage for 10,00 uses (or 1 use every 12,00s)
+	0,00% Miss, 60,00% Hit, 30,00% Crit, 0,00% Glancing, 10,00% Dodge
+
+Average stats for [Shift] : 0,00 DPS (0,00%)
+	Average of 0,00 damage for 12,00 uses (or 1 use every 10,00s)
+	0,00% Miss, 100,00% Hit, 0,00% Crit, 0,00% Glancing, 0,00% Dodge

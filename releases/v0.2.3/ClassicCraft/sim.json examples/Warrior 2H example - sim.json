@@ -1,34 +1,51 @@
 {
-  "FightLength": 90,
-  "TargetErrorPct": 0.1,
+  "FightLength": 120,
+  "FightLengthMod": 0.2,
+  "TargetErrorPct": 0.2,
   "TargetError": true,
   "LogFight": false,
   "NbSim": 1,
+  "StatsWeights": false,
   "BossAutoLife": true,
   "BossLowLifeTime": 0,
   "Boss" : {
     "Level": 63,
-    "Armor": 4400,
+    "Armor": 3731,
     "Debuffs": [
       "Sunder Armor",
       "Curse of Recklessness",
-      "Faerie Fire",
-      "Annihilator"
+      "Faerie Fire"
     ]
   },
   "Player": {
     "Race": "Orc",
     "Class": "Warrior",
+    "Talents": "30305001332-05052005025010051",
     "Cooldowns": {
       "Racial": true,
       "Death Wish": true,
       "Recklessness": true,
-      "Juju Flurry": false,
+      "Juju Flurry": true,
       "Mighty Rage": true,
     },
     "Buffs": [
       {
         "Name": "Windfury Totem"
+      },
+      {
+        "Name": "Test",
+        "Stats": {
+          "Hit": 0,
+          "Crit": 0,
+          "AP": 0,
+          "Haste": 0,
+        }
+      },
+      {
+        "Name": "Battle Shout",
+        "Stats": {
+          "AP": 241
+        }
       },
       {
         "Name": "Trueshot Aura",
@@ -68,81 +85,79 @@
           "Crit": 2
         }
       },
+      {
+        "Name": "Juju Power",
+        "Stats": {
+          "AP": 40,
+        }
+      },
+      {
+        "Name": "Juju Might",
+        "Stats": {
+          "Str": 30,
+        }
+      },
     ],
     "MH": {
-      "DamageMin": 119,
-      "DamageMax": 221,
-      "Speed": 2.6,
-      "TwoHanded": false,
+      "DamageMin": 203,
+      "DamageMax": 305,
+      "Speed": 3.4,
+      "TwoHanded": true,
       "Type": "Axe",
-      "Name": "Hatchet of Sundered Bone",
-      "Id": 0,
-      "Slot": "Weapon",
-      "Enchantment": {
-        "Name": "Crusader"
-      },
-      "Stats": {
-        "AP": 36,
-        "Crit": 1
-      }
-    },
-    "OH": {
-      "DamageMin": 101,
-      "DamageMax": 188,
-      "Speed": 2.3,
-      "TwoHanded": false,
-      "Type": "Axe",
-      "Name": "Crul'shorukh, Edge of Chaos",
+      "Name": "Spinal Reaper",
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
-        "AP": 36,
+        "AP": 34
       },
-      "Enchantment": {
-        "Name": "Crusader"
-      },
-      "Buff": {
-        "Stats": {
-          "Crit": 2
-        }
+      "Enchantment":
+      {
+        "Name": "Crusader",
       }
     },
     "Ranged": {
-      "Type": "Crossbow",
-      "Name": "Crossbow of Imminent Doom",
+      "Type": "Bow",
+      "Name": "Striker's Mark",
       "Stats": {
-        "Str": 5,
-        "Agi": 7,
+        "AP": 22,
         "Hit": 1,
       }
     },
     "Equipment": {
       "Head": {
-        "Name": "Mark of the Unforgiven",
+        "Name": "Lionheart Helm",
         "Stats": {
           "Hit": 2,
-          "Crit": 1,
+          "Crit": 2,
+          "Str": 18,
+        },
+        "Enchantment": {
+          "Name": "Lesser Arcane Amalgamation",
+          "Stats": {
+            "Str": 8
+          }
         }
       },
       "Neck": {
-        "Name": "Mark of Fordring",
+        "Name": "Onyxia Tooth Pendant",
         "Stats": {
-          "AP": 26,
           "Crit": 1,
+          "Hit": 1,
+          "Agi": 12,
         }
       },
       "Shoulders": {
-        "Name": "Truestike Shoulders",
+        "Name": "Truestrike",
         "Stats": {
           "Hit": 2,
-          "AP": 24,
+          "AP": 24
         },
       },
       "Back": {
-	      "Name": "Cape of the Black Baron",
-	      "Stats": {
-	        "Agi": 15,
-	        "AP": 20
+        "Name": "Puissant Cape",
+        "Stats": {
+          "Hit": 1,
+          "AP": 40
         },
         "Enchantment": {
           "Name": "Lesser Agility",
@@ -156,21 +171,22 @@
         "Stats": {
           "Str": 13,
           "Agi": 14,
-          "Crit": 2
+          "Crit": 2,
         },
         "Enchantment": {
           "Name": "Greater Stats",
           "Stats": {
             "Str": 4,
-            "Agi": 4
+            "Agi": 4,
+            "Int": 4,
+            "Spi": 4,
           }
         }
       },
       "Wrist": {
-        "Name": "Battleborn Armbraces",
+        "Name": "Wristguards of Stability",
         "Stats": {
-          "Hit": 1,
-          "Crit": 1
+          "Str": 24,
         },
         "Enchantment": {
           "Name": "Superior Strength",
@@ -194,10 +210,11 @@
         }
       },
       "Waist": {
-        "Name": "Omokk's Girth Restrainer",
+        "Name": "Onslaught Girdle",
         "Stats": {
-          "Str": 15,
-          "Crit": 1
+          "Str": 31,
+          "Crit": 1,
+          "Hit": 1,
         }
       },
       "Legs": {
@@ -206,6 +223,12 @@
           "AP": 46,
           "Crit": 1
         },
+        "Enchantment": {
+          "Name": "Lesser Arcane Amalgamation",
+          "Stats": {
+            "Str": 8
+          }
+        }
       },
       "Feet": {
         "Name": "Battlechaser's Greaves",
@@ -215,23 +238,24 @@
         },
       },
       "Ring1": {
-        "Name": "Painweaver Band",
+        "Name": "Band of Accuria",
         "Stats": {
-          "AP": 16,
-          "Crit": 1
+          "Agi": 16,
+          "Hit": 2
         }
       },
       "Ring2": {
-        "Name": "Blackstone Ring",
+        "Name": "Quick Strike Ring",
         "Stats": {
-          "AP": 20,
-          "Hit": 1
+          "AP": 30,
+          "Str": 5,
+          "Crit": 1
         }
       },
       "Trinket1": {
-        "Name": "Blackhand's Breadth",
+        "Name": "Hand of Justice",
         "Stats": {
-          "Crit": 2
+          "AP": 20
         }
       },
       "Trinket2": {
@@ -239,7 +263,7 @@
         "Stats": {
           "Crit": 2
         }
-      },
+      }
     }
   }
 }

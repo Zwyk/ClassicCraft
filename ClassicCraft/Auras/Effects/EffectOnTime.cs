@@ -43,7 +43,6 @@ namespace ClassicCraft
             base.Refresh();
 
             TickDamage = GetTickDamage();
-            NextTick = Player.Sim.CurrentTime + TickDelay;
         }
         public abstract int GetTickDamage();
 

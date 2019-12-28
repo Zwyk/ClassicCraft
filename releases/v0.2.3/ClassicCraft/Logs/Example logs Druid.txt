@@ -1,0 +1,30 @@
+Date : 2019/12/28 18:45:49
+
+Fight length : 120 seconds (+/- 20%)
+
+Player :
+Tauren Druid level 60 | Stats : [Strength:321,6][Agility:235][Stamina:72][Intellect:118,8][Spirit:126][Health:2023][Mana:3026][CritChance:24,75][HitChance:8][Haste:0][AP:1547,2][RangedAP:1782,2]
+
+Boss (after raid debuffs) :
+Level 63, 336 Armor (5,76% mitigation)
+
+4471 simulations done in 2 729,14 ms, for 0,61 ms by sim
+Overall accuracy of results : ±0,15%
+
+Average DPS : 573,25 dps (±0,43)
+
+Average stats for [AA MH] : 271,82 DPS (47,42%)
+	Average of 184,92 damage for 176,39 uses (or 1 use every 0,68s)
+	1,01% Miss, 30,74% Hit, 21,87% Crit, 39,87% Glancing, 6,51% Dodge
+
+Average stats for [Shred] : 219,27 DPS (38,25%)
+	Average of 667,44 damage for 39,42 uses (or 1 use every 3,04s)
+	0,99% Miss, 72,30% Hit, 20,19% Crit, 0,00% Glancing, 6,53% Dodge
+
+Average stats for [Ferocious Bite] : 81,91 DPS (14,29%)
+	Average of 1 218,97 damage for 8,06 uses (or 1 use every 14,88s)
+	0,99% Miss, 72,47% Hit, 20,18% Crit, 0,00% Glancing, 6,36% Dodge
+
+Average stats for [Shift] : 0,00 DPS (0,00%)
+	Average of 0,00 damage for 12,13 uses (or 1 use every 9,89s)
+	0,00% Miss, 100,00% Hit, 0,00% Crit, 0,00% Glancing, 0,00% Dodge
