@@ -1,7 +1,7 @@
 # ClassicCraft
 *A WoW Classic simulation tool*
 
-## Current features :
+### Current features :
 - DPS Simulation
 	- Character setup
 		- Class, Race
@@ -25,7 +25,7 @@
 	- Druid
 		- Feral
 
-How to use :
+### How to use :
 - Download and extract the content of the .zip file anywhere on your computer
 - Modify `sim.json` to setup the simulation
 	- You can use the examples in the folder `sim.json examples`
