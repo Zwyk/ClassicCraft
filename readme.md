@@ -6,7 +6,7 @@
 	- Character setup
 		- Class, Race
 		- Gear
-			- *Specials : HoJ, Flurry Axe, Thrash Blade*
+			- *Specials : Manual Crowd Pummeler, HoJ, Flurry Axe, Thrash Blade*
 		- Enchantements
 			- *Specials : Crusader*
 		- Consumables
