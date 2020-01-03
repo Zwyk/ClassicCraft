@@ -704,7 +704,9 @@ namespace ClassicCraft
 
                 if(isAA && (Class == Classes.Rogue || Form == Forms.Cat))
                 {
-                    if (Sets["Shadowcraft"] >= 6 && ((isMH && Randomer.NextDouble() < MH.Speed / 60) || (!isMH && Randomer.NextDouble() < OH.Speed / 60)))
+                    if (Sets["Shadowcraft"] >= 6 && 
+                        (Form == Forms.Cat && Randomer.NextDouble() < 1.0 / 60) ||
+                        (Form != Forms.Cat && ((isMH && Randomer.NextDouble() < MH.Speed / 60) || (!isMH && Randomer.NextDouble() < OH.Speed / 60))))
                     {
                         Resource += 35;
                         if(Program.logFight)
