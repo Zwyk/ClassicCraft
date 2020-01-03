@@ -44,7 +44,7 @@
 - `Mana` : Mana
 - `Armor` : Armor
 - `ArmorPen` : Armor Penetration
-- `Haste` : Haste
+- `Haste` : Haste(Attack Speed) %
 - `AP` : Attack Power
 - `RAP` : Ranged Attack Power
 - `SP` : Spell Power
@@ -57,7 +57,7 @@
 - `Sword` : Sword Weapon Skill
 - `Axe` : Axe Weapon Skill
 - `Mace` : Mace Weapon Skill
-- `Polearm` : Spear Weapon Skill
+- `Polearm` : Polearm Weapon Skill
 - `Staff` : Staff Weapon Skill
 - `Dagger` : Dagger Weapon Skill
 - `Fist` : Fist Weapon Skill
