@@ -52,7 +52,7 @@
 - `Hit` : Hit Chance %
 - `SpellHit` : Spell Hit Chance %
 - `Crit` : Crit Chance %
-- `SpellCrit` : Spell Crit Chance
+- `SpellCrit` : Spell Crit Chance %
 - `MP5` : MP5
 - `Sword` : Sword Weapon Skill
 - `Axe` : Axe Weapon Skill
