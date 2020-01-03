@@ -677,7 +677,9 @@ namespace ClassicCraft
                     }
                     if((!WindfuryTotem || !isMH) && Randomer.NextDouble() < 0.2)
                     {
-                        new TempAction(this, "Instant Poison", true).RegisterDamage(new ActionResult(SpellAttackEnemy(Sim.Boss), Randomer.Next(112, 148 + 1)));
+                        ResultType res2 = SpellAttackEnemy(Sim.Boss);
+                        int dmg = MiscDamageCalc(Randomer.Next(112, 148 + 1), res2, true);
+                        new TempAction(this, "Instant Poison", true).RegisterDamage(new ActionResult(res2, dmg));
                     }
                 }
 
@@ -742,16 +744,39 @@ namespace ClassicCraft
                 }
                 if (((isMH && MH?.Name == "Deathbringer") || (!isMH && OH?.Name == "Deathbringer")) && Randomer.NextDouble() < 0.0396)
                 {
-                    new TempAction(this, "Deathbringer", true).RegisterDamage(new ActionResult(SpellAttackEnemy(Sim.Boss), Randomer.Next(110, 140 + 1)));
+                    ResultType res2 = SpellAttackEnemy(Sim.Boss);
+                    int dmg = MiscDamageCalc(Randomer.Next(110, 140 + 1), res2, true);
+                    new TempAction(this, "Deathbringer", true).RegisterDamage(new ActionResult(res2, dmg));
                 }
                 if (((isMH && MH?.Name == "Perdition's Blade") || (!isMH && OH?.Name == "Perdition's Blade")) && Randomer.NextDouble() < 0.04)
                 {
-                    new TempAction(this, "Perdition's Blade", true).RegisterDamage(new ActionResult(SpellAttackEnemy(Sim.Boss), Randomer.Next(40, 56 + 1)));
+                    ResultType res2 = SpellAttackEnemy(Sim.Boss);
+                    int dmg = MiscDamageCalc(Randomer.Next(40, 56 + 1), res2, true);
+                    new TempAction(this, "Perdition's Blade", true).RegisterDamage(new ActionResult(res2, dmg));
                 }
                 if (((isMH && MH?.Name == "Vis'kag the Bloodletter") || (!isMH && OH?.Name == "Vis'kag the Bloodletter")) && Randomer.NextDouble() < 0.0253)
                 {
-                    new TempAction(this, "Vis'kag the Bloodletter").RegisterDamage(new ActionResult(YellowAttackEnemy(Sim.Boss), 240));
+                    ResultType res2 = YellowAttackEnemy(Sim.Boss);
+                    int dmg = MiscDamageCalc(240, res2);
+                    new TempAction(this, "Vis'kag the Bloodletter").RegisterDamage(new ActionResult(res2, dmg));
                 }
+            }
+        }
+
+        public int MiscDamageCalc(int baseDmg, ResultType res, bool magical = false, double APRatio = 0)
+        {
+            if(!magical)
+            {
+                return (int)Math.Round(baseDmg
+                    * Sim.DamageMod(res)
+                    * ArmorMitigation(Sim.Boss.Armor)
+                    * DamageMod);
+            }
+            else
+            {
+                return (int)Math.Round((baseDmg + APRatio * AP)
+                    * Sim.DamageMod(res)
+                    * DamageMod);
             }
         }
 
