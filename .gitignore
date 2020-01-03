@@ -1,4 +1,6 @@
 ClassicCraft/bin ClassicCraft/obj
+.vs
+.vs/*
 .vs/ClassicCraft/v15/.suo
 .vs/ClassicCraft/v15/Server/sqlite3/storage.ide
 .vs/ClassicCraft/v15/Server/sqlite3/storage.ide-shm
