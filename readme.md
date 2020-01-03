@@ -44,7 +44,7 @@
 - `Mana` : Mana
 - `Armor` : Armor
 - `ArmorPen` : Armor Penetration
-- `Haste` : Haste
+- `Haste` : Haste(Attack Speed) %
 - `AP` : Attack Power
 - `RAP` : Ranged Attack Power
 - `SP` : Spell Power
