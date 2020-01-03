@@ -14,11 +14,11 @@
 - DPS Simulation
 	- Character setup
 		- Class, Race
-		- Gear
+		- Gear (some special sets like Rogue's T0 6P and T1 5P)
 		- Enchantements
-		- Consumables
+		- Consumables (Crusader)
 		- CDs to use (Racial, Recklessness, etc.)
-		- Raid buffs (windfury, etc.)
+		- Raid buffs (Windfury, etc.)
 	- Encounter setup
 		- Boss Level/Armor
 		- Length (+ boss low life length)
@@ -28,11 +28,11 @@
 		- Stats weights (1 AP = X DPS, 1 STR = X DPS or X AP, etc.)
 - Classes supported
 	- Warrior
-		- Bloodthirst 1H / 2H
+		- Fury (1H or 2H)
 	- Druid
-		- Feral
+		- Feral (Powershifting)
 	- Rogue
-		- Combat
+		- Combat (SS or BS)
 
 ### JSON Attributes List
 - `Sta` : Stamina
