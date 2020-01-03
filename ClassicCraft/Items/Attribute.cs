@@ -23,14 +23,17 @@ namespace ClassicCraft
         SP,
         HSP,
         HitChance,
+        SpellHitChance,
         CritChance,
+        SpellCritChance,
         MP5,
         SkillSword,
         SkillAxe,
         SkillMace,
-        SkillSpear,
+        SkillPolearm,
         SkillStaff,
         SkillDagger,
+        SkillFist,
         Skill1H,
         Skill2H,
         WeaponDamage,
@@ -57,14 +60,17 @@ namespace ClassicCraft
                 case "SP": return Attribute.SP;
                 case "HSP": return Attribute.HSP;
                 case "Hit": return Attribute.HitChance;
+                case "SpellHit": return Attribute.SpellHitChance;
                 case "Crit": return Attribute.CritChance;
+                case "SpellCrit": return Attribute.SpellCritChance;
                 case "MP5": return Attribute.MP5;
                 case "Sword": return Attribute.SkillSword;
                 case "Axe": return Attribute.SkillAxe;
                 case "Mace": return Attribute.SkillMace;
-                case "Spear": return Attribute.SkillSpear;
+                case "Polearm": return Attribute.SkillPolearm;
                 case "Staff": return Attribute.SkillStaff;
                 case "Dagger": return Attribute.SkillDagger;
+                case "Fist": return Attribute.SkillFist;
                 case "1H": return Attribute.Skill1H;
                 case "2H": return Attribute.Skill2H;
                 case "WDmg": return Attribute.WeaponDamage;
@@ -91,14 +97,17 @@ namespace ClassicCraft
                 case Attribute.SP: return "SP";
                 case Attribute.HSP: return "HSP";
                 case Attribute.HitChance: return "Hit";
+                case Attribute.SpellHitChance: return "SpellHit";
                 case Attribute.CritChance: return "Crit";
+                case Attribute.SpellCritChance: return "SpellCrit";
                 case Attribute.MP5: return "MP5";
                 case Attribute.SkillSword: return "Sword";
                 case Attribute.SkillAxe: return "Axe";
                 case Attribute.SkillMace: return "Mace";
-                case Attribute.SkillSpear: return "Spear";
+                case Attribute.SkillPolearm: return "Polearm";
                 case Attribute.SkillStaff: return "Staff";
                 case Attribute.SkillDagger: return "Dagger";
+                case Attribute.SkillFist: return "Fist";
                 case Attribute.Skill1H: return "1H";
                 case Attribute.Skill2H: return "2H";
                 case Attribute.WeaponDamage: return "WDmg";
@@ -197,7 +206,7 @@ namespace ClassicCraft
             {
                 double val = Values[a];
                 if (a == Attribute.CritChance || a == Attribute.HitChance || a == Attribute.Haste) val *= 100;
-                stats += "[" + a + ":" + val + "]";
+                stats += "[" + a + ":" + Math.Round(val*100)/100 + "]";
             }
             return stats;
         }

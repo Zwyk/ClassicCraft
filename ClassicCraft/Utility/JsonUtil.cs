@@ -37,12 +37,16 @@ namespace ClassicCraft
                         res.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100);
                         res.Attributes.SetValue(Attribute.HitChance, res.Attributes.GetValue(Attribute.HitChance) / 100);
                         res.Attributes.SetValue(Attribute.Haste, res.Attributes.GetValue(Attribute.Haste) / 100);
+                        res.Attributes.SetValue(Attribute.SpellHitChance, res.Attributes.GetValue(Attribute.SpellHitChance) / 100);
+                        res.Attributes.SetValue(Attribute.SpellCritChance, res.Attributes.GetValue(Attribute.SpellCritChance) / 100);
                     }
                     if (res.Enchantment != null)
                     {
                         res.Enchantment.Attributes.SetValue(Attribute.CritChance, res.Enchantment.Attributes.GetValue(Attribute.CritChance) / 100);
                         res.Enchantment.Attributes.SetValue(Attribute.HitChance, res.Enchantment.Attributes.GetValue(Attribute.HitChance) / 100);
                         res.Enchantment.Attributes.SetValue(Attribute.Haste, res.Enchantment.Attributes.GetValue(Attribute.Haste) / 100);
+                        res.Enchantment.Attributes.SetValue(Attribute.SpellHitChance, res.Enchantment.Attributes.GetValue(Attribute.SpellHitChance) / 100);
+                        res.Enchantment.Attributes.SetValue(Attribute.SpellCritChance, res.Enchantment.Attributes.GetValue(Attribute.SpellCritChance) / 100);
                     }
                     return res;
                 }
@@ -56,15 +60,19 @@ namespace ClassicCraft
                     JsonItem res = new JsonItem(i.Id, i.Name, SlotUtil.ToString(i.Slot), Attributes.ToStringDic(i.Attributes), ClassicCraft.Enchantment.FromEnchantment(i.Enchantment));
                     if(res.Stats != null)
                     {
-                        if (res.Stats.ContainsKey("CritChance")) res.Stats["CritChance"] *= 100;
-                        if (res.Stats.ContainsKey("HitChance")) res.Stats["HitChance"] *= 100;
+                        if (res.Stats.ContainsKey("Crit")) res.Stats["Crit"] *= 100;
+                        if (res.Stats.ContainsKey("Hit")) res.Stats["Hit"] *= 100;
                         if (res.Stats.ContainsKey("AS")) res.Stats["AS"] *= 100;
+                        if (res.Stats.ContainsKey("SpellHit")) res.Stats["SpellHit"] *= 100;
+                        if (res.Stats.ContainsKey("SpellCrit")) res.Stats["SpellCrit"] *= 100;
                     }
                     if(res.Enchantment != null)
                     {
-                        if (res.Enchantment.Stats.ContainsKey("CritChance")) res.Enchantment.Stats["CritChance"] *= 100;
-                        if (res.Enchantment.Stats.ContainsKey("HitChance")) res.Enchantment.Stats["HitChance"] *= 100;
+                        if (res.Enchantment.Stats.ContainsKey("Crit")) res.Enchantment.Stats["Crit"] *= 100;
+                        if (res.Enchantment.Stats.ContainsKey("Hit")) res.Enchantment.Stats["Hit"] *= 100;
                         if (res.Enchantment.Stats.ContainsKey("AS")) res.Enchantment.Stats["AS"] *= 100;
+                        if (res.Enchantment.Stats.ContainsKey("SpellHit")) res.Enchantment.Stats["SpellHit"] *= 100;
+                        if (res.Enchantment.Stats.ContainsKey("SpellCrit")) res.Enchantment.Stats["SpellCrit"] *= 100;
                     }
                     return res;
                 }
@@ -103,18 +111,24 @@ namespace ClassicCraft
                         res.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100);
                         res.Attributes.SetValue(Attribute.HitChance, res.Attributes.GetValue(Attribute.HitChance) / 100);
                         res.Attributes.SetValue(Attribute.Haste, res.Attributes.GetValue(Attribute.Haste) / 100);
+                        res.Attributes.SetValue(Attribute.SpellHitChance, res.Attributes.GetValue(Attribute.SpellHitChance) / 100);
+                        res.Attributes.SetValue(Attribute.SpellCritChance, res.Attributes.GetValue(Attribute.SpellCritChance) / 100);
                     }
                     if(res.Enchantment != null)
                     {
                         res.Enchantment.Attributes.SetValue(Attribute.CritChance, res.Enchantment.Attributes.GetValue(Attribute.CritChance) / 100);
                         res.Enchantment.Attributes.SetValue(Attribute.HitChance, res.Enchantment.Attributes.GetValue(Attribute.HitChance) / 100);
                         res.Enchantment.Attributes.SetValue(Attribute.Haste, res.Enchantment.Attributes.GetValue(Attribute.Haste) / 100);
+                        res.Enchantment.Attributes.SetValue(Attribute.SpellHitChance, res.Enchantment.Attributes.GetValue(Attribute.SpellHitChance) / 100);
+                        res.Enchantment.Attributes.SetValue(Attribute.SpellCritChance, res.Enchantment.Attributes.GetValue(Attribute.SpellCritChance) / 100);
                     }
                     if(res.Buff != null)
                     {
                         res.Buff.Attributes.SetValue(Attribute.CritChance, res.Buff.Attributes.GetValue(Attribute.CritChance) / 100);
                         res.Buff.Attributes.SetValue(Attribute.HitChance, res.Buff.Attributes.GetValue(Attribute.HitChance) / 100);
                         res.Buff.Attributes.SetValue(Attribute.Haste, res.Buff.Attributes.GetValue(Attribute.Haste) / 100);
+                        res.Buff.Attributes.SetValue(Attribute.SpellHitChance, res.Buff.Attributes.GetValue(Attribute.SpellHitChance) / 100);
+                        res.Buff.Attributes.SetValue(Attribute.SpellCritChance, res.Buff.Attributes.GetValue(Attribute.SpellCritChance) / 100);
                     }
                     return res;
                 }
@@ -128,21 +142,27 @@ namespace ClassicCraft
                     JsonWeapon res = new JsonWeapon(w.DamageMin, w.DamageMax, w.Speed, w.TwoHanded, Weapon.TypeToString(w.Type), w.Id, w.Name, Attributes.ToStringDic(w.Attributes), ClassicCraft.Enchantment.FromEnchantment(w.Enchantment), ClassicCraft.Enchantment.FromEnchantment(w.Buff));
                     if(res.Stats != null)
                     {
-                        if (res.Stats.ContainsKey("CritChance")) res.Stats["CritChance"] *= 100;
-                        if (res.Stats.ContainsKey("HitChance")) res.Stats["HitChance"] *= 100;
+                        if (res.Stats.ContainsKey("Crit")) res.Stats["Crit"] *= 100;
+                        if (res.Stats.ContainsKey("Hit")) res.Stats["Hit"] *= 100;
                         if (res.Stats.ContainsKey("AS")) res.Stats["AS"] *= 100;
+                        if (res.Stats.ContainsKey("SpellHit")) res.Stats["SpellHit"] *= 100;
+                        if (res.Stats.ContainsKey("SpellCrit")) res.Stats["SpellCrit"] *= 100;
                     }
                     if(res.Enchantment != null)
                     {
-                        if (res.Enchantment.Stats.ContainsKey("CritChance")) res.Enchantment.Stats["CritChance"] *= 100;
-                        if (res.Enchantment.Stats.ContainsKey("HitChance")) res.Enchantment.Stats["HitChance"] *= 100;
+                        if (res.Enchantment.Stats.ContainsKey("Crit")) res.Enchantment.Stats["Crit"] *= 100;
+                        if (res.Enchantment.Stats.ContainsKey("Hit")) res.Enchantment.Stats["Hit"] *= 100;
                         if (res.Enchantment.Stats.ContainsKey("AS")) res.Enchantment.Stats["AS"] *= 100;
+                        if (res.Enchantment.Stats.ContainsKey("SpellHit")) res.Enchantment.Stats["SpellHit"] *= 100;
+                        if (res.Enchantment.Stats.ContainsKey("SpellCrit")) res.Enchantment.Stats["SpellCrit"] *= 100;
                     }
                     if(res.Buff != null)
                     {
-                        if (res.Buff.Stats.ContainsKey("CritChance")) res.Buff.Stats["CritChance"] *= 100;
-                        if (res.Buff.Stats.ContainsKey("HitChance")) res.Buff.Stats["HitChance"] *= 100;
+                        if (res.Buff.Stats.ContainsKey("Crit")) res.Buff.Stats["Crit"] *= 100;
+                        if (res.Buff.Stats.ContainsKey("Hit")) res.Buff.Stats["Hit"] *= 100;
                         if (res.Buff.Stats.ContainsKey("AS")) res.Buff.Stats["AS"] *= 100;
+                        if (res.Buff.Stats.ContainsKey("SpellHit")) res.Buff.Stats["SpellHit"] *= 100;
+                        if (res.Buff.Stats.ContainsKey("SpellCrit")) res.Buff.Stats["SpellCrit"] *= 100;
                     }
                     return res;
                 }
@@ -243,6 +263,8 @@ namespace ClassicCraft
                                 e.Attributes.SetValue(Attribute.CritChance, e.Attributes.GetValue(Attribute.CritChance) / 100);
                                 e.Attributes.SetValue(Attribute.HitChance, e.Attributes.GetValue(Attribute.HitChance) / 100);
                                 e.Attributes.SetValue(Attribute.Haste, e.Attributes.GetValue(Attribute.Haste) / 100);
+                                e.Attributes.SetValue(Attribute.SpellHitChance, e.Attributes.GetValue(Attribute.SpellHitChance) / 100);
+                                e.Attributes.SetValue(Attribute.SpellCritChance, e.Attributes.GetValue(Attribute.SpellCritChance) / 100);
                             }
 
                             buffs.Add(e);
@@ -296,12 +318,14 @@ namespace ClassicCraft
         public class JsonBoss
         {
             public int Level { get; set; }
+            public string Type { get; set; }
             public int Armor { get; set; }
             public List<string> Debuffs { get; set; }
 
-            public JsonBoss(int level = 63, int armor = 4400, List<string> debuffs = null)
+            public JsonBoss(int level = 63, string type = "Humanoid", int armor = 4400, List<string> debuffs = null)
             {
                 Level = level;
+                Type = type;
                 Armor = armor;
                 Debuffs = debuffs;
             }
@@ -319,7 +343,20 @@ namespace ClassicCraft
                         + (debuffs.Contains("Annihilator") ? 600 : 0);
                 }
 
-                return new Boss(jb.Level, Math.Max(0, armor));
+                return new Boss(ToType(jb.Type), jb.Level, Math.Max(0, armor));
+            }
+
+            public static Entity.MobType ToType(string s)
+            {
+                switch(s)
+                {
+                    case "Humanoid": return Entity.MobType.Humanoid;
+                    case "Dragonkin": return Entity.MobType.Dragonkin;
+                    case "Beast": return Entity.MobType.Beast;
+                    case "Giant": return Entity.MobType.Giant;
+                    case "Undead": return Entity.MobType.Undead;
+                    default: return Entity.MobType.Other;
+                }
             }
         }
 

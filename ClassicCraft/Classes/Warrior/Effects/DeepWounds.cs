@@ -39,7 +39,7 @@ namespace ClassicCraft
 
             int damage = (int)Math.Round((minDmg + maxDmg) / 2
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
-                * (Player.DualWielding() ? 1 : 1.03)
+                * (Player.DualWielding ? 1 : 1.03)
                 * Ratio);
 
             return (int)Math.Round(damage / BaseLength * TickDelay);

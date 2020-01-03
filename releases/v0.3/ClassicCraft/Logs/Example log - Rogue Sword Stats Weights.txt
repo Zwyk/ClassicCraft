@@ -1,0 +1,23 @@
+Date : 2020/01/03 01:41:53
+
+Fight length : 120 seconds (±20%)
+
+Player :
+Undead Rogue level 60 | Stats : [Strength:243][Agility:474][Stamina:76][Intellect:37][Spirit:59][Health:2103][CritChance:29,34][HitChance:7][Haste:0][SpellHitChance:0][SpellCritChance:0][AP:1184][SkillSword:5][SkillDagger:5][RangedAP:2132]
+
+Boss (after raid debuffs) :
+Level 63, 336 Armor (5,76% mitigation)
+
+
+22245 simulations done in 16 396,15 ms, for 0,74 ms by sim
+Overall accuracy of results : ±0,17%
+
+Base : 548,37 DPS
+
+Weights by DPS :
+1 AP = 0,5491 DPS
+1 Str = 0,5491 DPS = 1,0000 AP
+1 Agi = 1,0137 DPS = 1,8459 AP
+1% Crit = 13,4718 DPS = 24,5323 AP
+1% Hit = 7,2693 DPS = 13,2374 AP
+1% Haste = 15,8361 DPS = 28,8377 AP

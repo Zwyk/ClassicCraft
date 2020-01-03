@@ -8,11 +8,11 @@ namespace ClassicCraft
 {
     public class Recklessness : Spell
     {
-        public static int COST = 0;
+        public static int BASE_COST = 0;
         public static int CD = 300;
 
         public Recklessness(Player p)
-            : base(p, CD, COST, true)
+            : base(p, CD, BASE_COST, true)
         {
         }
 

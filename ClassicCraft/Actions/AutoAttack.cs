@@ -50,14 +50,14 @@ namespace ClassicCraft
 
             Player.nextAABonus = 0;
 
-            double baseDamage = 
-                Randomer.Next(minDmg, maxDmg + 1)
+            int damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
+                * Player.Sim.DamageMod(res)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
-                * (Player.DualWielding() ? (MH ? 1 : 0.5 * (1 + (0.05 * Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Player.GetTalentPoints("2HS")));
+                * Player.DamageMod
+                * (Player.DualWielding ? (MH ? 1 : 0.5 * (1 + (0.05 * Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Player.GetTalentPoints("2HS")))
+                );
 
-            int damage = (int)Math.Round(baseDamage * Player.Sim.DamageMod(res));
-
-            if (Player.Class == Player.Classes.Warrior)
+            if (Player.Class == Player.Classes.Warrior || Player.Form == Player.Forms.Bear)
             {
                 Player.Resource += (int)Math.Round(Simulation.RageGained(damage, Player.Level));
                 //Player.Resource += (int)Math.Round(Simulation.RageGained2(damage, Weapon.Speed, MH, res == ResultType.Crit, Player.Level));
@@ -65,7 +65,7 @@ namespace ClassicCraft
 
             RegisterDamage(new ActionResult(res, damage));
             
-            Player.CheckOnHits(MH, res, extra, wf);
+            Player.CheckOnHits(MH, true, res, extra, wf);
         }
 
         public void NextAA()

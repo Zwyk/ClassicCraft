@@ -8,13 +8,11 @@ namespace ClassicCraft
 {
     class Shred : Spell
     {
-        public static int COST = 60;
+        public static int BASE_COST = 60;
         public static int CD = 0;
 
-        static Random random = new Random();
-
         public Shred(Player p)
-            : base(p, CD, COST - p.GetTalentPoints("IS") * 6) { }
+            : base(p, CD, BASE_COST - p.GetTalentPoints("IS") * 6) { }
 
         public override void Cast()
         {
@@ -37,7 +35,8 @@ namespace ClassicCraft
                 (Randomer.Next(minDmg, maxDmg + 1) * 2.25 + 180)
                 * (1 + Player.GetTalentPoints("NW") * 0.02)
                 * Player.Sim.DamageMod(res)
-                * Entity.ArmorMitigation(Player.Sim.Boss.Armor));
+                * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
+                * Player.DamageMod);
 
             CommonAction();
 
@@ -58,7 +57,7 @@ namespace ClassicCraft
                 Player.Resource -= cost;
             }
 
-            if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glancing)
+            if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
             {
                 Player.Combo++;
             }
@@ -70,7 +69,7 @@ namespace ClassicCraft
 
             RegisterDamage(new ActionResult(res, damage));
 
-            Player.CheckOnHits(true, res);
+            Player.CheckOnHits(true, false, res);
         }
 
         public override string ToString()

@@ -11,7 +11,7 @@ namespace ClassicCraft
         Miss,
         Dodge,
         Parry,
-        Glancing,
+        Glance,
         Block,
         Crit,
         Hit,
@@ -35,11 +35,14 @@ namespace ClassicCraft
 
         public double LockedUntil { get; set; }
 
-        public Action(Player p, double baseCD)
+        public bool Magic { get; set; }
+
+        public Action(Player p, double baseCD, bool magic = false)
             : base(p)
         {
             BaseCD = baseCD;
             LockedUntil = 0;
+            Magic = magic;
         }
 
         public abstract void Cast();
@@ -71,9 +74,10 @@ namespace ClassicCraft
 
         public string ResourceName()
         {
-            switch(Player.Class)
+            if (Player.Form == Player.Forms.Cat) return "energy";
+            switch (Player.Class)
             {
-                case Player.Classes.Druid: return "energy";
+                case Player.Classes.Rogue: return "energy";
                 case Player.Classes.Warrior: return "rage";
                 default: return "resource";
             }
@@ -85,10 +89,14 @@ namespace ClassicCraft
 
             if(Program.logFight)
             {
-                string log = string.Format("{0:N2} : {1} {2} for {3} damage ({5} {4})", Player.Sim.CurrentTime, ToString(), res.Type, res.Damage, Player.Resource, ResourceName());
-                if(Player.Class == Player.Classes.Druid)
+                string log = string.Format("{0:N2} : {1} {2} for {3} damage ({4} {5}/{6})", Player.Sim.CurrentTime, ToString(), res.Type, res.Damage, ResourceName(), Player.Resource, Player.MaxResource);
+                if(Player.Form == Player.Forms.Cat || Player.Class == Player.Classes.Rogue)
                 {
                     log += "[combo " + Player.Combo + "]";
+                }
+                if (Player.Mana > 0)
+                {
+                    log += " - Mana " + Player.Mana + "/" + Player.MaxMana;
                 }
                 Program.Log(log);
             }
@@ -98,14 +106,14 @@ namespace ClassicCraft
         {
             if(Program.logFight)
             {
-                string log = string.Format("{0:N2} : {1} cast ({3} {2})", Player.Sim.CurrentTime, ToString(), Player.Resource, ResourceName());
-                if (Player.Class == Player.Classes.Druid)
+                string log = string.Format("{0:N2} : {1} cast ({2} {3}/{4})", Player.Sim.CurrentTime, ToString(), ResourceName(), Player.Resource, Player.MaxResource);
+                if (Player.Form == Player.Forms.Cat || Player.Class == Player.Classes.Rogue)
                 {
                     log += "[combo " + Player.Combo + "]";
                 }
-                if(Player.Attributes.GetValue(Attribute.Mana) > 0)
+                if(Player.Mana > 0)
                 {
-                    log += " - Mana " + Player.Mana + "/" + Player.Attributes.GetValue(Attribute.Mana);
+                    log += " - Mana " + Player.Mana + "/" + Player.MaxMana;
                 }
                 Program.Log(log);
             }

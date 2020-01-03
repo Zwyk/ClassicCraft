@@ -8,11 +8,11 @@ namespace ClassicCraft
 {
     class Execute : Spell
     {
-        public static int COST = 15;
+        public static int BASE_COST = 15;
         public static int CD = 0;
 
         public Execute(Player p)
-            : base(p, CD, COST, true)
+            : base(p, CD, BASE_COST, true)
         {
 
         }
@@ -42,8 +42,9 @@ namespace ClassicCraft
             int damage = (int)Math.Round((600 + (Player.Resource - (15 - reducedCost)) * 15)
                 * Player.Sim.DamageMod(res)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
+                * Player.DamageMod
                 * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1)
-                * (Player.DualWielding() ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
+                * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
 
             CommonAction();
             if (res == ResultType.Parry || res == ResultType.Dodge)
@@ -58,7 +59,7 @@ namespace ClassicCraft
 
             RegisterDamage(new ActionResult(res, damage));
 
-            Player.CheckOnHits(true, res);
+            Player.CheckOnHits(true, false, res);
         }
 
         public override string ToString()

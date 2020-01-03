@@ -40,15 +40,13 @@ namespace ClassicCraft
 
     class Program
     {
-        private static Random random = new Random();
-
         public static string simJsonFileName = "sim.json";
         public static string itemsJsonFileName = "items.json";
         public static string logsFileDir = "Logs";
         public static string logsFileName = "logs";
         public static string txt = ".txt";
 
-        public static bool debug = false;
+        public static bool debug = true;
         public static string debugPath = ".\\..\\..";
 
         public static Player playerBase = null;
@@ -131,7 +129,7 @@ namespace ClassicCraft
                 statsWeights = jsonSim.StatsWeights;
                 
                 Log(string.Format("Date : {0}\n", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")));
-                Log(string.Format("Fight length : {0} seconds (+/- {1}%)", fightLength, fightLengthMod * 100));
+                Log(string.Format("Fight length : {0} seconds (±{1}%)", fightLength, fightLengthMod * 100));
 
                 if (logFight)
                 {
@@ -146,6 +144,12 @@ namespace ClassicCraft
                 }
 
                 playerBase = JsonUtil.JsonPlayer.ToPlayer(jsonSim.Player);
+
+                if(playerBase.Mana == 0)
+                {
+                    simOrder.Remove("+50 Int");
+                    simOrder.Remove("+50 Spi");
+                }
 
                 // Talents
                 playerBase.Talents = new Dictionary<string, int>();
@@ -184,9 +188,6 @@ namespace ClassicCraft
                     playerBase.Talents.Add("DWS", fury.Length > 8 ? (int)Char.GetNumericValue(fury[8]) : 0);
                     playerBase.Talents.Add("IE", fury.Length > 9 ? (int)Char.GetNumericValue(fury[9]) : 0);
                     playerBase.Talents.Add("Flurry", fury.Length > 15 ? (int)Char.GetNumericValue(fury[15]) : 0);
-
-                    simOrder.Remove("+50 Int");
-                    simOrder.Remove("+50 Spi");
                 }
                 else if(playerBase.Class == Player.Classes.Druid)
                 {
@@ -217,8 +218,61 @@ namespace ClassicCraft
                     // Resto
                     playerBase.Talents.Add("Furor", resto.Length > 1 ? (int)Char.GetNumericValue(resto[1]) : 0);
                 }
+                else if(playerBase.Class == Player.Classes.Rogue)
+                {
+                    if (ptal == null || ptal == "")
+                    {
+                        if(playerBase.MH.Type == Weapon.WeaponType.Dagger)
+                        {
+                            // Combat Daggers
+                            ptal = "005303103-3203052020550100201-05";
+                        }
+                        else if (playerBase.MH.Type == Weapon.WeaponType.Fist)
+                        {
+                            // Combat Fists
+                            ptal = "005323105-3210052020050105231";
+                        }
+                        else
+                        {
+                            // Combat Sword
+                            ptal = "005323105-3210052020050150231";
+                        }
+                    }
+
+                    string[] talents = ptal.Split('-');
+                    string assass = talents.Length > 0 ? talents[0] : "";
+                    string combat = talents.Length > 1 ? talents[1] : "";
+                    string subti = talents.Length > 2 ? talents[2] : "";
+
+                    // Assassination
+                    playerBase.Talents.Add("IE", assass.Length > 0 ? (int)Char.GetNumericValue(assass[0]) : 0);
+                    playerBase.Talents.Add("Malice", assass.Length > 2 ? (int)Char.GetNumericValue(assass[2]) : 0);
+                    playerBase.Talents.Add("Ruth", assass.Length > 3 ? (int)Char.GetNumericValue(assass[3]) : 0);
+                    playerBase.Talents.Add("Murder", (assass.Length > 4 && (jsonSim.Boss.Type == "Humanoid" || jsonSim.Boss.Type == "Giant" || jsonSim.Boss.Type == "Beast" || jsonSim.Boss.Type == "Dragonkin"))
+                         ? (int)Char.GetNumericValue(assass[4]) : 0);
+                    playerBase.Talents.Add("ISD", assass.Length > 5 ? (int)Char.GetNumericValue(assass[5]) : 0);
+                    playerBase.Talents.Add("RS", assass.Length > 6 ? (int)Char.GetNumericValue(assass[6]) : 0);
+                    playerBase.Talents.Add("Letha", assass.Length > 8 ? (int)Char.GetNumericValue(assass[8]) : 0);
+                    // Combat
+                    playerBase.Talents.Add("IG", combat.Length > 0 ? (int)Char.GetNumericValue(combat[0]) : 0);
+                    playerBase.Talents.Add("ISS", combat.Length > 1 ? (int)Char.GetNumericValue(combat[1]) : 0);
+                    playerBase.Talents.Add("IB", combat.Length > 3 ? (int)Char.GetNumericValue(combat[3]) : 0);
+                    playerBase.Talents.Add("Prec", combat.Length > 5 ? (int)Char.GetNumericValue(combat[5]) : 0);
+                    playerBase.Talents.Add("DS", combat.Length > 10 ? (int)Char.GetNumericValue(combat[10]) : 0);
+                    playerBase.Talents.Add("DWS", combat.Length > 11 ? (int)Char.GetNumericValue(combat[11]) : 0);
+                    playerBase.Talents.Add("BF", combat.Length > 13 ? (int)Char.GetNumericValue(combat[13]) : 0);
+                    playerBase.Talents.Add("SS", combat.Length > 14 ? (int)Char.GetNumericValue(combat[14]) : 0);
+                    playerBase.Talents.Add("FS", combat.Length > 15 ? (int)Char.GetNumericValue(combat[15]) : 0);
+                    playerBase.Talents.Add("WE", combat.Length > 16 ? (int)Char.GetNumericValue(combat[16]) : 0);
+                    playerBase.Talents.Add("Agg", combat.Length > 17 ? (int)Char.GetNumericValue(combat[17]) : 0);
+                    playerBase.Talents.Add("AR", combat.Length > 18 ? (int)Char.GetNumericValue(combat[18]) : 0);
+                    // Subtlety
+                    playerBase.Talents.Add("Oppo", subti.Length > 1 ? (int)Char.GetNumericValue(subti[1]) : 0);
+                }
 
                 playerBase.CalculateAttributes();
+                playerBase.CheckSets();
+                playerBase.ApplySets();
 
                 Log("\nPlayer :");
                 Log(playerBase.ToString());
@@ -365,7 +419,7 @@ namespace ClassicCraft
                     simsDone += DamagesList[k].Count;
                 }
 
-                string endMsg1 = string.Format("{0} simulations done in {1:N2} ms, for {2:N2} ms by sim", nbSim, time, time / nbSim);
+                string endMsg1 = string.Format("\n{0} simulations done in {1:N2} ms, for {2:N2} ms by sim", nbSim, time, time / nbSim);
                 Console.WriteLine(endMsg1);
                 Log(endMsg1);
 
@@ -442,10 +496,14 @@ namespace ClassicCraft
 
                     //List<string> logList = totalActions.SelectMany(a => a.Select(t => t.Action.ToString()).OrderBy(b => b)).Distinct().ToList();
                     List<string> logList = new List<string>() { "AA MH", "AA OH" };
-                    if(playerBase.Class == Player.Classes.Druid)
-                        logList.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift" });
-                    else if(playerBase.Class == Player.Classes.Warrior)
+                    if (playerBase.Class == Player.Classes.Warrior)
                         logList.AddRange(new List<string>() { "Bloodthirst", "Whirlwind", "Heroic Strike", "Execute", "Hamstring" });
+                    else if (playerBase.Class == Player.Classes.Druid)
+                        logList.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift" });
+                    else if (playerBase.Class == Player.Classes.Rogue)
+                        logList.AddRange(new List<string>() { "Sinister Strike", "Backstab", "Eviscerate", "Ambush", "Instant Poison" });
+
+                    logList.AddRange(new List<string>() { "Deathbringer", "Vis'kag the Bloodletter" });
 
                     foreach (string ac in logList)
                     {
@@ -459,10 +517,19 @@ namespace ClassicCraft
                             res += string.Format("{0:N2} DPS ({1:N2}%)\n\tAverage of {2:N2} damage for {3:N2} uses (or 1 use every {4:N2}s)", avgAcDps, avgAcDps / avgDps * 100, avgAcDmg, avgAcUse, fightLength / avgAcUse);
                             double hitPct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Hit)) / avgAcUse * 100;
                             double critPct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Crit)) / avgAcUse * 100;
-                            double missPct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Miss)) / avgAcUse * 100;
-                            double glancePct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Glancing)) / avgAcUse * 100;
-                            double dodgePct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Dodge)) / avgAcUse * 100;
-                            res += string.Format("\n\t{0:N2}% Miss, {1:N2}% Hit, {2:N2}% Crit, {3:N2}% Glancing, {4:N2}% Dodge", missPct, hitPct, critPct, glancePct, dodgePct);
+                            res += string.Format("\n\t{0:N2}% Hit, {1:N2}% Crit", hitPct, critPct);
+                            if (totalActions.Any(l => l.Any(a => a.Action.ToString().Equals(ac) && a.Action.Magic)))
+                            {
+                                double resistPct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Resist)) / avgAcUse * 100;
+                                res += string.Format(", {0:N2}% Resist", resistPct);
+                            }
+                            else
+                            {
+                                double missPct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Miss)) / avgAcUse * 100;
+                                double glancePct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Glance)) / avgAcUse * 100;
+                                double dodgePct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Dodge)) / avgAcUse * 100;
+                                res += string.Format(", {0:N2}% Miss, {1:N2}% Glancing, {2:N2}% Dodge", missPct, glancePct, dodgePct);
+                            }
                             Log(res);
                         }
                     }
@@ -531,7 +598,7 @@ namespace ClassicCraft
             logs += log + "\n";
         }
 
-        public static void Debug(string str)
+        public static void Debug(object str)
         {
             System.Diagnostics.Debug.WriteLine(str);
         }
@@ -550,6 +617,18 @@ namespace ClassicCraft
             player.WindfuryTotem = playerBase.WindfuryTotem;
             player.Cooldowns = playerBase.Cooldowns;
             player.BaseMana = playerBase.BaseMana;
+            player.WeaponSkill = playerBase.WeaponSkill;
+
+            player.MH.DamageMin = playerBase.MH.DamageMin;
+            player.MH.DamageMax = playerBase.MH.DamageMax;
+            if(player.OH != null)
+            {
+                player.OH.DamageMin = playerBase.OH.DamageMin;
+                player.OH.DamageMax = playerBase.OH.DamageMax;
+            }
+
+            player.Sets = playerBase.Sets;
+            player.ApplySets();
 
             Boss boss = new Boss(bossBase);
 

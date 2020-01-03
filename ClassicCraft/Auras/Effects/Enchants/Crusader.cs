@@ -19,7 +19,7 @@ namespace ClassicCraft
 
         public static void CheckProc(Player p, ResultType type, double weaponSpeed)
         {
-            if (type == ResultType.Hit || type == ResultType.Crit || type == ResultType.Block || type == ResultType.Glancing)
+            if (type == ResultType.Hit || type == ResultType.Crit || type == ResultType.Block || type == ResultType.Glance)
             {
                 if (Randomer.NextDouble() < weaponSpeed / 60)
                 {

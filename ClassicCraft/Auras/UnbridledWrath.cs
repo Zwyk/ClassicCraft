@@ -15,7 +15,7 @@ namespace ClassicCraft
 
         public static void CheckProc(Player p, ResultType res, int points)
         {
-            if(res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glancing)
+            if(res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
             {
                 if(Randomer.NextDouble() < (0.08 * points))
                 {

@@ -13,13 +13,14 @@ namespace ClassicCraft
             Sword,
             Axe,
             Mace,
-            Spear,
+            Polearm,
             Staff,
             Dagger,
+            Fist,
             Bow,
             Crossbow,
             Gun,
-            Throwable
+            Throwable,
         }
 
         public static string TypeToString(WeaponType wt)
@@ -29,9 +30,10 @@ namespace ClassicCraft
                 case WeaponType.Sword: return "Sword";
                 case WeaponType.Axe: return "Axe";
                 case WeaponType.Mace: return "Mace";
-                case WeaponType.Spear: return "Spear";
+                case WeaponType.Polearm: return "Polearm";
                 case WeaponType.Staff: return "Staff";
                 case WeaponType.Dagger: return "Dagger";
+                case WeaponType.Fist: return "Fist";
                 case WeaponType.Bow: return "Bow";
                 case WeaponType.Crossbow: return "Crossbow";
                 case WeaponType.Gun: return "Gun";
@@ -47,14 +49,15 @@ namespace ClassicCraft
                 case "Sword": return WeaponType.Sword;
                 case "Axe": return WeaponType.Axe;
                 case "Mace": return WeaponType.Mace;
-                case "Spear": return WeaponType.Spear;
+                case "Polearm": return WeaponType.Polearm;
                 case "Staff": return WeaponType.Staff;
                 case "Dagger": return WeaponType.Dagger;
+                case "Fist": return WeaponType.Fist;
                 case "Bow": return WeaponType.Bow;
                 case "Crossbow": return WeaponType.Crossbow;
                 case "Gun": return WeaponType.Gun;
                 case "Throwable": return WeaponType.Throwable;
-                default: throw new Exception("WeaponType not found");
+                default: throw new Exception("WeaponType not found : " + s);
             }
         }
 

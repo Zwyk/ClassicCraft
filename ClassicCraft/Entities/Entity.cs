@@ -8,6 +8,16 @@ namespace ClassicCraft
 {
     public abstract class Entity : SimulationObject
     {
+        public enum MobType
+        {
+            Humanoid,
+            Giant,
+            Beast,
+            Dragonkin,
+            Undead,
+            Other
+        }
+
         public static double BASE_MISS = 0.05;
 
         public int Life { get; set; }
@@ -23,14 +33,16 @@ namespace ClassicCraft
                 Life = (int)Math.Round(MaxLife * value);
             }
         }
+        public MobType Type { get; set; }
         public int Armor { get; set; }
         public int Level { get; set; }
 
         public List<Effect> Effects { get; set; }
 
-        public Entity(Simulation s, int level, int armor, int maxLife)
+        public Entity(Simulation s, MobType type, int level, int armor, int maxLife)
             : base(s)
         {
+            Type = type;
             Level = level;
             Armor = armor;
             MaxLife = maxLife;

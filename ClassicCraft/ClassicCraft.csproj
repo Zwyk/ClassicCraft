@@ -49,10 +49,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\Action.cs" />
+    <Compile Include="Actions\TempAction.cs" />
     <Compile Include="Classes\Druid\Effects\InnervateBuff.cs" />
     <Compile Include="Classes\Druid\Spells\FerociousBite.cs" />
     <Compile Include="Classes\Druid\Spells\Innervate.cs" />
     <Compile Include="Classes\Druid\Spells\Shift.cs" />
+    <Compile Include="Classes\Rogue\Effects\AdrenalineRushBuff.cs" />
+    <Compile Include="Classes\Rogue\Effects\BladeFlurryBuff.cs" />
+    <Compile Include="Classes\Rogue\Effects\SliceAndDiceBuff.cs" />
+    <Compile Include="Classes\Rogue\Spells\AdrenalineRush.cs" />
+    <Compile Include="Classes\Rogue\Spells\Ambush.cs" />
+    <Compile Include="Classes\Rogue\Spells\Backstab.cs" />
+    <Compile Include="Classes\Rogue\Spells\BladeFlurry.cs" />
+    <Compile Include="Classes\Rogue\Spells\Eviscerate.cs" />
+    <Compile Include="Classes\Rogue\Spells\SinisterStrike.cs" />
+    <Compile Include="Classes\Rogue\Spells\SliceAndDice.cs" />
     <Compile Include="Classes\Warrior\Spells\BattleShout.cs" />
     <Compile Include="Classes\Warrior\Spells\Berserking.cs" />
     <Compile Include="Classes\Warrior\Spells\BloodFury.cs" />

@@ -1,0 +1,253 @@
+{
+  "FightLength": 120,
+  "FightLengthMod": 0.2,
+  "TargetErrorPct": 0.2,
+  "TargetError": true,
+  "LogFight": false,
+  "NbSim": 1,
+  "StatsWeights": false,
+  "BossAutoLife": true,
+  "BossLowLifeTime": 0,
+  "Boss" : {
+    "Level": 63,
+    "Armor": 3731,
+    "Debuffs": [
+      "Sunder Armor",
+      "Curse of Recklessness",
+      "Faerie Fire"
+    ]
+  },
+  "Player": {
+    "Race": "Tauren",
+    "Class": "Druid",
+    "Talents": "014005301-5500021323202151-05",
+    "Cooldowns": {
+    },
+    "Buffs": [
+      {
+        "Name": "Test",
+        "Stats": {
+          "Hit": 0,
+          "Crit": 0,
+          "AP": 0,
+          "Haste": 0,
+        }
+      },
+      {
+        "Name": "Devilsaur Set",
+        "Stats" : {
+          "Hit": 2,
+        }
+      },
+      {
+        "Name": "Leader of the Pack",
+        "Stats": {
+          "Crit": 3
+        }
+      },
+      {
+        "Name": "Battle Shout",
+        "Stats": {
+          "AP": 241
+        }
+      },
+      {
+        "Name": "Trueshot Aura",
+        "Stats": {
+          "AP": 100
+        }
+      },
+      {
+        "Name": "Mark of the Wild",
+        "Stats": {
+          "Agi": 16,
+          "Str": 16,
+        }
+      },
+      {
+        "Name": "Elixir of Giants",
+        "Stats": {
+          "Str": 25,
+        }
+      },
+      {
+        "Name": "R.O.I.D.S.",
+        "Stats": {
+          "Str": 25,
+        }
+      },
+      {
+        "Name": "Elixir of the Mongoose",
+        "Stats": {
+          "Agi": 25,
+          "Crit": 2
+        }
+      },
+      {
+        "Name": "Juju Power",
+        "Stats": {
+          "AP": 40,
+        }
+      },
+      {
+        "Name": "Juju Might",
+        "Stats": {
+          "Str": 30,
+        }
+      },
+    ],
+    "MH": {
+      "DamageMin": 46,
+      "DamageMax": 70,
+      "Speed": 2.0,
+      "TwoHanded": true,
+      "Type": "Mace",
+      "Name": "Manual Crowd Pummeler",
+      "Id": 0,
+      "Slot": "Weapon",
+      "Stats": {
+        "Str": 16,
+        "Agi": 5
+      },
+      "Enchantment": {
+      },
+    },
+    "Equipment": {
+      "Head": {
+        "Name": "Wolfshead Helm",
+        "Stats": {
+          "Spi": 10
+        },
+        "Enchantment": {
+          "Name": "Lesser Arcane Amalgamation",
+          "Stats": {
+            "Str": 8
+          }
+        }
+      },
+      "Neck": {
+        "Name": "Onyxia Tooth Pendant",
+        "Stats": {
+          "Agi": 12,
+          "Crit": 1,
+          "Hit": 1,
+        }
+      },
+      "Shoulders": {
+        "Name": "Truestike Shoulders",
+        "Stats": {
+          "Hit": 2,
+          "AP": 24,
+        },
+      },
+      "Back": {
+        "Name": "Cape of the Black Baron",
+        "Stats": {
+          "Agi": 15,
+          "AP": 20
+        },
+        "Enchantment": {
+          "Name": "Lesser Agility",
+          "Stats": {
+            "Agi": 3
+          }
+        }
+      },
+      "Chest": {
+        "Name": "Cadaverous Armor",
+        "Stats": {
+          "Str": 8,
+          "Agi": 8,
+          "AP": 60
+        },
+        "Enchantment": {
+          "Name": "Greater Stats",
+          "Stats": {
+            "Str": 4,
+            "Agi": 4,
+            "Int": 4,
+            "Spi": 4,
+          }
+        }
+      },
+      "Wrist": {
+        "Name": "Wristguards of Stability",
+        "Stats": {
+          "Str": 24,
+        },
+        "Enchantment": {
+          "Name": "Superior Strength",
+          "Stats": {
+            "Str": 9
+          }
+        }
+      },
+      "Hands": {
+        "Name": "Devilsaur Gauntlets",
+        "Stats": {
+          "AP": 28,
+          "Crit": 1,
+        },
+        "Enchantment": {
+          "Name": "Greater Strength",
+          "Stats": {
+            "Str": 7
+          }
+        }
+      },
+      "Waist": {
+        "Name": "Cloudrunner Girdle",
+        "Stats": {
+          "Str": 14,
+          "Agi": 15,
+        }
+      },
+      "Legs": {
+        "Name": "Devilsaur Leggings",
+        "Stats": {
+          "AP": 46,
+          "Crit": 1
+        },
+        "Enchantment": {
+          "Name": "Lesser Arcane Amalgamation",
+          "Stats": {
+            "Str": 8
+          }
+        }
+      },
+      "Feet": {
+        "Name": "Swiftwalker Boots",
+        "Stats": {
+          "Agi": 21,
+          "Str": 4
+        },
+      },
+      "Ring1": {
+        "Name": "Tarnished Elven Ring",
+        "Stats": {
+          "Agi": 15,
+          "Hit": 1
+        }
+      },
+      "Ring2": {
+        "Name": "Band of Accuria",
+        "Stats": {
+          "Agi": 16,
+          "Hit": 2
+        }
+      },
+      "Trinket1": {
+        "Name": "Hand of Justice",
+        "Stats": {
+          "AP": 20
+        }
+      },
+      "Trinket2": {
+        "Name": "Blackhand's Breadth",
+        "Stats": {
+          "Crit": 2
+        }
+      },
+    }
+  }
+}

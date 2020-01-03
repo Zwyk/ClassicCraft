@@ -8,11 +8,11 @@ namespace ClassicCraft
 {
     class HeroicStrike : Spell
     {
-        public static int COST = 15;
+        public static int BASE_COST = 15;
         public static int CD = 0;
 
         public HeroicStrike(Player p)
-            : base(p, CD, COST, true)
+            : base(p, CD, BASE_COST, true)
         {
         }
 
@@ -30,8 +30,6 @@ namespace ClassicCraft
         {
             Player.applyAtNextAA = null;
 
-            Random random = new Random();
-
             Weapon weapon = Player.MH;
 
             LockedUntil = Player.Sim.CurrentTime + weapon.Speed / Player.HasteMod;
@@ -43,11 +41,12 @@ namespace ClassicCraft
 
             Player.nextAABonus = 0;
 
-            int damage = (int)Math.Round((random.Next(minDmg, maxDmg + 1) + 157)
+            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + 157)
                 * Player.Sim.DamageMod(res)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
+                * Player.DamageMod
                 * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1)
-                * (Player.DualWielding() ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
+                * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
 
             if (res == ResultType.Parry || res == ResultType.Dodge)
             {
@@ -61,7 +60,7 @@ namespace ClassicCraft
 
             RegisterDamage(new ActionResult(res, damage));
 
-            Player.CheckOnHits(true, res);
+            Player.CheckOnHits(true, false, res);
         }
 
         public override string ToString()

@@ -8,13 +8,11 @@ namespace ClassicCraft
 {
     class Bloodthirst : Spell
     {
-        public static int COST = 30;
+        public static int BASE_COST = 30;
         public static int CD = 6;
 
-        static Random random = new Random();
-
         public Bloodthirst(Player p)
-            : base(p, CD, COST) {}
+            : base(p, CD, BASE_COST) {}
 
         public override void Cast()
         {
@@ -28,8 +26,10 @@ namespace ClassicCraft
             int damage = (int)Math.Round(0.45 * Player.AP
                 * Player.Sim.DamageMod(res)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
+                * Player.DamageMod
                 * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1)
-                * (Player.DualWielding() ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
+                * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
+                );
 
             CommonAction();
             if(res == ResultType.Parry || res == ResultType.Dodge)
@@ -44,7 +44,7 @@ namespace ClassicCraft
 
             RegisterDamage(new ActionResult(res, damage));
 
-            Player.CheckOnHits(true, res);
+            Player.CheckOnHits(true, false, res);
         }
 
         public override string ToString()

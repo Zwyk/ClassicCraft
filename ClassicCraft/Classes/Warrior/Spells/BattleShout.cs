@@ -8,11 +8,11 @@ namespace ClassicCraft
 {
     class BattleShout : Spell
     {
-        public static int COST = 10;
+        public static int BASE_COST = 10;
         public static int CD = 0;
 
         public BattleShout(Player p)
-            : base(p, CD, COST, true)
+            : base(p, CD, BASE_COST, true)
         {
         }
 

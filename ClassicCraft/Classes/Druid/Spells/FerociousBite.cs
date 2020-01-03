@@ -8,7 +8,7 @@ namespace ClassicCraft
 {
     class FerociousBite : Spell
     {
-        public static int COST = 35;
+        public static int BASE_COST = 35;
         public static int CD = 0;
 
         // rank 4
@@ -30,10 +30,8 @@ namespace ClassicCraft
             735,
         };
 
-        static Random random = new Random();
-
         public FerociousBite(Player p)
-            : base(p, CD, COST) { }
+            : base(p, CD, BASE_COST) { }
 
         public override void Cast()
         {
@@ -64,7 +62,8 @@ namespace ClassicCraft
                 (Randomer.Next(minDmg, maxDmg + 1) + Player.AP * 0.15 + 2.5 * (Player.Resource - cost))
                 * (1 + Player.GetTalentPoints("FA") * 0.03)
                 * Player.Sim.DamageMod(res)
-                * Entity.ArmorMitigation(Player.Sim.Boss.Armor));
+                * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
+                * Player.DamageMod);
 
             CommonAction();
             if (res == ResultType.Parry || res == ResultType.Dodge)
@@ -80,7 +79,7 @@ namespace ClassicCraft
 
             RegisterDamage(new ActionResult(res, damage));
             
-            Player.CheckOnHits(true, res);
+            Player.CheckOnHits(true, false, res);
         }
 
         public override string ToString()

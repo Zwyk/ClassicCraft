@@ -10,8 +10,6 @@ namespace ClassicCraft
     {
         public static int CD = 0;
 
-        static Random random = new Random();
-
         public Shift(Player p)
             : base(p, CD, (int)(p.BaseMana * 0.55 * (1 - p.GetTalentPoints("NS") * 0.1)), true, true) {  }
         

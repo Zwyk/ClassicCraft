@@ -8,11 +8,11 @@ namespace ClassicCraft
 {
     class Berserking : Spell
     {
-        public static int COST = 5;
+        public static int BASE_COST = 5;
         public static int CD = 180;
 
         public Berserking(Player p)
-            : base(p, CD, COST, false)
+            : base(p, CD, BASE_COST, false)
         {
         }
 

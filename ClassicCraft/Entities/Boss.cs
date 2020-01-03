@@ -8,7 +8,7 @@ namespace ClassicCraft
 {
     public class Boss : Entity
     {
-        public enum BossType
+        public enum ArmorType
         {
             NoArmor,
             LightArmor,
@@ -16,36 +16,36 @@ namespace ClassicCraft
         }
 
         public Boss(Boss b)
-            : base(null, b.Level, b.Armor, b.MaxLife)
+            : base(null, b.Type, b.Level, b.Armor, b.MaxLife)
         {
         }
 
-        public Boss(int level = 63, int customArmor = 4400, int maxLife = 100000)
-            : base(null, level, customArmor, maxLife)
+        public Boss(MobType type = MobType.Humanoid, int level = 63, int customArmor = 4400, int maxLife = 100000)
+            : base(null, type, level, customArmor, maxLife)
         {
         }
 
         public Boss(Simulation s, Boss b)
-            : base(s, b.Level, b.Armor, b.MaxLife)
+            : base(s, b.Type, b.Level, b.Armor, b.MaxLife)
         {
         }
 
-        public Boss(Simulation s, int level = 63, int customArmor = 4400, int maxLife = 100000)
-            : base(s, level, customArmor, maxLife)
+        public Boss(Simulation s, MobType type = MobType.Humanoid, int level = 63, int customArmor = 4400, int maxLife = 100000)
+            : base(s, type, level, customArmor, maxLife)
         {
         }
 
-        public Boss(Simulation s, int level = 63, BossType type = BossType.LightArmor, int maxLife = 100000)
-            : base(s, level, ArmorByType(type), maxLife)
+        public Boss(Simulation s, MobType type = MobType.Humanoid, int level = 63, ArmorType armor = ArmorType.LightArmor, int maxLife = 100000)
+            : base(s, type, level, ArmorByType(armor), maxLife)
         {
         }
 
-        public static int ArmorByType(BossType type)
+        public static int ArmorByType(ArmorType armor)
         {
-            switch(type)
+            switch(armor)
             {
-                case BossType.HeavyArmor: return 5600;
-                case BossType.LightArmor: return 4400;
+                case ArmorType.HeavyArmor: return 5600;
+                case ArmorType.LightArmor: return 4400;
                 default: return 0;
             }
         }

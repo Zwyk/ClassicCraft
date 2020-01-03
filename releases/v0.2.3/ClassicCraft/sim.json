@@ -18,20 +18,12 @@
     ]
   },
   "Player": {
-    "Race": "Orc",
-    "Class": "Warrior",
-    "Talents": "30305001302-05050005525010051",
+    "Race": "Tauren",
+    "Class": "Druid",
+    "Talents": "014005301-5500021323202151-05",
     "Cooldowns": {
-      "Racial": true,
-      "Death Wish": true,
-      "Recklessness": true,
-      "Juju Flurry": true,
-      "Mighty Rage": true,
     },
     "Buffs": [
-      {
-        "Name": "Windfury Totem"
-      },
       {
         "Name": "Test",
         "Stats": {
@@ -39,6 +31,12 @@
           "Crit": 0,
           "AP": 0,
           "Haste": 0,
+        }
+      },
+      {
+        "Name": "Leader of the Pack",
+        "Stats": {
+          "Crit": 3
         }
       },
       {
@@ -67,21 +65,15 @@
         }
       },
       {
-        "Name": "Ground Scorpok Assay",
-        "Stats": {
-          "Agi": 25,
-        }
-      },
-      {
         "Name": "R.O.I.D.S.",
         "Stats": {
           "Str": 25,
         }
       },
       {
-        "Name": "Blessed Sunfruit",
+        "Name": "Ground Scorpok Assay",
         "Stats": {
-          "Str": 10,
+          "Agi": 25,
         }
       },
       {
@@ -105,52 +97,26 @@
       },
     ],
     "MH": {
-      "DamageMin": 114,
-      "DamageMax": 213,
-      "Speed": 2.9,
-      "TwoHanded": false,
-      "Type": "Axe",
-      "Name": "Deathbringer",
+      "DamageMin": 46,
+      "DamageMax": 70,
+      "Speed": 2.0,
+      "TwoHanded": true,
+      "Type": "Mace",
+      "Name": "Manual Crowd Pummeler",
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
+        "Str": 16,
+        "Agi": 5
       },
-      "Enchantment":
-      {
-        "Name": "Crusader",
-      }
-    },
-    "OH": {
-      "DamageMin": 37,
-      "DamageMax": 69,
-      "Speed": 1.5,
-      "TwoHanded": false,
-      "Type": "Axe",
-      "Name": "Flurry Axe",
-      "Id": 0,
-      "Slot": "Weapon",
-      "Stats": {
+      "Enchantment": {
       },
-      "Enchantment":
-      {
-        "Name": "Crusader",
-      }
-    },
-    "Ranged": {
-      "Type": "Bow",
-      "Name": "Striker's Mark",
-      "Stats": {
-        "AP": 22,
-        "Hit": 1,
-      }
     },
     "Equipment": {
       "Head": {
-        "Name": "Lionheart Helm",
+        "Name": "Wolfshead Helm",
         "Stats": {
-          "Hit": 2,
-          "Crit": 2,
-          "Str": 18,
+          "Spi": 10
         },
         "Enchantment": {
           "Name": "Lesser Arcane Amalgamation",
@@ -162,23 +128,23 @@
       "Neck": {
         "Name": "Onyxia Tooth Pendant",
         "Stats": {
+          "Agi": 12,
           "Crit": 1,
           "Hit": 1,
-          "Agi": 12,
         }
       },
       "Shoulders": {
-        "Name": "Truestrike",
+        "Name": "Truestike Shoulders",
         "Stats": {
           "Hit": 2,
-          "AP": 24
+          "AP": 24,
         },
       },
       "Back": {
-        "Name": "Puissant Cape",
+        "Name": "Cape of the Black Baron",
         "Stats": {
-          "Hit": 1,
-          "AP": 40
+          "Agi": 15,
+          "AP": 20
         },
         "Enchantment": {
           "Name": "Lesser Agility",
@@ -188,11 +154,11 @@
         }
       },
       "Chest": {
-        "Name": "Savage Gladiator Chain",
+        "Name": "Cadaverous Armor",
         "Stats": {
-          "Str": 13,
-          "Agi": 14,
-          "Crit": 2,
+          "Str": 8,
+          "Agi": 8,
+          "AP": 60
         },
         "Enchantment": {
           "Name": "Greater Stats",
@@ -231,11 +197,10 @@
         }
       },
       "Waist": {
-        "Name": "Onslaught Girdle",
+        "Name": "Cloudrunner Girdle",
         "Stats": {
-          "Str": 31,
-          "Crit": 1,
-          "Hit": 1,
+          "Str": 14,
+          "Agi": 15,
         }
       },
       "Legs": {
@@ -252,25 +217,24 @@
         }
       },
       "Feet": {
-        "Name": "Battlechaser's Greaves",
+        "Name": "Swiftwalker Boots",
         "Stats": {
-          "Str": 14,
-          "Agi": 13,
+          "Agi": 21,
+          "Str": 4
         },
       },
       "Ring1": {
+        "Name": "Tarnished Elven Ring",
+        "Stats": {
+          "Agi": 15,
+          "Hit": 1
+        }
+      },
+      "Ring2": {
         "Name": "Band of Accuria",
         "Stats": {
           "Agi": 16,
           "Hit": 2
-        }
-      },
-      "Ring2": {
-        "Name": "Quick Strike Ring",
-        "Stats": {
-          "AP": 30,
-          "Str": 5,
-          "Crit": 1
         }
       },
       "Trinket1": {
@@ -284,7 +248,7 @@
         "Stats": {
           "Crit": 2
         }
-      }
+      },
     }
   }
 }

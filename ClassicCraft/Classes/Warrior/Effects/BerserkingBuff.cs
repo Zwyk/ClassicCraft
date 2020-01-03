@@ -31,7 +31,7 @@ namespace ClassicCraft
         {
             base.EndBuff();
 
-            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) - Bonus);
+            Player.HasteMod /= Bonus;
         }
 
         public override string ToString()

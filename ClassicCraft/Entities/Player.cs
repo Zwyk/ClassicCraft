@@ -198,8 +198,12 @@ namespace ClassicCraft
         #region Propriétés
 
         public static double GCD = 1.5;
+        public static double GCD_ENERGY = 1;
 
         public Forms Form { get; set; }
+        public bool Stealthed { get; set; }
+
+        public int MaxResource = 100;
 
         private int resource;
         public int Resource
@@ -210,9 +214,9 @@ namespace ClassicCraft
             }
             set
             {
-                if (value > 100)
+                if (value > MaxResource)
                 {
-                    resource = 100;
+                    resource = MaxResource;
                 }
                 else if (value < 0)
                 {
@@ -393,6 +397,8 @@ namespace ClassicCraft
 
         public List<string> Cooldowns { get; set; }
 
+        public Dictionary<string, int> Sets { get; set; }
+
         #endregion
 
         public Player(Player p, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null)
@@ -406,7 +412,7 @@ namespace ClassicCraft
         }
 
         public Player(Simulation s = null, Classes c = Classes.Warrior, Races r = Races.Orc, int level = 60, int armor = 0, int maxLife = 1000, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null)
-            : base(s, level, armor, maxLife)
+            : base(s, MobType.Humanoid, level, armor, maxLife)
         {
             Race = r;
             Class = c;
@@ -415,22 +421,22 @@ namespace ClassicCraft
             
             Buffs = buffs;
 
-            int skill = Level * 5;
+            int baseSkill = Level * 5;
             WeaponSkill = new Dictionary<Weapon.WeaponType, int>();
             foreach (Weapon.WeaponType type in (Weapon.WeaponType[])Enum.GetValues(typeof(Weapon.WeaponType)))
             {
+                int skill = baseSkill;
+
                 if(Race == Races.Orc && type == Weapon.WeaponType.Axe)
                 {
-                    WeaponSkill[type] = skill + 5;
+                    skill += 5;
                 }
                 else if(Race == Races.Human && (type == Weapon.WeaponType.Mace || type == Weapon.WeaponType.Sword))
                 {
-                    WeaponSkill[type] = skill + 5;
+                    skill += 5;
                 }
-                else
-                {
-                    WeaponSkill[type] = skill;
-                }
+
+                WeaponSkill[type] = skill;
             }
 
             if(items == null)
@@ -448,7 +454,38 @@ namespace ClassicCraft
 
             HitChancesByEnemy = new Dictionary<Entity, HitChances>();
 
+            Sets = new Dictionary<string, int>();
+
             Reset();
+        }
+
+        public void ApplySets()
+        {
+            if (Class == Classes.Rogue)
+            {
+                if (Sets["Nightslayer"] >= 5)
+                {
+                    MaxResource += 10;
+                }
+            }
+        }
+
+        public static List<string> SET_LIST = new List<string>()
+        {
+            "Nightslayer", "Shadowcraft"
+        };
+
+        public void CheckSets()
+        {
+            foreach(string s in SET_LIST)
+            {
+                Sets.Add(s, NbSet(s));
+            }
+        }
+
+        public int NbSet(string set)
+        {
+            return Equipment.Where(a => a.Value != null).Count(e => e.Value.Name.Contains(set));
         }
 
         public int GetTalentPoints(string talent)
@@ -472,8 +509,103 @@ namespace ClassicCraft
             CastingRegenPct = 0;
 
             Form = Forms.Human;
+            Stealthed = false;
 
             BonusAttributes = new Attributes();
+        }
+
+        public void CalculateAttributes()
+        {
+            Attributes = CaseAttributes(Class, Race);
+            BaseMana = Attributes.GetValue(Attribute.Mana);
+
+            foreach (Slot s in Equipment.Keys.Where(v => Equipment[v] != null))
+            {
+                Item i = Equipment[s];
+                Attributes += i.Attributes;
+                if (i.Enchantment != null)
+                {
+                    Attributes += i.Enchantment.Attributes;
+                }
+                if (s == Slot.MH)
+                {
+                    Weapon w = ((Weapon)i);
+                    if (w.Buff != null)
+                        Attributes += w.Buff.Attributes;
+                }
+            }
+
+            foreach (Enchantment e in Buffs.Where(v => v != null))
+            {
+                Attributes += e.Attributes;
+            }
+
+            int wbonus = (int)Math.Round(Attributes.GetValue(Attribute.WeaponDamage));
+            MH.DamageMin += wbonus;
+            MH.DamageMax += wbonus;
+            if (OH != null)
+            {
+                OH.DamageMin += wbonus;
+                OH.DamageMax += wbonus;
+            }
+
+            if (Class == Classes.Warrior)
+            {
+                Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
+                    + 0.01 * GetTalentPoints("Cruelty")
+                    + 0.03); // Berserker Stance, move elsewhere for stance dancing ?
+            }
+            else if (Class == Classes.Druid)
+            {
+                Attributes.SetValue(Attribute.Intellect, Attributes.GetValue(Attribute.Intellect)
+                    * (1 + 0.04 * GetTalentPoints("HW")));
+                Attributes.SetValue(Attribute.Strength, Attributes.GetValue(Attribute.Strength)
+                    * (1 + 0.04 * GetTalentPoints("HW")));
+                Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
+                    + 0.01 * GetTalentPoints("SC"));
+                Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP)
+                    + 0.5 * GetTalentPoints("PS") * Level);
+            }
+            else if (Class == Classes.Rogue)
+            {
+                Attributes.SetValue(Attribute.HitChance, Attributes.GetValue(Attribute.HitChance)
+                    + GetTalentPoints("Prec") / 100);
+                Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
+                    + GetTalentPoints("Malice") / 100);
+                Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
+                    + GetTalentPoints("FS") / 100);
+                Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
+                    + GetTalentPoints("DS") / 100);
+                Attributes.SetValue(Attribute.SkillSword, Attributes.GetValue(Attribute.SkillSword)
+                    + (GetTalentPoints("WE") > 0 ? (GetTalentPoints("WE") == 1 ? 3 : 5) : 0));
+                Attributes.SetValue(Attribute.SkillDagger, Attributes.GetValue(Attribute.SkillDagger)
+                    + (GetTalentPoints("WE") > 0 ? (GetTalentPoints("WE") == 1 ? 3 : 5) : 0));
+            }
+
+            Attributes += BonusAttributesByRace(Race, Attributes);
+
+            if (Buffs.Any(b => b.Name == "Blessing of Kings"))
+            {
+                Attributes.SetValue(Attribute.Stamina, Attributes.GetValue(Attribute.Intellect) * 1.1);
+                Attributes.SetValue(Attribute.Intellect, Attributes.GetValue(Attribute.Intellect) * 1.1);
+                Attributes.SetValue(Attribute.Strength, Attributes.GetValue(Attribute.Intellect) * 1.1);
+                Attributes.SetValue(Attribute.Agility, Attributes.GetValue(Attribute.Intellect) * 1.1);
+                Attributes.SetValue(Attribute.Spirit, Attributes.GetValue(Attribute.Intellect) * 1.1);
+            }
+
+            Attributes.SetValue(Attribute.Health, Attributes.GetValue(Attribute.Health) + 20 + (Attributes.GetValue(Attribute.Stamina) - 20) * 10);
+            if (Attributes.GetValue(Attribute.Mana) > 0)
+            {
+                Attributes.SetValue(Attribute.Mana, Attributes.GetValue(Attribute.Mana) + Attributes.GetValue(Attribute.Intellect) * 15);
+            }
+            Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Strength) * StrToAPRatio(Class) + Attributes.GetValue(Attribute.Agility) * AgiToAPRatio(Class));
+            Attributes.SetValue(Attribute.RangedAP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Agility) * AgiToRangedAPRatio(Class));
+            Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance) + Attributes.GetValue(Attribute.Agility) * AgiToCritRatio(Class));
+            Attributes.SetValue(Attribute.SpellCritChance, Attributes.GetValue(Attribute.SpellCritChance) + BaseCrit(Class) + Attributes.GetValue(Attribute.Intellect) * IntToCritRatio(Class));
+
+            WeaponSkill[Weapon.WeaponType.Sword] += (int)Attributes.GetValue(Attribute.SkillSword);
+
+            HasteMod = CalcHaste();
         }
 
         public void ExtraAA(bool wf = false)
@@ -490,11 +622,26 @@ namespace ClassicCraft
             Sim.autos[0].NextAA();
         }
 
-        public void CheckOnHits(bool isMH, ResultType res, bool extra = false, bool wf = false)
+        public void CheckOnHits(bool isMH, bool isAA, ResultType res, bool extra = false, bool wf = false)
         {
-            if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glancing)
+            if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
             {
-                if (Class == Classes.Druid)
+                if (Class == Classes.Warrior)
+                {
+                    if (GetTalentPoints("DW") > 0)
+                    {
+                        DeepWounds.CheckProc(this, res, GetTalentPoints("DW"));
+                    }
+                    if (GetTalentPoints("Flurry") > 0)
+                    {
+                        Flurry.CheckProc(this, res, GetTalentPoints("Flurry"), extra);
+                    }
+                    if (GetTalentPoints("UW") > 0)
+                    {
+                        UnbridledWrath.CheckProc(this, res, GetTalentPoints("UW"));
+                    }
+                }
+                else if (Class == Classes.Druid)
                 {
                     if (GetTalentPoints("OC") > 0
                         && Randomer.NextDouble() < ClearCasting.PROC_RATE)
@@ -510,11 +657,15 @@ namespace ClassicCraft
                         }
                     }
                 }
-                else if (Class == Classes.Warrior)
+                else if (Class == Classes.Rogue)
                 {
-                    if (GetTalentPoints("DW") > 0)
+                    if (GetTalentPoints("SS") > 0 && Randomer.NextDouble() < 0.01 * GetTalentPoints("SS"))
                     {
-                        DeepWounds.CheckProc(this, res, GetTalentPoints("DW"));
+                        if (Program.logFight)
+                        {
+                            Program.Log(string.Format("{0:N2} : Sword Specialization procs", Sim.CurrentTime));
+                        }
+                        ExtraAA();
                     }
                     if (GetTalentPoints("Flurry") > 0)
                     {
@@ -523,6 +674,10 @@ namespace ClassicCraft
                     if (GetTalentPoints("UW") > 0)
                     {
                         UnbridledWrath.CheckProc(this, res, GetTalentPoints("UW"));
+                    }
+                    if((!WindfuryTotem || !isMH) && Randomer.NextDouble() < 0.2)
+                    {
+                        new TempAction(this, "Instant Poison", true).RegisterDamage(new ActionResult(SpellAttackEnemy(Sim.Boss), Randomer.Next(112, 148 + 1)));
                     }
                 }
 
@@ -543,6 +698,18 @@ namespace ClassicCraft
                             }
 
                             ExtraAA(true);
+                        }
+                    }
+                }
+
+                if(isAA && (Class == Classes.Rogue || Form == Forms.Cat))
+                {
+                    if (Sets["Shadowcraft"] >= 6 && ((isMH && Randomer.NextDouble() < MH.Speed / 60) || (!isMH && Randomer.NextDouble() < OH.Speed / 60)))
+                    {
+                        Resource += 35;
+                        if(Program.logFight)
+                        {
+                            Program.Log(string.Format("{0:N2} : Shadowcraft 6P procs (energy {1}/{2})", Sim.CurrentTime, Resource, MaxResource));
                         }
                     }
                 }
@@ -571,16 +738,25 @@ namespace ClassicCraft
                     }
                     ExtraAA();
                 }
-                if (((isMH && MH?.Name == "Deathbringer") || (!isMH && OH?.Name == "Deathbringer")) && Randomer.NextDouble() < 0.044)
+                if (((isMH && MH?.Name == "Deathbringer") || (!isMH && OH?.Name == "Deathbringer")) && Randomer.NextDouble() < 0.0396)
                 {
-                    if (Program.logFight)
-                    {
-                        Program.Log(string.Format("{0:N2} : Deathbringer procs", Sim.CurrentTime));
-                    }
-                    
+                    new TempAction(this, "Deathbringer", true).RegisterDamage(new ActionResult(SpellAttackEnemy(Sim.Boss), Randomer.Next(110, 140 + 1)));
+                }
+                if (((isMH && MH?.Name == "Perdition's Blade") || (!isMH && OH?.Name == "Perdition's Blade")) && Randomer.NextDouble() < 0.04)
+                {
+                    new TempAction(this, "Perdition's Blade", true).RegisterDamage(new ActionResult(SpellAttackEnemy(Sim.Boss), Randomer.Next(40, 56 + 1)));
+                }
+                if (((isMH && MH?.Name == "Vis'kag the Bloodletter") || (!isMH && OH?.Name == "Vis'kag the Bloodletter")) && Randomer.NextDouble() < 0.0253)
+                {
+                    new TempAction(this, "Vis'kag the Bloodletter").RegisterDamage(new ActionResult(YellowAttackEnemy(Sim.Boss), 240));
                 }
             }
         }
+
+        public static List<ResultType> PICK_ORDER = new List<ResultType>()
+        {
+            ResultType.Miss, ResultType.Dodge, ResultType.Parry, ResultType.Glance, ResultType.Block, ResultType.Crit, ResultType.Hit
+        };
 
         public void CalculateHitChances(Entity enemy = null)
         {
@@ -590,25 +766,25 @@ namespace ClassicCraft
             }
 
             Dictionary<ResultType, double> whiteHitChancesMH = new Dictionary<ResultType, double>();
-            whiteHitChancesMH.Add(ResultType.Miss, MissChance(DualWielding(), HitRating, WeaponSkill[MH.Type], enemy.Level));
+            whiteHitChancesMH.Add(ResultType.Miss, MissChance(DualWielding, HitRating, WeaponSkill[MH.Type], enemy.Level));
             whiteHitChancesMH.Add(ResultType.Dodge, enemy.DodgeChance(WeaponSkill[MH.Type]));
             whiteHitChancesMH.Add(ResultType.Parry, enemy.ParryChance());
-            whiteHitChancesMH.Add(ResultType.Glancing, GlancingChance(Level, enemy.Level));
+            whiteHitChancesMH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level));
             whiteHitChancesMH.Add(ResultType.Block, enemy.BlockChance());
-            whiteHitChancesMH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritRating + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glancing], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
-            whiteHitChancesMH.Add(ResultType.Hit, RealHitChance(whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glancing], whiteHitChancesMH[ResultType.Crit], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
+            whiteHitChancesMH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritRating + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glance], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
+            whiteHitChancesMH.Add(ResultType.Hit, RealHitChance(whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glance], whiteHitChancesMH[ResultType.Crit], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
 
             Dictionary<ResultType, double> whiteHitChancesOH = null;
-            if (DualWielding())
+            if (DualWielding)
             {
                 whiteHitChancesOH = new Dictionary<ResultType, double>();
                 whiteHitChancesOH.Add(ResultType.Miss, MissChance(true, HitRating + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.HitChance)), WeaponSkill[OH.Type], enemy.Level));
                 whiteHitChancesOH.Add(ResultType.Dodge, enemy.DodgeChance(WeaponSkill[OH.Type]));
                 whiteHitChancesOH.Add(ResultType.Parry, enemy.ParryChance());
-                whiteHitChancesOH.Add(ResultType.Glancing, GlancingChance(Level, enemy.Level));
+                whiteHitChancesOH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level));
                 whiteHitChancesOH.Add(ResultType.Block, enemy.BlockChance());
-                whiteHitChancesOH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritRating + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glancing], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
-                whiteHitChancesOH.Add(ResultType.Hit, RealHitChance(whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glancing], whiteHitChancesOH[ResultType.Crit], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
+                whiteHitChancesOH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritRating + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glance], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
+                whiteHitChancesOH.Add(ResultType.Hit, RealHitChance(whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glance], whiteHitChancesOH[ResultType.Crit], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
             }
 
             Dictionary<ResultType, double> yellowHitChances = new Dictionary<ResultType, double>();
@@ -616,8 +792,8 @@ namespace ClassicCraft
             yellowHitChances.Add(ResultType.Dodge, enemy.DodgeChance(WeaponSkill[MH.Type]));
             yellowHitChances.Add(ResultType.Parry, enemy.ParryChance());
             yellowHitChances.Add(ResultType.Block, enemy.BlockChance());
-            yellowHitChances.Add(ResultType.Crit, RealCritChanceYellow(CritWithSuppression(CritRating + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), yellowHitChances[ResultType.Miss], yellowHitChances[ResultType.Dodge]));
-            yellowHitChances.Add(ResultType.Hit, RealHitChanceYellow(yellowHitChances[ResultType.Crit], yellowHitChances[ResultType.Miss], yellowHitChances[ResultType.Dodge]));
+            yellowHitChances.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritRating + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), yellowHitChances[ResultType.Miss], 0, yellowHitChances[ResultType.Dodge], yellowHitChances[ResultType.Parry], yellowHitChances[ResultType.Block]));
+            yellowHitChances.Add(ResultType.Hit, RealHitChance(yellowHitChances[ResultType.Miss], 0, yellowHitChances[ResultType.Crit], yellowHitChances[ResultType.Dodge], yellowHitChances[ResultType.Parry], yellowHitChances[ResultType.Block]));
 
             if (HitChancesByEnemy.ContainsKey(enemy))
             {
@@ -673,17 +849,41 @@ namespace ClassicCraft
             return Math.Max(0, BASE_MISS - hitRating + (skillDif > 10 ? 0.01 : 0) + skillDif * (skillDif > 10 ? 0.002 : 0.001));
         }
 
-        public static double RealCritChanceYellow(double netCritChance, double realMiss, double enemyDodgeChance)
-        {
-            return Math.Max(0, netCritChance * (1 - realMiss - enemyDodgeChance));
-        }
-
-        public static double RealHitChanceYellow(double realCrit, double realMiss, double enemyDodgeChance)
-        {
-            return Math.Max(0, 1 - realCrit - realMiss - enemyDodgeChance);
-        }
-
         #endregion
+
+        public static double SpellHitChance(double spellHit, int level, int enemyLevel)
+        {
+            int skillDif = enemyLevel - level;
+            double baseHit;
+            if (skillDif < 3)
+            {
+                baseHit = Math.Min(1, 0.96 - 0.01 * skillDif);
+            }
+            else
+            {
+                baseHit = Math.Max(0, 0.83 - 0.11 * (skillDif - 3));
+            }
+            return Math.Max(0, Math.Min(1, baseHit + spellHit));
+        }
+
+        public ResultType SpellAttackEnemy(Entity enemy)
+        {
+            if(Randomer.NextDouble() < SpellHitChance(Attributes.GetValue(Attribute.SpellHitChance), Level, Sim.Boss.Level))
+            {
+                if(Randomer.NextDouble() < Attributes.GetValue(Attribute.SpellCritChance))
+                {
+                    return ResultType.Crit;
+                }
+                else
+                {
+                    return ResultType.Hit;
+                }
+            }
+            else
+            {
+                return ResultType.Resist;
+            }
+        }
 
         public ResultType WhiteAttackEnemy(Entity enemy, bool MH)
         {
@@ -695,28 +895,32 @@ namespace ClassicCraft
             return PickFromTable(MH ? HitChancesByEnemy[enemy].WhiteHitChancesMH : HitChancesByEnemy[enemy].WhiteHitChancesOH, Randomer.NextDouble());
         }
 
-        public ResultType YellowAttackEnemy(Entity enemy)
+        public ResultType YellowAttackEnemy(Entity enemy, char? spell = null)
         {
             if (!HitChancesByEnemy.ContainsKey(enemy))
             {
                 CalculateHitChances(enemy);
             }
 
-            return PickFromTable(HitChancesByEnemy[enemy].YellowHitChances, Randomer.NextDouble());
+            Dictionary<ResultType, double> table = HitChancesByEnemy[enemy].YellowHitChances;
+
+            if (Class == Classes.Warrior && Effects.Any(e => e is RecklessnessBuff))
+            {
+                table = new Dictionary<ResultType, double>(table);
+                table[ResultType.Crit] = 1;
+            }
+
+            if (Class == Classes.Rogue && spell.GetValueOrDefault().Equals('B'))
+            {
+                table = new Dictionary<ResultType, double>(table);
+                table[ResultType.Crit] += 0.1 * GetTalentPoints("IB");
+            }
+
+            return PickFromTable(table, Randomer.NextDouble());
         }
 
-        public ResultType PickFromTable(Dictionary<ResultType, double> table, double rand)
-        {
-            Dictionary<ResultType, double> pickTable = new Dictionary<ResultType, double>(table);
-
-            bool reckless = Effects.Any(e => e is RecklessnessBuff);
-            
-            if(Effects.Any(e => e is RecklessnessBuff))
-            {
-                pickTable[ResultType.Hit] = 0;
-                pickTable[ResultType.Crit] = 1;
-            }
-            
+        public ResultType PickFromTable(Dictionary<ResultType, double> pickTable, double roll)
+        {            
             /*
             string debug = "rand " + rand;
             foreach (ResultType type in pickTable.Keys)
@@ -730,26 +934,29 @@ namespace ClassicCraft
             */
 
             double i = 0;
-            foreach(ResultType type in pickTable.Keys)
+            foreach(ResultType type in PICK_ORDER)
             {
-                i += pickTable[type];
-                if(rand <= i)
+                if(pickTable.ContainsKey(type))
                 {
-                    return type;
+                    i += pickTable[type];
+                    if (roll <= i)
+                    {
+                        return type;
+                    }
                 }
             }
 
             throw new Exception("Hit Table Failed");
         }
 
-        public bool DualWielding()
+        public bool DualWielding
         {
-            return !MH.TwoHanded && OH != null;
+            get { return !MH.TwoHanded && OH != null; }
         }
 
         public void StartGCD()
         {
-            GCDUntil = Sim.CurrentTime + GCD;
+            GCDUntil = Sim.CurrentTime + ((Class == Classes.Rogue || Form == Forms.Cat) ? GCD_ENERGY : GCD);
         }
 
         public bool HasGCD()
@@ -762,7 +969,11 @@ namespace ClassicCraft
             if (Sim.CurrentTime >= ResourcesTick + 2)
             {
                 ResourcesTick = ResourcesTick + 2;
-                Resource += 20;
+                Resource += 20 * (Effects.Any(e => e is AdrenalineRushBuff) ? 2 : 1);
+                if(Program.logFight)
+                {
+                    Program.Log(string.Format("{0:N2} : Energy ticks ({1}/{2})", Sim.CurrentTime, Resource, MaxResource));
+                }
             }
         }
 
@@ -796,73 +1007,6 @@ namespace ClassicCraft
             }
         }
 
-        public void CalculateAttributes()
-        {
-            Attributes = CaseAttributes(Class, Race);
-            BaseMana = Attributes.GetValue(Attribute.Mana);
-
-            foreach(Slot s in Equipment.Keys.Where(v => Equipment[v] != null))
-            {
-                Item i = Equipment[s];
-                Attributes += i.Attributes;
-                if (i.Enchantment != null)
-                {
-                    Attributes += i.Enchantment.Attributes;
-                }
-                if (s == Slot.MH)
-                {
-                    Weapon w = ((Weapon)i);
-                    if (w.Buff != null)
-                    Attributes += w.Buff.Attributes;
-                }
-            }
-
-            int wbonus = (int)Math.Round(Attributes.GetValue(Attribute.WeaponDamage));
-            MH.DamageMin += wbonus;
-            MH.DamageMax += wbonus;
-            if(OH != null)
-            {
-                OH.DamageMin += wbonus;
-                OH.DamageMax += wbonus;
-            }
-
-            foreach (Enchantment e in Buffs.Where(v => v != null))
-            {
-                Attributes += e.Attributes;
-            }
-
-            if (Class == Classes.Warrior)
-            {
-                Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
-                    + 0.01 * GetTalentPoints("Cruelty")
-                    + 0.03); // Berserker Stance, move elsewhere for stance dancing ?
-            }
-            else if (Class == Classes.Druid)
-            {
-                Attributes.SetValue(Attribute.Intellect, Attributes.GetValue(Attribute.Intellect)
-                    * (1 + 0.04 * GetTalentPoints("HW")));
-                Attributes.SetValue(Attribute.Strength, Attributes.GetValue(Attribute.Strength)
-                    * (1 + 0.04 * GetTalentPoints("HW")));
-                Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
-                    + 0.01 * GetTalentPoints("SC"));
-                Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP)
-                    + 0.5 * GetTalentPoints("PS") * Level);
-            }
-
-            Attributes += BonusAttributesByRace(Race, Attributes);
-
-            Attributes.SetValue(Attribute.Health, Attributes.GetValue(Attribute.Health) + 20 + (Attributes.GetValue(Attribute.Stamina) - 20) * 10);
-            if(Attributes.GetValue(Attribute.Mana) > 0)
-            {
-                Attributes.SetValue(Attribute.Mana, Attributes.GetValue(Attribute.Mana) + Attributes.GetValue(Attribute.Intellect) * 15);
-            }
-            Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Strength) * StrToAPRatio(Class) + Attributes.GetValue(Attribute.Agility) * AgiToAPRatio(Class));
-            Attributes.SetValue(Attribute.RangedAP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Agility) * AgiToRangedAPRatio(Class));
-            Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance) + Attributes.GetValue(Attribute.Agility) * AgiToCritRatio(Class));
-
-            HasteMod = CalcHaste();
-        }
-
         public double CalcHaste()
         {
             return 1 + (Attributes != null ? Attributes.GetValue(Attribute.Haste) : 0);
@@ -885,11 +1029,40 @@ namespace ClassicCraft
 
         public static double AgiToCritRatio(Classes c)
         {
-            switch(c)
+            switch (c)
             {
-                case Classes.Hunter: return (double)1 / 5300;
-                case Classes.Rogue: return (double)1 / 2900;
-                default: return (double)1 / 2000;
+                case Classes.Hunter: return 1.0 / 5300;
+                case Classes.Rogue: return 1.0 / 2900;
+                default: return 1.0 / 2000;
+            }
+        }
+
+        public static double IntToCritRatio(Classes c)
+        {
+            switch (c)
+            {
+                case Classes.Druid: return 1.0 / 6000;
+                case Classes.Mage: return 1.0 / 5950;
+                case Classes.Paladin: return 1.0 / 5400;
+                case Classes.Priest: return 1.0 / 5920;
+                case Classes.Shaman: return 1.0 / 5950;
+                case Classes.Warlock: return 1.0 / 6060;
+                default: return 0;
+            }
+        }
+
+        public static double BaseCrit(Classes c)
+        {
+            switch (c)
+            {
+                case Classes.Druid: return 0.0185;
+                case Classes.Hunter: return 0.036;
+                case Classes.Mage: return 0.0091;
+                case Classes.Paladin: return 0.03336;
+                case Classes.Priest: return 0.0124;
+                case Classes.Shaman: return 0.022;
+                case Classes.Warlock: return 0.01701;
+                default: return 0;
             }
         }
 
@@ -1332,26 +1505,6 @@ namespace ClassicCraft
         public override double ParryChance()
         {
             return 0;
-        }
-
-        public Dictionary<Spell, int> CooldownsListToSpellsDic(List<string> cds)
-        {
-            Dictionary<Spell, int> res = new Dictionary<Spell, int>();
-
-            foreach(string s in cds)
-            {
-                switch(s)
-                {
-                    case "DeathWish": res.Add(new DeathWish(this), DeathWishBuff.LENGTH); break;
-                    case "JujuFlurry": res.Add(new JujuFlurry(this), JujuFlurryBuff.LENGTH); break;
-                    case "MightyRage": res.Add(new MightyRage(this), MightyRageBuff.LENGTH); break;
-                    case "Recklessness": res.Add(new Recklessness(this), RecklessnessBuff.LENGTH); break;
-                    case "BloodFury": res.Add(new BloodFury(this), BloodFuryBuff.LENGTH); break;
-                    case "Berserking": res.Add(new Berserking(this), BerserkingBuff.LENGTH); break;
-                }
-            }
-
-            return res;
         }
 
         public override string ToString()

@@ -8,11 +8,11 @@ namespace ClassicCraft
 {
     class Bloodrage : Spell
     {
-        public static int COST = 0;
+        public static int BASE_COST = 0;
         public static int CD = 60;
 
         public Bloodrage(Player p)
-            : base(p, CD, COST, false)
+            : base(p, CD, BASE_COST, false)
         {
         }
 

@@ -40,8 +40,6 @@ namespace ClassicCraft
 
         public List<AutoAttack> autos = new List<AutoAttack>();
 
-        public static Random random = new Random();
-
         public Simulation(Player player, Boss boss, double fightLength, bool autoBossLife = true, double lowLifeTime = 0, double fightLengthMod = 0.2)
         {
             Player = player;
@@ -64,7 +62,153 @@ namespace ClassicCraft
             {
                 case Player.Classes.Warrior: Warrior(); break;
                 case Player.Classes.Druid: Druid(); break;
+                case Player.Classes.Rogue: Rogue(); break;
             }
+        }
+
+        private void Rogue()
+        {
+            autos.Add(new AutoAttack(Player, Player.MH, true));
+            if (Player.OH != null)
+            {
+                autos.Add(new AutoAttack(Player, Player.OH, false));
+            }
+
+            CurrentTime = 0;
+            Boss.LifePct = 1;
+
+            Ambush am = new Ambush(Player);
+            Backstab bs = new Backstab(Player);
+            Eviscerate ev = new Eviscerate(Player);
+            SinisterStrike ss = new SinisterStrike(Player);
+            SliceAndDice sad = new SliceAndDice(Player);
+            AdrenalineRush ar = new AdrenalineRush(Player);
+            BladeFlurry bf = new BladeFlurry(Player);
+
+            Player.Stealthed = true;
+
+            Player.HasteMod = Player.CalcHaste();
+
+            Player.Resource = Player.MaxResource;
+
+            int rota = 0;
+            if (Player.MH.Type == Weapon.WeaponType.Dagger)
+            {
+                rota = 1;
+            }
+            
+            while (CurrentTime < FightLength)
+            {
+                if (AutoLife)
+                {
+                    Boss.LifePct = Math.Max(0, 1 - (CurrentTime / FightLength) * (16.0 / 17.0));
+                }
+                else if (CurrentTime >= LowLifeTime && Boss.LifePct == 1)
+                {
+                    Boss.LifePct = 0.10;
+                }
+
+                foreach (Effect e in Player.Effects)
+                {
+                    e.CheckEffect();
+                }
+                foreach (Effect e in Boss.Effects)
+                {
+                    e.CheckEffect();
+                }
+
+                Player.Effects.RemoveAll(e => e.Ended);
+                Boss.Effects.RemoveAll(e => e.Ended);
+
+                Player.CheckEnergyTick();
+
+                double sadleft = 0;
+                if(Player.Effects.Any(e => e is SliceAndDiceBuff))
+                {
+                    sadleft = Player.Effects.Where(e => e is SliceAndDiceBuff).First().RemainingTime();
+                }
+
+                if(sadleft > 0)
+                {
+                    if (bf.CanUse())
+                    {
+                        bf.Cast();
+                    }
+                    if (ar.CanUse())
+                    {
+                        ar.Cast();
+                    }
+                }
+
+                if (rota == 0) // SS + EV
+                {
+                    if (FightLength - CurrentTime > SliceAndDiceBuff.DurationCalc(Player) && Player.Combo > 0 && sadleft == 0 && sad.CanUse())
+                    {
+                        sad.Cast();
+                    }
+                    else if (Player.Combo > 4)
+                    {
+                        if (FightLength - CurrentTime > SliceAndDiceBuff.DurationCalc(Player) && sadleft < 10)
+                        {
+                            if (Player.Resource >= 80 && sad.CanUse())
+                            {
+                                sad.Cast();
+                            }
+                        }
+                        else if (ev.CanUse())
+                        {
+                            ev.Cast();
+                        }
+                    }
+                    else if (ss.CanUse())
+                    {
+                        ss.Cast();
+                    }
+                }
+                else if(rota == 1) // BS + EV
+                {
+                    if (FightLength - CurrentTime > SliceAndDiceBuff.DurationCalc(Player) && Player.Combo > 1 && sadleft == 0 && sad.CanUse())
+                    {
+                        sad.Cast();
+                    }
+                    else if (Player.Combo > 4)
+                    {
+                        if (FightLength - CurrentTime > SliceAndDiceBuff.DurationCalc(Player) && sadleft < 10)
+                        {
+                            if (Player.Resource >= 80 && sad.CanUse())
+                            {
+                                sad.Cast();
+                            }
+                        }
+                        else if (ev.CanUse())
+                        {
+                            ev.Cast();
+                        }
+                    }
+                    else if (bs.CanUse())
+                    {
+                        bs.Cast();
+                    }
+                }
+
+                foreach (AutoAttack a in autos)
+                {
+                    if (a.Available())
+                    {
+                        a.Cast();
+                    }
+                }
+
+                Player.Effects.RemoveAll(e => e.Ended);
+                Boss.Effects.RemoveAll(e => e.Ended);
+
+                CurrentTime += 1 / RATE;
+            }
+
+            Program.AddSimDps(Damage / FightLength);
+            Program.AddSimResult(Results);
+
+            Ended = true;
         }
 
         private void Druid()
@@ -83,7 +227,7 @@ namespace ClassicCraft
 
             Player.HasteMod = Player.CalcHaste();
 
-            Player.Resource = 100;
+            Player.Resource = Player.MaxResource;
             Player.Mana = Player.MaxMana;
 
             if (Player.Equipment[Player.Slot.MH].Name == "Manual Crowd Pummeler")
@@ -91,10 +235,10 @@ namespace ClassicCraft
                 mcp.Cast();
             }
 
-            int t = 0;
+            int rota = 0;
+            
             while (CurrentTime < FightLength)
             {
-                t++;
                 if (AutoLife)
                 {
                     Boss.LifePct = Math.Max(0, 1 - (CurrentTime / FightLength) * (16.0 / 17.0));
@@ -119,9 +263,7 @@ namespace ClassicCraft
                 Player.CheckEnergyTick();
                 Player.CheckManaTick();
 
-                string rota = "SHRED + FB + SHIFT + INNERV";
-
-                if (rota == "SHRED + FB + SHIFT + INNERV")
+                if (rota == 0) //SHRED + FB + SHIFT + INNERV
                 {
                     if(Player.Form == Player.Forms.Cat)
                     {
@@ -227,6 +369,8 @@ namespace ClassicCraft
             // Charge
             Player.Resource += 15;
 
+            int rota = 0;
+
             while (CurrentTime < FightLength)
             {
                 if(AutoLife)
@@ -276,9 +420,7 @@ namespace ClassicCraft
                     }
                 }
 
-                string rota = "BT > WW > HAM + HS + EXEC";
-
-                if (rota == "BT > WW > HAM + HS + EXEC")
+                if (rota == 0) //BT > WW > HAM + HS + EXEC
                 {
                     if (Boss.LifePct > 0.2)
                     {
@@ -290,12 +432,12 @@ namespace ClassicCraft
                         {
                             ww.Cast();
                         }
-                        else if(ham.CanUse() && Player.Resource >= Bloodthirst.COST + Whirlwind.COST + Hamstring.COST && ww.RemainingCD() >= Player.GCD && bt.RemainingCD() >= Player.GCD && (!Player.Effects.Any(e => e is Flurry) || ((Flurry)Player.Effects.Where(f => f is Flurry).First()).CurrentStacks < 3))
+                        else if(ham.CanUse() && Player.Resource >= bt.Cost + ww.Cost + hs.Cost && ww.RemainingCD() >= Player.GCD && bt.RemainingCD() >= Player.GCD && (!Player.Effects.Any(e => e is Flurry) || ((Flurry)Player.Effects.Where(f => f is Flurry).First()).CurrentStacks < 3))
                         {
                             ham.Cast();
                         }
 
-                        if (!Player.MH.TwoHanded && Player.Resource >= Bloodthirst.COST + Whirlwind.COST + HeroicStrike.COST && hs.CanUse())
+                        if (!Player.MH.TwoHanded && Player.Resource >= bt.Cost + ww.Cost + hs.Cost && hs.CanUse())
                         {
                             hs.Cast();
                         }
@@ -393,7 +535,7 @@ namespace ClassicCraft
                 // TODO BLOCK / BLOCKCRIT
                 case ResultType.Crit: return 2;
                 case ResultType.Hit: return 1;
-                case ResultType.Glancing: return GlancingDamage(level, enemyLevel);
+                case ResultType.Glance: return GlancingDamage(level, enemyLevel);
                 default: return 0;
             }
         }
@@ -403,7 +545,7 @@ namespace ClassicCraft
             switch (type)
             {
                 case ResultType.Crit: return 2;
-                case ResultType.Glancing: return GlancingDamage(level, enemyLevel);
+                case ResultType.Glance: return GlancingDamage(level, enemyLevel);
                 case ResultType.Miss: return 0;
                 default: return 1;
             }
@@ -413,7 +555,7 @@ namespace ClassicCraft
         {
             double low = Math.Max(0.01, Math.Min(0.91, 1.3 - 0.05 * (enemyLevel - level)));
             double high = Math.Max(0.2, Math.Min(0.99, 1.2 - 0.03 * (enemyLevel - level)));
-            return random.NextDouble() * (high - low) + low;
+            return Randomer.NextDouble() * (high - low) + low;
         }
 
         public static double RageGained(int damage, int level = 60)
