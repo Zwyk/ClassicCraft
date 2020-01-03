@@ -632,13 +632,6 @@ namespace ClassicCraft
 
             Boss boss = new Boss(bossBase);
 
-            /*
-            if(toWeight != null)
-            {
-                player.Attributes.SetValue(weighted, player.Attributes.GetValue(weighted) + 10);
-            }
-            */
-
             Simulation s = new Simulation(player, boss, fightLength, bossAutoLife, bossLowLifeTime);
             s.StartSim();
         }
