@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\Action.cs" />
-    <Compile Include="Actions\TempAction.cs" />
+    <Compile Include="Actions\CustomAction.cs" />
     <Compile Include="Classes\Druid\Effects\InnervateBuff.cs" />
     <Compile Include="Classes\Druid\Spells\FerociousBite.cs" />
     <Compile Include="Classes\Druid\Spells\Innervate.cs" />

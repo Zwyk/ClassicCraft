@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class TempAction : Action
+    public class CustomAction : Action
     {
         public string Name { get; set; }
 
-        public TempAction(Player p, string name, bool magic = false)
+        public CustomAction(Player p, string name, bool magic = false)
             : base(p, 0, magic)
         {
             Name = name;

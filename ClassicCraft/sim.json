@@ -20,7 +20,7 @@
   "Player": {
     "Race": "Undead",
     "Class": "Rogue",
-    "Talents": "005303103-3203052020550100201-05",
+    "Talents": "005323105-3210052020050150231",
     "Cooldowns": {
     },
     "Buffs": [
@@ -93,12 +93,12 @@
       },
     ],
     "MH": {
-      "DamageMin": 73,
-      "DamageMax": 137,
-      "Speed": 1.8,
+      "DamageMin": 114,
+      "DamageMax": 213,
+      "Speed": 2.9,
       "TwoHanded": false,
-      "Type": "Dagger",
-      "Name": "Perdition's Blade",
+      "Type": "Sword",
+      "Name": "Vis'kag the Bloodletter",
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
@@ -109,17 +109,18 @@
       }
     },
     "OH": {
-      "DamageMin": 57,
-      "DamageMax": 107,
-      "Speed": 1.6,
+      "DamageMin": 90,
+      "DamageMax": 168,
+      "Speed": 2.5,
       "TwoHanded": false,
-      "Type": "Dagger",
-      "Name": "Core Hound Tooth",
+      "Type": "Sword",
+      "Name": "Brutality Blade",
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
+        "Str": 9,
+        "Agi": 9,
         "Crit": 1,
-        "AP": 20,
       },
       "Enchantment":
       {
@@ -140,7 +141,7 @@
         "Stats": {
           "Str": 19,
           "Agi": 27,
-          "Crit": 1
+          "Crit": 1,
         },
         "Enchantment": {
           "Name": "Lesser Arcane Amalgamation",
@@ -158,11 +159,9 @@
         }
       },
       "Shoulders": {
-        "Name": "Nightslayer Shoulder Pads",
+        "Name": "Shadowcraft Spaulers",
         "Stats": {
-          "Str": 3,
-          "Agi": 26,
-          "Hit": 1,
+          "Agi": 22,
         },
       },
       "Back": {
@@ -179,11 +178,9 @@
         }
       },
       "Chest": {
-        "Name": "Nightslayer Chestpiece",
+        "Name": "Shadowcraft Tunic",
         "Stats": {
-          "Str": 10,
-          "Agi": 29,
-          "Crit": 1
+          "Agi": 26,
         },
         "Enchantment": {
           "Name": "Greater Stats",
@@ -196,10 +193,9 @@
         }
       },
       "Wrist": {
-        "Name": "Bracers of The Eclipse",
+        "Name": "Shadowcraft Bracers",
         "Stats": {
-          "Agi": 10,
-          "AP": 24,
+          "Agi": 15,
         },
         "Enchantment": {
           "Name": "Superior Strength",
@@ -209,11 +205,10 @@
         }
       },
       "Hands": {
-        "Name": "Nightslayer Gloves",
+        "Name": "Shadowcraft Gloves",
         "Stats": {
-          "Str": 12,
-          "Agi": 18,
-          "Hit": 1
+          "Agi": 14,
+          "Str": 9,
         },
         "Enchantment": {
           "Name": "Greater Agility",
@@ -223,18 +218,17 @@
         }
       },
       "Waist": {
-        "Name": "Nightslayer Belt",
+        "Name": "Shadowcraft Belt",
         "Stats": {
           "Str": 9,
-          "Agi": 17,
-          "Crit": 1,
+          "Agi": 14,
         }
       },
       "Legs": {
         "Name": "Bloodfang Pants",
         "Stats": {
-          "Str": 11,
           "Agi": 37,
+          "Str": 11,
           "Crit": 1,
         },
         "Enchantment": {
@@ -245,9 +239,9 @@
         }
       },
       "Feet": {
-        "Name": "Nightslayer Boots",
+        "Name": "Shadowcraft Boots",
         "Stats": {
-          "Agi": 26,
+          "Agi": 21,
         },
       },
       "Ring1": {
