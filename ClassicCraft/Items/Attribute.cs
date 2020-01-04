@@ -36,6 +36,10 @@ namespace ClassicCraft
         SkillFist,
         Skill1H,
         Skill2H,
+        SkillBow,
+        SkillCrossbow,
+        SkillGun,
+        SkillThrowable,
         WeaponDamage,
     }
 
@@ -73,6 +77,10 @@ namespace ClassicCraft
                 case "Fist": return Attribute.SkillFist;
                 case "1H": return Attribute.Skill1H;
                 case "2H": return Attribute.Skill2H;
+                case "Bow": return Attribute.SkillBow;
+                case "Crossbow": return Attribute.SkillCrossbow;
+                case "Gun": return Attribute.SkillGun;
+                case "Throwable": return Attribute.SkillThrowable;
                 case "WDmg": return Attribute.WeaponDamage;
                 default: throw new Exception("Attribute not found : " + s);
             }
@@ -110,6 +118,10 @@ namespace ClassicCraft
                 case Attribute.SkillFist: return "Fist";
                 case Attribute.Skill1H: return "1H";
                 case Attribute.Skill2H: return "2H";
+                case Attribute.SkillBow: return "Bow";
+                case Attribute.SkillCrossbow: return "Crossbow";
+                case Attribute.SkillGun: return "Gun";
+                case Attribute.SkillThrowable: return "Throwable";
                 case Attribute.WeaponDamage: return "WDmg";
                 default: throw new Exception("Attribute not found");
             }

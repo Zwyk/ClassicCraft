@@ -46,7 +46,7 @@ namespace ClassicCraft
         public static string logsFileName = "logs";
         public static string txt = ".txt";
 
-        public static bool debug = true;
+        public static bool debug = false;
         public static string debugPath = ".\\..\\..";
 
         public static Player playerBase = null;
@@ -276,6 +276,7 @@ namespace ClassicCraft
 
                 Log("\nPlayer :");
                 Log(playerBase.ToString());
+                Log(playerBase.MainWeaponInfo());
 
                 bossBase = JsonUtil.JsonBoss.ToBoss(jsonSim.Boss, playerBase.Attributes.GetValue(Attribute.ArmorPen));
 
