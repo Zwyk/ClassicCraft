@@ -1,39 +1,39 @@
-Date : 2020/01/03 01:46:38
+Date : 2020/01/04 13:02:50
 
 Fight length : 120 seconds (±20%)
 
 Player :
-Undead Rogue level 60 | Stats : [Strength:243][Agility:474][Stamina:76][Intellect:37][Spirit:59][Health:2103][CritChance:29,34][HitChance:7][Haste:0][SpellHitChance:0][SpellCritChance:0][AP:1184][SkillSword:5][SkillDagger:5][RangedAP:2132]
+Undead Rogue level 60 | Stats : [Strength:243][Agility:474][Stamina:76][Intellect:37][Spirit:59][Health:2103][CritChance:34,34][HitChance:12][Haste:0][SpellHitChance:0][SpellCritChance:0][AP:1184][SkillSword:5][SkillDagger:5][RangedAP:2132]
 
 Boss (after raid debuffs) :
 Level 63, 336 Armor (5,76% mitigation)
 
 
-5001 simulations done in 5 015,61 ms, for 1,00 ms by sim
-Overall accuracy of results : ±0,16%
+5694 simulations done in 4 439,41 ms, for 0,78 ms by sim
+Overall accuracy of results : ±0,18%
 
-Average DPS : 547,92 dps (±0,45)
+Average DPS : 679,15 dps (±0,62)
 
-Average stats for [AA MH] : 197,32 DPS (36,01%)
-	Average of 432,63 damage for 54,73 uses (or 1 use every 2,19s)
-	9,64% Hit, 26,37% Crit, 17,95% Miss, 39,95% Glancing, 6,08% Dodge
+Average stats for [AA MH] : 267,40 DPS (39,37%)
+	Average of 479,29 damage for 66,95 uses (or 1 use every 1,79s)
+	9,63% Hit, 31,38% Crit, 12,97% Miss, 40,02% Glancing, 6,00% Dodge
 
-Average stats for [AA OH] : 113,85 DPS (20,78%)
-	Average of 217,04 damage for 62,94 uses (or 1 use every 1,91s)
-	9,70% Hit, 26,27% Crit, 18,04% Miss, 39,95% Glancing, 6,03% Dodge
+Average stats for [AA OH] : 126,35 DPS (18,60%)
+	Average of 240,40 damage for 63,07 uses (or 1 use every 1,90s)
+	9,65% Hit, 31,36% Crit, 13,04% Miss, 40,01% Glancing, 5,93% Dodge
 
-Average stats for [Sinister Strike] : 193,04 DPS (35,23%)
-	Average of 708,68 damage for 32,69 uses (or 1 use every 3,67s)
-	67,63% Hit, 26,40% Crit, 0,00% Miss, 0,00% Glancing, 5,97% Dodge
+Average stats for [Sinister Strike] : 230,15 DPS (33,89%)
+	Average of 752,12 damage for 36,72 uses (or 1 use every 3,27s)
+	62,48% Hit, 31,49% Crit, 0,00% Miss, 0,00% Glancing, 6,03% Dodge
 
-Average stats for [Eviscerate] : 29,44 DPS (5,37%)
-	Average of 1 257,94 damage for 2,81 uses (or 1 use every 42,73s)
-	66,98% Hit, 26,80% Crit, 0,00% Miss, 0,00% Glancing, 6,22% Dodge
+Average stats for [Eviscerate] : 39,84 DPS (5,87%)
+	Average of 1 311,48 damage for 3,65 uses (or 1 use every 32,91s)
+	62,15% Hit, 31,68% Crit, 0,00% Miss, 0,00% Glancing, 6,17% Dodge
 
-Average stats for [Instant Poison] : 10,27 DPS (1,87%)
-	Average of 130,05 damage for 9,47 uses (or 1 use every 12,67s)
-	82,99% Hit, 0,00% Crit, 17,01% Resist
+Average stats for [Instant Poison] : 9,47 DPS (1,39%)
+	Average of 111,02 damage for 10,24 uses (or 1 use every 11,72s)
+	83,04% Hit, 0,00% Crit, 16,96% Resist
 
-Average stats for [Vis'kag the Bloodletter] : 3,68 DPS (0,67%)
-	Average of 240,00 damage for 1,84 uses (or 1 use every 65,24s)
-	66,75% Hit, 27,31% Crit, 0,00% Miss, 0,00% Glancing, 5,94% Dodge
+Average stats for [Vis'kag the Bloodletter] : 5,74 DPS (0,84%)
+	Average of 294,56 damage for 2,34 uses (or 1 use every 51,35s)
+	62,43% Hit, 31,77% Crit, 0,00% Miss, 0,00% Glancing, 5,80% Dodge

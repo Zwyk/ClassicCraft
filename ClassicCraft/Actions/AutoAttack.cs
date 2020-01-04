@@ -26,7 +26,7 @@ namespace ClassicCraft
         public override void DoAction()
         {
             DoAA();
-            NextAA();
+            CastNextSwing();
         }
 
         public void DoAA(bool extra = false, bool wf = false)
@@ -68,7 +68,12 @@ namespace ClassicCraft
             Player.CheckOnHits(MH, true, res, extra, wf);
         }
 
-        public void NextAA()
+        public void ResetSwing()
+        {
+            LockedUntil = Player.Sim.CurrentTime;
+        }
+
+        public void CastNextSwing()
         {
             LockedUntil += CurrentSpeed();
         }

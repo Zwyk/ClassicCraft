@@ -569,13 +569,13 @@ namespace ClassicCraft
             else if (Class == Classes.Rogue)
             {
                 Attributes.SetValue(Attribute.HitChance, Attributes.GetValue(Attribute.HitChance)
-                    + GetTalentPoints("Prec") / 100);
+                    + GetTalentPoints("Prec") / 100.0);
                 Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
-                    + GetTalentPoints("Malice") / 100);
+                    + GetTalentPoints("Malice") / 100.0);
                 Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
-                    + GetTalentPoints("FS") / 100);
+                    + GetTalentPoints("FS") / 100.0);
                 Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
-                    + GetTalentPoints("DS") / 100);
+                    + GetTalentPoints("DS") / 100.0);
                 Attributes.SetValue(Attribute.SkillSword, Attributes.GetValue(Attribute.SkillSword)
                     + (GetTalentPoints("WE") > 0 ? (GetTalentPoints("WE") == 1 ? 3 : 5) : 0));
                 Attributes.SetValue(Attribute.SkillDagger, Attributes.GetValue(Attribute.SkillDagger)
@@ -619,7 +619,8 @@ namespace ClassicCraft
             {
                 Sim.autos[0].DoAA(true, wf);
             }
-            Sim.autos[0].NextAA();
+            Sim.autos[0].ResetSwing();
+            Sim.autos[0].CastNextSwing();
         }
 
         public void CheckOnHits(bool isMH, bool isAA, ResultType res, bool extra = false, bool wf = false)

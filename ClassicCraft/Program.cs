@@ -503,7 +503,7 @@ namespace ClassicCraft
                     else if (playerBase.Class == Player.Classes.Rogue)
                         logList.AddRange(new List<string>() { "Sinister Strike", "Backstab", "Eviscerate", "Ambush", "Instant Poison" });
 
-                    logList.AddRange(new List<string>() { "Deathbringer", "Vis'kag the Bloodletter" });
+                    logList.AddRange(new List<string>() { "Deathbringer", "Vis'kag the Bloodletter", "Perdition's Blade" });
 
                     foreach (string ac in logList)
                     {

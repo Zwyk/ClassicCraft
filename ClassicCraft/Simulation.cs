@@ -460,7 +460,7 @@ namespace ClassicCraft
                             if (Player.applyAtNextAA.CanUse())
                             {
                                 Player.applyAtNextAA.DoAction();
-                                a.NextAA();
+                                a.CastNextSwing();
                             }
                             else
                             {
@@ -489,7 +489,7 @@ namespace ClassicCraft
 
         private void ResetAATimer(AutoAttack auto)
         {
-            auto.NextAA();
+            auto.CastNextSwing();
         }
 
         private void ResetAATimers(List<AutoAttack> autos)
@@ -563,10 +563,12 @@ namespace ClassicCraft
             return Math.Max(1, 7.5 * damage / RageConversionValue(level));
         }
 
+        /*
         public static double RageGained2(int damage, double speed, bool mh, bool crit, int level = 60)
         {
             return Math.Max(15 * damage / RageConversionValue(level), 15 * damage / (4 * RageConversionValue(level)) + (RageWhiteHitFactor(mh, crit) * speed / 2));
         }
+        */
 
         public static double RageConversionValue(int level = 60)
         {
