@@ -36,6 +36,47 @@ namespace ClassicCraft
             Troll
         }
 
+        public enum Classes
+        {
+            Priest,
+            Rogue,
+            Warrior,
+            Mage,
+            Druid,
+            Hunter,
+            Warlock,
+            Shaman,
+            Paladin
+        }
+
+        public enum Slot
+        {
+            Head,
+            Neck,
+            Shoulders,
+            Back,
+            Chest,
+            Wrist,
+            Hands,
+            Waist,
+            Legs,
+            Feet,
+            Ring1,
+            Ring2,
+            Trinket1,
+            Trinket2,
+            MH,
+            OH,
+            Ranged
+        }
+
+        public enum Forms
+        {
+            Human,
+            Bear,
+            Cat,
+        }
+
         public static Races ToRace(string s)
         {
             switch (s)
@@ -66,19 +107,6 @@ namespace ClassicCraft
                 case Races.Troll: return "Troll";
                 default: throw new Exception("Race not found");
             }
-        }
-
-        public enum Classes
-        {
-            Priest,
-            Rogue,
-            Warrior,
-            Mage,
-            Druid,
-            Hunter,
-            Warlock,
-            Shaman,
-            Paladin
         }
 
         public static Classes ToClass(string s)
@@ -113,27 +141,6 @@ namespace ClassicCraft
                 case Classes.Paladin: return "Paladin";
                 default: throw new Exception("Class not found");
             }
-        }
-
-        public enum Slot
-        {
-            Head,
-            Neck,
-            Shoulders,
-            Back,
-            Chest,
-            Wrist,
-            Hands,
-            Waist,
-            Legs,
-            Feet,
-            Ring1,
-            Ring2,
-            Trinket1,
-            Trinket2,
-            MH,
-            OH,
-            Ranged
         }
 
         public static Slot ToSlot(string s)
@@ -184,13 +191,6 @@ namespace ClassicCraft
                 case Slot.Ranged: return "Ranged";
                 default: throw new Exception("Slot not found");
             }
-        }
-
-        public enum Forms
-        {
-            Human,
-            Bear,
-            Cat,
         }
         
         public static int StrToAPRatio(Classes c)
@@ -689,6 +689,11 @@ namespace ClassicCraft
             return critChance + skillDif * (skillDif >= 0 ? 0.0004 : 0.002);
         }
 
+        public static List<string> SPECIALSETS_LIST = new List<string>()
+        {
+            "Nightslayer", "Shadowcraft"
+        };
+
         #endregion
 
         #region Properties
@@ -981,14 +986,9 @@ namespace ClassicCraft
             }
         }
 
-        public static List<string> SET_LIST = new List<string>()
-        {
-            "Nightslayer", "Shadowcraft"
-        };
-
         public void CheckSets()
         {
-            foreach(string s in SET_LIST)
+            foreach(string s in SPECIALSETS_LIST)
             {
                 Sets.Add(s, NbSet(s));
             }
