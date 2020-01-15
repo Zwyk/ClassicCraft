@@ -10,8 +10,6 @@ namespace ClassicCraft
     {
         public delegate void ItemEffect();
 
-        public Player Player { get; set; }
-
         public Slot Slot { get; set; }
 
         public Attributes Attributes { get; set; }
@@ -25,13 +23,7 @@ namespace ClassicCraft
         public string Name { get; set; }
 
         public Item(Slot slot = Slot.Any, Attributes attributes = null, int id = 0, string name = "New Item", Enchantment enchantment = null, ItemEffect effect = null)
-            : this(null, slot, attributes, id, name, enchantment, effect)
         {
-        }
-
-        public Item(Player p = null, Slot slot = Slot.Any, Attributes attributes = null, int id = 0, string name = "New Item", Enchantment enchantment = null, ItemEffect effect = null)
-        {
-            Player = p;
             Slot = slot;
             Attributes = attributes;
             Id = id;

@@ -39,7 +39,7 @@ namespace ClassicCraft
 
         public List<Effect> Effects { get; set; }
 
-        public Entity(Simulation s, MobType type, int level, int armor, int maxLife)
+        public Entity(Simulation s, MobType type, int level, int armor = 0, int maxLife = 1)
             : base(s)
         {
             Type = type;

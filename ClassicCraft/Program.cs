@@ -80,7 +80,7 @@ namespace ClassicCraft
 
         public static string logs = "";
         
-        public static List<string> simOrder = new List<string>(){ "Base", "+1% Hit", "+1% Crit", "+1% Haste", "+50 AP", "+50 Int", "+50 Spi" };
+        public static List<string> simOrder = new List<string>(){ "Base", "+1% Hit", "+1% Crit", "+1% Haste", "+50 AP", "+50 Int", "+50 Spi", "+10 Dmg MH", "+10 Dmg OH" };
         public static Dictionary<string, Attributes> simBonusAttribs = new Dictionary<string, Attributes>()
                 {
                     { "Base", new Attributes() },
@@ -107,6 +107,14 @@ namespace ClassicCraft
                     { "+50 Spi", new Attributes(new Dictionary<Attribute, double>()
                             {
                                 { Attribute.Spirit, 50 }
+                            })},
+                    { "+10 Dmg MH", new Attributes(new Dictionary<Attribute, double>()
+                            {
+                                { Attribute.WeaponDamageMH, 10 }
+                            })},
+                    { "+10 Dmg OH", new Attributes(new Dictionary<Attribute, double>()
+                            {
+                                { Attribute.WeaponDamageOH, 10 }
                             })},
                 };
 
@@ -145,10 +153,18 @@ namespace ClassicCraft
 
                 playerBase = JsonUtil.JsonPlayer.ToPlayer(jsonSim.Player);
 
-                if(playerBase.Mana == 0)
+                if (playerBase.BaseMana == 0)
                 {
                     simOrder.Remove("+50 Int");
                     simOrder.Remove("+50 Spi");
+                }
+                if(!playerBase.DualWielding)
+                {
+                    simOrder.Remove("+1 DPS OH");
+                }
+                if(playerBase.Class == Player.Classes.Druid)
+                {
+                    simOrder.Remove("+1 DPS MH");
                 }
 
                 // Talents
@@ -485,6 +501,20 @@ namespace ClassicCraft
                         if (spiDif < 0) spiDif = 0;
                         Log(string.Format("1 Spi = {0:N4} DPS = {1:N4} AP", spiDif, spiDif / apDif));
                     }
+                    if (simOrder.Contains("+10 Dmg MH"))
+                    {
+                        double mhDps = DamagesList["+10 Dmg MH"].Average();
+                        double mhDif = (mhDps - baseDps) / 10;
+                        if (mhDif < 0) mhDif = 0;
+                        Log(string.Format("1 Dmg MH = {0:N4} DPS = {1:N4} AP", mhDif, mhDif / apDif));
+                    }
+                    if (simOrder.Contains("+10 Dmg OH"))
+                    {
+                        double ohDps = DamagesList["+10 Dmg OH"].Average();
+                        double ohDif = (ohDps - baseDps) / 10;
+                        if (ohDif < 0) ohDif = 0;
+                        Log(string.Format("1 Dmg OH = {0:N4} DPS = {1:N4} AP", ohDif, ohDif / apDif));
+                    }
                 }
                 else if (nbSim >= 1)
                 {
@@ -606,30 +636,7 @@ namespace ClassicCraft
 
         public static void DoSim()
         {
-            Player player = new Player(playerBase, playerBase.Equipment, playerBase.Talents);
-
-            foreach (Item i in player.Equipment.Values.Where(i => i != null))
-            {
-                i.Player = player;
-            }
-
-            //player.CalculateAttributes();
-            player.Attributes = playerBase.Attributes;
-            player.WindfuryTotem = playerBase.WindfuryTotem;
-            player.Cooldowns = playerBase.Cooldowns;
-            player.BaseMana = playerBase.BaseMana;
-            player.WeaponSkill = playerBase.WeaponSkill;
-
-            player.MH.DamageMin = playerBase.MH.DamageMin;
-            player.MH.DamageMax = playerBase.MH.DamageMax;
-            if(player.OH != null)
-            {
-                player.OH.DamageMin = playerBase.OH.DamageMin;
-                player.OH.DamageMax = playerBase.OH.DamageMax;
-            }
-
-            player.Sets = playerBase.Sets;
-            player.ApplySets();
+            Player player = new Player(playerBase);
 
             Boss boss = new Boss(bossBase);
 

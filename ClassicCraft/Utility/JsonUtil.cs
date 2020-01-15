@@ -31,7 +31,7 @@ namespace ClassicCraft
                 if (ji == null) return null;
                 else
                 {
-                    Item res = new Item(null, SlotUtil.FromString(ji.Slot), new Attributes(ji.Stats), ji.Id, ji.Name, ClassicCraft.Enchantment.ToEnchantment(ji.Enchantment), null);
+                    Item res = new Item(SlotUtil.FromString(ji.Slot), new Attributes(ji.Stats), ji.Id, ji.Name, ClassicCraft.Enchantment.ToEnchantment(ji.Enchantment), null);
                     if(res.Attributes != null)
                     {
                         res.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100);
@@ -105,7 +105,7 @@ namespace ClassicCraft
                 if (jw == null) return null;
                 else
                 {
-                    Weapon res = new Weapon(null, jw.DamageMin, jw.DamageMax, jw.Speed, jw.TwoHanded, Weapon.StringToType(jw.Type), new Attributes(jw.Stats), jw.Id, jw.Name, ClassicCraft.Enchantment.ToEnchantment(jw.Enchantment), ClassicCraft.Enchantment.ToEnchantment(jw.Buff), null);
+                    Weapon res = new Weapon(jw.DamageMin, jw.DamageMax, jw.Speed, jw.TwoHanded, Weapon.StringToType(jw.Type), new Attributes(jw.Stats), jw.Id, jw.Name, ClassicCraft.Enchantment.ToEnchantment(jw.Enchantment), ClassicCraft.Enchantment.ToEnchantment(jw.Buff), null);
                     if(res.Attributes != null)
                     {
                         res.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100);
@@ -272,10 +272,8 @@ namespace ClassicCraft
                     }
                 }
 
-                return new Player(null, ToClass(jp.Class), ToRace(jp.Race))
+                return new Player(null, ToClass(jp.Class), ToRace(jp.Race), 60, ToEquipment(jp.MH, jp.OH, jp.Ranged, jp.Equipment), null, buffs)
                 {
-                    Equipment = ToEquipment(jp.MH, jp.OH, jp.Ranged, jp.Equipment),
-                    Buffs = buffs,
                     WindfuryTotem = jp.Buffs != null && jp.Buffs.Select(b => b.Name).Contains("Windfury Totem"),
                     Cooldowns = jp.Cooldowns.Where(v => v.Value == true).Select(c => c.Key).ToList()
                 };

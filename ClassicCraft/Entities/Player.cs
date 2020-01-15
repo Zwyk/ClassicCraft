@@ -457,6 +457,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Intellect, 34);
                             res.Values.Add(Attribute.Spirit, 49);
                             res.Values.Add(Attribute.Health, 1523);
+                            res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Gnome:
                             res.Values.Add(Attribute.Strength, 75);
@@ -465,6 +466,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Intellect, 40);
                             res.Values.Add(Attribute.Spirit, 50);
                             res.Values.Add(Attribute.Health, 1523);
+                            res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Human:
                             res.Values.Add(Attribute.Strength, 80);
@@ -473,6 +475,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Intellect, 35);
                             res.Values.Add(Attribute.Spirit, 52);
                             res.Values.Add(Attribute.Health, 1523);
+                            res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.NightElf:
                             res.Values.Add(Attribute.Strength, 77);
@@ -481,6 +484,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Intellect, 35);
                             res.Values.Add(Attribute.Spirit, 50);
                             res.Values.Add(Attribute.Health, 1523);
+                            res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Orc:
                             res.Values.Add(Attribute.Strength, 83);
@@ -489,6 +493,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Intellect, 32);
                             res.Values.Add(Attribute.Spirit, 53);
                             res.Values.Add(Attribute.Health, 1523);
+                            res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Troll:
                             res.Values.Add(Attribute.Strength, 81);
@@ -497,6 +502,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Intellect, 31);
                             res.Values.Add(Attribute.Spirit, 51);
                             res.Values.Add(Attribute.Health, 1523);
+                            res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Undead:
                             res.Values.Add(Attribute.Strength, 79);
@@ -505,6 +511,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Intellect, 33);
                             res.Values.Add(Attribute.Spirit, 55);
                             res.Values.Add(Attribute.Health, 1523);
+                            res.Values.Add(Attribute.Mana, 0);
                             break;
                         default: break;
                     }
@@ -594,6 +601,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Intellect, 29);
                             res.Values.Add(Attribute.Spirit, 44);
                             res.Values.Add(Attribute.Health, 1689);
+                            res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Gnome:
                             res.Values.Add(Attribute.Strength, 115);
@@ -602,6 +610,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Intellect, 35);
                             res.Values.Add(Attribute.Spirit, 45);
                             res.Values.Add(Attribute.Health, 1689);
+                            res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Human:
                             res.Values.Add(Attribute.Strength, 120);
@@ -610,6 +619,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Intellect, 30);
                             res.Values.Add(Attribute.Spirit, 47);
                             res.Values.Add(Attribute.Health, 1689);
+                            res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.NightElf:
                             res.Values.Add(Attribute.Strength, 117);
@@ -618,6 +628,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Intellect, 30);
                             res.Values.Add(Attribute.Spirit, 45);
                             res.Values.Add(Attribute.Health, 1689);
+                            res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Orc:
                             res.Values.Add(Attribute.Strength, 123);
@@ -626,6 +637,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Intellect, 27);
                             res.Values.Add(Attribute.Spirit, 48);
                             res.Values.Add(Attribute.Health, 1689);
+                            res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Tauren:
                             res.Values.Add(Attribute.Strength, 125);
@@ -634,6 +646,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Intellect, 27);
                             res.Values.Add(Attribute.Spirit, 47);
                             res.Values.Add(Attribute.Health, 1689);
+                            res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Troll:
                             res.Values.Add(Attribute.Strength, 121);
@@ -642,6 +655,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Intellect, 26);
                             res.Values.Add(Attribute.Spirit, 46);
                             res.Values.Add(Attribute.Health, 1689);
+                            res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Undead:
                             res.Values.Add(Attribute.Strength, 119);
@@ -650,6 +664,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Intellect, 28);
                             res.Values.Add(Attribute.Spirit, 50);
                             res.Values.Add(Attribute.Health, 1689);
+                            res.Values.Add(Attribute.Mana, 0);
                             break;
                         default: break;
                     }
@@ -911,25 +926,40 @@ namespace ClassicCraft
 
         #region Constructors
 
-        public Player(Player p, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null)
-            : this(null, p, items, talents, buffs)
+        public Player(Player p)
+            : this(null, p)
         {
         }
 
-        public Player(Simulation s, Player p, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null)
-            : this(s, p.Class, p.Race, p.Level, p.Armor, p.MaxLife, items, talents, buffs)
+        public Player(Simulation s, Player p)
+            : this(s, p.Class, p.Race, p.Level, p.Equipment, p.Talents, p.Buffs)
         {
+            Attributes.Values = new Dictionary<Attribute, double>(p.Attributes.Values);
+            WeaponSkill = p.WeaponSkill;
+            MH.DamageMin = p.MH.DamageMin;
+            MH.DamageMax = p.MH.DamageMax;
+            if (OH != null)
+            {
+                OH.DamageMin = p.OH.DamageMin;
+                OH.DamageMax = p.OH.DamageMax;
+            }
+            WindfuryTotem = p.WindfuryTotem;
+            Cooldowns = p.Cooldowns;
+            BaseMana = p.BaseMana;
+
+            Sets = p.Sets;
+            ApplySets();
         }
 
-        public Player(Simulation s = null, Classes c = Classes.Warrior, Races r = Races.Orc, int level = 60, int armor = 0, int maxLife = 1000, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null)
-            : base(s, MobType.Humanoid, level, armor, maxLife)
+        public Player(Simulation s = null, Classes c = Classes.Warrior, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null)
+            : base(s, MobType.Humanoid, level)
         {
             Race = r;
             Class = c;
             
-            Talents = talents;
+            Talents = new Dictionary<string, int>(talents != null ? talents : new Dictionary<string, int>());
             
-            Buffs = buffs;
+            Buffs = new List<Enchantment>(buffs != null ? buffs : new List<Enchantment>());
 
             int baseSkill = Level * 5;
             WeaponSkill = new Dictionary<Weapon.WeaponType, int>();
@@ -1022,13 +1052,22 @@ namespace ClassicCraft
             Form = Forms.Human;
             Stealthed = false;
 
+            Attributes = new Attributes();
+            BaseMana = Attributes.GetValue(Attribute.Mana);
+
             BonusAttributes = new Attributes();
+        }
+
+        public void SetBaseAttributes()
+        {
+            Attributes = new Attributes();
+            Attributes.Values = new Dictionary<Attribute, double>(BaseAttributes(Class, Race).Values);
+            BaseMana = Attributes.GetValue(Attribute.Mana);
         }
 
         public void CalculateAttributes()
         {
-            Attributes = BaseAttributes(Class, Race);
-            BaseMana = Attributes.GetValue(Attribute.Mana);
+            SetBaseAttributes();
 
             foreach (Slot s in Equipment.Keys.Where(v => Equipment[v] != null))
             {
@@ -1052,12 +1091,14 @@ namespace ClassicCraft
             }
 
             int wbonus = (int)Math.Round(Attributes.GetValue(Attribute.WeaponDamage));
-            MH.DamageMin += wbonus;
-            MH.DamageMax += wbonus;
+            int wbonusMH = (int)Math.Round(Attributes.GetValue(Attribute.WeaponDamageMH));
+            int wbonusOH = (int)Math.Round(Attributes.GetValue(Attribute.WeaponDamageMH));
+            MH.DamageMin += wbonus + wbonusMH;
+            MH.DamageMax += wbonus + wbonusMH;
             if (OH != null)
             {
-                OH.DamageMin += wbonus;
-                OH.DamageMax += wbonus;
+                OH.DamageMin += wbonus + wbonusOH;
+                OH.DamageMax += wbonus + wbonusOH;
             }
 
             if (Class == Classes.Warrior)
@@ -1447,7 +1488,8 @@ namespace ClassicCraft
 
         public string MainWeaponInfo()
         {
-            return string.Format("Main weapon : {0} with {1} skill", MH.Type, WeaponSkill[MH.Type]);
+            Weapon.WeaponType type = Class == Classes.Druid ? Weapon.WeaponType.Fist : MH.Type;
+            return string.Format("Main weapon : {0} with {1} skill", type, WeaponSkill[type]);
         }
 
         public override string ToString()

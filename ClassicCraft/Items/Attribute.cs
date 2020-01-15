@@ -41,6 +41,8 @@ namespace ClassicCraft
         SkillGun,
         SkillThrowable,
         WeaponDamage,
+        WeaponDamageMH,
+        WeaponDamageOH,
     }
 
     public class AttributeUtil
@@ -82,6 +84,8 @@ namespace ClassicCraft
                 case "Gun": return Attribute.SkillGun;
                 case "Throwable": return Attribute.SkillThrowable;
                 case "WDmg": return Attribute.WeaponDamage;
+                case "WDmgMH": return Attribute.WeaponDamageMH;
+                case "WDmgOH": return Attribute.WeaponDamageOH;
                 default: throw new Exception("Attribute not found : " + s);
             }
         }
@@ -123,6 +127,8 @@ namespace ClassicCraft
                 case Attribute.SkillGun: return "Gun";
                 case Attribute.SkillThrowable: return "Throwable";
                 case Attribute.WeaponDamage: return "WDmg";
+                case Attribute.WeaponDamageMH: return "WDmgMH";
+                case Attribute.WeaponDamageOH: return "WDmgOH";
                 default: throw new Exception("Attribute not found");
             }
         }
