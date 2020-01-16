@@ -4,7 +4,7 @@
 ### How to use :
 - Download and extract the content of the .zip file anywhere on your computer
 - Modify `sim.json` to setup the simulation
-	- You can use the ClassicCraft Addon on Curse to speed up the process (but at the moment some stats like Crit or Hit rating aren't supported by the addon, so you need to fill them by hand afterwards) : [link](https://www.curseforge.com/wow/addons/classiccraft)
+	- You can use the [ClassicCraft Addon on Curse](https://www.curseforge.com/wow/addons/classiccraft) to speed up the process (but at the moment some stats like Crit or Hit rating aren't supported by the addon, so you need to fill them by hand afterwards)
 	- You can use the examples in the folder `sim.json examples` if needed
 - Execute `ClassicCraft.exe`
 	- A console should appear and the simulations start
@@ -73,8 +73,8 @@
 	- For now, sets providing stats boost have to be added manually in the `sim.json` file (either along with one of the items or as a Buff). Special set effects are detected by checking pieces names, so write them carefuly. A complete list of supported special sets will be written, one day.
 
 
-Please report any issue or suggestion on GitHub : https://github.com/Zwyk/ClassicCraft/issues
+Please report any issue or suggestion on [GitHub](https://github.com/Zwyk/ClassicCraft/issues)
 
-Join the community : https://discord.gg/tG4q7HE
+Join the [Discord community](https://discord.gg/tG4q7HE)
 
 You can also contact me on Discord : Zwyk#5555
