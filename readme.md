@@ -4,7 +4,8 @@
 ### How to use :
 - Download and extract the content of the .zip file anywhere on your computer
 - Modify `sim.json` to setup the simulation
-	- You can use the examples in the folder `sim.json examples`
+	- You can use the ClassicCraft Addon on Curse to speed up the process (but at the moment some stats like Crit or Hit rating aren't supported by the addon, so you need to fill them by hand afterwards) : [link](https://www.curseforge.com/wow/addons/classiccraft)
+	- You can use the examples in the folder `sim.json examples` if needed
 - Execute `ClassicCraft.exe`
 	- A console should appear and the simulations start
 	- Depending on the desired accuracy (`TargerErrorPct` or `NbSim`) and if `StatsWeights` is activated, the process might take some time
