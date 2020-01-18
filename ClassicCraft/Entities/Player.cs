@@ -1090,9 +1090,9 @@ namespace ClassicCraft
                 Attributes += e.Attributes;
             }
 
-            int wbonus = (int)Math.Round(Attributes.GetValue(Attribute.WeaponDamage));
-            int wbonusMH = (int)Math.Round(Attributes.GetValue(Attribute.WeaponDamageMH));
-            int wbonusOH = (int)Math.Round(Attributes.GetValue(Attribute.WeaponDamageMH));
+            double wbonus = Attributes.GetValue(Attribute.WeaponDamage);
+            double wbonusMH = Attributes.GetValue(Attribute.WeaponDamageMH);
+            double wbonusOH = Attributes.GetValue(Attribute.WeaponDamageOH);
             MH.DamageMin += wbonus + wbonusMH;
             MH.DamageMax += wbonus + wbonusMH;
             if (OH != null)

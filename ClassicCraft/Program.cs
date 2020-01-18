@@ -41,6 +41,7 @@ namespace ClassicCraft
     class Program
     {
         public static string simJsonFileName = "sim.json";
+        public static string playerJsonFileName = "player.json";
         public static string itemsJsonFileName = "items.json";
         public static string logsFileDir = "Logs";
         public static string logsFileName = "logs";
@@ -79,8 +80,10 @@ namespace ClassicCraft
         private static List<double> ErrorList = new List<double>();
 
         public static string logs = "";
+
+        public static string lastDebug = "";
         
-        public static List<string> simOrder = new List<string>(){ "Base", "+1% Hit", "+1% Crit", "+1% Haste", "+50 AP", "+50 Int", "+50 Spi", "+10 Dmg MH", "+10 Dmg OH" };
+        public static List<string> simOrder = new List<string>(){ "Base", "+50 AP", /*"+1% Hit", "+1% Crit", "+1% Haste", "+50 Int", "+50 Spi",*/ "+10 DPS MH", "+10 DPS OH" };
         public static Dictionary<string, Attributes> simBonusAttribs = new Dictionary<string, Attributes>()
                 {
                     { "Base", new Attributes() },
@@ -98,7 +101,7 @@ namespace ClassicCraft
                             })},
                     { "+50 AP", new Attributes(new Dictionary<Attribute, double>()
                             {
-                                { Attribute.AP, 50 }
+                                { Attribute.AP, 0 }
                             })},
                     { "+50 Int", new Attributes(new Dictionary<Attribute, double>()
                             {
@@ -108,13 +111,13 @@ namespace ClassicCraft
                             {
                                 { Attribute.Spirit, 50 }
                             })},
-                    { "+10 Dmg MH", new Attributes(new Dictionary<Attribute, double>()
+                    { "+10 DPS MH", new Attributes(new Dictionary<Attribute, double>()
                             {
-                                { Attribute.WeaponDamageMH, 10 }
+                                { Attribute.WeaponDamageMH, 0 }
                             })},
-                    { "+10 Dmg OH", new Attributes(new Dictionary<Attribute, double>()
+                    { "+10 DPS OH", new Attributes(new Dictionary<Attribute, double>()
                             {
-                                { Attribute.WeaponDamageOH, 10 }
+                                { Attribute.WeaponDamageOH, 0 }
                             })},
                 };
 
@@ -124,6 +127,8 @@ namespace ClassicCraft
             {
                 string simString = File.ReadAllText(debug ? Path.Combine(debugPath, simJsonFileName) : simJsonFileName);
                 JsonUtil.JsonSim jsonSim = JsonConvert.DeserializeObject<JsonUtil.JsonSim>(simString);
+                string playerString = File.ReadAllText(debug ? Path.Combine(debugPath, playerJsonFileName) : playerJsonFileName);
+                JsonUtil.JsonPlayer jsonPlayer = JsonConvert.DeserializeObject<JsonUtil.JsonPlayer>(playerString);
 
                 fightLength = jsonSim.FightLength;
                 fightLengthMod = jsonSim.FightLengthMod;
@@ -150,8 +155,8 @@ namespace ClassicCraft
                         nbSim = 10;
                     }
                 }
-
-                playerBase = JsonUtil.JsonPlayer.ToPlayer(jsonSim.Player);
+                
+                playerBase = JsonUtil.JsonPlayer.ToPlayer(jsonPlayer);
 
                 if (playerBase.BaseMana == 0)
                 {
@@ -160,17 +165,26 @@ namespace ClassicCraft
                 }
                 if(!playerBase.DualWielding)
                 {
-                    simOrder.Remove("+1 DPS OH");
+                    simOrder.Remove("+10 DPS OH");
                 }
                 if(playerBase.Class == Player.Classes.Druid)
                 {
-                    simOrder.Remove("+1 DPS MH");
+                    simOrder.Remove("+10 DPS MH");
+                }
+
+                if (simOrder.Contains("+10 DPS MH"))
+                {
+                    simBonusAttribs["+10 DPS MH"].SetValue(Attribute.WeaponDamageMH, simBonusAttribs["+10 DPS MH"].GetValue(Attribute.WeaponDamageMH) / playerBase.MH.Speed);
+                }
+                if (simOrder.Contains("+10 DPS OH"))
+                {
+                    simBonusAttribs["+10 DPS OH"].SetValue(Attribute.WeaponDamageOH, simBonusAttribs["+10 DPS OH"].GetValue(Attribute.WeaponDamageOH) / playerBase.OH.Speed);
                 }
 
                 // Talents
                 playerBase.Talents = new Dictionary<string, int>();
 
-                string ptal = jsonSim.Player.Talents;
+                string ptal = jsonPlayer.Talents;
                 if (playerBase.Class == Player.Classes.Warrior)
                 {
                     if (ptal == null || ptal == "")
@@ -404,6 +418,7 @@ namespace ClassicCraft
                     ErrorList.Add(Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average()));
                     ResultsList.Add(simOrder[done], CurrentResults);
                     DamagesList.Add(simOrder[done], CurrentDpsList);
+                    Log(simOrder[done] + " : " + CurrentDpsList.Average());
                 }
 
                 if (!logFight)
@@ -454,14 +469,17 @@ namespace ClassicCraft
 
                     Log("\nWeights by DPS :");
 
-                    double apDps = DamagesList["+50 AP"].Average();
-                    double apDif = (apDps - baseDps) / 50;
-                    if (apDif < 0) apDif = 0;
-                    Log(string.Format("1 AP = {0:N4} DPS", apDif));
+                    double apDif = 0;
+                    if(simOrder.Contains("+50 AP"))
+                    {
+                        double apDps = DamagesList["+50 AP"].Average();
+                        apDif = (apDps - baseDps) / 50;
+                        if (apDif < 0) apDif = 0;
+                        Log(string.Format("1 AP = {0:N4} DPS", apDif));
 
-                    double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * (playerBase.Class == Player.Classes.Druid ? (1 + 0.04 * playerBase.GetTalentPoints("HW")) : 1);
-                    Log(string.Format("1 Str = {0:N4} DPS = {1:N4} AP", strDif, strDif / apDif));
-
+                        double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * (playerBase.Class == Player.Classes.Druid ? (1 + 0.04 * playerBase.GetTalentPoints("HW")) : 1);
+                        Log(string.Format("1 Str = {0:N4} DPS = {1:N4} AP", strDif, strDif / apDif));
+                    }
                     if (simOrder.Contains("+1% Crit"))
                     {
                         double critDps = DamagesList["+1% Crit"].Average();
@@ -501,19 +519,19 @@ namespace ClassicCraft
                         if (spiDif < 0) spiDif = 0;
                         Log(string.Format("1 Spi = {0:N4} DPS = {1:N4} AP", spiDif, spiDif / apDif));
                     }
-                    if (simOrder.Contains("+10 Dmg MH"))
+                    if (simOrder.Contains("+10 DPS MH"))
                     {
-                        double mhDps = DamagesList["+10 Dmg MH"].Average();
-                        double mhDif = (mhDps - baseDps) / 10;
+                        double mhDps = DamagesList["+10 DPS MH"].Average();
+                        double mhDif = (mhDps - baseDps) / simBonusAttribs["+10 DPS MH"].GetValue(Attribute.WeaponDamageMH);
                         if (mhDif < 0) mhDif = 0;
-                        Log(string.Format("1 Dmg MH = {0:N4} DPS = {1:N4} AP", mhDif, mhDif / apDif));
+                        Log(string.Format("1 MH DPS = {0:N4} DPS = {1:N4} AP", mhDif, mhDif / apDif));
                     }
-                    if (simOrder.Contains("+10 Dmg OH"))
+                    if (simOrder.Contains("+10 DPS OH"))
                     {
-                        double ohDps = DamagesList["+10 Dmg OH"].Average();
-                        double ohDif = (ohDps - baseDps) / 10;
+                        double ohDps = DamagesList["+10 DPS OH"].Average();
+                        double ohDif = (ohDps - baseDps) / simBonusAttribs["+10 DPS OH"].GetValue(Attribute.WeaponDamageOH);
                         if (ohDif < 0) ohDif = 0;
-                        Log(string.Format("1 Dmg OH = {0:N4} DPS = {1:N4} AP", ohDif, ohDif / apDif));
+                        Log(string.Format("1 OH DPS = {0:N4} DPS = {1:N4} AP", ohDif, ohDif / apDif));
                     }
                 }
                 else if (nbSim >= 1)

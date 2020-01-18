@@ -1,97 +1,79 @@
 {
-  "FightLength": 120,
-  "FightLengthMod": 0.2,
-  "TargetErrorPct": 0.2,
-  "TargetError": true,
-  "LogFight": false,
-  "NbSim": 1,
-  "StatsWeights": false,
-  "BossAutoLife": true,
-  "BossLowLifeTime": 0,
-  "Boss" : {
-    "Level": 63,
-    "Armor": 3731,
-    "Debuffs": [
-      "Sunder Armor",
-      "Curse of Recklessness",
-      "Faerie Fire"
-    ]
+  "Race": "Undead",
+  "Class": "Rogue",
+  "Talents": "005323105-3210052020050150231",
+  "Cooldowns": {
   },
-  "Player": {
-    "Race": "Undead",
-    "Class": "Rogue",
-    "Talents": "005323105-3210052020050150231",
-    "Cooldowns": {
+  "Buffs": [
+    {
+      "Name": "Test",
+      "Stats": {
+        "Hit": 0,
+        "Crit": 0,
+        "AP": 0,
+      }
     },
-    "Buffs": [
-      {
-        "Name": "Test",
-        "Stats": {
-          "Hit": 0,
-          "Crit": 0,
-          "AP": 0,
-        }
-      },
-      {
-        "Name": "Windfury Totem"
-      },
-      {
-        "Name": "Leader of the Pack",
-        "Stats": {
-          "Crit": 3
-        }
-      },
-      {
-        "Name": "Battle Shout",
-        "Stats": {
-          "AP": 241
-        }
-      },
-      {
-        "Name": "Trueshot Aura",
-        "Stats": {
-          "AP": 100
-        }
-      },
-      {
-        "Name": "Mark of the Wild",
-        "Stats": {
-          "Agi": 16,
-          "Str": 16,
-        }
-      },
-      {
-        "Name": "Elixir of Giants",
-        "Stats": {
-          "Str": 25,
-        }
-      },
-      {
-        "Name": "Ground Scorpok Assay",
-        "Stats": {
-          "Agi": 25,
-        }
-      },
-      {
-        "Name": "Elixir of the Mongoose",
-        "Stats": {
-          "Agi": 25,
-          "Crit": 2
-        }
-      },
-      {
-        "Name": "Juju Power",
-        "Stats": {
-          "AP": 40,
-        }
-      },
-      {
-        "Name": "Juju Might",
-        "Stats": {
-          "Str": 30,
-        }
-      },
-    ],
+    {
+      "Name": "Windfury Totem"
+    },
+    {
+      "Name": "Leader of the Pack",
+      "Stats": {
+        "Crit": 3
+      }
+    },
+    {
+      "Name": "Battle Shout",
+      "Stats": {
+        "AP": 241
+      }
+    },
+    {
+      "Name": "Trueshot Aura",
+      "Stats": {
+        "AP": 100
+      }
+    },
+    {
+      "Name": "Mark of the Wild",
+      "Stats": {
+        "Agi": 16,
+        "Str": 16,
+      }
+    },
+    {
+      "Name": "Elixir of Giants",
+      "Stats": {
+        "Str": 25,
+      }
+    },
+    {
+      "Name": "Ground Scorpok Assay",
+      "Stats": {
+        "Agi": 25,
+      }
+    },
+    {
+      "Name": "Elixir of the Mongoose",
+      "Stats": {
+        "Agi": 25,
+        "Crit": 2
+      }
+    },
+    {
+      "Name": "Juju Power",
+      "Stats": {
+        "AP": 40,
+      }
+    },
+    {
+      "Name": "Juju Might",
+      "Stats": {
+        "Str": 30,
+      }
+    },
+  ],
+  "Weapons": {
     "MH": {
       "DamageMin": 114,
       "DamageMax": 213,
@@ -135,6 +117,7 @@
         "Hit": 1,
       }
     },
+  },
     "Equipment": {
       "Head": {
         "Name": "Bloodfang Hood",
@@ -277,6 +260,5 @@
           "Crit": 2
         }
       },
-    }
   }
 }

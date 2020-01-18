@@ -1,0 +1,51 @@
+Date : 2020/01/04 13:07:46
+
+Fight length : 120 seconds (±20%)
+
+Player :
+Orc Warrior level 60 | Stats : [Strength:370][Agility:180][Stamina:112][Intellect:31][Spirit:52][Health:2629][HitChance:12][CritChance:30][Haste:0][SpellHitChance:0][SpellCritChance:0][AP:1331][RangedAP:1691]
+
+Boss (after raid debuffs) :
+Level 63, 336 Armor (5,76% mitigation)
+
+
+7395 simulations done in 8 198,10 ms, for 1,11 ms by sim
+Overall accuracy of results : ±0,18%
+
+Average DPS : 831,28 dps (±0,77)
+
+Average stats for [AA MH] : 242,18 DPS (29,13%)
+  Average of 527,09 damage for 55,14 uses (or 1 use every 2,18s)
+  14,01% Hit, 27,01% Crit, 12,97% Miss, 40,04% Glancing, 5,97% Dodge
+
+Average stats for [AA OH] : 125,04 DPS (15,04%)
+  Average of 154,09 damage for 97,38 uses (or 1 use every 1,23s)
+  43,52% Hit, 27,02% Crit, 5,76% Miss, 17,72% Glancing, 5,99% Dodge
+
+Average stats for [Bloodthirst] : 120,50 DPS (14,50%)
+  Average of 832,52 damage for 17,37 uses (or 1 use every 6,91s)
+  66,92% Hit, 27,08% Crit, 0,00% Miss, 0,00% Glancing, 6,00% Dodge
+
+Average stats for [Whirlwind] : 37,68 DPS (4,53%)
+  Average of 527,29 damage for 8,58 uses (or 1 use every 13,99s)
+  66,95% Hit, 27,20% Crit, 0,00% Miss, 0,00% Glancing, 5,85% Dodge
+
+Average stats for [Heroic Strike] : 70,58 DPS (8,49%)
+  Average of 851,68 damage for 9,94 uses (or 1 use every 12,07s)
+  66,97% Hit, 27,01% Crit, 0,00% Miss, 0,00% Glancing, 6,02% Dodge
+
+Average stats for [Execute] : 201,84 DPS (24,28%)
+  Average of 2 557,36 damage for 9,47 uses (or 1 use every 12,67s)
+  12,46% Hit, 81,45% Crit, 0,00% Miss, 0,00% Glancing, 6,09% Dodge
+
+Average stats for [Hamstring] : 7,32 DPS (0,88%)
+  Average of 57,01 damage for 15,41 uses (or 1 use every 7,79s)
+  67,18% Hit, 26,93% Crit, 0,00% Miss, 0,00% Glancing, 5,89% Dodge
+
+Average stats for [Deathbringer] : 3,69 DPS (0,44%)
+  Average of 109,63 damage for 4,04 uses (or 1 use every 29,69s)
+  83,32% Hit, 0,00% Crit, 16,68% Resist
+
+Average stats for [Deep Wounds] : 21,94 DPS (2,64%)
+  Average of 67,83 damage for 38,82 ticks (or 1 tick every 3,09s)
+  97,04% Uptime

@@ -81,14 +81,14 @@ namespace ClassicCraft
 
         public class JsonWeapon : JsonItem
         {
-            public int DamageMin { get; set; }
-            public int DamageMax { get; set; }
+            public double DamageMin { get; set; }
+            public double DamageMax { get; set; }
             public double Speed { get; set; }
             public bool TwoHanded { get; set; }
             public string Type { get; set; }
             public JsonEnchantment Buff { get; set; }
 
-            public JsonWeapon(int damageMin = 1, int damageMax = 2, double speed = 1, bool twoHanded = true, string type = "Axe", int id = 0, string name = "New Item", Dictionary<string, double> attributes = null, JsonEnchantment enchantment = null, JsonEnchantment buffs = null)
+            public JsonWeapon(double damageMin = 1, double damageMax = 2, double speed = 1, bool twoHanded = true, string type = "Axe", int id = 0, string name = "New Item", Dictionary<string, double> attributes = null, JsonEnchantment enchantment = null, JsonEnchantment buffs = null)
                 : base(id, name, "Weapon", attributes, enchantment)
             {
                 DamageMin = damageMin;
@@ -169,35 +169,21 @@ namespace ClassicCraft
             }
         }
 
-        public static Dictionary<Player.Slot, Item> ToEquipment(JsonWeapon mh, JsonWeapon oh, JsonWeapon ranged, Dictionary<string, JsonItem> je)
+        public static Dictionary<Player.Slot, Item> ToEquipment(Dictionary<string, JsonWeapon> jw, Dictionary<string, JsonItem> je)
         {
             Dictionary<Player.Slot, Item> res = new Dictionary<Player.Slot, Item>();
 
             foreach (Player.Slot slot in (Player.Slot[])Enum.GetValues(typeof(Player.Slot)))
             {
-                if (slot == Player.Slot.MH)
+                if (slot == Player.Slot.MH || slot == Player.Slot.OH || slot == Player.Slot.Ranged)
                 {
-                    res.Add(slot, mh == null ? null : JsonWeapon.ToWeapon(mh));
-                }
-                else if (slot == Player.Slot.OH)
-                {
-                    res.Add(slot, oh == null ? null : JsonWeapon.ToWeapon(oh));
-                }
-                else if (slot == Player.Slot.Ranged)
-                {
-                    res.Add(slot, ranged == null ? null : JsonWeapon.ToWeapon(ranged));
+                    string s = Player.FromSlot(slot);
+                    res.Add(slot, jw.ContainsKey(s) ? JsonWeapon.ToWeapon(jw[s]) : null);
                 }
                 else
                 {
-                    Item i = null;
                     string s = Player.FromSlot(slot);
-
-                    if (je.ContainsKey(s))
-                    {
-                        i = JsonItem.ToItem(je[s]);
-                    }
-
-                    res.Add(slot, JsonItem.ToItem(je[Player.FromSlot(slot)]));
+                    res.Add(slot, je.ContainsKey(s) ? JsonItem.ToItem(je[s]) : null);
                 }
             }
 
@@ -229,20 +215,16 @@ namespace ClassicCraft
             public string Talents { get; set; }
             public Dictionary<string, bool> Cooldowns { get; set; }
             public List<JsonEnchantment> Buffs { get; set; }
-            public JsonWeapon MH { get; set; }
-            public JsonWeapon OH { get; set; }
-            public JsonWeapon Ranged { get; set; }
+            public Dictionary<string, JsonWeapon> Weapons { get; set; }
             public Dictionary<string, JsonItem> Equipment { get; set; }
 
-            public JsonPlayer(JsonWeapon mh = null, JsonWeapon oh = null, JsonWeapon ranged = null, Dictionary<string, JsonItem> equipment = null, string @class = "Warrior", int level = 60, string race = "Orc", string talents = "", List<JsonEnchantment> buffs = null, Dictionary<string, bool> cooldowns = null)
+            public JsonPlayer(Dictionary<string, JsonWeapon> weapons = null, Dictionary<string, JsonItem> equipment = null, string @class = "Warrior", int level = 60, string race = "Orc", string talents = "", List<JsonEnchantment> buffs = null, Dictionary<string, bool> cooldowns = null)
             {
-                MH = mh;
-                OH = oh;
-                Ranged = ranged;
                 Class = @class;
                 Level = level;
                 Race = race;
                 Talents = talents;
+                Weapons = weapons;
                 Equipment = equipment;
                 Buffs = buffs;
                 Cooldowns = cooldowns;
@@ -272,7 +254,7 @@ namespace ClassicCraft
                     }
                 }
 
-                return new Player(null, ToClass(jp.Class), ToRace(jp.Race), 60, ToEquipment(jp.MH, jp.OH, jp.Ranged, jp.Equipment), null, buffs)
+                return new Player(null, ToClass(jp.Class), ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
                 {
                     WindfuryTotem = jp.Buffs != null && jp.Buffs.Select(b => b.Name).Contains("Windfury Totem"),
                     Cooldowns = jp.Cooldowns.Where(v => v.Value == true).Select(c => c.Key).ToList()
@@ -370,11 +352,9 @@ namespace ClassicCraft
             public bool BossAutoLife { get; set; }
             public double BossLowLifeTime { get; set; }
             public JsonBoss Boss { get; set; }
-            public JsonPlayer Player { get; set; }
 
-            public JsonSim(JsonPlayer player = null, JsonBoss boss = null, double fightLength = 300, double fightLengthMod = 0.2, int nbSim = 1000, double targetErrorPct = 0.5, bool targetError = true, bool logFight = false, bool statsWeights = false, bool bossAutoLife = true, double bossLowLifeTime = 0)
+            public JsonSim(JsonBoss boss = null, double fightLength = 300, double fightLengthMod = 0.2, int nbSim = 1000, double targetErrorPct = 0.5, bool targetError = true, bool logFight = false, bool statsWeights = false, bool bossAutoLife = true, double bossLowLifeTime = 0)
             {
-                Player = player;
                 Boss = boss;
                 FightLength = fightLength;
                 FightLengthMod = fightLengthMod;

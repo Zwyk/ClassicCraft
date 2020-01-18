@@ -58,6 +58,12 @@ namespace ClassicCraft
 
         public void StartSim()
         {
+            if (Program.lastDebug != Player.ToString())
+            {
+                Program.lastDebug = Player.ToString();
+                Program.Debug(Player.ToString());
+            }
+
             switch (Player.Class)
             {
                 case Player.Classes.Warrior: Warrior(); break;

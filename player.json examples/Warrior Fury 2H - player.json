@@ -1,0 +1,256 @@
+{
+  "Race": "Orc",
+  "Class": "Warrior",
+  "Talents": "30305001332-05052005025010051",
+  "Cooldowns": {
+    "Racial": true,
+    "Death Wish": true,
+    "Recklessness": true,
+    "Juju Flurry": true,
+    "Mighty Rage": true,
+  },
+  "Buffs": [
+    {
+      "Name": "Windfury Totem"
+    },
+    {
+      "Name": "Test",
+      "Stats": {
+        "Hit": 0,
+        "Crit": 0,
+        "AP": 0,
+        "Haste": 0,
+      }
+    },
+    {
+      "Name": "Devilsaur Set",
+      "Stats" : {
+        "Hit": 2,
+      }
+    },
+    {
+      "Name": "Battle Shout",
+      "Stats": {
+        "AP": 241
+      }
+    },
+    {
+      "Name": "Trueshot Aura",
+      "Stats": {
+        "AP": 100
+      }
+    },
+    {
+      "Name": "Mark of the Wild",
+      "Stats": {
+        "Agi": 16,
+        "Str": 16,
+      }
+    },
+    {
+      "Name": "Elixir of Giants",
+      "Stats": {
+        "Str": 25,
+      }
+    },
+    {
+      "Name": "R.O.I.D.S.",
+      "Stats": {
+        "Str": 25,
+      }
+    },
+    {
+      "Name": "Smoked Desert Dumplings",
+      "Stats": {
+        "Str": 20,
+      }
+    },
+    {
+      "Name": "Elixir of the Mongoose",
+      "Stats": {
+        "Agi": 25,
+        "Crit": 2
+      }
+    },
+    {
+      "Name": "Juju Power",
+      "Stats": {
+        "AP": 40,
+      }
+    },
+    {
+      "Name": "Juju Might",
+      "Stats": {
+        "Str": 30,
+      }
+    },
+  ],
+  "Weapons": {
+    "MH": {
+      "DamageMin": 203,
+      "DamageMax": 305,
+      "Speed": 3.4,
+      "TwoHanded": true,
+      "Type": "Axe",
+      "Name": "Spinal Reaper",
+      "Id": 0,
+      "Slot": "Weapon",
+      "Stats": {
+        "AP": 34
+      },
+      "Enchantment":
+      {
+        "Name": "Crusader",
+      }
+    },
+    "Ranged": {
+      "Type": "Bow",
+      "Name": "Striker's Mark",
+      "Stats": {
+        "AP": 22,
+        "Hit": 1,
+      }
+    },
+  },
+  "Equipment": {
+    "Head": {
+      "Name": "Lionheart Helm",
+      "Stats": {
+        "Hit": 2,
+        "Crit": 2,
+        "Str": 18,
+      },
+      "Enchantment": {
+        "Name": "Lesser Arcane Amalgamation",
+        "Stats": {
+          "Str": 8
+        }
+      }
+    },
+    "Neck": {
+      "Name": "Onyxia Tooth Pendant",
+      "Stats": {
+        "Crit": 1,
+        "Hit": 1,
+        "Agi": 12,
+      }
+    },
+    "Shoulders": {
+      "Name": "Truestrike",
+      "Stats": {
+        "Hit": 2,
+        "AP": 24
+      },
+    },
+    "Back": {
+      "Name": "Puissant Cape",
+      "Stats": {
+        "Hit": 1,
+        "AP": 40
+      },
+      "Enchantment": {
+        "Name": "Lesser Agility",
+        "Stats": {
+          "Agi": 3
+        }
+      }
+    },
+    "Chest": {
+      "Name": "Savage Gladiator Chain",
+      "Stats": {
+        "Str": 13,
+        "Agi": 14,
+        "Crit": 2,
+      },
+      "Enchantment": {
+        "Name": "Greater Stats",
+        "Stats": {
+          "Str": 4,
+          "Agi": 4,
+          "Int": 4,
+          "Spi": 4,
+        }
+      }
+    },
+    "Wrist": {
+      "Name": "Wristguards of Stability",
+      "Stats": {
+        "Str": 24,
+      },
+      "Enchantment": {
+        "Name": "Superior Strength",
+        "Stats": {
+          "Str": 9
+        }
+      }
+    },
+    "Hands": {
+      "Name": "Devilsaur Gauntlets",
+      "Stats": {
+        "AP": 28,
+        "Crit": 1,
+      },
+      "Enchantment": {
+        "Name": "Greater Strength",
+        "Stats": {
+          "Str": 7
+        }
+      }
+    },
+    "Waist": {
+      "Name": "Onslaught Girdle",
+      "Stats": {
+        "Str": 31,
+        "Crit": 1,
+        "Hit": 1,
+      }
+    },
+    "Legs": {
+      "Name": "Devilsaur Leggings",
+      "Stats": {
+        "AP": 46,
+        "Crit": 1
+      },
+      "Enchantment": {
+        "Name": "Lesser Arcane Amalgamation",
+        "Stats": {
+          "Str": 8
+        }
+      }
+    },
+    "Feet": {
+      "Name": "Battlechaser's Greaves",
+      "Stats": {
+        "Str": 14,
+        "Agi": 13,
+      },
+    },
+    "Ring1": {
+      "Name": "Band of Accuria",
+      "Stats": {
+        "Agi": 16,
+        "Hit": 2
+      }
+    },
+    "Ring2": {
+      "Name": "Quick Strike Ring",
+      "Stats": {
+        "AP": 30,
+        "Str": 5,
+        "Crit": 1
+      }
+    },
+    "Trinket1": {
+      "Name": "Hand of Justice",
+      "Stats": {
+        "AP": 20
+      }
+    },
+    "Trinket2": {
+      "Name": "Blackhand's Breadth",
+      "Stats": {
+        "Crit": 2
+      }
+    }
+  }
+}

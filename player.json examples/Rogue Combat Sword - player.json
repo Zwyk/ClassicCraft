@@ -1,97 +1,79 @@
 {
-  "FightLength": 120,
-  "FightLengthMod": 0.2,
-  "TargetErrorPct": 0.2,
-  "TargetError": true,
-  "LogFight": false,
-  "NbSim": 1,
-  "StatsWeights": false,
-  "BossAutoLife": true,
-  "BossLowLifeTime": 0,
-  "Boss" : {
-    "Level": 63,
-    "Armor": 3731,
-    "Debuffs": [
-      "Sunder Armor",
-      "Curse of Recklessness",
-      "Faerie Fire"
-    ]
+  "Race": "Undead",
+  "Class": "Rogue",
+  "Talents": "005323105-3210052020050150231",
+  "Cooldowns": {
   },
-  "Player": {
-    "Race": "Undead",
-    "Class": "Rogue",
-    "Talents": "005323105-3210052020050150231",
-    "Cooldowns": {
+  "Buffs": [
+    {
+      "Name": "Test",
+      "Stats": {
+        "Hit": 0,
+        "Crit": 0,
+        "AP": 0,
+      }
     },
-    "Buffs": [
-      {
-        "Name": "Test",
-        "Stats": {
-          "Hit": 0,
-          "Crit": 0,
-          "AP": 0,
-        }
-      },
-      {
-        "Name": "Windfury Totem"
-      },
-      {
-        "Name": "Leader of the Pack",
-        "Stats": {
-          "Crit": 3
-        }
-      },
-      {
-        "Name": "Battle Shout",
-        "Stats": {
-          "AP": 241
-        }
-      },
-      {
-        "Name": "Trueshot Aura",
-        "Stats": {
-          "AP": 100
-        }
-      },
-      {
-        "Name": "Mark of the Wild",
-        "Stats": {
-          "Agi": 16,
-          "Str": 16,
-        }
-      },
-      {
-        "Name": "Elixir of Giants",
-        "Stats": {
-          "Str": 25,
-        }
-      },
-      {
-        "Name": "Ground Scorpok Assay",
-        "Stats": {
-          "Agi": 25,
-        }
-      },
-      {
-        "Name": "Elixir of the Mongoose",
-        "Stats": {
-          "Agi": 25,
-          "Crit": 2
-        }
-      },
-      {
-        "Name": "Juju Power",
-        "Stats": {
-          "AP": 40,
-        }
-      },
-      {
-        "Name": "Juju Might",
-        "Stats": {
-          "Str": 30,
-        }
-      },
-    ],
+    {
+      "Name": "Windfury Totem"
+    },
+    {
+      "Name": "Leader of the Pack",
+      "Stats": {
+        "Crit": 3
+      }
+    },
+    {
+      "Name": "Battle Shout",
+      "Stats": {
+        "AP": 241
+      }
+    },
+    {
+      "Name": "Trueshot Aura",
+      "Stats": {
+        "AP": 100
+      }
+    },
+    {
+      "Name": "Mark of the Wild",
+      "Stats": {
+        "Agi": 16,
+        "Str": 16,
+      }
+    },
+    {
+      "Name": "Elixir of Giants",
+      "Stats": {
+        "Str": 25,
+      }
+    },
+    {
+      "Name": "Ground Scorpok Assay",
+      "Stats": {
+        "Agi": 25,
+      }
+    },
+    {
+      "Name": "Elixir of the Mongoose",
+      "Stats": {
+        "Agi": 25,
+        "Crit": 2
+      }
+    },
+    {
+      "Name": "Juju Power",
+      "Stats": {
+        "AP": 40,
+      }
+    },
+    {
+      "Name": "Juju Might",
+      "Stats": {
+        "Str": 30,
+      }
+    },
+  ],
+  "Weapons": {
     "MH": {
       "DamageMin": 114,
       "DamageMax": 213,
@@ -135,13 +117,14 @@
         "Hit": 1,
       }
     },
+  },
     "Equipment": {
       "Head": {
         "Name": "Bloodfang Hood",
         "Stats": {
           "Str": 19,
           "Agi": 27,
-          "Crit": 1,
+          "Crit": 1
         },
         "Enchantment": {
           "Name": "Lesser Arcane Amalgamation",
@@ -159,9 +142,11 @@
         }
       },
       "Shoulders": {
-        "Name": "Shadowcraft Spaulers",
+        "Name": "Nightslayer Shoulder Pads",
         "Stats": {
-          "Agi": 22,
+          "Str": 3,
+          "Agi": 26,
+          "Hit": 1,
         },
       },
       "Back": {
@@ -178,9 +163,11 @@
         }
       },
       "Chest": {
-        "Name": "Shadowcraft Tunic",
+        "Name": "Nightslayer Chestpiece",
         "Stats": {
-          "Agi": 26,
+          "Str": 10,
+          "Agi": 29,
+          "Crit": 1
         },
         "Enchantment": {
           "Name": "Greater Stats",
@@ -193,9 +180,10 @@
         }
       },
       "Wrist": {
-        "Name": "Shadowcraft Bracers",
+        "Name": "Bracers of The Eclipse",
         "Stats": {
-          "Agi": 15,
+          "Agi": 10,
+          "AP": 24,
         },
         "Enchantment": {
           "Name": "Superior Strength",
@@ -205,10 +193,11 @@
         }
       },
       "Hands": {
-        "Name": "Shadowcraft Gloves",
+        "Name": "Nightslayer Gloves",
         "Stats": {
-          "Agi": 14,
-          "Str": 9,
+          "Str": 12,
+          "Agi": 18,
+          "Hit": 1
         },
         "Enchantment": {
           "Name": "Greater Agility",
@@ -218,17 +207,18 @@
         }
       },
       "Waist": {
-        "Name": "Shadowcraft Belt",
+        "Name": "Nightslayer Belt",
         "Stats": {
           "Str": 9,
-          "Agi": 14,
+          "Agi": 17,
+          "Crit": 1,
         }
       },
       "Legs": {
         "Name": "Bloodfang Pants",
         "Stats": {
-          "Agi": 37,
           "Str": 11,
+          "Agi": 37,
           "Crit": 1,
         },
         "Enchantment": {
@@ -239,9 +229,9 @@
         }
       },
       "Feet": {
-        "Name": "Shadowcraft Boots",
+        "Name": "Nightslayer Boots",
         "Stats": {
-          "Agi": 21,
+          "Agi": 26,
         },
       },
       "Ring1": {
@@ -270,6 +260,5 @@
           "Crit": 2
         }
       },
-    }
   }
 }

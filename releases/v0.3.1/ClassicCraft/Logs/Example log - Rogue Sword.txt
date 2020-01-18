@@ -1,0 +1,39 @@
+Date : 2020/01/04 13:02:50
+
+Fight length : 120 seconds (±20%)
+
+Player :
+Undead Rogue level 60 | Stats : [Strength:243][Agility:474][Stamina:76][Intellect:37][Spirit:59][Health:2103][CritChance:34,34][HitChance:12][Haste:0][SpellHitChance:0][SpellCritChance:0][AP:1184][SkillSword:5][SkillDagger:5][RangedAP:2132]
+
+Boss (after raid debuffs) :
+Level 63, 336 Armor (5,76% mitigation)
+
+
+5694 simulations done in 4 439,41 ms, for 0,78 ms by sim
+Overall accuracy of results : ±0,18%
+
+Average DPS : 679,15 dps (±0,62)
+
+Average stats for [AA MH] : 267,40 DPS (39,37%)
+	Average of 479,29 damage for 66,95 uses (or 1 use every 1,79s)
+	9,63% Hit, 31,38% Crit, 12,97% Miss, 40,02% Glancing, 6,00% Dodge
+
+Average stats for [AA OH] : 126,35 DPS (18,60%)
+	Average of 240,40 damage for 63,07 uses (or 1 use every 1,90s)
+	9,65% Hit, 31,36% Crit, 13,04% Miss, 40,01% Glancing, 5,93% Dodge
+
+Average stats for [Sinister Strike] : 230,15 DPS (33,89%)
+	Average of 752,12 damage for 36,72 uses (or 1 use every 3,27s)
+	62,48% Hit, 31,49% Crit, 0,00% Miss, 0,00% Glancing, 6,03% Dodge
+
+Average stats for [Eviscerate] : 39,84 DPS (5,87%)
+	Average of 1 311,48 damage for 3,65 uses (or 1 use every 32,91s)
+	62,15% Hit, 31,68% Crit, 0,00% Miss, 0,00% Glancing, 6,17% Dodge
+
+Average stats for [Instant Poison] : 9,47 DPS (1,39%)
+	Average of 111,02 damage for 10,24 uses (or 1 use every 11,72s)
+	83,04% Hit, 0,00% Crit, 16,96% Resist
+
+Average stats for [Vis'kag the Bloodletter] : 5,74 DPS (0,84%)
+	Average of 294,56 damage for 2,34 uses (or 1 use every 51,35s)
+	62,43% Hit, 31,77% Crit, 0,00% Miss, 0,00% Glancing, 5,80% Dodge

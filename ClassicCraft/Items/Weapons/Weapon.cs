@@ -61,8 +61,8 @@ namespace ClassicCraft
             }
         }
 
-        public int DamageMin { get; set; }
-        public int DamageMax { get; set; }
+        public double DamageMin { get; set; }
+        public double DamageMax { get; set; }
         public double Speed { get; set; }
         public bool TwoHanded { get; set; }
         public WeaponType Type { get; set; }
@@ -75,7 +75,7 @@ namespace ClassicCraft
             }
         }
 
-        public Weapon(int min = 1, int max = 2, double speed = 1, bool twoHanded = true, WeaponType type = WeaponType.Axe, Attributes attributes = null, int id = 0, string name = "New Item", Enchantment enchantment = null, Enchantment buff = null, ItemEffect effect = null)
+        public Weapon(double min = 1, double max = 2, double speed = 1, bool twoHanded = true, WeaponType type = WeaponType.Axe, Attributes attributes = null, int id = 0, string name = "New Item", Enchantment enchantment = null, Enchantment buff = null, ItemEffect effect = null)
             : base(Slot.Weapon, attributes, id, name, enchantment, effect)
         {
             DamageMin = min;
