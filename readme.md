@@ -15,9 +15,10 @@
 - DPS Simulation
 	- Character setup
 		- Class, Race
+		- Talents
 		- Gear (some special sets like Rogue's T0 6P and T1 5P)
-		- Enchantements
-		- Consumables (Crusader)
+		- Enchantements (Crusader)
+		- Consumables
 		- CDs to use (Racial, Recklessness, etc.)
 		- Raid buffs (Windfury, etc.)
 	- Encounter setup
@@ -29,7 +30,7 @@
 		- Stats weights (1 AP = X DPS, 1 STR = X DPS or X AP, etc.)
 - Classes supported
 	- Warrior
-		- Fury (1H or 2H)
+		- Fury BT (1H or 2H)
 	- Druid
 		- Feral (Powershifting)
 	- Rogue
