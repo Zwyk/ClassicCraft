@@ -74,8 +74,6 @@
 	- For now, sets providing stats boost have to be added manually in the `sim.json` file (either along with one of the items or as a Buff). Special set effects are detected by checking pieces names, so write them carefuly. A complete list of supported special sets will be written, one day.
 
 
-Please report any issue or suggestion on [GitHub](https://github.com/Zwyk/ClassicCraft/issues)
+Please report any issue or suggestion either here on [GitHub](https://github.com/Zwyk/ClassicCraft/issues) or on the [Discord](https://discord.gg/tG4q7HE)
 
-Join the [Discord community](https://discord.gg/tG4q7HE)
-
-You can also contact me on Discord : Zwyk#5555
+You can also PM me on Discord : Zwyk#5555
