@@ -4,7 +4,7 @@
 ### How to use :
 - Download and extract the content of the .zip file anywhere on your computer
 - Modify `sim.json` to setup the simulation
-	- You can use the [ClassicCraft Addon on Curse](https://www.curseforge.com/wow/addons/classiccraft) to speed up the process (but at the moment some stats like Crit or Hit rating aren't supported by the addon, so you need to fill them by hand afterwards)
+	- As of 0.3.1, you can use the [ClassicCraft Addon on Curse](https://www.curseforge.com/wow/addons/classiccraft) to speed up the process (but at the moment some stats like Crit or Hit rating aren't supported by the addon, so you need to fill them by hand afterwards)
 	- You can use the examples in the folder `sim.json examples` if needed
 - Execute `ClassicCraft.exe`
 	- A console should appear and the simulations start
