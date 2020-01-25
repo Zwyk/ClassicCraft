@@ -67,7 +67,7 @@
 
 ### FAQ
 - When will X class be implemented ?
-	- Not a class order but here is a rough roadmap : Popular DPS Melee Specs -> Popular DPS Caster Specs -> Alternative DPS Melee and Caster Specs -> Multiple Targets -> Full Encounter Simulation
+	- Not a class order but here is a rough roadmap : Popular DPS Melee Specs -> Popular DPS Caster Specs -> GUI -> Alternative DPS Melee and Caster Specs -> Multiple Targets -> Bonus features (multiple players, tanking/healing sim, ...)
 - Is X item implemented yet ?
 	- Try it yourself and you'll see if it works! The program detects special effects by their item's name, so check for typos if it doesn't. A complete list of supported items will be written, one day.
 - Is X set implemented yet ?
