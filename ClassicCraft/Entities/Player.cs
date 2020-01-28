@@ -693,6 +693,45 @@ namespace ClassicCraft
             return res;
         }
 
+        public static int BaseAP(Classes c, int level = 60)
+        {
+            switch (c)
+            {
+                case Classes.Warrior:
+                    return level * 3 - 20;
+                case Classes.Paladin:
+                    return level * 3 - 20;
+                case Classes.Mage:
+                    return -10;
+                case Classes.Priest:
+                    return -10;
+                case Classes.Warlock:
+                    return -10;
+                case Classes.Druid:
+                    // -20 // Normal
+                    // level * 1.5 - 20 // Moonkin
+                    // level * 3 - 20 // Bear
+                    return level * 2 - 20; // Cat
+                default:
+                    return level * 2 - 20;
+            }
+        }
+
+        public static int BaseRAP(Classes c, int level = 60)
+        {
+            switch (c)
+            {
+                case Classes.Hunter:
+                    return level * 2 - 10;
+                case Classes.Warrior:
+                    return level - 10;
+                case Classes.Rogue:
+                    return level - 10;
+                default:
+                    return 0;
+            }
+        }
+
         public static List<ResultType> ATTACKTABLE_ORDER = new List<ResultType>()
         {
             ResultType.Miss, ResultType.Dodge, ResultType.Parry, ResultType.Glance, ResultType.Block, ResultType.Crit, ResultType.Hit
@@ -1062,6 +1101,8 @@ namespace ClassicCraft
         {
             Attributes = new Attributes();
             Attributes.Values = new Dictionary<Attribute, double>(BaseAttributes(Class, Race).Values);
+            Attributes.SetValue(Attribute.AP, BaseAP(Class, Level));
+            Attributes.SetValue(Attribute.RangedAP, BaseRAP(Class, Level));
             BaseMana = Attributes.GetValue(Attribute.Mana);
         }
 

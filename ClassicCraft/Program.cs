@@ -125,6 +125,8 @@ namespace ClassicCraft
         {
             try
             {
+                // Retrieving jsons
+
                 string simString = File.ReadAllText(debug ? Path.Combine(debugPath, simJsonFileName) : simJsonFileName);
                 JsonUtil.JsonSim jsonSim = JsonConvert.DeserializeObject<JsonUtil.JsonSim>(simString);
                 string playerString = File.ReadAllText(debug ? Path.Combine(debugPath, playerJsonFileName) : playerJsonFileName);
@@ -320,6 +322,7 @@ namespace ClassicCraft
                 Enchantment we = new Enchantment(0, "Weights", new Attributes(new Dictionary<Attribute, double>()));
                 playerBase.Buffs.Add(we);
                 
+                // Doing simulations
                 for(int done = 0; done < (statsWeights ? simOrder.Count : 1); done++)
                 {
                     CurrentDpsList = new List<double>();
@@ -445,12 +448,6 @@ namespace ClassicCraft
                 }
                 */
 
-                int simsDone = 0;
-                foreach(string k in DamagesList.Keys)
-                {
-                    simsDone += DamagesList[k].Count;
-                }
-
                 string endMsg1 = string.Format("\n{0} simulations done in {1:N2} ms, for {2:N2} ms by sim", nbSim, time, time / nbSim);
                 Console.WriteLine(endMsg1);
                 Log(endMsg1);
@@ -459,7 +456,7 @@ namespace ClassicCraft
                 Console.WriteLine(endMsg2);
                 Log(endMsg2);
 
-                string endMsg3 = string.Format("\nGenerating statistics...");
+                string endMsg3 = string.Format("\nGenerating results...");
                 Console.WriteLine(endMsg3);
 
                 if (statsWeights)

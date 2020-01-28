@@ -25,8 +25,8 @@ namespace ClassicCraft
 
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss, 'S');
 
-            int minDmg = (int)Math.Round(weapon.DamageMin + weapon.Speed * (Player.AP + Player.nextAABonus) / 14);
-            int maxDmg = (int)Math.Round(weapon.DamageMax + weapon.Speed * (Player.AP + Player.nextAABonus) / 14);
+            int minDmg = (int)Math.Round(weapon.DamageMin + Simulation.Normalization(weapon) * (Player.AP + Player.nextAABonus) / 14);
+            int maxDmg = (int)Math.Round(weapon.DamageMax + Simulation.Normalization(weapon) * (Player.AP + Player.nextAABonus) / 14);
 
             Player.nextAABonus = 0;
 
