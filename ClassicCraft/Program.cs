@@ -178,7 +178,7 @@ namespace ClassicCraft
                 
                 playerBase = JsonUtil.JsonPlayer.ToPlayer(jsonPlayer);
 
-                if (playerBase.BaseMana == 0)
+                if (playerBase.Class == Player.Classes.Rogue || playerBase.Class == Player.Classes.Warrior)
                 {
                     simOrder.Remove("+50 Int");
                     simOrder.Remove("+50 Spi");
