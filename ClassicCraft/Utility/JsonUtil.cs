@@ -256,7 +256,7 @@ namespace ClassicCraft
 
                 return new Player(null, ToClass(jp.Class), ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
                 {
-                    WindfuryTotem = jp.Buffs != null && jp.Buffs.Select(b => b.Name).Contains("Windfury Totem"),
+                    WindfuryTotem = jp.Buffs != null && jp.Buffs.Any(b => b.Name.ToLower().Contains("windfury totem")),
                     Cooldowns = jp.Cooldowns.Where(v => v.Value == true).Select(c => c.Key).ToList()
                 };
             }
@@ -317,10 +317,10 @@ namespace ClassicCraft
 
                 if (debuffs != null && debuffs.Count > 0)
                 {
-                    armor -= (debuffs.Contains("Expose Armor") ? 2550 : (debuffs.Contains("Sunder Armor") ? 2250 : 0))
-                        + (debuffs.Contains("Curse of Recklessness") ? 640 : 0)
-                        + (debuffs.Contains("Faerie Fire") ? 505 : 0)
-                        + (debuffs.Contains("Annihilator") ? 600 : 0);
+                    armor -= (debuffs.Any(d => d.ToLower().Contains("expose armor")) ? 2550 : (debuffs.Any(d => d.ToLower().Contains("sunder armor")) ? 2250 : 0))
+                        + (debuffs.Any(d => d.ToLower().Contains("curse of recklessness")) ? 640 : 0)
+                        + (debuffs.Any(d => d.ToLower().Contains("faerie fire")) ? 505 : 0)
+                        + (debuffs.Any(d => d.ToLower().Contains("annihilator")) ? 600 : 0);
                 }
 
                 return new Boss(ToType(jb.Type), jb.Level, Math.Max(0, armor));

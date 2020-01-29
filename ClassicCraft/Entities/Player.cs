@@ -1177,13 +1177,13 @@ namespace ClassicCraft
 
             Attributes += BonusAttributesByRace(Race, Attributes);
 
-            if (Buffs.Any(b => b.Name == "Blessing of Kings"))
+            if (Buffs.Any(b => b.Name.ToLower().Contains("blessing of kings")))
             {
-                Attributes.SetValue(Attribute.Stamina, Attributes.GetValue(Attribute.Intellect) * 1.1);
+                Attributes.SetValue(Attribute.Stamina, Attributes.GetValue(Attribute.Stamina) * 1.1);
                 Attributes.SetValue(Attribute.Intellect, Attributes.GetValue(Attribute.Intellect) * 1.1);
-                Attributes.SetValue(Attribute.Strength, Attributes.GetValue(Attribute.Intellect) * 1.1);
-                Attributes.SetValue(Attribute.Agility, Attributes.GetValue(Attribute.Intellect) * 1.1);
-                Attributes.SetValue(Attribute.Spirit, Attributes.GetValue(Attribute.Intellect) * 1.1);
+                Attributes.SetValue(Attribute.Strength, Attributes.GetValue(Attribute.Strength) * 1.1);
+                Attributes.SetValue(Attribute.Agility, Attributes.GetValue(Attribute.Agility) * 1.1);
+                Attributes.SetValue(Attribute.Spirit, Attributes.GetValue(Attribute.Spirit) * 1.1);
             }
 
             Attributes.SetValue(Attribute.Health, Attributes.GetValue(Attribute.Health) + 20 + (Attributes.GetValue(Attribute.Stamina) - 20) * 10);
