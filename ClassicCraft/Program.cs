@@ -80,10 +80,15 @@ namespace ClassicCraft
         private static List<double> ErrorList = new List<double>();
 
         public static string logs = "";
-
-        public static string lastDebug = "";
         
-        public static List<string> simOrder = new List<string>(){ "Base", "+50 AP", /*"+1% Hit", "+1% Crit", "+1% Haste", "+50 Int", "+50 Spi",*/ "+10 DPS MH", "+10 DPS OH" };
+        public static List<string> simOrder = new List<string>(){
+            "Base",
+            "+50 AP",
+            "+1% Hit","+1% Crit", "+1% Haste", "+50 Int", "+50 Spi",
+            "+10 DPS MH", "+10 DPS OH",
+            "+5 MH Skill", "+5 OH Skill"
+            //"1","2","3","4","5","6","7","8","9",
+        };
         public static Dictionary<string, Attributes> simBonusAttribs = new Dictionary<string, Attributes>()
                 {
                     { "Base", new Attributes() },
@@ -101,7 +106,7 @@ namespace ClassicCraft
                             })},
                     { "+50 AP", new Attributes(new Dictionary<Attribute, double>()
                             {
-                                { Attribute.AP, 0 }
+                                { Attribute.AP, 50 }
                             })},
                     { "+50 Int", new Attributes(new Dictionary<Attribute, double>()
                             {
@@ -113,12 +118,25 @@ namespace ClassicCraft
                             })},
                     { "+10 DPS MH", new Attributes(new Dictionary<Attribute, double>()
                             {
-                                { Attribute.WeaponDamageMH, 0 }
+                                { Attribute.WeaponDamageMH, 10 }
                             })},
                     { "+10 DPS OH", new Attributes(new Dictionary<Attribute, double>()
                             {
-                                { Attribute.WeaponDamageOH, 0 }
+                                { Attribute.WeaponDamageOH, 10 }
                             })},
+                    { "+5 MH Skill", new Attributes(new Dictionary<Attribute, double>()) },
+                    { "+5 OH Skill", new Attributes(new Dictionary<Attribute, double>()) },
+                    /*
+                    { "1", new Attributes(new Dictionary<Attribute, double>()) },
+                    { "2", new Attributes(new Dictionary<Attribute, double>()) },
+                    { "3", new Attributes(new Dictionary<Attribute, double>()) },
+                    { "4", new Attributes(new Dictionary<Attribute, double>()) },
+                    { "5", new Attributes(new Dictionary<Attribute, double>()) },
+                    { "6", new Attributes(new Dictionary<Attribute, double>()) },
+                    { "7", new Attributes(new Dictionary<Attribute, double>()) },
+                    { "8", new Attributes(new Dictionary<Attribute, double>()) },
+                    { "9", new Attributes(new Dictionary<Attribute, double>()) },
+                    */
                 };
 
         static void Main(string[] args)
@@ -168,10 +186,16 @@ namespace ClassicCraft
                 if(!playerBase.DualWielding)
                 {
                     simOrder.Remove("+10 DPS OH");
+                    simOrder.Remove("+5 OH Skill");
+                }
+                else if(playerBase.MH.Type == playerBase.OH.Type)
+                {
+                    simOrder.Remove("+5 OH Skill");
                 }
                 if(playerBase.Class == Player.Classes.Druid)
                 {
                     simOrder.Remove("+10 DPS MH");
+                    simOrder.Remove("+5 MH Skill");
                 }
 
                 if (simOrder.Contains("+10 DPS MH"))
@@ -181,6 +205,14 @@ namespace ClassicCraft
                 if (simOrder.Contains("+10 DPS OH"))
                 {
                     simBonusAttribs["+10 DPS OH"].SetValue(Attribute.WeaponDamageOH, simBonusAttribs["+10 DPS OH"].GetValue(Attribute.WeaponDamageOH) / playerBase.OH.Speed);
+                }
+                if (simOrder.Contains("+5 MH Skill"))
+                {
+                    simBonusAttribs["+5 MH Skill"].SetValue(AttributeUtil.FromWeaponType(playerBase.MH.Type), 5);
+                }
+                if (simOrder.Contains("+5 OH Skill"))
+                {
+                    simBonusAttribs["+5 OH Skill"].SetValue(AttributeUtil.FromWeaponType(playerBase.OH.Type), 5);
                 }
 
                 // Talents
@@ -421,7 +453,7 @@ namespace ClassicCraft
                     ErrorList.Add(Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average()));
                     ResultsList.Add(simOrder[done], CurrentResults);
                     DamagesList.Add(simOrder[done], CurrentDpsList);
-                    Log(simOrder[done] + " : " + CurrentDpsList.Average());
+                    //Log(simOrder[done] + " : " + CurrentDpsList.Average());
                 }
 
                 if (!logFight)
@@ -521,14 +553,28 @@ namespace ClassicCraft
                         double mhDps = DamagesList["+10 DPS MH"].Average();
                         double mhDif = (mhDps - baseDps) / simBonusAttribs["+10 DPS MH"].GetValue(Attribute.WeaponDamageMH);
                         if (mhDif < 0) mhDif = 0;
-                        Log(string.Format("1 MH DPS = {0:N4} DPS = {1:N4} AP", mhDif, mhDif / apDif));
+                        Log(string.Format("+1 MH DPS = {0:N4} DPS = {1:N4} AP", mhDif, mhDif / apDif));
                     }
                     if (simOrder.Contains("+10 DPS OH"))
                     {
                         double ohDps = DamagesList["+10 DPS OH"].Average();
                         double ohDif = (ohDps - baseDps) / simBonusAttribs["+10 DPS OH"].GetValue(Attribute.WeaponDamageOH);
                         if (ohDif < 0) ohDif = 0;
-                        Log(string.Format("1 OH DPS = {0:N4} DPS = {1:N4} AP", ohDif, ohDif / apDif));
+                        Log(string.Format("+1 OH DPS = {0:N4} DPS = {1:N4} AP", ohDif, ohDif / apDif));
+                    }
+                    if (simOrder.Contains("+5 MH Skill"))
+                    {
+                        double mhSkillDps = DamagesList["+5 MH Skill"].Average();
+                        double mhSkillDif = mhSkillDps - baseDps;
+                        if (mhSkillDif < 0) mhSkillDif = 0;
+                        Log(string.Format("+5 MH Skill = {0:N4} DPS = {1:N4} AP", mhSkillDif, mhSkillDif / apDif));
+                    }
+                    if (simOrder.Contains("+5 OH Skill"))
+                    {
+                        double ohSkillDps = DamagesList["+5 OH Skill"].Average();
+                        double ohSkillDif = ohSkillDps - baseDps;
+                        if (ohSkillDif < 0) ohSkillDif = 0;
+                        Log(string.Format("+5 OH Skill = {0:N4} DPS = {1:N4} AP", ohSkillDif, ohSkillDif / apDif));
                     }
                 }
                 else if (nbSim >= 1)

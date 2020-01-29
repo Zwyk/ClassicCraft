@@ -1,0 +1,27 @@
+Date : 2020/01/29 16:15:36
+
+Fight length : 120 seconds (±20%)
+
+Player :
+Undead Rogue level 60 | Stats : [Strength:243][Agility:474][Stamina:76][Intellect:37][Spirit:59][Health:2103][Mana:0][AP:1284][RangedAP:2232][CritChance:34,34][HitChance:12][Haste:0][SpellHitChance:0][SpellCritChance:0][SkillSword:5][SkillDagger:5]
+Main weapon : Sword with 305 skill
+
+Boss (after raid debuffs) :
+Level 63, 336 Armor (5,76% mitigation)
+
+
+49447 simulations done in 32 966,06 ms, for 0,67 ms by sim
+Overall accuracy of results : ±0,18%
+
+Base : 684,18 DPS
+
+Weights by DPS :
+1 AP = 0,2952 DPS
+1 Str = 0,2952 DPS = 1,0000 AP
+1 Agi = 0,4999 DPS = 1,6931 AP
+1% Crit = 5,9341 DPS = 20,0995 AP
+1% Hit = 4,7378 DPS = 16,0475 AP
+1% Haste = 2,1356 DPS = 7,2336 AP
++1 MH DPS = 1,2916 DPS = 4,3747 AP
++1 OH DPS = 0,2980 DPS = 1,0092 AP
++5 MH Skill = 5,8936 DPS = 19,9624 AP

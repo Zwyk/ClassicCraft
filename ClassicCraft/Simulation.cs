@@ -58,12 +58,6 @@ namespace ClassicCraft
 
         public void StartSim()
         {
-            if (Program.lastDebug != Player.ToString())
-            {
-                Program.lastDebug = Player.ToString();
-                Program.Debug(Player.ToString());
-            }
-
             switch (Player.Class)
             {
                 case Player.Classes.Warrior: Warrior(); break;
@@ -75,7 +69,7 @@ namespace ClassicCraft
         private void Rogue()
         {
             autos.Add(new AutoAttack(Player, Player.MH, true));
-            if (Player.OH != null)
+            if (Player.DualWielding)
             {
                 autos.Add(new AutoAttack(Player, Player.OH, false));
             }
@@ -324,7 +318,7 @@ namespace ClassicCraft
         private void Warrior()
         {
             autos.Add(new AutoAttack(Player, Player.MH, true));
-            if (Player.OH != null)
+            if (Player.DualWielding)
             {
                 autos.Add(new AutoAttack(Player, Player.OH, false));
             }

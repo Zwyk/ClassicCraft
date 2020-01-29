@@ -1,5 +1,5 @@
 {
-  "Race": "Undead",
+  "Race": "Human",
   "Class": "Rogue",
   "Talents": "005323105-3210052020050150231",
   "Cooldowns": {
@@ -14,7 +14,7 @@
       }
     },
     {
-      "Name": "Windfury Totem"
+      "Name": "Blessing of Kings"
     },
     {
       "Name": "Leader of the Pack",

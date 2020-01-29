@@ -1,0 +1,27 @@
+Date : 2020/01/29 16:13:48
+
+Fight length : 120 seconds (±20%)
+
+Player :
+Human Rogue level 60 | Stats : [Strength:268,4][Agility:523,6][Stamina:82,5][Intellect:42,9][Spirit:64,68][Health:2168][Mana:0][AP:1359][RangedAP:2406,2][CritChance:36,06][HitChance:12][Haste:0][SpellHitChance:0][SpellCritChance:0][SkillSword:5][SkillDagger:5]
+Main weapon : Sword with 310 skill
+
+Boss (after raid debuffs) :
+Level 63, 336 Armor (5,76% mitigation)
+
+
+45482 simulations done in 27 968,60 ms, for 0,61 ms by sim
+Overall accuracy of results : ±0,16%
+
+Base : 686,71 DPS
+
+Weights by DPS :
+1 AP = 0,2693 DPS
+1 Str = 0,2693 DPS = 1,0000 AP
+1 Agi = 0,4623 DPS = 1,7170 AP
+1% Crit = 5,5989 DPS = 20,7926 AP
+1% Hit = 2,8419 DPS = 10,5538 AP
+1% Haste = 2,8536 DPS = 10,5973 AP
++1 MH DPS = 0,9410 DPS = 3,4946 AP
++1 OH DPS = 0,2338 DPS = 0,8683 AP
++5 MH Skill = 5,2755 DPS = 19,5914 AP

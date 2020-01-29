@@ -61,6 +61,13 @@ namespace ClassicCraft
             }
         }
 
+        public static WeaponType FromAttribute(Attribute a)
+        {
+            return StringToType(AttributeUtil.ToString(a));
+        }
+
+        public double BaseMin { get; set; }
+        public double BaseMax { get; set; }
         public double DamageMin { get; set; }
         public double DamageMax { get; set; }
         public double Speed { get; set; }
@@ -71,7 +78,7 @@ namespace ClassicCraft
         {
             get
             {
-                return ((double)DamageMin + DamageMax) / 2 * Speed;
+                return (DamageMin + DamageMax) / 2 * Speed;
             }
         }
 
@@ -87,10 +94,13 @@ namespace ClassicCraft
 
             if (Buff != null && Buff.Attributes.GetValue(Attribute.WeaponDamage) > 0)
             {
-                int bonus = (int)Math.Round(Buff.Attributes.GetValue(Attribute.WeaponDamage));
+                double bonus = Buff.Attributes.GetValue(Attribute.WeaponDamage);
                 DamageMin += bonus;
                 DamageMax += bonus;
             }
+
+            BaseMin = DamageMin;
+            BaseMax = DamageMax;
         }
 
         public override string ToString()

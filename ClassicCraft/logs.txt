@@ -1,29 +1,27 @@
-Date : 2020/01/16 22:51:01
+Date : 2020/01/29 17:39:18
 
 Fight length : 120 seconds (±20%)
 
 Player :
-Undead Rogue level 60 | Stats : [Strength:227][Agility:460][Stamina:76][Intellect:37][Spirit:59][Health:2103][Mana:0][CritChance:31,86][HitChance:10][Haste:0][SpellHitChance:0][SpellCritChance:0][AP:1130][SkillSword:5][SkillDagger:5][RangedAP:2050]
+Undead Rogue level 60 | Stats : [Strength:227][Agility:460][Stamina:76][Intellect:37][Spirit:59][Health:2103][Mana:0][AP:1230][RangedAP:2150][CritChance:31,86][HitChance:10][Haste:0][SpellHitChance:0][SpellCritChance:0][SkillSword:5][SkillDagger:5]
 Main weapon : Sword with 305 skill
 
 Boss (after raid debuffs) :
 Level 63, 336 Armor (5,76% mitigation)
 
-Base : 635,099716423339
-+50 AP : 640,73618641566
-+10 DPS MH : 645,364797285606
-+10 DPS OH : 652,637477147914
 
-24387 simulations done in 19 189,62 ms, for 0,79 ms by sim
+50015 simulations done in 39 816,94 ms, for 0,80 ms by sim
 Overall accuracy of results : ±0,17%
 
-Base : 635,10 DPS
+Base : 641,83 DPS
 
 Weights by DPS :
-635,099716423339 -> 640,73618641566
-1 AP = 0,1127 DPS
-1 Str = 0,1127 DPS = 1,0000 AP
-635,099716423339 -> 645,364797285606
-1 MH DPS = ∞ DPS = ∞ AP
-635,099716423339 -> 652,637477147914
-1 OH DPS = ∞ DPS = ∞ AP
+1 AP = 0,2516 DPS
+1 Str = 0,2516 DPS = 1,0000 AP
+1 Agi = 0,4798 DPS = 1,9066 AP
+1% Crit = 6,6158 DPS = 26,2924 AP
+1% Hit = 4,5856 DPS = 18,2241 AP
+1% Haste = 3,3652 DPS = 13,3739 AP
++1 MH DPS = 0,9036 DPS = 3,5912 AP
++1 OH DPS = 0,1185 DPS = 0,4711 AP
++5 MH Skill = 5,0750 DPS = 20,1693 AP

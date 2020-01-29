@@ -132,6 +132,11 @@ namespace ClassicCraft
                 default: throw new Exception("Attribute not found");
             }
         }
+
+        public static Attribute FromWeaponType(Weapon.WeaponType w)
+        {
+            return FromString(Weapon.TypeToString(w));
+        }
     }
 
     public class Attributes

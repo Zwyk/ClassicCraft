@@ -1130,23 +1130,23 @@ namespace ClassicCraft
             {
                 Attributes += e.Attributes;
             }
-
+            
             double wbonus = Attributes.GetValue(Attribute.WeaponDamage);
             double wbonusMH = Attributes.GetValue(Attribute.WeaponDamageMH);
             double wbonusOH = Attributes.GetValue(Attribute.WeaponDamageOH);
-            MH.DamageMin += wbonus + wbonusMH;
-            MH.DamageMax += wbonus + wbonusMH;
+            MH.DamageMin = MH.BaseMin + wbonus + wbonusMH;
+            MH.DamageMax = MH.BaseMax + wbonus + wbonusMH;
             if (OH != null)
             {
-                OH.DamageMin += wbonus + wbonusOH;
-                OH.DamageMax += wbonus + wbonusOH;
+                OH.DamageMin = OH.BaseMin + wbonus + wbonusOH;
+                OH.DamageMax = OH.BaseMax + wbonus + wbonusOH;
             }
 
             if (Class == Classes.Warrior)
             {
                 Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
                     + 0.01 * GetTalentPoints("Cruelty")
-                    + 0.03); // Berserker Stance, move elsewhere for stance dancing ?
+                    + 0.03); // Berserker Stance, should be a spell for stance dancing
             }
             else if (Class == Classes.Druid)
             {
@@ -1196,16 +1196,34 @@ namespace ClassicCraft
             Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance) + Attributes.GetValue(Attribute.Agility) * AgiToCritRatio(Class));
             Attributes.SetValue(Attribute.SpellCritChance, Attributes.GetValue(Attribute.SpellCritChance) + BaseCrit(Class) + Attributes.GetValue(Attribute.Intellect) * IntToCritRatio(Class));
 
-            WeaponSkill[Weapon.WeaponType.Axe] += (int)Attributes.GetValue(Attribute.SkillAxe);
+            int baseSkill = Level * 5;
+            WeaponSkill = new Dictionary<Weapon.WeaponType, int>();
+            foreach (Weapon.WeaponType type in (Weapon.WeaponType[])Enum.GetValues(typeof(Weapon.WeaponType)))
+            {
+                int skill = baseSkill;
+
+                if (Race == Races.Orc && type == Weapon.WeaponType.Axe)
+                {
+                    skill += 5;
+                }
+                else if (Race == Races.Human && (type == Weapon.WeaponType.Mace || type == Weapon.WeaponType.Sword))
+                {
+                    skill += 5;
+                }
+
+                WeaponSkill[type] = skill;
+            }
+
+            WeaponSkill[Weapon.WeaponType.Axe] += (int)Attributes.GetValue(Attribute.SkillAxe) + (int)Attributes.GetValue(Attribute.Skill1H) + (int)Attributes.GetValue(Attribute.Skill2H);
             WeaponSkill[Weapon.WeaponType.Bow] += (int)Attributes.GetValue(Attribute.SkillBow);
             WeaponSkill[Weapon.WeaponType.Crossbow] += (int)Attributes.GetValue(Attribute.SkillCrossbow);
-            WeaponSkill[Weapon.WeaponType.Dagger] += (int)Attributes.GetValue(Attribute.SkillDagger);
-            WeaponSkill[Weapon.WeaponType.Fist] += (int)Attributes.GetValue(Attribute.SkillFist);
+            WeaponSkill[Weapon.WeaponType.Dagger] += (int)Attributes.GetValue(Attribute.SkillDagger) + (int)Attributes.GetValue(Attribute.Skill1H);
+            WeaponSkill[Weapon.WeaponType.Fist] += (int)Attributes.GetValue(Attribute.SkillFist) + (int)Attributes.GetValue(Attribute.Skill1H);
             WeaponSkill[Weapon.WeaponType.Gun] += (int)Attributes.GetValue(Attribute.SkillGun);
-            WeaponSkill[Weapon.WeaponType.Mace] += (int)Attributes.GetValue(Attribute.SkillMace);
-            WeaponSkill[Weapon.WeaponType.Polearm] += (int)Attributes.GetValue(Attribute.SkillPolearm);
-            WeaponSkill[Weapon.WeaponType.Staff] += (int)Attributes.GetValue(Attribute.SkillStaff);
-            WeaponSkill[Weapon.WeaponType.Sword] += (int)Attributes.GetValue(Attribute.SkillSword);
+            WeaponSkill[Weapon.WeaponType.Mace] += (int)Attributes.GetValue(Attribute.SkillMace) + (int)Attributes.GetValue(Attribute.Skill1H) + (int)Attributes.GetValue(Attribute.Skill2H);
+            WeaponSkill[Weapon.WeaponType.Polearm] += (int)Attributes.GetValue(Attribute.SkillPolearm) + (int)Attributes.GetValue(Attribute.Skill2H);
+            WeaponSkill[Weapon.WeaponType.Staff] += (int)Attributes.GetValue(Attribute.SkillStaff) + (int)Attributes.GetValue(Attribute.Skill2H);
+            WeaponSkill[Weapon.WeaponType.Sword] += (int)Attributes.GetValue(Attribute.SkillSword) + (int)Attributes.GetValue(Attribute.Skill1H) + (int)Attributes.GetValue(Attribute.Skill2H);
             WeaponSkill[Weapon.WeaponType.Throwable] += (int)Attributes.GetValue(Attribute.SkillThrowable);
 
             HasteMod = CalcHaste();
