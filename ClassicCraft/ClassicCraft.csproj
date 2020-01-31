@@ -49,37 +49,48 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\Action.cs" />
+    <Compile Include="Actions\Spell.cs" />
     <Compile Include="Actions\CustomAction.cs" />
+    <Compile Include="Classes\Druid\Druid.cs" />
     <Compile Include="Classes\Druid\Effects\InnervateBuff.cs" />
-    <Compile Include="Classes\Druid\Spells\FerociousBite.cs" />
+    <Compile Include="Classes\Druid\Skills\FerociousBite.cs" />
     <Compile Include="Classes\Druid\Spells\Innervate.cs" />
     <Compile Include="Classes\Druid\Spells\Shift.cs" />
+    <Compile Include="Classes\Hunter\Hunter.cs" />
+    <Compile Include="Classes\Mage\Mage.cs" />
+    <Compile Include="Classes\Paladin\Paladin.cs" />
+    <Compile Include="Classes\Priest\Priest.cs" />
     <Compile Include="Classes\Rogue\Effects\AdrenalineRushBuff.cs" />
     <Compile Include="Classes\Rogue\Effects\BladeFlurryBuff.cs" />
     <Compile Include="Classes\Rogue\Effects\SliceAndDiceBuff.cs" />
-    <Compile Include="Classes\Rogue\Spells\AdrenalineRush.cs" />
-    <Compile Include="Classes\Rogue\Spells\Ambush.cs" />
-    <Compile Include="Classes\Rogue\Spells\Backstab.cs" />
-    <Compile Include="Classes\Rogue\Spells\BladeFlurry.cs" />
-    <Compile Include="Classes\Rogue\Spells\Eviscerate.cs" />
-    <Compile Include="Classes\Rogue\Spells\SinisterStrike.cs" />
-    <Compile Include="Classes\Rogue\Spells\SliceAndDice.cs" />
-    <Compile Include="Classes\Warrior\Spells\BattleShout.cs" />
-    <Compile Include="Classes\Warrior\Spells\Berserking.cs" />
-    <Compile Include="Classes\Warrior\Spells\BloodFury.cs" />
-    <Compile Include="Classes\Warrior\Spells\Bloodrage.cs" />
-    <Compile Include="Classes\Warrior\Spells\DeathWish.cs" />
-    <Compile Include="Classes\Warrior\Spells\Execute.cs" />
-    <Compile Include="Classes\Warrior\Spells\Hamstring.cs" />
+    <Compile Include="Classes\Rogue\Rogue.cs" />
+    <Compile Include="Classes\Rogue\Skills\AdrenalineRush.cs" />
+    <Compile Include="Classes\Rogue\Skills\Ambush.cs" />
+    <Compile Include="Classes\Rogue\Skills\Backstab.cs" />
+    <Compile Include="Classes\Rogue\Skills\BladeFlurry.cs" />
+    <Compile Include="Classes\Rogue\Skills\Eviscerate.cs" />
+    <Compile Include="Classes\Rogue\Skills\SinisterStrike.cs" />
+    <Compile Include="Classes\Rogue\Skills\SliceAndDice.cs" />
+    <Compile Include="Classes\Shaman\Shaman.cs" />
+    <Compile Include="Classes\Warlock\Spells\ShadowBolt.cs" />
+    <Compile Include="Classes\Warlock\Warlock.cs" />
+    <Compile Include="Classes\Warrior\Effects\ShadowTrance.cs" />
+    <Compile Include="Classes\Warrior\Skills\BattleShout.cs" />
+    <Compile Include="Classes\Warrior\Skills\Berserking.cs" />
+    <Compile Include="Classes\Warrior\Skills\BloodFury.cs" />
+    <Compile Include="Classes\Warrior\Skills\Bloodrage.cs" />
+    <Compile Include="Classes\Warrior\Skills\DeathWish.cs" />
+    <Compile Include="Classes\Warrior\Skills\Execute.cs" />
+    <Compile Include="Classes\Warrior\Skills\Hamstring.cs" />
     <Compile Include="Actions\Spells\MCP.cs" />
     <Compile Include="Actions\Spells\Potions\JujuFlurry.cs" />
     <Compile Include="Actions\Spells\Potions\MightyRage.cs" />
     <Compile Include="Actions\Spells\Potions\Potion.cs" />
-    <Compile Include="Classes\Warrior\Spells\Recklessness.cs" />
+    <Compile Include="Classes\Warrior\Skills\Recklessness.cs" />
     <Compile Include="Auras\Aura.cs" />
     <Compile Include="Actions\AutoAttack.cs" />
-    <Compile Include="Classes\Warrior\Spells\Bloodthirst.cs" />
-    <Compile Include="Classes\Druid\Spells\Shred.cs" />
+    <Compile Include="Classes\Warrior\Skills\Bloodthirst.cs" />
+    <Compile Include="Classes\Druid\Skills\Shred.cs" />
     <Compile Include="Classes\Druid\Effects\ClearCasting.cs" />
     <Compile Include="Classes\Warrior\Effects\BattleShoutBuff.cs" />
     <Compile Include="Classes\Warrior\Effects\BerserkingBuff.cs" />
@@ -91,13 +102,15 @@
     <Compile Include="Auras\Effects\Potions\JujuFlurryBuff.cs" />
     <Compile Include="Auras\Effects\Potions\MightyRageBuff.cs" />
     <Compile Include="Classes\Warrior\Effects\RecklessnessBuff.cs" />
+    <Compile Include="Classes\Warrior\Spells\Slam.cs" />
+    <Compile Include="Classes\Warrior\Warrior.cs" />
     <Compile Include="Entities\Boss.cs" />
     <Compile Include="Classes\Warrior\Effects\DeepWounds.cs" />
     <Compile Include="Auras\Effects\Effect.cs" />
     <Compile Include="Auras\Effects\EffectOnTime.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Classes\Warrior\Effects\Flurry.cs" />
-    <Compile Include="Classes\Warrior\Spells\HeroicStrike.cs" />
+    <Compile Include="Classes\Warrior\Skills\HeroicStrike.cs" />
     <Compile Include="Items\Enchantment.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Entities\Player.cs" />
@@ -105,10 +118,10 @@
     <Compile Include="Utility\JsonUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Actions\Spell.cs" />
+    <Compile Include="Actions\Skill.cs" />
     <Compile Include="Auras\UnbridledWrath.cs" />
     <Compile Include="Items\Weapons\Weapon.cs" />
-    <Compile Include="Classes\Warrior\Spells\Whirlwind.cs" />
+    <Compile Include="Classes\Warrior\Skills\Whirlwind.cs" />
     <Compile Include="Utility\Randomer.cs" />
     <Compile Include="Simulation.cs" />
     <Compile Include="Entities\PlayerObject.cs" />
@@ -122,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Auras\Effects\EffectsOnTime\" />
+    <Folder Include="Classes\Warlock\Effects\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

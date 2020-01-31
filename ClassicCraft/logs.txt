@@ -1,27 +1,28 @@
-Date : 2020/01/29 17:39:18
+Date : 2020/01/31 17:15:21
 
 Fight length : 120 seconds (±20%)
 
 Player :
-Undead Rogue level 60 | Stats : [Strength:227][Agility:460][Stamina:76][Intellect:37][Spirit:59][Health:2103][Mana:0][AP:1230][RangedAP:2150][CritChance:31,86][HitChance:10][Haste:0][SpellHitChance:0][SpellCritChance:0][SkillSword:5][SkillDagger:5]
-Main weapon : Sword with 305 skill
+Orc Warrior level 60 | Stats : [Strength:380][Agility:180][Stamina:112][Intellect:31][Spirit:52][Health:2629][Mana:0][AP:1545][RangedAP:1905][HitChance:12][CritChance:30][Haste:0][SpellHitChance:0][SpellCritChance:0]
+Main weapon : Axe with 305 skill
 
 Boss (after raid debuffs) :
 Level 63, 336 Armor (5,76% mitigation)
 
 
-50015 simulations done in 39 816,94 ms, for 0,80 ms by sim
-Overall accuracy of results : ±0,17%
+10820 simulations done in 9 862,80 ms, for 0,91 ms by sim
+Overall accuracy of results : ±0,18%
 
-Base : 641,83 DPS
+Average DPS : 537,47 dps (±0,50)
 
-Weights by DPS :
-1 AP = 0,2516 DPS
-1 Str = 0,2516 DPS = 1,0000 AP
-1 Agi = 0,4798 DPS = 1,9066 AP
-1% Crit = 6,6158 DPS = 26,2924 AP
-1% Hit = 4,5856 DPS = 18,2241 AP
-1% Haste = 3,3652 DPS = 13,3739 AP
-+1 MH DPS = 0,9036 DPS = 3,5912 AP
-+1 OH DPS = 0,1185 DPS = 0,4711 AP
-+5 MH Skill = 5,0750 DPS = 20,1693 AP
+Average stats for [AA MH] : 141,89 DPS (26,40%)
+	Average of 817,25 damage for 20,83 uses (or 1 use every 5,76s)
+	27,13% Hit, 26,98% Crit, 0,00% Miss, 39,94% Glancing, 5,95% Dodge
+
+Average stats for [Slam] : 370,55 DPS (68,94%)
+	Average of 1 115,12 damage for 39,88 uses (or 1 use every 3,01s)
+	58,70% Hit, 35,30% Crit, 0,00% Miss, 0,00% Glancing, 6,00% Dodge
+
+Average stats for [Deep Wounds] : 25,55 DPS (4,75%)
+	Average of 96,52 damage for 31,76 ticks (or 1 tick every 3,78s)
+	79,41% Uptime

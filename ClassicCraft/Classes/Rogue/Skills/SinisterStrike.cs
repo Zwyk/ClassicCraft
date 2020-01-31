@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class SinisterStrike : Spell
+    class SinisterStrike : Skill
     {
         public static int BASE_COST = 45;
         public static int CD = 0;

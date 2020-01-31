@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Bloodthirst : Spell
+    class Bloodthirst : Skill
     {
         public static int BASE_COST = 30;
         public static int CD = 6;

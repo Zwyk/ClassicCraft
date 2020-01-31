@@ -27,6 +27,8 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
+            base.DoAction();
+
             Player.Resource = 0
                 + ((Randomer.NextDouble() < Player.GetTalentPoints("Furor") * 0.2) ? 40 : 0)
                 + (Player.Equipment[Player.Slot.Head].Name == "Wolfshead Helm" ? 20 : 0);

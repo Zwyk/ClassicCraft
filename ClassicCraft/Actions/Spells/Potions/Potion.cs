@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    public class Potion : Spell
+    public class Potion : Skill
     {
         public Potion(Player p, double baseCD)
             : base(p, baseCD, 0, false)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Ambush : Spell
+    class Ambush : Skill
     {
         public static int BASE_COST = 60;
         public static int CD = 0;

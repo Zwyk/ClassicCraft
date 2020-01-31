@@ -6,43 +6,41 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class SliceAndDice : Spell
+    class BattleShout : Skill
     {
-        public static int BASE_COST = 25;
+        public static int BASE_COST = 10;
         public static int CD = 0;
 
-        public SliceAndDice(Player p)
-            : base(p, CD, BASE_COST)
+        public BattleShout(Player p)
+            : base(p, CD, BASE_COST, true)
         {
         }
 
         public override void Cast()
         {
-            CommonRessourceSpell();
             DoAction();
+            CommonRessourceSkill();
         }
 
         public override void DoAction()
         {
-            if (Player.Effects.Any(e => e is SliceAndDiceBuff))
+            if (Player.Effects.Any(e => e is BattleShoutBuff))
             {
-                Effect current = Player.Effects.Where(e => e is SliceAndDiceBuff).First();
+                Effect current = Player.Effects.Where(e => e is BattleShoutBuff).First();
                 current.Refresh();
             }
             else
             {
-                SliceAndDiceBuff r = new SliceAndDiceBuff(Player);
+                BattleShoutBuff r = new BattleShoutBuff(Player);
                 r.StartBuff();
             }
-
-            Player.Combo = 0;
 
             LogAction();
         }
 
         public override string ToString()
         {
-            return "Slice And Dice";
+            return "Battle Shout";
         }
     }
 }

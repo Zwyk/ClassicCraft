@@ -18,6 +18,16 @@ namespace ClassicCraft
             Other
         }
 
+        public enum School
+        {
+            Shadow,
+            Light,
+            Fire,
+            Nature,
+            Ice,
+            Arcane
+        }
+
         public static double BASE_MISS = 0.05;
 
         public int Life { get; set; }
@@ -35,6 +45,7 @@ namespace ClassicCraft
         }
         public MobType Type { get; set; }
         public int Armor { get; set; }
+        public Dictionary<School, int> MagicResist { get; set; }
         public int Level { get; set; }
 
         public List<Effect> Effects { get; set; }
@@ -60,6 +71,12 @@ namespace ClassicCraft
         {
             double res = armor / (armor + 400 + 85.0 * attackerLevel);
             return 1 - (res > 0.75 ? 0.75 : res);
+        }
+
+        public static double MagicMitigation(int resistance, int attackerLevel = 60)
+        {
+            // TODO
+            return 1;
         }
 
         public double DodgeChance(int attackerSkill)

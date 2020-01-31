@@ -1,7 +1,7 @@
 {
-  "Race": "Undead",
-  "Class": "Rogue",
-  "Talents": "005323105-3210052020050150231",
+  "Race": "Tauren",
+  "Class": "Druid",
+  "Talents": "014005301-5500021323202151-05",
   "Cooldowns": {
   },
   "Buffs": [
@@ -11,10 +11,14 @@
         "Hit": 0,
         "Crit": 0,
         "AP": 0,
+        "Haste": 0,
       }
     },
     {
-      "Name": "Windfury Totem"
+      "Name": "Devilsaur Set",
+      "Stats" : {
+        "Hit": 2,
+      }
     },
     {
       "Name": "Leader of the Pack",
@@ -48,9 +52,9 @@
       }
     },
     {
-      "Name": "Ground Scorpok Assay",
+      "Name": "R.O.I.D.S.",
       "Stats": {
-        "Agi": 25,
+        "Str": 25,
       }
     },
     {
@@ -75,190 +79,158 @@
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 114,
-      "DamageMax": 213,
-      "Speed": 2.9,
-      "TwoHanded": false,
-      "Type": "Sword",
-      "Name": "Vis'kag the Bloodletter",
+      "DamageMin": 46,
+      "DamageMax": 70,
+      "Speed": 2.0,
+      "TwoHanded": true,
+      "Type": "Mace",
+      "Name": "Manual Crowd Pummeler",
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
+        "Str": 16,
+        "Agi": 5
       },
-      "Enchantment":
-      {
-        "Name": "Crusader",
+      "Enchantment": {
+      },
+    },
+  },
+  "Equipment": {
+    "Head": {
+      "Name": "Wolfshead Helm",
+      "Stats": {
+        "Spi": 10
+      },
+      "Enchantment": {
+        "Name": "Lesser Arcane Amalgamation",
+        "Stats": {
+          "Agi": 8
+        }
       }
     },
-    "OH": {
-      "DamageMin": 90,
-      "DamageMax": 168,
-      "Speed": 2.5,
-      "TwoHanded": false,
-      "Type": "Sword",
-      "Name": "Brutality Blade",
-      "Id": 0,
-      "Slot": "Weapon",
+    "Neck": {
+      "Name": "Onyxia Tooth Pendant",
       "Stats": {
-        "Str": 9,
-        "Agi": 9,
+        "Agi": 12,
         "Crit": 1,
-      },
-      "Enchantment":
-      {
-        "Name": "Crusader",
-      }
-    },
-    "Ranged": {
-      "Type": "Bow",
-      "Name": "Striker's Mark",
-      "Stats": {
-        "AP": 22,
         "Hit": 1,
       }
     },
-  },
-    "Equipment": {
-      "Head": {
-        "Name": "Bloodfang Hood",
+    "Shoulders": {
+      "Name": "Truestike Shoulders",
+      "Stats": {
+        "Hit": 2,
+        "AP": 24,
+      },
+    },
+    "Back": {
+      "Name": "Cape of the Black Baron",
+      "Stats": {
+        "Agi": 15,
+        "AP": 20
+      },
+      "Enchantment": {
+        "Name": "Lesser Agility",
         "Stats": {
-          "Str": 19,
-          "Agi": 27,
-          "Crit": 1
-        },
-        "Enchantment": {
-          "Name": "Lesser Arcane Amalgamation",
-          "Stats": {
-            "Agi": 8
-          }
+          "Agi": 3
         }
+      }
+    },
+    "Chest": {
+      "Name": "Songbird Blouse",
+      "Stats": {
+        "Str": 13,
+        "Agi": 13,
+        "Int": 13,
+        "Spi": 13,
       },
-      "Neck": {
-        "Name": "Onyxia Tooth Pendant",
+      "Enchantment": {
+        "Name": "Greater Stats",
         "Stats": {
-          "Agi": 12,
-          "Crit": 1,
-          "Hit": 1,
+          "Str": 4,
+          "Agi": 4,
+          "Int": 4,
+          "Spi": 4,
         }
+      }
+    },
+    "Wrist": {
+      "Name": "Bracers of the Eclipse",
+      "Stats": {
+        "Agi": 10,
+        "AP": 24,
       },
-      "Shoulders": {
-        "Name": "Nightslayer Shoulder Pads",
+      "Enchantment": {
+        "Name": "Greater Strength",
         "Stats": {
-          "Str": 3,
-          "Agi": 26,
-          "Hit": 1,
-        },
-      },
-      "Back": {
-        "Name": "Cape of the Black Baron",
-        "Stats": {
-          "Agi": 15,
-          "AP": 20
-        },
-        "Enchantment": {
-          "Name": "Lesser Agility",
-          "Stats": {
-            "Agi": 3
-          }
+          "AP": 7
         }
+      }
+    },
+    "Hands": {
+      "Name": "Devilsaur Gauntlets",
+      "Stats": {
+        "AP": 28,
+        "Crit": 1,
       },
-      "Chest": {
-        "Name": "Nightslayer Chestpiece",
+      "Enchantment": {
+        "Name": "Greater Agility",
         "Stats": {
-          "Str": 10,
-          "Agi": 29,
-          "Crit": 1
-        },
-        "Enchantment": {
-          "Name": "Greater Stats",
-          "Stats": {
-            "Str": 4,
-            "Agi": 4,
-            "Int": 4,
-            "Spi": 4,
-          }
+          "Agi": 7
         }
+      }
+    },
+    "Waist": {
+      "Name": "Shadowcraft Belt",
+      "Stats": {
+        "Str": 9,
+        "Agi": 14,
+        "Spi": 9,
+      }
+    },
+    "Legs": {
+      "Name": "Devilsaur Leggings",
+      "Stats": {
+        "AP": 46,
+        "Crit": 1
       },
-      "Wrist": {
-        "Name": "Bracers of The Eclipse",
-        "Stats": {
-          "Agi": 10,
-          "AP": 24,
-        },
-        "Enchantment": {
-          "Name": "Superior Strength",
-          "Stats": {
-            "Str": 9
-          }
-        }
+    },
+    "Feet": {
+      "Name": "Blood Guard's Dragonhide Treads",
+      "Stats": {
+        "Str": 13,
+        "Int": 6,
+        "Agi": 6,
+        "Spi": 6
       },
-      "Hands": {
-        "Name": "Nightslayer Gloves",
-        "Stats": {
-          "Str": 12,
-          "Agi": 18,
-          "Hit": 1
-        },
-        "Enchantment": {
-          "Name": "Greater Agility",
-          "Stats": {
-            "Str": 7
-          }
-        }
-      },
-      "Waist": {
-        "Name": "Nightslayer Belt",
-        "Stats": {
-          "Str": 9,
-          "Agi": 17,
-          "Crit": 1,
-        }
-      },
-      "Legs": {
-        "Name": "Bloodfang Pants",
-        "Stats": {
-          "Str": 11,
-          "Agi": 37,
-          "Crit": 1,
-        },
-        "Enchantment": {
-          "Name": "Lesser Arcane Amalgamation",
-          "Stats": {
-            "Agi": 8
-          }
-        }
-      },
-      "Feet": {
-        "Name": "Nightslayer Boots",
-        "Stats": {
-          "Agi": 26,
-        },
-      },
-      "Ring1": {
-        "Name": "Tarnished Elven Ring",
-        "Stats": {
-          "Agi": 15,
-          "Hit": 1
-        }
-      },
-      "Ring2": {
-        "Name": "Band of Accuria",
-        "Stats": {
-          "Agi": 16,
-          "Hit": 2
-        }
-      },
-      "Trinket1": {
-        "Name": "Hand of Justice",
-        "Stats": {
-          "AP": 20
-        }
-      },
-      "Trinket2": {
-        "Name": "Blackhand's Breadth",
-        "Stats": {
-          "Crit": 2
-        }
-      },
+    },
+    "Ring1": {
+      "Name": "Tarnished Elven Ring",
+      "Stats": {
+        "Agi": 15,
+        "Hit": 1
+      }
+    },
+    "Ring2": {
+      "Name": "Don Julio's Band",
+      "Stats": {
+        "AP": 16,
+        "Hit": 1,
+        "Crit": 1,
+      }
+    },
+    "Trinket1": {
+      "Name": "Hand of Justice",
+      "Stats": {
+        "AP": 20
+      }
+    },
+    "Trinket2": {
+      "Name": "Rune of the Guard Captain",
+      "Stats": {
+        "Hit": 1,
+        "AP": 20
+      }
+    },
   }
 }

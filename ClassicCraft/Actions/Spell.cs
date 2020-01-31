@@ -6,47 +6,66 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    public abstract class Spell : Action
+    public abstract class Spell : Skill
     {
-        public int Cost { get; set; }
-        public bool AffectedByGCD { get; set; }
-        public bool UseMana { get; set; }
+        public double CastTime { get; set; }
+        public double TravelSpeed { get; set; }
+        public double CastFinish;
 
-        public Spell(Player p, double baseCD, int resourceCost, bool gcd = true, bool useMana = false)
-            : base(p, baseCD)
+        public Spell(Player p, double baseCD, int resourceCost, bool useMana = false, bool gcd = true, double castTime = 0, double travelSpeed = 0)
+            : base(p, baseCD, resourceCost, gcd, useMana)
         {
-            Cost = resourceCost;
-            AffectedByGCD = gcd;
-            UseMana = useMana;
+            CastTime = castTime;
+            TravelSpeed = travelSpeed;
         }
 
-        public virtual void CommonRessourceSpell()
+        public override void Cast()
         {
-            CDAction();
-
-            if (AffectedByGCD)
+            Player.StartGCD();
+            if(CastTime > 0)
             {
-                Player.StartGCD();
+                Player.casting = this;
+                CastFinish = Player.Sim.CurrentTime + CastTime;
+                LogCast();
             }
-
-            Player.Resource -= Cost;
+            else
+            {
+                DoAction();
+            }
         }
 
-        public virtual void CommonManaSpell()
+        public void CommonManaSpell()
         {
             CDAction();
-
-            if (AffectedByGCD)
-            {
-                Player.StartGCD();
-            }
 
             Player.Mana -= Cost;
         }
 
-        public override bool CanUse()
+        public override void DoAction()
         {
-            return (UseMana ? Player.Mana >= Cost : Player.Resource >= Cost) && Available() && (AffectedByGCD ? Player.HasGCD() : true);
+            if(CastTime > 0)
+            {
+                Player.casting = null;
+            }
+
+            Player.ResetMHSwing();
+        }
+
+        public void LogCast()
+        {
+            if (Program.logFight)
+            {
+                string log = string.Format("{0:N2} : {1} started cast ({2} {3}/{4})", Player.Sim.CurrentTime, ToString(), ResourceName(), Player.Resource, Player.MaxResource);
+                if (Player.Form == Player.Forms.Cat || Player.Class == Player.Classes.Rogue)
+                {
+                    log += "[combo " + Player.Combo + "]";
+                }
+                if (Player.Mana > 0)
+                {
+                    log += " - Mana " + Player.Mana + "/" + Player.MaxMana;
+                }
+                Program.Log(log);
+            }
         }
 
         public override string ToString()

@@ -6,32 +6,33 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class MCP : Skill
+    public class DeathWish : Skill
     {
-        public static int CD = 30;
+        public static int BASE_COST = 10;
+        public static int CD = 180;
 
-        public MCP(Player p, double baseCD = 30)
-            : base(p, baseCD, 0, false)
+        public DeathWish(Player p)
+            : base(p, CD, BASE_COST, true)
         {
         }
 
         public override void Cast()
         {
+            CommonRessourceSkill();
             DoAction();
-            CDAction();
         }
 
         public override void DoAction()
         {
-            if (Player.Effects.Any(e => e is MCPBuff))
+            if (Player.Effects.Any(e => e is DeathWishBuff))
             {
-                Effect current = Player.Effects.Where(e => e is MCPBuff).First();
+                Effect current = Player.Effects.Where(e => e is DeathWishBuff).First();
                 current.Refresh();
             }
             else
             {
-                MCPBuff r = new MCPBuff(Player);
-                r.StartBuff();
+                DeathWishBuff dw = new DeathWishBuff(Player);
+                dw.StartBuff();
             }
 
             LogAction();
@@ -39,7 +40,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "MCP";
+            return "Death Wish";
         }
     }
 }

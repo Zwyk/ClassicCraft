@@ -6,20 +6,14 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Execute : Spell
+    class Hamstring : Skill
     {
-        public static int BASE_COST = 15;
         public static int CD = 0;
+        public static int BASE_COST = 10;
 
-        public Execute(Player p)
-            : base(p, CD, BASE_COST, true)
+        public Hamstring(Player p)
+            : base(p, 0, 10, true)
         {
-
-        }
-
-        public override bool CanUse()
-        {
-            return Player.Sim.Boss.LifePct <= 0.2 && base.CanUse();
         }
 
         public override void Cast()
@@ -31,15 +25,7 @@ namespace ClassicCraft
         {
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
 
-            int reducedCost;
-            switch(Player.GetTalentPoints("IE"))
-            {
-                case 2: reducedCost = 5; break;
-                case 1: reducedCost = 2; break;
-                default: reducedCost = 0; break;
-            }
-
-            int damage = (int)Math.Round((600 + (Player.Resource - (15 - reducedCost)) * 15)
+            int damage = (int)Math.Round(45
                 * Player.Sim.DamageMod(res)
                 * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
                 * Player.DamageMod
@@ -47,14 +33,9 @@ namespace ClassicCraft
                 * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
 
             CommonAction();
-            if (res == ResultType.Parry || res == ResultType.Dodge)
+            if (res != ResultType.Parry && res != ResultType.Dodge)
             {
-                // TODO à vérifier
-                Player.Resource = Cost / 2;
-            }
-            else
-            {
-                Player.Resource = 0;
+                Player.Resource -= Cost;
             }
 
             RegisterDamage(new ActionResult(res, damage));
@@ -64,7 +45,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Execute";
+            return "Hamstring";
         }
     }
 }

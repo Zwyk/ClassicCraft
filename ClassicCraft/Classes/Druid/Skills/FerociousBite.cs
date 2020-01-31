@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class FerociousBite : Spell
+    class FerociousBite : Skill
     {
         public static int BASE_COST = 35;
         public static int CD = 0;

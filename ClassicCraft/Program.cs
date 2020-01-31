@@ -251,6 +251,7 @@ namespace ClassicCraft
                     playerBase.Talents.Add("IBS", fury.Length > 7 ? (int)Char.GetNumericValue(fury[7]) : 0);
                     playerBase.Talents.Add("DWS", fury.Length > 8 ? (int)Char.GetNumericValue(fury[8]) : 0);
                     playerBase.Talents.Add("IE", fury.Length > 9 ? (int)Char.GetNumericValue(fury[9]) : 0);
+                    playerBase.Talents.Add("IS", fury.Length > 11 ? (int)Char.GetNumericValue(fury[11]) : 0);
                     playerBase.Talents.Add("Flurry", fury.Length > 15 ? (int)Char.GetNumericValue(fury[15]) : 0);
                 }
                 else if(playerBase.Class == Player.Classes.Druid)
@@ -589,7 +590,7 @@ namespace ClassicCraft
                     //List<string> logList = totalActions.SelectMany(a => a.Select(t => t.Action.ToString()).OrderBy(b => b)).Distinct().ToList();
                     List<string> logList = new List<string>() { "AA MH", "AA OH" };
                     if (playerBase.Class == Player.Classes.Warrior)
-                        logList.AddRange(new List<string>() { "Bloodthirst", "Whirlwind", "Heroic Strike", "Execute", "Hamstring" });
+                        logList.AddRange(new List<string>() { "Slam", "Bloodthirst", "Whirlwind", "Heroic Strike", "Execute", "Hamstring" });
                     else if (playerBase.Class == Player.Classes.Druid)
                         logList.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift" });
                     else if (playerBase.Class == Player.Classes.Rogue)
@@ -697,7 +698,21 @@ namespace ClassicCraft
 
         public static void DoSim()
         {
-            Player player = new Player(playerBase);
+            Player player;
+            switch(playerBase.Class)
+            {
+                case Player.Classes.Druid:
+                    player = new Druid(playerBase);
+                    break;
+                case Player.Classes.Rogue:
+                    player = new Rogue(playerBase);
+                    break;
+                case Player.Classes.Warrior:
+                    player = new Warrior(playerBase);
+                    break;
+                default:
+                    return;
+            }
 
             Boss boss = new Boss(bossBase);
 

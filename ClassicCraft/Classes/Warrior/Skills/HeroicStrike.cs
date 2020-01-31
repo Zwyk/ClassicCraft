@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class HeroicStrike : Spell
+    class HeroicStrike : Skill
     {
         public static int BASE_COST = 15;
         public static int CD = 0;
 
         public HeroicStrike(Player p)
-            : base(p, CD, BASE_COST, true)
+            : base(p, CD, BASE_COST - p.GetTalentPoints("IHS"), true)
         {
         }
 

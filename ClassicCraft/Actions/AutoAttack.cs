@@ -29,7 +29,7 @@ namespace ClassicCraft
             CastNextSwing();
         }
 
-        public void DoAA(bool extra = false, bool wf = false)
+        public void DoAA(List<string> alreadyProc = null, bool extra = false)
         {
             ResultType res;
             if(Player.Class == Player.Classes.Warrior && !MH && Player.applyAtNextAA != null)
@@ -65,7 +65,7 @@ namespace ClassicCraft
 
             RegisterDamage(new ActionResult(res, damage));
             
-            Player.CheckOnHits(MH, true, res, extra, wf);
+            Player.CheckOnHits(MH, true, res, extra, alreadyProc);
         }
 
         public void ResetSwing()

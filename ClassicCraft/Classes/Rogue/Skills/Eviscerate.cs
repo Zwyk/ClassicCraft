@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Eviscerate : Spell
+    class Eviscerate : Skill
     {
         public static int BASE_COST = 35;
         public static int CD = 0;

@@ -6,32 +6,32 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class BladeFlurry : Spell
+    class AdrenalineRush : Skill
     {
-        public static int BASE_COST = 25;
-        public static int CD = 120;
+        public static int BASE_COST = 0;
+        public static int CD = 300;
 
-        public BladeFlurry(Player p)
+        public AdrenalineRush(Player p)
             : base(p, CD, BASE_COST)
         {
         }
 
         public override void Cast()
         {
-            CommonRessourceSpell();
+            CommonRessourceSkill();
             DoAction();
         }
 
         public override void DoAction()
         {
-            if (Player.Effects.Any(e => e is BladeFlurryBuff))
+            if (Player.Effects.Any(e => e is AdrenalineRushBuff))
             {
-                Effect current = Player.Effects.Where(e => e is BladeFlurryBuff).First();
+                Effect current = Player.Effects.Where(e => e is AdrenalineRushBuff).First();
                 current.Refresh();
             }
             else
             {
-                BladeFlurryBuff r = new BladeFlurryBuff(Player);
+                AdrenalineRushBuff r = new AdrenalineRushBuff(Player);
                 r.StartBuff();
             }
 
@@ -40,7 +40,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Blade Flurry";
+            return "Adrenaline Rush";
         }
     }
 }

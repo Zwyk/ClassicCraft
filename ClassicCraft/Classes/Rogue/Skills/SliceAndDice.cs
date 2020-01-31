@@ -6,41 +6,43 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Berserking : Spell
+    class SliceAndDice : Skill
     {
-        public static int BASE_COST = 5;
-        public static int CD = 180;
+        public static int BASE_COST = 25;
+        public static int CD = 0;
 
-        public Berserking(Player p)
-            : base(p, CD, BASE_COST, false)
+        public SliceAndDice(Player p)
+            : base(p, CD, BASE_COST)
         {
         }
 
         public override void Cast()
         {
-            CommonRessourceSpell();
+            CommonRessourceSkill();
             DoAction();
         }
 
         public override void DoAction()
         {
-            if (Player.Effects.Any(e => e is BerserkingBuff))
+            if (Player.Effects.Any(e => e is SliceAndDiceBuff))
             {
-                Effect current = Player.Effects.Where(e => e is BerserkingBuff).First();
+                Effect current = Player.Effects.Where(e => e is SliceAndDiceBuff).First();
                 current.Refresh();
             }
             else
             {
-                BerserkingBuff r = new BerserkingBuff(Player);
+                SliceAndDiceBuff r = new SliceAndDiceBuff(Player);
                 r.StartBuff();
             }
+
+            Player.Combo = 0;
 
             LogAction();
         }
 
         public override string ToString()
         {
-            return "Berserking";
+            return "Slice And Dice";
         }
     }
 }

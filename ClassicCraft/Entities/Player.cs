@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    public class Player : Entity
+    public abstract class Player : Entity
     {
         #region Util
 
@@ -961,6 +961,15 @@ namespace ClassicCraft
 
         public Dictionary<string, CustomAction> CustomActions { get; set; }
 
+        public Dictionary<Skill, int> cds = new Dictionary<Skill, int>();
+
+        public AutoAttack mh = null;
+        public AutoAttack oh = null;
+
+        public Spell casting = null;
+
+        public int rota = 0;
+
         #endregion
 
         #region Constructors
@@ -1042,7 +1051,95 @@ namespace ClassicCraft
 
         #endregion
 
+        #region Rota
+
+        public virtual void PrepFight()
+        {
+            mh = new AutoAttack(this, MH, true);
+            if (DualWielding)
+            {
+                oh = new AutoAttack(this, OH, false);
+            }
+        }
+
+        public virtual void Rota()
+        {
+            if(casting != null && casting.CastFinish <= Sim.CurrentTime)
+            {
+                casting.DoAction();
+            }
+
+            foreach (Effect e in Effects)
+            {
+                e.CheckEffect();
+            }
+
+            Effects.RemoveAll(e => e.Ended);
+
+            if(Class == Classes.Rogue || Class == Classes.Druid)
+            {
+                CheckEnergyTick();
+            }
+            if(MaxMana > 0)
+            {
+                CheckManaTick();
+            }
+        }
+
+        public void CheckAAs()
+        {
+            CheckAA(mh);
+            if(oh != null)
+            {
+                CheckAA(oh);
+            }
+        }
+
+        public void CheckAA(AutoAttack aa)
+        {
+            if (aa.Available())
+            {
+                if (casting == null)
+                {
+                    if (aa.MH && applyAtNextAA != null)
+                    {
+                        if (applyAtNextAA.CanUse())
+                        {
+                            applyAtNextAA.DoAction();
+                            aa.CastNextSwing();
+                        }
+                        else
+                        {
+                            applyAtNextAA = null;
+                            aa.Cast();
+                        }
+                    }
+                    else
+                    {
+                        aa.Cast();
+                    }
+                }
+                else
+                {
+                    aa.LockedUntil = Sim.CurrentTime;
+                }
+            }
+        }
+
+        #endregion
+
         #region Methods
+
+        public void ResetMHSwing()
+        {
+            ResetAATimer(mh);
+        }
+
+        public void ResetAATimer(AutoAttack auto)
+        {
+            auto.ResetSwing();
+            auto.CastNextSwing();
+        }
 
         public void ApplySets()
         {
@@ -1229,23 +1326,26 @@ namespace ClassicCraft
             HasteMod = CalcHaste();
         }
 
-        public void ExtraAA(bool wf = false)
+        public void ExtraAA(List<string> alreadyProc)
         {
-            if(wf) nextAABonus = 315;
             if (applyAtNextAA != null)
             {
                 applyAtNextAA.DoAction();
             }
             else
             {
-                Sim.autos[0].DoAA(true, wf);
+                mh.DoAA(alreadyProc, true);
             }
-            Sim.autos[0].ResetSwing();
-            Sim.autos[0].CastNextSwing();
+            ResetMHSwing();
         }
 
-        public void CheckOnHits(bool isMH, bool isAA, ResultType res, bool extra = false, bool wf = false)
+        public void CheckOnHits(bool isMH, bool isAA, ResultType res, bool extra = false, List<string> alreadyProc = null)
         {
+            if(alreadyProc == null)
+            {
+                alreadyProc = new List<string>();
+            }
+
             if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
             {
                 if (Class == Classes.Warrior)
@@ -1281,24 +1381,18 @@ namespace ClassicCraft
                 }
                 else if (Class == Classes.Rogue)
                 {
-                    if (GetTalentPoints("SS") > 0 && Randomer.NextDouble() < 0.01 * GetTalentPoints("SS"))
+                    if (!alreadyProc.Contains("rSP") && GetTalentPoints("SS") > 0 && Randomer.NextDouble() < 0.01 * GetTalentPoints("SS"))
                     {
+                        alreadyProc.Add("rSP");
                         if (Program.logFight)
                         {
                             Program.Log(string.Format("{0:N2} : Sword Specialization procs", Sim.CurrentTime));
                         }
-                        ExtraAA();
+                        ExtraAA(alreadyProc);
                     }
-                    if (GetTalentPoints("Flurry") > 0)
+                    if((!WindfuryTotem || !isMH) && !alreadyProc.Contains("IP") && Randomer.NextDouble() < 0.2)
                     {
-                        Flurry.CheckProc(this, res, GetTalentPoints("Flurry"), extra);
-                    }
-                    if (GetTalentPoints("UW") > 0)
-                    {
-                        UnbridledWrath.CheckProc(this, res, GetTalentPoints("UW"));
-                    }
-                    if((!WindfuryTotem || !isMH) && Randomer.NextDouble() < 0.2)
-                    {
+                        alreadyProc.Add("IP");
                         string procName = "Instant Poison";
                         int procDmg = Randomer.Next(112, 148 + 1);
                         if (!CustomActions.ContainsKey(procName))
@@ -1319,17 +1413,17 @@ namespace ClassicCraft
                         Crusader.CheckProc(this, res, MH.Speed);
                     }
 
-                    if (isMH && !wf && WindfuryTotem)
+                    if (isMH && WindfuryTotem && !alreadyProc.Contains("WF") && Randomer.NextDouble() < 0.2)
                     {
-                        if (Randomer.NextDouble() < 0.2)
-                        {
-                            if (Program.logFight)
-                            {
-                                Program.Log(string.Format("{0:N2} : Windfury procs", Sim.CurrentTime));
-                            }
+                        alreadyProc.Add("WF");
 
-                            ExtraAA(true);
+                        if (Program.logFight)
+                        {
+                            Program.Log(string.Format("{0:N2} : Windfury procs", Sim.CurrentTime));
                         }
+
+                        nextAABonus = 315;
+                        ExtraAA(alreadyProc);
                     }
                 }
 
@@ -1347,32 +1441,36 @@ namespace ClassicCraft
                     }
                 }
 
-                if ((Equipment[Slot.Trinket1]?.Name == "Hand of Justice" || Equipment[Slot.Trinket2]?.Name == "Hand of Justice") && Randomer.NextDouble() < 0.02)
+                if ((Equipment[Slot.Trinket1]?.Name == "Hand of Justice" || Equipment[Slot.Trinket2]?.Name == "Hand of Justice") && !alreadyProc.Contains("HoJ") && Randomer.NextDouble() < 0.02)
                 {
+                    alreadyProc.Add("HoJ");
                     if (Program.logFight)
                     {
                         Program.Log(string.Format("{0:N2} : Hand of Justice procs", Sim.CurrentTime));
                     }
-                    ExtraAA();
+                    ExtraAA(alreadyProc);
                 }
-                if (((isMH && MH?.Name == "Flurry Axe") || (!isMH && OH?.Name == "Flurry Axe")) && Randomer.NextDouble() < 0.0466)
+                if (((isMH && MH?.Name == "Flurry Axe") || (!isMH && OH?.Name == "Flurry Axe")) && !alreadyProc.Contains("FA") && Randomer.NextDouble() < 0.0466)
                 {
+                    alreadyProc.Add("FA");
                     if (Program.logFight)
                     {
                         Program.Log(string.Format("{0:N2} : Flurry Axe procs", Sim.CurrentTime));
                     }
-                    ExtraAA();
+                    ExtraAA(alreadyProc);
                 }
-                if (((isMH && MH?.Name == "Thrash Blade") || (!isMH && OH?.Name == "Thrash Blade")) && Randomer.NextDouble() < 0.044)
+                if (((isMH && MH?.Name == "Thrash Blade") || (!isMH && OH?.Name == "Thrash Blade")) && !alreadyProc.Contains("TB") && Randomer.NextDouble() < 0.044)
                 {
+                    alreadyProc.Add("TB");
                     if (Program.logFight)
                     {
                         Program.Log(string.Format("{0:N2} : Thrash Blade procs", Sim.CurrentTime));
                     }
-                    ExtraAA();
+                    ExtraAA(alreadyProc);
                 }
-                if (((isMH && MH?.Name == "Deathbringer") || (!isMH && OH?.Name == "Deathbringer")) && Randomer.NextDouble() < 0.0396)
+                if (((isMH && MH?.Name == "Deathbringer") || (!isMH && OH?.Name == "Deathbringer")) && !alreadyProc.Contains("DB") && Randomer.NextDouble() < 0.0396)
                 {
+                    alreadyProc.Add("DB");
                     string procName = "Deathbringer";
                     int procDmg = Randomer.Next(110, 140 + 1);
                     if (!CustomActions.ContainsKey(procName))
@@ -1384,8 +1482,9 @@ namespace ClassicCraft
                     int dmg = MiscDamageCalc(procDmg, res2, true);
                     CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg));
                 }
-                if (((isMH && MH?.Name == "Perdition's Blade") || (!isMH && OH?.Name == "Perdition's Blade")) && Randomer.NextDouble() < 0.04)
+                if (((isMH && MH?.Name == "Perdition's Blade") || (!isMH && OH?.Name == "Perdition's Blade")) && !alreadyProc.Contains("PB") && Randomer.NextDouble() < 0.04)
                 {
+                    alreadyProc.Add("PB");
                     string procName = "Perdition's Blade";
                     int procDmg = Randomer.Next(40, 56 + 1);
                     if (!CustomActions.ContainsKey(procName))
@@ -1397,8 +1496,9 @@ namespace ClassicCraft
                     int dmg = MiscDamageCalc(procDmg, res2, true);
                     CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg));
                 }
-                if (((isMH && MH?.Name == "Vis'kag the Bloodletter") || (!isMH && OH?.Name == "Vis'kag the Bloodletter")) && Randomer.NextDouble() < 0.0253)
+                if (((isMH && MH?.Name == "Vis'kag the Bloodletter") || (!isMH && OH?.Name == "Vis'kag the Bloodletter")) && !alreadyProc.Contains("VtB") && Randomer.NextDouble() < 0.0253)
                 {
+                    alreadyProc.Add("VtB");
                     string procName = "Vis'kag the Bloodletter";
                     int procDmg = 240;
                     if (!CustomActions.ContainsKey(procName))

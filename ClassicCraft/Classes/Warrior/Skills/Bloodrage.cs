@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Bloodrage : Spell
+    class Bloodrage : Skill
     {
         public static int BASE_COST = 0;
         public static int CD = 60;
@@ -18,7 +18,7 @@ namespace ClassicCraft
 
         public override void Cast()
         {
-            CommonRessourceSpell();
+            CommonRessourceSkill();
             DoAction();
         }
 

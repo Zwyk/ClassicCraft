@@ -254,11 +254,30 @@ namespace ClassicCraft
                     }
                 }
 
-                return new Player(null, ToClass(jp.Class), ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
+                Player.Classes cl = ToClass(jp.Class);
+                switch(cl)
                 {
-                    WindfuryTotem = jp.Buffs != null && jp.Buffs.Any(b => b.Name.ToLower().Contains("windfury totem")),
-                    Cooldowns = jp.Cooldowns.Where(v => v.Value == true).Select(c => c.Key).ToList()
-                };
+                    case Player.Classes.Druid:
+                        return new Druid(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
+                        {
+                            WindfuryTotem = jp.Buffs != null && jp.Buffs.Any(b => b.Name.ToLower().Contains("windfury totem")),
+                            Cooldowns = jp.Cooldowns.Where(v => v.Value == true).Select(c => c.Key).ToList()
+                        };
+                    case Player.Classes.Rogue:
+                        return new Rogue(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
+                        {
+                            WindfuryTotem = jp.Buffs != null && jp.Buffs.Any(b => b.Name.ToLower().Contains("windfury totem")),
+                            Cooldowns = jp.Cooldowns.Where(v => v.Value == true).Select(c => c.Key).ToList()
+                        };
+                    case Player.Classes.Warrior:
+                        return new Warrior(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
+                        {
+                            WindfuryTotem = jp.Buffs != null && jp.Buffs.Any(b => b.Name.ToLower().Contains("windfury totem")),
+                            Cooldowns = jp.Cooldowns.Where(v => v.Value == true).Select(c => c.Key).ToList()
+                        };
+                    default:
+                        throw new NotImplementedException("This class isn't supported yet");
+                }
             }
 
             public static Player.Races ToRace(string s)

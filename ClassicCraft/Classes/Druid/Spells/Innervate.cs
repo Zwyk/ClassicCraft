@@ -23,6 +23,8 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
+            base.DoAction();
+
             if (Player.Effects.Any(e => e is InnervateBuff))
             {
                 Effect current = Player.Effects.Where(e => e is InnervateBuff).First();

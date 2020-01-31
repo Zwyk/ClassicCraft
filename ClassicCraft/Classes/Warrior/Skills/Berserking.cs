@@ -6,32 +6,32 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class BloodFury : Spell
+    class Berserking : Skill
     {
-        public static int BASE_COST = 0;
-        public static int CD = 120;
+        public static int BASE_COST = 5;
+        public static int CD = 180;
 
-        public BloodFury(Player p)
+        public Berserking(Player p)
             : base(p, CD, BASE_COST, false)
         {
         }
 
         public override void Cast()
         {
-            CommonRessourceSpell();
+            CommonRessourceSkill();
             DoAction();
         }
 
         public override void DoAction()
         {
-            if (Player.Effects.Any(e => e is BloodFuryBuff))
+            if (Player.Effects.Any(e => e is BerserkingBuff))
             {
-                Effect current = Player.Effects.Where(e => e is BloodFuryBuff).First();
+                Effect current = Player.Effects.Where(e => e is BerserkingBuff).First();
                 current.Refresh();
             }
             else
             {
-                BloodFuryBuff r = new BloodFuryBuff(Player);
+                BerserkingBuff r = new BerserkingBuff(Player);
                 r.StartBuff();
             }
 
@@ -40,7 +40,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Blood Fury";
+            return "Berserking";
         }
     }
 }
