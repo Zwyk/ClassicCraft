@@ -8,6 +8,10 @@ namespace ClassicCraft
 {
     class Warlock : Player
     {
+        private ShadowBolt sb;
+
+        #region Constructors
+
         public Warlock(Player p)
             : base(p)
         {
@@ -22,5 +26,33 @@ namespace ClassicCraft
             : base(s, Classes.Warlock, r, level, items, talents, buffs)
         {
         }
+
+        #endregion
+
+        #region Rota
+
+        public override void PrepFight()
+        {
+            base.PrepFight();
+
+            Mana = MaxMana;
+
+            sb = new ShadowBolt(this);
+        }
+
+        public override void Rota()
+        {
+            base.Rota();
+
+            if (rota == 0) // SB (+ Corr) (+ Agony)
+            {
+                if(casting == null && sb.CanUse())
+                {
+                    sb.Cast();
+                }
+            }
+        }
+
+        #endregion
     }
 }

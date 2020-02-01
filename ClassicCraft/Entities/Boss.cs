@@ -30,13 +30,13 @@ namespace ClassicCraft
         {
         }
 
-        public Boss(Simulation s, MobType type = MobType.Humanoid, int level = 63, int customArmor = 4400, int maxLife = 100000)
-            : base(s, type, level, customArmor, maxLife)
+        public Boss(Simulation s, MobType type = MobType.Humanoid, int level = 63, int customArmor = 4400, Dictionary<School, int> magicResist = null, int maxLife = 100000)
+            : base(s, type, level, customArmor, maxLife, magicResist)
         {
         }
 
-        public Boss(Simulation s, MobType type = MobType.Humanoid, int level = 63, ArmorType armor = ArmorType.LightArmor, int maxLife = 100000)
-            : base(s, type, level, ArmorByType(armor), maxLife)
+        public Boss(Simulation s, MobType type = MobType.Humanoid, int level = 63, ArmorType armor = ArmorType.LightArmor, Dictionary<School, int> magicResist = null, int maxLife = 100000)
+            : base(s, type, level, ArmorByType(armor), maxLife, magicResist)
         {
         }
 
@@ -62,7 +62,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return string.Format("Level {0}, {1} Armor ({2:N2}% mitigation)\n", Level, Armor, (1-ArmorMitigation(Armor))*100);
+            return string.Format("Level {0}, {1} Armor ({2:N2}% mitigation)\n", Level, Armor, (1-Simulation.ArmorMitigation(Armor))*100);
         }
     }
 }

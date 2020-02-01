@@ -12,8 +12,8 @@ namespace ClassicCraft
         public double TravelSpeed { get; set; }
         public double CastFinish;
 
-        public Spell(Player p, double baseCD, int resourceCost, bool useMana = false, bool gcd = true, double castTime = 0, double travelSpeed = 0)
-            : base(p, baseCD, resourceCost, gcd, useMana)
+        public Spell(Player p, double baseCD, int resourceCost, bool useMana = false, bool gcd = true, School school = School.Magical, double castTime = 0, double travelSpeed = 0)
+            : base(p, baseCD, resourceCost, gcd, useMana, school)
         {
             CastTime = castTime;
             TravelSpeed = travelSpeed;
@@ -55,10 +55,14 @@ namespace ClassicCraft
         {
             if (Program.logFight)
             {
-                string log = string.Format("{0:N2} : {1} started cast ({2} {3}/{4})", Player.Sim.CurrentTime, ToString(), ResourceName(), Player.Resource, Player.MaxResource);
+                string log = string.Format("{0:N2} : {1} started cast", Player.Sim.CurrentTime, ToString());
+                if (!ResourceName().Equals("mana"))
+                {
+                    log += string.Format(" ({0} {1}/{2})", ResourceName(), Player.Resource, Player.MaxResource);
+                }
                 if (Player.Form == Player.Forms.Cat || Player.Class == Player.Classes.Rogue)
                 {
-                    log += "[combo " + Player.Combo + "]";
+                    log += " [combo " + Player.Combo + "]";
                 }
                 if (Player.Mana > 0)
                 {

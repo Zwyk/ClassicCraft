@@ -38,7 +38,7 @@ namespace ClassicCraft
             int maxDmg = (int)Math.Round(Player.MH.DamageMax + Player.MH.Speed * Player.AP / 14);
 
             int damage = (int)Math.Round((minDmg + maxDmg) / 2
-                * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
+                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor)
                 * (Player.DualWielding ? 1 : 1.03)
                 * Ratio);
 

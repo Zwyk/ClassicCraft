@@ -88,7 +88,7 @@ namespace ClassicCraft
             public string Type { get; set; }
             public JsonEnchantment Buff { get; set; }
 
-            public JsonWeapon(double damageMin = 1, double damageMax = 2, double speed = 1, bool twoHanded = true, string type = "Axe", int id = 0, string name = "New Item", Dictionary<string, double> attributes = null, JsonEnchantment enchantment = null, JsonEnchantment buffs = null)
+            public JsonWeapon(double damageMin = 0, double damageMax = 0, double speed = 0, bool twoHanded = true, string type = "Axe", int id = 0, string name = "New Item", Dictionary<string, double> attributes = null, JsonEnchantment enchantment = null, JsonEnchantment buffs = null)
                 : base(id, name, "Weapon", attributes, enchantment)
             {
                 DamageMin = damageMin;
@@ -269,6 +269,12 @@ namespace ClassicCraft
                             WindfuryTotem = jp.Buffs != null && jp.Buffs.Any(b => b.Name.ToLower().Contains("windfury totem")),
                             Cooldowns = jp.Cooldowns.Where(v => v.Value == true).Select(c => c.Key).ToList()
                         };
+                    case Player.Classes.Warlock:
+                        return new Warlock(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
+                        {
+                            WindfuryTotem = jp.Buffs != null && jp.Buffs.Any(b => b.Name.ToLower().Contains("windfury totem")),
+                            Cooldowns = jp.Cooldowns.Where(v => v.Value == true).Select(c => c.Key).ToList()
+                        };
                     case Player.Classes.Warrior:
                         return new Warrior(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
                         {
@@ -316,22 +322,65 @@ namespace ClassicCraft
 
         public class JsonBoss
         {
+            public class SchoolResist
+            {
+                public string School { get; set; }
+                public int Resist { get; set; }
+                
+                public SchoolResist(string school, int resist)
+                {
+                    School = school;
+                    Resist = resist;
+                }
+                
+                public static School StringToSchool(string s)
+                {
+                    switch(s)
+                    {
+                        case "Physical": return ClassicCraft.School.Physical;
+                        case "Magical": return ClassicCraft.School.Magical;
+                        case "All": return ClassicCraft.School.Magical;
+                        case "Any": return ClassicCraft.School.Magical;
+                        case "Fire": return ClassicCraft.School.Fire;
+                        case "Ice": return ClassicCraft.School.Ice;
+                        case "Shadow": return ClassicCraft.School.Shadow;
+                        case "Light": return ClassicCraft.School.Light;
+                        case "Arcane": return ClassicCraft.School.Arcane;
+                        case "Nature": return ClassicCraft.School.Nature;
+                        default: throw new NotImplementedException("School type unknown : " + s);
+                    }
+                }
+            }
+
             public int Level { get; set; }
             public string Type { get; set; }
             public int Armor { get; set; }
             public List<string> Debuffs { get; set; }
+            public List<SchoolResist> SchoolResists { get; set; }
 
-            public JsonBoss(int level = 63, string type = "Humanoid", int armor = 4400, List<string> debuffs = null)
+            public JsonBoss(int level = 63, string type = "Humanoid", int armor = 4400, List<SchoolResist> schoolResists = null, List<string> debuffs = null)
             {
                 Level = level;
                 Type = type;
                 Armor = armor;
+                SchoolResists = schoolResists;
                 Debuffs = debuffs;
             }
 
             public static Boss ToBoss(JsonBoss jb, double armorPen = 0)
             {
                 int armor = jb.Armor - (int)Math.Round(armorPen);
+
+                Dictionary<School, int> magicResist = null;
+                if (jb.SchoolResists != null)
+                {
+                    magicResist = new Dictionary<School, int>();
+                    foreach (SchoolResist sr in jb.SchoolResists)
+                    {
+                        magicResist.Add(SchoolResist.StringToSchool(sr.School), sr.Resist);
+                    }
+                }
+
                 List<string> debuffs = jb.Debuffs;
 
                 if (debuffs != null && debuffs.Count > 0)

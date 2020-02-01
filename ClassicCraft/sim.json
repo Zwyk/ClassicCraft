@@ -3,7 +3,7 @@
   "FightLengthMod": 0.2,
   "TargetErrorPct": 0.2,
   "TargetError": true,
-  "LogFight": false,
+  "LogFight": true,
   "NbSim": 1,
   "StatsWeights": false,
   "BossAutoLife": true,
@@ -14,7 +14,7 @@
     "Debuffs": [
       "Sunder Armor",
       "Curse of Recklessness",
-      "Faerie Fire"
+      "Faerie Fire",
     ]
   },
 }

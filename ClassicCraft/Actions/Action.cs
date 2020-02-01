@@ -35,14 +35,14 @@ namespace ClassicCraft
 
         public double LockedUntil { get; set; }
 
-        public bool Magic { get; set; }
+        public School School { get; set; }
 
-        public Action(Player p, double baseCD, bool magic = false)
+        public Action(Player p, double baseCD, School school = School.Physical)
             : base(p)
         {
             BaseCD = baseCD;
             LockedUntil = 0;
-            Magic = magic;
+            School = school;
         }
 
         public abstract void Cast();
@@ -74,12 +74,12 @@ namespace ClassicCraft
 
         public string ResourceName()
         {
-            if (Player.Form == Player.Forms.Cat) return "energy";
             switch (Player.Class)
             {
+                case Player.Classes.Druid: return "energy";
                 case Player.Classes.Rogue: return "energy";
                 case Player.Classes.Warrior: return "rage";
-                default: return "resource";
+                default: return "mana";
             }
         }
 
@@ -89,10 +89,14 @@ namespace ClassicCraft
 
             if(Program.logFight)
             {
-                string log = string.Format("{0:N2} : {1} {2} for {3} damage ({4} {5}/{6})", Player.Sim.CurrentTime, ToString(), res.Type, res.Damage, ResourceName(), Player.Resource, Player.MaxResource);
+                string log = string.Format("{0:N2} : {1} {2} for {3} damage", Player.Sim.CurrentTime, ToString(), res.Type, res.Damage);
+                if (!ResourceName().Equals("mana"))
+                {
+                    log += string.Format(" ({0} {1}/{2})", ResourceName(), Player.Resource, Player.MaxResource);
+                }
                 if(Player.Form == Player.Forms.Cat || Player.Class == Player.Classes.Rogue)
                 {
-                    log += "[combo " + Player.Combo + "]";
+                    log += " [combo " + Player.Combo + "]";
                 }
                 if (Player.Mana > 0)
                 {

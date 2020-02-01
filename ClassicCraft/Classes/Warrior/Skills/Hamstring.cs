@@ -27,7 +27,7 @@ namespace ClassicCraft
 
             int damage = (int)Math.Round(45
                 * Player.Sim.DamageMod(res)
-                * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
+                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor)
                 * Player.DamageMod
                 * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1)
                 * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));

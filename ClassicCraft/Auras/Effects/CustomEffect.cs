@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClassicCraft
+namespace ClassicCraft.Auras.Effects
 {
-    class ShadowTrance : Effect
+    class CustomEffect : Effect
     {
-        public ShadowTrance(Player p, Entity target, bool friendly, double baseLength, int baseStacks = 1)
+        public CustomEffect(Player p, Entity target, bool friendly, double baseLength, int baseStacks = 1)
             : base(p, target, friendly, baseLength, baseStacks)
         {
         }

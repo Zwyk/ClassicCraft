@@ -20,7 +20,9 @@ namespace ClassicCraft
             Bow,
             Crossbow,
             Gun,
+            Wand,
             Throwable,
+            Offhand,
         }
 
         public static string TypeToString(WeaponType wt)
@@ -37,7 +39,9 @@ namespace ClassicCraft
                 case WeaponType.Bow: return "Bow";
                 case WeaponType.Crossbow: return "Crossbow";
                 case WeaponType.Gun: return "Gun";
+                case WeaponType.Wand: return "Wand";
                 case WeaponType.Throwable: return "Throwable";
+                case WeaponType.Offhand: return "Offhand";
                 default: throw new Exception("WeaponType not found");
             }
         }
@@ -56,7 +60,9 @@ namespace ClassicCraft
                 case "Bow": return WeaponType.Bow;
                 case "Crossbow": return WeaponType.Crossbow;
                 case "Gun": return WeaponType.Gun;
+                case "Wand": return WeaponType.Wand;
                 case "Throwable": return WeaponType.Throwable;
+                case "Offhand": return WeaponType.Offhand;
                 default: throw new Exception("WeaponType not found : " + s);
             }
         }
@@ -111,7 +117,12 @@ namespace ClassicCraft
                 attributes += "[" + a + ":" + Attributes.Values[a] + "]";
             }
 
-            return string.Format("[{0}] ({1}) {2} : {3} | {4}-{5} at {6}, 2H = {7}, Type = {8}", Slot, Id, Name, attributes, DamageMin, DamageMax, Speed, TwoHanded, Type);
+            string s = string.Format("[{0}] ({1}) {2} : {3} | Type = {4}", Slot, Id, Name, attributes, Type);
+            if(Type != WeaponType.Offhand)
+            {
+                s += string.Format(", {0}-{1} at {2}, 2H = {3}", DamageMin, DamageMax, Speed, TwoHanded);
+            }
+            return s;
         }
     }
 }

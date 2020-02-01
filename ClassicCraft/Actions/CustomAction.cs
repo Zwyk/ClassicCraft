@@ -10,8 +10,8 @@ namespace ClassicCraft
     {
         public string Name { get; set; }
 
-        public CustomAction(Player p, string name, bool magic = false)
-            : base(p, 0, magic)
+        public CustomAction(Player p, string name, School school = School.Physical)
+            : base(p, 0, school)
         {
             Name = name;
         }

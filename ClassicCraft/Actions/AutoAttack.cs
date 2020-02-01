@@ -52,7 +52,7 @@ namespace ClassicCraft
 
             int damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
                 * Player.Sim.DamageMod(res)
-                * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
+                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor)
                 * Player.DamageMod
                 * (Player.DualWielding ? (MH ? 1 : 0.5 * (1 + (0.05 * Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Player.GetTalentPoints("2HS")))
                 );
@@ -75,6 +75,7 @@ namespace ClassicCraft
 
         public void CastNextSwing()
         {
+            Program.Log(LockedUntil + " + " + CurrentSpeed());
             LockedUntil += CurrentSpeed();
         }
 

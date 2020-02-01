@@ -6,6 +6,18 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
+    public enum School
+    {
+        Physical,
+        Magical,
+        Shadow,
+        Light,
+        Fire,
+        Nature,
+        Ice,
+        Arcane,
+    }
+
     public abstract class Entity : SimulationObject
     {
         public enum MobType
@@ -16,16 +28,6 @@ namespace ClassicCraft
             Dragonkin,
             Undead,
             Other
-        }
-
-        public enum School
-        {
-            Shadow,
-            Light,
-            Fire,
-            Nature,
-            Ice,
-            Arcane
         }
 
         public static double BASE_MISS = 0.05;
@@ -45,18 +47,40 @@ namespace ClassicCraft
         }
         public MobType Type { get; set; }
         public int Armor { get; set; }
+
+        public Dictionary<School, Dictionary<double, double>> ResistChances { get; set; }
         public Dictionary<School, int> MagicResist { get; set; }
+
         public int Level { get; set; }
 
         public List<Effect> Effects { get; set; }
 
-        public Entity(Simulation s, MobType type, int level, int armor = 0, int maxLife = 1)
+        public Entity(Simulation s, MobType type, int level, int armor = 0, int maxLife = 1, Dictionary<School, int> magicResist = null)
             : base(s)
         {
             Type = type;
             Level = level;
             Armor = armor;
             MaxLife = maxLife;
+
+            ResistChances = new Dictionary<School, Dictionary<double, double>>();
+            MagicResist = new Dictionary<School, int>();
+            if (magicResist == null)
+            {
+                foreach (School school in (School[])Enum.GetValues(typeof(School)))
+                {
+                    MagicResist.Add(school, 0);
+                    ResistChances.Add(school, Simulation.ResistChances(MagicResist[school]));
+                }
+            }
+            else
+            {
+                foreach (School school in (School[])Enum.GetValues(typeof(School)))
+                {
+                    MagicResist.Add(school, Math.Max(0, magicResist.ContainsKey(school) ? magicResist[school] : (magicResist.ContainsKey(School.Magical) ? magicResist[School.Magical] : 0)));
+                    ResistChances.Add(school, Simulation.ResistChances(MagicResist[school]));
+                }
+            }
 
             Reset();
         }
@@ -65,18 +89,6 @@ namespace ClassicCraft
         {
             Life = MaxLife;
             Effects = new List<Effect>();
-        }
-
-        public static double ArmorMitigation(int armor, int attackerLevel = 60)
-        {
-            double res = armor / (armor + 400 + 85.0 * attackerLevel);
-            return 1 - (res > 0.75 ? 0.75 : res);
-        }
-
-        public static double MagicMitigation(int resistance, int attackerLevel = 60)
-        {
-            // TODO
-            return 1;
         }
 
         public double DodgeChance(int attackerSkill)

@@ -1,28 +1,54 @@
-Date : 2020/01/31 17:15:21
+Date : 2020/02/01 15:36:59
 
 Fight length : 120 seconds (±20%)
 
 Player :
-Orc Warrior level 60 | Stats : [Strength:380][Agility:180][Stamina:112][Intellect:31][Spirit:52][Health:2629][Mana:0][AP:1545][RangedAP:1905][HitChance:12][CritChance:30][Haste:0][SpellHitChance:0][SpellCritChance:0]
-Main weapon : Axe with 305 skill
+Orc Warlock level 60 | Stats : [Strength:52][Agility:51][Stamina:66][Intellect:256][Spirit:140][Health:1894][Mana:5213][AP:42][RangedAP:93][SpellCritChance:0,14][SP:452][CritChance:14,55][HitChance:0][Haste:0][SpellHitChance:0][MP5:5]
+Main weapon : Sword with 300 skill
 
 Boss (after raid debuffs) :
 Level 63, 336 Armor (5,76% mitigation)
 
 
-10820 simulations done in 9 862,80 ms, for 0,91 ms by sim
-Overall accuracy of results : ±0,18%
 
-Average DPS : 537,47 dps (±0,50)
+---SIM NUMBER 1---
 
-Average stats for [AA MH] : 141,89 DPS (26,40%)
-	Average of 817,25 damage for 20,83 uses (or 1 use every 5,76s)
-	27,13% Hit, 26,98% Crit, 0,00% Miss, 39,94% Glancing, 5,95% Dodge
+0,00 : Shadow Bolt started cast - Mana 5213/5213
+3,02 : Shadow Bolt Hit for 445 damage - Mana 4843/5213
+3,02 : Shadow Bolt started cast - Mana 4843/5213
+6,03 : Shadow Bolt Hit for 211 damage - Mana 4473/5213
+6,03 : Shadow Bolt started cast - Mana 4473/5213
+9,03 : Shadow Bolt Crit for 317 damage - Mana 4103/5213
+9,03 : Shadow Bolt started cast - Mana 4103/5213
+12,03 : Shadow Bolt Hit for 216 damage - Mana 3733/5213
+12,03 : Shadow Bolt started cast - Mana 3733/5213
+15,03 : Shadow Bolt Resist for 0 damage - Mana 3363/5213
+15,03 : Shadow Bolt started cast - Mana 3363/5213
+18,05 : Shadow Bolt Resist for 0 damage - Mana 2993/5213
+18,05 : Shadow Bolt started cast - Mana 2993/5213
+21,07 : Shadow Bolt Hit for 218 damage - Mana 2623/5213
+21,07 : Shadow Bolt started cast - Mana 2623/5213
+24,10 : Shadow Bolt Resist for 0 damage - Mana 2253/5213
+24,10 : Shadow Bolt started cast - Mana 2253/5213
+27,12 : Shadow Bolt Resist for 0 damage - Mana 1883/5213
+27,12 : Shadow Bolt started cast - Mana 1883/5213
+30,15 : Shadow Bolt Hit for 212 damage - Mana 1513/5213
+30,15 : Shadow Bolt started cast - Mana 1513/5213
+33,17 : Shadow Bolt Hit for 215 damage - Mana 1143/5213
+33,17 : Shadow Bolt started cast - Mana 1143/5213
+36,20 : Shadow Bolt Hit for 214 damage - Mana 773/5213
+36,20 : Shadow Bolt started cast - Mana 773/5213
+39,22 : Shadow Bolt Resist for 0 damage - Mana 403/5213
+39,22 : Shadow Bolt started cast - Mana 403/5213
+42,25 : Shadow Bolt Hit for 223 damage - Mana 33/5213
+61,27 : Shadow Bolt started cast - Mana 377/5213
+64,30 : Shadow Bolt Resist for 0 damage - Mana 50/5213
+83,30 : Shadow Bolt started cast - Mana 394/5213
+86,30 : Shadow Bolt Hit for 217 damage - Mana 67/5213
+105,30 : Shadow Bolt started cast - Mana 411/5213
+108,30 : Shadow Bolt Crit for 636 damage - Mana 84/5213
 
-Average stats for [Slam] : 370,55 DPS (68,94%)
-	Average of 1 115,12 damage for 39,88 uses (or 1 use every 3,01s)
-	58,70% Hit, 35,30% Crit, 0,00% Miss, 0,00% Glancing, 6,00% Dodge
+1 simulations done in 13,96 ms, for 13,96 ms by sim
+Overall accuracy of results : ±0,00%
 
-Average stats for [Deep Wounds] : 25,55 DPS (4,75%)
-	Average of 96,52 damage for 31,76 ticks (or 1 tick every 3,78s)
-	79,41% Uptime
+Average DPS : 28,20 dps (±0,00)

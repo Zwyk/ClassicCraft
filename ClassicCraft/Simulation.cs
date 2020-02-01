@@ -123,12 +123,12 @@ namespace ClassicCraft
             }
         }
 
-        public double DamageMod(ResultType type, int level = 60, int enemyLevel = 63)
+        public double DamageMod(ResultType type, School school = School.Physical, int level = 60, int enemyLevel = 63)
         {
             switch (type)
             {
                 // TODO BLOCK / BLOCKCRIT
-                case ResultType.Crit: return 2;
+                case ResultType.Crit: return school == School.Physical ? 2 : 1.5;
                 case ResultType.Hit: return 1;
                 case ResultType.Glance: return GlancingDamage(level, enemyLevel);
                 default: return 0;
@@ -143,6 +143,63 @@ namespace ClassicCraft
                 case ResultType.Glance: return GlancingDamage(level, enemyLevel);
                 case ResultType.Miss: return 0;
                 default: return 1;
+            }
+        }
+
+        public static double ArmorMitigation(int armor, int attackerLevel = 60)
+        {
+            double res = armor / (armor + 400 + 85.0 * attackerLevel);
+            return 1 - (res > 0.75 ? 0.75 : res);
+        }
+
+        public static double MagicMitigation(Dictionary<double, double> dic)
+        {
+            double r = Randomer.NextDouble();
+            double tot = 0;
+            foreach (double d in dic.Keys)
+            {
+                tot += dic[d] / 100;
+                if (r <= tot)
+                {
+                    return 1 - d;
+                }
+            }
+            return 1;
+        }
+
+        public static double MagicMitigation(int resistance)
+        {
+            return Randomer.NextDouble() < AverageResistChance(resistance) ? 1 : 0;
+        }
+
+        public static double AverageResistChance(int resistance, int attackerLevel = 60)
+        {
+            return 1 - Math.Min(0.75, resistance / (attackerLevel * 5) * 0.75);
+        }
+
+        public static Dictionary<double, double> ResistChances(int resistance)
+        {
+            if(resistance == 0)
+            {
+                return new Dictionary<double, double>()
+                {
+                    { 1, 0 },
+                    { 0.75, 0 },
+                    { 0.5, 0 },
+                    { 0.25, 0 },
+                };
+            }
+            else
+            {
+                Dictionary<double, double> res = new Dictionary<double, double>()
+                {
+                    { 1, Math.Min(100, Math.Max(0, 0.3666444 - 0.07646683*resistance + 0.002496647*Math.Pow(resistance,2) - 0.00002685504*Math.Pow(resistance,3) + 1.15313e-7*Math.Pow(resistance,4) - 1.589142e-10*Math.Pow(resistance,5))) },
+                    { 0.75, Math.Min(100, Math.Max(0, -0.2315206 + 0.07957951*resistance - 0.001653912*Math.Pow(resistance,2) + 0.00001797503*Math.Pow(resistance,3) - 5.719072e-8*Math.Pow(resistance,4) + 6.51176e-11*Math.Pow(resistance,5))) },
+                    { 0.5, Math.Min(100, Math.Max(0, -0.9810354 + 0.4243505*resistance - 0.008868414*Math.Pow(resistance,2) + 0.0001051921*Math.Pow(resistance,3) - 4.493317e-7*Math.Pow(resistance,4) + 6.123606e-10*Math.Pow(resistance,5))) },
+                    { 0.25, Math.Min(100, Math.Max(0, 1.472044 + 0.2787054*resistance + 0.01131226*Math.Pow(resistance,2) - 0.0001453473*Math.Pow(resistance,3) + 5.678727e-7*Math.Pow(resistance,4) - 7.311312e-10*Math.Pow(resistance,5))) },
+                };
+
+                return res;
             }
         }
 

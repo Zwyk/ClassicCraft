@@ -13,7 +13,7 @@ namespace ClassicCraft
         public static double CAST_TIME = 1.5;
 
         public Slam(Player p)
-            : base(p, CD, BASE_COST, false, true, CAST_TIME - 0.1 * p.GetTalentPoints("IS"))
+            : base(p, CD, BASE_COST, false, true, School.Physical, CAST_TIME - 0.1 * p.GetTalentPoints("IS"))
         {
         }
 
@@ -30,7 +30,7 @@ namespace ClassicCraft
 
             int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + 87)
                 * Player.Sim.DamageMod(res)
-                * Entity.ArmorMitigation(Player.Sim.Boss.Armor)
+                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor)
                 * Player.DamageMod
                 * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1)
                 * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));

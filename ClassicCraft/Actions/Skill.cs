@@ -12,8 +12,8 @@ namespace ClassicCraft
         public bool AffectedByGCD { get; set; }
         public bool UseMana { get; set; }
 
-        public Skill(Player p, double baseCD, int resourceCost, bool gcd = true, bool useMana = false)
-            : base(p, baseCD)
+        public Skill(Player p, double baseCD, int resourceCost, bool gcd = true, bool useMana = false, School school = School.Physical)
+            : base(p, baseCD, school)
         {
             Cost = resourceCost;
             AffectedByGCD = gcd;

@@ -916,6 +916,14 @@ namespace ClassicCraft
             }
         }
 
+        public double SP
+        {
+            get
+            {
+                return Attributes.GetValue(Attribute.SP) + BonusAttributes.GetValue(Attribute.SP);
+            }
+        }
+
         public double CritRating
         {
             get
@@ -934,7 +942,7 @@ namespace ClassicCraft
 
         public bool DualWielding
         {
-            get { return !MH.TwoHanded && OH != null; }
+            get { return !MH.TwoHanded && OH != null && OH.Type != Weapon.WeaponType.Offhand; }
         }
 
         public Attributes Attributes { get; set; }
@@ -986,7 +994,7 @@ namespace ClassicCraft
             WeaponSkill = p.WeaponSkill;
             MH.DamageMin = p.MH.DamageMin;
             MH.DamageMax = p.MH.DamageMax;
-            if (OH != null)
+            if (DualWielding)
             {
                 OH.DamageMin = p.OH.DamageMin;
                 OH.DamageMax = p.OH.DamageMax;
@@ -999,7 +1007,8 @@ namespace ClassicCraft
             ApplySets();
         }
 
-        public Player(Simulation s = null, Classes c = Classes.Warrior, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null)
+        public Player(Simulation s = null, Classes c = Classes.Warrior, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, 
+            Dictionary<string, int> talents = null, List<Enchantment> buffs = null)
             : base(s, MobType.Humanoid, level)
         {
             Race = r;
@@ -1055,10 +1064,13 @@ namespace ClassicCraft
 
         public virtual void PrepFight()
         {
-            mh = new AutoAttack(this, MH, true);
-            if (DualWielding)
+            if(MH.Speed > 0)
             {
-                oh = new AutoAttack(this, OH, false);
+                mh = new AutoAttack(this, MH, true);
+                if (DualWielding)
+                {
+                    oh = new AutoAttack(this, OH, false);
+                }
             }
         }
 
@@ -1088,8 +1100,11 @@ namespace ClassicCraft
 
         public void CheckAAs()
         {
-            CheckAA(mh);
-            if(oh != null)
+            if(mh != null)
+            {
+                CheckAA(mh);
+            }
+            if(DualWielding)
             {
                 CheckAA(oh);
             }
@@ -1137,8 +1152,11 @@ namespace ClassicCraft
 
         public void ResetAATimer(AutoAttack auto)
         {
-            auto.ResetSwing();
-            auto.CastNextSwing();
+            if(auto != null)
+            {
+                auto.ResetSwing();
+                auto.CastNextSwing();
+            }
         }
 
         public void ApplySets()
@@ -1233,7 +1251,7 @@ namespace ClassicCraft
             double wbonusOH = Attributes.GetValue(Attribute.WeaponDamageOH);
             MH.DamageMin = MH.BaseMin + wbonus + wbonusMH;
             MH.DamageMax = MH.BaseMax + wbonus + wbonusMH;
-            if (OH != null)
+            if (DualWielding)
             {
                 OH.DamageMin = OH.BaseMin + wbonus + wbonusOH;
                 OH.DamageMax = OH.BaseMax + wbonus + wbonusOH;
@@ -1397,11 +1415,11 @@ namespace ClassicCraft
                         int procDmg = Randomer.Next(112, 148 + 1);
                         if (!CustomActions.ContainsKey(procName))
                         {
-                            CustomActions.Add(procName, new CustomAction(this, procName, true));
+                            CustomActions.Add(procName, new CustomAction(this, procName, School.Nature));
                         }
 
                         ResultType res2 = SpellAttackEnemy(Sim.Boss);
-                        int dmg = MiscDamageCalc(procDmg, res2, true);
+                        int dmg = MiscDamageCalc(procDmg, res2, School.Nature);
                         CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg));
                     }
                 }
@@ -1475,11 +1493,11 @@ namespace ClassicCraft
                     int procDmg = Randomer.Next(110, 140 + 1);
                     if (!CustomActions.ContainsKey(procName))
                     {
-                        CustomActions.Add(procName, new CustomAction(this, procName, true));
+                        CustomActions.Add(procName, new CustomAction(this, procName, School.Shadow));
                     }
 
                     ResultType res2 = SpellAttackEnemy(Sim.Boss);
-                    int dmg = MiscDamageCalc(procDmg, res2, true);
+                    int dmg = MiscDamageCalc(procDmg, res2, School.Shadow);
                     CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg));
                 }
                 if (((isMH && MH?.Name == "Perdition's Blade") || (!isMH && OH?.Name == "Perdition's Blade")) && !alreadyProc.Contains("PB") && Randomer.NextDouble() < 0.04)
@@ -1489,11 +1507,11 @@ namespace ClassicCraft
                     int procDmg = Randomer.Next(40, 56 + 1);
                     if (!CustomActions.ContainsKey(procName))
                     {
-                        CustomActions.Add(procName, new CustomAction(this, procName, true));
+                        CustomActions.Add(procName, new CustomAction(this, procName, School.Fire));
                     }
 
                     ResultType res2 = SpellAttackEnemy(Sim.Boss);
-                    int dmg = MiscDamageCalc(procDmg, res2, true);
+                    int dmg = MiscDamageCalc(procDmg, res2, School.Fire);
                     CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg));
                 }
                 if (((isMH && MH?.Name == "Vis'kag the Bloodletter") || (!isMH && OH?.Name == "Vis'kag the Bloodletter")) && !alreadyProc.Contains("VtB") && Randomer.NextDouble() < 0.0253)
@@ -1513,19 +1531,20 @@ namespace ClassicCraft
             }
         }
 
-        public int MiscDamageCalc(int baseDmg, ResultType res, bool magical = false, double APRatio = 0)
+        public int MiscDamageCalc(int baseDmg, ResultType res, School school = School.Physical, double APRatio = 0)
         {
-            if(!magical)
+            if(school == School.Physical)
             {
                 return (int)Math.Round(baseDmg
                     * Sim.DamageMod(res)
-                    * ArmorMitigation(Sim.Boss.Armor)
+                    * Simulation.ArmorMitigation(Sim.Boss.Armor)
                     * DamageMod);
             }
             else
             {
                 return (int)Math.Round((baseDmg + APRatio * AP)
                     * Sim.DamageMod(res)
+                    * Simulation.MagicMitigation(Sim.Boss.ResistChances[school])
                     * DamageMod);
             }
         }
@@ -1710,11 +1729,11 @@ namespace ClassicCraft
 
         #region Attack methods
 
-        public ResultType SpellAttackEnemy(Entity enemy)
+        public ResultType SpellAttackEnemy(Entity enemy, School school = School.Magical)
         {
-            if(Randomer.NextDouble() < SpellHitChance(Attributes.GetValue(Attribute.SpellHitChance), Level, Sim.Boss.Level))
+            if(Randomer.NextDouble() < SpellHitChance(Attributes.GetValue(Attribute.SpellHitChance), Level, enemy.Level))
             {
-                if(Randomer.NextDouble() < Attributes.GetValue(Attribute.SpellCritChance))
+                if (Randomer.NextDouble() < Attributes.GetValue(Attribute.SpellCritChance))
                 {
                     return ResultType.Crit;
                 }

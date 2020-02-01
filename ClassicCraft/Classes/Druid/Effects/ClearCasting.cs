@@ -9,7 +9,6 @@ namespace ClassicCraft
     class ClearCasting : Effect
     {
         public static double PROC_RATE = 0.06;
-
         public static int LENGTH = 15;
 
         public ClearCasting(Player p)

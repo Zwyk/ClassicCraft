@@ -611,7 +611,7 @@ namespace ClassicCraft
                             double hitPct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Hit)) / avgAcUse * 100;
                             double critPct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Crit)) / avgAcUse * 100;
                             res += string.Format("\n\t{0:N2}% Hit, {1:N2}% Crit", hitPct, critPct);
-                            if (totalActions.Any(l => l.Any(a => a.Action.ToString().Equals(ac) && a.Action.Magic)))
+                            if (totalActions.Any(l => l.Any(a => a.Action.ToString().Equals(ac) && a.Action.School != School.Physical)))
                             {
                                 double resistPct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Resist)) / avgAcUse * 100;
                                 res += string.Format(", {0:N2}% Resist", resistPct);
@@ -706,6 +706,9 @@ namespace ClassicCraft
                     break;
                 case Player.Classes.Rogue:
                     player = new Rogue(playerBase);
+                    break;
+                case Player.Classes.Warlock:
+                    player = new Warlock(playerBase);
                     break;
                 case Player.Classes.Warrior:
                     player = new Warrior(playerBase);

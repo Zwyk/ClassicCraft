@@ -51,6 +51,7 @@
     <Compile Include="Actions\Action.cs" />
     <Compile Include="Actions\Spell.cs" />
     <Compile Include="Actions\CustomAction.cs" />
+    <Compile Include="Auras\Effects\CustomEffect.cs" />
     <Compile Include="Classes\Druid\Druid.cs" />
     <Compile Include="Classes\Druid\Effects\InnervateBuff.cs" />
     <Compile Include="Classes\Druid\Skills\FerociousBite.cs" />
@@ -74,7 +75,7 @@
     <Compile Include="Classes\Shaman\Shaman.cs" />
     <Compile Include="Classes\Warlock\Spells\ShadowBolt.cs" />
     <Compile Include="Classes\Warlock\Warlock.cs" />
-    <Compile Include="Classes\Warrior\Effects\ShadowTrance.cs" />
+    <Compile Include="Classes\Warlock\Effects\ShadowTrance.cs" />
     <Compile Include="Classes\Warrior\Skills\BattleShout.cs" />
     <Compile Include="Classes\Warrior\Skills\Berserking.cs" />
     <Compile Include="Classes\Warrior\Skills\BloodFury.cs" />
@@ -135,7 +136,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Auras\Effects\EffectsOnTime\" />
-    <Folder Include="Classes\Warlock\Effects\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

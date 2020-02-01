@@ -66,9 +66,9 @@ namespace ClassicCraft
                 case "SP": return Attribute.SP;
                 case "HSP": return Attribute.HSP;
                 case "Hit": return Attribute.HitChance;
-                case "SpellHit": return Attribute.SpellHitChance;
+                case "SHit": return Attribute.SpellHitChance;
                 case "Crit": return Attribute.CritChance;
-                case "SpellCrit": return Attribute.SpellCritChance;
+                case "SCrit": return Attribute.SpellCritChance;
                 case "MP5": return Attribute.MP5;
                 case "Sword": return Attribute.SkillSword;
                 case "Axe": return Attribute.SkillAxe;
@@ -109,9 +109,9 @@ namespace ClassicCraft
                 case Attribute.SP: return "SP";
                 case Attribute.HSP: return "HSP";
                 case Attribute.HitChance: return "Hit";
-                case Attribute.SpellHitChance: return "SpellHit";
+                case Attribute.SpellHitChance: return "SHit";
                 case Attribute.CritChance: return "Crit";
-                case Attribute.SpellCritChance: return "SpellCrit";
+                case Attribute.SpellCritChance: return "SCrit";
                 case Attribute.MP5: return "MP5";
                 case Attribute.SkillSword: return "Sword";
                 case Attribute.SkillAxe: return "Axe";
