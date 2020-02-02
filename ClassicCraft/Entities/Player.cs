@@ -1074,29 +1074,7 @@ namespace ClassicCraft
             }
         }
 
-        public virtual void Rota()
-        {
-            if(casting != null && casting.CastFinish <= Sim.CurrentTime)
-            {
-                casting.DoAction();
-            }
-
-            foreach (Effect e in Effects)
-            {
-                e.CheckEffect();
-            }
-
-            Effects.RemoveAll(e => e.Ended);
-
-            if(Class == Classes.Rogue || Class == Classes.Druid)
-            {
-                CheckEnergyTick();
-            }
-            if(MaxMana > 0)
-            {
-                CheckManaTick();
-            }
-        }
+        public abstract void Rota();
 
         public void CheckAAs()
         {
@@ -1144,6 +1122,8 @@ namespace ClassicCraft
         #endregion
 
         #region Methods
+
+        public abstract void SetupTalents(string ptal);
 
         public void ResetMHSwing()
         {
@@ -1393,7 +1373,7 @@ namespace ClassicCraft
                         else
                         {
                             ClearCasting ob = new ClearCasting(this);
-                            ob.StartBuff();
+                            ob.StartEffect();
                         }
                     }
                 }
@@ -1722,18 +1702,18 @@ namespace ClassicCraft
             {
                 baseHit = Math.Max(0, 0.83 - 0.11 * (skillDif - 3));
             }
-            return Math.Max(0, Math.Min(1, baseHit + spellHit));
+            return Math.Max(0, Math.Min(0.99, baseHit + spellHit));
         }
 
         #endregion
 
         #region Attack methods
 
-        public ResultType SpellAttackEnemy(Entity enemy, School school = School.Magical)
+        public ResultType SpellAttackEnemy(Entity enemy, bool canCrit = true, double bonusHit = 0, double bonusCrit = 0)
         {
-            if(Randomer.NextDouble() < SpellHitChance(Attributes.GetValue(Attribute.SpellHitChance), Level, enemy.Level))
+            if(Randomer.NextDouble() < SpellHitChance(Attributes.GetValue(Attribute.SpellHitChance) + bonusHit, Level, enemy.Level))
             {
-                if (Randomer.NextDouble() < Attributes.GetValue(Attribute.SpellCritChance))
+                if (canCrit && Randomer.NextDouble() < Attributes.GetValue(Attribute.SpellCritChance) + bonusCrit)
                 {
                     return ResultType.Crit;
                 }
@@ -1758,7 +1738,7 @@ namespace ClassicCraft
             return PickFromTable(MH ? HitChancesByEnemy[enemy].WhiteHitChancesMH : HitChancesByEnemy[enemy].WhiteHitChancesOH, Randomer.NextDouble());
         }
 
-        public ResultType YellowAttackEnemy(Entity enemy, char? spell = null)
+        public ResultType YellowAttackEnemy(Entity enemy, string spell = "")
         {
             if (!HitChancesByEnemy.ContainsKey(enemy))
             {
@@ -1773,7 +1753,7 @@ namespace ClassicCraft
                 table[ResultType.Crit] = 1;
             }
 
-            if (Class == Classes.Rogue && spell.GetValueOrDefault().Equals('B'))
+            if (Class == Classes.Rogue && spell.Equals("Backstab"))
             {
                 table = new Dictionary<ResultType, double>(table);
                 table[ResultType.Crit] += 0.1 * GetTalentPoints("IB");

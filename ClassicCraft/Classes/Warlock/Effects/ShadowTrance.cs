@@ -11,12 +11,29 @@ namespace ClassicCraft
         public static double PROC_RATE_BY_RANK = 0.02;
         public static int LENGTH = 10;
 
-        public double ProcRate { get; set; }
-
-        public ShadowTrance(Player p, int rank = 2)
+        public ShadowTrance(Player p)
             : base(p, p, true, LENGTH, 1)
         {
-            ProcRate = PROC_RATE_BY_RANK * rank;
+        }
+
+        public static double ProcRate(Player p)
+        {
+            return PROC_RATE_BY_RANK * p.GetTalentPoints("NF");
+        }
+
+        public static void CheckProc(Player p)
+        {
+            if (Randomer.NextDouble() < ProcRate(p))
+            {
+                if (p.Sim.Boss.Effects.Any(e => e is ShadowTrance))
+                {
+                    p.Sim.Boss.Effects.First(e => e is ShadowTrance).Refresh();
+                }
+                else
+                {
+                    new ShadowTrance(p).StartEffect();
+                }
+            }
         }
 
         public override string ToString()

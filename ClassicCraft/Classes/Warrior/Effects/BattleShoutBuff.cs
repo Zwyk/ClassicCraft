@@ -17,18 +17,18 @@ namespace ClassicCraft
         {
         }
 
-        public override void StartBuff()
+        public override void StartEffect()
         {
-            base.StartBuff();
+            base.StartEffect();
 
             Bonus = 232 * (1 + (0.05 * Player.GetTalentPoints("IBS")));
 
             Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) + Bonus);
         }
 
-        public override void EndBuff()
+        public override void EndEffect()
         {
-            base.EndBuff();
+            base.EndEffect();
 
             Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) - Bonus);
         }

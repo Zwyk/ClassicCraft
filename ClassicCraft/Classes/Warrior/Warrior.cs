@@ -36,6 +36,47 @@ namespace ClassicCraft
 
         #endregion
 
+        #region Talents
+
+        public override void SetupTalents(string ptal)
+        {
+            if (ptal == null || ptal == "")
+            {
+                if (MH.TwoHanded)
+                {
+                    // DPS Fury 2M 30305001332-05052005025010051
+                    ptal = "30305001332-05052005025010051";
+                }
+                else
+                {
+                    // DPS Fury 1M 30305001302-05050005525010051
+                    ptal = "30305001302-05050005525010051";
+                }
+            }
+
+            string[] talents = ptal.Split('-');
+            string arms = talents.Length > 0 ? talents[0] : "";
+            string fury = talents.Length > 1 ? talents[1] : "";
+            string prot = talents.Length > 2 ? talents[2] : "";
+
+            Talents = new Dictionary<string, int>();
+            // Arms
+            Talents.Add("IHS", arms.Length > 0 ? (int)Char.GetNumericValue(arms[0]) : 0);
+            Talents.Add("DW", arms.Length > 8 ? (int)Char.GetNumericValue(arms[8]) : 0);
+            Talents.Add("2HS", arms.Length > 9 ? (int)Char.GetNumericValue(arms[9]) : 0);
+            Talents.Add("Impale", arms.Length > 10 ? (int)Char.GetNumericValue(arms[10]) : 0);
+            // Fury
+            Talents.Add("Cruelty", fury.Length > 1 ? (int)Char.GetNumericValue(fury[1]) : 0);
+            Talents.Add("UW", fury.Length > 3 ? (int)Char.GetNumericValue(fury[3]) : 0);
+            Talents.Add("IBS", fury.Length > 7 ? (int)Char.GetNumericValue(fury[7]) : 0);
+            Talents.Add("DWS", fury.Length > 8 ? (int)Char.GetNumericValue(fury[8]) : 0);
+            Talents.Add("IE", fury.Length > 9 ? (int)Char.GetNumericValue(fury[9]) : 0);
+            Talents.Add("IS", fury.Length > 11 ? (int)Char.GetNumericValue(fury[11]) : 0);
+            Talents.Add("Flurry", fury.Length > 15 ? (int)Char.GetNumericValue(fury[15]) : 0);
+        }
+
+        #endregion
+
         #region Rota
 
         public override void PrepFight()
@@ -85,8 +126,6 @@ namespace ClassicCraft
 
         public override void Rota()
         {
-            base.Rota();
-
             if (br.CanUse() && Resource < 90)
             {
                 br.Cast();

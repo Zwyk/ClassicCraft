@@ -40,10 +40,9 @@ namespace ClassicCraft
             }
 
             int damage = (int)Math.Round((600 + (Player.Resource - (15 - reducedCost)) * 15)
-                * Player.Sim.DamageMod(res)
+                * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0 + (0.1 * Player.GetTalentPoints("Impale")) : 0))
                 * Simulation.ArmorMitigation(Player.Sim.Boss.Armor)
                 * Player.DamageMod
-                * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1)
                 * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
 
             CommonAction();

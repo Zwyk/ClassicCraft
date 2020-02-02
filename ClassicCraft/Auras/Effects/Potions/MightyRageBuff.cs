@@ -15,18 +15,18 @@ namespace ClassicCraft
         {
         }
 
-        public override void StartBuff()
+        public override void StartEffect()
         {
-            base.StartBuff();
+            base.StartEffect();
 
             Player.Resource += Randomer.Next(45, 347);
             Player.BonusAttributes.SetValue(Attribute.Strength, Player.BonusAttributes.GetValue(Attribute.Strength) + 60);
             Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) + 120);
         }
 
-        public override void EndBuff()
+        public override void EndEffect()
         {
-            base.EndBuff();
+            base.EndEffect();
 
             Player.BonusAttributes.SetValue(Attribute.Strength, Player.BonusAttributes.GetValue(Attribute.Strength) - 60);
             Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) - 120);

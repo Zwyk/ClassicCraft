@@ -139,6 +139,9 @@ namespace ClassicCraft
                     */
                 };
 
+        public static JsonUtil.JsonSim jsonSim;
+        public static JsonUtil.JsonPlayer jsonPlayer;
+
         static void Main(string[] args)
         {
             try
@@ -146,9 +149,9 @@ namespace ClassicCraft
                 // Retrieving jsons
 
                 string simString = File.ReadAllText(debug ? Path.Combine(debugPath, simJsonFileName) : simJsonFileName);
-                JsonUtil.JsonSim jsonSim = JsonConvert.DeserializeObject<JsonUtil.JsonSim>(simString);
+                jsonSim = JsonConvert.DeserializeObject<JsonUtil.JsonSim>(simString);
                 string playerString = File.ReadAllText(debug ? Path.Combine(debugPath, playerJsonFileName) : playerJsonFileName);
-                JsonUtil.JsonPlayer jsonPlayer = JsonConvert.DeserializeObject<JsonUtil.JsonPlayer>(playerString);
+                jsonPlayer = JsonConvert.DeserializeObject<JsonUtil.JsonPlayer>(playerString);
 
                 fightLength = jsonSim.FightLength;
                 fightLengthMod = jsonSim.FightLengthMod;
@@ -215,126 +218,7 @@ namespace ClassicCraft
                     simBonusAttribs["+5 OH Skill"].SetValue(AttributeUtil.FromWeaponType(playerBase.OH.Type), 5);
                 }
 
-                // Talents
-                playerBase.Talents = new Dictionary<string, int>();
-
-                string ptal = jsonPlayer.Talents;
-                if (playerBase.Class == Player.Classes.Warrior)
-                {
-                    if (ptal == null || ptal == "")
-                    {
-                        if(playerBase.MH.TwoHanded)
-                        {
-                            // DPS Fury 2M 30305001332-05052005025010051
-                            ptal = "30305001332-05052005025010051";
-                        }
-                        else
-                        {
-                            // DPS Fury 1M 30305001302-05050005525010051
-                            ptal = "30305001302-05050005525010051";
-                        }
-                    }
-
-                    string[] talents = ptal.Split('-');
-                    string arms = talents.Length > 0 ? talents[0] : "";
-                    string fury = talents.Length > 1 ? talents[1] : "";
-                    string prot = talents.Length > 2 ? talents[2] : "";
-
-                    // Arms
-                    playerBase.Talents.Add("IHS", arms.Length > 0 ? (int)Char.GetNumericValue(arms[0]) : 0);
-                    playerBase.Talents.Add("DW", arms.Length > 8 ? (int)Char.GetNumericValue(arms[8]) : 0);
-                    playerBase.Talents.Add("2HS", arms.Length > 9 ? (int)Char.GetNumericValue(arms[9]) : 0);
-                    playerBase.Talents.Add("Impale", arms.Length > 10 ? (int)Char.GetNumericValue(arms[10]) : 0);
-                    // Fury
-                    playerBase.Talents.Add("Cruelty", fury.Length > 1 ? (int)Char.GetNumericValue(fury[1]) : 0);
-                    playerBase.Talents.Add("UW", fury.Length > 3 ? (int)Char.GetNumericValue(fury[3]) : 0);
-                    playerBase.Talents.Add("IBS", fury.Length > 7 ? (int)Char.GetNumericValue(fury[7]) : 0);
-                    playerBase.Talents.Add("DWS", fury.Length > 8 ? (int)Char.GetNumericValue(fury[8]) : 0);
-                    playerBase.Talents.Add("IE", fury.Length > 9 ? (int)Char.GetNumericValue(fury[9]) : 0);
-                    playerBase.Talents.Add("IS", fury.Length > 11 ? (int)Char.GetNumericValue(fury[11]) : 0);
-                    playerBase.Talents.Add("Flurry", fury.Length > 15 ? (int)Char.GetNumericValue(fury[15]) : 0);
-                }
-                else if(playerBase.Class == Player.Classes.Druid)
-                {
-                    if(ptal == null || ptal == "")
-                    {
-                        // DPS Feral 014005301-5500021323202151-05
-                        ptal = "014005301-5500021323202151-05";
-                    }
-                    
-                    string[] talents = ptal.Split('-');
-                    string balance = talents.Length > 0 ? talents[0] : "";
-                    string feral = talents.Length > 1 ? talents[1] : "";
-                    string resto = talents.Length > 2 ? talents[2] : "";
-
-                    // Balance
-                    playerBase.Talents.Add("NW", balance.Length > 5 ? (int)Char.GetNumericValue(balance[5]) : 0);
-                    playerBase.Talents.Add("NS", balance.Length > 6 ? (int)Char.GetNumericValue(balance[6]) : 0);
-                    playerBase.Talents.Add("OC", balance.Length > 8 ? (int)Char.GetNumericValue(balance[8]) : 0);
-                    // Feral
-                    playerBase.Talents.Add("Fero", feral.Length > 0 ? (int)Char.GetNumericValue(feral[0]) : 0);
-                    playerBase.Talents.Add("FA", feral.Length > 1 ? (int)Char.GetNumericValue(feral[1]) : 0);
-                    playerBase.Talents.Add("SC", feral.Length > 7 ? (int)Char.GetNumericValue(feral[7]) : 0);
-                    playerBase.Talents.Add("IS", feral.Length > 8 ? (int)Char.GetNumericValue(feral[8]) : 0);
-                    playerBase.Talents.Add("PS", feral.Length > 9 ? (int)Char.GetNumericValue(feral[9]) : 0);
-                    playerBase.Talents.Add("BF", feral.Length > 10 ? (int)Char.GetNumericValue(feral[10]) : 0);
-                    playerBase.Talents.Add("SF", feral.Length > 12 ? (int)Char.GetNumericValue(feral[12]) : 0);
-                    playerBase.Talents.Add("HW", feral.Length > 14 ? (int)Char.GetNumericValue(feral[14]) : 0);
-                    // Resto
-                    playerBase.Talents.Add("Furor", resto.Length > 1 ? (int)Char.GetNumericValue(resto[1]) : 0);
-                }
-                else if(playerBase.Class == Player.Classes.Rogue)
-                {
-                    if (ptal == null || ptal == "")
-                    {
-                        if(playerBase.MH.Type == Weapon.WeaponType.Dagger)
-                        {
-                            // Combat Daggers
-                            ptal = "005303103-3203052020550100201-05";
-                        }
-                        else if (playerBase.MH.Type == Weapon.WeaponType.Fist)
-                        {
-                            // Combat Fists
-                            ptal = "005323105-3210052020050105231";
-                        }
-                        else
-                        {
-                            // Combat Sword
-                            ptal = "005323105-3210052020050150231";
-                        }
-                    }
-
-                    string[] talents = ptal.Split('-');
-                    string assass = talents.Length > 0 ? talents[0] : "";
-                    string combat = talents.Length > 1 ? talents[1] : "";
-                    string subti = talents.Length > 2 ? talents[2] : "";
-
-                    // Assassination
-                    playerBase.Talents.Add("IE", assass.Length > 0 ? (int)Char.GetNumericValue(assass[0]) : 0);
-                    playerBase.Talents.Add("Malice", assass.Length > 2 ? (int)Char.GetNumericValue(assass[2]) : 0);
-                    playerBase.Talents.Add("Ruth", assass.Length > 3 ? (int)Char.GetNumericValue(assass[3]) : 0);
-                    playerBase.Talents.Add("Murder", (assass.Length > 4 && (jsonSim.Boss.Type == "Humanoid" || jsonSim.Boss.Type == "Giant" || jsonSim.Boss.Type == "Beast" || jsonSim.Boss.Type == "Dragonkin"))
-                         ? (int)Char.GetNumericValue(assass[4]) : 0);
-                    playerBase.Talents.Add("ISD", assass.Length > 5 ? (int)Char.GetNumericValue(assass[5]) : 0);
-                    playerBase.Talents.Add("RS", assass.Length > 6 ? (int)Char.GetNumericValue(assass[6]) : 0);
-                    playerBase.Talents.Add("Letha", assass.Length > 8 ? (int)Char.GetNumericValue(assass[8]) : 0);
-                    // Combat
-                    playerBase.Talents.Add("IG", combat.Length > 0 ? (int)Char.GetNumericValue(combat[0]) : 0);
-                    playerBase.Talents.Add("ISS", combat.Length > 1 ? (int)Char.GetNumericValue(combat[1]) : 0);
-                    playerBase.Talents.Add("IB", combat.Length > 3 ? (int)Char.GetNumericValue(combat[3]) : 0);
-                    playerBase.Talents.Add("Prec", combat.Length > 5 ? (int)Char.GetNumericValue(combat[5]) : 0);
-                    playerBase.Talents.Add("DS", combat.Length > 10 ? (int)Char.GetNumericValue(combat[10]) : 0);
-                    playerBase.Talents.Add("DWS", combat.Length > 11 ? (int)Char.GetNumericValue(combat[11]) : 0);
-                    playerBase.Talents.Add("BF", combat.Length > 13 ? (int)Char.GetNumericValue(combat[13]) : 0);
-                    playerBase.Talents.Add("SS", combat.Length > 14 ? (int)Char.GetNumericValue(combat[14]) : 0);
-                    playerBase.Talents.Add("FS", combat.Length > 15 ? (int)Char.GetNumericValue(combat[15]) : 0);
-                    playerBase.Talents.Add("WE", combat.Length > 16 ? (int)Char.GetNumericValue(combat[16]) : 0);
-                    playerBase.Talents.Add("Agg", combat.Length > 17 ? (int)Char.GetNumericValue(combat[17]) : 0);
-                    playerBase.Talents.Add("AR", combat.Length > 18 ? (int)Char.GetNumericValue(combat[18]) : 0);
-                    // Subtlety
-                    playerBase.Talents.Add("Oppo", subti.Length > 1 ? (int)Char.GetNumericValue(subti[1]) : 0);
-                }
-
+                playerBase.SetupTalents(jsonPlayer.Talents);
                 playerBase.CalculateAttributes();
                 playerBase.CheckSets();
                 playerBase.ApplySets();
@@ -595,6 +479,8 @@ namespace ClassicCraft
                         logList.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift" });
                     else if (playerBase.Class == Player.Classes.Rogue)
                         logList.AddRange(new List<string>() { "Sinister Strike", "Backstab", "Eviscerate", "Ambush", "Instant Poison" });
+                    else if (playerBase.Class == Player.Classes.Warlock)
+                        logList.AddRange(new List<string>() { "Shadow Bolt" });
 
                     logList.AddRange(new List<string>() { "Deathbringer", "Vis'kag the Bloodletter", "Perdition's Blade" });
 
@@ -631,6 +517,8 @@ namespace ClassicCraft
                     logList = new List<string>() { };
                     if (playerBase.Class == Player.Classes.Warrior)
                         logList.AddRange(new List<string>() { "Deep Wounds" });
+                    if (playerBase.Class == Player.Classes.Warlock)
+                        logList.AddRange(new List<string>() { "Corruption", "Malediction of Agony" });
 
                     foreach (string ac in logList)
                     {

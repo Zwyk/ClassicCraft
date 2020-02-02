@@ -89,7 +89,11 @@ namespace ClassicCraft
 
             if(Program.logFight)
             {
-                string log = string.Format("{0:N2} : {1} {2} for {3} damage", Player.Sim.CurrentTime, ToString(), res.Type, res.Damage);
+                string log = string.Format("{0:N2} : {1} {2}", Player.Sim.CurrentTime, ToString(), res.Type);
+                if(res.Type != ResultType.Miss && res.Type != ResultType.Parry && res.Type != ResultType.Resist && res.Type != ResultType.Dodge)
+                {
+                    log += string.Format(" for {0} damage", res.Damage);
+                }
                 if (!ResourceName().Equals("mana"))
                 {
                     log += string.Format(" ({0} {1}/{2})", ResourceName(), Player.Resource, Player.MaxResource);
@@ -110,7 +114,11 @@ namespace ClassicCraft
         {
             if(Program.logFight)
             {
-                string log = string.Format("{0:N2} : {1} cast ({2} {3}/{4})", Player.Sim.CurrentTime, ToString(), ResourceName(), Player.Resource, Player.MaxResource);
+                string log = string.Format("{0:N2} : {1} cast", Player.Sim.CurrentTime, ToString());
+                if (!ResourceName().Equals("mana"))
+                {
+                    log += string.Format(" ({0} {1}/{2})", ResourceName(), Player.Resource, Player.MaxResource);
+                }
                 if (Player.Form == Player.Forms.Cat || Player.Class == Player.Classes.Rogue)
                 {
                     log += "[combo " + Player.Combo + "]";

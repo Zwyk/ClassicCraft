@@ -32,7 +32,7 @@ namespace ClassicCraft
             else
             {
                 BerserkingBuff r = new BerserkingBuff(Player);
-                r.StartBuff();
+                r.StartEffect();
             }
 
             LogAction();

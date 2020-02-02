@@ -34,7 +34,7 @@ namespace ClassicCraft
             else
             {
                 BloodrageBuff r = new BloodrageBuff(Player);
-                r.StartBuff();
+                r.StartEffect();
             }
 
             LogAction();

@@ -1,4 +1,4 @@
-Date : 2020/02/01 15:36:59
+Date : 2020/02/02 22:03:17
 
 Fight length : 120 seconds (±20%)
 
@@ -13,42 +13,171 @@ Level 63, 336 Armor (5,76% mitigation)
 
 ---SIM NUMBER 1---
 
-0,00 : Shadow Bolt started cast - Mana 5213/5213
-3,02 : Shadow Bolt Hit for 445 damage - Mana 4843/5213
-3,02 : Shadow Bolt started cast - Mana 4843/5213
-6,03 : Shadow Bolt Hit for 211 damage - Mana 4473/5213
-6,03 : Shadow Bolt started cast - Mana 4473/5213
-9,03 : Shadow Bolt Crit for 317 damage - Mana 4103/5213
-9,03 : Shadow Bolt started cast - Mana 4103/5213
-12,03 : Shadow Bolt Hit for 216 damage - Mana 3733/5213
-12,03 : Shadow Bolt started cast - Mana 3733/5213
-15,03 : Shadow Bolt Resist for 0 damage - Mana 3363/5213
-15,03 : Shadow Bolt started cast - Mana 3363/5213
-18,05 : Shadow Bolt Resist for 0 damage - Mana 2993/5213
-18,05 : Shadow Bolt started cast - Mana 2993/5213
-21,07 : Shadow Bolt Hit for 218 damage - Mana 2623/5213
-21,07 : Shadow Bolt started cast - Mana 2623/5213
-24,10 : Shadow Bolt Resist for 0 damage - Mana 2253/5213
-24,10 : Shadow Bolt started cast - Mana 2253/5213
-27,12 : Shadow Bolt Resist for 0 damage - Mana 1883/5213
-27,12 : Shadow Bolt started cast - Mana 1883/5213
-30,15 : Shadow Bolt Hit for 212 damage - Mana 1513/5213
-30,15 : Shadow Bolt started cast - Mana 1513/5213
-33,17 : Shadow Bolt Hit for 215 damage - Mana 1143/5213
-33,17 : Shadow Bolt started cast - Mana 1143/5213
-36,20 : Shadow Bolt Hit for 214 damage - Mana 773/5213
-36,20 : Shadow Bolt started cast - Mana 773/5213
-39,22 : Shadow Bolt Resist for 0 damage - Mana 403/5213
-39,22 : Shadow Bolt started cast - Mana 403/5213
-42,25 : Shadow Bolt Hit for 223 damage - Mana 33/5213
-61,27 : Shadow Bolt started cast - Mana 377/5213
-64,30 : Shadow Bolt Resist for 0 damage - Mana 50/5213
-83,30 : Shadow Bolt started cast - Mana 394/5213
-86,30 : Shadow Bolt Hit for 217 damage - Mana 67/5213
-105,30 : Shadow Bolt started cast - Mana 411/5213
-108,30 : Shadow Bolt Crit for 636 damage - Mana 84/5213
+0,00 : Corruption started
+1,53 : Shadow Bolt started cast - Mana 4923/5213
+3,02 : Corruption ticks for 214 damage
+4,05 : Shadow Vulnerability started
+4,05 : Shadow Bolt Crit for 2011 damage - Mana 4554/5213
+4,05 : Shadow Bolt started cast - Mana 4554/5213
+6,00 : Corruption ticks for 257 damage
+6,55 : Shadow Bolt Hit for 1192 damage - Mana 4185/5213
+6,55 : Shadow Bolt started cast - Mana 4185/5213
+9,00 : Corruption ticks for 257 damage
+9,05 : Shadow Bolt Hit for 1196 damage - Mana 3816/5213
+9,05 : Shadow Bolt started cast - Mana 3816/5213
+11,55 : Shadow Bolt Hit for 1221 damage - Mana 3447/5213
+11,55 : Shadow Bolt started cast - Mana 3447/5213
+12,00 : Corruption ticks for 257 damage
+14,05 : Shadow Vulnerability ended
+14,05 : Shadow Bolt Hit for 1205 damage - Mana 3078/5213
+14,05 : Shadow Bolt started cast - Mana 3078/5213
+15,00 : Corruption ticks for 214 damage
+16,58 : Shadow Bolt Resist - Mana 2709/5213
+16,58 : Life Tap cast - Mana 3166/5213
+18,00 : Corruption ticks for 214 damage
+18,00 : Corruption ended
+18,10 : Corruption started
+19,63 : Shadow Bolt started cast - Mana 2876/5213
+21,12 : Corruption ticks for 214 damage
+22,15 : Shadow Vulnerability started
+22,15 : Shadow Bolt Crit for 1981 damage - Mana 2507/5213
+22,15 : Shadow Bolt started cast - Mana 2507/5213
+24,12 : Corruption ticks for 257 damage
+24,67 : Shadow Vulnerability refreshed
+24,67 : Shadow Bolt Crit for 2347 damage - Mana 2138/5213
+24,67 : Shadow Bolt started cast - Mana 2138/5213
+27,12 : Corruption ticks for 257 damage
+27,20 : Shadow Bolt Hit for 1215 damage - Mana 1769/5213
+27,20 : Shadow Bolt started cast - Mana 1769/5213
+29,72 : Shadow Vulnerability refreshed
+29,72 : Shadow Bolt Crit for 2433 damage - Mana 1400/5213
+29,72 : Shadow Bolt started cast - Mana 1400/5213
+30,12 : Corruption ticks for 257 damage
+32,25 : Shadow Bolt Hit for 1192 damage - Mana 1031/5213
+32,25 : Shadow Bolt started cast - Mana 1031/5213
+33,12 : Corruption ticks for 257 damage
+34,77 : Shadow Vulnerability refreshed
+34,77 : Shadow Bolt Crit for 2391 damage - Mana 662/5213
+34,77 : Life Tap cast - Mana 1119/5213
+36,12 : Corruption ticks for 257 damage
+36,12 : Corruption ended
+36,30 : Corruption started
+37,82 : Shadow Bolt started cast - Mana 829/5213
+39,32 : Corruption ticks for 257 damage
+40,35 : Shadow Bolt Hit for 1232 damage - Mana 460/5213
+40,35 : Shadow Bolt started cast - Mana 460/5213
+42,32 : Corruption ticks for 257 damage
+42,87 : Shadow Bolt Hit for 1223 damage - Mana 91/5213
+42,87 : Life Tap cast - Mana 548/5213
+44,40 : Shadow Bolt started cast - Mana 548/5213
+45,32 : Corruption ticks for 257 damage
+46,80 : Shadow Vulnerability ended
+46,92 : Shadow Bolt Resist - Mana 179/5213
+46,92 : Life Tap cast - Mana 636/5213
+48,32 : Corruption ticks for 214 damage
+48,45 : Shadow Bolt started cast - Mana 636/5213
+50,97 : Shadow Bolt Hit for 1016 damage - Mana 267/5213
+50,97 : Life Tap cast - Mana 724/5213
+51,32 : Corruption ticks for 214 damage
+52,50 : Life Tap cast - Mana 1181/5213
+54,02 : Life Tap cast - Mana 1638/5213
+54,32 : Corruption ticks for 214 damage
+54,32 : Corruption ended
+55,55 : Corruption started
+57,07 : Shadow Bolt started cast - Mana 1348/5213
+58,57 : Corruption ticks for 214 damage
+59,60 : Shadow Vulnerability started
+59,60 : Shadow Bolt Crit for 2055 damage - Mana 979/5213
+59,60 : Shadow Bolt started cast - Mana 979/5213
+61,57 : Corruption ticks for 257 damage
+62,12 : Shadow Bolt Hit for 1175 damage - Mana 610/5213
+62,12 : Shadow Bolt started cast - Mana 610/5213
+64,57 : Corruption ticks for 257 damage
+64,62 : Shadow Bolt Hit for 1171 damage - Mana 241/5213
+64,62 : Life Tap cast - Mana 698/5213
+66,12 : Shadow Bolt started cast - Mana 698/5213
+67,55 : Corruption ticks for 257 damage
+68,62 : Shadow Bolt Hit for 1185 damage - Mana 329/5213
+68,62 : Life Tap cast - Mana 786/5213
+70,12 : Shadow Bolt started cast - Mana 786/5213
+70,55 : Corruption ticks for 257 damage
+71,60 : Shadow Vulnerability ended
+72,62 : Shadow Bolt Hit for 995 damage - Mana 417/5213
+72,62 : Life Tap cast - Mana 874/5213
+73,55 : Corruption ticks for 214 damage
+73,55 : Corruption ended
+75,63 : Corruption started
+77,13 : Life Tap cast - Mana 751/5213
+78,63 : Corruption ticks for 214 damage
+78,63 : Shadow Bolt started cast - Mana 751/5213
+81,13 : Shadow Bolt Hit for 973 damage - Mana 425/5213
+81,13 : Shadow Bolt started cast - Mana 425/5213
+81,63 : Corruption ticks for 214 damage
+83,63 : Shadow Bolt Hit for 1007 damage - Mana 56/5213
+83,63 : Life Tap cast - Mana 513/5213
+84,63 : Corruption ticks for 214 damage
+85,13 : Shadow Bolt started cast - Mana 513/5213
+87,63 : Corruption ticks for 214 damage
+87,63 : Shadow Bolt Resist - Mana 144/5213
+87,63 : Life Tap cast - Mana 601/5213
+89,13 : Shadow Bolt started cast - Mana 601/5213
+90,63 : Corruption ticks for 214 damage
+91,63 : Shadow Bolt Resist - Mana 232/5213
+91,63 : Life Tap cast - Mana 689/5213
+93,13 : Life Tap cast - Mana 1146/5213
+93,63 : Corruption ticks for 214 damage
+93,63 : Corruption ended
+94,63 : Corruption started
+96,13 : Shadow Bolt started cast - Mana 856/5213
+97,63 : Corruption ticks for 214 damage
+98,63 : Shadow Bolt Hit for 1000 damage - Mana 487/5213
+98,63 : Shadow Bolt started cast - Mana 487/5213
+100,63 : Corruption ticks for 214 damage
+101,13 : Shadow Vulnerability started
+101,13 : Shadow Bolt Crit for 1990 damage - Mana 118/5213
+101,13 : Life Tap cast - Mana 575/5213
+102,63 : Shadow Bolt started cast - Mana 575/5213
+103,63 : Corruption ticks for 257 damage
+105,13 : Shadow Bolt Hit for 1209 damage - Mana 206/5213
+105,13 : Life Tap cast - Mana 663/5213
+106,63 : Corruption ticks for 257 damage
+106,63 : Shadow Bolt started cast - Mana 663/5213
+109,13 : Shadow Bolt Resist - Mana 294/5213
+109,13 : Life Tap cast - Mana 751/5213
+109,63 : Corruption ticks for 257 damage
+110,63 : Life Tap cast - Mana 1208/5213
+112,13 : Life Tap cast - Mana 1665/5213
+112,63 : Corruption ticks for 257 damage
+112,63 : Corruption ended
+113,13 : Shadow Vulnerability ended
+113,63 : Corruption started
+115,13 : Shadow Bolt started cast - Mana 1375/5213
+116,63 : Corruption ticks for 214 damage
+117,63 : Shadow Bolt Resist - Mana 1006/5213
+117,63 : Shadow Bolt started cast - Mana 1006/5213
+119,63 : Corruption ticks for 214 damage
+120,13 : Shadow Vulnerability started
+120,13 : Shadow Bolt Crit for 1993 damage - Mana 637/5213
+120,13 : Shadow Bolt started cast - Mana 637/5213
+122,63 : Corruption ticks for 257 damage
+122,63 : Shadow Bolt Hit for 1183 damage - Mana 268/5213
+122,63 : Life Tap cast - Mana 725/5213
+124,13 : Shadow Bolt started cast - Mana 725/5213
+125,63 : Corruption ticks for 257 damage
+126,63 : Shadow Bolt Hit for 1223 damage - Mana 356/5213
+126,63 : Life Tap cast - Mana 813/5213
+128,13 : Shadow Bolt started cast - Mana 813/5213
+128,63 : Corruption ticks for 257 damage
 
-1 simulations done in 13,96 ms, for 13,96 ms by sim
+1 simulations done in 26,93 ms, for 26,93 ms by sim
 Overall accuracy of results : ±0,00%
 
-Average DPS : 28,20 dps (±0,00)
+Average DPS : 377,60 dps (±0,00)
+
+Average stats for [Shadow Bolt] : 325,12 DPS (86,10%)
+	Average of 1 182,24 damage for 33,00 uses (or 1 use every 3,64s)
+	57,58% Hit, 24,24% Crit, 18,18% Resist
+
+Average stats for [Corruption] : 81,00 DPS (21,45%)
+	Average of 237,07 damage for 41,00 ticks (or 1 tick every 2,93s)
+	102,50% Uptime

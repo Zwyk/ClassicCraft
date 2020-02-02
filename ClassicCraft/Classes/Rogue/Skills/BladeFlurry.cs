@@ -32,7 +32,7 @@ namespace ClassicCraft
             else
             {
                 BladeFlurryBuff r = new BladeFlurryBuff(Player);
-                r.StartBuff();
+                r.StartEffect();
             }
 
             LogAction();

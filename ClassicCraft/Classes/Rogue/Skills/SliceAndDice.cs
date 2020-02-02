@@ -32,7 +32,7 @@ namespace ClassicCraft
             else
             {
                 SliceAndDiceBuff r = new SliceAndDiceBuff(Player);
-                r.StartBuff();
+                r.StartEffect();
             }
 
             Player.Combo = 0;

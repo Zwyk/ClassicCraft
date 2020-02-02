@@ -32,7 +32,7 @@ namespace ClassicCraft
             else
             {
                 BattleShoutBuff r = new BattleShoutBuff(Player);
-                r.StartBuff();
+                r.StartEffect();
             }
 
             LogAction();

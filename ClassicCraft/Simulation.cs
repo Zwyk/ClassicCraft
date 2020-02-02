@@ -91,6 +91,27 @@ namespace ClassicCraft
             }
 
             Boss.Effects.RemoveAll(e => e.Ended);
+            
+            if (Player.casting != null && Player.casting.CastFinish <= CurrentTime)
+            {
+                Player.casting.DoAction();
+            }
+
+            foreach (Effect e in Player.Effects)
+            {
+                e.CheckEffect();
+            }
+
+            Player.Effects.RemoveAll(e => e.Ended);
+
+            if (Player.Class == Player.Classes.Rogue || Player.Class == Player.Classes.Druid)
+            {
+                Player.CheckEnergyTick();
+            }
+            if (Player.MaxMana > 0)
+            {
+                Player.CheckManaTick();
+            }
 
             Player.Rota();
         }
@@ -167,9 +188,9 @@ namespace ClassicCraft
             return 1;
         }
 
-        public static double MagicMitigation(int resistance)
+        public static ResultType MagicMitigationBinary(int resistance)
         {
-            return Randomer.NextDouble() < AverageResistChance(resistance) ? 1 : 0;
+            return Randomer.NextDouble() < AverageResistChance(resistance) ? ResultType.Hit : ResultType.Resist;
         }
 
         public static double AverageResistChance(int resistance, int attackerLevel = 60)

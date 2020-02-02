@@ -39,9 +39,9 @@ namespace ClassicCraft
 
         public virtual void CheckEffect()
         {
-            if (End < Player.Sim.CurrentTime)
+            if (!Ended && End < Player.Sim.CurrentTime)
             {
-                EndBuff();
+                EndEffect();
             }
         }
 
@@ -57,7 +57,7 @@ namespace ClassicCraft
             }
         }
 
-        public virtual void StartBuff()
+        public virtual void StartEffect()
         {
             Target.Effects.Add(this);
 
@@ -77,11 +77,11 @@ namespace ClassicCraft
             CurrentStacks -= nb;
             if(CurrentStacks < 1)
             {
-                EndBuff();
+                EndEffect();
             }
         }
 
-        public virtual void EndBuff()
+        public virtual void EndEffect()
         {
             End = Player.Sim.CurrentTime;
             Ended = true;

@@ -23,7 +23,7 @@ namespace ClassicCraft
         {
             Weapon weapon = Player.MH;
 
-            ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss, 'B');
+            ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss, ToString());
 
             int minDmg = (int)Math.Round(weapon.DamageMin * 1.5 + Simulation.Normalization(weapon) * (Player.AP + Player.nextAABonus) / 14);
             int maxDmg = (int)Math.Round(weapon.DamageMax * 1.5 + Simulation.Normalization(weapon) * (Player.AP + Player.nextAABonus) / 14);

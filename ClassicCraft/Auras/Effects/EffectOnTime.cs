@@ -20,9 +20,9 @@ namespace ClassicCraft
             NextTick = Player.Sim.CurrentTime + TickDelay;
         }
 
-        public override void StartBuff()
+        public override void StartEffect()
         {
-            base.StartBuff();
+            base.StartEffect();
 
             TickDamage = GetTickDamage();
         }
@@ -31,7 +31,7 @@ namespace ClassicCraft
         {
             if (!Ended && NextTick <= Player.Sim.CurrentTime)
             {
-                ApplyTick(TickDamage);
+                ApplyTick((int)Math.Round(TickDamage * GetExternalModifiers()));
                 NextTick += TickDelay;
             }
 
@@ -44,7 +44,13 @@ namespace ClassicCraft
 
             TickDamage = GetTickDamage();
         }
+
         public abstract int GetTickDamage();
+
+        public virtual double GetExternalModifiers()
+        {
+            return 1;
+        }
 
         public virtual void ApplyTick(int damage)
         {
@@ -52,7 +58,7 @@ namespace ClassicCraft
 
             if(Program.logFight)
             {
-                Program.Log(string.Format("{0:N2} : {1} for {2} damage", Player.Sim.CurrentTime, ToString(), damage));
+                Program.Log(string.Format("{0:N2} : {1} ticks for {2} damage", Player.Sim.CurrentTime, ToString(), damage));
             }
         }
 

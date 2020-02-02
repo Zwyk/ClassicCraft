@@ -32,7 +32,7 @@ namespace ClassicCraft
             else
             {
                 BloodFuryBuff r = new BloodFuryBuff(Player);
-                r.StartBuff();
+                r.StartEffect();
             }
 
             LogAction();

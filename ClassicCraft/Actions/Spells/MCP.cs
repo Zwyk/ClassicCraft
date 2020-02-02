@@ -31,7 +31,7 @@ namespace ClassicCraft
             else
             {
                 MCPBuff r = new MCPBuff(Player);
-                r.StartBuff();
+                r.StartEffect();
             }
 
             LogAction();

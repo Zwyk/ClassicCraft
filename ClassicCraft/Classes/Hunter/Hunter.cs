@@ -22,5 +22,19 @@ namespace ClassicCraft
             : base(s, Classes.Hunter, r, level, items, talents, buffs)
         {
         }
+
+        public override void Rota()
+        {
+            throw new NotImplementedException();
+        }
+
+        #region Talents
+
+        public override void SetupTalents(string ptal)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

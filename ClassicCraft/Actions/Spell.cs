@@ -11,6 +11,7 @@ namespace ClassicCraft
         public double CastTime { get; set; }
         public double TravelSpeed { get; set; }
         public double CastFinish;
+        public double CastTimeWithGCD { get { return Math.Max(CastTime, AffectedByGCD ? Player.GCD : 0); } }
 
         public Spell(Player p, double baseCD, int resourceCost, bool useMana = false, bool gcd = true, School school = School.Magical, double castTime = 0, double travelSpeed = 0)
             : base(p, baseCD, resourceCost, gcd, useMana, school)
@@ -43,10 +44,7 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            if(CastTime > 0)
-            {
-                Player.casting = null;
-            }
+            Player.casting = null;
 
             Player.ResetMHSwing();
         }

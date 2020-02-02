@@ -8,10 +8,12 @@ namespace ClassicCraft
 {
     class DeepWounds : EffectOnTime
     {
+        public static double DURATION = 12;
+
         public double Ratio { get; set; }
 
-        public DeepWounds(Player p, int points, Entity target, bool friendly = false, double baseLength = 12, int baseStacks = 1)
-            : base(p, target, friendly, baseLength, baseStacks)
+        public DeepWounds(Player p, int points, Entity target)
+            : base(p, target, false, DURATION, 1)
         {
             Ratio = 0.2 * points;
         }
@@ -27,7 +29,7 @@ namespace ClassicCraft
                 else
                 {
                     DeepWounds dw = new DeepWounds(p, points, p.Sim.Boss);
-                    dw.StartBuff();
+                    dw.StartEffect();
                 }
             }
         }
@@ -38,11 +40,15 @@ namespace ClassicCraft
             int maxDmg = (int)Math.Round(Player.MH.DamageMax + Player.MH.Speed * Player.AP / 14);
 
             int damage = (int)Math.Round((minDmg + maxDmg) / 2
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor)
                 * (Player.DualWielding ? 1 : 1.03)
                 * Ratio);
 
             return (int)Math.Round(damage / BaseLength * TickDelay);
+        }
+        
+        public override double GetExternalModifiers()
+        {
+            return base.GetExternalModifiers() * Simulation.ArmorMitigation(Target.Armor);
         }
 
         public override string ToString()

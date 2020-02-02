@@ -15,16 +15,16 @@ namespace ClassicCraft
         {
         }
 
-        public override void StartBuff()
+        public override void StartEffect()
         {
-            base.StartBuff();
+            base.StartEffect();
 
             Player.DamageMod *= 1.2;
         }
 
-        public override void EndBuff()
+        public override void EndEffect()
         {
-            base.EndBuff();
+            base.EndEffect();
 
             Player.DamageMod /= 1.2;
         }

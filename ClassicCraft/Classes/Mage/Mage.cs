@@ -22,5 +22,15 @@ namespace ClassicCraft
             : base(s, Classes.Mage, r, level, items, talents, buffs)
         {
         }
+
+        public override void Rota()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void SetupTalents(string ptal)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

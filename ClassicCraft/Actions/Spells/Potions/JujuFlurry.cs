@@ -25,7 +25,7 @@ namespace ClassicCraft
             else
             {
                 JujuFlurryBuff r = new JujuFlurryBuff(Player);
-                r.StartBuff();
+                r.StartEffect();
             }
 
             LogAction();

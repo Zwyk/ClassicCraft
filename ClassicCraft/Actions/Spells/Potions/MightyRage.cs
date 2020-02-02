@@ -25,7 +25,7 @@ namespace ClassicCraft
             else
             {
                 MightyRageBuff r = new MightyRageBuff(Player);
-                r.StartBuff();
+                r.StartEffect();
             }
 
             LogAction();
@@ -33,7 +33,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Juju Flurry Potion";
+            return "Mighty Rage Potion";
         }
     }
 }

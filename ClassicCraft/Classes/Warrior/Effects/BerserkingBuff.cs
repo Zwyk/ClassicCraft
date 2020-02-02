@@ -18,18 +18,18 @@ namespace ClassicCraft
             Bonus = 1 + bonusPct / 100;
         }
 
-        public override void StartBuff()
+        public override void StartEffect()
         {
-            base.StartBuff();
+            base.StartEffect();
 
             //Bonus = 1.1 + 0.2 * (1 - Player.LifePct);
 
             Player.HasteMod *= Bonus;
         }
 
-        public override void EndBuff()
+        public override void EndEffect()
         {
-            base.EndBuff();
+            base.EndEffect();
 
             Player.HasteMod /= Bonus;
         }

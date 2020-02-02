@@ -75,7 +75,6 @@ namespace ClassicCraft
 
         public void CastNextSwing()
         {
-            Program.Log(LockedUntil + " + " + CurrentSpeed());
             LockedUntil += CurrentSpeed();
         }
 

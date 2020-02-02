@@ -33,11 +33,11 @@ namespace ClassicCraft
             else if (type == ResultType.Crit)
             {
                 Flurry flu = new Flurry(p, points, p);
-                flu.StartBuff();
+                flu.StartEffect();
             }
         }
 
-        public override void StartBuff()
+        public override void StartEffect()
         {
             Target.Effects.Add(this);
 
@@ -49,7 +49,7 @@ namespace ClassicCraft
             }
         }
 
-        public override void EndBuff()
+        public override void EndEffect()
         {
             End = Player.Sim.CurrentTime;
             Ended = true;

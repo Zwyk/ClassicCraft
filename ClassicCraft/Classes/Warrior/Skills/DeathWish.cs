@@ -32,7 +32,7 @@ namespace ClassicCraft
             else
             {
                 DeathWishBuff dw = new DeathWishBuff(Player);
-                dw.StartBuff();
+                dw.StartEffect();
             }
 
             LogAction();

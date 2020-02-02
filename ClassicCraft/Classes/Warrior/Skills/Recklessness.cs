@@ -32,7 +32,7 @@ namespace ClassicCraft
             else
             {
                 RecklessnessBuff r = new RecklessnessBuff(Player);
-                r.StartBuff();
+                r.StartEffect();
             }
 
             LogAction();

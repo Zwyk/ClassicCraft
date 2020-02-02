@@ -32,7 +32,7 @@ namespace ClassicCraft
             else
             {
                 AdrenalineRushBuff r = new AdrenalineRushBuff(Player);
-                r.StartBuff();
+                r.StartEffect();
             }
 
             LogAction();

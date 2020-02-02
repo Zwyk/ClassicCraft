@@ -32,6 +32,41 @@ namespace ClassicCraft
 
         #endregion
 
+        #region Talents
+
+        public override void SetupTalents(string ptal)
+        {
+            if (ptal == null || ptal == "")
+            {
+                // DPS Feral 014005301-5500021323202151-05
+                ptal = "014005301-5500021323202151-05";
+            }
+
+            string[] talents = ptal.Split('-');
+            string balance = talents.Length > 0 ? talents[0] : "";
+            string feral = talents.Length > 1 ? talents[1] : "";
+            string resto = talents.Length > 2 ? talents[2] : "";
+
+            Talents = new Dictionary<string, int>();
+            // Balance
+            Talents.Add("NW", balance.Length > 5 ? (int)Char.GetNumericValue(balance[5]) : 0);
+            Talents.Add("NS", balance.Length > 6 ? (int)Char.GetNumericValue(balance[6]) : 0);
+            Talents.Add("OC", balance.Length > 8 ? (int)Char.GetNumericValue(balance[8]) : 0);
+            // Feral
+            Talents.Add("Fero", feral.Length > 0 ? (int)Char.GetNumericValue(feral[0]) : 0);
+            Talents.Add("FA", feral.Length > 1 ? (int)Char.GetNumericValue(feral[1]) : 0);
+            Talents.Add("SC", feral.Length > 7 ? (int)Char.GetNumericValue(feral[7]) : 0);
+            Talents.Add("IS", feral.Length > 8 ? (int)Char.GetNumericValue(feral[8]) : 0);
+            Talents.Add("PS", feral.Length > 9 ? (int)Char.GetNumericValue(feral[9]) : 0);
+            Talents.Add("BF", feral.Length > 10 ? (int)Char.GetNumericValue(feral[10]) : 0);
+            Talents.Add("SF", feral.Length > 12 ? (int)Char.GetNumericValue(feral[12]) : 0);
+            Talents.Add("HW", feral.Length > 14 ? (int)Char.GetNumericValue(feral[14]) : 0);
+            // Resto
+            Talents.Add("Furor", resto.Length > 1 ? (int)Char.GetNumericValue(resto[1]) : 0);
+        }
+
+        #endregion
+
         #region Rota
 
         public override void PrepFight()
@@ -56,8 +91,6 @@ namespace ClassicCraft
 
         public override void Rota()
         {
-            base.Rota();
-
             if (rota == 0) //SHRED + FB + SHIFT + INNERV
             {
                 if (Form == Forms.Cat)

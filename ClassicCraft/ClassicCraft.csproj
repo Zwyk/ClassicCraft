@@ -73,7 +73,14 @@
     <Compile Include="Classes\Rogue\Skills\SinisterStrike.cs" />
     <Compile Include="Classes\Rogue\Skills\SliceAndDice.cs" />
     <Compile Include="Classes\Shaman\Shaman.cs" />
+    <Compile Include="Classes\Warlock\Effects\CorruptionDoT.cs" />
+    <Compile Include="Classes\Warlock\Effects\CurseOfAgonyDoT.cs" />
+    <Compile Include="Classes\Warlock\Effects\ShadowVulnerability.cs" />
+    <Compile Include="Classes\Warlock\Spells\CurseOfAgony.cs" />
+    <Compile Include="Classes\Warlock\Spells\LifeTap.cs" />
+    <Compile Include="Classes\Warlock\Spells\Corruption.cs" />
     <Compile Include="Classes\Warlock\Spells\ShadowBolt.cs" />
+    <Compile Include="Classes\Warlock\Spells\Shadowburn.cs" />
     <Compile Include="Classes\Warlock\Warlock.cs" />
     <Compile Include="Classes\Warlock\Effects\ShadowTrance.cs" />
     <Compile Include="Classes\Warrior\Skills\BattleShout.cs" />

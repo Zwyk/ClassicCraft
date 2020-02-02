@@ -15,17 +15,17 @@ namespace ClassicCraft
         {
         }
 
-        public override void StartBuff()
+        public override void StartEffect()
         {
-            base.StartBuff();
+            base.StartEffect();
 
             Player.CastingRegenPct += 1;
             Player.MPTRatio += 4;
         }
 
-        public override void EndBuff()
+        public override void EndEffect()
         {
-            base.EndBuff();
+            base.EndEffect();
 
             Player.CastingRegenPct -= 1;
             Player.MPTRatio -= 4;

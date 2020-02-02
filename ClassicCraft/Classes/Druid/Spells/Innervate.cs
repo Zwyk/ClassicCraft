@@ -33,7 +33,7 @@ namespace ClassicCraft
             else
             {
                 InnervateBuff r = new InnervateBuff(Player);
-                r.StartBuff();
+                r.StartEffect();
             }
 
             LogAction();
