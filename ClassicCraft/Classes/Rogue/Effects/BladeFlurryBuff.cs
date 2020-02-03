@@ -31,7 +31,8 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Blade Flurry's Buff";
+            return NAME;
         }
+        public static new string NAME = "Blade Flurry's Buff";
     }
 }

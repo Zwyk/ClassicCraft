@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class Bloodrage : Skill
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Bloodrage";
+
         public static int BASE_COST = 0;
         public static int CD = 60;
 
@@ -26,15 +28,13 @@ namespace ClassicCraft
         {
             Player.Resource += 10;
 
-            if (Player.Effects.Any(e => e is BloodrageBuff))
+            if (Player.Effects.ContainsKey(BloodrageBuff.NAME))
             {
-                Effect current = Player.Effects.Where(e => e is BloodrageBuff).First();
-                current.Refresh();
+                Player.Effects[BloodrageBuff.NAME].Refresh();
             }
             else
             {
-                BloodrageBuff r = new BloodrageBuff(Player);
-                r.StartEffect();
+                new BloodrageBuff(Player).StartEffect();
             }
 
             LogAction();
@@ -46,11 +46,6 @@ namespace ClassicCraft
             {
                 Program.Log(string.Format("{0:N2} : {1} cast for 10 rage (rage {2})", Player.Sim.CurrentTime, ToString(), Player.Resource));
             }
-        }
-
-        public override string ToString()
-        {
-            return "Bloodrage";
         }
     }
 }

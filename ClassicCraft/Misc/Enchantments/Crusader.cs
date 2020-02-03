@@ -23,15 +23,13 @@ namespace ClassicCraft
             {
                 if (Randomer.NextDouble() < weaponSpeed / 60)
                 {
-                    if (p.Effects.Any(e => e is Crusader))
+                    if (p.Effects.ContainsKey(Crusader.NAME))
                     {
-                        Effect current = p.Effects.Where(e => e is Crusader).First();
-                        current.Refresh();
+                        p.Effects[Crusader.NAME].Refresh();
                     }
                     else
                     {
-                        Crusader flu = new Crusader(p);
-                        flu.StartEffect();
+                        new Crusader(p).StartEffect();
                     }
                 }
             }
@@ -55,7 +53,8 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Crusader";
+            return NAME;
         }
+        public static new string NAME = "Crusader";
     }
 }

@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class MightyRageBuff : Effect
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Mighty Rage Buff";
+
         public static int LENGTH = 20;
 
         public MightyRageBuff(Player p, double baseLength = 20)
@@ -30,11 +32,6 @@ namespace ClassicCraft
 
             Player.BonusAttributes.SetValue(Attribute.Strength, Player.BonusAttributes.GetValue(Attribute.Strength) - 60);
             Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) - 120);
-        }
-
-        public override string ToString()
-        {
-            return "Mighty Rage Buff";
         }
     }
 }

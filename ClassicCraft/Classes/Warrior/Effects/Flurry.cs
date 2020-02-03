@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class Flurry : Effect
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Flurry";
+
         public double Haste { get; set; }
 
         public Flurry(Player p, int points, Entity target, double baseLength = 15, int stacks = 3)
@@ -18,9 +20,9 @@ namespace ClassicCraft
 
         public static void CheckProc(Player p, ResultType type, int points, bool extraAA = false)
         {
-            if (p.Effects.Any(e => e is Flurry && e.CurrentStacks > 0))
+            if (p.Effects.ContainsKey(Flurry.NAME))
             {
-                Effect current = p.Effects.Where(e => e is Flurry).First();
+                Effect current = p.Effects[Flurry.NAME];
                 if (type == ResultType.Crit)
                 {
                     current.Refresh();
@@ -39,7 +41,7 @@ namespace ClassicCraft
 
         public override void StartEffect()
         {
-            Target.Effects.Add(this);
+            Target.Effects.Add(NAME, this);
 
             Player.HasteMod *= Haste;
 
@@ -51,20 +53,17 @@ namespace ClassicCraft
 
         public override void EndEffect()
         {
-            End = Player.Sim.CurrentTime;
-            Ended = true;
-
-            Player.HasteMod /= Haste;
-
-            if (Program.logFight)
+            if (Target.Effects.ContainsKey(ToString()))
             {
-                Program.Log(string.Format("{0:N2} : {1} ended (haste = {2})", Player.Sim.CurrentTime, ToString(), Player.HasteMod));
-            }
-        }
+                End = Player.Sim.CurrentTime;
 
-        public override string ToString()
-        {
-            return "Flurry";
+                Player.HasteMod /= Haste;
+
+                if (Program.logFight)
+                {
+                    Program.Log(string.Format("{0:N2} : {1} ended (haste = {2})", Player.Sim.CurrentTime, ToString(), Player.HasteMod));
+                }
+            }
         }
     }
 }

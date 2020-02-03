@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class ShadowTrance : Effect
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Shadow Trance";
+
         public static double PROC_RATE_BY_RANK = 0.02;
         public static int LENGTH = 10;
 
@@ -25,20 +27,15 @@ namespace ClassicCraft
         {
             if (Randomer.NextDouble() < ProcRate(p))
             {
-                if (p.Sim.Boss.Effects.Any(e => e is ShadowTrance))
+                if (p.Sim.Boss.Effects.ContainsKey(NAME))
                 {
-                    p.Sim.Boss.Effects.First(e => e is ShadowTrance).Refresh();
+                    p.Sim.Boss.Effects[NAME].Refresh();
                 }
                 else
                 {
                     new ShadowTrance(p).StartEffect();
                 }
             }
-        }
-
-        public override string ToString()
-        {
-            return "Shadow Trance";
         }
     }
 }

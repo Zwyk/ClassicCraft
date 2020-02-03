@@ -8,8 +8,14 @@ namespace ClassicCraft
 {
     public class UnbridledWrath : Aura
     {
-        public UnbridledWrath(Player p, Entity target)
-            : base(p, target)
+        public static new string NAME = "Unbridled Wrath";
+        public override string ToString()
+        {
+            return NAME;
+        }
+
+        public UnbridledWrath(Player p)
+            : base(p)
         {
         }
 

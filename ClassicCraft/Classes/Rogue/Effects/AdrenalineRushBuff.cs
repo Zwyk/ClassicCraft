@@ -31,7 +31,8 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Adrenaline Rush's Buff";
+            return NAME;
         }
+        public static new string NAME = "Adrenaline Rush's Buff";
     }
 }

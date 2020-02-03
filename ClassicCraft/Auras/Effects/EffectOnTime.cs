@@ -29,7 +29,7 @@ namespace ClassicCraft
 
         public override void CheckEffect()
         {
-            if (!Ended && NextTick <= Player.Sim.CurrentTime)
+            if (NextTick <= Player.Sim.CurrentTime)
             {
                 ApplyTick((int)Math.Round(TickDamage * GetExternalModifiers()));
                 NextTick += TickDelay;
@@ -60,11 +60,6 @@ namespace ClassicCraft
             {
                 Program.Log(string.Format("{0:N2} : {1} ticks for {2} damage", Player.Sim.CurrentTime, ToString(), damage));
             }
-        }
-
-        public override string ToString()
-        {
-            return "Undefined Effect on Time";
         }
     }
 }

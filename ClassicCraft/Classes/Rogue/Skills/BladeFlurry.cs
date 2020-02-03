@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class BladeFlurry : Skill
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Blade Flurry";
+
         public static int BASE_COST = 25;
         public static int CD = 120;
 
@@ -24,23 +26,16 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            if (Player.Effects.Any(e => e is BladeFlurryBuff))
+            if (Player.Effects.ContainsKey(BladeFlurryBuff.NAME))
             {
-                Effect current = Player.Effects.Where(e => e is BladeFlurryBuff).First();
-                current.Refresh();
+                Player.Effects[BladeFlurryBuff.NAME].Refresh();
             }
             else
             {
-                BladeFlurryBuff r = new BladeFlurryBuff(Player);
-                r.StartEffect();
+                new BladeFlurryBuff(Player).StartEffect();
             }
 
             LogAction();
-        }
-
-        public override string ToString()
-        {
-            return "Blade Flurry";
         }
     }
 }

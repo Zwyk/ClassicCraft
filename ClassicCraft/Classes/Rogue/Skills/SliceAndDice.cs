@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class SliceAndDice : Skill
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Slice And Dice";
+
         public static int BASE_COST = 25;
         public static int CD = 0;
 
@@ -24,25 +26,18 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            if (Player.Effects.Any(e => e is SliceAndDiceBuff))
+            if (Player.Effects.ContainsKey(SliceAndDiceBuff.NAME))
             {
-                Effect current = Player.Effects.Where(e => e is SliceAndDiceBuff).First();
-                current.Refresh();
+                Player.Effects[SliceAndDiceBuff.NAME].Refresh();
             }
             else
             {
-                SliceAndDiceBuff r = new SliceAndDiceBuff(Player);
-                r.StartEffect();
+                new SliceAndDiceBuff(Player).StartEffect();
             }
 
             Player.Combo = 0;
 
             LogAction();
-        }
-
-        public override string ToString()
-        {
-            return "Slice And Dice";
         }
     }
 }

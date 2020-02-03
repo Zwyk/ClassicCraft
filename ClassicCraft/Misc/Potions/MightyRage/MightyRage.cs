@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class MightyRage : Potion
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Mighty Rage Potion";
+
         public static int CD = 120;
 
         public MightyRage(Player p)
@@ -17,23 +19,16 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            if (Player.Effects.Any(e => e is MightyRageBuff))
+            if (Player.Effects.ContainsKey(MightyRageBuff.NAME))
             {
-                Effect current = Player.Effects.Where(e => e is MightyRageBuff).First();
-                current.Refresh();
+                Player.Effects[MightyRageBuff.NAME].Refresh();
             }
             else
             {
-                MightyRageBuff r = new MightyRageBuff(Player);
-                r.StartEffect();
+                new MightyRageBuff(Player).StartEffect();
             }
 
             LogAction();
-        }
-
-        public override string ToString()
-        {
-            return "Mighty Rage Potion";
         }
     }
 }

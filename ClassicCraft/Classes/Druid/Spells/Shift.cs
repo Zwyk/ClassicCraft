@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class Shift : Spell
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Shift";
+
         public static int CD = 0;
 
         public Shift(Player p)
@@ -35,11 +37,6 @@ namespace ClassicCraft
 
             LogAction();
             Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Hit, 0), Player.Sim.CurrentTime));
-        }
-
-        public override string ToString()
-        {
-            return "Shift";
         }
     }
 }

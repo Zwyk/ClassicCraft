@@ -8,6 +8,7 @@ namespace ClassicCraft
 {
     public abstract class Effect : Aura
     {
+        public Entity Target { get; set; }
         public bool Friendly { get; set; }
         public double Start { get; set; }
         public double End { get; set; }
@@ -15,10 +16,9 @@ namespace ClassicCraft
         public int BaseStacks { get; set; }
         public int CurrentStacks { get; set; }
         public List<double> AppliedTimes { get; set; }
-        public bool Ended { get; set; }
 
         public Effect(Player p, Entity target, bool friendly, double baseLength, int baseStacks = 1)
-            : base(p, target)
+            : base(p)
         {
             Target = target;
             Friendly = friendly;
@@ -29,7 +29,6 @@ namespace ClassicCraft
             CurrentStacks = BaseStacks;
             AppliedTimes = new List<double>();
             AppliedTimes.Add(Start);
-            Ended = false;
         }
 
         public double RemainingTime()
@@ -39,7 +38,7 @@ namespace ClassicCraft
 
         public virtual void CheckEffect()
         {
-            if (!Ended && End < Player.Sim.CurrentTime)
+            if (End < Player.Sim.CurrentTime)
             {
                 EndEffect();
             }
@@ -59,7 +58,7 @@ namespace ClassicCraft
 
         public virtual void StartEffect()
         {
-            Target.Effects.Add(this);
+            Target.Effects.Add(ToString(), this);
 
             if(Program.logFight)
             {
@@ -83,18 +82,16 @@ namespace ClassicCraft
 
         public virtual void EndEffect()
         {
-            End = Player.Sim.CurrentTime;
-            Ended = true;
-
-            if(Program.logFight)
+            if(Target.Effects.ContainsKey(ToString()))
             {
-                Program.Log(string.Format("{0:N2} : {1} ended", Player.Sim.CurrentTime, ToString()));
-            }
-        }
+                End = Player.Sim.CurrentTime;
+                Target.Effects.Remove(ToString());
 
-        public override string ToString()
-        {
-            return "Undefined Effect";
+                if (Program.logFight)
+                {
+                    Program.Log(string.Format("{0:N2} : {1} ended", Player.Sim.CurrentTime, ToString()));
+                }
+            }
         }
     }
 }

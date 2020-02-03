@@ -53,7 +53,7 @@ namespace ClassicCraft
 
         public int Level { get; set; }
 
-        public List<Effect> Effects { get; set; }
+        public Dictionary<string, Effect> Effects { get; set; }
 
         public Entity(Simulation s, MobType type, int level, int armor = 0, int maxLife = 1, Dictionary<School, int> magicResist = null)
             : base(s)
@@ -88,7 +88,7 @@ namespace ClassicCraft
         public virtual void Reset()
         {
             Life = MaxLife;
-            Effects = new List<Effect>();
+            Effects = new Dictionary<string, Effect>();
         }
 
         public double DodgeChance(int attackerSkill)

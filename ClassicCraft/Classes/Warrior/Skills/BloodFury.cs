@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class BloodFury : Skill
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Blood Fury";
+
         public static int BASE_COST = 0;
         public static int CD = 120;
 
@@ -24,23 +26,16 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            if (Player.Effects.Any(e => e is BloodFuryBuff))
+            if (Player.Effects.ContainsKey(BloodFuryBuff.NAME))
             {
-                Effect current = Player.Effects.Where(e => e is BloodFuryBuff).First();
-                current.Refresh();
+                Player.Effects[BloodFuryBuff.NAME].Refresh();
             }
             else
             {
-                BloodFuryBuff r = new BloodFuryBuff(Player);
-                r.StartEffect();
+                new BloodFuryBuff(Player).StartEffect();
             }
 
             LogAction();
-        }
-
-        public override string ToString()
-        {
-            return "Blood Fury";
         }
     }
 }

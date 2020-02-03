@@ -8,13 +8,18 @@ namespace ClassicCraft
 {
     public class Aura : PlayerObject
     {
-        //public Entity Source { get; set; }
-        public Entity Target { get; set; }
+        public static string NAME = "Undefined Aura";
 
-        public Aura(Player p, Entity target)
+        //public Entity Source { get; set; }
+
+        public Aura(Player p)
             : base(p)
         {
-            Target = target;
+        }
+
+        public override string ToString()
+        {
+            return NAME;
         }
     }
 }

@@ -85,24 +85,20 @@ namespace ClassicCraft
                 Boss.LifePct = 0.10;
             }
 
-            foreach (Effect e in Boss.Effects)
+            foreach (Effect e in new List<Effect>(Boss.Effects.Values))
             {
                 e.CheckEffect();
             }
 
-            Boss.Effects.RemoveAll(e => e.Ended);
-            
+            foreach (Effect e in new List<Effect>(Player.Effects.Values))
+            {
+                e.CheckEffect();
+            }
+
             if (Player.casting != null && Player.casting.CastFinish <= CurrentTime)
             {
                 Player.casting.DoAction();
             }
-
-            foreach (Effect e in Player.Effects)
-            {
-                e.CheckEffect();
-            }
-
-            Player.Effects.RemoveAll(e => e.Ended);
 
             if (Player.Class == Player.Classes.Rogue || Player.Class == Player.Classes.Druid)
             {

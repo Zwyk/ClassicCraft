@@ -59,7 +59,8 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Slice And Dice's Buff";
+            return NAME;
         }
+        public static new string NAME = "Slice And Dice's Buff";
     }
 }

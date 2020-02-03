@@ -31,7 +31,8 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Death Wish's Buff";
+            return NAME;
         }
+        public static new string NAME = "Death Wish's Buff";
     }
 }

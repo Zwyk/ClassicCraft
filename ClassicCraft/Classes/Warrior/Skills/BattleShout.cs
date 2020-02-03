@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class BattleShout : Skill
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Battle Shout";
+
         public static int BASE_COST = 10;
         public static int CD = 0;
 
@@ -24,23 +26,16 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            if (Player.Effects.Any(e => e is BattleShoutBuff))
+            if (Player.Effects.ContainsKey(BattleShoutBuff.NAME))
             {
-                Effect current = Player.Effects.Where(e => e is BattleShoutBuff).First();
-                current.Refresh();
+                Player.Effects[BattleShoutBuff.NAME].Refresh();
             }
             else
             {
-                BattleShoutBuff r = new BattleShoutBuff(Player);
-                r.StartEffect();
+                new BattleShoutBuff(Player).StartEffect();
             }
 
             LogAction();
-        }
-
-        public override string ToString()
-        {
-            return "Battle Shout";
         }
     }
 }

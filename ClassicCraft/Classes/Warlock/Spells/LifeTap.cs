@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class LifeTap : Spell
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Life Tap";
+
         public static int BASE_COST = 424;
         public static int CD = 0;
         public static double CAST_TIME = 0;
@@ -42,11 +44,6 @@ namespace ClassicCraft
             Player.Mana += ManaGain();
 
             LogAction();
-        }
-
-        public override string ToString()
-        {
-            return "Life Tap";
         }
     }
 }

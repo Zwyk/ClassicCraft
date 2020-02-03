@@ -44,7 +44,8 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Hamstring";
+            return NAME;
         }
+        public static new string NAME = "Hamstring";
     }
 }

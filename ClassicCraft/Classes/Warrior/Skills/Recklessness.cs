@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     public class Recklessness : Skill
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Recklessness";
+
         public static int BASE_COST = 0;
         public static int CD = 300;
 
@@ -24,23 +26,16 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            if (Player.Effects.Any(e => e is RecklessnessBuff))
+            if (Player.Effects.ContainsKey(RecklessnessBuff.NAME))
             {
-                Effect current = Player.Effects.Where(e => e is RecklessnessBuff).First();
-                current.Refresh();
+                Player.Effects[RecklessnessBuff.NAME].Refresh();
             }
             else
             {
-                RecklessnessBuff r = new RecklessnessBuff(Player);
-                r.StartEffect();
+                new RecklessnessBuff(Player).StartEffect();
             }
 
             LogAction();
-        }
-
-        public override string ToString()
-        {
-            return "Recklesness";
         }
     }
 }

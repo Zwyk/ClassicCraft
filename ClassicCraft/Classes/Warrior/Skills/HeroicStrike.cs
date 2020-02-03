@@ -64,7 +64,8 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Heroic Strike";
+            return NAME;
         }
+        public static new string NAME = "Heroic Strike";
     }
 }

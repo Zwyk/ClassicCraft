@@ -121,9 +121,9 @@ namespace ClassicCraft
         public override void Rota()
         {
             double sadleft = 0;
-            if (Effects.Any(e => e is SliceAndDiceBuff))
+            if (Effects.ContainsKey(SliceAndDiceBuff.NAME))
             {
-                sadleft = Effects.Where(e => e is SliceAndDiceBuff).First().RemainingTime();
+                sadleft = Effects[SliceAndDiceBuff.NAME].RemainingTime();
             }
 
             if (sadleft > 0)

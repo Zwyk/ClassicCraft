@@ -69,7 +69,8 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Ambush";
+            return NAME;
         }
+        public static new string NAME = "Ambush";
     }
 }

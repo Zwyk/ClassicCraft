@@ -45,7 +45,8 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Whirlwind";
+            return NAME;
         }
+        public static new string NAME = "Whirlwind";
     }
 }

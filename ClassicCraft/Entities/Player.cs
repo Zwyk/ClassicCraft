@@ -1363,18 +1363,9 @@ namespace ClassicCraft
                 }
                 else if (Class == Classes.Druid)
                 {
-                    if (GetTalentPoints("OC") > 0
-                        && Randomer.NextDouble() < ClearCasting.PROC_RATE)
+                    if (GetTalentPoints("OC") > 0)
                     {
-                        if (Effects.Any(e => e is ClearCasting))
-                        {
-                            Effects.Where(e => e is ClearCasting).First().Refresh();
-                        }
-                        else
-                        {
-                            ClearCasting ob = new ClearCasting(this);
-                            ob.StartEffect();
-                        }
+                        ClearCasting.CheckProc(this);
                     }
                 }
                 else if (Class == Classes.Rogue)
@@ -1591,7 +1582,7 @@ namespace ClassicCraft
             if (Sim.CurrentTime >= ResourcesTick + 2)
             {
                 ResourcesTick = ResourcesTick + 2;
-                Resource += 20 * (Effects.Any(e => e is AdrenalineRushBuff) ? 2 : 1);
+                Resource += 20 * (Effects.ContainsKey(AdrenalineRushBuff.NAME) ? 2 : 1);
                 if (Program.logFight)
                 {
                     Program.Log(string.Format("{0:N2} : Energy ticks ({1}/{2})", Sim.CurrentTime, Resource, MaxResource));
@@ -1747,7 +1738,7 @@ namespace ClassicCraft
 
             Dictionary<ResultType, double> table = HitChancesByEnemy[enemy].YellowHitChances;
 
-            if (Class == Classes.Warrior && Effects.Any(e => e is RecklessnessBuff))
+            if (Class == Classes.Warrior && Effects.ContainsKey(RecklessnessBuff.NAME))
             {
                 table = new Dictionary<ResultType, double>(table);
                 table[ResultType.Crit] = 1;

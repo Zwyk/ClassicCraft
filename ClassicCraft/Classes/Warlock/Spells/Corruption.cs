@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class Corruption : Spell
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Corruption";
+        
         public static int BASE_COST = 290;
         public static int CD = 0;
         public static double CAST_TIME = 2;
@@ -31,20 +33,15 @@ namespace ClassicCraft
             
             if(res == ResultType.Hit)
             {
-                if (Player.Sim.Boss.Effects.Any(e => e is CorruptionDoT))
+                if (Player.Sim.Boss.Effects.ContainsKey(CorruptionDoT.NAME))
                 {
-                    Player.Sim.Boss.Effects.Where(e => e is CorruptionDoT).First().Refresh();
+                    Player.Sim.Boss.Effects[CorruptionDoT.NAME].Refresh();
                 }
                 else
                 {
                     new CorruptionDoT(Player, Player.Sim.Boss).StartEffect();
                 }
             }
-        }
-
-        public override string ToString()
-        {
-            return "Corruption";
         }
     }
 }

@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     public class DeathWish : Skill
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Death Wish";
+
         public static int BASE_COST = 10;
         public static int CD = 180;
 
@@ -24,23 +26,16 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            if (Player.Effects.Any(e => e is DeathWishBuff))
+            if (Player.Effects.ContainsKey(DeathWishBuff.NAME))
             {
-                Effect current = Player.Effects.Where(e => e is DeathWishBuff).First();
-                current.Refresh();
+                Player.Effects[DeathWishBuff.NAME].Refresh();
             }
             else
             {
-                DeathWishBuff dw = new DeathWishBuff(Player);
-                dw.StartEffect();
+                new DeathWishBuff(Player).StartEffect();
             }
 
             LogAction();
-        }
-
-        public override string ToString()
-        {
-            return "Death Wish";
         }
     }
 }

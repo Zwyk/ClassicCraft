@@ -30,7 +30,8 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Bloodrage Buff";
+            return NAME;
         }
+        public static new string NAME = "Bloodrage Buff";
     }
 }

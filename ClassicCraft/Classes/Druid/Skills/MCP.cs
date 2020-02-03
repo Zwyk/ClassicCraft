@@ -23,15 +23,13 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            if (Player.Effects.Any(e => e is MCPBuff))
+            if (Player.Effects.ContainsKey(NAME))
             {
-                Effect current = Player.Effects.Where(e => e is MCPBuff).First();
-                current.Refresh();
+                Player.Effects[NAME].Refresh();
             }
             else
             {
-                MCPBuff r = new MCPBuff(Player);
-                r.StartEffect();
+                new MCPBuff(Player).StartEffect();
             }
 
             LogAction();

@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class JujuFlurryBuff : Effect
+    class MCPBuff : Effect
     {
-        public static int LENGTH = 20;
+        public override string ToString() { return NAME; } public static new string NAME = "MCP Buff";
 
-        public JujuFlurryBuff(Player p, double baseLength = 20)
+        //public static int LENGTH = 30;
+        public static int LENGTH = 300000000;
+
+        public MCPBuff(Player p, double baseLength = 300000000)
             : base(p, p, true, baseLength, 1)
         {
         }
@@ -19,19 +22,14 @@ namespace ClassicCraft
         {
             base.StartEffect();
 
-            Player.HasteMod *= 1.03;
+            Player.HasteMod *= 1.5;
         }
 
         public override void EndEffect()
         {
             base.EndEffect();
 
-            Player.HasteMod /= 1.03;
-        }
-
-        public override string ToString()
-        {
-            return "Juju Flurry Buff";
+            Player.HasteMod /= 1.5;
         }
     }
 }

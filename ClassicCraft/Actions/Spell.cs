@@ -69,10 +69,5 @@ namespace ClassicCraft
                 Program.Log(log);
             }
         }
-
-        public override string ToString()
-        {
-            return "Undefined Spell";
-        }
     }
 }

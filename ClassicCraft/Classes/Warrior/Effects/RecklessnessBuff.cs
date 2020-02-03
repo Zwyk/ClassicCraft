@@ -17,7 +17,8 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Recklessness' Buff";
+            return NAME;
         }
+        public static new string NAME = "Recklessness' Buff";
     }
 }

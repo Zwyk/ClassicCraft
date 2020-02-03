@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class CurseOfAgony : Spell
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Curse of Agony";
+
         public static int BASE_COST = 215;
         public static int CD = 0;
         public static double CAST_TIME = 0;
@@ -31,20 +33,15 @@ namespace ClassicCraft
 
             if (res == ResultType.Hit)
             {
-                if (Player.Sim.Boss.Effects.Any(e => e is CurseOfAgonyDoT))
+                if (Player.Sim.Boss.Effects.ContainsKey(CurseOfAgonyDoT.NAME))
                 {
-                    Player.Sim.Boss.Effects.Where(e => e is CurseOfAgonyDoT).First().Refresh();
+                    Player.Sim.Boss.Effects[CurseOfAgonyDoT.NAME].Refresh();
                 }
                 else
                 {
                     new CurseOfAgonyDoT(Player, Player.Sim.Boss).StartEffect();
                 }
             }
-        }
-
-        public override string ToString()
-        {
-            return "Curse of Agony";
         }
     }
 }

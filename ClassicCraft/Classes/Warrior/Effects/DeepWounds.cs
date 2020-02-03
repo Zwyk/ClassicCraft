@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class DeepWounds : EffectOnTime
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Deep Wounds";
+
         public static double DURATION = 12;
 
         public double Ratio { get; set; }
@@ -22,14 +24,13 @@ namespace ClassicCraft
         {
             if (type == ResultType.Crit)
             {
-                if (p.Sim.Boss.Effects.Any(e => e is DeepWounds))
+                if (p.Sim.Boss.Effects.ContainsKey(NAME))
                 {
-                    p.Sim.Boss.Effects.Where(e => e is DeepWounds).First().Refresh();
+                    p.Sim.Boss.Effects[NAME].Refresh();
                 }
                 else
                 {
-                    DeepWounds dw = new DeepWounds(p, points, p.Sim.Boss);
-                    dw.StartEffect();
+                    new DeepWounds(p, points, p.Sim.Boss).StartEffect();
                 }
             }
         }
@@ -49,11 +50,6 @@ namespace ClassicCraft
         public override double GetExternalModifiers()
         {
             return base.GetExternalModifiers() * Simulation.ArmorMitigation(Target.Armor);
-        }
-
-        public override string ToString()
-        {
-            return "Deep Wounds";
         }
     }
 }

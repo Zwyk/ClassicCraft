@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     public class JujuFlurry : Potion
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Juju Flurry Potion";
+
         public static int CD = 60;
 
         public JujuFlurry(Player p)
@@ -17,23 +19,16 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            if (Player.Effects.Any(e => e is JujuFlurryBuff))
+            if (Player.Effects.ContainsKey(JujuFlurryBuff.NAME))
             {
-                Effect current = Player.Effects.Where(e => e is JujuFlurryBuff).First();
-                current.Refresh();
+                Player.Effects[JujuFlurryBuff.NAME].Refresh();
             }
             else
             {
-                JujuFlurryBuff r = new JujuFlurryBuff(Player);
-                r.StartEffect();
+                new JujuFlurryBuff(Player).StartEffect();
             }
 
             LogAction();
-        }
-
-        public override string ToString()
-        {
-            return "Juju Flurry Potion";
         }
     }
 }

@@ -163,7 +163,7 @@ namespace ClassicCraft
                     {
                         ww.Cast();
                     }
-                    else if (ham.CanUse() && Resource >= bt.Cost + ww.Cost + hs.Cost && ww.RemainingCD() >= GCD && bt.RemainingCD() >= GCD && (!Effects.Any(e => e is Flurry) || ((Flurry)Effects.Where(f => f is Flurry).First()).CurrentStacks < 3))
+                    else if (ham.CanUse() && Resource >= bt.Cost + ww.Cost + hs.Cost && ww.RemainingCD() >= GCD && bt.RemainingCD() >= GCD && (!Effects.ContainsKey(Flurry.NAME) || ((Flurry)Effects[Flurry.NAME]).CurrentStacks < 3))
                     {
                         ham.Cast();
                     }

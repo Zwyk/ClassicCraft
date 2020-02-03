@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class ClearCasting : Effect
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Clearcasting";
+
         public static double PROC_RATE = 0.06;
         public static int LENGTH = 15;
 
@@ -16,9 +18,19 @@ namespace ClassicCraft
         {
         }
 
-        public override string ToString()
+        public static void CheckProc(Player p)
         {
-            return "Clearcasting";
+            if (Randomer.NextDouble() < PROC_RATE)
+            {
+                if (p.Effects.ContainsKey(NAME))
+                {
+                    p.Effects[NAME].Refresh();
+                }
+                else
+                {
+                    new ClearCasting(p).StartEffect();
+                }
+            }
         }
     }
 }

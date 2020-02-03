@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class CorruptionDoT : EffectOnTime
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Corruption";
+
         public static double DURATION = 18;
         public static double RATIO = 1;
         public static int NB_TICKS = (int)(DURATION / 3);
@@ -40,12 +42,7 @@ namespace ClassicCraft
 
         public override double GetExternalModifiers()
         {
-            return base.GetExternalModifiers() * (Target.Effects.Any(e => e is ShadowVulnerability) ? ((ShadowVulnerability)Target.Effects.First(e => e is ShadowVulnerability)).Modifier : 1);
-        }
-
-        public override string ToString()
-        {
-            return "Corruption";
+            return base.GetExternalModifiers() * (Target.Effects.ContainsKey(ShadowVulnerability.NAME) ? ((ShadowVulnerability)Target.Effects[ShadowVulnerability.NAME]).Modifier : 1);
         }
     }
 }

@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class Berserking : Skill
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Berserking";
+
         public static int BASE_COST = 5;
         public static int CD = 180;
 
@@ -24,23 +26,16 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            if (Player.Effects.Any(e => e is BerserkingBuff))
+            if (Player.Effects.ContainsKey(BerserkingBuff.NAME))
             {
-                Effect current = Player.Effects.Where(e => e is BerserkingBuff).First();
-                current.Refresh();
+                Player.Effects[BerserkingBuff.NAME].Refresh();
             }
             else
             {
-                BerserkingBuff r = new BerserkingBuff(Player);
-                r.StartEffect();
+                new BerserkingBuff(Player).StartEffect();
             }
 
             LogAction();
-        }
-
-        public override string ToString()
-        {
-            return "Berserking";
         }
     }
 }

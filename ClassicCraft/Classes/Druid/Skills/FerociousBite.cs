@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class FerociousBite : Skill
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Ferocious Bite";
+
         public static int BASE_COST = 35;
         public static int CD = 0;
 
@@ -40,7 +42,7 @@ namespace ClassicCraft
 
         public override bool CanUse()
         {
-            return (Player.Effects.Any(e => e is ClearCasting) || Player.Resource >= Cost) && Available() && (AffectedByGCD ? Player.HasGCD() : true) && Player.Combo > 0;
+            return (Player.Effects.ContainsKey(ClearCasting.NAME) || Player.Resource >= Cost) && Available() && (AffectedByGCD ? Player.HasGCD() : true) && Player.Combo > 0;
         }
 
         public override void DoAction()
@@ -52,10 +54,10 @@ namespace ClassicCraft
 
 
             int cost = Cost;
-            if (Player.Effects.Any(e => e is ClearCasting))
+            if (Player.Effects.ContainsKey(ClearCasting.NAME))
             {
                 cost = 0;
-                Player.Effects.Where(e => e is ClearCasting).First().StackRemove();
+                Player.Effects[ClearCasting.NAME].StackRemove();
             }
 
             int damage = (int)Math.Round(
@@ -80,11 +82,6 @@ namespace ClassicCraft
             RegisterDamage(new ActionResult(res, damage));
             
             Player.CheckOnHits(true, false, res);
-        }
-
-        public override string ToString()
-        {
-            return "Ferocious Bite";
         }
     }
 }

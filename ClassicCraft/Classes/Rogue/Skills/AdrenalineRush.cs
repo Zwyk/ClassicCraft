@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class AdrenalineRush : Skill
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Adrenaline Rush";
+
         public static int BASE_COST = 0;
         public static int CD = 300;
 
@@ -24,23 +26,16 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            if (Player.Effects.Any(e => e is AdrenalineRushBuff))
+            if (Player.Effects.ContainsKey(AdrenalineRushBuff.NAME))
             {
-                Effect current = Player.Effects.Where(e => e is AdrenalineRushBuff).First();
-                current.Refresh();
+                Player.Effects[AdrenalineRushBuff.NAME].Refresh();
             }
             else
             {
-                AdrenalineRushBuff r = new AdrenalineRushBuff(Player);
-                r.StartEffect();
+                new AdrenalineRushBuff(Player).StartEffect();
             }
 
             LogAction();
-        }
-
-        public override string ToString()
-        {
-            return "Adrenaline Rush";
         }
     }
 }

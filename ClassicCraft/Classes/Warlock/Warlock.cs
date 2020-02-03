@@ -93,11 +93,11 @@ namespace ClassicCraft
             {
                 if(casting == null)
                 {
-                    if(co.CanUse() && (!Sim.Boss.Effects.Any(e => e is CorruptionDoT) || Sim.Boss.Effects.First(e => e is CorruptionDoT).RemainingTime() < co.CastTime))
+                    if(co.CanUse() && (!Sim.Boss.Effects.ContainsKey(CorruptionDoT.NAME) || Sim.Boss.Effects[CorruptionDoT.NAME].RemainingTime() < co.CastTime))
                     {
                         co.Cast();
                     }
-                    if(sb.CanUse() && Sim.Boss.Effects.Any(e => e is CorruptionDoT) && Sim.Boss.Effects.First(e => e is CorruptionDoT).RemainingTime() > sb.CastTimeWithGCD + co.CastTime)
+                    if(sb.CanUse() && (Sim.Boss.Effects.ContainsKey(CorruptionDoT.NAME) && Sim.Boss.Effects[CorruptionDoT.NAME].RemainingTime() > sb.CastTimeWithGCD + co.CastTime))
                     {
                         sb.Cast();
                     }

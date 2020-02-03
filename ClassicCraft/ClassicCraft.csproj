@@ -90,10 +90,10 @@
     <Compile Include="Classes\Warrior\Skills\DeathWish.cs" />
     <Compile Include="Classes\Warrior\Skills\Execute.cs" />
     <Compile Include="Classes\Warrior\Skills\Hamstring.cs" />
-    <Compile Include="Actions\Spells\MCP.cs" />
-    <Compile Include="Actions\Spells\Potions\JujuFlurry.cs" />
-    <Compile Include="Actions\Spells\Potions\MightyRage.cs" />
-    <Compile Include="Actions\Spells\Potions\Potion.cs" />
+    <Compile Include="Classes\Druid\Skills\MCP.cs" />
+    <Compile Include="Misc\Potions\JujuFlurry\JujuFlurry.cs" />
+    <Compile Include="Misc\Potions\MightyRage\MightyRage.cs" />
+    <Compile Include="Misc\Potions\Potion.cs" />
     <Compile Include="Classes\Warrior\Skills\Recklessness.cs" />
     <Compile Include="Auras\Aura.cs" />
     <Compile Include="Actions\AutoAttack.cs" />
@@ -105,10 +105,10 @@
     <Compile Include="Classes\Warrior\Effects\BloodFuryBuff.cs" />
     <Compile Include="Classes\Warrior\Effects\DeathWishBuff.cs" />
     <Compile Include="Classes\Warrior\Effects\BloodrageBuff.cs" />
-    <Compile Include="Auras\Effects\Enchants\Crusader.cs" />
-    <Compile Include="Auras\Effects\MCPBuff.cs" />
-    <Compile Include="Auras\Effects\Potions\JujuFlurryBuff.cs" />
-    <Compile Include="Auras\Effects\Potions\MightyRageBuff.cs" />
+    <Compile Include="Misc\Enchantments\Crusader.cs" />
+    <Compile Include="Classes\Druid\Effects\MCPBuff.cs" />
+    <Compile Include="Misc\Potions\JujuFlurry\JujuFlurryBuff.cs" />
+    <Compile Include="Misc\Potions\MightyRage\MightyRageBuff.cs" />
     <Compile Include="Classes\Warrior\Effects\RecklessnessBuff.cs" />
     <Compile Include="Classes\Warrior\Spells\Slam.cs" />
     <Compile Include="Classes\Warrior\Warrior.cs" />
@@ -119,30 +119,28 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Classes\Warrior\Effects\Flurry.cs" />
     <Compile Include="Classes\Warrior\Skills\HeroicStrike.cs" />
-    <Compile Include="Items\Enchantment.cs" />
-    <Compile Include="Items\Item.cs" />
+    <Compile Include="Misc\Enchantments\Enchantment.cs" />
+    <Compile Include="Misc\Item.cs" />
     <Compile Include="Entities\Player.cs" />
-    <Compile Include="Items\Slot.cs" />
+    <Compile Include="Misc\Slot.cs" />
     <Compile Include="Utility\JsonUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Actions\Skill.cs" />
-    <Compile Include="Auras\UnbridledWrath.cs" />
-    <Compile Include="Items\Weapons\Weapon.cs" />
+    <Compile Include="Classes\Warrior\Auras\UnbridledWrath.cs" />
+    <Compile Include="Misc\Weapons\Weapon.cs" />
     <Compile Include="Classes\Warrior\Skills\Whirlwind.cs" />
     <Compile Include="Utility\Randomer.cs" />
     <Compile Include="Simulation.cs" />
     <Compile Include="Entities\PlayerObject.cs" />
     <Compile Include="Entities\SimulationObject.cs" />
-    <Compile Include="Items\Attribute.cs" />
+    <Compile Include="Misc\Attribute.cs" />
     <Compile Include="Utility\Stats.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Auras\Effects\EffectsOnTime\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

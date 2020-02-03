@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class Innervate : Spell
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Innervate";
+
         public static int CD = 360;
 
         public Innervate(Player p)
@@ -25,23 +27,16 @@ namespace ClassicCraft
         {
             base.DoAction();
 
-            if (Player.Effects.Any(e => e is InnervateBuff))
+            if (Player.Effects.ContainsKey(InnervateBuff.NAME))
             {
-                Effect current = Player.Effects.Where(e => e is InnervateBuff).First();
-                current.Refresh();
+                Player.Effects[InnervateBuff.NAME].Refresh();
             }
             else
             {
-                InnervateBuff r = new InnervateBuff(Player);
-                r.StartEffect();
+                new InnervateBuff(Player).StartEffect();
             }
 
             LogAction();
-        }
-
-        public override string ToString()
-        {
-            return "Innervate";
         }
     }
 }

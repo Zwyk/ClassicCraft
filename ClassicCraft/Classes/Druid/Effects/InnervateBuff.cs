@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class InnervateBuff : Effect
     {
+        public override string ToString() { return NAME; } public static new string NAME = "Innervate's Buff";
+
         public static int LENGTH = 20;
 
         public InnervateBuff(Player p)
@@ -29,11 +31,6 @@ namespace ClassicCraft
 
             Player.CastingRegenPct -= 1;
             Player.MPTRatio -= 4;
-        }
-
-        public override string ToString()
-        {
-            return "Innervate's Buff";
         }
     }
 }

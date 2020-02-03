@@ -35,7 +35,8 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Battle Shout's Buff";
+            return NAME;
         }
+        public static new string NAME = "Battle Shout's Buff";
     }
 }

@@ -21,7 +21,7 @@ namespace ClassicCraft
 
         public override bool CanUse()
         {
-            return (Player.Effects.Any(e => e is ClearCasting) || Player.Resource >= Cost) && Available() && (AffectedByGCD ? Player.HasGCD() : true);
+            return (Player.Effects.ContainsKey(ClearCasting.NAME) || Player.Resource >= Cost) && Available() && (AffectedByGCD ? Player.HasGCD() : true);
         }
 
         public override void DoAction()
@@ -41,10 +41,10 @@ namespace ClassicCraft
             CommonAction();
 
             int cost = Cost;
-            if(Player.Effects.Any(e => e is ClearCasting))
+            if(Player.Effects.ContainsKey(ClearCasting.NAME))
             {
                 cost = 0;
-                Player.Effects.Where(e => e is ClearCasting).First().StackRemove();
+                Player.Effects[ClearCasting.NAME].StackRemove();
             }
 
             if (res == ResultType.Parry || res == ResultType.Dodge)
@@ -72,9 +72,6 @@ namespace ClassicCraft
             Player.CheckOnHits(true, false, res);
         }
 
-        public override string ToString()
-        {
-            return "Shred";
-        }
+        public override string ToString() { return NAME; } public static new string NAME = "Shred";
     }
 }

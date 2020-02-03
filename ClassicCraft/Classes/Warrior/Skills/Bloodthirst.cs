@@ -48,7 +48,8 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Bloodthirst";
+            return NAME;
         }
+        public static new string NAME = "Bloodthirst";
     }
 }

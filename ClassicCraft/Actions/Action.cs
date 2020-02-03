@@ -31,6 +31,8 @@ namespace ClassicCraft
 
     public abstract class Action : PlayerObject
     {
+        public static string NAME = "Undefined Action";
+
         public double BaseCD { get; set; }
 
         public double LockedUntil { get; set; }
@@ -133,7 +135,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "Undefined Action";
+            return NAME;
         }
     }
 }

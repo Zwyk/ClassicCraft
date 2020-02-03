@@ -97,7 +97,7 @@ namespace ClassicCraft
                 {
                     if (shred.CanUse() && (
                         Combo < 5
-                        || Effects.Any(e => e is ClearCasting)
+                        || Effects.ContainsKey(ClearCasting.NAME)
                         || (Combo > 4 && Resource > fb.Cost + shred.Cost - (20 * (GCDUntil - Sim.CurrentTime) / GCD))
                         ))
                     {
@@ -107,7 +107,7 @@ namespace ClassicCraft
                     {
                         fb.Cast();
                     }
-                    else if (Resource < shred.Cost - 20 && shift.CanUse() && (innerv.Available() || Effects.Any(e => e is InnervateBuff) || ((int)((double)Mana / shift.Cost)) * 4 + 5 >= Sim.FightLength - Sim.CurrentTime || !(ManaTicking() && Mana + MPT() < MaxMana)))
+                    else if (Resource < shred.Cost - 20 && shift.CanUse() && (innerv.Available() || Effects.ContainsKey(InnervateBuff.NAME) || ((int)((double)Mana / shift.Cost)) * 4 + 5 >= Sim.FightLength - Sim.CurrentTime || !(ManaTicking() && Mana + MPT() < MaxMana)))
                     {
                         shift.Cast();
                     }
