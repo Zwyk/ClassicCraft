@@ -22,8 +22,13 @@ namespace ClassicCraft
 
         public override void Cast()
         {
+            StartCast();
+        }
+
+        public virtual void StartCast(bool forceInstant = false)
+        {
             Player.StartGCD();
-            if(CastTime > 0)
+            if (CastTime > 0 && !forceInstant)
             {
                 Player.casting = this;
                 CastFinish = Player.Sim.CurrentTime + CastTime;

@@ -14,7 +14,7 @@ namespace ClassicCraft
         Light,
         Fire,
         Nature,
-        Ice,
+        Frost,
         Arcane,
     }
 

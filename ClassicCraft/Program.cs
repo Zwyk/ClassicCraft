@@ -227,6 +227,19 @@ namespace ClassicCraft
                 Log(playerBase.ToString());
                 Log(playerBase.MainWeaponInfo());
 
+                if(playerBase.Class == Player.Classes.Mage)
+                {
+                    int reduction = playerBase.GetTalentPoints("AS") * 5;
+                    if(reduction > 0)
+                    {
+                        List<JsonUtil.JsonBoss.SchoolResist> l = new List<JsonUtil.JsonBoss.SchoolResist>();
+                        foreach (JsonUtil.JsonBoss.SchoolResist sr in jsonSim.Boss.SchoolResists)
+                        {
+                            l.Add(new JsonUtil.JsonBoss.SchoolResist(sr.School, Math.Max(0, sr.Resist - reduction)));
+                        }
+                        jsonSim.Boss.SchoolResists = l;
+                    }
+                }
                 bossBase = JsonUtil.JsonBoss.ToBoss(jsonSim.Boss, playerBase.Attributes.GetValue(Attribute.ArmorPen));
 
                 Log("\nBoss (after raid debuffs) :");
@@ -592,8 +605,23 @@ namespace ClassicCraft
                 case Player.Classes.Druid:
                     player = new Druid(playerBase);
                     break;
+                case Player.Classes.Hunter:
+                    player = new Hunter(playerBase);
+                    break;
+                case Player.Classes.Mage:
+                    player = new Mage(playerBase);
+                    break;
+                case Player.Classes.Paladin:
+                    player = new Paladin(playerBase);
+                    break;
+                case Player.Classes.Priest:
+                    player = new Priest(playerBase);
+                    break;
                 case Player.Classes.Rogue:
                     player = new Rogue(playerBase);
+                    break;
+                case Player.Classes.Shaman:
+                    player = new Shaman(playerBase);
                     break;
                 case Player.Classes.Warlock:
                     player = new Warlock(playerBase);
@@ -602,7 +630,7 @@ namespace ClassicCraft
                     player = new Warrior(playerBase);
                     break;
                 default:
-                    return;
+                    throw new NotSupportedException("This class isn't supported : " + playerBase.Class);
             }
 
             Boss boss = new Boss(bossBase);

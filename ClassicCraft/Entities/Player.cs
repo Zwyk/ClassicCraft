@@ -906,7 +906,7 @@ namespace ClassicCraft
         public double ManaTick { get; set; }
 
         public double MPTRatio { get; set; }
-        public double CastingRegenPct { get; set; }
+        public double CastingManaRegenRate { get; set; }
 
         public double AP
         {
@@ -1181,7 +1181,7 @@ namespace ClassicCraft
             HasteMod = CalcHaste();
             DamageMod = 1;
             MPTRatio = 1;
-            CastingRegenPct = 0;
+            CastingManaRegenRate = 0;
 
             Form = Forms.Human;
             Stealthed = false;
@@ -1269,6 +1269,20 @@ namespace ClassicCraft
                 Attributes.SetValue(Attribute.SkillDagger, Attributes.GetValue(Attribute.SkillDagger)
                     + (GetTalentPoints("WE") > 0 ? (GetTalentPoints("WE") == 1 ? 3 : 5) : 0));
             }
+            else if(Class == Classes.Warlock)
+            {
+                Attributes.SetValue(Attribute.Stamina, Attributes.GetValue(Attribute.Stamina)
+                    + 0.03 * GetTalentPoints("DE"));
+                Attributes.SetValue(Attribute.Spirit, Attributes.GetValue(Attribute.Spirit)
+                    - 0.01 * GetTalentPoints("DE"));
+            }
+            else if(Class == Classes.Mage)
+            {
+                Attributes.SetValue(Attribute.SpellCritChance, Attributes.GetValue(Attribute.SpellCritChance)
+                    + 0.01 * GetTalentPoints("AI"));
+                DamageMod *= 1 + 0.01 * GetTalentPoints("AI");
+                CastingManaRegenRate += 0.05 * GetTalentPoints("AMed");
+            }
 
             Attributes += BonusAttributesByRace(Race, Attributes);
 
@@ -1285,6 +1299,10 @@ namespace ClassicCraft
             if (Attributes.GetValue(Attribute.Mana) > 0)
             {
                 Attributes.SetValue(Attribute.Mana, Attributes.GetValue(Attribute.Mana) + Attributes.GetValue(Attribute.Intellect) * 15);
+                if(Class == Classes.Mage)
+                {
+                    Attributes.SetValue(Attribute.Mana, Attributes.GetValue(Attribute.Mana) * 1 + (0.02 * GetTalentPoints("AMind")));
+                }
             }
             Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Strength) * StrToAPRatio(Class) + Attributes.GetValue(Attribute.Agility) * AgiToAPRatio(Class));
             Attributes.SetValue(Attribute.RangedAP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Agility) * AgiToRangedAPRatio(Class));
@@ -1597,15 +1615,15 @@ namespace ClassicCraft
 
         public bool ManaTicking()
         {
-            return CastingRegenPct > 0 || Sim.CurrentTime >= LastManaExpenditure + 5;
+            return CastingManaRegenRate > 0 || Sim.CurrentTime >= LastManaExpenditure + 5;
         }
 
         public void CheckManaTick()
         {
             if (ManaTicking() && Sim.CurrentTime >= ManaTick + 2)
             {
-                ManaTick = ManaTick < LastManaExpenditure + 5 ? (CastingRegenPct > 0 ? Sim.CurrentTime : LastManaExpenditure + 5) : ManaTick + 2;
-                Mana += (int)(MPT() * (Sim.CurrentTime < LastManaExpenditure + 5 ? CastingRegenPct : 1) * MPTRatio);
+                ManaTick = ManaTick < LastManaExpenditure + 5 ? (CastingManaRegenRate > 0 ? Sim.CurrentTime : LastManaExpenditure + 5) : ManaTick + 2;
+                Mana += (int)(MPT() * (Sim.CurrentTime < LastManaExpenditure + 5 ? CastingManaRegenRate : 1) * MPTRatio);
             }
         }
 

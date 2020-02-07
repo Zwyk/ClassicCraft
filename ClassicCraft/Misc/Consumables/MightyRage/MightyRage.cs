@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class MightyRage : Potion
+    class MightyRage : Consumable
     {
         public override string ToString() { return NAME; } public static new string NAME = "Mighty Rage Potion";
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    public class JujuFlurry : Potion
+    public class JujuFlurry : Consumable
     {
         public override string ToString() { return NAME; } public static new string NAME = "Juju Flurry Potion";
 

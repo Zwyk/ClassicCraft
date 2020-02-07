@@ -29,16 +29,8 @@ namespace ClassicCraft
 
         public override void Cast()
         {
-            if(Player.Effects.ContainsKey(ShadowTrance.NAME))
-            {
-                CastTime = 0;
-                Player.Effects[ShadowTrance.NAME].EndEffect();
-            }
-            else
-            {
-                CastTime = castTimeKeeper;
-            }
-            base.Cast();
+            StartCast(Player.Effects.ContainsKey(ShadowTrance.NAME));
+            Player.Effects[ShadowTrance.NAME].EndEffect();
         }
 
         public override void DoAction()

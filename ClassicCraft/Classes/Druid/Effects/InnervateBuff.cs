@@ -21,7 +21,7 @@ namespace ClassicCraft
         {
             base.StartEffect();
 
-            Player.CastingRegenPct += 1;
+            Player.CastingManaRegenRate += 1;
             Player.MPTRatio += 4;
         }
 
@@ -29,7 +29,7 @@ namespace ClassicCraft
         {
             base.EndEffect();
 
-            Player.CastingRegenPct -= 1;
+            Player.CastingManaRegenRate -= 1;
             Player.MPTRatio -= 4;
         }
     }

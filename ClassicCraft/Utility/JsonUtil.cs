@@ -254,35 +254,61 @@ namespace ClassicCraft
                     }
                 }
 
-                Player.Classes cl = ToClass(jp.Class);
-                switch(cl)
+                bool windfurytotem = jp.Buffs != null && jp.Buffs.Any(b => b.Name.ToLower().Contains("windfury totem"));
+                List<string> cooldowns = jp.Cooldowns.Where(v => v.Value == true).Select(c => c.Key).ToList();
+                
+                switch(ToClass(jp.Class))
                 {
                     case Player.Classes.Druid:
                         return new Druid(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
                         {
-                            WindfuryTotem = jp.Buffs != null && jp.Buffs.Any(b => b.Name.ToLower().Contains("windfury totem")),
-                            Cooldowns = jp.Cooldowns.Where(v => v.Value == true).Select(c => c.Key).ToList()
+                            WindfuryTotem = windfurytotem,
+                            Cooldowns = cooldowns
+                        };
+                    case Player.Classes.Hunter:
+                        return new Hunter(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
+                        {
+                            WindfuryTotem = windfurytotem,
+                            Cooldowns = cooldowns
+                        };
+                    case Player.Classes.Paladin:
+                        return new Paladin(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
+                        {
+                            WindfuryTotem = windfurytotem,
+                            Cooldowns = cooldowns
+                        };
+                    case Player.Classes.Priest:
+                        return new Priest(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
+                        {
+                            WindfuryTotem = windfurytotem,
+                            Cooldowns = cooldowns
                         };
                     case Player.Classes.Rogue:
                         return new Rogue(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
                         {
-                            WindfuryTotem = jp.Buffs != null && jp.Buffs.Any(b => b.Name.ToLower().Contains("windfury totem")),
-                            Cooldowns = jp.Cooldowns.Where(v => v.Value == true).Select(c => c.Key).ToList()
+                            WindfuryTotem = windfurytotem,
+                            Cooldowns = cooldowns
+                        };
+                    case Player.Classes.Shaman:
+                        return new Shaman(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
+                        {
+                            WindfuryTotem = windfurytotem,
+                            Cooldowns = cooldowns
                         };
                     case Player.Classes.Warlock:
                         return new Warlock(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
                         {
-                            WindfuryTotem = jp.Buffs != null && jp.Buffs.Any(b => b.Name.ToLower().Contains("windfury totem")),
-                            Cooldowns = jp.Cooldowns.Where(v => v.Value == true).Select(c => c.Key).ToList()
+                            WindfuryTotem = windfurytotem,
+                            Cooldowns = cooldowns
                         };
                     case Player.Classes.Warrior:
                         return new Warrior(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
                         {
-                            WindfuryTotem = jp.Buffs != null && jp.Buffs.Any(b => b.Name.ToLower().Contains("windfury totem")),
-                            Cooldowns = jp.Cooldowns.Where(v => v.Value == true).Select(c => c.Key).ToList()
+                            WindfuryTotem = windfurytotem,
+                            Cooldowns = cooldowns
                         };
                     default:
-                        throw new NotImplementedException("This class isn't supported yet");
+                        throw new NotImplementedException("This class isn't supported yet : " + cl);
                 }
             }
 
@@ -342,7 +368,7 @@ namespace ClassicCraft
                         case "All": return ClassicCraft.School.Magical;
                         case "Any": return ClassicCraft.School.Magical;
                         case "Fire": return ClassicCraft.School.Fire;
-                        case "Ice": return ClassicCraft.School.Ice;
+                        case "Ice": return ClassicCraft.School.Frost;
                         case "Shadow": return ClassicCraft.School.Shadow;
                         case "Light": return ClassicCraft.School.Light;
                         case "Arcane": return ClassicCraft.School.Arcane;

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    public class Potion : Skill
+    public abstract class Consumable : Skill
     {
-        public Potion(Player p, double baseCD)
+        public Consumable(Player p, double baseCD)
             : base(p, baseCD, 0, false)
         {
         }
@@ -17,16 +17,6 @@ namespace ClassicCraft
         {
             DoAction();
             CDAction();
-        }
-
-        public override void DoAction()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override string ToString()
-        {
-            return "Undefined Potion";
         }
     }
 }
