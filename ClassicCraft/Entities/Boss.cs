@@ -55,11 +55,6 @@ namespace ClassicCraft
             return 0;
         }
 
-        public override double ParryChance()
-        {
-            return 0;
-        }
-
         public override string ToString()
         {
             return string.Format("Level {0}, {1} Armor ({2:N2}% mitigation)\n", Level, Armor, (1-Simulation.ArmorMitigation(Armor))*100);

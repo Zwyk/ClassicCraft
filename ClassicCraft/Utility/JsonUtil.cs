@@ -308,7 +308,7 @@ namespace ClassicCraft
                             Cooldowns = cooldowns
                         };
                     default:
-                        throw new NotImplementedException("This class isn't supported yet : " + cl);
+                        throw new NotImplementedException("This class isn't supported yet : " + ToClass(jp.Class));
                 }
             }
 

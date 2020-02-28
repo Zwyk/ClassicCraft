@@ -1,8 +1,13 @@
 {
   "Race": "Orc",
-  "Class": "Warlock",
-  "Talents": "25002-2050300152201-52500051020001",
+  "Class": "Warrior",
+  "Talents": "3-05050005405010051-502301105",
   "Cooldowns": {
+    "Racial": false,
+    "Death Wish": true,
+    "Recklessness": false,
+    "Juju Flurry": false,
+    "Mighty Rage": true,
   },
   "Buffs": [
     {
@@ -11,96 +16,153 @@
     {
       "Name": "Test",
       "Stats": {
-        "SP": 0,
+        "Hit": 0,
         "Crit": 0,
         "AP": 0,
         "Haste": 0,
+        "Dagger": 0,
+      }
+    },
+    {
+      "Name": "Devilsaur Set",
+      "Stats" : {
+        "Hit": 0,
+      }
+    },
+    {
+      "Name": "Battle Shout",
+      "Stats": {
+        "AP": 241
+      }
+    },
+    {
+      "Name": "Trueshot Aura",
+      "Stats": {
+        "AP": 100
+      }
+    },
+    {
+      "Name": "Mark of the Wild",
+      "Stats": {
+        "Agi": 16,
+        "Str": 16,
+      }
+    },
+    {
+      "Name": "Elixir of Giants",
+      "Stats": {
+        "Str": 25,
+      }
+    },
+    {
+      "Name": "R.O.I.D.S.",
+      "Stats": {
+        "Str": 25,
+      }
+    },
+    {
+      "Name": "Blessed Sunfruit",
+      "Stats": {
+        "Str": 10,
+      }
+    },
+    {
+      "Name": "Elixir of the Mongoose",
+      "Stats": {
+        "Agi": 25,
+        "Crit": 2
+      }
+    },
+    {
+      "Name": "Juju Power",
+      "Stats": {
+        "AP": 40,
       }
     },
   ],
   "Weapons": {
     "MH": {
+      "DamageMin": 80,
+      "DamageMax": 150,
+      "Speed": 2.7,
       "TwoHanded": false,
-      "Type": "Sword",
-      "Name": "Azuresong Mageblade",
+      "Type": "Axe",
+      "Name": "Frostbite",
+      "Id": 0,
+      "Slot": "Weapon",
       "Stats": {
-        "Int": 12,
-        "SP": 40,
-        "SCrit": 1,
+        "Str": 15,
       },
       "Enchantment":
       {
-        "Name": "Spell Power",
-        "Stats": {
-          "SP": 30,
-        }
+        "Name": "Crusader",
       }
     },
     "OH": {
+      "DamageMin": 48,
+      "DamageMax": 90,
+      "Speed": 1.70,
       "TwoHanded": false,
-      "Type": "Offhand",
-      "Name": "Fire Runed Grimoire",
+      "Type": "Axe",
+      "Name": "Bone Slicing",
+      "Id": 0,
+      "Slot": "Weapon",
       "Stats": {
-        "Int": 21,
-        "SP": 11,
+        "Agi": 13,
+      },
+      "Enchantment":
+      {
+        "Name": "Crusader",
       }
     },
     "Ranged": {
-      "Type": "Wand",
-      "Name": "Skul's Ghastly Touch",
+      "Type": "Bow",
+      "Name": "Satyr",
       "Stats": {
-        "SP": 14,
+        "Agi": 3,
+        "Hit": 1,
       }
     },
   },
   "Equipment": {
     "Head": {
-      "Name": "Lionheart Helm",
+      "Name": "Crown",
       "Stats": {
-        "SCrit": 1,
-        "Int": 21,
-        "SP": 21,
+        "Crit": 2,
+        "AP": 44,
       },
-      "Enchantment": {
-        "Name": "Arcanum of Focus",
-        "Stats": {
-          "SP": 8
-        }
-      }
     },
     "Neck": {
-      "Name": "Choker of the Fire Lord",
+      "Name": "Onyxia Tooth Pendant",
       "Stats": {
-        "Int": 7,
-        "SP": 34,
+        "Crit": 1,
+        "Hit": 1,
+        "Agi": 12,
       }
     },
     "Shoulders": {
-      "Name": "Truestrike",
+      "Name": "T1",
       "Stats": {
-        "Int": 13,
-        "Crit": 12
+        "Str": 15
       },
     },
     "Back": {
-      "Name": "Puissant Cape",
+      "Name": "Fanta",
       "Stats": {
-        "Int": 17,
-        "SP": 14
+        "Str": 12,
       },
       "Enchantment": {
         "Name": "Lesser Agility",
         "Stats": {
+          "Agi": 3
         }
       }
     },
     "Chest": {
-      "Name": "Savage Gladiator Chain",
+      "Name": "pvp",
       "Stats": {
-        "Int": 15,
-        "Spi": 10,
-        "SCrit": 2,
-        "SP": 23,
+        "Str": 21,
+        "Crit": 1,
       },
       "Enchantment": {
         "Name": "Greater Stats",
@@ -113,79 +175,76 @@
       }
     },
     "Wrist": {
-      "Name": "Wristguards of Stability",
+      "Name": "T2",
       "Stats": {
-        "Int": 13,
-        "Spi": 8,
-        "SCrit": 1,
+        "Str": 13,
       },
       "Enchantment": {
         "Name": "Superior Strength",
         "Stats": {
+          "Str": 9
         }
       }
     },
     "Hands": {
-      "Name": "Devilsaur Gauntlets",
+      "Name": "T1",
       "Stats": {
-        "SP": 33,
+        "Str": 22,
+        "Hit": 1,
       },
       "Enchantment": {
         "Name": "Greater Strength",
         "Stats": {
+          "Str": 7
         }
       }
     },
     "Waist": {
-      "Name": "Onslaught Girdle",
+      "Name": "Brigam",
       "Stats": {
-        "Int": 16,
-        "SP": 25,
-        "SCrit": 1,
+        "Str": 15,
+        "Hit": 1,
       }
     },
     "Legs": {
-      "Name": "Devilsaur Leggings",
+      "Name": "pvp",
       "Stats": {
-        "SP": 64,
+        "Str": 12,
+        "Crit": 2,
       },
-      "Enchantment": {
-        "Name": "Lesser Arcane Amalgamation",
-        "Stats": {
-          "SP": 8
-        }
-      }
     },
     "Feet": {
-      "Name": "Battlechaser's Greaves",
+      "Name": "pvp",
       "Stats": {
-        "SP": 32,
-        "Int": 10,
-        "MP5": 5,
+        "Str": 10,
+        "Agi": 9,
       },
     },
     "Ring1": {
-      "Name": "Band of Accuria",
+      "Name": "Blackstone",
       "Stats": {
-        "SP": 33,
+        "Agi": 20,
+        "Hit": 1
       }
     },
     "Ring2": {
-      "Name": "Band of Accuria",
+      "Name": "Don Julio",
       "Stats": {
-        "SP": 33,
+        "AP": 16,
+        "Hit": 1,
+        "Crit": 1
       }
     },
     "Trinket1": {
-      "Name": "Briarwood Reed",
+      "Name": "Hand of Justice",
       "Stats": {
-        "SP": 29
+        "AP": 20
       }
     },
     "Trinket2": {
       "Name": "Blackhand's Breadth",
       "Stats": {
-        "SCrit": 2
+        "Crit": 0
       }
     }
   }

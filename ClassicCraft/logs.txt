@@ -1,24 +1,27 @@
-Date : 2020/02/03 02:13:49
+Date : 2020/02/28 16:51:20
 
 Fight length : 120 seconds (±20%)
 
 Player :
-Orc Warlock level 60 | Stats : [Strength:52][Agility:51][Stamina:66][Intellect:256][Spirit:140][Health:1894][Mana:5213][AP:42][RangedAP:93][SpellCritChance:0,14][SP:452][CritChance:14,55][HitChance:0][Haste:0][SpellHitChance:0][MP5:5]
-Main weapon : Sword with 300 skill
+Orc Warrior level 60 | Stats : [Strength:354][Agility:182][Stamina:112][Intellect:31][Spirit:52][Health:2629][Mana:0][AP:1329][RangedAP:1693][CritChance:23,1][HitChance:6][Haste:0][SpellHitChance:0][SpellCritChance:0][SkillDagger:0]
+Main weapon : Axe with 305 skill
 
 Boss (after raid debuffs) :
 Level 63, 336 Armor (5,76% mitigation)
 
 
-13110 simulations done in 9 143,88 ms, for 0,70 ms by sim
+70313 simulations done in 67 808,63 ms, for 0,96 ms by sim
 Overall accuracy of results : ±0,18%
 
-Average DPS : 357,77 dps (±0,34)
+Base : 481,80 DPS
 
-Average stats for [Shadow Bolt] : 284,36 DPS (79,48%)
-	Average of 1 113,40 damage for 30,65 uses (or 1 use every 3,92s)
-	63,15% Hit, 19,97% Crit, 16,88% Resist
-
-Average stats for [Corruption] : 73,15 DPS (20,45%)
-	Average of 233,83 damage for 37,54 ticks (or 1 tick every 3,20s)
-	93,85% Uptime
+Weights by DPS :
+1 AP = 0,1977 DPS
+1 Str = 0,3953 DPS = 2,0000 AP
+1 Agi = 0,2857 DPS = 1,4454 AP
+1% Crit = 5,7141 DPS = 28,9077 AP
+1% Hit = 2,2596 DPS = 11,4313 AP
+1% Haste = 3,2601 DPS = 16,4928 AP
++1 MH DPS = 0,4497 DPS = 2,2748 AP
++1 OH DPS = 0,4237 DPS = 2,1434 AP
++5 MH Skill = 7,2071 DPS = 36,4604 AP

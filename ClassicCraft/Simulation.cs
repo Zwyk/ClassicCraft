@@ -51,6 +51,8 @@ namespace ClassicCraft
             AutoLife = autoBossLife;
             LowLifeTime = lowLifeTime;
 
+            lastHit = -hitEvery;
+
             Ended = false;
         }
 
@@ -74,6 +76,11 @@ namespace ClassicCraft
             Ended = true;
         }
 
+        public static bool tank = true;
+        static double hitEvery = 1;
+        static double hitRage = 20;
+        double lastHit;
+
         public void SimTick()
         {
             if (AutoLife)
@@ -93,6 +100,13 @@ namespace ClassicCraft
             foreach (Effect e in new List<Effect>(Player.Effects.Values))
             {
                 e.CheckEffect();
+            }
+
+            if(tank && lastHit + hitEvery <= CurrentTime)
+            {
+                Player.Resource += (int)hitRage;
+
+                lastHit += hitEvery;
             }
 
             if (Player.casting != null && Player.casting.CastFinish <= CurrentTime)

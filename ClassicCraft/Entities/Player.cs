@@ -1241,7 +1241,11 @@ namespace ClassicCraft
             {
                 Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
                     + 0.01 * GetTalentPoints("Cruelty")
-                    + 0.03); // Berserker Stance, should be a spell for stance dancing
+                    + (Simulation.tank ? 0 : 0.03)); // Berserker Stance, should be a spell for stance dancing
+                if(Simulation.tank)
+                {
+                    DamageMod *= 0.9;
+                }
             }
             else if (Class == Classes.Druid)
             {
@@ -1548,7 +1552,7 @@ namespace ClassicCraft
             Dictionary<ResultType, double> whiteHitChancesMH = new Dictionary<ResultType, double>();
             whiteHitChancesMH.Add(ResultType.Miss, MissChance(DualWielding, HitRating, WeaponSkill[MH.Type], enemy.Level));
             whiteHitChancesMH.Add(ResultType.Dodge, enemy.DodgeChance(WeaponSkill[MH.Type]));
-            whiteHitChancesMH.Add(ResultType.Parry, enemy.ParryChance());
+            whiteHitChancesMH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level));
             whiteHitChancesMH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level));
             whiteHitChancesMH.Add(ResultType.Block, enemy.BlockChance());
             whiteHitChancesMH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritRating + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glance], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
@@ -1560,7 +1564,7 @@ namespace ClassicCraft
                 whiteHitChancesOH = new Dictionary<ResultType, double>();
                 whiteHitChancesOH.Add(ResultType.Miss, MissChance(true, HitRating + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.HitChance)), WeaponSkill[OH.Type], enemy.Level));
                 whiteHitChancesOH.Add(ResultType.Dodge, enemy.DodgeChance(WeaponSkill[OH.Type]));
-                whiteHitChancesOH.Add(ResultType.Parry, enemy.ParryChance());
+                whiteHitChancesOH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[OH.Type], enemy.Level));
                 whiteHitChancesOH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level));
                 whiteHitChancesOH.Add(ResultType.Block, enemy.BlockChance());
                 whiteHitChancesOH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritRating + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glance], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
@@ -1570,7 +1574,7 @@ namespace ClassicCraft
             Dictionary<ResultType, double> yellowHitChances = new Dictionary<ResultType, double>();
             yellowHitChances.Add(ResultType.Miss, MissChanceYellow(HitRating, WeaponSkill[MH.Type], enemy.Level));
             yellowHitChances.Add(ResultType.Dodge, enemy.DodgeChance(WeaponSkill[MH.Type]));
-            yellowHitChances.Add(ResultType.Parry, enemy.ParryChance());
+            yellowHitChances.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level));
             yellowHitChances.Add(ResultType.Block, enemy.BlockChance());
             yellowHitChances.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritRating + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), yellowHitChances[ResultType.Miss], 0, yellowHitChances[ResultType.Dodge], yellowHitChances[ResultType.Parry], yellowHitChances[ResultType.Block]));
             yellowHitChances.Add(ResultType.Hit, RealHitChance(yellowHitChances[ResultType.Miss], 0, yellowHitChances[ResultType.Crit], yellowHitChances[ResultType.Dodge], yellowHitChances[ResultType.Parry], yellowHitChances[ResultType.Block]));
@@ -1648,11 +1652,6 @@ namespace ClassicCraft
             return 0;
         }
 
-        public override double ParryChance()
-        {
-            return 0;
-        }
-
         public string MainWeaponInfo()
         {
             Weapon.WeaponType type = Class == Classes.Druid ? Weapon.WeaponType.Fist : MH.Type;
@@ -1670,10 +1669,9 @@ namespace ClassicCraft
 
         public static double MissChance(bool dualWield, double hitRating, int skill, int enemyLevel)
         {
-            int enemySkill = enemyLevel * 5;
-            int skillDif = enemySkill - skill;
+            double miss = MissChanceBase(hitRating, skill, enemyLevel);
 
-            return Math.Max(0, BASE_MISS + (dualWield ? 0.19 : 0) - hitRating + (skillDif > 10 ? 0.01 : 0) + skillDif * (skillDif > 10 ? 0.002 : 0.001));
+            return Math.Max(0, dualWield ? miss * 0.8 + 0.2 : miss);
         }
 
         public static double GlancingChance(int level, int enemyLevel)
@@ -1690,13 +1688,18 @@ namespace ClassicCraft
         {
             return Math.Max(0, 1 - realMiss - realGlancing - realCrit - enemyDodgeChance - enemyParryChance - enemyBlockChance);
         }
-
-        public static double MissChanceYellow(double hitRating, int skill, int enemyLevel)
+        
+        public static double MissChanceBase(double hitRating, int skill, int enemyLevel)
         {
             int enemySkill = enemyLevel * 5;
             int skillDif = enemySkill - skill;
 
-            return Math.Max(0, BASE_MISS - hitRating + (skillDif > 10 ? 0.01 : 0) + skillDif * (skillDif > 10 ? 0.002 : 0.001));
+            return BASE_MISS - hitRating + (skillDif > 10 ? 0.01 : 0) + skillDif * (skillDif > 10 ? 0.002 : 0.001);
+        }
+
+        public static double MissChanceYellow(double hitRating, int skill, int enemyLevel)
+        {
+            return Math.Max(0, MissChanceBase(hitRating, skill, enemyLevel));
         }
 
         public static double SpellHitChance(double spellHit, int level, int enemyLevel)
@@ -1712,6 +1715,12 @@ namespace ClassicCraft
                 baseHit = Math.Max(0, 0.83 - 0.11 * (skillDif - 3));
             }
             return Math.Max(0, Math.Min(0.99, baseHit + spellHit));
+        }
+
+        public static double EnemyParryChance(int level, int skill, int enemyLevel)
+        {
+            int skillDif = enemyLevel * 5 - level * 5;
+            return Simulation.tank ? Math.Max(0, skillDif > 10 ? 0.14 - (skill - level * 5) * 0.001 : 0.05 + (skill - enemyLevel * 5) * 0.001) : 0;
         }
 
         #endregion
@@ -1768,7 +1777,9 @@ namespace ClassicCraft
                 table[ResultType.Crit] += 0.1 * GetTalentPoints("IB");
             }
 
-            return PickFromTable(table, Randomer.NextDouble());
+            ResultType res = PickFromTable(table, Randomer.NextDouble());
+
+            return res;
         }
 
         public ResultType PickFromTable(Dictionary<ResultType, double> pickTable, double roll)
@@ -1799,6 +1810,14 @@ namespace ClassicCraft
             }
 
             throw new Exception("Hit Table Failed");
+        }
+
+        private void ParryHaste()
+        {
+            double remaining = mh.LockedUntil - Sim.CurrentTime;
+            double speed = mh.CurrentSpeed();
+            double newRemaining = Math.Max(0.2 * speed, remaining - 0.4 * speed);
+            mh.LockedUntil = Sim.CurrentTime + newRemaining;
         }
 
         #endregion

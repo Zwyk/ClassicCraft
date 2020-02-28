@@ -97,7 +97,5 @@ namespace ClassicCraft
         }
 
         public abstract double BlockChance();
-
-        public abstract double ParryChance();
     }
 }

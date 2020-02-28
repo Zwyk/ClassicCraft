@@ -56,6 +56,7 @@ namespace ClassicCraft
             if (Target.Effects.ContainsKey(ToString()))
             {
                 End = Player.Sim.CurrentTime;
+                Target.Effects.Remove(ToString());
 
                 Player.HasteMod /= Haste;
 

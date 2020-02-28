@@ -203,11 +203,11 @@ namespace ClassicCraft
 
                 if (simOrder.Contains("+10 DPS MH"))
                 {
-                    simBonusAttribs["+10 DPS MH"].SetValue(Attribute.WeaponDamageMH, simBonusAttribs["+10 DPS MH"].GetValue(Attribute.WeaponDamageMH) / playerBase.MH.Speed);
+                    simBonusAttribs["+10 DPS MH"].SetValue(Attribute.WeaponDamageMH, simBonusAttribs["+10 DPS MH"].GetValue(Attribute.WeaponDamageMH) * playerBase.MH.Speed);
                 }
                 if (simOrder.Contains("+10 DPS OH"))
                 {
-                    simBonusAttribs["+10 DPS OH"].SetValue(Attribute.WeaponDamageOH, simBonusAttribs["+10 DPS OH"].GetValue(Attribute.WeaponDamageOH) / playerBase.OH.Speed);
+                    simBonusAttribs["+10 DPS OH"].SetValue(Attribute.WeaponDamageOH, simBonusAttribs["+10 DPS OH"].GetValue(Attribute.WeaponDamageOH) * playerBase.OH.Speed);
                 }
                 if (simOrder.Contains("+5 MH Skill"))
                 {
@@ -521,6 +521,11 @@ namespace ClassicCraft
                                 double glancePct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Glance)) / avgAcUse * 100;
                                 double dodgePct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Dodge)) / avgAcUse * 100;
                                 res += string.Format(", {0:N2}% Miss, {1:N2}% Glancing, {2:N2}% Dodge", missPct, glancePct, dodgePct);
+                                if(Simulation.tank)
+                                {
+                                    double parryPct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Parry)) / avgAcUse * 100;
+                                    res += string.Format(", {0:N2}% Parry", parryPct);
+                                }
                             }
                             Log(res);
                         }
