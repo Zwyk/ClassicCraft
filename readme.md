@@ -15,7 +15,7 @@
 - DPS Simulation
 	- Character setup
 		- Class, Race
-		- Talents
+		- Talents (use Addon export or classic.wowhead.com/talent-calc/*your_class*/*copy-paste_that_part*)
 		- Gear (some special sets like Rogue's T0 6P and T1 5P)
 		- Enchantements (Crusader)
 		- Consumables
