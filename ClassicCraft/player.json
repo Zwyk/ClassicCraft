@@ -1,251 +1,250 @@
 {
-  "Race": "Orc",
-  "Class": "Warrior",
-  "Talents": "3-05050005405010051-502301105",
-  "Cooldowns": {
-    "Racial": false,
-    "Death Wish": true,
-    "Recklessness": false,
-    "Juju Flurry": false,
-    "Mighty Rage": true,
-  },
-  "Buffs": [
-    {
-      "Name": "Windfury Totem"
+    "Race": "Orc",
+    "Class": "Warrior",
+    "Talents": "3-05050005405010051-502301105",
+    "Cooldowns": {
+        "Racial": false,
+        "Death Wish": true,
+        "Recklessness": false,
+        "Juju Flurry": false,
+        "Mighty Rage": true
     },
-    {
-      "Name": "Test",
-      "Stats": {
-        "Hit": 0,
-        "Crit": 0,
-        "AP": 0,
-        "Haste": 0,
-        "Dagger": 0,
-      }
-    },
-    {
-      "Name": "Devilsaur Set",
-      "Stats" : {
-        "Hit": 0,
-      }
-    },
-    {
-      "Name": "Battle Shout",
-      "Stats": {
-        "AP": 241
-      }
-    },
-    {
-      "Name": "Trueshot Aura",
-      "Stats": {
-        "AP": 100
-      }
-    },
-    {
-      "Name": "Mark of the Wild",
-      "Stats": {
-        "Agi": 16,
-        "Str": 16,
-      }
-    },
-    {
-      "Name": "Elixir of Giants",
-      "Stats": {
-        "Str": 25,
-      }
-    },
-    {
-      "Name": "R.O.I.D.S.",
-      "Stats": {
-        "Str": 25,
-      }
-    },
-    {
-      "Name": "Blessed Sunfruit",
-      "Stats": {
-        "Str": 10,
-      }
-    },
-    {
-      "Name": "Elixir of the Mongoose",
-      "Stats": {
-        "Agi": 25,
-        "Crit": 2
-      }
-    },
-    {
-      "Name": "Juju Power",
-      "Stats": {
-        "AP": 40,
-      }
-    },
-  ],
-  "Weapons": {
-    "MH": {
-      "DamageMin": 80,
-      "DamageMax": 150,
-      "Speed": 2.7,
-      "TwoHanded": false,
-      "Type": "Axe",
-      "Name": "Frostbite",
-      "Id": 0,
-      "Slot": "Weapon",
-      "Stats": {
-        "Str": 15,
-      },
-      "Enchantment":
-      {
-        "Name": "Crusader",
-      }
-    },
-    "OH": {
-      "DamageMin": 48,
-      "DamageMax": 90,
-      "Speed": 1.70,
-      "TwoHanded": false,
-      "Type": "Axe",
-      "Name": "Bone Slicing",
-      "Id": 0,
-      "Slot": "Weapon",
-      "Stats": {
-        "Agi": 13,
-      },
-      "Enchantment":
-      {
-        "Name": "Crusader",
-      }
-    },
-    "Ranged": {
-      "Type": "Bow",
-      "Name": "Satyr",
-      "Stats": {
-        "Agi": 3,
-        "Hit": 1,
-      }
-    },
-  },
-  "Equipment": {
-    "Head": {
-      "Name": "Crown",
-      "Stats": {
-        "Crit": 2,
-        "AP": 44,
-      },
-    },
-    "Neck": {
-      "Name": "Onyxia Tooth Pendant",
-      "Stats": {
-        "Crit": 1,
-        "Hit": 1,
-        "Agi": 12,
-      }
-    },
-    "Shoulders": {
-      "Name": "T1",
-      "Stats": {
-        "Str": 15
-      },
-    },
-    "Back": {
-      "Name": "Fanta",
-      "Stats": {
-        "Str": 12,
-      },
-      "Enchantment": {
-        "Name": "Lesser Agility",
-        "Stats": {
-          "Agi": 3
+    "BehindBoss": true,
+    "Buffs": [
+        {
+            "Name": "Windfury Totem"
+        },
+        {
+            "Name": "Test",
+            "Stats": {
+                "Hit": 0,
+                "Crit": 0,
+                "AP": 0,
+                "Haste": 0,
+                "Dagger": 0
+            }
+        },
+        {
+            "Name": "Devilsaur Set",
+            "Stats": {
+                "Hit": 0
+            }
+        },
+        {
+            "Name": "Battle Shout",
+            "Stats": {
+                "AP": 241
+            }
+        },
+        {
+            "Name": "Trueshot Aura",
+            "Stats": {
+                "AP": 100
+            }
+        },
+        {
+            "Name": "Mark of the Wild",
+            "Stats": {
+                "Agi": 16,
+                "Str": 16
+            }
+        },
+        {
+            "Name": "Elixir of Giants",
+            "Stats": {
+                "Str": 25
+            }
+        },
+        {
+            "Name": "R.O.I.D.S.",
+            "Stats": {
+                "Str": 25
+            }
+        },
+        {
+            "Name": "Blessed Sunfruit",
+            "Stats": {
+                "Str": 10
+            }
+        },
+        {
+            "Name": "Elixir of the Mongoose",
+            "Stats": {
+                "Agi": 25,
+                "Crit": 2
+            }
+        },
+        {
+            "Name": "Juju Power",
+            "Stats": {
+                "AP": 40
+            }
         }
-      }
-    },
-    "Chest": {
-      "Name": "pvp",
-      "Stats": {
-        "Str": 21,
-        "Crit": 1,
-      },
-      "Enchantment": {
-        "Name": "Greater Stats",
-        "Stats": {
-          "Str": 4,
-          "Agi": 4,
-          "Int": 4,
-          "Spi": 4,
+    ],
+    "Weapons": {
+        "MH": {
+            "DamageMin": 80,
+            "DamageMax": 150,
+            "Speed": 2.7,
+            "TwoHanded": false,
+            "Type": "Axe",
+            "Name": "Frostbite",
+            "Id": 0,
+            "Slot": "Weapon",
+            "Stats": {
+                "Str": 15
+            },
+            "Enchantment": {
+                "Name": "Crusader"
+            }
+        },
+        "OH": {
+            "DamageMin": 48,
+            "DamageMax": 90,
+            "Speed": 1.70,
+            "TwoHanded": false,
+            "Type": "Axe",
+            "Name": "Bone Slicing",
+            "Id": 0,
+            "Slot": "Weapon",
+            "Stats": {
+                "Agi": 13
+            },
+            "Enchantment": {
+                "Name": "Crusader"
+            }
+        },
+        "Ranged": {
+            "Type": "Bow",
+            "Name": "Satyr",
+            "Stats": {
+                "Agi": 3,
+                "Hit": 1
+            }
         }
-      }
     },
-    "Wrist": {
-      "Name": "T2",
-      "Stats": {
-        "Str": 13,
-      },
-      "Enchantment": {
-        "Name": "Superior Strength",
-        "Stats": {
-          "Str": 9
+    "Equipment": {
+        "Head": {
+            "Name": "Crown",
+            "Stats": {
+                "Crit": 2,
+                "AP": 44
+            }
+        },
+        "Neck": {
+            "Name": "Onyxia Tooth Pendant",
+            "Stats": {
+                "Crit": 1,
+                "Hit": 1,
+                "Agi": 12
+            }
+        },
+        "Shoulders": {
+            "Name": "T1",
+            "Stats": {
+                "Str": 15
+            }
+        },
+        "Back": {
+            "Name": "Fanta",
+            "Stats": {
+                "Str": 12
+            },
+            "Enchantment": {
+                "Name": "Lesser Agility",
+                "Stats": {
+                    "Agi": 3
+                }
+            }
+        },
+        "Chest": {
+            "Name": "pvp",
+            "Stats": {
+                "Str": 21,
+                "Crit": 1
+            },
+            "Enchantment": {
+                "Name": "Greater Stats",
+                "Stats": {
+                    "Str": 4,
+                    "Agi": 4,
+                    "Int": 4,
+                    "Spi": 4
+                }
+            }
+        },
+        "Wrist": {
+            "Name": "T2",
+            "Stats": {
+                "Str": 13
+            },
+            "Enchantment": {
+                "Name": "Superior Strength",
+                "Stats": {
+                    "Str": 9
+                }
+            }
+        },
+        "Hands": {
+            "Name": "T1",
+            "Stats": {
+                "Str": 22,
+                "Hit": 1
+            },
+            "Enchantment": {
+                "Name": "Greater Strength",
+                "Stats": {
+                    "Str": 7
+                }
+            }
+        },
+        "Waist": {
+            "Name": "Brigam",
+            "Stats": {
+                "Str": 15,
+                "Hit": 1
+            }
+        },
+        "Legs": {
+            "Name": "pvp",
+            "Stats": {
+                "Str": 12,
+                "Crit": 2
+            }
+        },
+        "Feet": {
+            "Name": "pvp",
+            "Stats": {
+                "Str": 10,
+                "Agi": 9
+            }
+        },
+        "Ring1": {
+            "Name": "Blackstone",
+            "Stats": {
+                "Agi": 20,
+                "Hit": 1
+            }
+        },
+        "Ring2": {
+            "Name": "Don Julio",
+            "Stats": {
+                "AP": 16,
+                "Hit": 1,
+                "Crit": 1
+            }
+        },
+        "Trinket1": {
+            "Name": "Hand of Justice",
+            "Stats": {
+                "AP": 20
+            }
+        },
+        "Trinket2": {
+            "Name": "Blackhand's Breadth",
+            "Stats": {
+                "Crit": 0
+            }
         }
-      }
-    },
-    "Hands": {
-      "Name": "T1",
-      "Stats": {
-        "Str": 22,
-        "Hit": 1,
-      },
-      "Enchantment": {
-        "Name": "Greater Strength",
-        "Stats": {
-          "Str": 7
-        }
-      }
-    },
-    "Waist": {
-      "Name": "Brigam",
-      "Stats": {
-        "Str": 15,
-        "Hit": 1,
-      }
-    },
-    "Legs": {
-      "Name": "pvp",
-      "Stats": {
-        "Str": 12,
-        "Crit": 2,
-      },
-    },
-    "Feet": {
-      "Name": "pvp",
-      "Stats": {
-        "Str": 10,
-        "Agi": 9,
-      },
-    },
-    "Ring1": {
-      "Name": "Blackstone",
-      "Stats": {
-        "Agi": 20,
-        "Hit": 1
-      }
-    },
-    "Ring2": {
-      "Name": "Don Julio",
-      "Stats": {
-        "AP": 16,
-        "Hit": 1,
-        "Crit": 1
-      }
-    },
-    "Trinket1": {
-      "Name": "Hand of Justice",
-      "Stats": {
-        "AP": 20
-      }
-    },
-    "Trinket2": {
-      "Name": "Blackhand's Breadth",
-      "Stats": {
-        "Crit": 0
-      }
     }
-  }
 }

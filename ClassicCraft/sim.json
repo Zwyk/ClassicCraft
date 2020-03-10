@@ -1,20 +1,20 @@
 {
-  "FightLength": 120,
-  "FightLengthMod": 0.2,
-  "TargetErrorPct": 0.2,
-  "TargetError": true,
-  "LogFight": false,
-  "NbSim": 1,
-  "StatsWeights": true,
-  "BossAutoLife": true,
-  "BossLowLifeTime": 0,
-  "Boss" : {
-    "Level": 63,
-    "Armor": 3731,
-    "Debuffs": [
-      "Sunder Armor",
-      "Curse of Recklessness",
-      "Faerie Fire",
-    ]
-  },
+    "FightLength": 120,
+    "FightLengthMod": 0.2,
+    "TargetErrorPct": 0.2,
+    "TargetError": true,
+    "LogFight": false,
+    "NbSim": 1,
+    "StatsWeights": true,
+    "BossAutoLife": true,
+    "BossLowLifeTime": 0,
+    "Boss": {
+        "Level": 63,
+        "Armor": 3731,
+        "Debuffs": [
+            "Sunder Armor",
+            "Curse of Recklessness",
+            "Faerie Fire"
+        ]
+    }
 }

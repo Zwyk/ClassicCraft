@@ -67,6 +67,31 @@
     <Compile Include="Classes\Mage\Skills\ColdSnap.cs" />
     <Compile Include="Classes\Mage\Skills\Frostbolt.cs" />
     <Compile Include="Classes\Mage\Skills\PresenceOfMind.cs" />
+    <Compile Include="Classes\Paladin\Effects\ConsecrationDoT_Rank1.cs" />
+    <Compile Include="Classes\Paladin\Effects\SealOfRighteousnessBuff.cs" />
+    <Compile Include="Classes\Paladin\Spells\JudgementOfRighteousness.cs" />
+    <Compile Include="Classes\Paladin\Spells\SealOfRighteousness.cs" />
+    <Compile Include="Classes\Paladin\Spells\SealOfRighteousnessProc.cs" />
+    <Compile Include="Classes\Paladin\Spells\SealOfCommandProc.cs" />
+    <Compile Include="Classes\Paladin\Effects\Vengeance.cs" />
+    <Compile Include="Classes\Paladin\Effects\ConsecrationDoT_Rank5.cs" />
+    <Compile Include="Classes\Paladin\Effects\SealOfCommandBuff_Rank1.cs" />
+    <Compile Include="Classes\Paladin\Effects\SealOfCommandBuff_Rank5.cs" />
+    <Compile Include="Classes\Paladin\Effects\SealOfTheCrusaderBuff.cs" />
+    <Compile Include="Classes\Paladin\Spells\Consecration_Base.cs" />
+    <Compile Include="Classes\Paladin\Spells\Consecration_Rank1.cs" />
+    <Compile Include="Classes\Paladin\Spells\Consecration_Rank5.cs" />
+    <Compile Include="Classes\Paladin\Spells\JudgementOfCommand_Base.cs" />
+    <Compile Include="Classes\Paladin\Spells\JudgementOfCommand_Rank1.cs" />
+    <Compile Include="Classes\Paladin\Spells\SealOfCommand_Rank1.cs" />
+    <Compile Include="Classes\Paladin\Spells\SealOfCommand_Rank5.cs" />
+    <Compile Include="Classes\Paladin\Spells\HammerOfJustice.cs" />
+    <Compile Include="Classes\Paladin\Spells\HammerOfWrath.cs" />
+    <Compile Include="Classes\Paladin\Spells\SealOfTheCrusader.cs" />
+    <Compile Include="Classes\Paladin\Spells\JudgementOfTheCrusader.cs" />
+    <Compile Include="Classes\Paladin\Spells\JudgementOfCommand_Rank5.cs" />
+    <Compile Include="Classes\Paladin\Spells\Judgement.cs" />
+    <Compile Include="Classes\Paladin\Effects\JudgementOfTheCrusaderDebuff.cs" />
     <Compile Include="Classes\Paladin\Paladin.cs" />
     <Compile Include="Classes\Priest\Priest.cs" />
     <Compile Include="Classes\Rogue\Effects\AdrenalineRushBuff.cs" />
@@ -115,6 +140,8 @@
     <Compile Include="Classes\Warrior\Effects\DeathWishBuff.cs" />
     <Compile Include="Classes\Warrior\Effects\BloodrageBuff.cs" />
     <Compile Include="Misc\Consumables\ManaRune.cs" />
+    <Compile Include="Classes\Paladin\Effects\HammerOfJusticeDebuff.cs" />
+    <Compile Include="Misc\Effects\SpellVulnerability.cs" />
     <Compile Include="Misc\Enchantments\Crusader.cs" />
     <Compile Include="Classes\Druid\Effects\MCPBuff.cs" />
     <Compile Include="Misc\Consumables\JujuFlurry\JujuFlurryBuff.cs" />
@@ -133,6 +160,13 @@
     <Compile Include="Misc\Item.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Misc\Slot.cs" />
+    <Compile Include="Misc\Weapons\Ashkandi.cs" />
+    <Compile Include="Misc\Weapons\Nightfall.cs" />
+    <Compile Include="Misc\Weapons\BonereaversEdge.cs" />
+    <Compile Include="Misc\Weapons\Sulfuras.cs" />
+    <Compile Include="Misc\Weapons\ObsidianEdgedBlade.cs" />
+    <Compile Include="Misc\Weapons\TheUnstoppableForce.cs" />
+    <Compile Include="Misc\Weapons\HanzoSword.cs" />
     <Compile Include="Utility\JsonUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -152,7 +186,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Misc\Weapons\" />
+    <Folder Include="Classes\Paladin\Auras\" />
+    <Folder Include="Classes\Paladin\Skills\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

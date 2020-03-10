@@ -1,0 +1,201 @@
+{
+    "Race": "Human",
+    "Class": "Paladin",
+    "Talents": "505031--55235051200315",
+    "BehindBoss": true,
+    "Rotation": 0,
+    "Cooldowns": {
+    },
+    "Buffs": [
+        {
+            "Name": "Blessing of Might",
+            "Stats": {
+                "AP": 186
+            }
+        }
+    ],
+    "Weapons": {
+        "MH": {
+            "DamageMin": 176,
+            "DamageMax": 264,
+            "Speed": 3.4,
+            "TwoHanded": true,
+            "Type": "Sword",
+            "Name": "Obsidian Edged Blade",
+            "Id": 0,
+            "Slot": "Weapon",
+            "Stats": {
+                "Str": 42,
+                "Sword": 8
+            },
+            "Enchantment": {
+                "Name": "Crusader"
+            }
+        }
+    },
+    "Equipment": {
+        "Head": {
+            "Name": "Crown of Destruction",
+            "Stats": {
+                "Int": 9,
+                "Sta": 23,
+                "Spi": 9,
+                "Crit": 2,
+                "AP": 44
+            },
+            "Enchantment": {
+                "Name": "Lesser Arcanum of Rapidity",
+                "Stats": {
+                    "Haste": 1
+                }
+            }
+        },
+        "Neck": {
+            "Name": "Onyxia Tooth Pendant",
+            "Stats": {
+                "Crit": 1,
+                "Hit": 1,
+                "Agi": 12,
+                "Sta": 9
+            }
+        },
+        "Shoulders": {
+            "Name": "Truestrike Shoulders",
+            "Stats": {
+                "Hit": 2,
+                "AP": 24
+            }
+        },
+        "Back": {
+            "Name": "Cape of the Black Baron",
+            "Stats": {
+                "Agi": 15,
+                "AP": 20
+            },
+            "Enchantment": {
+                "Name": "Lesser Agility",
+                "Stats": {
+                    "Agi": 3
+                }
+            }
+        },
+        "Chest": {
+            "Name": "Savage Gladiator Chain",
+            "Stats": {
+                "Str": 13,
+                "Sta": 13,
+                "Agi": 14,
+                "Crit": 2
+            },
+            "Enchantment": {
+                "Name": "Greater Stats",
+                "Stats": {
+                    "Str": 4,
+                    "Sta": 4,
+                    "Agi": 4,
+                    "Int": 4,
+                    "Spi": 4
+                }
+            }
+        },
+        "Wrist": {
+            "Name": "Vambraces of the Sadist",
+            "Stats": {
+                "Str": 6,
+                "Sta": 7,
+                "Crit": 1
+            },
+            "Enchantment": {
+                "Name": "Greater Strength",
+                "Stats": {
+                    "Str": 7
+                }
+            }
+        },
+        "Hands": {
+            "Name": "Flameguard Gauntlets",
+            "Stats": {
+                "AP": 54,
+                "Sta": 13,
+                "Crit": 1
+            },
+            "Enchantment": {
+                "Name": "Greater Strength",
+                "Stats": {
+                    "Str": 7
+                }
+            }
+        },
+        "Waist": {
+            "Name": "Onslaught Girdle",
+            "Stats": {
+                "Str": 31,
+                "Sta": 11,
+                "Crit": 1,
+                "Hit": 1
+            }
+        },
+        "Legs": {
+            "Name": "Legguards of the Fallen Crusader",
+            "Stats": {
+                "Str": 28,
+                "Agi": 22,
+                "Sta": 22,
+                "Int": 17,
+                "Crit": 1
+            },
+            "Enchantment": {
+                "Name": "Lesser Arcanum of Rapidity",
+                "Stats": {
+                    "Haste": 1
+                }
+            }
+        },
+        "Feet": {
+            "Name": "Bloodmail Boots",
+            "Stats": {
+                "Str": 9,
+                "Agi": 9,
+                "Sta": 10,
+                "Int": 10,
+                "Hit": 1
+            },
+            "Enchantment": {
+                "Name": "Agility",
+                "Stats": {
+                    "Agi": 5
+                }
+            }
+        },
+        "Ring1": {
+            "Name": "Don Julio's Band",
+            "Stats": {
+                "Sta": 11,
+                "Crit": 1,
+                "Hit": 1,
+                "AP": 16
+            }
+        },
+        "Ring2": {
+            "Name": "Quick Strike Ring",
+            "Stats": {
+                "AP": 30,
+                "Sta": 8,
+                "Str": 5,
+                "Crit": 1
+            }
+        },
+        "Trinket1": {
+            "Name": "Hand of Justice",
+            "Stats": {
+                "AP": 20
+            }
+        },
+        "Trinket2": {
+            "Name": "Blackhand's Breadth",
+            "Stats": {
+                "Crit": 2
+            }
+        }
+    }
+}
