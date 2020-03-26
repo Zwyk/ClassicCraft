@@ -490,6 +490,16 @@ namespace ClassicCraft
                         logList.AddRange(new List<string>() { "Slam", "Bloodthirst", "Whirlwind", "Heroic Strike", "Execute", "Hamstring" });
                     else if (playerBase.Class == Player.Classes.Druid)
                         logList.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift" });
+                    else if (playerBase.Class == Player.Classes.Paladin)
+                    {
+                        logList.AddRange(new List<string>()
+                        {
+                            SealOfCommand_Rank1.NAME, SealOfCommand_Rank5.NAME,
+                            SealOfCommandProc.NAME,
+                            SealOfRighteousnessProc.NAME, JudgementOfRighteousness.NAME,
+                            JudgementOfCommand_Rank1.NAME, JudgementOfCommand_Rank5.NAME,
+                        });
+                    }
                     else if (playerBase.Class == Player.Classes.Rogue)
                         logList.AddRange(new List<string>() { "Sinister Strike", "Backstab", "Eviscerate", "Ambush", "Instant Poison" });
                     else if (playerBase.Class == Player.Classes.Warlock)
@@ -535,8 +545,22 @@ namespace ClassicCraft
                     logList = new List<string>() { };
                     if (playerBase.Class == Player.Classes.Warrior)
                         logList.AddRange(new List<string>() { "Deep Wounds" });
-                    if (playerBase.Class == Player.Classes.Warlock)
+                    else if (playerBase.Class == Player.Classes.Warlock)
                         logList.AddRange(new List<string>() { "Corruption", "Malediction of Agony" });
+                    else if (playerBase.Class == Player.Classes.Paladin)
+                    {
+                        logList.AddRange(new List<string>()
+                        {
+                            Vengeance.NAME,
+                            ConsecrationDoT_Rank1.NAME, ConsecrationDoT_Rank5.NAME,
+                        });
+                    }
+
+                    //  Non-class-specific stuff
+                    logList.AddRange(new List<string>()
+                        {
+                            SpellVulnerability.NAME,
+                        });
 
                     foreach (string ac in logList)
                     {

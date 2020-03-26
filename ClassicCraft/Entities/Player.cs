@@ -391,7 +391,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Intellect, 70);
                             res.Values.Add(Attribute.Spirit, 78);
                             res.Values.Add(Attribute.Health, 1381);
-                            res.Values.Add(Attribute.Mana, 1510);
+                            res.Values.Add(Attribute.Mana, 1232);
                             break;
                         default: break;
                     }
@@ -757,6 +757,7 @@ namespace ClassicCraft
 
         public Forms Form { get; set; }
         public bool Stealthed { get; set; }
+        public bool BehindBoss { get; set; }
 
         public int MaxResource = 100;
 
@@ -990,6 +991,8 @@ namespace ClassicCraft
         public Player(Simulation s, Player p)
             : this(s, p.Class, p.Race, p.Level, p.Equipment, p.Talents, p.Buffs)
         {
+            BehindBoss = p.BehindBoss;
+            rota = p.rota;
             Attributes.Values = new Dictionary<Attribute, double>(p.Attributes.Values);
             WeaponSkill = p.WeaponSkill;
             MH.DamageMin = p.MH.DamageMin;
@@ -1280,12 +1283,18 @@ namespace ClassicCraft
                 Attributes.SetValue(Attribute.Spirit, Attributes.GetValue(Attribute.Spirit)
                     - 0.01 * GetTalentPoints("DE"));
             }
-            else if(Class == Classes.Mage)
+            else if (Class == Classes.Mage)
             {
                 Attributes.SetValue(Attribute.SpellCritChance, Attributes.GetValue(Attribute.SpellCritChance)
                     + 0.01 * GetTalentPoints("AI"));
                 DamageMod *= 1 + 0.01 * GetTalentPoints("AI");
                 CastingManaRegenRate += 0.05 * GetTalentPoints("AMed");
+            }
+            else if (Class == Classes.Paladin)
+            {
+                Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance) + 0.01 * GetTalentPoints("Conv"));
+                Attributes.SetValue(Attribute.Strength, Attributes.GetValue(Attribute.Strength) + Attributes.GetValue(Attribute.Strength) * 0.02 * GetTalentPoints("DivStr"));
+                Attributes.SetValue(Attribute.Intellect, Attributes.GetValue(Attribute.Intellect) + Attributes.GetValue(Attribute.Intellect) * 0.02 * GetTalentPoints("DivInt"));
             }
 
             Attributes += BonusAttributesByRace(Race, Attributes);
@@ -1390,6 +1399,31 @@ namespace ClassicCraft
                         ClearCasting.CheckProc(this);
                     }
                 }
+                else if (Class == Classes.Paladin)
+                {
+                    //  Turn on Vengeance
+                    if (GetTalentPoints("Veng") > 0)
+                    {
+                        Vengeance.CheckProc(this, res);
+                    }
+
+                    //  Refresh the currently judged seal
+                    JudgementOfTheCrusaderDebuff.RefreshJudgement(this, res);
+
+                    //  See if seal of command should proc
+                    if (Effects.ContainsKey(SealOfCommandBuff_Rank5.NAME))
+                    {
+                        SealOfCommandBuff_Rank5.CheckProc(this, res, 0);
+                    }
+                    else if (Effects.ContainsKey(SealOfCommandBuff_Rank1.NAME))
+                    {
+                        SealOfCommandBuff_Rank1.CheckProc(this, res, 0);
+                    }
+                    else if (Effects.ContainsKey(SealOfRighteousnessBuff.NAME))
+                    {
+                        SealOfRighteousnessBuff.CheckProc(this, res, 0);
+                    }
+                }
                 else if (Class == Classes.Rogue)
                 {
                     if (!alreadyProc.Contains("rSP") && GetTalentPoints("SS") > 0 && Randomer.NextDouble() < 0.01 * GetTalentPoints("SS"))
@@ -1416,6 +1450,9 @@ namespace ClassicCraft
                         CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg));
                     }
                 }
+
+                //  See if spell vulnerability has been triggered
+                SpellVulnerability.CheckProc(this, null, res);
 
                 if (Form == Forms.Human)
                 {
@@ -1552,9 +1589,18 @@ namespace ClassicCraft
             Dictionary<ResultType, double> whiteHitChancesMH = new Dictionary<ResultType, double>();
             whiteHitChancesMH.Add(ResultType.Miss, MissChance(DualWielding, HitRating, WeaponSkill[MH.Type], enemy.Level));
             whiteHitChancesMH.Add(ResultType.Dodge, enemy.DodgeChance(WeaponSkill[MH.Type]));
-            whiteHitChancesMH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level));
             whiteHitChancesMH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level));
-            whiteHitChancesMH.Add(ResultType.Block, enemy.BlockChance());
+            //  If behind boss, parry & block chance moves into hit chance
+            if (BehindBoss)
+            {
+                whiteHitChancesMH.Add(ResultType.Parry, 0);
+                whiteHitChancesMH.Add(ResultType.Block, 0);
+            }
+            else
+            {
+                whiteHitChancesMH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level));
+                whiteHitChancesMH.Add(ResultType.Block, enemy.BlockChance());
+            }
             whiteHitChancesMH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritRating + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glance], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
             whiteHitChancesMH.Add(ResultType.Hit, RealHitChance(whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glance], whiteHitChancesMH[ResultType.Crit], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
 
@@ -1564,9 +1610,18 @@ namespace ClassicCraft
                 whiteHitChancesOH = new Dictionary<ResultType, double>();
                 whiteHitChancesOH.Add(ResultType.Miss, MissChance(true, HitRating + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.HitChance)), WeaponSkill[OH.Type], enemy.Level));
                 whiteHitChancesOH.Add(ResultType.Dodge, enemy.DodgeChance(WeaponSkill[OH.Type]));
-                whiteHitChancesOH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[OH.Type], enemy.Level));
+                //  If behind boss, parry & block chance moves into hit chance
+                if (BehindBoss)
+                {
+                    whiteHitChancesOH.Add(ResultType.Parry, 0);
+                    whiteHitChancesOH.Add(ResultType.Block, 0);
+                }
+                else
+                {
+                    whiteHitChancesOH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[OH.Type], enemy.Level));
+                    whiteHitChancesOH.Add(ResultType.Block, enemy.BlockChance());
+                }
                 whiteHitChancesOH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level));
-                whiteHitChancesOH.Add(ResultType.Block, enemy.BlockChance());
                 whiteHitChancesOH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritRating + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glance], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
                 whiteHitChancesOH.Add(ResultType.Hit, RealHitChance(whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glance], whiteHitChancesOH[ResultType.Crit], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
             }
@@ -1574,8 +1629,17 @@ namespace ClassicCraft
             Dictionary<ResultType, double> yellowHitChances = new Dictionary<ResultType, double>();
             yellowHitChances.Add(ResultType.Miss, MissChanceYellow(HitRating, WeaponSkill[MH.Type], enemy.Level));
             yellowHitChances.Add(ResultType.Dodge, enemy.DodgeChance(WeaponSkill[MH.Type]));
-            yellowHitChances.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level));
-            yellowHitChances.Add(ResultType.Block, enemy.BlockChance());
+            //  If behind boss, parry & block chance moves into hit chance
+            if (BehindBoss)
+            {
+                yellowHitChances.Add(ResultType.Parry, 0);
+                yellowHitChances.Add(ResultType.Block, 0);
+            }
+            else
+            {
+                yellowHitChances.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level));
+                yellowHitChances.Add(ResultType.Block, enemy.BlockChance());
+            }
             yellowHitChances.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritRating + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), yellowHitChances[ResultType.Miss], 0, yellowHitChances[ResultType.Dodge], yellowHitChances[ResultType.Parry], yellowHitChances[ResultType.Block]));
             yellowHitChances.Add(ResultType.Hit, RealHitChance(yellowHitChances[ResultType.Miss], 0, yellowHitChances[ResultType.Crit], yellowHitChances[ResultType.Dodge], yellowHitChances[ResultType.Parry], yellowHitChances[ResultType.Block]));
 
@@ -1729,9 +1793,29 @@ namespace ClassicCraft
 
         public ResultType SpellAttackEnemy(Entity enemy, bool canCrit = true, double bonusHit = 0, double bonusCrit = 0)
         {
-            if(Randomer.NextDouble() < SpellHitChance(Attributes.GetValue(Attribute.SpellHitChance) + bonusHit, Level, enemy.Level))
+            if (Randomer.NextDouble() < SpellHitChance(Attributes.GetValue(Attribute.SpellHitChance) + bonusHit, Level, enemy.Level))
             {
                 if (canCrit && Randomer.NextDouble() < Attributes.GetValue(Attribute.SpellCritChance) + bonusCrit)
+                {
+                    return ResultType.Crit;
+                }
+                else
+                {
+                    return ResultType.Hit;
+                }
+            }
+            else
+            {
+                return ResultType.Resist;
+            }
+        }
+
+        //  Paladin's Judgement uses spell hit but melee crit
+        public ResultType MeleeSpellAttackEnemy(Entity enemy, bool canCrit = true, double bonusHit = 0, double bonusCrit = 0)
+        {
+            if (Randomer.NextDouble() < SpellHitChance(Attributes.GetValue(Attribute.SpellHitChance) + bonusHit, Level, enemy.Level))
+            {
+                if (canCrit && Randomer.NextDouble() < Attributes.GetValue(Attribute.CritChance) + bonusCrit)
                 {
                     return ResultType.Crit;
                 }

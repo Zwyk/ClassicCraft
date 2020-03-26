@@ -91,12 +91,26 @@ namespace ClassicCraft
             public JsonWeapon(double damageMin = 0, double damageMax = 0, double speed = 0, bool twoHanded = true, string type = "Axe", int id = 0, string name = "New Item", Dictionary<string, double> attributes = null, JsonEnchantment enchantment = null, JsonEnchantment buffs = null)
                 : base(id, name, "Weapon", attributes, enchantment)
             {
-                DamageMin = damageMin;
-                DamageMax = damageMax;
-                Speed = speed;
-                TwoHanded = twoHanded;
-                Type = type;
-                Buff = buffs;
+                var selectedWeapon = Weapon.BuiltIn.Where(x => x.Name == name)?.ToList().FirstOrDefault();
+                if (selectedWeapon != null)
+                {
+                    Name = selectedWeapon.Name;
+                    DamageMin = selectedWeapon.DamageMin;
+                    DamageMax = selectedWeapon.DamageMax;
+                    Speed = selectedWeapon.Speed;
+                    TwoHanded = selectedWeapon.TwoHanded;
+                    Type = selectedWeapon.Type.ToString();
+                    Buff = enchantment;
+                }
+                else
+                {
+                    DamageMin = damageMin;
+                    DamageMax = damageMax;
+                    Speed = speed;
+                    TwoHanded = twoHanded;
+                    Type = type;
+                    Buff = buffs;
+                }
             }
 
             public static Weapon ToWeapon(JsonWeapon jw)
@@ -148,7 +162,7 @@ namespace ClassicCraft
                         if (res.Stats.ContainsKey("SpellHit")) res.Stats["SpellHit"] *= 100;
                         if (res.Stats.ContainsKey("SpellCrit")) res.Stats["SpellCrit"] *= 100;
                     }
-                    if(res.Enchantment != null)
+                    if (res.Enchantment != null)
                     {
                         if (res.Enchantment.Stats.ContainsKey("Crit")) res.Enchantment.Stats["Crit"] *= 100;
                         if (res.Enchantment.Stats.ContainsKey("Hit")) res.Enchantment.Stats["Hit"] *= 100;
@@ -213,12 +227,14 @@ namespace ClassicCraft
             public int Level { get; set; }
             public string Race { get; set; }
             public string Talents { get; set; }
+            public bool BehindBoss { get; set; }
+            public int Rotation { get; set; }
             public Dictionary<string, bool> Cooldowns { get; set; }
             public List<JsonEnchantment> Buffs { get; set; }
             public Dictionary<string, JsonWeapon> Weapons { get; set; }
             public Dictionary<string, JsonItem> Equipment { get; set; }
 
-            public JsonPlayer(Dictionary<string, JsonWeapon> weapons = null, Dictionary<string, JsonItem> equipment = null, string @class = "Warrior", int level = 60, string race = "Orc", string talents = "", List<JsonEnchantment> buffs = null, Dictionary<string, bool> cooldowns = null)
+            public JsonPlayer(Dictionary<string, JsonWeapon> weapons = null, Dictionary<string, JsonItem> equipment = null, string @class = "Warrior", int level = 60, string race = "Orc", string talents = "", List<JsonEnchantment> buffs = null, Dictionary<string, bool> cooldowns = null, bool behindBoss = false, int rotation = 0)
             {
                 Class = @class;
                 Level = level;
@@ -228,6 +244,8 @@ namespace ClassicCraft
                 Equipment = equipment;
                 Buffs = buffs;
                 Cooldowns = cooldowns;
+                BehindBoss = behindBoss;
+                Rotation = rotation;
             }
 
             public static Player ToPlayer(JsonPlayer jp)
@@ -262,48 +280,64 @@ namespace ClassicCraft
                     case Player.Classes.Druid:
                         return new Druid(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
                         {
+                            BehindBoss = jp.BehindBoss,
+                            rota = jp.Rotation,
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Hunter:
                         return new Hunter(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
                         {
+                            BehindBoss = jp.BehindBoss,
+                            rota = jp.Rotation,
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Paladin:
                         return new Paladin(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
                         {
-                            WindfuryTotem = windfurytotem,
+                            BehindBoss = jp.BehindBoss,
+                            rota = jp.Rotation,
+                            //WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Priest:
                         return new Priest(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
                         {
+                            BehindBoss = jp.BehindBoss,
+                            rota = jp.Rotation,
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Rogue:
                         return new Rogue(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
                         {
+                            BehindBoss = jp.BehindBoss,
+                            rota = jp.Rotation,
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Shaman:
                         return new Shaman(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
                         {
+                            BehindBoss = jp.BehindBoss,
+                            rota = jp.Rotation,
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Warlock:
                         return new Warlock(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
                         {
+                            BehindBoss = jp.BehindBoss,
+                            rota = jp.Rotation,
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Warrior:
                         return new Warrior(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
                         {
+                            BehindBoss = jp.BehindBoss,
+                            rota = jp.Rotation,
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
@@ -417,7 +451,7 @@ namespace ClassicCraft
                         + (debuffs.Any(d => d.ToLower().Contains("annihilator")) ? 600 : 0);
                 }
 
-                return new Boss(ToType(jb.Type), jb.Level, Math.Max(0, armor));
+                return new Boss(ToType(jb.Type), jb.Level, Math.Max(0, armor), 100000, magicResist);
             }
 
             public static Entity.MobType ToType(string s)
@@ -445,6 +479,7 @@ namespace ClassicCraft
             public bool LogFight { get; set; }
             public bool BossAutoLife { get; set; }
             public double BossLowLifeTime { get; set; }
+            public bool BehindBoss { get; set; }
             public JsonBoss Boss { get; set; }
 
             public JsonSim(JsonBoss boss = null, double fightLength = 300, double fightLengthMod = 0.2, int nbSim = 1000, double targetErrorPct = 0.5, bool targetError = true, bool logFight = false, bool statsWeights = false, bool bossAutoLife = true, double bossLowLifeTime = 0)

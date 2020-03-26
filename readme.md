@@ -17,7 +17,7 @@
 		- Class, Race
 		- Talents (use Addon export or classic.wowhead.com/talent-calc/*your_class*/*copy-paste_that_part*)
 		- Gear (some special sets like Rogue's T0 6P and T1 5P)
-		- Enchantements (Crusader)
+		- Enchantments (Crusader)
 		- Consumables
 		- CDs to use (Racial, Recklessness, etc.)
 		- Raid buffs (Windfury, etc.)
@@ -35,6 +35,24 @@
 		- Feral (Powershifting)
 	- Rogue
 		- Combat (SS or BS)
+	- Paladin
+		- Retribution
+			- Rotations
+				- 0: SotC+SoC/JoC + Vengeance+Cons5|Cons1 [Attack Power]
+				- 1: SotC+SoR/JoC + Vengeance+Cons5|Cons1 [Nightfall Max-Uptime]
+				- 2: SotC+SoR/JoR + Vengeance+Cons5|Cons1 [SpellDmg]
+			- Equipment Samples
+				- AP
+				- HitCap for Nightfall
+				- SpellDmg
+- Built-In Weapons
+	- Nightfall (debuff functional, use Nightfall max-uptime rotation)
+	- Hanzo Sword (proc TBD)
+	- The Unstoppable Force (proc TBD)
+	- Obsidian Edged Blade (weapon skill dropoff TBD)
+	- Bonereaver's Edge (proc TBD)
+	- Ashkandi, Greatsword of the Brotherhood
+	- Sulfuras, Hand of Ragnaros (proc TBD)
 
 ### JSON Attributes List
 - `Sta` : Stamina
@@ -63,7 +81,7 @@
 - `Staff` : Staff Weapon Skill
 - `Dagger` : Dagger Weapon Skill
 - `Fist` : Fist Weapon Skill
-- `WDmg` : Weapons Additionnal Damage
+- `WDmg` : Weapons Additional Damage
 
 ### FAQ
 - When will X class be implemented ?

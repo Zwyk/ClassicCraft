@@ -72,6 +72,17 @@ namespace ClassicCraft
             return StringToType(AttributeUtil.ToString(a));
         }
 
+        public static List<Weapon> BuiltIn = new List<Weapon>()
+        {
+            new HanzoSword(),
+            new TheUnstoppableForce(),
+            new ObsidianEdgedBlade(),
+            new Nightfall(),
+            new Sulfuras(),
+            new BonereaversEdge(),
+            new Ashkandi(),
+        };
+
         public double BaseMin { get; set; }
         public double BaseMax { get; set; }
         public double DamageMin { get; set; }
@@ -91,6 +102,7 @@ namespace ClassicCraft
         public Weapon(double min = 1, double max = 2, double speed = 1, bool twoHanded = true, WeaponType type = WeaponType.Axe, Attributes attributes = null, int id = 0, string name = "New Item", Enchantment enchantment = null, Enchantment buff = null, ItemEffect effect = null)
             : base(Slot.Weapon, attributes, id, name, enchantment, effect)
         {
+            Name = name;
             DamageMin = min;
             DamageMax = max;
             Speed = speed;
@@ -107,6 +119,33 @@ namespace ClassicCraft
 
             BaseMin = DamageMin;
             BaseMax = DamageMax;
+        }
+
+        public Weapon(string name = "New Item", Enchantment enchantment = null)
+        {
+            var selectedWeapon = BuiltIn.Where(x => string.Compare(x.Name, name, true) == 0)?.ToList().FirstOrDefault();
+            if (selectedWeapon != null)
+            {
+                Name = selectedWeapon.Name;
+                DamageMin = selectedWeapon.DamageMin;
+                DamageMax = selectedWeapon.DamageMax;
+                Speed = selectedWeapon.Speed;
+                TwoHanded = selectedWeapon.TwoHanded;
+                Type = selectedWeapon.Type;
+                Buff = selectedWeapon.Buff;
+
+                if (Buff != null && Buff.Attributes.GetValue(Attribute.WeaponDamage) > 0)
+                {
+                    double bonus = Buff.Attributes.GetValue(Attribute.WeaponDamage);
+                    DamageMin += bonus;
+                    DamageMax += bonus;
+                }
+
+                BaseMin = DamageMin;
+                BaseMax = DamageMax;
+            }
+
+            Enchantment = enchantment;
         }
 
         public override string ToString()

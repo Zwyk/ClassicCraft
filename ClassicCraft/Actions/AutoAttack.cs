@@ -53,6 +53,7 @@ namespace ClassicCraft
             int damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
                 * Player.Sim.DamageMod(res)
                 * Simulation.ArmorMitigation(Player.Sim.Boss.Armor)
+                * (Player.Class == Player.Classes.Paladin ? (1 + 0.02 * Player.GetTalentPoints("2HWS")) : 1.0)
                 * Player.DamageMod
                 * (Player.DualWielding ? (MH ? 1 : 0.5 * (1 + (0.05 * Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Player.GetTalentPoints("2HS")))
                 );
