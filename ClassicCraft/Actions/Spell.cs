@@ -27,7 +27,10 @@ namespace ClassicCraft
 
         public virtual void StartCast(bool forceInstant = false)
         {
-            Player.StartGCD();
+            if(AffectedByGCD)
+            {
+                Player.StartGCD();
+            }
             if (CastTime > 0 && !forceInstant)
             {
                 Player.casting = this;
@@ -67,7 +70,7 @@ namespace ClassicCraft
                 {
                     log += " [combo " + Player.Combo + "]";
                 }
-                if (Player.Mana > 0)
+                if (Player.MaxMana > 0)
                 {
                     log += " - Mana " + Player.Mana + "/" + Player.MaxMana;
                 }

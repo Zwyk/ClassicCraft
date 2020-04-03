@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Bloodthirst : Skill
+    class Revenge : Skill
     {
-        public static int BASE_COST = 30;
-        public static int CD = 6;
+        public static int BASE_COST = 5;
+        public static int CD = 8;//5;
 
-        public Bloodthirst(Player p)
-            : base(p, CD, BASE_COST) {}
+        public static int DMG_MIN = 64;//81;
+        public static int DMG_MAX = 78;//99;
+
+        public static int BONUS_THREAT = 315;//355;
+
+        public Revenge(Player p)
+            : base(p, CD, BASE_COST) { }
 
         public override void Cast()
         {
@@ -22,18 +27,18 @@ namespace ClassicCraft
         public override void DoAction()
         {
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
-            
-            int damage = (int)Math.Round(0.45 * Player.AP
+
+            int damage = (int)Math.Round(Randomer.Next(DMG_MIN, DMG_MAX + 1)
                 * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0 + (0.1 * Player.GetTalentPoints("Impale")) : 0))
                 * Simulation.ArmorMitigation(Player.Sim.Boss.Armor)
                 * Player.DamageMod
                 * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
                 );
 
-            int threat = (int)Math.Round(damage * Player.ThreatMod);
+            int threat = (int)Math.Round((damage + BONUS_THREAT) * Player.ThreatMod);
 
             CommonAction();
-            if(res == ResultType.Parry || res == ResultType.Dodge)
+            if (res == ResultType.Parry || res == ResultType.Dodge)
             {
                 // TODO à vérifier
                 Player.Resource -= Cost / 2;
@@ -52,6 +57,6 @@ namespace ClassicCraft
         {
             return NAME;
         }
-        public static new string NAME = "Bloodthirst";
+        public static new string NAME = "Revenge";
     }
 }

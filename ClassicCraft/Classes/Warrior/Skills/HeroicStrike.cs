@@ -11,6 +11,8 @@ namespace ClassicCraft
         public static int BASE_COST = 15;
         public static int CD = 0;
 
+        public static int BONUS_THREAT = 145;//175;
+
         public HeroicStrike(Player p)
             : base(p, CD, BASE_COST - p.GetTalentPoints("IHS"), true)
         {
@@ -47,6 +49,8 @@ namespace ClassicCraft
                 * Player.DamageMod
                 * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
 
+            int threat = (int)Math.Round((damage + BONUS_THREAT) * Player.ThreatMod);
+
             if (res == ResultType.Parry || res == ResultType.Dodge)
             {
                 // TODO à vérifier
@@ -57,7 +61,7 @@ namespace ClassicCraft
                 Player.Resource -= Cost;
             }
 
-            RegisterDamage(new ActionResult(res, damage));
+            RegisterDamage(new ActionResult(res, damage, threat));
 
             Player.CheckOnHits(true, false, res);
         }

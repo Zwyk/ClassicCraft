@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Bloodthirst : Skill
+    class SunderArmor : Skill
     {
-        public static int BASE_COST = 30;
-        public static int CD = 6;
+        public static int BASE_COST = 15;
+        public static int CD = 0;
 
-        public Bloodthirst(Player p)
-            : base(p, CD, BASE_COST) {}
+        public static int BONUS_THREAT = 260;//355;
+
+        public SunderArmor(Player p)
+            : base(p, CD, BASE_COST - p.GetTalentPoints("ISA")) { }
 
         public override void Cast()
         {
@@ -22,18 +24,13 @@ namespace ClassicCraft
         public override void DoAction()
         {
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
-            
-            int damage = (int)Math.Round(0.45 * Player.AP
-                * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0 + (0.1 * Player.GetTalentPoints("Impale")) : 0))
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor)
-                * Player.DamageMod
-                * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
-                );
 
-            int threat = (int)Math.Round(damage * Player.ThreatMod);
+            int damage = 0;
+
+            int threat = (int)Math.Round((damage + BONUS_THREAT) * Player.ThreatMod);
 
             CommonAction();
-            if(res == ResultType.Parry || res == ResultType.Dodge)
+            if (res == ResultType.Parry || res == ResultType.Dodge)
             {
                 // TODO à vérifier
                 Player.Resource -= Cost / 2;
@@ -52,6 +49,6 @@ namespace ClassicCraft
         {
             return NAME;
         }
-        public static new string NAME = "Bloodthirst";
+        public static new string NAME = "Sunder Armor";
     }
 }

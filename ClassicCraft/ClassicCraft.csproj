@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\Action.cs" />
+    <Compile Include="Actions\ChannelSpell.cs" />
     <Compile Include="Actions\Spell.cs" />
     <Compile Include="Actions\CustomAction.cs" />
     <Compile Include="Auras\Effects\CustomEffect.cs" />
@@ -68,7 +69,15 @@
     <Compile Include="Classes\Mage\Skills\Frostbolt.cs" />
     <Compile Include="Classes\Mage\Skills\PresenceOfMind.cs" />
     <Compile Include="Classes\Paladin\Paladin.cs" />
+    <Compile Include="Classes\Priest\Effects\DevouringPlagueDoT.cs" />
+    <Compile Include="Classes\Priest\Effects\InnerFocusEffect.cs" />
+    <Compile Include="Classes\Priest\Effects\SWPDoT.cs" />
     <Compile Include="Classes\Priest\Priest.cs" />
+    <Compile Include="Classes\Priest\Spells\DevouringPlague.cs" />
+    <Compile Include="Classes\Priest\Spells\InnerFocus.cs" />
+    <Compile Include="Classes\Priest\Spells\MindBlast.cs" />
+    <Compile Include="Classes\Priest\Spells\MindFlay.cs" />
+    <Compile Include="Classes\Priest\Spells\SWP.cs" />
     <Compile Include="Classes\Rogue\Effects\AdrenalineRushBuff.cs" />
     <Compile Include="Classes\Rogue\Effects\BladeFlurryBuff.cs" />
     <Compile Include="Classes\Rogue\Effects\SliceAndDiceBuff.cs" />
@@ -99,6 +108,8 @@
     <Compile Include="Classes\Warrior\Skills\Execute.cs" />
     <Compile Include="Classes\Warrior\Skills\Hamstring.cs" />
     <Compile Include="Classes\Druid\Skills\MCP.cs" />
+    <Compile Include="Classes\Warrior\Skills\Revenge.cs" />
+    <Compile Include="Classes\Warrior\Skills\SunderArmor.cs" />
     <Compile Include="Misc\Consumables\JujuFlurry\JujuFlurry.cs" />
     <Compile Include="Misc\Consumables\ManaPotion.cs" />
     <Compile Include="Misc\Consumables\MightyRage\MightyRage.cs" />

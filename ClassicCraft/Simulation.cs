@@ -30,15 +30,30 @@ namespace ClassicCraft
 
         public SimResult Results { get; set; }
         public double Damage { get; set; }
+        public double Threat { get; set; }
 
         public double CurrentTime { get; set; }
+        public double TimeLeft
+        {
+            get
+            {
+                return FightLength - CurrentTime;
+            }
+        }
 
         public bool AutoLife { get; set; }
         public double LowLifeTime { get; set; }
 
+        public bool UnlimitedMana { get; set; }
+        public bool UnlimitedResource { get; set; }
+        public bool Tanking { get; set; }
+        public double TankHitEvery { get; set; }
+        public double TankHitRage { get; set; }
+        public double LastHit { get; set; }
+
         public bool Ended { get; set; }
 
-        public Simulation(Player player, Boss boss, double fightLength, bool autoBossLife = true, double lowLifeTime = 0, double fightLengthMod = 0.2)
+        public Simulation(Player player, Boss boss, double fightLength, bool autoBossLife = true, double lowLifeTime = 0, double fightLengthMod = 0.2, bool unlimitedMana = false, bool unlimitedResource = false, bool tanking = false, double tankHitEvery = 1, double tankHitRage = 25)
         {
             Player = player;
             Boss = boss;
@@ -47,11 +62,18 @@ namespace ClassicCraft
             FightLength = fightLength * (1 + fightLengthMod/2 - (Randomer.NextDouble() * fightLengthMod));
             Results = new SimResult(FightLength);
             Damage = 0;
+            Threat = 0;
             CurrentTime = 0;
             AutoLife = autoBossLife;
             LowLifeTime = lowLifeTime;
 
-            lastHit = -hitEvery;
+            UnlimitedMana = unlimitedMana;
+            UnlimitedResource = unlimitedResource;
+            Tanking = tanking;
+            TankHitEvery = tankHitEvery;
+            TankHitRage = tankHitRage;
+
+            LastHit = -TankHitEvery;
 
             Ended = false;
         }
@@ -71,15 +93,14 @@ namespace ClassicCraft
             }
 
             Program.AddSimDps(Damage / FightLength);
+            if(Tanking)
+            {
+                Program.AddSimThreat(Threat / FightLength);
+            }
             Program.AddSimResult(Results);
 
             Ended = true;
         }
-
-        public static bool tank = true;
-        static double hitEvery = 1;
-        static double hitRage = 20;
-        double lastHit;
 
         public void SimTick()
         {
@@ -102,16 +123,24 @@ namespace ClassicCraft
                 e.CheckEffect();
             }
 
-            if(tank && lastHit + hitEvery <= CurrentTime)
+            if(Tanking && (Player.Class == Player.Classes.Warrior || Player.Form == Player.Forms.Bear) && LastHit + TankHitEvery <= CurrentTime)
             {
-                Player.Resource += (int)hitRage;
+                Player.Resource += (int)TankHitRage;
 
-                lastHit += hitEvery;
+                LastHit += TankHitEvery;
             }
 
-            if (Player.casting != null && Player.casting.CastFinish <= CurrentTime)
+            if (Player.casting != null)
             {
-                Player.casting.DoAction();
+                if (Player.casting is ChannelSpell)
+                {
+                    ((ChannelSpell)Player.casting).CheckTick();
+                }
+
+                if (Player.casting.CastFinish <= CurrentTime)
+                {
+                    Player.casting.DoAction();
+                }
             }
 
             if (Player.Class == Player.Classes.Rogue || Player.Class == Player.Classes.Druid)
@@ -120,7 +149,8 @@ namespace ClassicCraft
             }
             if (Player.MaxMana > 0)
             {
-                Player.CheckManaTick();
+                Player.CheckSpiritTick();
+                Player.CheckMPT();
             }
 
             Player.Rota();
@@ -130,6 +160,10 @@ namespace ClassicCraft
         {
             Results.Actions.Add(action);
             Damage += action.Result.Damage;
+            if (Tanking)
+            {
+                Threat += action.Result.Threat;
+            }
         }
 
         public void RegisterEffect(RegisteredEffect effect)
@@ -154,12 +188,12 @@ namespace ClassicCraft
             }
         }
 
-        public double DamageMod(ResultType type, School school = School.Physical, int level = 60, int enemyLevel = 63)
+        public double DamageMod(ResultType type, School school = School.Physical, int level = 60, int enemyLevel = 63, bool isWeapon = false)
         {
             switch (type)
             {
                 // TODO BLOCK / BLOCKCRIT
-                case ResultType.Crit: return school == School.Physical ? 2 : 1.5;
+                case ResultType.Crit: return school == School.Physical || isWeapon ? 2 : 1.5;
                 case ResultType.Hit: return 1;
                 case ResultType.Glance: return GlancingDamage(level, enemyLevel);
                 default: return 0;

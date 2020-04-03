@@ -79,6 +79,7 @@ namespace ClassicCraft
         public double Speed { get; set; }
         public bool TwoHanded { get; set; }
         public WeaponType Type { get; set; }
+        public School School { get; set; }
         public Enchantment Buff { get; set; }
         public double Dps
         {
@@ -88,7 +89,7 @@ namespace ClassicCraft
             }
         }
 
-        public Weapon(double min = 1, double max = 2, double speed = 1, bool twoHanded = true, WeaponType type = WeaponType.Axe, Attributes attributes = null, int id = 0, string name = "New Item", Enchantment enchantment = null, Enchantment buff = null, ItemEffect effect = null)
+        public Weapon(double min = 1, double max = 2, double speed = 1, bool twoHanded = true, WeaponType type = WeaponType.Axe, Attributes attributes = null, int id = 0, string name = "New Item", Enchantment enchantment = null, Enchantment buff = null, ItemEffect effect = null, School school = School.Physical)
             : base(Slot.Weapon, attributes, id, name, enchantment, effect)
         {
             DamageMin = min;
@@ -97,6 +98,7 @@ namespace ClassicCraft
             TwoHanded = twoHanded;
             Type = type;
             Buff = buff;
+            School = school;
 
             if (Buff != null && Buff.Attributes.GetValue(Attribute.WeaponDamage) > 0)
             {

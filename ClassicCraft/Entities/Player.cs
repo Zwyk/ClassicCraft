@@ -8,6 +8,9 @@ namespace ClassicCraft
 {
     public abstract class Player : Entity
     {
+        protected ManaPotion pot;
+        protected ManaRune rune;
+
         #region Util
 
         public class HitChances
@@ -341,6 +344,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Spirit, 120);
                             res.Values.Add(Attribute.Health, 1360);
                             res.Values.Add(Attribute.Mana, 1273);
+                            res.Values.Add(Attribute.CritChance, 0.03);
                             break;
                         case Races.Human:
                             res.Values.Add(Attribute.Strength, 30);
@@ -350,6 +354,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Spirit, 126);
                             res.Values.Add(Attribute.Health, 1360);
                             res.Values.Add(Attribute.Mana, 1273);
+                            res.Values.Add(Attribute.CritChance, 0.03);
                             break;
                         case Races.Troll:
                             res.Values.Add(Attribute.Strength, 31);
@@ -359,6 +364,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Spirit, 121);
                             res.Values.Add(Attribute.Health, 1360);
                             res.Values.Add(Attribute.Mana, 1273);
+                            res.Values.Add(Attribute.CritChance, 0.03);
                             break;
                         case Races.Undead:
                             res.Values.Add(Attribute.Strength, 29);
@@ -368,6 +374,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Spirit, 125);
                             res.Values.Add(Attribute.Health, 1360);
                             res.Values.Add(Attribute.Mana, 1273);
+                            res.Values.Add(Attribute.CritChance, 0.03);
                             break;
                         default: break;
                     }
@@ -407,6 +414,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Spirit, 124);
                             res.Values.Add(Attribute.Health, 1387);
                             res.Values.Add(Attribute.Mana, 1436);
+                            res.Values.Add(Attribute.CritChance, 0.03);
                             break;
                         case Races.Human:
                             res.Values.Add(Attribute.Strength, 35);
@@ -416,6 +424,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Spirit, 131);
                             res.Values.Add(Attribute.Health, 1387);
                             res.Values.Add(Attribute.Mana, 1436);
+                            res.Values.Add(Attribute.CritChance, 0.03);
                             break;
                         case Races.NightElf:
                             res.Values.Add(Attribute.Strength, 32);
@@ -425,6 +434,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Spirit, 125);
                             res.Values.Add(Attribute.Health, 1387);
                             res.Values.Add(Attribute.Mana, 1436);
+                            res.Values.Add(Attribute.CritChance, 0.03);
                             break;
                         case Races.Troll:
                             res.Values.Add(Attribute.Strength, 36);
@@ -434,6 +444,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Spirit, 126);
                             res.Values.Add(Attribute.Health, 1387);
                             res.Values.Add(Attribute.Mana, 1436);
+                            res.Values.Add(Attribute.CritChance, 0.03);
                             break;
                         case Races.Undead:
                             res.Values.Add(Attribute.Strength, 34);
@@ -443,6 +454,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Spirit, 130);
                             res.Values.Add(Attribute.Health, 1387);
                             res.Values.Add(Attribute.Mana, 1436);
+                            res.Values.Add(Attribute.CritChance, 0.03);
                             break;
                         default: break;
                     }
@@ -560,6 +572,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Spirit, 115);
                             res.Values.Add(Attribute.Health, 1414);
                             res.Values.Add(Attribute.Mana, 1373);
+                            res.Values.Add(Attribute.CritChance, 0.025);
                             break;
                         case Races.Human:
                             res.Values.Add(Attribute.Strength, 45);
@@ -569,6 +582,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Spirit, 120);
                             res.Values.Add(Attribute.Health, 1414);
                             res.Values.Add(Attribute.Mana, 1373);
+                            res.Values.Add(Attribute.CritChance, 0.025);
                             break;
                         case Races.Orc:
                             res.Values.Add(Attribute.Strength, 48);
@@ -578,6 +592,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Spirit, 118);
                             res.Values.Add(Attribute.Health, 1414);
                             res.Values.Add(Attribute.Mana, 1373);
+                            res.Values.Add(Attribute.CritChance, 0.025);
                             break;
                         case Races.Undead:
                             res.Values.Add(Attribute.Strength, 44);
@@ -587,6 +602,7 @@ namespace ClassicCraft
                             res.Values.Add(Attribute.Spirit, 120);
                             res.Values.Add(Attribute.Health, 1414);
                             res.Values.Add(Attribute.Mana, 1373);
+                            res.Values.Add(Attribute.CritChance, 0.025);
                             break;
                         default: break;
                     }
@@ -769,20 +785,29 @@ namespace ClassicCraft
             }
             set
             {
-                if (value > MaxResource)
+                if (Sim != null && Sim.UnlimitedResource)
                 {
                     resource = MaxResource;
                 }
-                else if (value < 0)
-                {
-                    resource = 0;
-                }
                 else
                 {
-                    resource = value;
+                    if (value > MaxResource)
+                    {
+                        resource = MaxResource;
+                    }
+                    else if (value < 0)
+                    {
+                        resource = 0;
+                    }
+                    else
+                    {
+                        resource = value;
+                    }
                 }
             }
         }
+
+        public double ThreatMod { get; set; }
 
         public double BaseMana { get; set; }
 
@@ -800,21 +825,28 @@ namespace ClassicCraft
             }
             set
             {
-                if (value < 0)
+                if (Sim != null && Sim.UnlimitedMana)
                 {
-                    value = 0;
+                    mana = MaxMana;
                 }
-                else if(value > MaxMana)
+                else
                 {
-                    value = MaxMana;
-                }
+                    if (value < 0)
+                    {
+                        value = 0;
+                    }
+                    else if (value > MaxMana)
+                    {
+                        value = MaxMana;
+                    }
 
-                if (value < mana)
-                {
-                    LastManaExpenditure = Sim.CurrentTime;
-                }
+                    if (value < mana)
+                    {
+                        LastManaExpenditure = Sim.CurrentTime;
+                    }
 
-                mana = value;
+                    mana = value;
+                }
             }
         }
 
@@ -903,6 +935,7 @@ namespace ClassicCraft
 
         public double GCDUntil { get; set; }
         public double ResourcesTick { get; set; }
+        public double SpiritTick { get; set; }
         public double ManaTick { get; set; }
 
         public double MPTRatio { get; set; }
@@ -940,6 +973,22 @@ namespace ClassicCraft
             }
         }
 
+        public double SpellCritRating
+        {
+            get
+            {
+                return Attributes.GetValue(Attribute.SpellCritChance) + BonusAttributes.GetValue(Attribute.SpellCritChance);
+            }
+        }
+
+        public double SpellHitRating
+        {
+            get
+            {
+                return Attributes.GetValue(Attribute.SpellHitChance) + BonusAttributes.GetValue(Attribute.SpellHitChance);
+            }
+        }
+
         public bool DualWielding
         {
             get { return !MH.TwoHanded && OH != null && OH.Type != Weapon.WeaponType.Offhand; }
@@ -953,6 +1002,8 @@ namespace ClassicCraft
 
         public Races Race { get; set; }
         public Classes Class { get; set; }
+
+        public bool Tanking { get; set; }
 
         public Action applyAtNextAA = null;
         public int nextAABonus = 0;
@@ -973,6 +1024,7 @@ namespace ClassicCraft
 
         public AutoAttack mh = null;
         public AutoAttack oh = null;
+        public AutoAttack ranged = null;
 
         public Spell casting = null;
 
@@ -991,6 +1043,12 @@ namespace ClassicCraft
             : this(s, p.Class, p.Race, p.Level, p.Equipment, p.Talents, p.Buffs)
         {
             Attributes.Values = new Dictionary<Attribute, double>(p.Attributes.Values);
+
+            DamageMod = p.DamageMod;
+            ThreatMod = p.ThreatMod;
+            MPTRatio = p.MPTRatio;
+            CastingManaRegenRate = p.CastingManaRegenRate;
+
             WeaponSkill = p.WeaponSkill;
             MH.DamageMin = p.MH.DamageMin;
             MH.DamageMax = p.MH.DamageMax;
@@ -1008,11 +1066,16 @@ namespace ClassicCraft
         }
 
         public Player(Simulation s = null, Classes c = Classes.Warrior, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, 
-            Dictionary<string, int> talents = null, List<Enchantment> buffs = null)
+            Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false)
             : base(s, MobType.Humanoid, level)
         {
             Race = r;
             Class = c;
+
+            Tanking = tanking;
+
+            pot = new ManaPotion(this);
+            rune = new ManaRune(this);
             
             Talents = new Dictionary<string, int>(talents != null ? talents : new Dictionary<string, int>());
             
@@ -1180,6 +1243,7 @@ namespace ClassicCraft
 
             HasteMod = CalcHaste();
             DamageMod = 1;
+            ThreatMod = 1;
             MPTRatio = 1;
             CastingManaRegenRate = 0;
 
@@ -1204,6 +1268,11 @@ namespace ClassicCraft
         public void CalculateAttributes()
         {
             SetBaseAttributes();
+
+            DamageMod = 1;
+            ThreatMod = 1;
+            MPTRatio = 1;
+            CastingManaRegenRate = 0;
 
             foreach (Slot s in Equipment.Keys.Where(v => Equipment[v] != null))
             {
@@ -1237,17 +1306,7 @@ namespace ClassicCraft
                 OH.DamageMax = OH.BaseMax + wbonus + wbonusOH;
             }
 
-            if (Class == Classes.Warrior)
-            {
-                Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
-                    + 0.01 * GetTalentPoints("Cruelty")
-                    + (Simulation.tank ? 0 : 0.03)); // Berserker Stance, should be a spell for stance dancing
-                if(Simulation.tank)
-                {
-                    DamageMod *= 0.9;
-                }
-            }
-            else if (Class == Classes.Druid)
+            if (Class == Classes.Druid)
             {
                 Attributes.SetValue(Attribute.Intellect, Attributes.GetValue(Attribute.Intellect)
                     * (1 + 0.04 * GetTalentPoints("HW")));
@@ -1257,6 +1316,17 @@ namespace ClassicCraft
                     + 0.01 * GetTalentPoints("SC"));
                 Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP)
                     + 0.5 * GetTalentPoints("PS") * Level);
+            }
+            else if (Class == Classes.Mage)
+            {
+                Attributes.SetValue(Attribute.SpellCritChance, Attributes.GetValue(Attribute.SpellCritChance)
+                    + 0.01 * GetTalentPoints("AI"));
+                DamageMod *= 1 + 0.01 * GetTalentPoints("AI");
+                CastingManaRegenRate += 0.05 * GetTalentPoints("AMed");
+            }
+            else if (Class == Classes.Priest)
+            {
+                CastingManaRegenRate += 0.05 * GetTalentPoints("Med");
             }
             else if (Class == Classes.Rogue)
             {
@@ -1280,12 +1350,16 @@ namespace ClassicCraft
                 Attributes.SetValue(Attribute.Spirit, Attributes.GetValue(Attribute.Spirit)
                     - 0.01 * GetTalentPoints("DE"));
             }
-            else if(Class == Classes.Mage)
+            else if (Class == Classes.Warrior)
             {
-                Attributes.SetValue(Attribute.SpellCritChance, Attributes.GetValue(Attribute.SpellCritChance)
-                    + 0.01 * GetTalentPoints("AI"));
-                DamageMod *= 1 + 0.01 * GetTalentPoints("AI");
-                CastingManaRegenRate += 0.05 * GetTalentPoints("AMed");
+                Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
+                    + 0.01 * GetTalentPoints("Cruelty")
+                    + (Tanking ? 0 : 0.03)); // Berserker Stance, should be a spell for stance dancing
+                if (Tanking)
+                {
+                    DamageMod *= 0.9;
+                    ThreatMod *= 1.3 * (1 + 0.03 * GetTalentPoints("Defiance"));
+                }
             }
 
             Attributes += BonusAttributesByRace(Race, Attributes);
@@ -1411,8 +1485,9 @@ namespace ClassicCraft
                             CustomActions.Add(procName, new CustomAction(this, procName, School.Nature));
                         }
 
-                        ResultType res2 = SpellAttackEnemy(Sim.Boss);
-                        int dmg = MiscDamageCalc(procDmg, res2, School.Nature);
+                        double mitigation = Simulation.MagicMitigation(Sim.Boss.ResistChances[School.Nature]);
+                        ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Sim.Boss);
+                        int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Nature) * mitigation);
                         CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg));
                     }
                 }
@@ -1489,9 +1564,10 @@ namespace ClassicCraft
                         CustomActions.Add(procName, new CustomAction(this, procName, School.Shadow));
                     }
 
-                    ResultType res2 = SpellAttackEnemy(Sim.Boss);
-                    int dmg = MiscDamageCalc(procDmg, res2, School.Shadow);
-                    CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg));
+                    double mitigation = Simulation.MagicMitigation(Sim.Boss.ResistChances[School.Shadow]);
+                    ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Sim.Boss);
+                    int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Shadow) * mitigation);
+                    CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round(dmg * ThreatMod)));
                 }
                 if (((isMH && MH?.Name == "Perdition's Blade") || (!isMH && OH?.Name == "Perdition's Blade")) && !alreadyProc.Contains("PB") && Randomer.NextDouble() < 0.04)
                 {
@@ -1503,9 +1579,10 @@ namespace ClassicCraft
                         CustomActions.Add(procName, new CustomAction(this, procName, School.Fire));
                     }
 
-                    ResultType res2 = SpellAttackEnemy(Sim.Boss);
-                    int dmg = MiscDamageCalc(procDmg, res2, School.Fire);
-                    CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg));
+                    double mitigation = Simulation.MagicMitigation(Sim.Boss.ResistChances[School.Fire]);
+                    ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Sim.Boss);
+                    int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Fire) * mitigation);
+                    CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round(dmg * ThreatMod)));
                 }
                 if (((isMH && MH?.Name == "Vis'kag the Bloodletter") || (!isMH && OH?.Name == "Vis'kag the Bloodletter")) && !alreadyProc.Contains("VtB") && Randomer.NextDouble() < 0.0253)
                 {
@@ -1519,7 +1596,23 @@ namespace ClassicCraft
 
                     ResultType res2 = YellowAttackEnemy(Sim.Boss);
                     int dmg = MiscDamageCalc(procDmg, res2);
-                    CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg));
+                    CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round(dmg * ThreatMod)));
+                }
+                if (((isMH && MH?.Name.ToLower().Contains("thunderfury") == true) || (!isMH && OH?.Name.ToLower().Contains("thunderfury") == true)) && !alreadyProc.Contains("tf") && Randomer.NextDouble() < 0.1917)
+                {
+                    alreadyProc.Add("tf");
+                    string procName = "Thunderfury";
+                    int procDmg = 300;
+                    int bonusThreat = Simulation.MagicMitigationBinary(Sim.Boss.MagicResist[School.Nature]) == ResultType.Hit && SpellAttackEnemy(Sim.Boss, false) == ResultType.Hit ? 235 : 0;
+                    if (!CustomActions.ContainsKey(procName))
+                    {
+                        CustomActions.Add(procName, new CustomAction(this, procName, School.Nature));
+                    }
+                    
+                    double mitigation = Simulation.MagicMitigation(Sim.Boss.ResistChances[School.Nature]);
+                    ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Sim.Boss);
+                    int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Nature) * mitigation);
+                    CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round((dmg + bonusThreat) * ThreatMod)));
                 }
             }
         }
@@ -1552,7 +1645,7 @@ namespace ClassicCraft
             Dictionary<ResultType, double> whiteHitChancesMH = new Dictionary<ResultType, double>();
             whiteHitChancesMH.Add(ResultType.Miss, MissChance(DualWielding, HitRating, WeaponSkill[MH.Type], enemy.Level));
             whiteHitChancesMH.Add(ResultType.Dodge, enemy.DodgeChance(WeaponSkill[MH.Type]));
-            whiteHitChancesMH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level));
+            whiteHitChancesMH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level, Sim.Tanking));
             whiteHitChancesMH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level));
             whiteHitChancesMH.Add(ResultType.Block, enemy.BlockChance());
             whiteHitChancesMH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritRating + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glance], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
@@ -1564,7 +1657,7 @@ namespace ClassicCraft
                 whiteHitChancesOH = new Dictionary<ResultType, double>();
                 whiteHitChancesOH.Add(ResultType.Miss, MissChance(true, HitRating + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.HitChance)), WeaponSkill[OH.Type], enemy.Level));
                 whiteHitChancesOH.Add(ResultType.Dodge, enemy.DodgeChance(WeaponSkill[OH.Type]));
-                whiteHitChancesOH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[OH.Type], enemy.Level));
+                whiteHitChancesOH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[OH.Type], enemy.Level, Sim.Tanking));
                 whiteHitChancesOH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level));
                 whiteHitChancesOH.Add(ResultType.Block, enemy.BlockChance());
                 whiteHitChancesOH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritRating + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glance], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
@@ -1574,7 +1667,7 @@ namespace ClassicCraft
             Dictionary<ResultType, double> yellowHitChances = new Dictionary<ResultType, double>();
             yellowHitChances.Add(ResultType.Miss, MissChanceYellow(HitRating, WeaponSkill[MH.Type], enemy.Level));
             yellowHitChances.Add(ResultType.Dodge, enemy.DodgeChance(WeaponSkill[MH.Type]));
-            yellowHitChances.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level));
+            yellowHitChances.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level, Sim.Tanking));
             yellowHitChances.Add(ResultType.Block, enemy.BlockChance());
             yellowHitChances.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritRating + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), yellowHitChances[ResultType.Miss], 0, yellowHitChances[ResultType.Dodge], yellowHitChances[ResultType.Parry], yellowHitChances[ResultType.Block]));
             yellowHitChances.Add(ResultType.Hit, RealHitChance(yellowHitChances[ResultType.Miss], 0, yellowHitChances[ResultType.Crit], yellowHitChances[ResultType.Dodge], yellowHitChances[ResultType.Parry], yellowHitChances[ResultType.Block]));
@@ -1617,21 +1710,36 @@ namespace ClassicCraft
             return (double)Mana / MaxMana;
         }
 
-        public bool ManaTicking()
+        public bool SpiritTicking()
         {
             return CastingManaRegenRate > 0 || Sim.CurrentTime >= LastManaExpenditure + 5;
         }
 
-        public void CheckManaTick()
+        public void CheckSpiritTick()
         {
-            if (ManaTicking() && Sim.CurrentTime >= ManaTick + 2)
+            if (SpiritTicking() && Sim.CurrentTime >= SpiritTick + 2)
             {
-                ManaTick = ManaTick < LastManaExpenditure + 5 ? (CastingManaRegenRate > 0 ? Sim.CurrentTime : LastManaExpenditure + 5) : ManaTick + 2;
-                Mana += (int)(MPT() * (Sim.CurrentTime < LastManaExpenditure + 5 ? CastingManaRegenRate : 1) * MPTRatio);
+                int tick = (int)Math.Round(SpiritMPT() * (Sim.CurrentTime < LastManaExpenditure + 5 ? CastingManaRegenRate : 1) * MPTRatio);
+                Mana += tick;
+                SpiritTick = SpiritTick < LastManaExpenditure + 5 ? (CastingManaRegenRate > 0 ? Sim.CurrentTime : LastManaExpenditure + 5) : SpiritTick + 2;
+            }
+        }
+
+        public void CheckMPT()
+        {
+            if (Sim.CurrentTime >= ManaTick + 2)
+            {
+                Mana += (int)Math.Round(MPT());
+                ManaTick += 2;
             }
         }
 
         public double MPT()
+        {
+            return Attributes.GetValue(Attribute.MP5) * 2f / 5f;
+        }
+
+        public double SpiritMPT()
         {
             switch (Class)
             {
@@ -1717,10 +1825,15 @@ namespace ClassicCraft
             return Math.Max(0, Math.Min(0.99, baseHit + spellHit));
         }
 
-        public static double EnemyParryChance(int level, int skill, int enemyLevel)
+        public static double RangedMagicHitChance(double hitRating, int skill, int enemyLevel)
+        {
+            return Math.Max(0, Math.Min(1, 1 - MissChanceBase(hitRating, skill, enemyLevel)));
+        }
+
+        public static double EnemyParryChance(int level, int skill, int enemyLevel, bool facing = false)
         {
             int skillDif = enemyLevel * 5 - level * 5;
-            return Simulation.tank ? Math.Max(0, skillDif > 10 ? 0.14 - (skill - level * 5) * 0.001 : 0.05 + (skill - enemyLevel * 5) * 0.001) : 0;
+            return facing ? Math.Max(0, skillDif > 10 ? 0.14 - (skill - level * 5) * 0.001 : 0.05 + (skill - enemyLevel * 5) * 0.001) : 0;
         }
 
         #endregion
@@ -1729,9 +1842,28 @@ namespace ClassicCraft
 
         public ResultType SpellAttackEnemy(Entity enemy, bool canCrit = true, double bonusHit = 0, double bonusCrit = 0)
         {
-            if(Randomer.NextDouble() < SpellHitChance(Attributes.GetValue(Attribute.SpellHitChance) + bonusHit, Level, enemy.Level))
+            if(Randomer.NextDouble() < SpellHitChance(SpellHitRating + bonusHit, Level, enemy.Level))
             {
-                if (canCrit && Randomer.NextDouble() < Attributes.GetValue(Attribute.SpellCritChance) + bonusCrit)
+                if (canCrit && Randomer.NextDouble() < SpellCritRating + bonusCrit)
+                {
+                    return ResultType.Crit;
+                }
+                else
+                {
+                    return ResultType.Hit;
+                }
+            }
+            else
+            {
+                return ResultType.Resist;
+            }
+        }
+
+        public ResultType RangedMagicAttackEnemy(Entity enemy, bool canCrit = true, double bonusHit = 0, double bonusCrit = 0)
+        {
+            if (Randomer.NextDouble() < RangedMagicHitChance(HitRating + bonusHit, WeaponSkill[Weapon.WeaponType.Wand], enemy.Level))
+            {
+                if (canCrit && Randomer.NextDouble() < CritRating)
                 {
                     return ResultType.Crit;
                 }

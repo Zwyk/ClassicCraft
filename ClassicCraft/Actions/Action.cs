@@ -22,10 +22,13 @@ namespace ClassicCraft
     {
         public ResultType Type { get; set; }
         public int Damage { get; set; }
-        public ActionResult(ResultType type, int damage)
+        public int Threat { get; set; }
+
+        public ActionResult(ResultType type, int damage, int? threat = null)
         {
             Type = type;
             Damage = damage;
+            Threat = threat == null ? damage : threat.Value;
         }
     }
 

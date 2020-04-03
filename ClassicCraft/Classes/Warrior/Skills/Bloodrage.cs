@@ -13,9 +13,14 @@ namespace ClassicCraft
         public static int BASE_COST = 0;
         public static int CD = 60;
 
+        public static int BASE_RAGE = 10;
+
+        public int Rage { get; set; }
+
         public Bloodrage(Player p)
             : base(p, CD, BASE_COST, false)
         {
+            Rage = 10 + (p.GetTalentPoints("IBR") > 0 ? (p.GetTalentPoints("IBR") == 1 ? 2 : 5) : 0);
         }
 
         public override void Cast()
@@ -26,7 +31,7 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            Player.Resource += 10;
+            Player.Resource += Rage;
 
             if (Player.Effects.ContainsKey(BloodrageBuff.NAME))
             {

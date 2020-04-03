@@ -1,27 +1,52 @@
-Date : 2020/02/28 16:51:20
+Date : 2020/04/02 21:22:24
 
-Fight length : 120 seconds (±20%)
+Fight length : 90 seconds (±30%)
 
 Player :
-Orc Warrior level 60 | Stats : [Strength:354][Agility:182][Stamina:112][Intellect:31][Spirit:52][Health:2629][Mana:0][AP:1329][RangedAP:1693][CritChance:23,1][HitChance:6][Haste:0][SpellHitChance:0][SpellCritChance:0][SkillDagger:0]
-Main weapon : Axe with 305 skill
+Orc Warrior level 60 | Stats : [Strength:375][Agility:145][Stamina:112][Intellect:31][Spirit:52][Health:2629][Mana:0][AP:1480][RangedAP:1770][CritChance:18,25][HitChance:5][Haste:0][SpellHitChance:0][SpellCritChance:0][SkillSword:7][SkillAxe:7][SkillDagger:0]
+Main weapon : Sword with 307 skill
 
 Boss (after raid debuffs) :
 Level 63, 336 Armor (5,76% mitigation)
 
 
-70313 simulations done in 67 808,63 ms, for 0,96 ms by sim
+9248 simulations done in 8 046,16 ms, for 0,87 ms by sim
 Overall accuracy of results : ±0,18%
 
-Base : 481,80 DPS
+Average DPS : 418,60 dps (±0,39)
+Average TPS : 903,26 tps (±0,68)
 
-Weights by DPS :
-1 AP = 0,1977 DPS
-1 Str = 0,3953 DPS = 2,0000 AP
-1 Agi = 0,2857 DPS = 1,4454 AP
-1% Crit = 5,7141 DPS = 28,9077 AP
-1% Hit = 2,2596 DPS = 11,4313 AP
-1% Haste = 3,2601 DPS = 16,4928 AP
-+1 MH DPS = 0,4497 DPS = 2,2748 AP
-+1 OH DPS = 0,4237 DPS = 2,1434 AP
-+5 MH Skill = 7,2071 DPS = 36,4604 AP
+Average stats for [AA MH] : 115,37 DPS (27,56%)
+	Average of 194,11 damage for 53,49 uses (or 1 use every 1,68s) / 172,47 TPS (19,09%)
+	Average of 290,17 threat for 53,49 uses (or 1 use every 1,68s)
+	4,95% Hit, 15,31% Crit, 20,64% Miss, 39,94% Glancing, 5,79% Dodge, 13,36% Parry
+
+Average stats for [AA OH] : 102,83 DPS (24,57%)
+	Average of 205,97 damage for 44,93 uses (or 1 use every 2,00s) / 153,72 TPS (17,02%)
+	Average of 307,91 threat for 44,93 uses (or 1 use every 2,00s)
+	62,25% Hit, 15,33% Crit, 1,66% Miss, 1,70% Glancing, 5,81% Dodge, 13,25% Parry
+
+Average stats for [Bloodthirst] : 101,42 DPS (24,23%)
+	Average of 606,75 damage for 15,04 uses (or 1 use every 5,98s) / 151,65 TPS (16,79%)
+	Average of 907,19 threat for 15,04 uses (or 1 use every 5,98s)
+	64,84% Hit, 15,21% Crit, 0,82% Miss, 0,00% Glancing, 5,73% Dodge, 13,40% Parry
+
+Average stats for [Sunder Armor] : 0,00 DPS (0,00%)
+	Average of 0,00 damage for 33,50 uses (or 1 use every 2,69s) / 144,78 TPS (16,03%)
+	Average of 389,00 threat for 33,50 uses (or 1 use every 2,69s)
+	64,86% Hit, 15,24% Crit, 0,80% Miss, 0,00% Glancing, 5,75% Dodge, 13,35% Parry
+
+Average stats for [Revenge] : 7,04 DPS (1,68%)
+	Average of 60,95 damage for 10,40 uses (or 1 use every 8,66s) / 64,95 TPS (7,19%)
+	Average of 562,15 threat for 10,40 uses (or 1 use every 8,66s)
+	64,87% Hit, 15,17% Crit, 0,78% Miss, 0,00% Glancing, 5,79% Dodge, 13,38% Parry
+
+Average stats for [Heroic Strike] : 47,97 DPS (11,46%)
+	Average of 419,61 damage for 10,29 uses (or 1 use every 8,75s) / 96,51 TPS (10,68%)
+	Average of 844,15 threat for 10,29 uses (or 1 use every 8,75s)
+	64,84% Hit, 15,36% Crit, 0,85% Miss, 0,00% Glancing, 5,82% Dodge, 13,13% Parry
+
+Average stats for [Thunderfury] : 43,83 DPS (10,47%)
+	Average of 238,43 damage for 16,54 uses (or 1 use every 5,44s) / 119,09 TPS (13,18%)
+	Average of 647,80 threat for 16,54 uses (or 1 use every 5,44s)
+	82,97% Hit, 0,00% Crit, 17,03% Resist

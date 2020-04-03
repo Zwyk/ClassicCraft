@@ -17,13 +17,13 @@ namespace ClassicCraft
             : base(p, target, friendly, baseLength, baseStacks)
         {
             TickDelay = tickDelay;
-            NextTick = Player.Sim.CurrentTime + TickDelay;
         }
 
         public override void StartEffect()
         {
             base.StartEffect();
 
+            NextTick = Player.Sim.CurrentTime + TickDelay;
             TickDamage = GetTickDamage();
         }
 

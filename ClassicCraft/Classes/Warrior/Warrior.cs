@@ -16,6 +16,8 @@ namespace ClassicCraft
         private BattleShout bs;
         private Hamstring ham;
         private Slam slam;
+        private Revenge rev;
+        private SunderArmor sa;
 
         #region Constructors
 
@@ -29,8 +31,8 @@ namespace ClassicCraft
         {
         }
 
-        public Warrior(Simulation s = null, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null)
-            : base(s, Classes.Warrior, r, level, items, talents, buffs)
+        public Warrior(Simulation s = null, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false)
+            : base(s, Classes.Warrior, r, level, items, talents, buffs, tanking)
         {
         }
 
@@ -73,6 +75,10 @@ namespace ClassicCraft
             Talents.Add("IE", fury.Length > 9 ? (int)Char.GetNumericValue(fury[9]) : 0);
             Talents.Add("IS", fury.Length > 11 ? (int)Char.GetNumericValue(fury[11]) : 0);
             Talents.Add("Flurry", fury.Length > 15 ? (int)Char.GetNumericValue(fury[15]) : 0);
+            // Protection
+            Talents.Add("IBR", prot.Length > 2 ? (int)Char.GetNumericValue(prot[2]) : 0);
+            Talents.Add("Defiance", prot.Length > 8 ? (int)Char.GetNumericValue(prot[8]) : 0);
+            Talents.Add("ISA", prot.Length > 9 ? (int)Char.GetNumericValue(prot[9]) : 0);
         }
 
         #endregion
@@ -83,14 +89,27 @@ namespace ClassicCraft
         {
             base.PrepFight();
 
-            ww = new Whirlwind(this);
-            bt = new Bloodthirst(this);
-            hs = new HeroicStrike(this);
-            exec = new Execute(this);
             br = new Bloodrage(this);
             bs = new BattleShout(this);
-            ham = new Hamstring(this);
-            slam = new Slam(this);
+            bt = new Bloodthirst(this);
+            hs = new HeroicStrike(this);
+
+            if (Sim.Tanking)
+            {
+                sa = new SunderArmor(this);
+                rev = new Revenge(this);
+            }
+            else
+            {
+                ham = new Hamstring(this);
+                ww = new Whirlwind(this);
+                exec = new Execute(this);
+
+                if (GetTalentPoints("IS") > 0)
+                {
+                    slam = new Slam(this);
+                }
+            }
 
             HasteMod = CalcHaste();
 
@@ -118,7 +137,11 @@ namespace ClassicCraft
                 }
             }
 
-            if (GetTalentPoints("IS") > 0)
+            if(Sim.Tanking)
+            {
+                rota = 2;
+            }
+            else if (GetTalentPoints("IS") > 0)
             {
                 rota = 1;
             }
@@ -159,11 +182,11 @@ namespace ClassicCraft
                     {
                         bt.Cast();
                     }
-                    else if (!Simulation.tank && ww.CanUse() && Resource >= ww.Cost + bt.Cost && bt.RemainingCD() >= GCD)
+                    else if (ww.CanUse() && Resource >= ww.Cost + bt.Cost && bt.RemainingCD() >= GCD)
                     {
                         ww.Cast();
                     }
-                    else if (!Simulation.tank && ham.CanUse() && Resource >= bt.Cost + ww.Cost + hs.Cost && ww.RemainingCD() >= GCD && bt.RemainingCD() >= GCD && (!Effects.ContainsKey(Flurry.NAME) || ((Flurry)Effects[Flurry.NAME]).CurrentStacks < 3))
+                    else if (ham.CanUse() && Resource >= bt.Cost + ww.Cost + hs.Cost && ww.RemainingCD() >= GCD && bt.RemainingCD() >= GCD && (!Effects.ContainsKey(Flurry.NAME) || ((Flurry)Effects[Flurry.NAME]).CurrentStacks < 3))
                     {
                         ham.Cast();
                     }
@@ -196,6 +219,26 @@ namespace ClassicCraft
                     {
                         exec.Cast();
                     }
+                }
+            }
+            else if(rota == 2) //REVENGE > BT > SA + HS
+            {
+                if(rev.CanUse())
+                {
+                    rev.Cast();
+                }
+                else if (bt.CanUse())
+                {
+                    bt.Cast();
+                }
+                else if(sa.CanUse())
+                {
+                    sa.Cast();
+                }
+
+                if (!MH.TwoHanded && Resource >= bt.Cost + sa.Cost + hs.Cost && hs.CanUse())
+                {
+                    hs.Cast();
                 }
             }
 

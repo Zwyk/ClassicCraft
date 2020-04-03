@@ -20,8 +20,8 @@ namespace ClassicCraft
         {
         }
 
-        public Boss(MobType type = MobType.Humanoid, int level = 63, int customArmor = 4400, int maxLife = 100000)
-            : base(null, type, level, customArmor, maxLife)
+        public Boss(MobType type = MobType.Humanoid, int level = 63, int customArmor = 4400, Dictionary<School, int> magicResist = null, int maxLife = 100000)
+            : base(null, type, level, customArmor, maxLife, magicResist)
         {
         }
 

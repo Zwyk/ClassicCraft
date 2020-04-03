@@ -228,7 +228,7 @@ namespace ClassicCraft
             foreach (Attribute a in Values.Keys)
             {
                 double val = Values[a];
-                if (a == Attribute.CritChance || a == Attribute.HitChance || a == Attribute.Haste) val *= 100;
+                if (a == Attribute.CritChance || a == Attribute.HitChance || a == Attribute.Haste || a == Attribute.SpellCritChance || a == Attribute.SpellHitChance) val *= 100;
                 stats += "[" + a + ":" + Math.Round(val*100)/100 + "]";
             }
             return stats;

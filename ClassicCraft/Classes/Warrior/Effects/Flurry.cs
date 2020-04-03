@@ -15,27 +15,30 @@ namespace ClassicCraft
         public Flurry(Player p, int points, Entity target, double baseLength = 15, int stacks = 3)
             : base(p, target, true, baseLength, stacks)
         {
-            Haste = 1 + 0.1 + ((points - 1) * 0.05);
+            Haste = 1 + (points > 0 ? 0.1 + (points - 1) * 0.05 : 0);
         }
 
         public static void CheckProc(Player p, ResultType type, int points, bool extraAA = false)
         {
-            if (p.Effects.ContainsKey(Flurry.NAME))
+            if(points > 0)
             {
-                Effect current = p.Effects[Flurry.NAME];
-                if (type == ResultType.Crit)
+                if (p.Effects.ContainsKey(Flurry.NAME))
                 {
-                    current.Refresh();
+                    Effect current = p.Effects[Flurry.NAME];
+                    if (type == ResultType.Crit)
+                    {
+                        current.Refresh();
+                    }
+                    else if (!extraAA)
+                    {
+                        current.StackRemove();
+                    }
                 }
-                else if(!extraAA)
+                else if (type == ResultType.Crit)
                 {
-                    current.StackRemove();
+                    Flurry flu = new Flurry(p, points, p);
+                    flu.StartEffect();
                 }
-            }
-            else if (type == ResultType.Crit)
-            {
-                Flurry flu = new Flurry(p, points, p);
-                flu.StartEffect();
             }
         }
 

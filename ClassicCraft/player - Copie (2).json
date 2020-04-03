@@ -1,7 +1,7 @@
 {
-  "Race": "Orc",
+  "Race": "Undead",
   "Class": "Rogue",
-  "Talents": "005303103000000-3203052020550100201-05000000000000000",
+  "Talents": "005303103-3203052020550100201-05",
   "Cooldowns": {
   },
   "Buffs": [
@@ -91,12 +91,12 @@
       }
     },
     "OH": {
-      "DamageMin": 54,
-      "DamageMax": 101,
-      "Speed": 1.7,
+      "DamageMin": 57,
+      "DamageMax": 107,
+      "Speed": 1.6,
       "TwoHanded": false,
       "Type": "Dagger",
-      "Name": "Felstriker",
+      "Name": "Core Hound Tooth",
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
@@ -162,34 +162,47 @@
       }
     },
     "Chest": {
-      "Name": "Shadowcraft Tunic",
+      "Name": "Nightslayer Chestpiece",
       "Stats": {
-        "Agi": 26
-      },
-    },
-    "Wrist": {
-      "Name": "Nightslayer Bracelets",
-      "Stats": {
-        "Agi": 20,
+        "Str": 10,
+        "Agi": 29,
+        "Crit": 1
       },
       "Enchantment": {
-        "Name": "Greater Strength",
+        "Name": "Greater Stats",
         "Stats": {
-          "Str": 7
+          "Str": 4,
+          "Agi": 4,
+          "Int": 4,
+          "Spi": 4,
+        }
+      }
+    },
+    "Wrist": {
+      "Name": "Bracers of The Eclipse",
+      "Stats": {
+        "Agi": 10,
+        "AP": 24,
+      },
+      "Enchantment": {
+        "Name": "Superior Strength",
+        "Stats": {
+          "Str": 9
         }
       }
     },
     "Hands": {
-      "Name": "Aged Core Leather Gloves",
+      "Name": "Nightslayer Gloves",
       "Stats": {
-        "Str": 15,
-        "Crit": 1,
-    "Dagger": 5
+        "Str": 12,
+        "Agi": 18,
+        "Hit": 1
       },
       "Enchantment": {
         "Name": "Greater Agility",
         "Stats": {
-          "Str": 7
+          "Str": 7,
+          "Dagger": 5,
         }
       }
     },
@@ -202,10 +215,10 @@
       }
     },
     "Legs": {
-      "Name": "Nightslayer Pants",
+      "Name": "Bloodfang Pants",
       "Stats": {
-        "Str": 10,
-        "Agi": 33,
+        "Str": 11,
+        "Agi": 37,
         "Crit": 1,
       },
       "Enchantment": {

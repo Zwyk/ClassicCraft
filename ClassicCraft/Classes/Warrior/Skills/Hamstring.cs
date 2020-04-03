@@ -11,6 +11,8 @@ namespace ClassicCraft
         public static int CD = 0;
         public static int BASE_COST = 10;
 
+        public static int BONUS_THREAT = 141;
+
         public Hamstring(Player p)
             : base(p, 0, 10, true)
         {

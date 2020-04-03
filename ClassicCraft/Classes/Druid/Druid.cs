@@ -25,8 +25,8 @@ namespace ClassicCraft
         {
         }
 
-        public Druid(Simulation s = null, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null)
-            : base(s, Classes.Druid, r, level, items, talents, buffs)
+        public Druid(Simulation s = null, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false)
+            : base(s, Classes.Druid, r, level, items, talents, buffs, tanking)
         {
         }
 
@@ -107,7 +107,7 @@ namespace ClassicCraft
                     {
                         fb.Cast();
                     }
-                    else if (Resource < shred.Cost - 20 && shift.CanUse() && (innerv.Available() || Effects.ContainsKey(InnervateBuff.NAME) || ((int)((double)Mana / shift.Cost)) * 4 + 5 >= Sim.FightLength - Sim.CurrentTime || !(ManaTicking() && Mana + MPT() < MaxMana)))
+                    else if (Resource < shred.Cost - 20 && shift.CanUse() && (innerv.Available() || Effects.ContainsKey(InnervateBuff.NAME) || ((int)((double)Mana / shift.Cost)) * 4 + 5 >= Sim.FightLength - Sim.CurrentTime || !(SpiritTicking() && Mana + SpiritMPT() < MaxMana)))
                     {
                         shift.Cast();
                     }

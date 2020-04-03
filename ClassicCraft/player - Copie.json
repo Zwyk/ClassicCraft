@@ -1,7 +1,7 @@
 {
-  "Race": "Undead",
-  "Class": "Priest",
-  "Talents": "05500013--5032504103501251",
+  "Race": "Orc",
+  "Class": "Warlock",
+  "Talents": "25002-2050300152201-52500051020001",
   "Cooldowns": {
   },
   "Buffs": [
@@ -9,55 +9,21 @@
       "Name": "Test",
       "Stats": {
         "SP": 0,
-        "SHit": 0,
         "Crit": 0,
         "AP": 0,
         "Haste": 0,
       }
     },
-    {
-      "Name": "Mark of the Wild",
-      "Stats": {
-        "Int": 16,
-        "Spi": 16,
-      }
-    },
-    {
-      "Name": "Arcane Intelect",
-      "Stats": {
-        "Int": 31,
-      }
-    },
-    {
-      "Name": "Arcane Elixir",
-      "Stats": {
-        "SP": 35,
-      }
-    },
-    {
-      "Name": "Shadow Power",
-      "Stats": {
-        "SP": 40,
-      }
-    },
-    {
-      "Name": "Bouffe",
-      "Stats": {
-        "Int": 10,
-        "MP5": 0,
-        "Spi": 0,
-      }
-    },
   ],
   "Weapons": {
     "MH": {
-      "TwoHanded": true,
+      "TwoHanded": false,
       "Type": "Sword",
       "Name": "Azuresong Mageblade",
       "Stats": {
-        "Int": 31,
-        "SP": 69,
-        "MP5": 7,
+        "Int": 12,
+        "SP": 40,
+        "SCrit": 1,
       },
       "Enchantment":
       {
@@ -67,16 +33,20 @@
         }
       }
     },
+    "OH": {
+      "TwoHanded": false,
+      "Type": "Offhand",
+      "Name": "Fire Runed Grimoire",
+      "Stats": {
+        "Int": 21,
+        "SP": 11,
+      }
+    },
     "Ranged": {
       "Type": "Wand",
-      "DamageMin": 83,
-      "DamageMax": 155,
-      "Speed": 1.9,
-      "School": "Arcane",
       "Name": "Skul's Ghastly Touch",
       "Stats": {
-        "SP": 11,
-        "Int": 4
+        "SP": 14,
       }
     },
   },
@@ -84,30 +54,36 @@
     "Head": {
       "Name": "Lionheart Helm",
       "Stats": {
-        "Spi": 10,
-        "Int": 25,
-        "SP": 14,
+        "SCrit": 1,
+        "Int": 21,
+        "SP": 21,
       },
+      "Enchantment": {
+        "Name": "Arcanum of Focus",
+        "Stats": {
+          "SP": 8
+        }
+      }
     },
     "Neck": {
       "Name": "Choker of the Fire Lord",
       "Stats": {
         "Int": 7,
-        "SP": 20,
+        "SP": 34,
       }
     },
     "Shoulders": {
       "Name": "Truestrike",
       "Stats": {
-        "Int": 16,
-        "SP": 20
+        "Int": 13,
+        "Crit": 12
       },
     },
     "Back": {
       "Name": "Puissant Cape",
       "Stats": {
-        "Int": 9,
-        "SP": 12
+        "Int": 17,
+        "SP": 14
       },
       "Enchantment": {
         "Name": "Lesser Agility",
@@ -118,23 +94,27 @@
     "Chest": {
       "Name": "Savage Gladiator Chain",
       "Stats": {
-        "Int": 12,
-        "SP": 40,
+        "Int": 15,
+        "Spi": 10,
+        "SCrit": 2,
+        "SP": 23,
       },
       "Enchantment": {
         "Name": "Greater Stats",
         "Stats": {
-          "Int": 3,
-          "Spi": 3,
+          "Str": 4,
+          "Agi": 4,
+          "Int": 4,
+          "Spi": 4,
         }
       }
     },
     "Wrist": {
       "Name": "Wristguards of Stability",
       "Stats": {
-        "Int": 10,
-        "Spi": 6,
-        "SP": 12,
+        "Int": 13,
+        "Spi": 8,
+        "SCrit": 1,
       },
       "Enchantment": {
         "Name": "Superior Strength",
@@ -145,9 +125,7 @@
     "Hands": {
       "Name": "Devilsaur Gauntlets",
       "Stats": {
-        "SP": 26,
-        "Int": 6,
-        "Spi": 6
+        "SP": 33,
       },
       "Enchantment": {
         "Name": "Greater Strength",
@@ -158,39 +136,41 @@
     "Waist": {
       "Name": "Onslaught Girdle",
       "Stats": {
-        "Int": 11,
-        "SP": 12,
-        "SHit": 1,
+        "Int": 16,
+        "SP": 25,
+        "SCrit": 1,
       }
     },
     "Legs": {
       "Name": "Devilsaur Leggings",
       "Stats": {
-        "SP": 34,
-        "Int": 8
+        "SP": 64,
       },
+      "Enchantment": {
+        "Name": "Lesser Arcane Amalgamation",
+        "Stats": {
+          "SP": 8
+        }
+      }
     },
     "Feet": {
       "Name": "Battlechaser's Greaves",
       "Stats": {
-        "SP": 27,
-        "Int": 9,
+        "SP": 32,
+        "Int": 10,
+        "MP5": 5,
       },
     },
     "Ring1": {
       "Name": "Band of Accuria",
       "Stats": {
-        "SP": 18,
-        "Int": 7,
-        "Spi": 6,
+        "SP": 33,
       }
     },
     "Ring2": {
       "Name": "Band of Accuria",
       "Stats": {
-        "SP": 18,
-        "Int": 7,
-        "Spi": 4,
+        "SP": 33,
       }
     },
     "Trinket1": {
@@ -202,7 +182,7 @@
     "Trinket2": {
       "Name": "Blackhand's Breadth",
       "Stats": {
-        "SP": 12
+        "SCrit": 2
       }
     }
   }

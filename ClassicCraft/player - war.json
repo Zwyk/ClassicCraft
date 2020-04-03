@@ -1,25 +1,26 @@
 {
   "Race": "Orc",
-  "Class": "Rogue",
-  "Talents": "005303103000000-3203052020550100201-05000000000000000",
+  "Class": "Warrior",
+  "Talents": "-05050005405010051-5023011053",
   "Cooldowns": {
+    "Racial": false,
+    "Death Wish": true,
+    "Recklessness": false,
+    "Juju Flurry": false,
+    "Mighty Rage": false,
   },
   "Buffs": [
+    {
+      "Name": "Windfury Totem"
+    },
     {
       "Name": "Test",
       "Stats": {
         "Hit": 0,
         "Crit": 0,
-        "AP": 0,
-      }
-    },
-    {
-      "Name": "Windfury Totem"
-    },
-    {
-      "Name": "Leader of the Pack",
-      "Stats": {
-        "Crit": 3
+        "AP": 30,
+        "Haste": 0,
+        "Dagger": 0,
       }
     },
     {
@@ -42,15 +43,15 @@
       }
     },
     {
-      "Name": "Elixir of Giants",
+      "Name": "R.O.I.D.S.",
       "Stats": {
         "Str": 25,
       }
     },
     {
-      "Name": "Ground Scorpok Assay",
+      "Name": "Blessed Sunfruit",
       "Stats": {
-        "Agi": 25,
+        "Str": 10,
       }
     },
     {
@@ -61,29 +62,24 @@
       }
     },
     {
-      "Name": "Juju Power",
+      "Name": "Elixir of Giants",
       "Stats": {
-        "AP": 40,
-      }
-    },
-    {
-      "Name": "Juju Might",
-      "Stats": {
-        "Str": 30,
+        "AP": 35,
       }
     },
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 73,
-      "DamageMax": 137,
-      "Speed": 1.8,
+      "DamageMin": 44,
+      "DamageMax": 115,
+      "Speed": 1.9,
       "TwoHanded": false,
-      "Type": "Dagger",
-      "Name": "Perdition's Blade",
+      "Type": "Sword",
+      "Name": "Thunderfury",
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
+        "Agi": 5,
       },
       "Enchantment":
       {
@@ -91,17 +87,16 @@
       }
     },
     "OH": {
-      "DamageMin": 54,
-      "DamageMax": 101,
-      "Speed": 1.7,
+      "DamageMin": 101,
+      "DamageMax": 188,
+      "Speed": 2.3,
       "TwoHanded": false,
-      "Type": "Dagger",
-      "Name": "Felstriker",
+      "Type": "Axe",
+      "Name": "Crul",
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
-        "Crit": 1,
-        "AP": 20,
+        "AP": 36,
       },
       "Enchantment":
       {
@@ -110,49 +105,39 @@
     },
     "Ranged": {
       "Type": "Bow",
-      "Name": "Striker's Mark",
+      "Name": "Satyr",
       "Stats": {
-        "AP": 22,
+        "Agi": 3,
         "Hit": 1,
       }
     },
   },
   "Equipment": {
     "Head": {
-      "Name": "Bloodfang Hood",
+      "Name": "Crown",
       "Stats": {
-        "Str": 19,
-        "Agi": 27,
-        "Crit": 1
+        "Crit": 2,
+        "AP": 44,
       },
-      "Enchantment": {
-        "Name": "Lesser Arcane Amalgamation",
-        "Stats": {
-          "Agi": 8
-        }
-      }
     },
     "Neck": {
       "Name": "Onyxia Tooth Pendant",
       "Stats": {
-        "Agi": 12,
         "Crit": 1,
         "Hit": 1,
+        "Agi": 12,
       }
     },
     "Shoulders": {
-      "Name": "Nightslayer Shoulder Pads",
+      "Name": "T1",
       "Stats": {
-        "Str": 3,
-        "Agi": 26,
-        "Hit": 1,
+        "Str": 15
       },
     },
     "Back": {
-      "Name": "Cape of the Black Baron",
+      "Name": "Fanta",
       "Stats": {
-        "Agi": 15,
-        "AP": 20
+        "Str": 12,
       },
       "Enchantment": {
         "Name": "Lesser Agility",
@@ -162,15 +147,37 @@
       }
     },
     "Chest": {
-      "Name": "Shadowcraft Tunic",
+      "Name": "T2",
       "Stats": {
-        "Agi": 26
+        "Str": 17,
       },
+      "Enchantment": {
+        "Name": "Greater Stats",
+        "Stats": {
+          "Str": 4,
+          "Agi": 4,
+          "Int": 4,
+          "Spi": 4,
+        }
+      }
     },
     "Wrist": {
-      "Name": "Nightslayer Bracelets",
+      "Name": "T2",
       "Stats": {
-        "Agi": 20,
+        "Str": 13,
+      },
+      "Enchantment": {
+        "Name": "Superior Strength",
+        "Stats": {
+          "Str": 9
+        }
+      }
+    },
+    "Hands": {
+      "Name": "edge",
+      "Stats": {
+        "Sword": 7,
+        "Axe": 7,
       },
       "Enchantment": {
         "Name": "Greater Strength",
@@ -179,60 +186,38 @@
         }
       }
     },
-    "Hands": {
-      "Name": "Aged Core Leather Gloves",
+    "Waist": {
+      "Name": "Brigam",
       "Stats": {
         "Str": 15,
-        "Crit": 1,
-    "Dagger": 5
-      },
-      "Enchantment": {
-        "Name": "Greater Agility",
-        "Stats": {
-          "Str": 7
-        }
-      }
-    },
-    "Waist": {
-      "Name": "Nightslayer Belt",
-      "Stats": {
-        "Str": 9,
-        "Agi": 17,
-        "Crit": 1,
+        "Hit": 1,
       }
     },
     "Legs": {
-      "Name": "Nightslayer Pants",
+      "Name": "T2",
       "Stats": {
-        "Str": 10,
-        "Agi": 33,
-        "Crit": 1,
+        "Str": 19,
       },
-      "Enchantment": {
-        "Name": "Lesser Arcane Amalgamation",
-        "Stats": {
-          "Agi": 8
-        }
-      }
     },
     "Feet": {
-      "Name": "Nightslayer Boots",
+      "Name": "T1",
       "Stats": {
-        "Agi": 26,
+        "Str": 15,
       },
     },
     "Ring1": {
-      "Name": "Tarnished Elven Ring",
+      "Name": "Master Dragonslayer's Ring",
       "Stats": {
-        "Agi": 15,
+        "AP": 48,
         "Hit": 1
       }
     },
     "Ring2": {
-      "Name": "Band of Accuria",
+      "Name": "Don Julio",
       "Stats": {
-        "Agi": 16,
-        "Hit": 2
+        "AP": 16,
+        "Hit": 1,
+        "Crit": 1
       }
     },
     "Trinket1": {
@@ -242,10 +227,10 @@
       }
     },
     "Trinket2": {
-      "Name": "Blackhand's Breadth",
+      "Name": "Flask",
       "Stats": {
-        "Crit": 2
+        "Str": 75
       }
-    },
+    }
   }
 }

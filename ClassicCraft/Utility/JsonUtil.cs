@@ -87,8 +87,9 @@ namespace ClassicCraft
             public bool TwoHanded { get; set; }
             public string Type { get; set; }
             public JsonEnchantment Buff { get; set; }
+            public string School { get; set; }
 
-            public JsonWeapon(double damageMin = 0, double damageMax = 0, double speed = 0, bool twoHanded = true, string type = "Axe", int id = 0, string name = "New Item", Dictionary<string, double> attributes = null, JsonEnchantment enchantment = null, JsonEnchantment buffs = null)
+            public JsonWeapon(double damageMin = 0, double damageMax = 0, double speed = 0, bool twoHanded = true, string type = "Axe", int id = 0, string name = "New Item", Dictionary<string, double> attributes = null, JsonEnchantment enchantment = null, JsonEnchantment buffs = null, string school = "Physical")
                 : base(id, name, "Weapon", attributes, enchantment)
             {
                 DamageMin = damageMin;
@@ -97,6 +98,7 @@ namespace ClassicCraft
                 TwoHanded = twoHanded;
                 Type = type;
                 Buff = buffs;
+                School = school;
             }
 
             public static Weapon ToWeapon(JsonWeapon jw)
@@ -105,7 +107,7 @@ namespace ClassicCraft
                 if (jw == null) return null;
                 else
                 {
-                    Weapon res = new Weapon(jw.DamageMin, jw.DamageMax, jw.Speed, jw.TwoHanded, Weapon.StringToType(jw.Type), new Attributes(jw.Stats), jw.Id, jw.Name, ClassicCraft.Enchantment.ToEnchantment(jw.Enchantment), ClassicCraft.Enchantment.ToEnchantment(jw.Buff), null);
+                    Weapon res = new Weapon(jw.DamageMin, jw.DamageMax, jw.Speed, jw.TwoHanded, Weapon.StringToType(jw.Type), new Attributes(jw.Stats), jw.Id, jw.Name, ClassicCraft.Enchantment.ToEnchantment(jw.Enchantment), ClassicCraft.Enchantment.ToEnchantment(jw.Buff), null, SchoolFromString(jw.School));
                     if(res.Attributes != null)
                     {
                         res.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100);
@@ -139,7 +141,7 @@ namespace ClassicCraft
                 if (w == null) return null;
                 else
                 {
-                    JsonWeapon res = new JsonWeapon(w.DamageMin, w.DamageMax, w.Speed, w.TwoHanded, Weapon.TypeToString(w.Type), w.Id, w.Name, Attributes.ToStringDic(w.Attributes), ClassicCraft.Enchantment.FromEnchantment(w.Enchantment), ClassicCraft.Enchantment.FromEnchantment(w.Buff));
+                    JsonWeapon res = new JsonWeapon(w.DamageMin, w.DamageMax, w.Speed, w.TwoHanded, Weapon.TypeToString(w.Type), w.Id, w.Name, Attributes.ToStringDic(w.Attributes), ClassicCraft.Enchantment.FromEnchantment(w.Enchantment), ClassicCraft.Enchantment.FromEnchantment(w.Buff), SchoolToString(w.School));
                     if(res.Stats != null)
                     {
                         if (res.Stats.ContainsKey("Crit")) res.Stats["Crit"] *= 100;
@@ -230,7 +232,7 @@ namespace ClassicCraft
                 Cooldowns = cooldowns;
             }
 
-            public static Player ToPlayer(JsonPlayer jp)
+            public static Player ToPlayer(JsonPlayer jp, bool tanking = false)
             {
                 List<Enchantment> buffs = new List<Enchantment>();
                 if(jp.Buffs != null)
@@ -260,49 +262,49 @@ namespace ClassicCraft
                 switch(ToClass(jp.Class))
                 {
                     case Player.Classes.Druid:
-                        return new Druid(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
+                        return new Druid(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Hunter:
-                        return new Hunter(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
+                        return new Hunter(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Paladin:
-                        return new Paladin(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
+                        return new Paladin(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Priest:
-                        return new Priest(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
+                        return new Priest(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Rogue:
-                        return new Rogue(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
+                        return new Rogue(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Shaman:
-                        return new Shaman(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
+                        return new Shaman(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Warlock:
-                        return new Warlock(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
+                        return new Warlock(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Warrior:
-                        return new Warrior(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs)
+                        return new Warrior(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
@@ -417,7 +419,7 @@ namespace ClassicCraft
                         + (debuffs.Any(d => d.ToLower().Contains("annihilator")) ? 600 : 0);
                 }
 
-                return new Boss(ToType(jb.Type), jb.Level, Math.Max(0, armor));
+                return new Boss(ToType(jb.Type), jb.Level, Math.Max(0, armor), magicResist);
             }
 
             public static Entity.MobType ToType(string s)
@@ -446,8 +448,13 @@ namespace ClassicCraft
             public bool BossAutoLife { get; set; }
             public double BossLowLifeTime { get; set; }
             public JsonBoss Boss { get; set; }
+            public bool UnlimitedMana { get; set; }
+            public bool UnlimitedResource { get; set; }
+            public bool Tanking { get; set; }
+            public double TankHitEvery { get; set; }
+            public double TankHitRage { get; set; }
 
-            public JsonSim(JsonBoss boss = null, double fightLength = 300, double fightLengthMod = 0.2, int nbSim = 1000, double targetErrorPct = 0.5, bool targetError = true, bool logFight = false, bool statsWeights = false, bool bossAutoLife = true, double bossLowLifeTime = 0)
+            public JsonSim(JsonBoss boss = null, double fightLength = 300, double fightLengthMod = 0.2, int nbSim = 1000, double targetErrorPct = 0.5, bool targetError = true, bool logFight = false, bool statsWeights = false, bool bossAutoLife = true, double bossLowLifeTime = 0, bool unlimitedMana = false, bool unlimitedResource = false, bool tanking = false, double tankHitEvery = 1, double tankHitRage = 25)
             {
                 Boss = boss;
                 FightLength = fightLength;
@@ -459,6 +466,11 @@ namespace ClassicCraft
                 StatsWeights = statsWeights;
                 BossAutoLife = bossAutoLife;
                 BossLowLifeTime = bossLowLifeTime;
+                UnlimitedMana = unlimitedMana;
+                UnlimitedResource = unlimitedResource;
+                Tanking = tanking;
+                TankHitEvery = tankHitEvery;
+                TankHitRage = tankHitRage;
             }
         }
 
@@ -485,6 +497,36 @@ namespace ClassicCraft
                 Id = id;
                 Name = name;
                 Stats = stats;
+            }
+        }
+
+        public static School SchoolFromString(string s)
+        {
+            switch (s)
+            {
+                case "Magical": return School.Magical;
+                case "Fire": return School.Fire;
+                case "Arcane": return School.Arcane;
+                case "Frost": return School.Frost;
+                case "Shadow": return School.Shadow;
+                case "Nature": return School.Nature;
+                case "Light": return School.Light;
+                default: return School.Physical;
+            }
+        }
+
+        public static string SchoolToString(School s)
+        {
+            switch (s)
+            {
+                case School.Magical: return  "Magical";
+                case School.Fire: return "Fire";
+                case School.Arcane: return "Arcane";
+                case School.Frost: return "Frost";
+                case School.Shadow: return "Shadow";
+                case School.Nature: return "Nature";
+                case School.Light: return  "Light";
+                default: return "Physical";
             }
         }
     }
