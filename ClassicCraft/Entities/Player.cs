@@ -1292,6 +1292,8 @@ namespace ClassicCraft
             }
             else if (Class == Classes.Paladin)
             {
+                Attributes.SetValue(Attribute.HitChance, Attributes.GetValue(Attribute.HitChance)
+                    + GetTalentPoints("Prcsn") / 100.0);
                 Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance) + 0.01 * GetTalentPoints("Conv"));
                 Attributes.SetValue(Attribute.Strength, Attributes.GetValue(Attribute.Strength) + Attributes.GetValue(Attribute.Strength) * 0.02 * GetTalentPoints("DivStr"));
                 Attributes.SetValue(Attribute.Intellect, Attributes.GetValue(Attribute.Intellect) + Attributes.GetValue(Attribute.Intellect) * 0.02 * GetTalentPoints("DivInt"));

@@ -275,6 +275,9 @@ namespace ClassicCraft
 			Talents.Add("HealingLight", holy.Length > 4 ? (int)Char.GetNumericValue(holy[4]) : 0);
 			Talents.Add("Consecration", holy.Length > 5 ? (int)Char.GetNumericValue(holy[5]) : 0);
 
+			// Prot
+			Talents.Add("Prcsn", prot.Length > 1 ? (int)Char.GetNumericValue(prot[2]) : 0);
+
 			// Ret
 			Talents.Add("ImpBoM", ret.Length > 0 ? (int)Char.GetNumericValue(ret[0]) : 0);
 			Talents.Add("Bene", ret.Length > 1 ? (int)Char.GetNumericValue(ret[1]) : 0);
