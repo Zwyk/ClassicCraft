@@ -23,13 +23,17 @@ namespace ClassicCraft
 
         public override void Cast()
         {
-            CommonManaSpell();
+            CommonManaSpell(Player.Effects.ContainsKey(RuneOfMeta.NAME) ? 0 : Cost);
             DoAction();
+            Player.StartGCD();
         }
 
         public override void DoAction()
         {
             base.DoAction();
+
+            Player.Form = Player.Forms.Cat;
+            Player.ResetMHSwing();
 
             Player.Resource = 0
                 + ((Randomer.NextDouble() < Player.GetTalentPoints("Furor") * 0.2) ? 40 : 0)

@@ -47,7 +47,7 @@ namespace ClassicCraft
         public static string logsFileName = "logs";
         public static string txt = ".txt";
 
-        public static bool debug = true;
+        public static bool debug = false;
         public static string debugPath = ".\\..\\..";
 
         public static Player playerBase = null;
@@ -194,6 +194,11 @@ namespace ClassicCraft
                 
                 playerBase = JsonUtil.JsonPlayer.ToPlayer(jsonPlayer, jsonSim.Tanking);
 
+                if(playerBase.MH == null)
+                {
+                    playerBase.MH = new Weapon();
+                }
+
                 if (playerBase.Class == Player.Classes.Rogue || playerBase.Class == Player.Classes.Warrior)
                 {
                     simOrder.Remove("+50 SP");
@@ -201,7 +206,7 @@ namespace ClassicCraft
                     simOrder.Remove("+50 Spi");
                     simOrder.Remove("+30 MP5");
                 }
-                if(!playerBase.DualWielding)
+                if(playerBase.OH == null || !playerBase.DualWielding)
                 {
                     simOrder.Remove("+10 DPS OH");
                     simOrder.Remove("+1 OH Skill");
@@ -215,7 +220,8 @@ namespace ClassicCraft
                 if(playerBase.Class == Player.Classes.Druid
                     || playerBase.Class == Player.Classes.Warlock
                     || playerBase.Class == Player.Classes.Mage
-                    || playerBase.Class == Player.Classes.Priest)
+                    || playerBase.Class == Player.Classes.Priest
+                    || playerBase.MH == null)
                 {
                     simOrder.Remove("+10 DPS MH");
                     simOrder.Remove("+1 MH Skill");
@@ -277,12 +283,10 @@ namespace ClassicCraft
                     int reduction = playerBase.GetTalentPoints("AS") * 5;
                     if(reduction > 0)
                     {
-                        List<JsonUtil.JsonBoss.SchoolResist> l = new List<JsonUtil.JsonBoss.SchoolResist>();
-                        foreach (JsonUtil.JsonBoss.SchoolResist sr in jsonSim.Boss.SchoolResists)
+                        foreach(string k in jsonSim.Boss.SchoolResists.Keys)
                         {
-                            l.Add(new JsonUtil.JsonBoss.SchoolResist(sr.School, Math.Max(0, sr.Resist - reduction)));
+                            jsonSim.Boss.SchoolResists[k] = Math.Max(0, jsonSim.Boss.SchoolResists[k] - reduction);
                         }
-                        jsonSim.Boss.SchoolResists = l;
                     }
                 }
                 bossBase = JsonUtil.JsonBoss.ToBoss(jsonSim.Boss, playerBase.Attributes.GetValue(Attribute.ArmorPen));
@@ -454,7 +458,7 @@ namespace ClassicCraft
                         if (apDif < 0) apDif = 0;
                         Log(string.Format("1 AP = {0:N4} DPS", apDif));
 
-                        double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * (playerBase.Class == Player.Classes.Druid ? (1 + 0.04 * playerBase.GetTalentPoints("HW")) : 1);
+                        double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * playerBase.BonusStrToAPRatio();
                         Log(string.Format("1 Str = {0:N4} DPS = {1:N4} AP", strDif, strDif / apDif));
                     }
                     if (simOrder.Contains("+50 SP"))
@@ -682,7 +686,11 @@ namespace ClassicCraft
                     {
                         Log(string.Format("Average TPS : {0:N2} tps (±{1:N2})", CurrentTpsList.Average(), Stats.MeanStdDev(CurrentTpsList.ToArray())));
                     }
-                    Log(string.Format("\nAverage DPS : {0:N2} dps (±{1:N2})", avgDps, Stats.MeanStdDev(CurrentDpsList.ToArray())));
+                    else
+                    {
+                        Log("");
+                    }
+                    Log(string.Format("Average DPS : {0:N2} dps (±{1:N2})", avgDps, Stats.MeanStdDev(CurrentDpsList.ToArray())));
 
                     //List<string> logList = totalActions.SelectMany(a => a.Select(t => t.Action.ToString()).OrderBy(b => b)).Distinct().ToList();
                     List<string> logList = new List<string>() { "AA MH", "AA OH", "AA Ranged", "AA Wand" };
@@ -815,9 +823,9 @@ namespace ClassicCraft
             }
         }
 
-        public static void Log(string log)
+        public static void Log(object log)
         {
-            logs += log + "\n";
+            logs += log.ToString() + "\n";
         }
 
         public static void Debug(object str)

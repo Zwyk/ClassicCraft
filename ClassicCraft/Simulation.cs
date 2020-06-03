@@ -234,12 +234,12 @@ namespace ClassicCraft
 
         public static ResultType MagicMitigationBinary(int resistance)
         {
-            return Randomer.NextDouble() < AverageResistChance(resistance) ? ResultType.Hit : ResultType.Resist;
+            return Randomer.NextDouble() < AverageResistChance(resistance) ? ResultType.Resist : ResultType.Hit;
         }
 
         public static double AverageResistChance(int resistance, int attackerLevel = 60)
         {
-            return 1 - Math.Min(0.75, resistance / (attackerLevel * 5) * 0.75);
+            return Math.Min(0.75, resistance / (attackerLevel * 5.0) * 0.75);
         }
 
         public static Dictionary<double, double> ResistChances(int resistance)

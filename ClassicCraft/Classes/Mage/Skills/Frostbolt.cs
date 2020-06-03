@@ -60,7 +60,6 @@ namespace ClassicCraft
                 * Player.DamageMod
                 );
 
-            ShadowVulnerability.CheckProc(Player, this, res);
             RegisterDamage(new ActionResult(res, damage));
         }
     }

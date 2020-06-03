@@ -15,8 +15,6 @@ namespace ClassicCraft
         public static int CD = 180;
         public static double CAST_TIME = 0;
 
-        private int costKeeper = BASE_COST;
-
         public DevouringPlague(Player p)
             : base(p, CD, BASE_COST, true, true, School.Shadow, CAST_TIME)
         {
@@ -27,16 +25,11 @@ namespace ClassicCraft
             base.DoAction();
 
             bool inner = Player.Effects.ContainsKey(InnerFocusBuff.NAME);
-            if (inner)
-            {
-                Cost = 0;
-            }
 
-            CommonManaSpell();
+            CommonManaSpell(inner ? 0 : Cost);
 
             if(inner)
             {
-                Cost = costKeeper;
                 Player.Effects[InnerFocusBuff.NAME].EndEffect();
             }
 

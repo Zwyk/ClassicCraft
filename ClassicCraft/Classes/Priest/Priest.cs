@@ -82,7 +82,7 @@ namespace ClassicCraft
         }
 
         public static bool USE_WAND = true;
-        public static bool USE_POTS = false;
+        public static bool USE_POTS = true;
 
         public bool wanding = false;
 

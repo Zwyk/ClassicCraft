@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    public abstract class Consumable : Skill
+    public abstract class ActiveItem : Skill
     {
-        public Consumable(Player p, double baseCD)
+        public ActiveItem(Player p, double baseCD)
             : base(p, baseCD, 0, false)
         {
         }

@@ -10,6 +10,7 @@ namespace ClassicCraft
     {
         private ShadowBolt sb;
         private Corruption co;
+        private CurseOfAgony ca;
         private LifeTap lt;
 
         #region Constructors
@@ -83,21 +84,29 @@ namespace ClassicCraft
             Mana = MaxMana;
 
             sb = new ShadowBolt(this);
-            co = new Corruption(this);
+            co = Cooldowns.Contains("Corruption") ? new Corruption(this) : null;
+            ca = Cooldowns.Contains("Curse of Agony") ? new CurseOfAgony(this) : null;
             lt = new LifeTap(this);
         }
 
         public override void Rota()
         {
-            if (rota == 0) // SB (+ Corr) (+ Agony)
+            if (rota == 0) // SB + LT (+ Corr)
             {
                 if(casting == null)
                 {
-                    if(co.CanUse() && (!Sim.Boss.Effects.ContainsKey(CorruptionDoT.NAME) || Sim.Boss.Effects[CorruptionDoT.NAME].RemainingTime() < co.CastTime))
+                    if (co != null && co.CanUse() && (!Sim.Boss.Effects.ContainsKey(CorruptionDoT.NAME) || Sim.Boss.Effects[CorruptionDoT.NAME].RemainingTime() < co.CastTime))
                     {
                         co.Cast();
                     }
-                    if(sb.CanUse() && (Sim.Boss.Effects.ContainsKey(CorruptionDoT.NAME) && Sim.Boss.Effects[CorruptionDoT.NAME].RemainingTime() > sb.CastTimeWithGCD + co.CastTime))
+                    if (ca != null && ca.CanUse() && (!Sim.Boss.Effects.ContainsKey(CurseOfAgonyDoT.NAME) || Sim.Boss.Effects[CurseOfAgonyDoT.NAME].RemainingTime() < ca.CastTime))
+                    {
+                        ca.Cast();
+                    }
+                    if (sb.CanUse()
+                        && (co == null || (Sim.Boss.Effects.ContainsKey(CorruptionDoT.NAME) && Sim.Boss.Effects[CorruptionDoT.NAME].RemainingTime() > sb.CastTimeWithGCD + co.CastTime))
+                        && (ca == null || (Sim.Boss.Effects.ContainsKey(CurseOfAgonyDoT.NAME) && Sim.Boss.Effects[CurseOfAgonyDoT.NAME].RemainingTime() > sb.CastTimeWithGCD + ca.CastTime))
+                        )
                     {
                         sb.Cast();
                     }

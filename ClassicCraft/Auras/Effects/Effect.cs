@@ -17,14 +17,17 @@ namespace ClassicCraft
         public int CurrentStacks { get; set; }
         public List<double> AppliedTimes { get; set; }
 
+        public bool IsPermanent { get; set; }
+
         public Effect(Player p, Entity target, bool friendly, double baseLength, int baseStacks = 1)
             : base(p)
         {
+            IsPermanent = baseLength < 0;
             Target = target;
             Friendly = friendly;
-            Start = Player.Sim.CurrentTime;
-            BaseLength = baseLength;
-            End = Start + BaseLength;
+            Start = IsPermanent ? -1 : Player.Sim.CurrentTime;
+            BaseLength = IsPermanent ? -1 : baseLength;
+            End = IsPermanent ? -1 : Start + BaseLength;
             BaseStacks = baseStacks;
             CurrentStacks = BaseStacks;
             AppliedTimes = new List<double>();
@@ -33,12 +36,12 @@ namespace ClassicCraft
 
         public double RemainingTime()
         {
-            return End - Player.Sim.CurrentTime;
+            return IsPermanent ? -1 : End - Player.Sim.CurrentTime;
         }
 
         public virtual void CheckEffect()
         {
-            if (End < Player.Sim.CurrentTime)
+            if (!IsPermanent && End < Player.Sim.CurrentTime)
             {
                 EndEffect();
             }

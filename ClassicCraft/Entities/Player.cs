@@ -75,7 +75,7 @@ namespace ClassicCraft
 
         public enum Forms
         {
-            Human,
+            Humanoid,
             Bear,
             Cat,
         }
@@ -196,9 +196,16 @@ namespace ClassicCraft
             }
         }
         
-        public static int StrToAPRatio(Classes c)
+        public static double StrToAPRatio(Classes c)
         {
             return (c == Classes.Druid || c == Classes.Warrior || c == Classes.Shaman || c == Classes.Paladin) ? 2 : 1;
+        }
+
+        public double BonusStrToAPRatio()
+        {
+            return 1
+                * (Class == Classes.Druid ? (1 + 0.04 * GetTalentPoints("HW")) : 1)
+                * (Buffs.Any(b => b.Name.ToLower().Contains("blessing of kings")) ? 1.1 : 1);
         }
 
         public static int AgiToRangedAPRatio(Classes c)
@@ -709,7 +716,7 @@ namespace ClassicCraft
             return res;
         }
 
-        public static int BaseAP(Classes c, int level = 60)
+        public int BaseAP(Classes c, int level = 60)
         {
             switch (c)
             {
@@ -726,8 +733,9 @@ namespace ClassicCraft
                 case Classes.Druid:
                     // -20 // Normal
                     // level * 1.5 - 20 // Moonkin
-                    // level * 3 - 20 // Bear
-                    return level * 2 - 20; // Cat
+                    return Sim.Tanking ?
+                        level * 3 - 20: //Bear
+                        level * 2 - 20; // Cat
                 default:
                     return level * 2 - 20;
             }
@@ -761,7 +769,7 @@ namespace ClassicCraft
 
         public static List<string> SPECIALSETS_LIST = new List<string>()
         {
-            "Nightslayer", "Shadowcraft"
+            "Nightslayer", "Shadowcraft", "Darkmantle"
         };
 
         #endregion
@@ -991,7 +999,7 @@ namespace ClassicCraft
 
         public bool DualWielding
         {
-            get { return !MH.TwoHanded && OH != null && OH.Type != Weapon.WeaponType.Offhand; }
+            get { return MH != null && !MH.TwoHanded && OH != null && OH.Type != Weapon.WeaponType.Offhand; }
         }
 
         public Attributes Attributes { get; set; }
@@ -1247,7 +1255,7 @@ namespace ClassicCraft
             MPTRatio = 1;
             CastingManaRegenRate = 0;
 
-            Form = Forms.Human;
+            Form = Forms.Humanoid;
             Stealthed = false;
 
             Attributes = new Attributes();
@@ -1492,7 +1500,7 @@ namespace ClassicCraft
                     }
                 }
 
-                if (Form == Forms.Human)
+                if (Form == Forms.Humanoid)
                 {
                     if ((isMH && MH.Enchantment != null && MH.Enchantment.Name == "Crusader") || (!isMH && OH.Enchantment != null && OH.Enchantment.Name == "Crusader"))
                     {
@@ -1515,9 +1523,9 @@ namespace ClassicCraft
 
                 if(isAA && (Class == Classes.Rogue || Form == Forms.Cat))
                 {
-                    if (Sets["Shadowcraft"] >= 6 && 
-                        (Form == Forms.Cat && Randomer.NextDouble() < 1.0 / 60) ||
-                        (Form != Forms.Cat && ((isMH && Randomer.NextDouble() < MH.Speed / 60) || (!isMH && Randomer.NextDouble() < OH.Speed / 60))))
+                    if ((Sets["Shadowcraft"] >= 6 || Sets["Darkmantle"] >= 4) && 
+                        (Form == Forms.Cat && Randomer.NextDouble() < 1.0 / 60 ||
+                        (Form != Forms.Cat && ((isMH && Randomer.NextDouble() < MH.Speed / 60) || (!isMH && Randomer.NextDouble() < OH.Speed / 60)))))
                     {
                         Resource += 35;
                         if(Program.logFight)
@@ -1685,6 +1693,11 @@ namespace ClassicCraft
         public void StartGCD()
         {
             GCDUntil = Sim.CurrentTime + ((Class == Classes.Rogue || Form == Forms.Cat) ? GCD_ENERGY : GCD);
+        }
+
+        public void StartGCD(double time = 1.5)
+        {
+            GCDUntil = Sim.CurrentTime + time;
         }
 
         public bool HasGCD()

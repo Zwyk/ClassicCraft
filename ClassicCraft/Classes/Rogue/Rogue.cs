@@ -41,12 +41,12 @@ namespace ClassicCraft
         {
             if (ptal == null || ptal == "")
             {
-                if (MH.Type == Weapon.WeaponType.Dagger)
+                if (MH?.Type == Weapon.WeaponType.Dagger)
                 {
                     // Combat Daggers
                     ptal = "005303103-3203052020550100201-05";
                 }
-                else if (MH.Type == Weapon.WeaponType.Fist)
+                else if (MH?.Type == Weapon.WeaponType.Fist)
                 {
                     // Combat Fists
                     ptal = "005323105-3210052020050105231";

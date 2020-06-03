@@ -1,9 +1,9 @@
 {
   "FightLength": 90,
   "FightLengthMod": 0.3,
-  "TargetErrorPct": 0.2,
+  "TargetErrorPct": 0.3,
   "TargetError": true,
-  "LogFight": false,
+  "LogFight": true,
   "NbSim": 1,
   "StatsWeights": false,
   "BossAutoLife": true,
@@ -12,17 +12,18 @@
     "Level": 63,
     "Armor": 3731,
     "SchoolResists" : {
-      "All": 0,
+      "All": 0
     },
     "Debuffs": [
       "Sunder Armor",
       "Curse of Recklessness",
       "Faerie Fire",
+      "Shadow Weaving",
     ]
   },
   "UnlimitedMana": false,
   "UnlimitedResource": false,
   "Tanking": true,
   "TankHitEvery": 1,
-  "TankHitRage": 25,
+  "TankHitRage": 5,
 }

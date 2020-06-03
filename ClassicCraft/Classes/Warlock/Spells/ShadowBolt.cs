@@ -29,8 +29,9 @@ namespace ClassicCraft
 
         public override void Cast()
         {
-            StartCast(Player.Effects.ContainsKey(ShadowTrance.NAME));
-            Player.Effects[ShadowTrance.NAME].EndEffect();
+            bool st = Player.Effects.ContainsKey(ShadowTrance.NAME);
+            StartCast(st);
+            if(st) Player.Effects[ShadowTrance.NAME].EndEffect();
         }
 
         public override void DoAction()
@@ -58,6 +59,7 @@ namespace ClassicCraft
                 * (1 + 0.02 * Player.GetTalentPoints("SM"))
                 * (1 + 0.15 * Player.GetTalentPoints("DS"))
                 * (Player.Sim.Boss.Effects.ContainsKey(ShadowVulnerability.NAME) ? ((ShadowVulnerability)Player.Sim.Boss.Effects[ShadowVulnerability.NAME]).Modifier : 1)
+                * (Player.Sim.Boss.Effects.ContainsKey("Shadow Weaving") ? 1.15 : 1)
                 * mitigation
                 * Player.DamageMod
                 );

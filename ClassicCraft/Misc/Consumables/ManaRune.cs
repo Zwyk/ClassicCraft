@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    public class ManaRune : Consumable
+    public class ManaRune : ActiveItem
     {
         public override string ToString() { return NAME; }
         public static new string NAME = "Demonic/Dark Rune";

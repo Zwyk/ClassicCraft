@@ -1,7 +1,7 @@
 {
-  "Race": "Undead",
-  "Class": "Rogue",
-  "Talents": "005303103-3203052020550100201-05",
+  "Race": "Tauren",
+  "Class": "Druid",
+  "Talents": "014005301-5500021323202151-05",
   "Cooldowns": {
   },
   "Buffs": [
@@ -11,10 +11,14 @@
         "Hit": 0,
         "Crit": 0,
         "AP": 0,
+        "Haste": 0,
       }
     },
     {
-      "Name": "Windfury Totem"
+      "Name": "Devilsaur Set",
+      "Stats" : {
+        "Hit": 2,
+      }
     },
     {
       "Name": "Leader of the Pack",
@@ -48,9 +52,9 @@
       }
     },
     {
-      "Name": "Ground Scorpok Assay",
+      "Name": "R.O.I.D.S.",
       "Stats": {
-        "Agi": 25,
+        "Str": 25,
       }
     },
     {
@@ -75,60 +79,32 @@
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 73,
-      "DamageMax": 137,
-      "Speed": 1.8,
-      "TwoHanded": false,
-      "Type": "Dagger",
-      "Name": "Perdition's Blade",
+      "DamageMin": 46,
+      "DamageMax": 70,
+      "Speed": 2.0,
+      "TwoHanded": true,
+      "Type": "Mace",
+      "Name": "Manual Crowd Pummeler",
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
+        "Str": 16,
+        "Agi": 5
       },
-      "Enchantment":
-      {
-        "Name": "Crusader",
-      }
-    },
-    "OH": {
-      "DamageMin": 57,
-      "DamageMax": 107,
-      "Speed": 1.6,
-      "TwoHanded": false,
-      "Type": "Dagger",
-      "Name": "Core Hound Tooth",
-      "Id": 0,
-      "Slot": "Weapon",
-      "Stats": {
-        "Crit": 1,
-        "AP": 20,
+      "Enchantment": {
       },
-      "Enchantment":
-      {
-        "Name": "Crusader",
-      }
-    },
-    "Ranged": {
-      "Type": "Bow",
-      "Name": "Striker's Mark",
-      "Stats": {
-        "AP": 22,
-        "Hit": 1,
-      }
     },
   },
   "Equipment": {
     "Head": {
-      "Name": "Bloodfang Hood",
+      "Name": "Wolfshead Helm",
       "Stats": {
-        "Str": 19,
-        "Agi": 27,
-        "Crit": 1
+        "Spi": 10
       },
       "Enchantment": {
         "Name": "Lesser Arcane Amalgamation",
         "Stats": {
-          "Agi": 8
+          "Str": 8
         }
       }
     },
@@ -141,11 +117,10 @@
       }
     },
     "Shoulders": {
-      "Name": "Nightslayer Shoulder Pads",
+      "Name": "Truestike Shoulders",
       "Stats": {
-        "Str": 3,
-        "Agi": 26,
-        "Hit": 1,
+        "Hit": 2,
+        "AP": 24,
       },
     },
     "Back": {
@@ -162,11 +137,11 @@
       }
     },
     "Chest": {
-      "Name": "Nightslayer Chestpiece",
+      "Name": "Cadaverous Armor",
       "Stats": {
-        "Str": 10,
-        "Agi": 29,
-        "Crit": 1
+        "Str": 8,
+        "Agi": 8,
+        "AP": 60
       },
       "Enchantment": {
         "Name": "Greater Stats",
@@ -179,10 +154,9 @@
       }
     },
     "Wrist": {
-      "Name": "Bracers of The Eclipse",
+      "Name": "Wristguards of Stability",
       "Stats": {
-        "Agi": 10,
-        "AP": 24,
+        "Str": 24,
       },
       "Enchantment": {
         "Name": "Superior Strength",
@@ -192,45 +166,43 @@
       }
     },
     "Hands": {
-      "Name": "Nightslayer Gloves",
+      "Name": "Devilsaur Gauntlets",
       "Stats": {
-        "Str": 12,
-        "Agi": 18,
-        "Hit": 1
+        "AP": 28,
+        "Crit": 1,
       },
       "Enchantment": {
-        "Name": "Greater Agility",
+        "Name": "Greater Strength",
         "Stats": {
-          "Agi": 7
+          "Str": 7
         }
       }
     },
     "Waist": {
-      "Name": "Nightslayer Belt",
+      "Name": "Cloudrunner Girdle",
       "Stats": {
-        "Str": 9,
-        "Agi": 17,
-        "Crit": 1,
+        "Str": 14,
+        "Agi": 15,
       }
     },
     "Legs": {
-      "Name": "Bloodfang Pants",
+      "Name": "Devilsaur Leggings",
       "Stats": {
-        "Str": 11,
-        "Agi": 37,
-        "Crit": 1,
+        "AP": 46,
+        "Crit": 1
       },
       "Enchantment": {
         "Name": "Lesser Arcane Amalgamation",
         "Stats": {
-          "Agi": 8
+          "Str": 8
         }
       }
     },
     "Feet": {
-      "Name": "Nightslayer Boots",
+      "Name": "Swiftwalker Boots",
       "Stats": {
-        "Agi": 26,
+        "Agi": 21,
+        "Str": 4
       },
     },
     "Ring1": {

@@ -350,33 +350,21 @@ namespace ClassicCraft
 
         public class JsonBoss
         {
-            public class SchoolResist
+            public static School StringToSchool(string s)
             {
-                public string School { get; set; }
-                public int Resist { get; set; }
-                
-                public SchoolResist(string school, int resist)
+                switch (s)
                 {
-                    School = school;
-                    Resist = resist;
-                }
-                
-                public static School StringToSchool(string s)
-                {
-                    switch(s)
-                    {
-                        case "Physical": return ClassicCraft.School.Physical;
-                        case "Magical": return ClassicCraft.School.Magical;
-                        case "All": return ClassicCraft.School.Magical;
-                        case "Any": return ClassicCraft.School.Magical;
-                        case "Fire": return ClassicCraft.School.Fire;
-                        case "Ice": return ClassicCraft.School.Frost;
-                        case "Shadow": return ClassicCraft.School.Shadow;
-                        case "Light": return ClassicCraft.School.Light;
-                        case "Arcane": return ClassicCraft.School.Arcane;
-                        case "Nature": return ClassicCraft.School.Nature;
-                        default: throw new NotImplementedException("School type unknown : " + s);
-                    }
+                    case "Physical": return School.Physical;
+                    case "Magical": return School.Magical;
+                    case "All": return School.Magical;
+                    case "Any": return School.Magical;
+                    case "Fire": return School.Fire;
+                    case "Ice": return School.Frost;
+                    case "Shadow": return School.Shadow;
+                    case "Light": return School.Light;
+                    case "Arcane": return School.Arcane;
+                    case "Nature": return School.Nature;
+                    default: throw new NotImplementedException("School type unknown : " + s);
                 }
             }
 
@@ -384,9 +372,9 @@ namespace ClassicCraft
             public string Type { get; set; }
             public int Armor { get; set; }
             public List<string> Debuffs { get; set; }
-            public List<SchoolResist> SchoolResists { get; set; }
+            public Dictionary<string, int> SchoolResists { get; set; }
 
-            public JsonBoss(int level = 63, string type = "Humanoid", int armor = 4400, List<SchoolResist> schoolResists = null, List<string> debuffs = null)
+            public JsonBoss(int level = 63, string type = "Humanoid", int armor = 4400, Dictionary<string, int> schoolResists = null, List<string> debuffs = null)
             {
                 Level = level;
                 Type = type;
@@ -403,23 +391,31 @@ namespace ClassicCraft
                 if (jb.SchoolResists != null)
                 {
                     magicResist = new Dictionary<School, int>();
-                    foreach (SchoolResist sr in jb.SchoolResists)
+                    foreach (string sr in jb.SchoolResists.Keys)
                     {
-                        magicResist.Add(SchoolResist.StringToSchool(sr.School), sr.Resist);
+                        magicResist.Add(StringToSchool(sr), jb.SchoolResists[sr]);
                     }
                 }
 
-                List<string> debuffs = jb.Debuffs;
+                List<string> debuffsList = jb.Debuffs;
+                Dictionary<string, Effect> debuffs = null;
 
-                if (debuffs != null && debuffs.Count > 0)
+                if (debuffsList != null && debuffsList.Count > 0)
                 {
-                    armor -= (debuffs.Any(d => d.ToLower().Contains("expose armor")) ? 2550 : (debuffs.Any(d => d.ToLower().Contains("sunder armor")) ? 2250 : 0))
-                        + (debuffs.Any(d => d.ToLower().Contains("curse of recklessness")) ? 640 : 0)
-                        + (debuffs.Any(d => d.ToLower().Contains("faerie fire")) ? 505 : 0)
-                        + (debuffs.Any(d => d.ToLower().Contains("annihilator")) ? 600 : 0);
+                    armor -= (debuffsList.Any(d => d.ToLower().Contains("expose armor")) ? 2550 : (debuffsList.Any(d => d.ToLower().Contains("sunder armor")) ? 2250 : 0))
+                        + (debuffsList.Any(d => d.ToLower().Contains("curse of recklessness")) ? 640 : 0)
+                        + (debuffsList.Any(d => d.ToLower().Contains("faerie fire")) ? 505 : 0)
+                        + (debuffsList.Any(d => d.ToLower().Contains("annihilator")) ? 600 : 0);
+
+                    debuffs = new Dictionary<string, Effect>();
+                    foreach (string s in debuffsList)
+                    {
+                        debuffs.Add(s, new CustomEffect(null, null, s, false, -1));
+                    }
                 }
 
-                return new Boss(ToType(jb.Type), jb.Level, Math.Max(0, armor), magicResist);
+
+                return new Boss(ToType(jb.Type), jb.Level, Math.Max(0, armor), magicResist, debuffs);
             }
 
             public static Entity.MobType ToType(string s)

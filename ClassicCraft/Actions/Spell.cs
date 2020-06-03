@@ -43,11 +43,11 @@ namespace ClassicCraft
             }
         }
 
-        public void CommonManaSpell()
+        public void CommonManaSpell(int? customCost = null)
         {
             CDAction();
 
-            Player.Mana -= Cost;
+            Player.Mana -= customCost.HasValue ? customCost.Value : Cost;
         }
 
         public override void DoAction()

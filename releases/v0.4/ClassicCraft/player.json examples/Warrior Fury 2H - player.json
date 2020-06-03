@@ -1,25 +1,31 @@
 {
-  "Race": "Undead",
-  "Class": "Rogue",
-  "Talents": "005303103-3203052020550100201-05",
+  "Race": "Orc",
+  "Class": "Warrior",
+  "Talents": "30305001332-05052005025010051",
   "Cooldowns": {
+    "Racial": true,
+    "Death Wish": true,
+    "Recklessness": true,
+    "Juju Flurry": true,
+    "Mighty Rage": true,
   },
   "Buffs": [
+    {
+      "Name": "Windfury Totem"
+    },
     {
       "Name": "Test",
       "Stats": {
         "Hit": 0,
         "Crit": 0,
         "AP": 0,
+        "Haste": 0,
       }
     },
     {
-      "Name": "Windfury Totem"
-    },
-    {
-      "Name": "Leader of the Pack",
-      "Stats": {
-        "Crit": 3
+      "Name": "Devilsaur Set",
+      "Stats" : {
+        "Hit": 2,
       }
     },
     {
@@ -48,9 +54,15 @@
       }
     },
     {
-      "Name": "Ground Scorpok Assay",
+      "Name": "R.O.I.D.S.",
       "Stats": {
-        "Agi": 25,
+        "Str": 25,
+      }
+    },
+    {
+      "Name": "Smoked Desert Dumplings",
+      "Stats": {
+        "Str": 20,
       }
     },
     {
@@ -75,33 +87,16 @@
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 73,
-      "DamageMax": 137,
-      "Speed": 1.8,
-      "TwoHanded": false,
-      "Type": "Dagger",
-      "Name": "Perdition's Blade",
+      "DamageMin": 203,
+      "DamageMax": 305,
+      "Speed": 3.4,
+      "TwoHanded": true,
+      "Type": "Axe",
+      "Name": "Spinal Reaper",
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
-      },
-      "Enchantment":
-      {
-        "Name": "Crusader",
-      }
-    },
-    "OH": {
-      "DamageMin": 57,
-      "DamageMax": 107,
-      "Speed": 1.6,
-      "TwoHanded": false,
-      "Type": "Dagger",
-      "Name": "Core Hound Tooth",
-      "Id": 0,
-      "Slot": "Weapon",
-      "Stats": {
-        "Crit": 1,
-        "AP": 20,
+        "AP": 34
       },
       "Enchantment":
       {
@@ -119,40 +114,39 @@
   },
   "Equipment": {
     "Head": {
-      "Name": "Bloodfang Hood",
+      "Name": "Lionheart Helm",
       "Stats": {
-        "Str": 19,
-        "Agi": 27,
-        "Crit": 1
+        "Hit": 2,
+        "Crit": 2,
+        "Str": 18,
       },
       "Enchantment": {
         "Name": "Lesser Arcane Amalgamation",
         "Stats": {
-          "Agi": 8
+          "Str": 8
         }
       }
     },
     "Neck": {
       "Name": "Onyxia Tooth Pendant",
       "Stats": {
-        "Agi": 12,
         "Crit": 1,
         "Hit": 1,
+        "Agi": 12,
       }
     },
     "Shoulders": {
-      "Name": "Nightslayer Shoulder Pads",
+      "Name": "Truestrike",
       "Stats": {
-        "Str": 3,
-        "Agi": 26,
-        "Hit": 1,
+        "Hit": 2,
+        "AP": 24
       },
     },
     "Back": {
-      "Name": "Cape of the Black Baron",
+      "Name": "Puissant Cape",
       "Stats": {
-        "Agi": 15,
-        "AP": 20
+        "Hit": 1,
+        "AP": 40
       },
       "Enchantment": {
         "Name": "Lesser Agility",
@@ -162,11 +156,11 @@
       }
     },
     "Chest": {
-      "Name": "Nightslayer Chestpiece",
+      "Name": "Savage Gladiator Chain",
       "Stats": {
-        "Str": 10,
-        "Agi": 29,
-        "Crit": 1
+        "Str": 13,
+        "Agi": 14,
+        "Crit": 2,
       },
       "Enchantment": {
         "Name": "Greater Stats",
@@ -179,10 +173,9 @@
       }
     },
     "Wrist": {
-      "Name": "Bracers of The Eclipse",
+      "Name": "Wristguards of Stability",
       "Stats": {
-        "Agi": 10,
-        "AP": 24,
+        "Str": 24,
       },
       "Enchantment": {
         "Name": "Superior Strength",
@@ -192,59 +185,59 @@
       }
     },
     "Hands": {
-      "Name": "Nightslayer Gloves",
+      "Name": "Devilsaur Gauntlets",
       "Stats": {
-        "Str": 12,
-        "Agi": 18,
-        "Hit": 1
+        "AP": 28,
+        "Crit": 1,
       },
       "Enchantment": {
-        "Name": "Greater Agility",
+        "Name": "Greater Strength",
         "Stats": {
-          "Agi": 7
+          "Str": 7
         }
       }
     },
     "Waist": {
-      "Name": "Nightslayer Belt",
+      "Name": "Onslaught Girdle",
       "Stats": {
-        "Str": 9,
-        "Agi": 17,
+        "Str": 31,
         "Crit": 1,
+        "Hit": 1,
       }
     },
     "Legs": {
-      "Name": "Bloodfang Pants",
+      "Name": "Devilsaur Leggings",
       "Stats": {
-        "Str": 11,
-        "Agi": 37,
-        "Crit": 1,
+        "AP": 46,
+        "Crit": 1
       },
       "Enchantment": {
         "Name": "Lesser Arcane Amalgamation",
         "Stats": {
-          "Agi": 8
+          "Str": 8
         }
       }
     },
     "Feet": {
-      "Name": "Nightslayer Boots",
+      "Name": "Battlechaser's Greaves",
       "Stats": {
-        "Agi": 26,
+        "Str": 14,
+        "Agi": 13,
       },
     },
     "Ring1": {
-      "Name": "Tarnished Elven Ring",
-      "Stats": {
-        "Agi": 15,
-        "Hit": 1
-      }
-    },
-    "Ring2": {
       "Name": "Band of Accuria",
       "Stats": {
         "Agi": 16,
         "Hit": 2
+      }
+    },
+    "Ring2": {
+      "Name": "Quick Strike Ring",
+      "Stats": {
+        "AP": 30,
+        "Str": 5,
+        "Crit": 1
       }
     },
     "Trinket1": {
@@ -258,6 +251,6 @@
       "Stats": {
         "Crit": 2
       }
-    },
+    }
   }
 }

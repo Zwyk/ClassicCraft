@@ -12,12 +12,12 @@ namespace ClassicCraft
 
         public static double DURATION = 24;
         public static double RATIO = 1;
-        public static int NB_TICKS = (int)(DURATION / 3);
+        public static int NB_TICKS = (int)(DURATION / 2);
 
         public static double DMG = 666;
 
         public CurseOfAgonyDoT(Player p, Entity target)
-            : base(p, target, false, DURATION)
+            : base(p, target, false, DURATION, 1, 2)
         {
         }
 
@@ -33,7 +33,10 @@ namespace ClassicCraft
 
         public override double GetExternalModifiers()
         {
-            return base.GetExternalModifiers() * (Target.Effects.ContainsKey(ShadowVulnerability.NAME) ? ((ShadowVulnerability)Target.Effects[ShadowVulnerability.NAME]).Modifier : 1);
+            return base.GetExternalModifiers()
+                * (Target.Effects.ContainsKey(ShadowVulnerability.NAME) ? ((ShadowVulnerability)Target.Effects[ShadowVulnerability.NAME]).Modifier : 1
+                * (Target.Effects.ContainsKey("Shadow Weaving") ? 1.15 : 1)
+                );
         }
     }
 }

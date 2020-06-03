@@ -169,7 +169,10 @@ namespace ClassicCraft
                         (Sim.FightLength - Sim.CurrentTime <= cds[cd]
                         || Sim.FightLength - Sim.CurrentTime >= cd.BaseCD + cds[cd]))
                     {
-                        cd.Cast();
+                        if(!(cd is MightyRage) || Sim.FightLength - Sim.CurrentTime >= cd.BaseCD + cds[cd] || Resource < exec.Cost)
+                        {
+                            cd.Cast();
+                        }
                     }
                 }
             }

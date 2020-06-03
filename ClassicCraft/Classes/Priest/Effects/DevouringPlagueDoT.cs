@@ -26,9 +26,16 @@ namespace ClassicCraft
         {
             return (int)Math.Round((DMG + Player.SP * RATIO) / NB_TICKS
                 * (1 + 0.02 * Player.GetTalentPoints("Darkness"))
-                * 1.15 // shadow weaving
                 * 1.15 // shadow form
                 * Player.DamageMod
+                );
+        }
+
+        public override double GetExternalModifiers()
+        {
+            return base.GetExternalModifiers()
+                * (Target.Effects.ContainsKey(ShadowVulnerability.NAME) ? ((ShadowVulnerability)Target.Effects[ShadowVulnerability.NAME]).Modifier : 1
+                * 1.15 // shadow weaving
                 );
         }
     }

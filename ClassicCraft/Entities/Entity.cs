@@ -53,9 +53,10 @@ namespace ClassicCraft
 
         public int Level { get; set; }
 
+        public Dictionary<string, Effect> BaseEffects { get; set; }
         public Dictionary<string, Effect> Effects { get; set; }
 
-        public Entity(Simulation s, MobType type, int level, int armor = 0, int maxLife = 1, Dictionary<School, int> magicResist = null)
+        public Entity(Simulation s, MobType type, int level, int armor = 0, int maxLife = 1, Dictionary<School, int> magicResist = null, Dictionary<string, Effect> baseEffects = null)
             : base(s)
         {
             Type = type;
@@ -69,20 +70,36 @@ namespace ClassicCraft
             {
                 foreach (School school in (School[])Enum.GetValues(typeof(School)))
                 {
-                    MagicResist.Add(school, 0);
-                    ResistChances.Add(school, Simulation.ResistChances(MagicResist[school]));
+                    if(school != School.Physical)
+                    {
+                        MagicResist.Add(school, 0);
+                        ResistChances.Add(school, Simulation.ResistChances(MagicResist[school]));
+                    }
                 }
             }
             else
             {
                 foreach (School school in (School[])Enum.GetValues(typeof(School)))
                 {
-                    MagicResist.Add(school, Math.Max(0, magicResist.ContainsKey(school) ? magicResist[school] : (magicResist.ContainsKey(School.Magical) ? magicResist[School.Magical] : 0)));
-                    ResistChances.Add(school, Simulation.ResistChances(MagicResist[school]));
+                    if (school != School.Physical)
+                    {
+                        MagicResist.Add(school, Math.Max(0, magicResist.ContainsKey(school) ? magicResist[school] : (magicResist.ContainsKey(School.Magical) ? magicResist[School.Magical] : 0)));
+                        ResistChances.Add(school, Simulation.ResistChances(MagicResist[school]));
+                    }
                 }
             }
 
             Reset();
+
+            BaseEffects = new Dictionary<string, Effect>();
+            if(baseEffects != null)
+            {
+                foreach (string k in baseEffects.Keys)
+                {
+                    BaseEffects.Add(k, baseEffects[k]);
+                    Effects.Add(k, baseEffects[k]);
+                }
+            }
         }
 
         public virtual void Reset()

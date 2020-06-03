@@ -113,7 +113,7 @@
     <Compile Include="Misc\Consumables\JujuFlurry\JujuFlurry.cs" />
     <Compile Include="Misc\Consumables\ManaPotion.cs" />
     <Compile Include="Misc\Consumables\MightyRage\MightyRage.cs" />
-    <Compile Include="Misc\Consumable.cs" />
+    <Compile Include="Misc\ActiveItem.cs" />
     <Compile Include="Classes\Warrior\Skills\Recklessness.cs" />
     <Compile Include="Auras\Aura.cs" />
     <Compile Include="Actions\AutoAttack.cs" />
@@ -144,6 +144,7 @@
     <Compile Include="Misc\Item.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Misc\Slot.cs" />
+    <Compile Include="Misc\Trinkets\RuneOfMeta.cs" />
     <Compile Include="Utility\JsonUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

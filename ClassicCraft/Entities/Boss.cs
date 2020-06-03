@@ -16,27 +16,27 @@ namespace ClassicCraft
         }
 
         public Boss(Boss b)
-            : base(null, b.Type, b.Level, b.Armor, b.MaxLife)
+            : base(null, b.Type, b.Level, b.Armor, b.MaxLife, b.MagicResist, b.BaseEffects)
         {
         }
 
-        public Boss(MobType type = MobType.Humanoid, int level = 63, int customArmor = 4400, Dictionary<School, int> magicResist = null, int maxLife = 100000)
-            : base(null, type, level, customArmor, maxLife, magicResist)
+        public Boss(MobType type = MobType.Humanoid, int level = 63, int customArmor = 4400, Dictionary<School, int> magicResist = null, Dictionary<string, Effect> debuffs = null, int maxLife = 100000)
+            : base(null, type, level, customArmor, maxLife, magicResist, debuffs)
         {
         }
 
         public Boss(Simulation s, Boss b)
-            : base(s, b.Type, b.Level, b.Armor, b.MaxLife)
+            : base(s, b.Type, b.Level, b.Armor, b.MaxLife, b.MagicResist, b.BaseEffects)
         {
         }
 
-        public Boss(Simulation s, MobType type = MobType.Humanoid, int level = 63, int customArmor = 4400, Dictionary<School, int> magicResist = null, int maxLife = 100000)
-            : base(s, type, level, customArmor, maxLife, magicResist)
+        public Boss(Simulation s, MobType type = MobType.Humanoid, int level = 63, int customArmor = 4400, Dictionary<School, int> magicResist = null, Dictionary<string, Effect> debuffs = null, int maxLife = 100000)
+            : base(s, type, level, customArmor, maxLife, magicResist, debuffs)
         {
         }
 
-        public Boss(Simulation s, MobType type = MobType.Humanoid, int level = 63, ArmorType armor = ArmorType.LightArmor, Dictionary<School, int> magicResist = null, int maxLife = 100000)
-            : base(s, type, level, ArmorByType(armor), maxLife, magicResist)
+        public Boss(Simulation s, MobType type = MobType.Humanoid, int level = 63, ArmorType armor = ArmorType.LightArmor, Dictionary<School, int> magicResist = null, Dictionary<string, Effect> debuffs = null, int maxLife = 100000)
+            : base(s, type, level, ArmorByType(armor), maxLife, magicResist, debuffs)
         {
         }
 
@@ -57,7 +57,15 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return string.Format("Level {0}, {1} Armor ({2:N2}% mitigation)\n", Level, Armor, (1-Simulation.ArmorMitigation(Armor))*100);
+            string magicResists = "";
+            foreach(School s in MagicResist.Keys)
+            {
+                if (s != School.Physical && s != School.Magical)
+                {
+                    magicResists += "[" + s.ToString() + ":" + MagicResist[s] + "]";
+                }
+            }
+            return string.Format("Level {0}, {1} Armor ({2:N2}% mitigation), Magic Resists : {3}\n", Level, Armor, (1-Simulation.ArmorMitigation(Armor))*100, magicResists);
         }
     }
 }

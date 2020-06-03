@@ -23,15 +23,9 @@
       }
     },
     {
-      "Name": "Arcane Intellect",
+      "Name": "Arcane Intelect",
       "Stats": {
         "Int": 31,
-      }
-    },
-    {
-      "Name": "Divine Spirit",
-      "Stats": {
-        "Spi": 40,
       }
     },
     {
@@ -79,7 +73,7 @@
       "DamageMax": 155,
       "Speed": 1.9,
       "School": "Arcane",
-      "Name": "Bonecreeper",
+      "Name": "Skul's Ghastly Touch",
       "Stats": {
         "SP": 11,
         "Int": 4
@@ -88,32 +82,32 @@
   },
   "Equipment": {
     "Head": {
-      "Name": "Bad Mojo Mask",
+      "Name": "Lionheart Helm",
       "Stats": {
-        "Int": 24,
+        "Spi": 10,
+        "Int": 25,
         "SP": 14,
       },
     },
     "Neck": {
-      "Name": "Star of Mystaria",
+      "Name": "Choker of the Fire Lord",
       "Stats": {
-        "Int": 9,
-        "Spi": 8,
-        "SHit": 1,
+        "Int": 7,
+        "SP": 20,
       }
     },
     "Shoulders": {
-      "Name": "Elder Wizard's Mantle",
+      "Name": "Truestrike",
       "Stats": {
-        "Int": 20,
-        "SP": 11
+        "Int": 16,
+        "SP": 20
       },
     },
     "Back": {
-      "Name": "Sapphiron Drape",
+      "Name": "Puissant Cape",
       "Stats": {
-        "Int": 17,
-        "SP": 14
+        "Int": 9,
+        "SP": 12
       },
       "Enchantment": {
         "Name": "Lesser Agility",
@@ -122,7 +116,7 @@
       }
     },
     "Chest": {
-      "Name": "Robe of Winter Night",
+      "Name": "Savage Gladiator Chain",
       "Stats": {
         "Int": 12,
         "SP": 40,
@@ -136,21 +130,20 @@
       }
     },
     "Wrist": {
-      "Name": "Sublime Wristguards",
+      "Name": "Wristguards of Stability",
       "Stats": {
         "Int": 10,
         "Spi": 6,
         "SP": 12,
       },
       "Enchantment": {
-        "Name": "Greater Intellect",
+        "Name": "Superior Strength",
         "Stats": {
-          "Int": 7,
         }
       }
     },
     "Hands": {
-      "Name": "Hand of Power",
+      "Name": "Devilsaur Gauntlets",
       "Stats": {
         "SP": 26,
         "Int": 6,
@@ -163,31 +156,29 @@
       }
     },
     "Waist": {
-      "Name": "T1",
+      "Name": "Onslaught Girdle",
       "Stats": {
-        "Int": 22,
-        "Spi": 10,
-        "SP": 9,
-        "MP5": 4
+        "Int": 11,
+        "SP": 12,
+        "SHit": 1,
       }
     },
     "Legs": {
-      "Name": "Spiritshroud",
+      "Name": "Devilsaur Leggings",
       "Stats": {
-        "SP": 19,
-        "Int": 16,
-        "Spi": 16,
+        "SP": 34,
+        "Int": 8
       },
     },
     "Feet": {
-      "Name": "Dragonrider",
+      "Name": "Battlechaser's Greaves",
       "Stats": {
-        "SP": 18,
-        "Int": 16,
+        "SP": 27,
+        "Int": 9,
       },
     },
     "Ring1": {
-      "Name": "Maiden",
+      "Name": "Band of Accuria",
       "Stats": {
         "SP": 18,
         "Int": 7,
@@ -195,11 +186,11 @@
       }
     },
     "Ring2": {
-      "Name": "Maiden",
+      "Name": "Band of Accuria",
       "Stats": {
         "SP": 18,
         "Int": 7,
-        "Spi": 6,
+        "Spi": 4,
       }
     },
     "Trinket1": {
@@ -209,7 +200,7 @@
       }
     },
     "Trinket2": {
-      "Name": "BoK",
+      "Name": "Blackhand's Breadth",
       "Stats": {
         "SP": 12
       }

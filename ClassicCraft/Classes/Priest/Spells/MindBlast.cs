@@ -20,8 +20,6 @@ namespace ClassicCraft
         public static int MIN_DMG = 508;
         public static int MAX_DMG = 537;
 
-        private int costKeeper = BASE_COST;
-
         public MindBlast(Player p)
             : base(p, CD - 0.5 * p.GetTalentPoints("IMB"), BASE_COST, true, true, School.Shadow, CAST_TIME)
         {
@@ -37,10 +35,6 @@ namespace ClassicCraft
             base.DoAction();
 
             bool inner = Player.Effects.ContainsKey(InnerFocusBuff.NAME);
-            if (inner)
-            {
-                Cost = 0;
-            }
 
             ResultType res;
             double mitigation = Simulation.MagicMitigation(Player.Sim.Boss.ResistChances[School]);
@@ -53,11 +47,10 @@ namespace ClassicCraft
                 res = Player.SpellAttackEnemy(Player.Sim.Boss, true, 0.02 * Player.GetTalentPoints("SF"), inner ? 0.25 : 0);
             }
 
-            CommonManaSpell();
+            CommonManaSpell(inner ? 0 : Cost);
 
             if(inner)
             {
-                Cost = costKeeper;
                 Player.Effects[InnerFocusBuff.NAME].EndEffect();
             }
 
@@ -73,7 +66,6 @@ namespace ClassicCraft
                 * Player.DamageMod
                 );
 
-            ShadowVulnerability.CheckProc(Player, this, res);
             RegisterDamage(new ActionResult(res, damage));
         }
     }

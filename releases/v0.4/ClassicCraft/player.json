@@ -4,7 +4,7 @@
   "Talents": "25002-2050300152201-52500051020001",
   "Cooldowns": {
     "Corruption": true,
-    "Curse of Agony": true,
+    "Curse of Agony": false,
   },
   "Buffs": [
     {
@@ -54,7 +54,7 @@
   },
   "Equipment": {
     "Head": {
-      "Name": "Lionheart Helm",
+      "Name": "head",
       "Stats": {
         "SCrit": 1,
         "Int": 21,
@@ -68,33 +68,33 @@
       }
     },
     "Neck": {
-      "Name": "Choker of the Fire Lord",
+      "Name": "neck",
       "Stats": {
         "Int": 7,
         "SP": 34,
       }
     },
     "Shoulders": {
-      "Name": "Truestrike",
+      "Name": "shoulders",
       "Stats": {
         "Int": 13,
         "Crit": 12
       },
     },
     "Back": {
-      "Name": "Puissant Cape",
+      "Name": "back",
       "Stats": {
         "Int": 17,
         "SP": 14
       },
       "Enchantment": {
-        "Name": "Lesser Agility",
+        "Name": "none",
         "Stats": {
         }
       }
     },
     "Chest": {
-      "Name": "Savage Gladiator Chain",
+      "Name": "chest",
       "Stats": {
         "Int": 15,
         "Spi": 10,
@@ -112,7 +112,7 @@
       }
     },
     "Wrist": {
-      "Name": "Wristguards of Stability",
+      "Name": "cool wrists",
       "Stats": {
         "Int": 13,
         "Spi": 8,
@@ -125,7 +125,7 @@
       }
     },
     "Hands": {
-      "Name": "Devilsaur Gauntlets",
+      "Name": "op hands",
       "Stats": {
         "SP": 33,
       },
@@ -136,7 +136,7 @@
       }
     },
     "Waist": {
-      "Name": "Onslaught Girdle",
+      "Name": "bis waist",
       "Stats": {
         "Int": 16,
         "SP": 25,
@@ -144,7 +144,7 @@
       }
     },
     "Legs": {
-      "Name": "Devilsaur Leggings",
+      "Name": "legs out of this world",
       "Stats": {
         "SP": 64,
       },
@@ -156,7 +156,7 @@
       }
     },
     "Feet": {
-      "Name": "Battlechaser's Greaves",
+      "Name": "wow",
       "Stats": {
         "SP": 32,
         "Int": 10,
@@ -164,13 +164,13 @@
       },
     },
     "Ring1": {
-      "Name": "Band of Accuria",
+      "Name": "k",
       "Stats": {
         "SP": 33,
       }
     },
     "Ring2": {
-      "Name": "Band of Accuria",
+      "Name": "kk",
       "Stats": {
         "SP": 33,
       }
@@ -182,7 +182,7 @@
       }
     },
     "Trinket2": {
-      "Name": "Blackhand's Breadth",
+      "Name": "something something trinket",
       "Stats": {
         "SCrit": 2
       }

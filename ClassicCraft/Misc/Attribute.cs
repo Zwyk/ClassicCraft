@@ -214,9 +214,12 @@ namespace ClassicCraft
 
         public static Attributes operator +(Attributes b, Attributes c)
         {
-            foreach(Attribute a in c.Values.Keys)
+            if(c != null && c.Values != null)
             {
-                b.SetValue(a, b.GetValue(a) + c.GetValue(a));
+                foreach (Attribute a in c.Values.Keys)
+                {
+                    b.SetValue(a, b.GetValue(a) + c.GetValue(a));
+                }
             }
 
             return new Attributes(b);

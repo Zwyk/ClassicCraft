@@ -24,7 +24,7 @@ namespace ClassicCraft
         {
             base.DoAction();
             CommonManaSpell();
-
+            
             ResultType res = Simulation.MagicMitigationBinary(Player.Sim.Boss.MagicResist[School]);
 
             if (res == ResultType.Hit)

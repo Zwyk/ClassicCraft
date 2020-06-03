@@ -23,7 +23,7 @@ namespace ClassicCraft
         public static double CAST_WAND = 0.75;
 
         public AutoAttack(Player p, Weapon weapon, bool mh, AAType type = AAType.Melee)
-            : base(p, weapon.Speed)
+            : base(p, weapon.Speed, weapon.School)
         {
             Weapon = weapon;
             MH = mh;
@@ -59,7 +59,7 @@ namespace ClassicCraft
             CastNextSwing();
             if(Type == AAType.Wand)
             {
-                Player.StartGCD();
+                Player.StartGCD(CurrentSpeed());
             }
         }
 
@@ -70,11 +70,7 @@ namespace ClassicCraft
             if (Type == AAType.Wand)
             {
                 mitigation = Simulation.MagicMitigation(Player.Sim.Boss.ResistChances[School]);
-                if (mitigation == 0)
-                {
-                    res = ResultType.Resist;
-                }
-                res = Player.RangedMagicAttackEnemy(Player.Sim.Boss);
+                res = mitigation == 0 ? ResultType.Resist : Player.RangedMagicAttackEnemy(Player.Sim.Boss);
             }
             else if (Type == AAType.Ranged)
             {

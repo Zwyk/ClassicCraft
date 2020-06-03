@@ -21,8 +21,6 @@ namespace ClassicCraft
 
         public static int DMG = 426;
 
-        private int costKeeper = BASE_COST;
-
         public MindFlay(Player p)
             : base(p, CD, BASE_COST, true, true, School.Shadow, CAST_TIME)
         {

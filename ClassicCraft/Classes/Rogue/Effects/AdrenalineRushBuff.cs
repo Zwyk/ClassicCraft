@@ -18,15 +18,11 @@ namespace ClassicCraft
         public override void StartEffect()
         {
             base.StartEffect();
-
-            Player.DamageMod *= 1.2;
         }
 
         public override void EndEffect()
         {
             base.EndEffect();
-
-            Player.DamageMod /= 1.2;
         }
 
         public override string ToString()

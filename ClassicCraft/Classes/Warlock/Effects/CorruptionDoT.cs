@@ -42,7 +42,10 @@ namespace ClassicCraft
 
         public override double GetExternalModifiers()
         {
-            return base.GetExternalModifiers() * (Target.Effects.ContainsKey(ShadowVulnerability.NAME) ? ((ShadowVulnerability)Target.Effects[ShadowVulnerability.NAME]).Modifier : 1);
+            return base.GetExternalModifiers()
+                * (Target.Effects.ContainsKey(ShadowVulnerability.NAME) ? ((ShadowVulnerability)Target.Effects[ShadowVulnerability.NAME]).Modifier : 1
+                * (Target.Effects.ContainsKey("Shadow Weaving") ? 1.15 : 1)
+                );
         }
     }
 }

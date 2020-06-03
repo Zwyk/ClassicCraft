@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    public class ManaRuby : Consumable
+    public class ManaRuby : ActiveItem
     {
         public override string ToString() { return NAME; }
         public static new string NAME = "Mana Ruby";

@@ -1,52 +1,176 @@
-Date : 2020/04/02 21:22:24
+Date : 2020/06/04 00:21:03
 
 Fight length : 90 seconds (±30%)
 
 Player :
-Orc Warrior level 60 | Stats : [Strength:375][Agility:145][Stamina:112][Intellect:31][Spirit:52][Health:2629][Mana:0][AP:1480][RangedAP:1770][CritChance:18,25][HitChance:5][Haste:0][SpellHitChance:0][SpellCritChance:0][SkillSword:7][SkillAxe:7][SkillDagger:0]
-Main weapon : Sword with 307 skill
+Orc Warlock level 60 | Stats : [Strength:52][Agility:51][Stamina:66,15][Intellect:256][Spirit:139,95][Health:1895,5][Mana:5213][CritChance:17,05][AP:42][RangedAP:93][SpellCritChance:13,93][SP:452][HitChance:0][Haste:0][SpellHitChance:0][MP5:5]
+Main weapon : Sword with 300 skill
 
 Boss (after raid debuffs) :
-Level 63, 336 Armor (5,76% mitigation)
+Level 63, 336 Armor (5,76% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
 
 
-9248 simulations done in 8 046,16 ms, for 0,87 ms by sim
-Overall accuracy of results : ±0,18%
 
-Average DPS : 418,60 dps (±0,39)
-Average TPS : 903,26 tps (±0,68)
+---SIM NUMBER 1---
 
-Average stats for [AA MH] : 115,37 DPS (27,56%)
-	Average of 194,11 damage for 53,49 uses (or 1 use every 1,68s) / 172,47 TPS (19,09%)
-	Average of 290,17 threat for 53,49 uses (or 1 use every 1,68s)
-	4,95% Hit, 15,31% Crit, 20,64% Miss, 39,94% Glancing, 5,79% Dodge, 13,36% Parry
+0,00 : Corruption started
+1,53 : Curse of Agony started
+3,02 : Corruption ticks for 246 damage
+3,05 : Shadow Bolt started cast - Mana 4710/5213
+3,55 : Curse of Agony ticks for 123 damage
+5,53 : Curse of Agony ticks for 123 damage
+5,55 : Shadow Bolt Hit for 1127 damage - Mana 4343/5213
+5,55 : Shadow Bolt started cast - Mana 4343/5213
+6,00 : Corruption ticks for 246 damage
+7,53 : Curse of Agony ticks for 123 damage
+8,05 : Shadow Bolt Hit for 1114 damage - Mana 3978/5213
+8,05 : Shadow Bolt started cast - Mana 3978/5213
+9,00 : Corruption ticks for 246 damage
+9,53 : Curse of Agony ticks for 123 damage
+10,55 : Shadow Vulnerability started
+10,55 : Shadow Bolt Crit for 2347 damage - Mana 3611/5213
+10,55 : Shadow Bolt started cast - Mana 3611/5213
+11,53 : Curse of Agony ticks for 128 damage
+12,00 : Corruption ticks for 257 damage
+13,05 : Shadow Bolt Resist - Mana 3244/5213
+13,05 : Shadow Bolt started cast - Mana 3244/5213
+13,53 : Curse of Agony ticks for 128 damage
+15,00 : Corruption ticks for 257 damage
+15,53 : Curse of Agony ticks for 128 damage
+15,55 : Shadow Bolt Hit for 1372 damage - Mana 2877/5213
+15,55 : Life Tap cast - Mana 3334/5213
+17,08 : Life Tap cast - Mana 3793/5213
+17,53 : Curse of Agony ticks for 128 damage
+18,00 : Corruption ticks for 257 damage
+18,00 : Corruption ended
+18,60 : Corruption started
+19,55 : Curse of Agony ticks for 128 damage
+20,12 : Shadow Bolt started cast - Mana 3507/5213
+21,55 : Curse of Agony ticks for 128 damage
+21,62 : Corruption ticks for 257 damage
+22,57 : Shadow Vulnerability ended
+22,65 : Shadow Bolt Hit for 1182 damage - Mana 3140/5213
+22,65 : Shadow Bolt started cast - Mana 3140/5213
+23,55 : Curse of Agony ticks for 123 damage
+24,62 : Corruption ticks for 246 damage
+25,17 : Shadow Bolt Hit for 1179 damage - Mana 2773/5213
+25,17 : Life Tap cast - Mana 3230/5213
+25,55 : Curse of Agony ticks for 123 damage
+25,55 : Curse of Agony ended
+26,70 : Curse of Agony started
+27,62 : Corruption ticks for 246 damage
+28,22 : Shadow Bolt started cast - Mana 3019/5213
+28,72 : Curse of Agony ticks for 123 damage
+30,62 : Corruption ticks for 246 damage
+30,72 : Curse of Agony ticks for 123 damage
+30,75 : Shadow Bolt Hit for 1122 damage - Mana 2652/5213
+30,75 : Shadow Bolt started cast - Mana 2652/5213
+32,72 : Curse of Agony ticks for 123 damage
+33,27 : Shadow Bolt Hit for 1180 damage - Mana 2285/5213
+33,27 : Shadow Bolt started cast - Mana 2285/5213
+33,62 : Corruption ticks for 246 damage
+34,72 : Curse of Agony ticks for 123 damage
+35,80 : Shadow Bolt Hit for 1147 damage - Mana 1918/5213
+35,80 : Life Tap cast - Mana 2375/5213
+36,62 : Corruption ticks for 246 damage
+36,62 : Corruption ended
+36,72 : Curse of Agony ticks for 123 damage
+37,32 : Corruption started
+38,72 : Curse of Agony ticks for 123 damage
+38,85 : Shadow Bolt started cast - Mana 2089/5213
+40,35 : Corruption ticks for 246 damage
+40,72 : Curse of Agony ticks for 123 damage
+41,37 : Shadow Bolt Hit for 1151 damage - Mana 1722/5213
+41,37 : Shadow Bolt started cast - Mana 1722/5213
+42,72 : Curse of Agony ticks for 123 damage
+43,35 : Corruption ticks for 246 damage
+43,90 : Shadow Vulnerability started
+43,90 : Shadow Bolt Crit for 2265 damage - Mana 1355/5213
+43,90 : Shadow Bolt started cast - Mana 1355/5213
+44,72 : Curse of Agony ticks for 128 damage
+46,35 : Corruption ticks for 257 damage
+46,42 : Shadow Bolt Resist - Mana 990/5213
+46,42 : Shadow Bolt started cast - Mana 990/5213
+46,72 : Curse of Agony ticks for 128 damage
+48,72 : Curse of Agony ticks for 128 damage
+48,95 : Shadow Vulnerability refreshed
+48,95 : Shadow Bolt Crit for 2718 damage - Mana 623/5213
+48,95 : Life Tap cast - Mana 1080/5213
+49,35 : Corruption ticks for 257 damage
+50,47 : Life Tap cast - Mana 1539/5213
+50,72 : Curse of Agony ticks for 128 damage
+50,72 : Curse of Agony ended
+52,00 : Curse of Agony started
+52,35 : Corruption ticks for 257 damage
+53,52 : Life Tap cast - Mana 1783/5213
+54,02 : Curse of Agony ticks for 128 damage
+55,05 : Life Tap cast - Mana 2242/5213
+55,35 : Corruption ticks for 257 damage
+55,35 : Corruption ended
+56,02 : Curse of Agony ticks for 128 damage
+56,57 : Corruption started
+58,02 : Curse of Agony ticks for 128 damage
+58,10 : Shadow Bolt started cast - Mana 1956/5213
+59,60 : Corruption ticks for 257 damage
+60,02 : Curse of Agony ticks for 128 damage
+60,62 : Shadow Bolt Hit for 1337 damage - Mana 1589/5213
+60,62 : Shadow Bolt started cast - Mana 1589/5213
+60,97 : Shadow Vulnerability ended
+62,02 : Curse of Agony ticks for 123 damage
+62,60 : Corruption ticks for 246 damage
+63,15 : Shadow Vulnerability started
+63,15 : Shadow Bolt Crit for 2308 damage - Mana 1222/5213
+63,15 : Shadow Bolt started cast - Mana 1222/5213
+64,02 : Curse of Agony ticks for 128 damage
+65,60 : Corruption ticks for 257 damage
+65,65 : Shadow Bolt Hit for 1404 damage - Mana 855/5213
+65,65 : Shadow Bolt started cast - Mana 855/5213
+66,02 : Curse of Agony ticks for 128 damage
+68,00 : Curse of Agony ticks for 128 damage
+68,15 : Shadow Bolt Hit for 1372 damage - Mana 490/5213
+68,15 : Shadow Bolt started cast - Mana 490/5213
+68,57 : Corruption ticks for 257 damage
+70,00 : Curse of Agony ticks for 128 damage
+70,65 : Shadow Bolt Hit for 1370 damage - Mana 123/5213
+70,65 : Life Tap cast - Mana 580/5213
+71,57 : Corruption ticks for 257 damage
+72,00 : Curse of Agony ticks for 128 damage
+72,15 : Life Tap cast - Mana 1039/5213
+73,65 : Life Tap cast - Mana 1496/5213
+74,00 : Curse of Agony ticks for 128 damage
+74,57 : Corruption ticks for 257 damage
+74,57 : Corruption ended
+75,15 : Shadow Vulnerability ended
+75,15 : Corruption started
+76,00 : Curse of Agony ticks for 123 damage
+76,00 : Curse of Agony ended
+76,65 : Curse of Agony started
+78,15 : Corruption ticks for 246 damage
+78,15 : Shadow Bolt started cast - Mana 997/5213
+78,65 : Curse of Agony ticks for 123 damage
+80,65 : Curse of Agony ticks for 123 damage
+80,65 : Shadow Bolt Hit for 1174 damage - Mana 630/5213
+80,65 : Shadow Bolt started cast - Mana 630/5213
+81,15 : Corruption ticks for 246 damage
+82,65 : Curse of Agony ticks for 123 damage
+83,15 : Shadow Vulnerability started
+83,15 : Shadow Bolt Crit for 2260 damage - Mana 263/5213
+83,15 : Life Tap cast - Mana 720/5213
+84,15 : Corruption ticks for 257 damage
+84,65 : Curse of Agony ticks for 128 damage
+84,65 : Shadow Bolt started cast - Mana 722/5213
+86,65 : Curse of Agony ticks for 128 damage
 
-Average stats for [AA OH] : 102,83 DPS (24,57%)
-	Average of 205,97 damage for 44,93 uses (or 1 use every 2,00s) / 153,72 TPS (17,02%)
-	Average of 307,91 threat for 44,93 uses (or 1 use every 2,00s)
-	62,25% Hit, 15,33% Crit, 1,66% Miss, 1,70% Glancing, 5,81% Dodge, 13,25% Parry
+1 simulations done in 18,95 ms, for 18,95 ms by sim
+Overall accuracy of results : ±0,00%
+Average TPS : 335,74 tps (±0,00)
+Average DPS : 473,47 dps (±0,00)
 
-Average stats for [Bloodthirst] : 101,42 DPS (24,23%)
-	Average of 606,75 damage for 15,04 uses (or 1 use every 5,98s) / 151,65 TPS (16,79%)
-	Average of 907,19 threat for 15,04 uses (or 1 use every 5,98s)
-	64,84% Hit, 15,21% Crit, 0,82% Miss, 0,00% Glancing, 5,73% Dodge, 13,40% Parry
+Average stats for [Shadow Bolt] : 323,66 DPS (68,36%) / 323,66 TPS (96,40%)
+	Average of 1 387,10 threat for 21,00 uses (or 1 use every 4,29s)
+	Average of 1 387,10 damage for 21,00 uses (or 1 use every 4,29s)
+	66,67% Hit, 23,81% Crit, 9,52% Resist
 
-Average stats for [Sunder Armor] : 0,00 DPS (0,00%)
-	Average of 0,00 damage for 33,50 uses (or 1 use every 2,69s) / 144,78 TPS (16,03%)
-	Average of 389,00 threat for 33,50 uses (or 1 use every 2,69s)
-	64,86% Hit, 15,24% Crit, 0,80% Miss, 0,00% Glancing, 5,75% Dodge, 13,35% Parry
-
-Average stats for [Revenge] : 7,04 DPS (1,68%)
-	Average of 60,95 damage for 10,40 uses (or 1 use every 8,66s) / 64,95 TPS (7,19%)
-	Average of 562,15 threat for 10,40 uses (or 1 use every 8,66s)
-	64,87% Hit, 15,17% Crit, 0,78% Miss, 0,00% Glancing, 5,79% Dodge, 13,38% Parry
-
-Average stats for [Heroic Strike] : 47,97 DPS (11,46%)
-	Average of 419,61 damage for 10,29 uses (or 1 use every 8,75s) / 96,51 TPS (10,68%)
-	Average of 844,15 threat for 10,29 uses (or 1 use every 8,75s)
-	64,84% Hit, 15,36% Crit, 0,85% Miss, 0,00% Glancing, 5,82% Dodge, 13,13% Parry
-
-Average stats for [Thunderfury] : 43,83 DPS (10,47%)
-	Average of 238,43 damage for 16,54 uses (or 1 use every 5,44s) / 119,09 TPS (13,18%)
-	Average of 647,80 threat for 16,54 uses (or 1 use every 5,44s)
-	82,97% Hit, 0,00% Crit, 17,03% Resist
+Average stats for [Corruption] : 75,51 DPS (15,95%)
+	Average of 251,70 damage for 27,00 ticks (or 1 tick every 3,33s)
+	90,00% Uptime

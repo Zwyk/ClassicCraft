@@ -13,6 +13,8 @@ namespace ClassicCraft
         private Shift shift;
         private Innervate innerv;
 
+        private RuneOfMeta rom = null;
+
         #region Constructors
 
         public Druid(Player p)
@@ -78,16 +80,23 @@ namespace ClassicCraft
             shift = new Shift(this);
             innerv = new Innervate(this);
 
+            if(Equipment[Slot.Trinket1].Name.ToLower().Equals("rune of metamorphosis") || Equipment[Slot.Trinket2].Name.ToLower().Equals("rune of metamorphosis"))
+            {
+                rom = new RuneOfMeta(this);
+            }
+
             HasteMod = CalcHaste();
             Resource = MaxResource;
             Mana = MaxMana;
 
-            if (Equipment[Slot.MH].Name == "Manual Crowd Pummeler")
+            if (Equipment[Slot.MH].Name.ToLower().Equals("manual crowd pummeler"))
             {
                 new MCP(this).Cast();
             }
             Form = Forms.Cat;
         }
+
+        public static bool USE_POTS = true;
 
         public override void Rota()
         {
@@ -107,26 +116,60 @@ namespace ClassicCraft
                     {
                         fb.Cast();
                     }
-                    else if (Resource < shred.Cost - 20 && shift.CanUse() && (innerv.Available() || Effects.ContainsKey(InnervateBuff.NAME) || ((int)((double)Mana / shift.Cost)) * 4 + 5 >= Sim.FightLength - Sim.CurrentTime || !(SpiritTicking() && Mana + SpiritMPT() < MaxMana)))
+                    else if (Resource < shred.Cost - 20 && shift.CanUse() && (innerv.Available() || Effects.ContainsKey(InnervateBuff.NAME)
+                                                                    || (rom != null && rom.Available()) || Effects.ContainsKey(RuneOfMeta.NAME)
+                                                                    || ((int)((double)Mana / shift.Cost)) * 4 + 5 >= Sim.FightLength - Sim.CurrentTime
+                                                                    || !(SpiritTicking() && Mana + SpiritMPT() < MaxMana)))
+                    {
+                        Unshift();
+                    }
+                }
+
+                if (Form == Forms.Humanoid)
+                {
+                    if (USE_POTS)
+                    {
+                        if (pot.CanUse() && MaxMana - Mana > ManaPotion.MAX)
+                        {
+                            pot.Cast();
+                        }
+                        if (rune.CanUse() && MaxMana - Mana > ManaRune.MANA_MAX)
+                        {
+                            rune.Cast();
+                        }
+                    }
+
+                    if (Mana < shift.Cost * 2 && !(Effects.ContainsKey(InnervateBuff.NAME) || Effects.ContainsKey(RuneOfMeta.NAME)))
+                    {
+                        if (innerv.CanUse())
+                        {
+                            innerv.Cast();
+                        }
+                        else if (rom != null && rom.CanUse())
+                        {
+                            rom.Cast();
+                        }
+                    }
+
+                    if (shift.CanUse())
                     {
                         shift.Cast();
                     }
-                    else if (Mana < shift.Cost && innerv.CanUse())
-                    {
-                        Form = Forms.Human;
-                        ResetMHSwing();
-                        innerv.Cast();
-                    }
-                }
-                else if (Form == Forms.Human && shift.CanUse())
-                {
-                    Form = Forms.Cat;
-                    ResetMHSwing();
-                    shift.Cast();
                 }
             }
 
             CheckAAs();
+        }
+
+        public void Unshift()
+        {
+            Form = Forms.Humanoid;
+            ResetMHSwing();
+
+            if (Program.logFight)
+            {
+                Program.Log(string.Format("{0:N2} : Unshifted", Sim.CurrentTime));
+            }
         }
 
         #endregion
