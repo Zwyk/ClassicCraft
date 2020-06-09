@@ -105,10 +105,12 @@ namespace ClassicCraft
             {
                 minDmg = (int)Math.Round(
                     Player.Form == Player.Forms.Cat ? Player.Level * 0.85 + (Player.AP + Player.nextAABonus) / 14 :
-                    Weapon.DamageMin + Weapon.Speed * (Player.AP + Player.nextAABonus) / 14);
+                    (Player.Form == Player.Forms.Bear ? Player.Level * 0.85 + 2.5 * (Player.AP + Player.nextAABonus) / 14 :
+                    (Weapon.DamageMin + Weapon.Speed * (Player.AP + Player.nextAABonus) / 14)));
                 maxDmg = (int)Math.Round(
                     Player.Form == Player.Forms.Cat ? Player.Level * 1.25 + (Player.AP + Player.nextAABonus) / 14 :
-                    Weapon.DamageMax + Weapon.Speed * (Player.AP + Player.nextAABonus) / 14);
+                    (Player.Form == Player.Forms.Bear ? Player.Level * 1.25 + 2.5 * (Player.AP + Player.nextAABonus) / 14 :
+                    (Weapon.DamageMax + Weapon.Speed * (Player.AP + Player.nextAABonus) / 14)));
 
                 damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
                     * Player.Sim.DamageMod(res, Weapon.School, Player.Level, Player.Sim.Boss.Level, true)
@@ -147,7 +149,7 @@ namespace ClassicCraft
 
         public double CurrentSpeed()
         {
-            return (Player.Form == Player.Forms.Cat ? 1 : BaseCD) / Player.HasteMod;
+            return (Player.Form == Player.Forms.Humanoid ? BaseCD : (Player.Form == Player.Forms.Cat ? 1 : 2.5)) / Player.HasteMod;
         }
 
         public override string ToString()

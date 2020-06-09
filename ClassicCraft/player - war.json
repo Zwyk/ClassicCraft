@@ -1,13 +1,13 @@
 {
   "Race": "Orc",
   "Class": "Warrior",
-  "Talents": "-05050005405010051-5023011053",
+  "Talents": "-05050005505010051-5023011052",
   "Cooldowns": {
     "Racial": false,
     "Death Wish": true,
     "Recklessness": false,
     "Juju Flurry": false,
-    "Mighty Rage": false,
+    "Mighty Rage": true,
   },
   "Buffs": [
     {
@@ -49,9 +49,9 @@
       }
     },
     {
-      "Name": "Blessed Sunfruit",
+      "Name": "Food",
       "Stats": {
-        "Str": 10,
+        "Str": 20,
       }
     },
     {
@@ -62,9 +62,15 @@
       }
     },
     {
-      "Name": "Elixir of Giants",
+      "Name": "Juju Power",
       "Stats": {
-        "AP": 35,
+        "AP": 40,
+      }
+    },
+    {
+      "Name": "Juju Might",
+      "Stats": {
+        "Str": 30,
       }
     },
   ],
@@ -114,10 +120,10 @@
   },
   "Equipment": {
     "Head": {
-      "Name": "Crown",
+      "Name": "HoER",
       "Stats": {
-        "Crit": 2,
-        "AP": 44,
+        "Str": 26,
+        "Agi": 26,
       },
     },
     "Neck": {
@@ -129,15 +135,17 @@
       }
     },
     "Shoulders": {
-      "Name": "T1",
+      "Name": "DTP",
       "Stats": {
-        "Str": 15
+        "Str": 20,
+        "Agi": 20,
       },
     },
     "Back": {
-      "Name": "Fanta",
+      "Name": "Zul",
       "Stats": {
-        "Str": 12,
+        "Str": 13,
+        "Hit": 1,
       },
       "Enchantment": {
         "Name": "Lesser Agility",
@@ -174,10 +182,10 @@
       }
     },
     "Hands": {
-      "Name": "edge",
+      "Name": "T1",
       "Stats": {
-        "Sword": 7,
-        "Axe": 7,
+        "Str": 22,
+        "Hit": 1,
       },
       "Enchantment": {
         "Name": "Greater Strength",
@@ -187,22 +195,23 @@
       }
     },
     "Waist": {
-      "Name": "Brigam",
+      "Name": "Girdle",
       "Stats": {
-        "Str": 15,
+        "Str": 31,
         "Hit": 1,
+        "Crit": 1,
       }
     },
     "Legs": {
-      "Name": "T2",
+      "Name": "Bloodsoaked",
       "Stats": {
-        "Str": 19,
+        "Str": 36,
       },
     },
     "Feet": {
-      "Name": "T1",
+      "Name": "T2",
       "Stats": {
-        "Str": 15,
+        "Str": 13,
       },
     },
     "Ring1": {
@@ -227,9 +236,10 @@
       }
     },
     "Trinket2": {
-      "Name": "Flask",
+      "Name": "DFT",
       "Stats": {
-        "Str": 75
+        "AP": 56,
+        "Hit": 2,
       }
     }
   }

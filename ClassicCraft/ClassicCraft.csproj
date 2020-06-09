@@ -56,6 +56,8 @@
     <Compile Include="Classes\Druid\Druid.cs" />
     <Compile Include="Classes\Druid\Effects\InnervateBuff.cs" />
     <Compile Include="Classes\Druid\Skills\FerociousBite.cs" />
+    <Compile Include="Classes\Druid\Skills\Maul.cs" />
+    <Compile Include="Classes\Druid\Skills\Swipe.cs" />
     <Compile Include="Classes\Druid\Spells\Innervate.cs" />
     <Compile Include="Classes\Druid\Spells\Shift.cs" />
     <Compile Include="Classes\Hunter\Hunter.cs" />

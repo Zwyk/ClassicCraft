@@ -127,6 +127,11 @@ namespace ClassicCraft
             {
                 Player.Resource += (int)TankHitRage;
 
+                if (Program.logFight)
+                {
+                    Program.Log(string.Format("{0:N2} : Boss hits for {1} rage :  ({2} {3}/{4})", CurrentTime, (int)TankHitRage, "rage", Player.Resource, Player.MaxResource));
+                }
+
                 LastHit += TankHitEvery;
             }
 
@@ -143,7 +148,7 @@ namespace ClassicCraft
                 }
             }
 
-            if (Player.Class == Player.Classes.Rogue || Player.Class == Player.Classes.Druid)
+            if (Player.Class == Player.Classes.Rogue || Player.Form == Player.Forms.Cat)
             {
                 Player.CheckEnergyTick();
             }

@@ -169,7 +169,7 @@ namespace ClassicCraft
                         (Sim.FightLength - Sim.CurrentTime <= cds[cd]
                         || Sim.FightLength - Sim.CurrentTime >= cd.BaseCD + cds[cd]))
                     {
-                        if(!(cd is MightyRage) || Sim.FightLength - Sim.CurrentTime >= cd.BaseCD + cds[cd] || Resource < exec.Cost)
+                        if(!(cd is MightyRage) || Sim.FightLength - Sim.CurrentTime >= cd.BaseCD + cds[cd] || (!Tanking && Resource < exec.Cost))
                         {
                             cd.Cast();
                         }
@@ -194,9 +194,13 @@ namespace ClassicCraft
                         ham.Cast();
                     }
 
-                    if (!MH.TwoHanded && Resource >= bt.Cost + ww.Cost + hs.Cost && hs.CanUse())
+                    if (!MH.TwoHanded && applyAtNextAA == null && Resource >= bt.Cost + ww.Cost + hs.Cost && hs.CanUse())
                     {
                         hs.Cast();
+                    }
+                    else if (!MH.TwoHanded && Resource < bt.Cost + ww.Cost + hs.Cost)
+                    {
+                        applyAtNextAA = null;
                     }
                 }
                 else
@@ -226,22 +230,26 @@ namespace ClassicCraft
             }
             else if(rota == 2) //REVENGE > BT > SA + HS
             {
-                if(rev.CanUse())
-                {
-                    rev.Cast();
-                }
-                else if (bt.CanUse())
+                if (bt.CanUse())
                 {
                     bt.Cast();
+                }
+                else if (rev.CanUse())
+                {
+                    rev.Cast();
                 }
                 else if(sa.CanUse())
                 {
                     sa.Cast();
                 }
 
-                if (!MH.TwoHanded && Resource >= bt.Cost + sa.Cost + hs.Cost && hs.CanUse())
+                if (!MH.TwoHanded && applyAtNextAA == null && Resource >= bt.Cost + sa.Cost + hs.Cost && hs.CanUse())
                 {
                     hs.Cast();
+                }
+                else if(!MH.TwoHanded && applyAtNextAA != null && Resource < bt.Cost + sa.Cost + hs.Cost)
+                {
+                    applyAtNextAA = null;
                 }
             }
 

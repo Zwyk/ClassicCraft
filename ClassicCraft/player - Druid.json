@@ -1,209 +1,222 @@
 {
-  "Race": "Undead",
-  "Class": "Priest",
-  "Talents": "05500013--5032504103501251",
+  "Race": "Tauren",
+  "Class": "Druid",
+  "Talents": "014005201-0550101323222151-05",
   "Cooldowns": {
   },
   "Buffs": [
     {
       "Name": "Test",
       "Stats": {
-        "SP": 0,
-        "SHit": 0,
+        "Hit": 0,
         "Crit": 0,
         "AP": 0,
         "Haste": 0,
       }
     },
     {
+      "Name": "Leader of the Pack",
+      "Stats": {
+        "Crit": 3
+      }
+    },
+    {
+      "Name": "Battle Shout",
+      "Stats": {
+        "AP": 241
+      }
+    },
+    {
+      "Name": "Trueshot Aura",
+      "Stats": {
+        "AP": 100
+      }
+    },
+    {
       "Name": "Mark of the Wild",
       "Stats": {
-        "Int": 16,
-        "Spi": 16,
+        "Agi": 16,
+        "Str": 16,
       }
     },
     {
-      "Name": "Arcane Intelect",
+      "Name": "R.O.I.D.S.",
       "Stats": {
-        "Int": 31,
+        "Str": 25,
       }
     },
     {
-      "Name": "Arcane Elixir",
+      "Name": "Elixir of the Mongoose",
       "Stats": {
-        "SP": 35,
+        "Agi": 25,
+        "Crit": 2
       }
     },
     {
-      "Name": "Shadow Power",
+      "Name": "Juju Power",
       "Stats": {
-        "SP": 40,
+        "AP": 40,
       }
     },
     {
-      "Name": "Bouffe",
+      "Name": "Juju Might",
       "Stats": {
-        "Int": 10,
-        "MP5": 0,
-        "Spi": 0,
+        "Str": 30,
       }
     },
   ],
   "Weapons": {
     "MH": {
+      "DamageMin": 46,
+      "DamageMax": 70,
+      "Speed": 2.0,
       "TwoHanded": true,
-      "Type": "Staff",
-      "Name": "Anathema",
+      "Type": "Mace",
+      "Name": "Manual Crowd Pummeler",
+      "Id": 0,
+      "Slot": "Weapon",
       "Stats": {
-        "Int": 31,
-        "SP": 69,
-        "MP5": 7,
+        "Str": 16,
+        "Agi": 5
       },
-      "Enchantment":
-      {
-        "Name": "Spell Power",
-        "Stats": {
-          "SP": 30,
-        }
-      }
-    },
-    "Ranged": {
-      "Type": "Wand",
-      "DamageMin": 83,
-      "DamageMax": 155,
-      "Speed": 1.9,
-      "School": "Arcane",
-      "Name": "Skul's Ghastly Touch",
-      "Stats": {
-        "SP": 11,
-        "Int": 4
-      }
+      "Enchantment": {
+      },
     },
   },
   "Equipment": {
     "Head": {
-      "Name": "Lionheart Helm",
+      "Name": "Wolfshead Helm",
       "Stats": {
-        "Spi": 10,
-        "Int": 25,
-        "SP": 14,
+        "Agi": 22,
+        "Hit": 2,
       },
+      "Enchantment": {
+        "Name": "Lesser Arcane Amalgamation",
+        "Stats": {
+          "Str": 0
+        }
+      }
     },
     "Neck": {
-      "Name": "Choker of the Fire Lord",
+      "Name": "Onyxia Tooth Pendant",
       "Stats": {
-        "Int": 7,
-        "SP": 20,
+        "Agi": 14,
       }
     },
     "Shoulders": {
-      "Name": "Truestrike",
+      "Name": "Truestike Shoulders",
       "Stats": {
-        "Int": 16,
-        "SP": 20
+        "AP": 46,
       },
+      "Enchantment": {
+        "Name": "AP",
+        "Stats": {
+          "AP": 30
+        }
+      }
     },
     "Back": {
-      "Name": "Puissant Cape",
+      "Name": "Cape of the Black Baron",
       "Stats": {
-        "Int": 9,
-        "SP": 12
+        "Agi": 0,
       },
       "Enchantment": {
         "Name": "Lesser Agility",
         "Stats": {
+          "Agi": 3
         }
       }
     },
     "Chest": {
-      "Name": "Savage Gladiator Chain",
+      "Name": "Cadaverous Armor",
       "Stats": {
-        "Int": 12,
-        "SP": 40,
+        "Str": 40,
       },
       "Enchantment": {
         "Name": "Greater Stats",
         "Stats": {
-          "Int": 3,
-          "Spi": 3,
+          "Str": 4,
+          "Agi": 4,
+          "Int": 4,
+          "Spi": 4,
         }
       }
     },
     "Wrist": {
       "Name": "Wristguards of Stability",
       "Stats": {
-        "Int": 10,
-        "Spi": 6,
-        "SP": 12,
+        "Str": 5,
+        "Hit": 1,
       },
       "Enchantment": {
         "Name": "Superior Strength",
         "Stats": {
+          "Str": 0
         }
       }
     },
     "Hands": {
       "Name": "Devilsaur Gauntlets",
       "Stats": {
-        "SP": 26,
-        "Int": 6,
-        "Spi": 6
+        "Agi": 15,
       },
       "Enchantment": {
         "Name": "Greater Strength",
         "Stats": {
+          "Agi": 7
         }
       }
     },
     "Waist": {
-      "Name": "Onslaught Girdle",
+      "Name": "Cloudrunner Girdle",
       "Stats": {
-        "Int": 11,
-        "SP": 12,
-        "SHit": 1,
+        "AP": 60,
       }
     },
     "Legs": {
       "Name": "Devilsaur Leggings",
       "Stats": {
-        "SP": 34,
-        "Int": 8
+        "Agi": 35,
       },
+      "Enchantment": {
+        "Name": "Lesser Arcane Amalgamation",
+        "Stats": {
+          "Str": 0
+        }
+      }
     },
     "Feet": {
-      "Name": "Battlechaser's Greaves",
+      "Name": "Swiftwalker Boots",
       "Stats": {
-        "SP": 27,
-        "Int": 9,
+        "AP": 44,
+        "Hit": 2
       },
     },
     "Ring1": {
-      "Name": "Band of Accuria",
+      "Name": "Tarnished Elven Ring",
       "Stats": {
-        "SP": 18,
-        "Int": 7,
-        "Spi": 6,
+        "Agi": 14,
       }
     },
     "Ring2": {
       "Name": "Band of Accuria",
       "Stats": {
-        "SP": 18,
-        "Int": 7,
-        "Spi": 4,
+        "Agi": 16,
+        "Hit": 2
       }
     },
     "Trinket1": {
-      "Name": "Briarwood Reed",
+      "Name": "Hand of Justice",
       "Stats": {
-        "SP": 29
+        "AP": 20
       }
     },
     "Trinket2": {
-      "Name": "Blackhand's Breadth",
+      "Name": "DFT",
       "Stats": {
-        "SP": 12
+        "Hit": 2,
+        "AP": 56
       }
-    }
+    },
   }
 }

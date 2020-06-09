@@ -201,11 +201,11 @@ namespace ClassicCraft
             return (c == Classes.Druid || c == Classes.Warrior || c == Classes.Shaman || c == Classes.Paladin) ? 2 : 1;
         }
 
-        public double BonusStrToAPRatio()
+        public static double BonusStrToAPRatio(Player p)
         {
             return 1
-                * (Class == Classes.Druid ? (1 + 0.04 * GetTalentPoints("HW")) : 1)
-                * (Buffs.Any(b => b.Name.ToLower().Contains("blessing of kings")) ? 1.1 : 1);
+                * (p.Class == Classes.Druid ? (1 + 0.04 * p.GetTalentPoints("HW")) : 1)
+                * (p.Buffs.Any(b => b.Name.ToLower().Contains("blessing of kings")) ? 1.1 : 1);
         }
 
         public static int AgiToRangedAPRatio(Classes c)
@@ -213,9 +213,9 @@ namespace ClassicCraft
             return (c == Classes.Warrior || c == Classes.Hunter || c == Classes.Rogue) ? 2 : 1;
         }
 
-        public static int AgiToAPRatio(Classes c)
+        public static int AgiToAPRatio(Player p)
         {
-            return (c == Classes.Druid || c == Classes.Hunter || c == Classes.Rogue) ? 1 : 0;
+            return (p.Form == Forms.Cat || p.Class == Classes.Hunter || p.Class == Classes.Rogue) ? 1 : 0;
         }
 
         public static double AgiToCritRatio(Classes c)
@@ -733,9 +733,9 @@ namespace ClassicCraft
                 case Classes.Druid:
                     // -20 // Normal
                     // level * 1.5 - 20 // Moonkin
-                    return Sim.Tanking ?
-                        level * 3 - 20: //Bear
-                        level * 2 - 20; // Cat
+                    return Tanking ?
+                        level * 3 - 20 + 180: //Bear
+                        level * 2 - 20 + 40; // Cat
                 default:
                     return level * 2 - 20;
             }
@@ -1048,9 +1048,11 @@ namespace ClassicCraft
         }
 
         public Player(Simulation s, Player p)
-            : this(s, p.Class, p.Race, p.Level, p.Equipment, p.Talents, p.Buffs)
+            : this(s, p.Class, p.Race, p.Level, p.Equipment, p.Talents, p.Buffs, p.Tanking)
         {
             Attributes.Values = new Dictionary<Attribute, double>(p.Attributes.Values);
+
+            Tanking = p.Tanking;
 
             DamageMod = p.DamageMod;
             ThreatMod = p.ThreatMod;
@@ -1324,6 +1326,15 @@ namespace ClassicCraft
                     + 0.01 * GetTalentPoints("SC"));
                 Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP)
                     + 0.5 * GetTalentPoints("PS") * Level);
+                if(Tanking)
+                {
+                    ThreatMod *= 1.3 * (1 + 0.03 * GetTalentPoints("FI"));
+                    Form = Forms.Bear;
+                }
+                else
+                {
+                    Form = Forms.Cat;
+                }
             }
             else if (Class == Classes.Mage)
             {
@@ -1390,7 +1401,7 @@ namespace ClassicCraft
                     Attributes.SetValue(Attribute.Mana, Attributes.GetValue(Attribute.Mana) * 1 + (0.02 * GetTalentPoints("AMind")));
                 }
             }
-            Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Strength) * StrToAPRatio(Class) + Attributes.GetValue(Attribute.Agility) * AgiToAPRatio(Class));
+            Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Strength) * StrToAPRatio(Class) + Attributes.GetValue(Attribute.Agility) * AgiToAPRatio(this));
             Attributes.SetValue(Attribute.RangedAP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Agility) * AgiToRangedAPRatio(Class));
             Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance) + Attributes.GetValue(Attribute.Agility) * AgiToCritRatio(Class));
             Attributes.SetValue(Attribute.SpellCritChance, Attributes.GetValue(Attribute.SpellCritChance) + BaseCrit(Class) + Attributes.GetValue(Attribute.Intellect) * IntToCritRatio(Class));
@@ -1470,6 +1481,13 @@ namespace ClassicCraft
                     if (GetTalentPoints("OC") > 0)
                     {
                         ClearCasting.CheckProc(this);
+                    }
+                    if(res == ResultType.Crit && GetTalentPoints("SF") > 0)
+                    {
+                        if(GetTalentPoints("SF") > 1 || Randomer.NextDouble() < 0.5)
+                        {
+                            Resource += 5;
+                        }
                     }
                 }
                 else if (Class == Classes.Rogue)

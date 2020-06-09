@@ -13,6 +13,9 @@ namespace ClassicCraft
         private Shift shift;
         private Innervate innerv;
 
+        private Maul maul;
+        private Swipe swipe;
+
         private RuneOfMeta rom = null;
 
         #region Constructors
@@ -57,10 +60,12 @@ namespace ClassicCraft
             // Feral
             Talents.Add("Fero", feral.Length > 0 ? (int)Char.GetNumericValue(feral[0]) : 0);
             Talents.Add("FA", feral.Length > 1 ? (int)Char.GetNumericValue(feral[1]) : 0);
+            Talents.Add("FI", feral.Length > 2 ? (int)Char.GetNumericValue(feral[2]) : 0);
             Talents.Add("SC", feral.Length > 7 ? (int)Char.GetNumericValue(feral[7]) : 0);
             Talents.Add("IS", feral.Length > 8 ? (int)Char.GetNumericValue(feral[8]) : 0);
             Talents.Add("PS", feral.Length > 9 ? (int)Char.GetNumericValue(feral[9]) : 0);
             Talents.Add("BF", feral.Length > 10 ? (int)Char.GetNumericValue(feral[10]) : 0);
+            Talents.Add("PF", feral.Length > 11 ? (int)Char.GetNumericValue(feral[11]) : 0);
             Talents.Add("SF", feral.Length > 12 ? (int)Char.GetNumericValue(feral[12]) : 0);
             Talents.Add("HW", feral.Length > 14 ? (int)Char.GetNumericValue(feral[14]) : 0);
             // Resto
@@ -75,10 +80,18 @@ namespace ClassicCraft
         {
             base.PrepFight();
 
-            shred = new Shred(this);
-            fb = new FerociousBite(this);
-            shift = new Shift(this);
-            innerv = new Innervate(this);
+            if(Tanking)
+            {
+                maul = new Maul(this);
+                swipe = new Swipe(this);
+            }
+            else
+            {
+                shred = new Shred(this);
+                fb = new FerociousBite(this);
+                shift = new Shift(this);
+                innerv = new Innervate(this);
+            }
 
             if(Equipment[Slot.Trinket1].Name.ToLower().Equals("rune of metamorphosis") || Equipment[Slot.Trinket2].Name.ToLower().Equals("rune of metamorphosis"))
             {
@@ -86,21 +99,40 @@ namespace ClassicCraft
             }
 
             HasteMod = CalcHaste();
-            Resource = MaxResource;
             Mana = MaxMana;
 
             if (Equipment[Slot.MH].Name.ToLower().Equals("manual crowd pummeler"))
             {
                 new MCP(this).Cast();
             }
-            Form = Forms.Cat;
+
+            if(Tanking)
+            {
+                Form = Forms.Bear;
+            }
+            else
+            {
+                Form = Forms.Cat;
+                Resource = MaxResource;
+            }
         }
 
         public static bool USE_POTS = true;
 
         public override void Rota()
         {
-            if (rota == 0) //SHRED + FB + SHIFT + INNERV
+            if (Tanking) // MAUL + SWIPE
+            {
+                if(maul.CanUse())
+                {
+                    maul.Cast();
+                }
+                if(swipe.CanUse() && Resource > maul.Cost + swipe.Cost)
+                {
+                    swipe.Cast();
+                }
+            }
+            else if (rota == 0) //SHRED + FB + SHIFT + INNERV
             {
                 if (Form == Forms.Cat)
                 {

@@ -47,8 +47,8 @@ namespace ClassicCraft
         public static string logsFileName = "logs";
         public static string txt = ".txt";
 
-        public static bool debug = false;
-        public static string debugPath = ".\\..\\..";
+        public static bool debug = true;
+        public static string debugPath = @".\..\..";
 
         public static Player playerBase = null;
         public static Boss bossBase = null;
@@ -199,7 +199,7 @@ namespace ClassicCraft
                     playerBase.MH = new Weapon();
                 }
 
-                if (playerBase.Class == Player.Classes.Rogue || playerBase.Class == Player.Classes.Warrior)
+                if (playerBase.Class == Player.Classes.Rogue || playerBase.Class == Player.Classes.Warrior || jsonSim.Tanking)
                 {
                     simOrder.Remove("+50 SP");
                     simOrder.Remove("+50 Int");
@@ -458,7 +458,7 @@ namespace ClassicCraft
                         if (apDif < 0) apDif = 0;
                         Log(string.Format("1 AP = {0:N4} DPS", apDif));
 
-                        double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * playerBase.BonusStrToAPRatio();
+                        double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * Player.BonusStrToAPRatio(playerBase);
                         Log(string.Format("1 Str = {0:N4} DPS = {1:N4} AP", strDif, strDif / apDif));
                     }
                     if (simOrder.Contains("+50 SP"))
@@ -474,7 +474,7 @@ namespace ClassicCraft
                         double critDif = critDps - baseDps;
                         if (critDif < 0) critDif = 0;
 
-                        double agiDif = Player.AgiToAPRatio(playerBase.Class) * apDif + Player.AgiToCritRatio(playerBase.Class) * 100 * critDif;
+                        double agiDif = Player.AgiToAPRatio(playerBase) * apDif + Player.AgiToCritRatio(playerBase.Class) * 100 * critDif;
                         Log(string.Format("1 Agi = {0:N4} DPS = {1:N4} AP", agiDif, agiDif / apDif));
 
                         Log(string.Format("1% Crit = {0:N4} DPS = {1:N4} AP", critDif, critDif / apDif));
@@ -598,7 +598,7 @@ namespace ClassicCraft
                             double critDif = critTps - baseTps;
                             if (critDif < 0) critDif = 0;
 
-                            double agiDif = Player.AgiToAPRatio(playerBase.Class) * apDif + Player.AgiToCritRatio(playerBase.Class) * 100 * critDif;
+                            double agiDif = Player.AgiToAPRatio(playerBase) * apDif + Player.AgiToCritRatio(playerBase.Class) * 100 * critDif;
                             Log(string.Format("1 Agi = {0:N4} TPS = {1:N4} AP", agiDif, agiDif / apDif));
 
                             Log(string.Format("1% Crit = {0:N4} TPS = {1:N4} AP", critDif, critDif / apDif));
@@ -697,7 +697,7 @@ namespace ClassicCraft
                     if (playerBase.Class == Player.Classes.Warrior)
                         logList.AddRange(new List<string>() { "Slam", "Bloodthirst", "Sunder Armor", "Revenge", "Whirlwind", "Heroic Strike", "Execute", "Hamstring" });
                     else if (playerBase.Class == Player.Classes.Druid)
-                        logList.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift" });
+                        logList.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift", "Maul", "Swipe" });
                     else if (playerBase.Class == Player.Classes.Priest)
                         logList.AddRange(new List<string>() { "Mind Blast", "Mind Flay", "SW:P", "Devouring Plague" });
                     else if (playerBase.Class == Player.Classes.Rogue)

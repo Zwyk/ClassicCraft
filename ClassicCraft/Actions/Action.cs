@@ -79,13 +79,9 @@ namespace ClassicCraft
 
         public string ResourceName()
         {
-            switch (Player.Class)
-            {
-                case Player.Classes.Druid: return "energy";
-                case Player.Classes.Rogue: return "energy";
-                case Player.Classes.Warrior: return "rage";
-                default: return "mana";
-            }
+            if(Player.Class == Player.Classes.Rogue || Player.Form == Player.Forms.Cat) return "energy";
+            else if(Player.Class == Player.Classes.Warrior || Player.Form == Player.Forms.Bear) return "rage";
+            else return "mana";
         }
 
         public virtual void RegisterDamage(ActionResult res)
@@ -107,7 +103,7 @@ namespace ClassicCraft
                 {
                     log += " [combo " + Player.Combo + "]";
                 }
-                if (Player.Mana > 0)
+                if (Player.Mana > 0 && !Player.Tanking)
                 {
                     log += " - Mana " + Player.Mana + "/" + Player.MaxMana;
                 }
