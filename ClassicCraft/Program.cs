@@ -695,7 +695,7 @@ namespace ClassicCraft
                     //List<string> logList = totalActions.SelectMany(a => a.Select(t => t.Action.ToString()).OrderBy(b => b)).Distinct().ToList();
                     List<string> logList = new List<string>() { "AA MH", "AA OH", "AA Ranged", "AA Wand" };
                     if (playerBase.Class == Player.Classes.Warrior)
-                        logList.AddRange(new List<string>() { "Slam", "Bloodthirst", "Sunder Armor", "Revenge", "Whirlwind", "Heroic Strike", "Execute", "Hamstring" });
+                        logList.AddRange(new List<string>() { "Slam", "Bloodthirst", "Sunder Armor", "Revenge", "Whirlwind", "Heroic Strike", "Execute", "Hamstring", "Battle Shout" });
                     else if (playerBase.Class == Player.Classes.Druid)
                         logList.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift", "Maul", "Swipe" });
                     else if (playerBase.Class == Player.Classes.Priest)

@@ -140,6 +140,7 @@ namespace ClassicCraft
             if(Sim.Tanking)
             {
                 rota = 2;
+                //rota = 3;
             }
             else if (GetTalentPoints("IS") > 0)
             {
@@ -228,7 +229,7 @@ namespace ClassicCraft
                     }
                 }
             }
-            else if(rota == 2) //REVENGE > BT > SA + HS
+            else if (rota == 2) //BT > REVENGE > BS + HS
             {
                 if (bt.CanUse())
                 {
@@ -238,7 +239,7 @@ namespace ClassicCraft
                 {
                     rev.Cast();
                 }
-                else if(sa.CanUse())
+                else if (sa.CanUse())
                 {
                     sa.Cast();
                 }
@@ -247,7 +248,31 @@ namespace ClassicCraft
                 {
                     hs.Cast();
                 }
-                else if(!MH.TwoHanded && applyAtNextAA != null && Resource < bt.Cost + sa.Cost + hs.Cost)
+                else if (!MH.TwoHanded && applyAtNextAA != null && Resource < bt.Cost + sa.Cost + hs.Cost)
+                {
+                    applyAtNextAA = null;
+                }
+            }
+            else if (rota == 3) //BT > REVENGE > SA + HS
+            {
+                if (bt.CanUse())
+                {
+                    bt.Cast();
+                }
+                else if (rev.CanUse())
+                {
+                    rev.Cast();
+                }
+                else if (bs.CanUse())
+                {
+                    bs.Cast();
+                }
+
+                if (!MH.TwoHanded && applyAtNextAA == null && Resource >= bt.Cost + sa.Cost + hs.Cost && hs.CanUse())
+                {
+                    hs.Cast();
+                }
+                else if (!MH.TwoHanded && applyAtNextAA != null && Resource < bt.Cost + sa.Cost + hs.Cost)
                 {
                     applyAtNextAA = null;
                 }

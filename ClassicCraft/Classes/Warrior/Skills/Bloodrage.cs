@@ -45,8 +45,13 @@ namespace ClassicCraft
             LogAction();
         }
 
-        public override void LogAction()
+        public override void LogAction(int? threat = null)
         {
+            if (threat.HasValue)
+            {
+                Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Success, 0, threat.Value), Player.Sim.CurrentTime));
+            }
+
             if (Program.logFight)
             {
                 Program.Log(string.Format("{0:N2} : {1} cast for 10 rage (rage {2})", Player.Sim.CurrentTime, ToString(), Player.Resource));

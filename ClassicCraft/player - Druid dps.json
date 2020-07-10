@@ -1,28 +1,29 @@
 {
-  "Race": "Orc",
-  "Class": "Warrior",
-  "Talents": "2-05050005505010051-5023011050",
+  "Race": "Tauren",
+  "Class": "Druid",
+  "Talents": "014005201-0550101323222151-05",
   "Cooldowns": {
-    "Racial": false,
-    "Death Wish": true,
-    "Recklessness": false,
-    "Juju Flurry": false,
-    "Mighty Rage": true,
   },
   "Buffs": [
-    {
-      "Name": "Windfury Totem"
-    },
     {
       "Name": "Test",
       "Stats": {
         "Hit": 0,
         "Crit": 0,
-        "AP": 30,
+        "AP": 0,
         "Haste": 0,
-        "Dagger": 0,
-        "Agi": 0,
-        "Str": 0,
+      }
+    },
+    {
+      "Name": "Pvp",
+      "Stats": {
+        "AP": 40
+      }
+    },
+    {
+      "Name": "Leader of the Pack",
+      "Stats": {
+        "Crit": 3
       }
     },
     {
@@ -51,12 +52,6 @@
       }
     },
     {
-      "Name": "Food",
-      "Stats": {
-        "Str": 20,
-      }
-    },
-    {
       "Name": "Elixir of the Mongoose",
       "Stats": {
         "Agi": 25,
@@ -78,76 +73,57 @@
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 44,
-      "DamageMax": 115,
-      "Speed": 1.9,
-      "TwoHanded": false,
-      "Type": "Sword",
-      "Name": "Thunderfury",
+      "DamageMin": 46,
+      "DamageMax": 70,
+      "Speed": 2.0,
+      "TwoHanded": true,
+      "Type": "Mace",
+      "Name": "Manual Crowd Pummeler",
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
-        "Agi": 5,
+        "Str": 16,
+        "Agi": 5
       },
-      "Enchantment":
-      {
-        "Name": "Crusader",
-      }
-    },
-    "OH": {
-      "DamageMin": 101,
-      "DamageMax": 188,
-      "Speed": 2.3,
-      "TwoHanded": false,
-      "Type": "Axe",
-      "Name": "Crul",
-      "Id": 0,
-      "Slot": "Weapon",
-      "Stats": {
-        "AP": 36,
+      "Enchantment": {
       },
-      "Enchantment":
-      {
-        "Name": "Crusader",
-      }
-    },
-    "Ranged": {
-      "Type": "Bow",
-      "Name": "Satyr",
-      "Stats": {
-        "Agi": 3,
-        "Hit": 1,
-      }
     },
   },
   "Equipment": {
     "Head": {
-      "Name": "HoER",
+      "Name": "Wolfshead Helm",
       "Stats": {
-        "Str": 26,
-        "Agi": 26,
+        "Spi": 10
       },
+      "Enchantment": {
+        "Name": "Lesser Arcane Amalgamation",
+        "Stats": {
+          "Str": 8
+        }
+      }
     },
     "Neck": {
       "Name": "Onyxia Tooth Pendant",
       "Stats": {
+        "Agi": 12,
         "Crit": 1,
         "Hit": 1,
-        "Agi": 12,
       }
     },
     "Shoulders": {
-      "Name": "DTP",
+      "Name": "Death's Clutch",
       "Stats": {
-        "Str": 20,
-        "Agi": 20,
+          "Str": 10,
+          "Agi": 10,
+          "Int": 10,
+          "Spi": 10,
       },
     },
     "Back": {
-      "Name": "Zul",
+      "Name": "Cape of the Black Baron",
       "Stats": {
-        "Str": 13,
-        "Hit": 1,
+        "Agi": 15,
+        "AP": 20
       },
       "Enchantment": {
         "Name": "Lesser Agility",
@@ -157,9 +133,11 @@
       }
     },
     "Chest": {
-      "Name": "T2",
+      "Name": "Pvp",
       "Stats": {
-        "Str": 17,
+        "Str": 13,
+        "Agi": 12,
+        "Int": 12,
       },
       "Enchantment": {
         "Name": "Greater Stats",
@@ -172,9 +150,9 @@
       }
     },
     "Wrist": {
-      "Name": "T2",
+      "Name": "Wristguards of Stability",
       "Stats": {
-        "Str": 13,
+        "Str": 24,
       },
       "Enchantment": {
         "Name": "Superior Strength",
@@ -184,10 +162,11 @@
       }
     },
     "Hands": {
-      "Name": "T1",
+      "Name": "Pvp",
       "Stats": {
-        "Str": 22,
-        "Hit": 1,
+        "Str": 13,
+        "Agi": 10,
+        "Int": 9,
       },
       "Enchantment": {
         "Name": "Greater Strength",
@@ -197,52 +176,58 @@
       }
     },
     "Waist": {
-      "Name": "Girdle",
+      "Name": "Preserved Heads",
       "Stats": {
-        "Str": 31,
+        "Str": 14,
+        "Agi": 15,
         "Hit": 1,
-        "Crit": 1,
       }
     },
     "Legs": {
-      "Name": "Bloodsoaked",
+      "Name": "Shadowcraft",
       "Stats": {
-        "Str": 36,
+        "Agi": 25,
+        "Str": 12
       },
+      "Enchantment": {
+        "Name": "Lesser Arcane Amalgamation",
+        "Stats": {
+          "Str": 8
+        }
+      }
     },
     "Feet": {
-      "Name": "T2",
+      "Name": "Shadow Flame",
       "Stats": {
-        "Str": 13,
+        "AP": 44,
+        "Hit": 2
       },
     },
     "Ring1": {
-      "Name": "Master Dragonslayer's Ring",
+      "Name": "Accuria",
       "Stats": {
-        "AP": 48,
+        "Agi": 15,
         "Hit": 1
       }
     },
     "Ring2": {
-      "Name": "Don Julio",
+      "Name": "Band of Accuria",
       "Stats": {
-        "AP": 16,
-        "Hit": 1,
-        "Crit": 1
+        "Agi": 16,
+        "Hit": 2
       }
     },
     "Trinket1": {
-      "Name": "Hand of Justice",
+      "Name": "Rune of Metamorphosis",
       "Stats": {
-        "AP": 20
       }
     },
     "Trinket2": {
       "Name": "DFT",
       "Stats": {
-        "AP": 56,
         "Hit": 2,
+        "AP": 56,
       }
-    }
+    },
   }
 }

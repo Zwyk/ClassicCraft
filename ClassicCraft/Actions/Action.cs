@@ -15,7 +15,9 @@ namespace ClassicCraft
         Block,
         Crit,
         Hit,
-        Resist
+        Resist,
+        Success,
+        Failure,
     }
 
     public class ActionResult
@@ -111,8 +113,13 @@ namespace ClassicCraft
             }
         }
 
-        public virtual void LogAction()
+        public virtual void LogAction(int? threat = null)
         {
+            if(threat.HasValue)
+            {
+                Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Success, 0, threat.Value), Player.Sim.CurrentTime));
+            }
+
             if(Program.logFight)
             {
                 string log = string.Format("{0:N2} : {1} cast", Player.Sim.CurrentTime, ToString());

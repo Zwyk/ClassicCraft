@@ -13,9 +13,14 @@ namespace ClassicCraft
         public static int BASE_COST = 10;
         public static int CD = 0;
 
-        public BattleShout(Player p)
+        public static int THREAT_PER_BUFFED = 56; //70
+
+        public int NbBuffed { get; set; }
+
+        public BattleShout(Player p, int nbBuffed = 5)
             : base(p, CD, BASE_COST, true)
         {
+            NbBuffed = nbBuffed;
         }
 
         public override void Cast()
@@ -26,6 +31,7 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
+            /*
             if (Player.Effects.ContainsKey(BattleShoutBuff.NAME))
             {
                 Player.Effects[BattleShoutBuff.NAME].Refresh();
@@ -34,8 +40,8 @@ namespace ClassicCraft
             {
                 new BattleShoutBuff(Player).StartEffect();
             }
-
-            LogAction();
+            */
+            LogAction(THREAT_PER_BUFFED * NbBuffed);
         }
     }
 }

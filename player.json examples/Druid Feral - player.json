@@ -15,12 +15,6 @@
       }
     },
     {
-      "Name": "Devilsaur Set",
-      "Stats" : {
-        "Hit": 2,
-      }
-    },
-    {
       "Name": "Leader of the Pack",
       "Stats": {
         "Crit": 3

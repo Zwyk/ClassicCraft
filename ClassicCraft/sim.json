@@ -1,11 +1,11 @@
 {
   "FightLength": 90,
   "FightLengthMod": 0.3,
-  "TargetErrorPct": 0.2,
+  "TargetErrorPct": 0.12,
   "TargetError": true,
   "LogFight": false,
   "NbSim": 1,
-  "StatsWeights": true,
+  "StatsWeights": false,
   "BossAutoLife": true,
   "BossLowLifeTime": 0,
   "Boss" : {
