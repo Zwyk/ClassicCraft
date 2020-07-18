@@ -94,7 +94,7 @@ namespace ClassicCraft
                 minDmg = (int)Math.Round(Weapon.DamageMin);
                 maxDmg = (int)Math.Round(Weapon.DamageMax);
                 damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
-                    * Player.Sim.DamageMod(res, Weapon.School, Player.Level, Player.Sim.Boss.Level, true)
+                    * Player.Sim.DamageMod(res, Weapon.School, true, true)
                     * Player.DamageMod
                     * (1 + (Player.Class == Player.Classes.Priest ? 0.05 : 0.125) * Player.GetTalentPoints("Wand"))
                     * mitigation
@@ -113,7 +113,7 @@ namespace ClassicCraft
                     (Weapon.DamageMax + Weapon.Speed * (Player.AP + Player.nextAABonus) / 14)));
 
                 damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
-                    * Player.Sim.DamageMod(res, Weapon.School, Player.Level, Player.Sim.Boss.Level, true)
+                    * Player.Sim.DamageMod(res, Weapon.School, MH, true)
                     * Simulation.ArmorMitigation(Player.Sim.Boss.Armor)
                     * Player.DamageMod
                     * (Player.DualWielding ? (MH ? 1 : 0.5 * (1 + (0.05 * Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Player.GetTalentPoints("2HS")))

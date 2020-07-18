@@ -21,6 +21,8 @@
         "AP": 30,
         "Haste": 0,
         "Dagger": 0,
+        "Sword": 0,
+        "Axe": 0,
         "Agi": 0,
         "Str": 0,
       }
@@ -112,42 +114,48 @@
       }
     },
     "Ranged": {
-      "Type": "Bow",
-      "Name": "Satyr",
+      "Type": "Crossbow",
+      "Name": "Doom",
       "Stats": {
-        "Agi": 3,
-        "Hit": 1,
+        "AP": 18,
+        "Crit": 1,
       }
     },
   },
   "Equipment": {
     "Head": {
-      "Name": "HoER",
+      "Name": "T2.5",
       "Stats": {
-        "Str": 26,
-        "Agi": 26,
+        "Str": 29,
+        "Agi": 18,
       },
     },
     "Neck": {
-      "Name": "Onyxia Tooth Pendant",
+      "Name": "Choker",
       "Stats": {
         "Crit": 1,
-        "Hit": 1,
-        "Agi": 12,
+        "AP": 44,
       }
     },
     "Shoulders": {
-      "Name": "DTP",
+      "Name": "T.25",
       "Stats": {
         "Str": 20,
-        "Agi": 20,
+        "Agi": 16,
+        "Hit": 1,
       },
+      "Enchantment": {
+        "Name": "ZG",
+        "Stats": {
+          "AP": 30
+        }
+      }
     },
     "Back": {
-      "Name": "Zul",
+      "Name": "Fallen God",
       "Stats": {
-        "Str": 13,
-        "Hit": 1,
+        "Agi": 26,
+        "Str": 11,
       },
       "Enchantment": {
         "Name": "Lesser Agility",
@@ -157,9 +165,10 @@
       }
     },
     "Chest": {
-      "Name": "T2",
+      "Name": "T2.5",
       "Stats": {
-        "Str": 17,
+        "Str": 34,
+        "Agi": 24,
       },
       "Enchantment": {
         "Name": "Greater Stats",
@@ -172,9 +181,11 @@
       }
     },
     "Wrist": {
-      "Name": "T2",
+      "Name": "Qiraji",
       "Stats": {
-        "Str": 13,
+        "Str": 15,
+        "Agi": 16,
+        "Hit": 1,
       },
       "Enchantment": {
         "Name": "Superior Strength",
@@ -184,15 +195,15 @@
       }
     },
     "Hands": {
-      "Name": "T1",
+      "Name": "Edge",
       "Stats": {
-        "Str": 22,
-        "Hit": 1,
+        "Axe" : 7,
+        "Sword": 7,
       },
       "Enchantment": {
-        "Name": "Greater Strength",
+        "Name": "Agi",
         "Stats": {
-          "Str": 7
+          "Agi": 15
         }
       }
     },
@@ -205,29 +216,30 @@
       }
     },
     "Legs": {
-      "Name": "Bloodsoaked",
+      "Name": "T2.5",
       "Stats": {
-        "Str": 36,
+        "Str": 33,
+        "Agi": 21,
+        "Hit": 1,
       },
     },
     "Feet": {
-      "Name": "T2",
+      "Name": "T2.5",
       "Stats": {
-        "Str": 13,
+        "Str": 21,
+        "Agi": 17,
       },
     },
     "Ring1": {
-      "Name": "Master Dragonslayer's Ring",
+      "Name": "AQ",
       "Stats": {
-        "AP": 48,
-        "Hit": 1
+        "Agi": 27,
       }
     },
     "Ring2": {
-      "Name": "Don Julio",
+      "Name": "Qiraji",
       "Stats": {
-        "AP": 16,
-        "Hit": 1,
+        "AP": 40,
         "Crit": 1
       }
     },

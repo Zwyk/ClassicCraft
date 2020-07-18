@@ -193,24 +193,24 @@ namespace ClassicCraft
             }
         }
 
-        public double DamageMod(ResultType type, School school = School.Physical, int level = 60, int enemyLevel = 63, bool isWeapon = false)
+        public double DamageMod(ResultType type, School school = School.Physical, bool MH = true, bool isWeapon = false)
         {
             switch (type)
             {
                 // TODO BLOCK / BLOCKCRIT
                 case ResultType.Crit: return school == School.Physical || isWeapon ? 2 : 1.5;
                 case ResultType.Hit: return 1;
-                case ResultType.Glance: return GlancingDamage(level, enemyLevel);
+                case ResultType.Glance: return GlancingDamage(Player.WeaponSkill[MH ? Player.MH.Type : Player.OH.Type], Boss.Level);
                 default: return 0;
             }
         }
 
-        public double RageDamageMod(ResultType type, int level = 60, int enemyLevel = 63)
+        public double RageDamageMod(ResultType type, bool MH = true)
         {
             switch (type)
             {
                 case ResultType.Crit: return 2;
-                case ResultType.Glance: return GlancingDamage(level, enemyLevel);
+                case ResultType.Glance: return GlancingDamage(Player.WeaponSkill[MH ? Player.MH.Type : Player.OH.Type], Boss.Level);
                 case ResultType.Miss: return 0;
                 default: return 1;
             }
@@ -273,10 +273,10 @@ namespace ClassicCraft
             }
         }
 
-        public double GlancingDamage(int level = 60, int enemyLevel = 63)
+        public double GlancingDamage(int skill = 300, int enemyLevel = 63)
         {
-            double low = Math.Max(0.01, Math.Min(0.91, 1.3 - 0.05 * (enemyLevel - level)));
-            double high = Math.Max(0.2, Math.Min(0.99, 1.2 - 0.03 * (enemyLevel - level)));
+            double low = Math.Max(0.01, Math.Min(0.91, 1.3 - 0.05 * (enemyLevel * 5 - skill)));
+            double high = Math.Max(0.2, Math.Min(0.99, 1.2 - 0.03 * (enemyLevel * 5 - skill)));
             return Randomer.NextDouble() * (high - low) + low;
         }
 
