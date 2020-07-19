@@ -117,8 +117,9 @@
       "Type": "Crossbow",
       "Name": "Doom",
       "Stats": {
-        "AP": 18,
-        "Crit": 1,
+        "Agi": 7,
+        "Str": 5,
+        "Hit": 1,
       }
     },
   },
@@ -195,10 +196,11 @@
       }
     },
     "Hands": {
-      "Name": "Edge",
+      "Name": "Annihilation",
       "Stats": {
-        "Axe" : 7,
-        "Sword": 7,
+        "Str": 35,
+        "Hit": 1,
+        "Crit": 1,
       },
       "Enchantment": {
         "Name": "Agi",
@@ -233,7 +235,8 @@
     "Ring1": {
       "Name": "AQ",
       "Stats": {
-        "Agi": 27,
+        "Agi": 24,
+        "Hit": 1
       }
     },
     "Ring2": {
@@ -244,7 +247,7 @@
       }
     },
     "Trinket1": {
-      "Name": "Hand of Justice",
+      "Name": "Hand",
       "Stats": {
         "AP": 20
       }

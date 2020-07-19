@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.IO;
+using ClassicCraftGUI;
 
 namespace ClassicCraft
 {
@@ -38,7 +39,7 @@ namespace ClassicCraft
         public int Damage { get; set; }
     }
 
-    class Program
+    public class Program
     {
         public static string simJsonFileName = "sim.json";
         public static string playerJsonFileName = "player.json";
@@ -160,10 +161,34 @@ namespace ClassicCraft
         public static JsonUtil.JsonSim jsonSim;
         public static JsonUtil.JsonPlayer jsonPlayer;
 
-        static void Main(string[] args)
+        public enum DisplayMode
         {
+            Console,
+            GUI,
+        }
+
+        public static DisplayMode Display = DisplayMode.GUI;
+        public static MainWindow GUI = null;
+
+        public static void ConsoleRun()
+        {
+            Run(null, debugPath);
+        }
+
+        public static bool Run(MainWindow gui = null, string customPath = null)
+        {
+            bool runresult = true;
+
             try
             {
+                GUI = gui;
+                Display = GUI == null ? DisplayMode.Console : DisplayMode.GUI;
+
+                if (customPath != null)
+                {
+                    debugPath = customPath;
+                }
+
                 // Retrieving jsons
 
                 string simString = File.ReadAllText(debug ? Path.Combine(debugPath, simJsonFileName) : simJsonFileName);
@@ -335,21 +360,34 @@ namespace ClassicCraft
                             {
                                 if (!logFight)
                                 {
-                                    Console.Clear();
-                                    Console.WriteLine("{0:N2}% ({1}/{2})", (double)CurrentDpsList.Count / nbSim * 100, CurrentDpsList.Count, nbSim);
+                                    if(Display == DisplayMode.Console)
+                                    {
+                                        Console.Clear();
+                                        Console.WriteLine("{0:N2}% ({1}/{2})", (double)CurrentDpsList.Count / nbSim * 100, CurrentDpsList.Count, nbSim);
+                                    }
+                                    else
+                                    {
+
+                                    }
                                 }
 
                                 if (CurrentDpsList.Count > 0)
                                 {
-                                    Console.WriteLine("Precision : ±{0:N2}%", Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average()));
+                                    if (Display == DisplayMode.Console)
+                                    {
+                                        Console.WriteLine("Precision : ±{0:N2}%", Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average()));
+                                    }
                                 }
                                 Thread.Sleep(TimeSpan.FromSeconds(0.5));
                             }
 
                             if (!logFight)
                             {
-                                Console.Clear();
-                                Console.WriteLine("{0:N2}% ({1}/{2})", (double)CurrentDpsList.Count / nbSim * 100, CurrentDpsList.Count, nbSim);
+                                if (Display == DisplayMode.Console)
+                                {
+                                    Console.Clear();
+                                    Console.WriteLine("{0:N2}% ({1}/{2})", (double)CurrentDpsList.Count / nbSim * 100, CurrentDpsList.Count, nbSim);
+                                }
                             }
                         }
                         else
@@ -383,16 +421,23 @@ namespace ClassicCraft
                                     }
                                 }
 
-                                Console.Clear();
-                                Console.WriteLine("Simulating {0} DPS, aiming for ±{1:N2}% precision...", simOrder[done], targetErrorPct);
-                                Console.WriteLine("Sims done : {0:N2}", CurrentDpsList.Count);
-                                Console.WriteLine("Sims running : {0:N2}", tasks.Count(t => !t.IsCompleted));
-                                Console.WriteLine("Current precision : ±{0:N2}%", errorPct);
+                                if (Display == DisplayMode.Console)
+                                {
+                                    Console.Clear();
+                                    Console.WriteLine("Simulating {0} DPS, aiming for ±{1:N2}% precision...", simOrder[done], targetErrorPct);
+                                    Console.WriteLine("Sims done : {0:N2}", CurrentDpsList.Count);
+                                    Console.WriteLine("Sims running : {0:N2}", tasks.Count(t => !t.IsCompleted));
+                                    Console.WriteLine("Current precision : ±{0:N2}%", errorPct);
+                                }
 
                                 Thread.Sleep(TimeSpan.FromSeconds(0.5));
                             }
 
-                            Console.WriteLine("Waiting for remaining simulations to complete...");
+                            if (Display == DisplayMode.Console)
+                            {
+                                Console.WriteLine("Waiting for remaining simulations to complete...");
+                            }
+                            
 
                             Task.WaitAll(tasks.ToArray());
                         }
@@ -410,7 +455,10 @@ namespace ClassicCraft
 
                 if (!logFight)
                 {
-                    Console.Clear();
+                    if (Display == DisplayMode.Console)
+                    {
+                        Console.Clear();
+                    }
                 }
 
                 double time = (DateTime.Now - start).TotalMilliseconds;
@@ -433,15 +481,24 @@ namespace ClassicCraft
                 */
 
                 string endMsg1 = string.Format("\n{0} simulations done in {1:N2} ms, for {2:N2} ms by sim", nbSim, time, time / nbSim);
-                Console.WriteLine(endMsg1);
+                if (Display == DisplayMode.Console)
+                {
+                    Console.WriteLine(endMsg1);
+                }
                 Log(endMsg1);
 
                 string endMsg2 = string.Format("Overall accuracy of results : ±{0:N2}%", ErrorList.Average());
-                Console.WriteLine(endMsg2);
+                if (Display == DisplayMode.Console)
+                {
+                    Console.WriteLine(endMsg2);
+                }
                 Log(endMsg2);
 
                 string endMsg3 = string.Format("\nGenerating results...");
-                Console.WriteLine(endMsg3);
+                if (Display == DisplayMode.Console)
+                {
+                    Console.WriteLine(endMsg3);
+                }
 
                 if (statsWeights)
                 {
@@ -786,17 +843,28 @@ namespace ClassicCraft
                 string path = debug ? Path.Combine(debugPath, logsFileName + txt) : Path.Combine(logsFileDir, logsFileName + DateTime.Now.ToString("_yyyyMMdd-HHmmss-fff") + txt);
                 File.WriteAllText(path, logs);
 
-                Console.WriteLine("Logs written in " + path);
+                if (Display == DisplayMode.Console)
+                {
+                    Console.WriteLine("Logs written in " + path);
+                }
             }
             catch(Exception e)
             {
-                Console.WriteLine("Simulation failed with the following error :\n" + e);
+                runresult = false;
+
+                if (Display == DisplayMode.Console)
+                {
+                    Console.WriteLine("Simulation failed with the following error :\n" + e);
+                }
             }
-            finally
+
+            if (Display == DisplayMode.Console)
             {
                 Console.WriteLine("Press any key to exit...");
                 Console.ReadKey();
             }
+
+            return runresult;
         }
 
         public static void AddSimResult(SimResult result)
@@ -831,6 +899,30 @@ namespace ClassicCraft
         public static void Debug(object str)
         {
             System.Diagnostics.Debug.WriteLine(str);
+        }
+
+        public static void Output(object str, bool newLine = true)
+        {
+            if(Display == DisplayMode.Console)
+            {
+                Console.WriteLine(str.ToString());
+            }
+            else
+            {
+                GUI.Console.Text += "\n" + str.ToString();
+            }
+        }
+
+        public static void OutputClear()
+        {
+            if (Display == DisplayMode.Console)
+            {
+                Console.Clear();
+            }
+            else
+            {
+                GUI.Console.Text = "";
+            }
         }
 
         public static void DoSim()
