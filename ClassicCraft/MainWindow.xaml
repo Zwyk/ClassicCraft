@@ -16,7 +16,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TabControl SelectedIndex="0" Grid.Row="0" Grid.ColumnSpan="2">
+            <TabControl x:Name="Tabs" SelectedIndex="0" Grid.Row="0" Grid.ColumnSpan="2">
                 <TabItem Header="News">
                 </TabItem>
                 <TabItem Header="Configuration">
@@ -916,9 +916,11 @@
                         </StackPanel>
                     </ScrollViewer>
                 </TabItem>
-                <TabItem Header= "Console">
+                <TabItem Header= "Console" x:Name="ConsoleTab">
                     <Border Margin="5" Padding="2" BorderBrush="#D2D2D2" BorderThickness="1" Background="#FFFFFF" CornerRadius="2">
-                        <TextBlock x:Name="Console" />
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <TextBox x:Name="Console" />
+                        </ScrollViewer>
                     </Border>
                 </TabItem>
             </TabControl>
@@ -928,8 +930,9 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <ProgressBar Grid.Column="0" Margin="5" Value="100" />
-                    <TextBlock Text="Waiting for configuration..." HorizontalAlignment="Center" Grid.Column="0" Margin="5" Padding="2" />
+                    <ProgressBar x:Name="ProgressBar" Grid.Column="0" Margin="5" Value="100" />
+                    <TextBlock x:Name="ProgressText" Text="Waiting for configuration..." HorizontalAlignment="Center" Grid.Column="0" Margin="5" Padding="2" />
+                    <TextBlock x:Name="ProgressPercent" Text="" HorizontalAlignment="Right" Grid.Column="0" Margin="5" Padding="2" />
                     <Button Content="Let's go!" Click="Run_Click" Padding="10 2 10 2" Grid.Column="1" Margin="4" />
                 </Grid>
             </Border>

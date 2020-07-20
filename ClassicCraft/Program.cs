@@ -169,6 +169,7 @@ namespace ClassicCraft
 
         public static DisplayMode Display = DisplayMode.GUI;
         public static MainWindow GUI = null;
+        public static bool Running = false;
 
         public static void ConsoleRun()
         {
@@ -178,11 +179,14 @@ namespace ClassicCraft
         public static bool Run(MainWindow gui = null, string customPath = null)
         {
             bool runresult = true;
+            Running = true;
 
             try
             {
                 GUI = gui;
                 Display = GUI == null ? DisplayMode.Console : DisplayMode.GUI;
+                GUI.SetProgress(0);
+                GUISetProgressText("Setting up...");
 
                 if (customPath != null)
                 {
@@ -325,9 +329,9 @@ namespace ClassicCraft
 
                 Enchantment we = new Enchantment(0, "Weights", new Attributes(new Dictionary<Attribute, double>()));
                 playerBase.Buffs.Add(we);
-                
+
                 // Doing simulations
-                for(int done = 0; done < (statsWeights ? simOrder.Count : 1); done++)
+                for (int done = 0; done < (statsWeights ? simOrder.Count : 1); done++)
                 {
                     CurrentDpsList = new List<double>();
                     CurrentTpsList = new List<double>();
@@ -343,7 +347,10 @@ namespace ClassicCraft
                     {
                         for (int i = 0; i < nbSim; i++)
                         {
-                            Log(string.Format("\n\n---SIM NUMBER {0}---\n", i + 1));
+                            string txt = string.Format("\n\n---SIM NUMBER {0}---\n", i + 1);
+                            GUISetProgressText(txt);
+                            GUISetProgress((i + 1) / nbSim * 100);
+                            Log(txt);
                             DoSim();
                         }
                     }
@@ -358,36 +365,28 @@ namespace ClassicCraft
 
                             while (!tasks.All(t => t.IsCompleted))
                             {
+                                double pct = (double)CurrentDpsList.Count / nbSim * 100;
+                                GUISetProgress(pct);
+                                GUISetProgressText(String.Format("Simulations done : {0}/{1}", CurrentDpsList.Count, nbSim));
+
                                 if (!logFight)
                                 {
-                                    if(Display == DisplayMode.Console)
-                                    {
-                                        Console.Clear();
-                                        Console.WriteLine("{0:N2}% ({1}/{2})", (double)CurrentDpsList.Count / nbSim * 100, CurrentDpsList.Count, nbSim);
-                                    }
-                                    else
-                                    {
-
-                                    }
+                                    OutputClear();
+                                    Output(String.Format("{0:N2}% ({1}/{2})", pct, CurrentDpsList.Count, nbSim));
                                 }
 
                                 if (CurrentDpsList.Count > 0)
                                 {
-                                    if (Display == DisplayMode.Console)
-                                    {
-                                        Console.WriteLine("Precision : ±{0:N2}%", Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average()));
-                                    }
+                                    Output(String.Format("Precision : ±{0:N2}%", Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average())));
                                 }
-                                Thread.Sleep(TimeSpan.FromSeconds(0.5));
+
+                                Thread.Sleep(TimeSpan.FromSeconds(Display == DisplayMode.Console ? 1.0/2 : 1.0/60));
                             }
 
                             if (!logFight)
                             {
-                                if (Display == DisplayMode.Console)
-                                {
-                                    Console.Clear();
-                                    Console.WriteLine("{0:N2}% ({1}/{2})", (double)CurrentDpsList.Count / nbSim * 100, CurrentDpsList.Count, nbSim);
-                                }
+                                OutputClear();
+                                Output(String.Format("{0:N2}% ({1}/{2})", (double)CurrentDpsList.Count / nbSim * 100, CurrentDpsList.Count, nbSim));
                             }
                         }
                         else
@@ -421,22 +420,20 @@ namespace ClassicCraft
                                     }
                                 }
 
-                                if (Display == DisplayMode.Console)
-                                {
-                                    Console.Clear();
-                                    Console.WriteLine("Simulating {0} DPS, aiming for ±{1:N2}% precision...", simOrder[done], targetErrorPct);
-                                    Console.WriteLine("Sims done : {0:N2}", CurrentDpsList.Count);
-                                    Console.WriteLine("Sims running : {0:N2}", tasks.Count(t => !t.IsCompleted));
-                                    Console.WriteLine("Current precision : ±{0:N2}%", errorPct);
-                                }
+                                double currentPct = Math.Min(1, Math.Pow((100 - errorPct) / (100 - targetErrorPct), 1000)) * 100;
+                                GUISetProgress(done / simOrder.Count * 100 + currentPct);
+                                GUISetProgressText(String.Format("Simulating {0} DPS - {1:N2}% - {2}/{3}", simOrder[done], currentPct, done, statsWeights ? simOrder.Count : 1));
+                                
+                                OutputClear();
+                                Output(String.Format("Simulating {0} DPS, aiming for ±{1:N2}% precision...", simOrder[done], targetErrorPct));
+                                Output(String.Format("Sims done : {0:N2}", CurrentDpsList.Count));
+                                Output(String.Format("Sims running : {0:N2}", tasks.Count(t => !t.IsCompleted)));
+                                Output(String.Format("Current precision : ±{0:N2}%", errorPct));
 
-                                Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                                Thread.Sleep(TimeSpan.FromSeconds(Display == DisplayMode.Console ? 1.0 / 2 : 1.0 / 60));
                             }
-
-                            if (Display == DisplayMode.Console)
-                            {
-                                Console.WriteLine("Waiting for remaining simulations to complete...");
-                            }
+                            
+                            Output("Waiting for remaining simulations to complete...");
                             
 
                             Task.WaitAll(tasks.ToArray());
@@ -455,10 +452,7 @@ namespace ClassicCraft
 
                 if (!logFight)
                 {
-                    if (Display == DisplayMode.Console)
-                    {
-                        Console.Clear();
-                    }
+                    OutputClear();
                 }
 
                 double time = (DateTime.Now - start).TotalMilliseconds;
@@ -480,28 +474,25 @@ namespace ClassicCraft
                 }
                 */
 
-                string endMsg1 = string.Format("\n{0} simulations done in {1:N2} ms, for {2:N2} ms by sim", nbSim, time, time / nbSim);
-                if (Display == DisplayMode.Console)
-                {
-                    Console.WriteLine(endMsg1);
-                }
+                Output("");
+                string endMsg1 = string.Format("{0} simulations done in {1:N2} ms, for {2:N2} ms by sim", nbSim, time, time / nbSim);
+                Output(endMsg1);
                 Log(endMsg1);
 
                 string endMsg2 = string.Format("Overall accuracy of results : ±{0:N2}%", ErrorList.Average());
-                if (Display == DisplayMode.Console)
-                {
-                    Console.WriteLine(endMsg2);
-                }
+                Output(endMsg2);
                 Log(endMsg2);
 
                 string endMsg3 = string.Format("\nGenerating results...");
-                if (Display == DisplayMode.Console)
-                {
-                    Console.WriteLine(endMsg3);
-                }
+                Output(endMsg3);
 
                 if (statsWeights)
                 {
+                    GUISetProgress(0);
+                    GUISetProgressText(String.Format("Generating Stats Weights..."));
+
+                    double weightsDone = 0;
+
                     double baseDps = DamagesList["Base"].Average();
                     Log(string.Format("\nBase : {0:N2} DPS", baseDps));
 
@@ -517,6 +508,9 @@ namespace ClassicCraft
 
                         double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * Player.BonusStrToAPRatio(playerBase);
                         Log(string.Format("1 Str = {0:N4} DPS = {1:N4} AP", strDif, strDif / apDif));
+
+                        weightsDone += 1;
+                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+50 SP"))
                     {
@@ -524,6 +518,9 @@ namespace ClassicCraft
                         apDif = (apDps - baseDps) / 50;
                         if (apDif < 0) apDif = 0;
                         Log(string.Format("1 SP = {0:N4} DPS", apDif));
+
+                        weightsDone += 1;
+                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+1% Crit"))
                     {
@@ -535,6 +532,9 @@ namespace ClassicCraft
                         Log(string.Format("1 Agi = {0:N4} DPS = {1:N4} AP", agiDif, agiDif / apDif));
 
                         Log(string.Format("1% Crit = {0:N4} DPS = {1:N4} AP", critDif, critDif / apDif));
+
+                        weightsDone += 1;
+                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+1% Hit"))
                     {
@@ -542,6 +542,9 @@ namespace ClassicCraft
                         double hitDif = hitDps - baseDps;
                         if (hitDif < 0) hitDif = 0;
                         Log(string.Format("1% Hit = {0:N4} DPS = {1:N4} AP", hitDif, hitDif / apDif));
+
+                        weightsDone += 1;
+                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+1% Haste"))
                     {
@@ -549,6 +552,9 @@ namespace ClassicCraft
                         double hasteDif = hasteDps - baseDps;
                         if (hasteDif < 0) hasteDif = 0;
                         Log(string.Format("1% Haste = {0:N4} DPS = {1:N4} AP", hasteDif, hasteDif / apDif));
+
+                        weightsDone += 1;
+                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+1% SpellCrit"))
                     {
@@ -556,6 +562,9 @@ namespace ClassicCraft
                         double critDif = critDps - baseDps;
                         if (critDif < 0) critDif = 0;
                         Log(string.Format("1% SpellCrit = {0:N4} DPS = {1:N4} SP", critDif, critDif / apDif));
+                        
+                        weightsDone += 1;
+                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+1% SpellHit"))
                     {
@@ -563,6 +572,9 @@ namespace ClassicCraft
                         double hitDif = hitDps - baseDps;
                         if (hitDif < 0) hitDif = 0;
                         Log(string.Format("1% SpellHit = {0:N4} DPS = {1:N4} SP", hitDif, hitDif / apDif));
+
+                        weightsDone += 1;
+                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+50 Int"))
                     {
@@ -571,6 +583,9 @@ namespace ClassicCraft
                         if (intDif < 0) intDif = 0;
                         string comp = simOrder.Contains("+50 AP") ? "AP" : "SP";
                         Log(string.Format("1 Int = {0:N4} DPS = {1:N4} {2}", intDif, intDif / apDif, comp));
+
+                        weightsDone += 1;
+                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+50 Spi"))
                     {
@@ -579,6 +594,9 @@ namespace ClassicCraft
                         if (spiDif < 0) spiDif = 0;
                         string comp = simOrder.Contains("+50 AP") ? "AP" : "SP";
                         Log(string.Format("1 Spi = {0:N4} DPS = {1:N4} {2}", spiDif, spiDif / apDif, comp));
+
+                        weightsDone += 1;
+                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+30 MP5"))
                     {
@@ -587,6 +605,9 @@ namespace ClassicCraft
                         if (mp5Dif < 0) mp5Dif = 0;
                         string comp = simOrder.Contains("+50 AP") ? "AP" : "SP";
                         Log(string.Format("1 MP5 = {0:N4} DPS = {1:N4} {2}", mp5Dif, mp5Dif / apDif, comp));
+
+                        weightsDone += 1;
+                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+10 DPS MH"))
                     {
@@ -594,6 +615,9 @@ namespace ClassicCraft
                         double mhDif = (mhDps - baseDps) / simBonusAttribs["+10 DPS MH"].GetValue(Attribute.WeaponDamageMH);
                         if (mhDif < 0) mhDif = 0;
                         Log(string.Format("+1 MH DPS = {0:N4} DPS = {1:N4} AP", mhDif, mhDif / apDif));
+
+                        weightsDone += 1;
+                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+10 DPS OH"))
                     {
@@ -601,6 +625,9 @@ namespace ClassicCraft
                         double ohDif = (ohDps - baseDps) / simBonusAttribs["+10 DPS OH"].GetValue(Attribute.WeaponDamageOH);
                         if (ohDif < 0) ohDif = 0;
                         Log(string.Format("+1 OH DPS = {0:N4} DPS = {1:N4} AP", ohDif, ohDif / apDif));
+
+                        weightsDone += 1;
+                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+1 MH Skill"))
                     {
@@ -608,6 +635,9 @@ namespace ClassicCraft
                         double mhSkillDif = mhSkillDps - baseDps;
                         if (mhSkillDif < 0) mhSkillDif = 0;
                         Log(string.Format("+1 MH Skill = {0:N4} DPS = {1:N4} AP", mhSkillDif, mhSkillDif / apDif));
+
+                        weightsDone += 1;
+                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+1 OH Skill"))
                     {
@@ -615,6 +645,9 @@ namespace ClassicCraft
                         double ohSkillDif = ohSkillDps - baseDps;
                         if (ohSkillDif < 0) ohSkillDif = 0;
                         Log(string.Format("+1 OH Skill = {0:N4} DPS = {1:N4} AP", ohSkillDif, ohSkillDif / apDif));
+
+                        weightsDone += 1;
+                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+5 MH Skill"))
                     {
@@ -622,6 +655,9 @@ namespace ClassicCraft
                         double mhSkillDif = mhSkillDps - baseDps;
                         if (mhSkillDif < 0) mhSkillDif = 0;
                         Log(string.Format("+5 MH Skill = {0:N4} DPS = {1:N4} AP", mhSkillDif, mhSkillDif / apDif));
+
+                        weightsDone += 1;
+                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+5 OH Skill"))
                     {
@@ -629,6 +665,9 @@ namespace ClassicCraft
                         double ohSkillDif = ohSkillDps - baseDps;
                         if (ohSkillDif < 0) ohSkillDif = 0;
                         Log(string.Format("+5 OH Skill = {0:N4} DPS = {1:N4} AP", ohSkillDif, ohSkillDif / apDif));
+
+                        weightsDone += 1;
+                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
 
                     if (jsonSim.Tanking)
@@ -648,6 +687,9 @@ namespace ClassicCraft
 
                             double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * (playerBase.Class == Player.Classes.Druid ? (1 + 0.04 * playerBase.GetTalentPoints("HW")) : 1);
                             Log(string.Format("1 Str = {0:N4} TPS = {1:N4} AP", strDif, strDif / apDif));
+
+                            weightsDone += 1;
+                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+1% Crit"))
                         {
@@ -659,6 +701,9 @@ namespace ClassicCraft
                             Log(string.Format("1 Agi = {0:N4} TPS = {1:N4} AP", agiDif, agiDif / apDif));
 
                             Log(string.Format("1% Crit = {0:N4} TPS = {1:N4} AP", critDif, critDif / apDif));
+
+                            weightsDone += 1;
+                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+1% Hit"))
                         {
@@ -666,6 +711,9 @@ namespace ClassicCraft
                             double hitDif = hitTps - baseTps;
                             if (hitDif < 0) hitDif = 0;
                             Log(string.Format("1% Hit = {0:N4} TPS = {1:N4} AP", hitDif, hitDif / apDif));
+
+                            weightsDone += 1;
+                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+1% Haste"))
                         {
@@ -673,6 +721,9 @@ namespace ClassicCraft
                             double hasteDif = hasteTps - baseTps;
                             if (hasteDif < 0) hasteDif = 0;
                             Log(string.Format("1% Haste = {0:N4} TPS = {1:N4} AP", hasteDif, hasteDif / apDif));
+
+                            weightsDone += 1;
+                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+50 Int"))
                         {
@@ -680,6 +731,9 @@ namespace ClassicCraft
                             double intDif = (intTps - baseTps) / 50;
                             if (intDif < 0) intDif = 0;
                             Log(string.Format("1 Int = {0:N4} TPS = {1:N4} AP", intDif, intDif / apDif));
+
+                            weightsDone += 1;
+                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+50 Spi"))
                         {
@@ -687,6 +741,9 @@ namespace ClassicCraft
                             double spiDif = (spiTps - baseTps) / 50;
                             if (spiDif < 0) spiDif = 0;
                             Log(string.Format("1 Spi = {0:N4} TPS = {1:N4} AP", spiDif, spiDif / apDif));
+
+                            weightsDone += 1;
+                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+10 DPS MH"))
                         {
@@ -694,6 +751,9 @@ namespace ClassicCraft
                             double mhDif = (mhTps - baseTps) / simBonusAttribs["+10 DPS MH"].GetValue(Attribute.WeaponDamageMH);
                             if (mhDif < 0) mhDif = 0;
                             Log(string.Format("+1 MH DPS = {0:N4} TPS = {1:N4} AP", mhDif, mhDif / apDif));
+
+                            weightsDone += 1;
+                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+10 DPS OH"))
                         {
@@ -701,6 +761,9 @@ namespace ClassicCraft
                             double ohDif = (ohTps - baseTps) / simBonusAttribs["+10 DPS OH"].GetValue(Attribute.WeaponDamageOH);
                             if (ohDif < 0) ohDif = 0;
                             Log(string.Format("+1 OH DPS = {0:N4} TPS = {1:N4} AP", ohDif, ohDif / apDif));
+
+                            weightsDone += 1;
+                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+1 MH Skill"))
                         {
@@ -708,6 +771,9 @@ namespace ClassicCraft
                             double mhSkillDif = mhSkillTps - baseTps;
                             if (mhSkillDif < 0) mhSkillDif = 0;
                             Log(string.Format("+1 MH Skill = {0:N4} TPS = {1:N4} AP", mhSkillDif, mhSkillDif / apDif));
+
+                            weightsDone += 1;
+                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+1 OH Skill"))
                         {
@@ -715,6 +781,9 @@ namespace ClassicCraft
                             double ohSkillDif = ohSkillTps - baseTps;
                             if (ohSkillDif < 0) ohSkillDif = 0;
                             Log(string.Format("+1 OH Skill = {0:N4} TPS = {1:N4} AP", ohSkillDif, ohSkillDif / apDif));
+
+                            weightsDone += 1;
+                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+5 MH Skill"))
                         {
@@ -722,6 +791,9 @@ namespace ClassicCraft
                             double mhSkillDif = mhSkillTps - baseTps;
                             if (mhSkillDif < 0) mhSkillDif = 0;
                             Log(string.Format("+5 MH Skill = {0:N4} TPS = {1:N4} AP", mhSkillDif, mhSkillDif / apDif));
+
+                            weightsDone += 1;
+                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+5 OH Skill"))
                         {
@@ -729,11 +801,17 @@ namespace ClassicCraft
                             double ohSkillDif = ohSkillTps - baseTps;
                             if (ohSkillDif < 0) ohSkillDif = 0;
                             Log(string.Format("+5 OH Skill = {0:N4} TPS = {1:N4} AP", ohSkillDif, ohSkillDif / apDif));
+
+                            weightsDone += 1;
+                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                     }
                 }
                 else if (nbSim >= 1)
                 {
+                    GUISetProgress(0);
+                    GUISetProgressText(String.Format("Generating Fight Stats..."));
+
                     double avgDps = CurrentDpsList.Average();
 
                     List<List<RegisteredAction>> totalActions = ResultsList["Base"].Select(r => r.Actions).ToList();
@@ -750,21 +828,32 @@ namespace ClassicCraft
                     Log(string.Format("Average DPS : {0:N2} dps (±{1:N2})", avgDps, Stats.MeanStdDev(CurrentDpsList.ToArray())));
 
                     //List<string> logList = totalActions.SelectMany(a => a.Select(t => t.Action.ToString()).OrderBy(b => b)).Distinct().ToList();
-                    List<string> logList = new List<string>() { "AA MH", "AA OH", "AA Ranged", "AA Wand" };
+                    List<string> logListActions = new List<string>() { "AA MH", "AA OH", "AA Ranged", "AA Wand" };
                     if (playerBase.Class == Player.Classes.Warrior)
-                        logList.AddRange(new List<string>() { "Slam", "Bloodthirst", "Sunder Armor", "Revenge", "Whirlwind", "Heroic Strike", "Execute", "Hamstring", "Battle Shout" });
+                        logListActions.AddRange(new List<string>() { "Slam", "Bloodthirst", "Sunder Armor", "Revenge", "Whirlwind", "Heroic Strike", "Execute", "Hamstring", "Battle Shout" });
                     else if (playerBase.Class == Player.Classes.Druid)
-                        logList.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift", "Maul", "Swipe" });
+                        logListActions.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift", "Maul", "Swipe" });
                     else if (playerBase.Class == Player.Classes.Priest)
-                        logList.AddRange(new List<string>() { "Mind Blast", "Mind Flay", "SW:P", "Devouring Plague" });
+                        logListActions.AddRange(new List<string>() { "Mind Blast", "Mind Flay", "SW:P", "Devouring Plague" });
                     else if (playerBase.Class == Player.Classes.Rogue)
-                        logList.AddRange(new List<string>() { "Sinister Strike", "Backstab", "Eviscerate", "Ambush", "Instant Poison" });
+                        logListActions.AddRange(new List<string>() { "Sinister Strike", "Backstab", "Eviscerate", "Ambush", "Instant Poison" });
                     else if (playerBase.Class == Player.Classes.Warlock)
-                        logList.AddRange(new List<string>() { "Shadow Bolt" });
+                        logListActions.AddRange(new List<string>() { "Shadow Bolt" });
 
-                    logList.AddRange(new List<string>() { "Thunderfury", "Deathbringer", "Vis'kag the Bloodletter", "Perdition's Blade" });
+                    logListActions.AddRange(new List<string>() { "Thunderfury", "Deathbringer", "Vis'kag the Bloodletter", "Perdition's Blade" });
 
-                    foreach (string ac in logList)
+                    //logList = totalEffects.SelectMany(a => a.Select(t => t.Effect.ToString()).OrderBy(b => b)).Distinct().ToList();
+                    List<string> logListEffects = new List<string>() { };
+                    if (playerBase.Class == Player.Classes.Priest)
+                        logListEffects.AddRange(new List<string>() { "Mind Flay", "SW:P", "Devouring Plague" });
+                    if (playerBase.Class == Player.Classes.Warrior)
+                        logListEffects.AddRange(new List<string>() { "Deep Wounds" });
+                    if (playerBase.Class == Player.Classes.Warlock)
+                        logListEffects.AddRange(new List<string>() { "Corruption", "Malediction of Agony" });
+
+                    int statsDone = 0;
+                    int statsTotal = logListActions.Count + logListEffects.Count;
+                    foreach (string ac in logListActions)
                     {
                         double totalAc = totalActions.Select(a => a.Where(t => t.Action.ToString().Equals(ac)).Count()).Sum();
                         if (totalAc > 0)
@@ -805,18 +894,12 @@ namespace ClassicCraft
                             }
                             Log(res);
                         }
+
+                        statsDone++;
+                        GUISetProgress(statsDone / statsTotal * 100);
                     }
 
-                    //logList = totalEffects.SelectMany(a => a.Select(t => t.Effect.ToString()).OrderBy(b => b)).Distinct().ToList();
-                    logList = new List<string>() { };
-                    if (playerBase.Class == Player.Classes.Priest)
-                        logList.AddRange(new List<string>() { "Mind Flay", "SW:P", "Devouring Plague" });
-                    if (playerBase.Class == Player.Classes.Warrior)
-                        logList.AddRange(new List<string>() { "Deep Wounds" });
-                    if (playerBase.Class == Player.Classes.Warlock)
-                        logList.AddRange(new List<string>() { "Corruption", "Malediction of Agony" });
-
-                    foreach (string ac in logList)
+                    foreach (string ac in logListEffects)
                     {
                         double totalAc = totalEffects.Select(a => a.Where(t => t.Effect.ToString().Equals(ac)).Count()).Sum();
                         if(totalAc > 0)
@@ -832,37 +915,47 @@ namespace ClassicCraft
                             res += string.Format("\n\t{0:N2}% Uptime", uptime);
                             Log(res);
                         }
+
+                        statsDone++;
+                        GUISetProgress(statsDone / statsTotal * 100);
                     }
                 }
+
+                GUISetProgressText(String.Format("Writting logs.."));
+                GUISetProgress(100);
 
                 if (!debug)
                 {
                     Directory.CreateDirectory(logsFileDir);
                 }
 
+                if(Display == DisplayMode.GUI)
+                {
+                    OutputClear();
+                    Output(logs);
+                }
+
                 string path = debug ? Path.Combine(debugPath, logsFileName + txt) : Path.Combine(logsFileDir, logsFileName + DateTime.Now.ToString("_yyyyMMdd-HHmmss-fff") + txt);
                 File.WriteAllText(path, logs);
 
-                if (Display == DisplayMode.Console)
-                {
-                    Console.WriteLine("Logs written in " + path);
-                }
+                Output("Logs written in " + path);
+
+                GUISetProgressText(String.Format("Finished !"));
             }
             catch(Exception e)
             {
                 runresult = false;
-
-                if (Display == DisplayMode.Console)
-                {
-                    Console.WriteLine("Simulation failed with the following error :\n" + e);
-                }
+                
+                Output("Simulation failed with the following error :\n" + e);
             }
 
             if (Display == DisplayMode.Console)
             {
-                Console.WriteLine("Press any key to exit...");
+                Output("Press any key to exit...");
                 Console.ReadKey();
             }
+
+            Running = false;
 
             return runresult;
         }
@@ -905,11 +998,12 @@ namespace ClassicCraft
         {
             if(Display == DisplayMode.Console)
             {
-                Console.WriteLine(str.ToString());
+                if (newLine) Console.WriteLine(str.ToString());
+                else Console.Write(str.ToString());
             }
-            else
+            else if(GUI != null)
             {
-                GUI.Console.Text += "\n" + str.ToString();
+                GUI.ConsoleTextAdd(str.ToString(), newLine);
             }
         }
 
@@ -919,9 +1013,25 @@ namespace ClassicCraft
             {
                 Console.Clear();
             }
-            else
+            else if(GUI != null)
             {
-                GUI.Console.Text = "";
+                GUI.ConsoleTextSet("");
+            }
+        }
+
+        public static void GUISetProgress(double pct)
+        {
+            if(GUI != null)
+            {
+                GUI.SetProgress(pct);
+            }
+        }
+
+        public static void GUISetProgressText(string str)
+        {
+            if (GUI != null)
+            {
+                GUI.SetProgressText(str);
             }
         }
 

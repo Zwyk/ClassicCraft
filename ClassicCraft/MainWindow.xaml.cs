@@ -25,6 +25,8 @@ namespace ClassicCraftGUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static MainWindow main;
+
         private static UIElement Copy(UIElement toCopy)
         {
             return XamlReader.Parse(XamlWriter.Save(toCopy)) as UIElement;
@@ -32,12 +34,47 @@ namespace ClassicCraftGUI
 
         public MainWindow()
         {
+            main = this;
             InitializeComponent();
+        }
+
+        public void ConsoleTextSet(string s)
+        {
+            Dispatcher.Invoke(new System.Action(() => {
+                Console.Text = s;
+            }));
+        }
+
+        public void ConsoleTextAdd(string s, bool newLine = true)
+        {
+            Dispatcher.Invoke(new System.Action(() => {
+                if (newLine && Console.Text != "") Console.Text += "\n";
+                Console.Text += s;
+            }));
+        }
+
+        public void SetProgress(double pct)
+        {
+            Dispatcher.Invoke(new System.Action(() => {
+                ProgressPercent.Text = String.Format("{0:N2}%", pct);
+                ProgressBar.Value = pct;
+            }));
+        }
+
+        public void SetProgressText(string str)
+        {
+            Dispatcher.Invoke(new System.Action(() => {
+                ProgressText.Text = str;
+            }));
         }
 
         private void Run_Click(object sender, RoutedEventArgs e)
         {
-            Program.Run(this, @".\..\..\");
+            if(!Program.Running)
+            {
+                Tabs.SelectedIndex = 7;
+                Task.Factory.StartNew(() => Program.Run(this, @".\..\..\"));
+            }
         }
 
         private void TargetError_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -227,7 +264,7 @@ namespace ClassicCraftGUI
             }
         }
 
-    private void StatsAdd_Click(object sender, RoutedEventArgs e)
+        private void StatsAdd_Click(object sender, RoutedEventArgs e)
         {
             Grid copy = Copy(StackPanelStats.Children[StackPanelStats.Children.Count - 1]) as Grid;
             (copy.Children[0] as ComboBox).SelectedIndex = -1;
