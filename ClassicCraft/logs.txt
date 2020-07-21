@@ -1,4 +1,4 @@
-Date : 2020/07/20 03:57:14
+Date : 2020/07/20 18:52:13
 
 Fight length : 90 seconds (±30%)
 
@@ -9,43 +9,42 @@ Main weapon : Sword with 300 skill
 Boss (after raid debuffs) :
 Level 63, 336 Armor (5,76% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
 
-
-16695 simulations done in 17 078,08 ms, for 1,02 ms by sim
+17022 simulations done in 16 982,58 ms, for 1,00 ms by sim
 Overall accuracy of results : ±0,12%
-Average TPS : 1 284,19 tps (±0,61)
-Average DPS : 604,15 dps (±0,36)
+Average TPS : 1 285,45 tps (±0,61)
+Average DPS : 604,90 dps (±0,36)
 
-Average stats for [AA MH] : 26,26 DPS (4,35%) / 39,27 TPS (3,06%)
-	Average of 279,18 threat for 12,66 uses (or 1 use every 7,11s)
-	Average of 186,74 damage for 12,66 uses (or 1 use every 7,11s)
-	0,00% Hit, 19,33% Crit, 19,89% Miss, 40,10% Glancing, 6,48% Dodge, 14,20% Parry
+Average stats for [AA MH] : 26,47 DPS (4,38%) / 39,57 TPS (3,08%)
+	Average of 281,89 threat for 12,63 uses (or 1 use every 7,12s)
+	Average of 188,55 damage for 12,63 uses (or 1 use every 7,12s)
+	0,00% Hit, 19,67% Crit, 19,92% Miss, 40,04% Glancing, 6,50% Dodge, 13,87% Parry
 
-Average stats for [AA OH] : 129,38 DPS (21,42%) / 193,41 TPS (15,06%)
-	Average of 371,94 threat for 46,80 uses (or 1 use every 1,92s)
-	Average of 248,80 damage for 46,80 uses (or 1 use every 1,92s)
-	47,65% Hit, 23,54% Crit, 2,60% Miss, 5,84% Glancing, 6,41% Dodge, 13,95% Parry
+Average stats for [AA OH] : 129,35 DPS (21,38%) / 193,38 TPS (15,04%)
+	Average of 371,62 threat for 46,83 uses (or 1 use every 1,92s)
+	Average of 248,59 damage for 46,83 uses (or 1 use every 1,92s)
+	47,62% Hit, 23,50% Crit, 2,61% Miss, 5,90% Glancing, 6,50% Dodge, 13,89% Parry
 
-Average stats for [Bloodthirst] : 129,03 DPS (21,36%) / 192,89 TPS (15,02%)
-	Average of 1 133,03 threat for 15,32 uses (or 1 use every 5,87s)
-	Average of 757,89 damage for 15,32 uses (or 1 use every 5,87s)
-	55,83% Hit, 23,66% Crit, 0,00% Miss, 0,00% Glancing, 6,45% Dodge, 14,06% Parry
+Average stats for [Bloodthirst] : 129,36 DPS (21,39%) / 193,39 TPS (15,04%)
+	Average of 1 134,63 threat for 15,34 uses (or 1 use every 5,87s)
+	Average of 758,96 damage for 15,34 uses (or 1 use every 5,87s)
+	55,87% Hit, 23,72% Crit, 0,00% Miss, 0,00% Glancing, 6,51% Dodge, 13,90% Parry
 
-Average stats for [Sunder Armor] : 0,00 DPS (0,00%) / 145,11 TPS (11,30%)
-	Average of 389,00 threat for 33,57 uses (or 1 use every 2,68s)
-	Average of 0,00 damage for 33,57 uses (or 1 use every 2,68s)
-	55,74% Hit, 23,69% Crit, 0,00% Miss, 0,00% Glancing, 6,54% Dodge, 14,03% Parry
+Average stats for [Sunder Armor] : 0,00 DPS (0,00%) / 145,21 TPS (11,30%)
+	Average of 389,00 threat for 33,60 uses (or 1 use every 2,68s)
+	Average of 0,00 damage for 33,60 uses (or 1 use every 2,68s)
+	55,91% Hit, 23,65% Crit, 0,00% Miss, 0,00% Glancing, 6,49% Dodge, 13,95% Parry
 
-Average stats for [Revenge] : 7,30 DPS (1,21%) / 63,08 TPS (4,91%)
-	Average of 569,52 threat for 9,97 uses (or 1 use every 9,03s)
-	Average of 65,89 damage for 9,97 uses (or 1 use every 9,03s)
-	55,76% Hit, 23,71% Crit, 0,00% Miss, 0,00% Glancing, 6,45% Dodge, 14,08% Parry
+Average stats for [Revenge] : 7,31 DPS (1,21%) / 63,12 TPS (4,91%)
+	Average of 569,57 threat for 9,97 uses (or 1 use every 9,02s)
+	Average of 65,92 damage for 9,97 uses (or 1 use every 9,02s)
+	55,61% Hit, 23,82% Crit, 0,00% Miss, 0,00% Glancing, 6,51% Dodge, 14,06% Parry
 
-Average stats for [Heroic Strike] : 263,31 DPS (43,58%) / 518,46 TPS (40,37%)
-	Average of 900,64 threat for 51,81 uses (or 1 use every 1,74s)
-	Average of 457,40 damage for 51,81 uses (or 1 use every 1,74s)
-	55,72% Hit, 23,76% Crit, 0,00% Miss, 0,00% Glancing, 6,53% Dodge, 13,98% Parry
+Average stats for [Heroic Strike] : 263,89 DPS (43,63%) / 519,54 TPS (40,42%)
+	Average of 901,04 threat for 51,89 uses (or 1 use every 1,73s)
+	Average of 457,66 damage for 51,89 uses (or 1 use every 1,73s)
+	55,80% Hit, 23,76% Crit, 0,00% Miss, 0,00% Glancing, 6,50% Dodge, 13,94% Parry
 
-Average stats for [Thunderfury] : 47,98 DPS (7,94%) / 130,26 TPS (10,14%)
-	Average of 648,09 threat for 18,09 uses (or 1 use every 4,98s)
-	Average of 238,72 damage for 18,09 uses (or 1 use every 4,98s)
-	83,03% Hit, 0,00% Crit, 16,97% Resist
+Average stats for [Thunderfury] : 48,04 DPS (7,94%) / 130,46 TPS (10,15%)
+	Average of 648,30 threat for 18,11 uses (or 1 use every 4,97s)
+	Average of 238,71 damage for 18,11 uses (or 1 use every 4,97s)
+	83,06% Hit, 0,00% Crit, 16,94% Resist

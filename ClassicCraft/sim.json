@@ -1,29 +1,30 @@
 {
-  "FightLength": 90,
+  "FightLength": 90.0,
   "FightLengthMod": 0.3,
-  "TargetErrorPct": 0.12,
-  "TargetError": true,
-  "LogFight": false,
   "NbSim": 1,
   "StatsWeights": false,
+  "TargetErrorPct": 0.13,
+  "TargetError": false,
+  "LogFight": false,
   "BossAutoLife": true,
-  "BossLowLifeTime": 0,
-  "Boss" : {
+  "BossLowLifeTime": 0.0,
+  "Boss": {
     "Level": 63,
+    "Type": null,
     "Armor": 3731,
-    "SchoolResists" : {
-      "All": 0
-    },
     "Debuffs": [
       "Sunder Armor",
       "Curse of Recklessness",
       "Faerie Fire",
-      "Shadow Weaving",
-    ]
+      "Shadow Weaving"
+    ],
+    "SchoolResists": {
+      "All": 0
+    }
   },
   "UnlimitedMana": false,
   "UnlimitedResource": false,
   "Tanking": true,
-  "TankHitEvery": 2,
-  "TankHitRage": 30,
+  "TankHitEvery": 2.0,
+  "TankHitRage": 30.0
 }

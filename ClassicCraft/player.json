@@ -1,263 +1,332 @@
 {
-  "Race": "Orc",
   "Class": "Warrior",
+  "Level": 0,
+  "Race": "Orc",
   "Talents": "2-05050005505010051-5023011050",
   "Cooldowns": {
     "Racial": false,
     "Death Wish": true,
     "Recklessness": false,
     "Juju Flurry": false,
-    "Mighty Rage": true,
+    "Mighty Rage": true
   },
   "Buffs": [
     {
-      "Name": "Windfury Totem"
+      "Id": 0,
+      "Name": "Windfury Totem",
+      "Stats": null
     },
     {
+      "Id": 0,
       "Name": "Test",
       "Stats": {
-        "Hit": 0,
-        "Crit": 0,
-        "AP": 30,
-        "Haste": 0,
-        "Dagger": 0,
-        "Sword": 0,
-        "Axe": 0,
-        "Agi": 0,
-        "Str": 0,
+        "Hit": 0.0,
+        "Crit": 0.0,
+        "AP": 30.0,
+        "Haste": 0.0,
+        "Dagger": 0.0,
+        "Sword": 0.0,
+        "Axe": 0.0,
+        "Agi": 0.0,
+        "Str": 0.0
       }
     },
     {
+      "Id": 0,
       "Name": "Battle Shout",
       "Stats": {
-        "AP": 241
+        "AP": 241.0
       }
     },
     {
+      "Id": 0,
       "Name": "Trueshot Aura",
       "Stats": {
-        "AP": 100
+        "AP": 100.0
       }
     },
     {
+      "Id": 0,
       "Name": "Mark of the Wild",
       "Stats": {
-        "Agi": 16,
-        "Str": 16,
+        "Agi": 16.0,
+        "Str": 16.0
       }
     },
     {
+      "Id": 0,
       "Name": "R.O.I.D.S.",
       "Stats": {
-        "Str": 25,
+        "Str": 25.0
       }
     },
     {
+      "Id": 0,
       "Name": "Food",
       "Stats": {
-        "Str": 20,
+        "Str": 20.0
       }
     },
     {
+      "Id": 0,
       "Name": "Elixir of the Mongoose",
       "Stats": {
-        "Agi": 25,
-        "Crit": 2
+        "Agi": 25.0,
+        "Crit": 2.0
       }
     },
     {
+      "Id": 0,
       "Name": "Juju Power",
       "Stats": {
-        "AP": 40,
+        "AP": 40.0
       }
     },
     {
+      "Id": 0,
       "Name": "Juju Might",
       "Stats": {
-        "Str": 30,
+        "Str": 30.0
       }
-    },
+    }
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 44,
-      "DamageMax": 115,
+      "DamageMin": 44.0,
+      "DamageMax": 115.0,
       "Speed": 1.9,
       "TwoHanded": false,
       "Type": "Sword",
+      "Buff": null,
+      "School": null,
       "Name": "Thunderfury",
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
-        "Agi": 5,
+        "Agi": 5.0
       },
-      "Enchantment":
-      {
+      "Enchantment": {
+        "Id": 0,
         "Name": "Crusader",
+        "Stats": null
       }
     },
     "OH": {
-      "DamageMin": 101,
-      "DamageMax": 188,
+      "DamageMin": 101.0,
+      "DamageMax": 188.0,
       "Speed": 2.3,
       "TwoHanded": false,
       "Type": "Axe",
+      "Buff": null,
+      "School": null,
       "Name": "Crul",
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
-        "AP": 36,
+        "AP": 36.0
       },
-      "Enchantment":
-      {
+      "Enchantment": {
+        "Id": 0,
         "Name": "Crusader",
+        "Stats": null
       }
     },
     "Ranged": {
+      "DamageMin": 0.0,
+      "DamageMax": 0.0,
+      "Speed": 0.0,
+      "TwoHanded": false,
       "Type": "Crossbow",
+      "Buff": null,
+      "School": null,
       "Name": "Doom",
+      "Id": 0,
+      "Slot": "Weapon",
       "Stats": {
-        "Agi": 7,
-        "Str": 5,
-        "Hit": 1,
-      }
-    },
+        "Agi": 7.0,
+        "Str": 5.0,
+        "Hit": 1.0
+      },
+      "Enchantment": null
+    }
   },
   "Equipment": {
     "Head": {
       "Name": "T2.5",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
-        "Str": 29,
-        "Agi": 18,
+        "Str": 29.0,
+        "Agi": 18.0
       },
+      "Enchantment": null
     },
     "Neck": {
       "Name": "Choker",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
-        "Crit": 1,
-        "AP": 44,
-      }
+        "Crit": 1.0,
+        "AP": 44.0
+      },
+      "Enchantment": null
     },
     "Shoulders": {
       "Name": "T.25",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
-        "Str": 20,
-        "Agi": 16,
-        "Hit": 1,
+        "Str": 20.0,
+        "Agi": 16.0,
+        "Hit": 1.0
       },
       "Enchantment": {
+        "Id": 0,
         "Name": "ZG",
         "Stats": {
-          "AP": 30
+          "AP": 30.0
         }
       }
     },
     "Back": {
       "Name": "Fallen God",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
-        "Agi": 26,
-        "Str": 11,
+        "Agi": 26.0,
+        "Str": 11.0
       },
       "Enchantment": {
+        "Id": 0,
         "Name": "Lesser Agility",
         "Stats": {
-          "Agi": 3
+          "Agi": 3.0
         }
       }
     },
     "Chest": {
       "Name": "T2.5",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
-        "Str": 34,
-        "Agi": 24,
+        "Str": 34.0,
+        "Agi": 24.0
       },
       "Enchantment": {
+        "Id": 0,
         "Name": "Greater Stats",
         "Stats": {
-          "Str": 4,
-          "Agi": 4,
-          "Int": 4,
-          "Spi": 4,
+          "Str": 4.0,
+          "Agi": 4.0,
+          "Int": 4.0,
+          "Spi": 4.0
         }
       }
     },
     "Wrist": {
       "Name": "Qiraji",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
-        "Str": 15,
-        "Agi": 16,
-        "Hit": 1,
+        "Str": 15.0,
+        "Agi": 16.0,
+        "Hit": 1.0
       },
       "Enchantment": {
+        "Id": 0,
         "Name": "Superior Strength",
         "Stats": {
-          "Str": 9
+          "Str": 9.0
         }
       }
     },
     "Hands": {
       "Name": "Annihilation",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
-        "Str": 35,
-        "Hit": 1,
-        "Crit": 1,
+        "Str": 35.0,
+        "Hit": 1.0,
+        "Crit": 1.0
       },
       "Enchantment": {
+        "Id": 0,
         "Name": "Agi",
         "Stats": {
-          "Agi": 15
+          "Agi": 15.0
         }
       }
     },
     "Waist": {
       "Name": "Girdle",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
-        "Str": 31,
-        "Hit": 1,
-        "Crit": 1,
-      }
+        "Str": 31.0,
+        "Hit": 1.0,
+        "Crit": 1.0
+      },
+      "Enchantment": null
     },
     "Legs": {
       "Name": "T2.5",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
-        "Str": 33,
-        "Agi": 21,
-        "Hit": 1,
+        "Str": 33.0,
+        "Agi": 21.0,
+        "Hit": 1.0
       },
+      "Enchantment": null
     },
     "Feet": {
       "Name": "T2.5",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
-        "Str": 21,
-        "Agi": 17,
+        "Str": 21.0,
+        "Agi": 17.0
       },
+      "Enchantment": null
     },
     "Ring1": {
       "Name": "AQ",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
-        "Agi": 24,
-        "Hit": 1
-      }
+        "Agi": 24.0,
+        "Hit": 1.0
+      },
+      "Enchantment": null
     },
     "Ring2": {
       "Name": "Qiraji",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
-        "AP": 40,
-        "Crit": 1
-      }
+        "AP": 40.0,
+        "Crit": 1.0
+      },
+      "Enchantment": null
     },
     "Trinket1": {
       "Name": "Hand",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
-        "AP": 20
-      }
+        "AP": 20.0
+      },
+      "Enchantment": null
     },
     "Trinket2": {
       "Name": "DFT",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
-        "AP": 56,
-        "Hit": 2,
-      }
+        "AP": 56.0,
+        "Hit": 2.0
+      },
+      "Enchantment": null
     }
   }
 }

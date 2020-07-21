@@ -72,91 +72,15 @@ namespace ClassicCraft
         private static List<double> CurrentDpsList;
         private static List<double> CurrentTpsList;
 
-        private static Dictionary<string, List<SimResult>> ResultsList = new Dictionary<string, List<SimResult>>();
-        private static Dictionary<string, List<double>> DamagesList = new Dictionary<string, List<double>>();
-        private static Dictionary<string, List<double>> ThreatsList = new Dictionary<string, List<double>>();
-        private static List<double> ErrorList = new List<double>();
+        private static Dictionary<string, List<SimResult>> ResultsList;
+        private static Dictionary<string, List<double>> DamagesList;
+        private static Dictionary<string, List<double>> ThreatsList;
+        private static List<double> ErrorList;
 
-        public static string logs = "";
+        public static string logs;
 
-        public static List<string> simOrder = new List<string>(){
-            "Base",
-            "+50 AP", "+50 SP",
-            "+1% Hit","+1% Crit", "+1% Haste",
-            "+1% SpellHit","+1% SpellCrit",
-            "+50 Int", "+50 Spi", "+30 MP5",
-            "+10 DPS MH", "+10 DPS OH",
-            "+1 MH Skill", "+1 OH Skill",
-            "+5 MH Skill", "+5 OH Skill",
-            //"1","2","3","4","5","6","7","8","9",
-        };
-        public static Dictionary<string, Attributes> simBonusAttribs = new Dictionary<string, Attributes>()
-                {
-                    { "Base", new Attributes() },
-                    { "+50 AP", new Attributes(new Dictionary<Attribute, double>()
-                            {
-                                { Attribute.AP, 50 }
-                            })},
-                    { "+50 SP", new Attributes(new Dictionary<Attribute, double>()
-                            {
-                                { Attribute.SP, 50 }
-                            })},
-                    { "+1% Hit", new Attributes(new Dictionary<Attribute, double>()
-                            {
-                                { Attribute.HitChance, 0.01 }
-                            })},
-                    { "+1% Crit", new Attributes(new Dictionary<Attribute, double>()
-                            {
-                                { Attribute.CritChance, 0.01 }
-                            })},
-                    { "+1% Haste", new Attributes(new Dictionary<Attribute, double>()
-                            {
-                                { Attribute.Haste, 0.01 }
-                            })},
-                    { "+1% SpellHit", new Attributes(new Dictionary<Attribute, double>()
-                            {
-                                { Attribute.SpellHitChance, 0.01 }
-                            })},
-                    { "+1% SpellCrit", new Attributes(new Dictionary<Attribute, double>()
-                            {
-                                { Attribute.SpellCritChance, 0.01 }
-                            })},
-                    { "+50 Int", new Attributes(new Dictionary<Attribute, double>()
-                            {
-                                { Attribute.Intellect, 50 }
-                            })},
-                    { "+50 Spi", new Attributes(new Dictionary<Attribute, double>()
-                            {
-                                { Attribute.Spirit, 50 }
-                            })},
-                    { "+30 MP5", new Attributes(new Dictionary<Attribute, double>()
-                            {
-                                { Attribute.MP5, 30 }
-                            })},
-                    { "+10 DPS MH", new Attributes(new Dictionary<Attribute, double>()
-                            {
-                                { Attribute.WeaponDamageMH, 10 }
-                            })},
-                    { "+10 DPS OH", new Attributes(new Dictionary<Attribute, double>()
-                            {
-                                { Attribute.WeaponDamageOH, 10 }
-                            })},
-                    { "+1 MH Skill", new Attributes(new Dictionary<Attribute, double>()) },
-                    { "+1 OH Skill", new Attributes(new Dictionary<Attribute, double>()) },
-                    { "+5 MH Skill", new Attributes(new Dictionary<Attribute, double>()) },
-                    { "+5 OH Skill", new Attributes(new Dictionary<Attribute, double>()) },
-                    /*
-                    { "1", new Attributes(new Dictionary<Attribute, double>()) },
-                    { "2", new Attributes(new Dictionary<Attribute, double>()) },
-                    { "3", new Attributes(new Dictionary<Attribute, double>()) },
-                    { "4", new Attributes(new Dictionary<Attribute, double>()) },
-                    { "5", new Attributes(new Dictionary<Attribute, double>()) },
-                    { "6", new Attributes(new Dictionary<Attribute, double>()) },
-                    { "7", new Attributes(new Dictionary<Attribute, double>()) },
-                    { "8", new Attributes(new Dictionary<Attribute, double>()) },
-                    { "9", new Attributes(new Dictionary<Attribute, double>()) },
-                    */
-                };
+        public static List<string> simOrder;
+        public static Dictionary<string, Attributes> simBonusAttribs;
 
         public static JsonUtil.JsonSim jsonSim;
         public static JsonUtil.JsonPlayer jsonPlayer;
@@ -176,13 +100,133 @@ namespace ClassicCraft
             Run(null, debugPath);
         }
 
-        public static bool Run(MainWindow gui = null, string customPath = null)
+        public static void Reset()
         {
-            bool runresult = true;
-            Running = true;
 
+            ResultsList = new Dictionary<string, List<SimResult>>();
+            DamagesList = new Dictionary<string, List<double>>();
+            ThreatsList = new Dictionary<string, List<double>>();
+            ErrorList = new List<double>();
+
+            logs = "";
+
+            simOrder = new List<string>(){
+                "Base",
+                "+50 AP", "+50 SP",
+                "+1% Hit","+1% Crit", "+1% Haste",
+                "+1% SpellHit","+1% SpellCrit",
+                "+50 Int", "+50 Spi", "+30 MP5",
+                "+10 DPS MH", "+10 DPS OH",
+                "+1 MH Skill", "+1 OH Skill",
+                "+5 MH Skill", "+5 OH Skill",
+                //"1","2","3","4","5","6","7","8","9",
+            };
+
+            simBonusAttribs = new Dictionary<string, Attributes>()
+                    {
+                        { "Base", new Attributes() },
+                        { "+50 AP", new Attributes(new Dictionary<Attribute, double>()
+                                {
+                                    { Attribute.AP, 50 }
+                                })},
+                        { "+50 SP", new Attributes(new Dictionary<Attribute, double>()
+                                {
+                                    { Attribute.SP, 50 }
+                                })},
+                        { "+1% Hit", new Attributes(new Dictionary<Attribute, double>()
+                                {
+                                    { Attribute.HitChance, 0.01 }
+                                })},
+                        { "+1% Crit", new Attributes(new Dictionary<Attribute, double>()
+                                {
+                                    { Attribute.CritChance, 0.01 }
+                                })},
+                        { "+1% Haste", new Attributes(new Dictionary<Attribute, double>()
+                                {
+                                    { Attribute.Haste, 0.01 }
+                                })},
+                        { "+1% SpellHit", new Attributes(new Dictionary<Attribute, double>()
+                                {
+                                    { Attribute.SpellHitChance, 0.01 }
+                                })},
+                        { "+1% SpellCrit", new Attributes(new Dictionary<Attribute, double>()
+                                {
+                                    { Attribute.SpellCritChance, 0.01 }
+                                })},
+                        { "+50 Int", new Attributes(new Dictionary<Attribute, double>()
+                                {
+                                    { Attribute.Intellect, 50 }
+                                })},
+                        { "+50 Spi", new Attributes(new Dictionary<Attribute, double>()
+                                {
+                                    { Attribute.Spirit, 50 }
+                                })},
+                        { "+30 MP5", new Attributes(new Dictionary<Attribute, double>()
+                                {
+                                    { Attribute.MP5, 30 }
+                                })},
+                        { "+10 DPS MH", new Attributes(new Dictionary<Attribute, double>()
+                                {
+                                    { Attribute.WeaponDamageMH, 10 }
+                                })},
+                        { "+10 DPS OH", new Attributes(new Dictionary<Attribute, double>()
+                                {
+                                    { Attribute.WeaponDamageOH, 10 }
+                                })},
+                        { "+1 MH Skill", new Attributes(new Dictionary<Attribute, double>()) },
+                        { "+1 OH Skill", new Attributes(new Dictionary<Attribute, double>()) },
+                        { "+5 MH Skill", new Attributes(new Dictionary<Attribute, double>()) },
+                        { "+5 OH Skill", new Attributes(new Dictionary<Attribute, double>()) },
+                        /*
+                        { "1", new Attributes(new Dictionary<Attribute, double>()) },
+                        { "2", new Attributes(new Dictionary<Attribute, double>()) },
+                        { "3", new Attributes(new Dictionary<Attribute, double>()) },
+                        { "4", new Attributes(new Dictionary<Attribute, double>()) },
+                        { "5", new Attributes(new Dictionary<Attribute, double>()) },
+                        { "6", new Attributes(new Dictionary<Attribute, double>()) },
+                        { "7", new Attributes(new Dictionary<Attribute, double>()) },
+                        { "8", new Attributes(new Dictionary<Attribute, double>()) },
+                        { "9", new Attributes(new Dictionary<Attribute, double>()) },
+                        */
+                    };
+        }
+
+        public static void LoadJsons()
+        {
             try
             {
+                string simString = File.ReadAllText(debug ? Path.Combine(debugPath, simJsonFileName) : simJsonFileName);
+                jsonSim = JsonConvert.DeserializeObject<JsonUtil.JsonSim>(simString);
+                string playerString = File.ReadAllText(debug ? Path.Combine(debugPath, playerJsonFileName) : playerJsonFileName);
+                jsonPlayer = JsonConvert.DeserializeObject<JsonUtil.JsonPlayer>(playerString);
+            }
+            catch(Exception e)
+            {
+                Output("Json loading failed :\n" + e);
+            }
+        }
+
+        public static void SaveJsons()
+        {
+            try
+            {
+                File.WriteAllText(debug ? Path.Combine(debugPath, simJsonFileName) : simJsonFileName, JsonConvert.SerializeObject(jsonSim, Formatting.Indented));
+                File.WriteAllText(debug ? Path.Combine(debugPath, playerJsonFileName) : playerJsonFileName, JsonConvert.SerializeObject(jsonPlayer, Formatting.Indented));
+            }
+            catch (Exception e)
+            {
+                Output("Json loading failed :\n" + e);
+            }
+        }
+
+        public static void Run(MainWindow gui = null, string customPath = null)
+        {
+            try
+            {
+                Running = true;
+
+                Reset();
+
                 GUI = gui;
                 Display = GUI == null ? DisplayMode.Console : DisplayMode.GUI;
                 GUI.SetProgress(0);
@@ -192,13 +236,6 @@ namespace ClassicCraft
                 {
                     debugPath = customPath;
                 }
-
-                // Retrieving jsons
-
-                string simString = File.ReadAllText(debug ? Path.Combine(debugPath, simJsonFileName) : simJsonFileName);
-                jsonSim = JsonConvert.DeserializeObject<JsonUtil.JsonSim>(simString);
-                string playerString = File.ReadAllText(debug ? Path.Combine(debugPath, playerJsonFileName) : playerJsonFileName);
-                jsonPlayer = JsonConvert.DeserializeObject<JsonUtil.JsonPlayer>(playerString);
 
                 nbSim = jsonSim.NbSim;
                 targetErrorPct = jsonSim.TargetErrorPct;
@@ -426,8 +463,8 @@ namespace ClassicCraft
                                 
                                 OutputClear();
                                 Output(String.Format("Simulating {0} DPS, aiming for ±{1:N2}% precision...", simOrder[done], targetErrorPct));
-                                Output(String.Format("Sims done : {0:N2}", CurrentDpsList.Count));
-                                Output(String.Format("Sims running : {0:N2}", tasks.Count(t => !t.IsCompleted)));
+                                Output(String.Format("Sims done : {0:N0}", CurrentDpsList.Count));
+                                Output(String.Format("Sims running : {0:N0}", tasks.Count(t => !t.IsCompleted)));
                                 Output(String.Format("Current precision : ±{0:N2}%", errorPct));
 
                                 Thread.Sleep(TimeSpan.FromSeconds(Display == DisplayMode.Console ? 1.0 / 2 : 1.0 / 60));
@@ -944,8 +981,6 @@ namespace ClassicCraft
             }
             catch(Exception e)
             {
-                runresult = false;
-                
                 Output("Simulation failed with the following error :\n" + e);
             }
 
@@ -956,8 +991,7 @@ namespace ClassicCraft
             }
 
             Running = false;
-
-            return runresult;
+            GUI.Run_On();
         }
 
         public static void AddSimResult(SimResult result)
