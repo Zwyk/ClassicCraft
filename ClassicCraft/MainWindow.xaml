@@ -33,7 +33,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Text="Configuration1" Grid.Column="1" SelectedIndex="0" Margin="0 0 10 0" IsEditable="True" IsTextSearchEnabled="True" VerticalAlignment="Center" />
-                                <Button Content="save" Click="SaveSimConfig" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <Button Content="save" Click="SaveSimConfigClick" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 <Button Content="new" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 <Button Content="copy" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Grid>
@@ -432,7 +432,7 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="Class" Grid.Column="0" />
-                                            <ComboBox x:Name="Class" SelectionChanged="Class_SelectionChanged" Grid.Column="1" SelectedIndex="8">
+                                            <ComboBox x:Name="Class" Grid.Column="1" SelectedIndex="8">
                                                 <ComboBoxItem>Druid</ComboBoxItem>
                                                 <ComboBoxItem>Hunter</ComboBoxItem>
                                                 <ComboBoxItem>Mage</ComboBoxItem>
@@ -733,7 +733,7 @@
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="Potion" Grid.Column="0" />
-                                            <ComboBox SelectionChanged="Class_SelectionChanged" Grid.Column="1" SelectedIndex="0">
+                                            <ComboBox Grid.Column="1" SelectedIndex="0">
                                                 <ComboBoxItem>None</ComboBoxItem>
                                                 <ComboBoxItem>Mighty Rage</ComboBoxItem>
                                                 <ComboBoxItem>Mana Potion</ComboBoxItem>
@@ -918,21 +918,22 @@
                 <TabItem Header="Items Database">
                     <ScrollViewer VerticalScrollBarVisibility="Visible" Padding="4">
                         <StackPanel>
-                            <Grid>
+                            <Grid HorizontalAlignment="Center">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="196*" />
-                                    <ColumnDefinition Width="37*"/>
+                                    <ColumnDefinition Width="150" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="467*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="Item" Grid.Column="0" Margin="0 0 10 0" VerticalAlignment="Center" />
-                                <ComboBox Grid.Column="1" SelectedIndex="0" Margin="0 0 10 0"  IsTextSearchEnabled="True" VerticalAlignment="Center" Grid.ColumnSpan="2" />
-                                <Button Content="save" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <Button Content="new" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <Button Content="copy" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <ComboBox x:Name="ItemsList" TextBoxBase.TextChanged="ItemsList_TextChanged" SelectionChanged="ItemsList_SelectionChanged" Grid.Column="1" SelectedIndex="0" Margin="0 0 10 0" IsEditable="True" IsTextSearchEnabled="True" VerticalAlignment="Center" />
+                                <Button Content="save" Click="SaveItemClick" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <Button Content="new" Click="NewItemClick" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <Button Content="copy" Click="CopyItemClick" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <Button Content="delete" Click="DeleteItemClick" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Grid>
                             <Border Margin="5" Padding="2" BorderBrush="#D2D2D2" BorderThickness="1" Background="#EFEFEF" CornerRadius="2">
                                 <StackPanel>
@@ -942,15 +943,16 @@
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="Name" Grid.Column="0" />
-                                        <TextBox Grid.Column="1" Width="200" />
+                                        <TextBox x:Name="ItemName" TextChanged="ItemName_TextChanged" Grid.Column="1" Width="200" />
                                     </Grid>
                                     <Grid Margin="0 4 0 0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="100" />
-                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="125" />
+                                            <ColumnDefinition Width="20"/>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="Type" Grid.Column="0" />
-                                        <ComboBox x:Name="ItemType" Grid.Column="1" SelectedIndex="0" SelectionChanged="ItemType_SelectionChanged">
+                                        <ComboBox x:Name="ItemType" Grid.Column="1" SelectedIndex="0" SelectionChanged="ItemType_SelectionChanged" Grid.ColumnSpan="2">
                                             <ComboBoxItem>One-Handed Weapon</ComboBoxItem>
                                             <ComboBoxItem>Two-Handed Weapon</ComboBoxItem>
                                             <ComboBoxItem>Ranged Weapon</ComboBoxItem>
@@ -1024,12 +1026,12 @@
                                                         <ColumnDefinition Width="10" />
                                                         <ColumnDefinition Width="Auto" />
                                                     </Grid.ColumnDefinitions>
-                                                    <ComboBox Grid.Column="0">
+                                                    <ComboBox VerticalAlignment="Center" Grid.Column="0">
+                                                        <ComboBoxItem>Strength</ComboBoxItem>
                                                         <ComboBoxItem>Agility</ComboBoxItem>
                                                         <ComboBoxItem>Intellect</ComboBoxItem>
                                                         <ComboBoxItem>Spirit</ComboBoxItem>
                                                         <ComboBoxItem>Stamina</ComboBoxItem>
-                                                        <ComboBoxItem>Strength</ComboBoxItem>
                                                         <ComboBoxItem>Attack Power</ComboBoxItem>
                                                         <ComboBoxItem>Spell Power</ComboBoxItem>
                                                         <ComboBoxItem>Healing Power</ComboBoxItem>
@@ -1039,8 +1041,20 @@
                                                         <ComboBoxItem>Spell Critical Chance</ComboBoxItem>
                                                         <ComboBoxItem>MP5</ComboBoxItem>
                                                         <ComboBoxItem>Attack Speed</ComboBoxItem>
+                                                        <ComboBoxItem>Armor Penetration</ComboBoxItem>
+                                                        <ComboBoxItem>Weapon Damage</ComboBoxItem>
+                                                        <ComboBoxItem>Skill Axe</ComboBoxItem>
+                                                        <ComboBoxItem>Skill Dagger</ComboBoxItem>
+                                                        <ComboBoxItem>Skill Fist</ComboBoxItem>
+                                                        <ComboBoxItem>Skill Mace</ComboBoxItem>
+                                                        <ComboBoxItem>Skill Polearm</ComboBoxItem>
+                                                        <ComboBoxItem>Skill Staff</ComboBoxItem>
+                                                        <ComboBoxItem>Skill Sword</ComboBoxItem>
+                                                        <ComboBoxItem>Skill Bow</ComboBoxItem>
+                                                        <ComboBoxItem>Skill Crossbow</ComboBoxItem>
+                                                        <ComboBoxItem>Skill Gun</ComboBoxItem>
                                                     </ComboBox>
-                                                    <TextBox PreviewTextInput="WholeNumberCheck" Grid.Column="2" Width="50" />
+                                                    <TextBox PreviewTextInput="WholeNumberCheck" VerticalAlignment="Center" Grid.Column="2" Width="50" />
                                                 </Grid>
                                             </StackPanel>
                                             <Button Click="StatsAdd_Click" Content="+" Width="20" HorizontalAlignment="Left"/>
@@ -1068,7 +1082,7 @@
                     <ProgressBar x:Name="ProgressBar" Grid.Column="0" Margin="5" Value="100" />
                     <TextBlock x:Name="ProgressText" Text="Waiting for configuration..." HorizontalAlignment="Center" Grid.Column="0" Margin="5" Padding="2" />
                     <TextBlock x:Name="ProgressPercent" Text="" HorizontalAlignment="Right" Grid.Column="0" Margin="5" Padding="2" />
-                    <Button x:Name="RunButton" Content="Let's go!" Click="Run_Click" Padding="10 2 10 2" Grid.Column="1" Margin="4" />
+                    <Button x:Name="RunButton" Content="Let's go!" Click="Run" Padding="10 2 10 2" Grid.Column="1" Margin="4" />
                 </Grid>
             </Border>
         </Grid>

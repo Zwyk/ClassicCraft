@@ -1,0 +1,21 @@
+{
+  "DamageMin": 60.0,
+  "DamageMax": 145.0,
+  "Speed": 1.9,
+  "TwoHanded": false,
+  "Type": "Sword",
+  "Buff": null,
+  "School": null,
+  "Name": "Thunderfury",
+  "Id": 0,
+  "Slot": "Weapon",
+  "Stats": {
+    "Agi": 5.0,
+    "AP": 20.0
+  },
+  "Enchantment": {
+    "Id": 0,
+    "Name": "Crusader",
+    "Stats": null
+  }
+}

@@ -21,6 +21,7 @@ namespace ClassicCraft
         Ring,
         Trinket,
         Weapon,
+        Offhand,
         Any
     }
 
@@ -43,6 +44,7 @@ namespace ClassicCraft
                 case "Ring": return Slot.Ring;
                 case "Trinket": return Slot.Trinket;
                 case "Weapon": return Slot.Weapon;
+                case "Offhand": return Slot.Weapon;
                 default: return Slot.Any;
             }
         }
@@ -64,6 +66,7 @@ namespace ClassicCraft
                 case Slot.Ring: return "Ring";
                 case Slot.Trinket: return "Trinket";
                 case Slot.Weapon: return "Weapon";
+                case Slot.Offhand: return "Offhand";
                 case Slot.Any: return "Any";
                 default: throw new Exception("Slot not found");
             }
@@ -87,6 +90,7 @@ namespace ClassicCraft
                 case Slot.Ring: return new List<Player.Slot>() { Player.Slot.Ring1, Player.Slot.Ring2 };
                 case Slot.Trinket: return new List<Player.Slot>() { Player.Slot.Trinket1, Player.Slot.Trinket2 };
                 case Slot.Weapon: return new List<Player.Slot>() { Player.Slot.OH, Player.Slot.MH };
+                case Slot.Offhand: return new List<Player.Slot>() { Player.Slot.OH };
                 default: throw new Exception("Slot not eligible for Player Slot");
             }
         }

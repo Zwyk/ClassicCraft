@@ -100,6 +100,11 @@ namespace ClassicCraft
             Run(null, debugPath);
         }
 
+        public static string basePath()
+        {
+            return debug ? debugPath : "";
+        }
+
         public static void Reset()
         {
 
@@ -191,7 +196,7 @@ namespace ClassicCraft
                     };
         }
 
-        public static void LoadJsons()
+        public static void LoadConfigJsons()
         {
             try
             {
@@ -991,7 +996,7 @@ namespace ClassicCraft
             }
 
             Running = false;
-            GUI.Run_On();
+            GUI.Run_Enable();
         }
 
         public static void AddSimResult(SimResult result)

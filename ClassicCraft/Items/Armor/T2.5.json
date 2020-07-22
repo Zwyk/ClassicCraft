@@ -1,0 +1,17 @@
+{
+  "Name": "T2.5",
+  "Id": 0,
+  "Slot": "Shoulders",
+  "Stats": {
+    "Str": 20.0,
+    "Agi": 16.0,
+    "Hit": 1.0
+  },
+  "Enchantment": {
+    "Id": 0,
+    "Name": "ZG",
+    "Stats": {
+      "AP": 30.0
+    }
+  }
+}

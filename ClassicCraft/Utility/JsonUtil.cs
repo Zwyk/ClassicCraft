@@ -23,6 +23,9 @@ namespace ClassicCraft
                 Slot = slot;
                 Stats = attributes;
                 Enchantment = enchantment;
+
+                if (Stats == null) Stats = new Dictionary<string, double>();
+                if (Enchantment == null) Enchantment = new JsonEnchantment();
             }
 
             public static Item ToItem(JsonItem ji)
@@ -493,6 +496,8 @@ namespace ClassicCraft
                 Id = id;
                 Name = name;
                 Stats = stats;
+
+                if (Stats == null) Stats = new Dictionary<string, double>();
             }
         }
 

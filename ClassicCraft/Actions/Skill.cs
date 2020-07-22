@@ -36,5 +36,10 @@ namespace ClassicCraft
         {
             return (UseMana ? Player.Mana >= Cost : Player.Resource >= Cost) && Available() && (AffectedByGCD ? Player.HasGCD() : true);
         }
+
+        public void CastIfCan()
+        {
+            if (CanUse()) Cast();
+        }
     }
 }

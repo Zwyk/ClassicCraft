@@ -92,8 +92,8 @@
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 44.0,
-      "DamageMax": 115.0,
+      "DamageMin": 60.0,
+      "DamageMax": 145.0,
       "Speed": 1.9,
       "TwoHanded": false,
       "Type": "Sword",
