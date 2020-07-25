@@ -1,0 +1,18 @@
+{
+  "DamageMin": 60.0,
+  "DamageMax": 145.0,
+  "Speed": 1.9,
+  "TwoHanded": true,
+  "Type": "Staff",
+  "Buff": null,
+  "School": "Physical",
+  "Name": "Test 2H",
+  "Id": 0,
+  "Slot": "Weapon",
+  "Stats": {},
+  "Enchantment": {
+    "Id": 0,
+    "Name": "Enchantment",
+    "Stats": {}
+  }
+}

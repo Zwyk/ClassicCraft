@@ -59,13 +59,13 @@ namespace ClassicCraft
             Shoulders,
             Back,
             Chest,
-            Wrist,
+            Wrists,
             Hands,
             Waist,
             Legs,
             Feet,
-            Ring1,
-            Ring2,
+            Finger1,
+            Finger2,
             Trinket1,
             Trinket2,
             MH,
@@ -155,13 +155,13 @@ namespace ClassicCraft
                 case "Shoulders": return Slot.Shoulders;
                 case "Back": return Slot.Back;
                 case "Chest": return Slot.Chest;
-                case "Wrist": return Slot.Wrist;
+                case "Wrist": return Slot.Wrists;
                 case "Hands": return Slot.Hands;
                 case "Waist": return Slot.Waist;
                 case "Legs": return Slot.Legs;
                 case "Feet": return Slot.Feet;
-                case "Ring1": return Slot.Ring1;
-                case "Ring2": return Slot.Ring2;
+                case "Finger1": return Slot.Finger1;
+                case "Finger2": return Slot.Finger2;
                 case "Trinket1": return Slot.Trinket1;
                 case "Trinket2": return Slot.Trinket2;
                 case "MH": return Slot.MH;
@@ -180,13 +180,13 @@ namespace ClassicCraft
                 case Slot.Shoulders: return "Shoulders";
                 case Slot.Back: return "Back";
                 case Slot.Chest: return "Chest";
-                case Slot.Wrist: return "Wrist";
+                case Slot.Wrists: return "Wrist";
                 case Slot.Hands: return "Hands";
                 case Slot.Waist: return "Waist";
                 case Slot.Legs: return "Legs";
                 case Slot.Feet: return "Feet";
-                case Slot.Ring1: return "Ring1";
-                case Slot.Ring2: return "Ring2";
+                case Slot.Finger1: return "Finger1";
+                case Slot.Finger2: return "Finger2";
                 case Slot.Trinket1: return "Trinket1";
                 case Slot.Trinket2: return "Trinket2";
                 case Slot.MH: return "MH";

@@ -93,7 +93,7 @@ namespace ClassicCraft
             public string School { get; set; }
 
             public JsonWeapon(double damageMin = 0, double damageMax = 0, double speed = 0, bool twoHanded = true, string type = "Axe", int id = 0, string name = "New Item", Dictionary<string, double> attributes = null, JsonEnchantment enchantment = null, JsonEnchantment buffs = null, string school = "Physical")
-                : base(id, name, "Weapon", attributes, enchantment)
+                : base(id, name, IsRangedWeapon(type) ? "Ranged" : "Weapon", attributes, enchantment)
             {
                 DamageMin = damageMin;
                 DamageMax = damageMax;
@@ -102,6 +102,11 @@ namespace ClassicCraft
                 Type = type;
                 Buff = buffs;
                 School = school;
+            }
+
+            public static bool IsRangedWeapon(string type)
+            {
+                return type == "Bow" || type == "Crossbow" || type == "Gun" || type == "Wand";
             }
 
             public static Weapon ToWeapon(JsonWeapon jw)
@@ -489,12 +494,14 @@ namespace ClassicCraft
         {
             public int Id { get; set; }
             public string Name { get; set; }
+            public string Slot { get; set; }
             public Dictionary<string, double> Stats { get; set; }
 
-            public JsonEnchantment(int id = 0, string name = "Enchantment", Dictionary<string, double> stats = null)
+            public JsonEnchantment(int id = 0, string name = "Enchantment", string slot = "Any", Dictionary<string, double> stats = null)
             {
                 Id = id;
                 Name = name;
+                Slot = slot;
                 Stats = stats;
 
                 if (Stats == null) Stats = new Dictionary<string, double>();

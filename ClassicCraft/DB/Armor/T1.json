@@ -1,0 +1,13 @@
+{
+  "Name": "T1",
+  "Id": 0,
+  "Slot": "Neck",
+  "Stats": {
+    "Str": 20.0
+  },
+  "Enchantment": {
+    "Id": 0,
+    "Name": "Enchantment",
+    "Stats": {}
+  }
+}

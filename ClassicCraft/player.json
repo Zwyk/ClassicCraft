@@ -1,6 +1,6 @@
 {
   "Class": "Warrior",
-  "Level": 0,
+  "Level": 60,
   "Race": "Orc",
   "Talents": "2-05050005505010051-5023011050",
   "Cooldowns": {
@@ -14,7 +14,7 @@
     {
       "Id": 0,
       "Name": "Windfury Totem",
-      "Stats": null
+      "Stats": {}
     },
     {
       "Id": 0,
@@ -108,7 +108,7 @@
       "Enchantment": {
         "Id": 0,
         "Name": "Crusader",
-        "Stats": null
+        "Stats": {}
       }
     },
     "OH": {
@@ -128,7 +128,7 @@
       "Enchantment": {
         "Id": 0,
         "Name": "Crusader",
-        "Stats": null
+        "Stats": {}
       }
     },
     "Ranged": {
@@ -147,7 +147,11 @@
         "Str": 5.0,
         "Hit": 1.0
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Stats": {}
+      }
     }
   },
   "Equipment": {
@@ -159,7 +163,11 @@
         "Str": 29.0,
         "Agi": 18.0
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Stats": {}
+      }
     },
     "Neck": {
       "Name": "Choker",
@@ -169,7 +177,11 @@
         "Crit": 1.0,
         "AP": 44.0
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Stats": {}
+      }
     },
     "Shoulders": {
       "Name": "T.25",
@@ -223,7 +235,7 @@
         }
       }
     },
-    "Wrist": {
+    "Wrists": {
       "Name": "Qiraji",
       "Id": 0,
       "Slot": null,
@@ -266,7 +278,11 @@
         "Hit": 1.0,
         "Crit": 1.0
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Stats": {}
+      }
     },
     "Legs": {
       "Name": "T2.5",
@@ -277,7 +293,11 @@
         "Agi": 21.0,
         "Hit": 1.0
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Stats": {}
+      }
     },
     "Feet": {
       "Name": "T2.5",
@@ -287,9 +307,13 @@
         "Str": 21.0,
         "Agi": 17.0
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Stats": {}
+      }
     },
-    "Ring1": {
+    "Finger1": {
       "Name": "AQ",
       "Id": 0,
       "Slot": null,
@@ -297,9 +321,13 @@
         "Agi": 24.0,
         "Hit": 1.0
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Stats": {}
+      }
     },
-    "Ring2": {
+    "Finger2": {
       "Name": "Qiraji",
       "Id": 0,
       "Slot": null,
@@ -307,7 +335,11 @@
         "AP": 40.0,
         "Crit": 1.0
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Stats": {}
+      }
     },
     "Trinket1": {
       "Name": "Hand",
@@ -316,7 +348,11 @@
       "Stats": {
         "AP": 20.0
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Stats": {}
+      }
     },
     "Trinket2": {
       "Name": "DFT",
@@ -326,7 +362,11 @@
         "AP": 56.0,
         "Hit": 2.0
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Stats": {}
+      }
     }
   }
 }

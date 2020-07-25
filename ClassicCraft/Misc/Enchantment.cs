@@ -28,7 +28,7 @@ namespace ClassicCraft
         public static JsonUtil.JsonEnchantment FromEnchantment(Enchantment enchant)
         {
             if (enchant == null) return null;
-            return new JsonUtil.JsonEnchantment(enchant.Id, enchant.Name, Attributes.ToStringDic(enchant.Attributes));
+            return new JsonUtil.JsonEnchantment(enchant.Id, enchant.Name, "Any", Attributes.ToStringDic(enchant.Attributes));
         }
     }
 }

@@ -9,13 +9,10 @@
   "Name": "Thunderfury",
   "Id": 0,
   "Slot": "Weapon",
-  "Stats": {
-    "Agi": 5.0,
-    "AP": 20.0
-  },
+  "Stats": {},
   "Enchantment": {
     "Id": 0,
-    "Name": "Crusader",
-    "Stats": null
+    "Name": "Enchantment",
+    "Stats": {}
   }
 }

@@ -13,14 +13,15 @@ namespace ClassicCraft
         Shoulders,
         Back,
         Chest,
-        Wrist,
+        Wrists,
         Hands,
         Waist,
         Legs,
         Feet,
-        Ring,
+        Finger,
         Trinket,
         Weapon,
+        Ranged,
         Offhand,
         Any
     }
@@ -36,15 +37,16 @@ namespace ClassicCraft
                 case "Shoulders": return Slot.Shoulders;
                 case "Back": return Slot.Back;
                 case "Chest": return Slot.Chest;
-                case "Wrist": return Slot.Wrist;
+                case "Wrists": return Slot.Wrists;
                 case "Hands": return Slot.Hands;
-                case "Waist": return Slot.Hands;
+                case "Waist": return Slot.Waist;
                 case "Legs": return Slot.Legs;
                 case "Feet": return Slot.Feet;
-                case "Ring": return Slot.Ring;
+                case "Finger": return Slot.Finger;
                 case "Trinket": return Slot.Trinket;
                 case "Weapon": return Slot.Weapon;
-                case "Offhand": return Slot.Weapon;
+                case "Ranged": return Slot.Ranged;
+                case "Offhand": return Slot.Offhand;
                 default: return Slot.Any;
             }
         }
@@ -58,14 +60,15 @@ namespace ClassicCraft
                 case Slot.Shoulders: return "Shoulders";
                 case Slot.Back: return "Back";
                 case Slot.Chest: return "Chest";
-                case Slot.Wrist: return "Wrist";
+                case Slot.Wrists: return "Wrists";
                 case Slot.Hands: return "Hands";
                 case Slot.Waist: return "Waist";
                 case Slot.Legs: return "Legs";
                 case Slot.Feet: return "Feet";
-                case Slot.Ring: return "Ring";
+                case Slot.Finger: return "Finger";
                 case Slot.Trinket: return "Trinket";
                 case Slot.Weapon: return "Weapon";
+                case Slot.Ranged: return "Ranged";
                 case Slot.Offhand: return "Offhand";
                 case Slot.Any: return "Any";
                 default: throw new Exception("Slot not found");
@@ -82,14 +85,15 @@ namespace ClassicCraft
                 case Slot.Shoulders: return new List<Player.Slot>() { Player.Slot.Shoulders };
                 case Slot.Back: return new List<Player.Slot>() { Player.Slot.Back };
                 case Slot.Chest: return new List<Player.Slot>() { Player.Slot.Chest };
-                case Slot.Wrist: return new List<Player.Slot>() { Player.Slot.Wrist };
+                case Slot.Wrists: return new List<Player.Slot>() { Player.Slot.Wrists };
                 case Slot.Hands: return new List<Player.Slot>() { Player.Slot.Hands };
                 case Slot.Waist: return new List<Player.Slot>() { Player.Slot.Waist };
                 case Slot.Legs: return new List<Player.Slot>() { Player.Slot.Legs };
                 case Slot.Feet: return new List<Player.Slot>() { Player.Slot.Feet };
-                case Slot.Ring: return new List<Player.Slot>() { Player.Slot.Ring1, Player.Slot.Ring2 };
+                case Slot.Finger: return new List<Player.Slot>() { Player.Slot.Finger1, Player.Slot.Finger2 };
                 case Slot.Trinket: return new List<Player.Slot>() { Player.Slot.Trinket1, Player.Slot.Trinket2 };
                 case Slot.Weapon: return new List<Player.Slot>() { Player.Slot.OH, Player.Slot.MH };
+                case Slot.Ranged: return new List<Player.Slot>() { Player.Slot.Ranged };
                 case Slot.Offhand: return new List<Player.Slot>() { Player.Slot.OH };
                 default: throw new Exception("Slot not eligible for Player Slot");
             }

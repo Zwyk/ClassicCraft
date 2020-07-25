@@ -1,0 +1,13 @@
+{
+  "Name": "OH",
+  "Id": 0,
+  "Slot": "Offhand",
+  "Stats": {
+    "AP": 1.0
+  },
+  "Enchantment": {
+    "Id": 0,
+    "Name": "Enchantment",
+    "Stats": {}
+  }
+}

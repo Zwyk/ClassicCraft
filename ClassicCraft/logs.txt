@@ -1,4 +1,4 @@
-Date : 2020/07/22 14:17:50
+Date : 2020/07/24 19:06:52
 
 Fight length : 90 seconds (±30%)
 
@@ -9,42 +9,37 @@ Main weapon : Sword with 300 skill
 Boss (after raid debuffs) :
 Level 63, 336 Armor (5.76% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
 
-6774 simulations done in 6 710.79 ms, for 0.99 ms by sim
-Overall accuracy of results : ±0.18%
-Average TPS : 1 285.71 tps (±0.96)
-Average DPS : 604.93 dps (±0.57)
+21586 simulations done in 22 032.78 ms, for 1.02 ms by sim
+Overall accuracy of results : ±0.34%
 
-Average stats for [AA MH] : 26.27 DPS (4.34%) / 39.28 TPS (3.06%)
-	Average of 280.66 threat for 12.60 uses (or 1 use every 7.14s)
-	Average of 187.72 damage for 12.60 uses (or 1 use every 7.14s)
-	0.00% Hit, 19.54% Crit, 20.16% Miss, 39.97% Glancing, 6.40% Dodge, 13.92% Parry
+Base : 619.53 DPS
 
-Average stats for [AA OH] : 129.18 DPS (21.35%) / 193.11 TPS (15.02%)
-	Average of 371.89 threat for 46.74 uses (or 1 use every 1.93s)
-	Average of 248.76 damage for 46.74 uses (or 1 use every 1.93s)
-	47.64% Hit, 23.52% Crit, 2.55% Miss, 5.89% Glancing, 6.49% Dodge, 13.90% Parry
+Weights by DPS :
+1 AP = 0.1941 DPS
+1 Str = 0.3882 DPS = 2.0000 AP
+1 Agi = 0.2557 DPS = 1.3173 AP
+1% Crit = 5.1140 DPS = 26.3458 AP
+1% Hit = 1.0267 DPS = 5.2894 AP
+1% Haste = 3.2195 DPS = 16.5859 AP
++1 MH DPS = 0.5900 DPS = 3.0393 AP
++1 OH DPS = 0.2353 DPS = 1.2120 AP
++1 MH Skill = 0.5245 DPS = 2.7020 AP
++1 OH Skill = 0.0000 DPS = 0.0000 AP
++5 MH Skill = 12.4438 DPS = 64.1063 AP
++5 OH Skill = 0.5494 DPS = 2.8303 AP
 
-Average stats for [Bloodthirst] : 128.97 DPS (21.32%) / 192.81 TPS (15.00%)
-	Average of 1 133.87 threat for 15.30 uses (or 1 use every 5.88s)
-	Average of 758.45 damage for 15.30 uses (or 1 use every 5.88s)
-	55.52% Hit, 23.81% Crit, 0.00% Miss, 0.00% Glancing, 6.55% Dodge, 14.11% Parry
+Base : 1 307.89 TPS
 
-Average stats for [Sunder Armor] : 0.00 DPS (0.00%) / 144.89 TPS (11.27%)
-	Average of 389.00 threat for 33.52 uses (or 1 use every 2.68s)
-	Average of 0.00 damage for 33.52 uses (or 1 use every 2.68s)
-	55.63% Hit, 23.81% Crit, 0.00% Miss, 0.00% Glancing, 6.52% Dodge, 14.04% Parry
-
-Average stats for [Revenge] : 7.30 DPS (1.21%) / 63.00 TPS (4.90%)
-	Average of 569.67 threat for 9.95 uses (or 1 use every 9.04s)
-	Average of 65.99 damage for 9.95 uses (or 1 use every 9.04s)
-	55.73% Hit, 23.81% Crit, 0.00% Miss, 0.00% Glancing, 6.47% Dodge, 13.99% Parry
-
-Average stats for [Heroic Strike] : 263.42 DPS (43.55%) / 518.76 TPS (40.35%)
-	Average of 900.30 threat for 51.86 uses (or 1 use every 1.74s)
-	Average of 457.17 damage for 51.86 uses (or 1 use every 1.74s)
-	55.73% Hit, 23.71% Crit, 0.00% Miss, 0.00% Glancing, 6.55% Dodge, 14.01% Parry
-
-Average stats for [Thunderfury] : 47.96 DPS (7.93%) / 130.24 TPS (10.13%)
-	Average of 648.97 threat for 18.06 uses (or 1 use every 4.98s)
-	Average of 239.00 damage for 18.06 uses (or 1 use every 4.98s)
-	83.11% Hit, 0.00% Crit, 16.89% Resist
+Weights by TPS :
+1 AP = 0.2820 TPS
+1 Str = 0.5640 TPS = 2.0000 AP
+1 Agi = 0.3627 TPS = 1.2862 AP
+1% Crit = 7.2543 TPS = 25.7240 AP
+1% Hit = 1.2277 TPS = 4.3533 AP
+1% Haste = 6.7140 TPS = 23.8082 AP
++1 MH DPS = 0.8634 TPS = 3.0618 AP
++1 OH DPS = 0.3264 TPS = 1.1573 AP
++1 MH Skill = 0.8968 TPS = 3.1801 AP
++1 OH Skill = 0.0000 TPS = 0.0000 AP
++5 MH Skill = 19.6691 TPS = 69.7472 AP
++5 OH Skill = 0.4992 TPS = 1.7702 AP

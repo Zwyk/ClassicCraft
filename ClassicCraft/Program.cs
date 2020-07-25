@@ -464,7 +464,7 @@ namespace ClassicCraft
 
                                 double currentPct = Math.Min(1, Math.Pow((100 - errorPct) / (100 - targetErrorPct), 1000)) * 100;
                                 GUISetProgress(done / simOrder.Count * 100 + currentPct);
-                                GUISetProgressText(String.Format("Simulating {0} DPS - {1:N2}% - {2}/{3}", simOrder[done], currentPct, done, statsWeights ? simOrder.Count : 1));
+                                GUISetProgressText(String.Format("Simulating {0} DPS - {2}/{3}", simOrder[done], currentPct, done + 1, statsWeights ? simOrder.Count : 1));
                                 
                                 OutputClear();
                                 Output(String.Format("Simulating {0} DPS, aiming for ±{1:N2}% precision...", simOrder[done], targetErrorPct));
@@ -491,6 +491,9 @@ namespace ClassicCraft
                     }
                     //Log(simOrder[done] + " : " + CurrentDpsList.Average());
                 }
+
+
+                GUISetProgress(100);
 
                 if (!logFight)
                 {
@@ -530,7 +533,6 @@ namespace ClassicCraft
 
                 if (statsWeights)
                 {
-                    GUISetProgress(0);
                     GUISetProgressText(String.Format("Generating Stats Weights..."));
 
                     double weightsDone = 0;
@@ -552,7 +554,6 @@ namespace ClassicCraft
                         Log(string.Format("1 Str = {0:N4} DPS = {1:N4} AP", strDif, strDif / apDif));
 
                         weightsDone += 1;
-                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+50 SP"))
                     {
@@ -562,7 +563,6 @@ namespace ClassicCraft
                         Log(string.Format("1 SP = {0:N4} DPS", apDif));
 
                         weightsDone += 1;
-                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+1% Crit"))
                     {
@@ -576,7 +576,6 @@ namespace ClassicCraft
                         Log(string.Format("1% Crit = {0:N4} DPS = {1:N4} AP", critDif, critDif / apDif));
 
                         weightsDone += 1;
-                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+1% Hit"))
                     {
@@ -586,7 +585,6 @@ namespace ClassicCraft
                         Log(string.Format("1% Hit = {0:N4} DPS = {1:N4} AP", hitDif, hitDif / apDif));
 
                         weightsDone += 1;
-                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+1% Haste"))
                     {
@@ -596,7 +594,6 @@ namespace ClassicCraft
                         Log(string.Format("1% Haste = {0:N4} DPS = {1:N4} AP", hasteDif, hasteDif / apDif));
 
                         weightsDone += 1;
-                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+1% SpellCrit"))
                     {
@@ -606,7 +603,6 @@ namespace ClassicCraft
                         Log(string.Format("1% SpellCrit = {0:N4} DPS = {1:N4} SP", critDif, critDif / apDif));
                         
                         weightsDone += 1;
-                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+1% SpellHit"))
                     {
@@ -616,7 +612,6 @@ namespace ClassicCraft
                         Log(string.Format("1% SpellHit = {0:N4} DPS = {1:N4} SP", hitDif, hitDif / apDif));
 
                         weightsDone += 1;
-                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+50 Int"))
                     {
@@ -627,7 +622,6 @@ namespace ClassicCraft
                         Log(string.Format("1 Int = {0:N4} DPS = {1:N4} {2}", intDif, intDif / apDif, comp));
 
                         weightsDone += 1;
-                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+50 Spi"))
                     {
@@ -638,7 +632,6 @@ namespace ClassicCraft
                         Log(string.Format("1 Spi = {0:N4} DPS = {1:N4} {2}", spiDif, spiDif / apDif, comp));
 
                         weightsDone += 1;
-                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+30 MP5"))
                     {
@@ -649,7 +642,6 @@ namespace ClassicCraft
                         Log(string.Format("1 MP5 = {0:N4} DPS = {1:N4} {2}", mp5Dif, mp5Dif / apDif, comp));
 
                         weightsDone += 1;
-                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+10 DPS MH"))
                     {
@@ -659,7 +651,6 @@ namespace ClassicCraft
                         Log(string.Format("+1 MH DPS = {0:N4} DPS = {1:N4} AP", mhDif, mhDif / apDif));
 
                         weightsDone += 1;
-                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+10 DPS OH"))
                     {
@@ -669,7 +660,6 @@ namespace ClassicCraft
                         Log(string.Format("+1 OH DPS = {0:N4} DPS = {1:N4} AP", ohDif, ohDif / apDif));
 
                         weightsDone += 1;
-                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+1 MH Skill"))
                     {
@@ -679,7 +669,6 @@ namespace ClassicCraft
                         Log(string.Format("+1 MH Skill = {0:N4} DPS = {1:N4} AP", mhSkillDif, mhSkillDif / apDif));
 
                         weightsDone += 1;
-                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+1 OH Skill"))
                     {
@@ -689,7 +678,6 @@ namespace ClassicCraft
                         Log(string.Format("+1 OH Skill = {0:N4} DPS = {1:N4} AP", ohSkillDif, ohSkillDif / apDif));
 
                         weightsDone += 1;
-                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+5 MH Skill"))
                     {
@@ -699,7 +687,6 @@ namespace ClassicCraft
                         Log(string.Format("+5 MH Skill = {0:N4} DPS = {1:N4} AP", mhSkillDif, mhSkillDif / apDif));
 
                         weightsDone += 1;
-                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
                     if (simOrder.Contains("+5 OH Skill"))
                     {
@@ -709,7 +696,6 @@ namespace ClassicCraft
                         Log(string.Format("+5 OH Skill = {0:N4} DPS = {1:N4} AP", ohSkillDif, ohSkillDif / apDif));
 
                         weightsDone += 1;
-                        GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                     }
 
                     if (jsonSim.Tanking)
@@ -731,7 +717,6 @@ namespace ClassicCraft
                             Log(string.Format("1 Str = {0:N4} TPS = {1:N4} AP", strDif, strDif / apDif));
 
                             weightsDone += 1;
-                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+1% Crit"))
                         {
@@ -745,7 +730,6 @@ namespace ClassicCraft
                             Log(string.Format("1% Crit = {0:N4} TPS = {1:N4} AP", critDif, critDif / apDif));
 
                             weightsDone += 1;
-                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+1% Hit"))
                         {
@@ -755,7 +739,6 @@ namespace ClassicCraft
                             Log(string.Format("1% Hit = {0:N4} TPS = {1:N4} AP", hitDif, hitDif / apDif));
 
                             weightsDone += 1;
-                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+1% Haste"))
                         {
@@ -765,7 +748,6 @@ namespace ClassicCraft
                             Log(string.Format("1% Haste = {0:N4} TPS = {1:N4} AP", hasteDif, hasteDif / apDif));
 
                             weightsDone += 1;
-                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+50 Int"))
                         {
@@ -775,7 +757,6 @@ namespace ClassicCraft
                             Log(string.Format("1 Int = {0:N4} TPS = {1:N4} AP", intDif, intDif / apDif));
 
                             weightsDone += 1;
-                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+50 Spi"))
                         {
@@ -785,7 +766,6 @@ namespace ClassicCraft
                             Log(string.Format("1 Spi = {0:N4} TPS = {1:N4} AP", spiDif, spiDif / apDif));
 
                             weightsDone += 1;
-                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+10 DPS MH"))
                         {
@@ -795,7 +775,6 @@ namespace ClassicCraft
                             Log(string.Format("+1 MH DPS = {0:N4} TPS = {1:N4} AP", mhDif, mhDif / apDif));
 
                             weightsDone += 1;
-                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+10 DPS OH"))
                         {
@@ -805,7 +784,6 @@ namespace ClassicCraft
                             Log(string.Format("+1 OH DPS = {0:N4} TPS = {1:N4} AP", ohDif, ohDif / apDif));
 
                             weightsDone += 1;
-                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+1 MH Skill"))
                         {
@@ -815,7 +793,6 @@ namespace ClassicCraft
                             Log(string.Format("+1 MH Skill = {0:N4} TPS = {1:N4} AP", mhSkillDif, mhSkillDif / apDif));
 
                             weightsDone += 1;
-                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+1 OH Skill"))
                         {
@@ -825,7 +802,6 @@ namespace ClassicCraft
                             Log(string.Format("+1 OH Skill = {0:N4} TPS = {1:N4} AP", ohSkillDif, ohSkillDif / apDif));
 
                             weightsDone += 1;
-                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+5 MH Skill"))
                         {
@@ -835,7 +811,6 @@ namespace ClassicCraft
                             Log(string.Format("+5 MH Skill = {0:N4} TPS = {1:N4} AP", mhSkillDif, mhSkillDif / apDif));
 
                             weightsDone += 1;
-                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                         if (simOrder.Contains("+5 OH Skill"))
                         {
@@ -845,13 +820,11 @@ namespace ClassicCraft
                             Log(string.Format("+5 OH Skill = {0:N4} TPS = {1:N4} AP", ohSkillDif, ohSkillDif / apDif));
 
                             weightsDone += 1;
-                            GUISetProgress(weightsDone / (simOrder.Count * (jsonSim.Tanking ? 2 : 1)) * 100);
                         }
                     }
                 }
                 else if (nbSim >= 1)
                 {
-                    GUISetProgress(0);
                     GUISetProgressText(String.Format("Generating Fight Stats..."));
 
                     double avgDps = CurrentDpsList.Average();
@@ -938,7 +911,6 @@ namespace ClassicCraft
                         }
 
                         statsDone++;
-                        GUISetProgress(statsDone / statsTotal * 100);
                     }
 
                     foreach (string ac in logListEffects)
@@ -959,12 +931,10 @@ namespace ClassicCraft
                         }
 
                         statsDone++;
-                        GUISetProgress(statsDone / statsTotal * 100);
                     }
                 }
 
                 GUISetProgressText(String.Format("Writting logs.."));
-                GUISetProgress(100);
 
                 if (!debug)
                 {

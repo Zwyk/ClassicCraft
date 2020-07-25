@@ -1,0 +1,18 @@
+{
+  "DamageMin": 1.0,
+  "DamageMax": 2.0,
+  "Speed": 1.0,
+  "TwoHanded": false,
+  "Type": "Bow",
+  "Buff": null,
+  "School": "Physical",
+  "Name": "Ranged",
+  "Id": 0,
+  "Slot": "Ranged",
+  "Stats": {},
+  "Enchantment": {
+    "Id": 0,
+    "Name": "Enchantment",
+    "Stats": {}
+  }
+}
