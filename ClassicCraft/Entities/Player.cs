@@ -155,7 +155,7 @@ namespace ClassicCraft
                 case "Shoulders": return Slot.Shoulders;
                 case "Back": return Slot.Back;
                 case "Chest": return Slot.Chest;
-                case "Wrist": return Slot.Wrists;
+                case "Wrists": return Slot.Wrists;
                 case "Hands": return Slot.Hands;
                 case "Waist": return Slot.Waist;
                 case "Legs": return Slot.Legs;
@@ -180,7 +180,7 @@ namespace ClassicCraft
                 case Slot.Shoulders: return "Shoulders";
                 case Slot.Back: return "Back";
                 case Slot.Chest: return "Chest";
-                case Slot.Wrists: return "Wrist";
+                case Slot.Wrists: return "Wrists";
                 case Slot.Hands: return "Hands";
                 case Slot.Waist: return "Waist";
                 case Slot.Legs: return "Legs";

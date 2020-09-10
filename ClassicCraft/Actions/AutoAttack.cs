@@ -111,12 +111,11 @@ namespace ClassicCraft
                     Player.Form == Player.Forms.Cat ? Player.Level * 1.25 + (Player.AP + Player.nextAABonus) / 14 :
                     (Player.Form == Player.Forms.Bear ? Player.Level * 1.25 + 2.5 * (Player.AP + Player.nextAABonus) / 14 :
                     (Weapon.DamageMax + Weapon.Speed * (Player.AP + Player.nextAABonus) / 14)));
-
                 damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
                     * Player.Sim.DamageMod(res, Weapon.School, MH, true)
                     * Simulation.ArmorMitigation(Player.Sim.Boss.Armor)
                     * Player.DamageMod
-                    * (Player.DualWielding ? (MH ? 1 : 0.5 * (1 + (0.05 * Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Player.GetTalentPoints("2HS")))
+                    * (Player.DualWielding ? (MH ? 1 : 0.5 * (1 + ((Player.Class == Player.Classes.Rogue ? 0.1 : 0.05) * Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Player.GetTalentPoints("2HS")))
                     * mitigation
                     );
             }

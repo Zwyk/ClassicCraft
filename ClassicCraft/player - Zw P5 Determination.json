@@ -1,8 +1,8 @@
 {
   "Class": "Warrior",
   "Level": 60,
-  "Class": "Rogue",
-  "Talents": "005323105-3203052000050150231",
+  "Race": "Orc",
+  "Talents": "2-05050005505010051-5023011050",
   "Cooldowns": {
     "Racial": false,
     "Death Wish": true,
@@ -110,7 +110,7 @@
       "Buff": null,
       "School": null,
       "Name": "Thunderfury",
-      "Id": 7,
+      "Id": 0,
       "Slot": "Weapon",
       "Stats": {
         "Agi": 5.0
@@ -118,7 +118,7 @@
       "Enchantment": {
         "Id": 0,
         "Name": "Crusader",
-        "Slot": "Weapon",
+        "Slot": null,
         "Stats": {}
       }
     },
@@ -131,15 +131,15 @@
       "Buff": null,
       "School": null,
       "Name": "Crul",
-      "Id": 5,
+      "Id": 0,
       "Slot": "Weapon",
       "Stats": {
         "AP": 36.0
       },
       "Enchantment": {
-        "Id": 1,
-        "Name": "Crusader (1)",
-        "Slot": "Weapon",
+        "Id": 0,
+        "Name": "Crusader",
+        "Slot": null,
         "Stats": {}
       }
     },
@@ -152,51 +152,66 @@
       "Buff": null,
       "School": null,
       "Name": "Doom",
-      "Id": 6,
-      "Slot": "Ranged",
+      "Id": 0,
+      "Slot": "Weapon",
       "Stats": {
         "Hit": 1.0,
-        "Agi": 7.0,
-        "Str": 5.0
+        "Agi": 7,
+        "Str": 5
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Slot": null,
+        "Stats": {}
+      }
     }
   },
   "Equipment": {
     "Head": {
       "Name": "T2.5",
       "Id": 0,
-      "Slot": "Head",
+      "Slot": null,
       "Stats": {
         "Str": 29.0,
         "Agi": 18.0
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Slot": null,
+        "Stats": {}
+      }
     },
     "Neck": {
       "Name": "Ony",
-      "Id": 1,
-      "Slot": "Neck",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
         "Hit": 1.0,
         "Crit": 1.0,
-        "Agi": 12.0
+        "Agi": 12,
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Slot": null,
+        "Stats": {}
+      }
     },
     "Shoulders": {
       "Name": "T.25",
-      "Id": 2,
-      "Slot": "Shoulders",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
         "Str": 20.0,
         "Agi": 16.0,
         "Hit": 1.0
       },
       "Enchantment": {
-        "Id": 4,
+        "Id": 0,
         "Name": "ZG",
-        "Slot": "Shoulders",
+        "Slot": null,
         "Stats": {
           "AP": 30.0
         }
@@ -204,33 +219,33 @@
     },
     "Back": {
       "Name": "Fallen God",
-      "Id": 3,
-      "Slot": "Back",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
         "Agi": 26.0,
         "Str": 11.0
       },
       "Enchantment": {
-        "Id": 5,
+        "Id": 0,
         "Name": "Lesser Agility",
-        "Slot": "Back",
+        "Slot": null,
         "Stats": {
           "Agi": 3.0
         }
       }
     },
     "Chest": {
-      "Name": "T2.5 (1)",
-      "Id": 4,
-      "Slot": "Chest",
+      "Name": "T2.5",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
         "Str": 34.0,
         "Agi": 24.0
       },
       "Enchantment": {
-        "Id": 6,
+        "Id": 0,
         "Name": "Greater Stats",
-        "Slot": "Chest",
+        "Slot": null,
         "Stats": {
           "Str": 4.0,
           "Agi": 4.0,
@@ -241,17 +256,17 @@
     },
     "Wrists": {
       "Name": "Qiraji",
-      "Id": 5,
-      "Slot": "Wrists",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
         "Str": 15.0,
         "Agi": 16.0,
         "Hit": 1.0
       },
       "Enchantment": {
-        "Id": 7,
+        "Id": 0,
         "Name": "Superior Strength",
-        "Slot": "Wrists",
+        "Slot": null,
         "Stats": {
           "Str": 9.0
         }
@@ -259,16 +274,16 @@
     },
     "Hands": {
       "Name": "Determ",
-      "Id": 6,
-      "Slot": "Hands",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
         "Str": 19.0,
         "Agi": 18.0
       },
       "Enchantment": {
-        "Id": 8,
+        "Id": 0,
         "Name": "Agi",
-        "Slot": "Hands",
+        "Slot": null,
         "Stats": {
           "Agi": 15.0
         }
@@ -276,74 +291,109 @@
     },
     "Waist": {
       "Name": "Girdle",
-      "Id": 7,
-      "Slot": "Waist",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
         "Str": 31.0,
         "Hit": 1.0,
         "Crit": 1.0
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Slot": null,
+        "Stats": {}
+      }
     },
     "Legs": {
-      "Name": "T2.5 (2)",
-      "Id": 8,
-      "Slot": "Legs",
+      "Name": "T2.5",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
         "Str": 33.0,
         "Agi": 21.0,
         "Hit": 1.0
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Slot": null,
+        "Stats": {}
+      }
     },
     "Feet": {
-      "Name": "T2.5 (3)",
-      "Id": 9,
-      "Slot": "Feet",
+      "Name": "T2.5",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
         "Str": 21.0,
         "Agi": 17.0
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Slot": null,
+        "Stats": {}
+      }
     },
     "Finger1": {
       "Name": "AQ",
-      "Id": 10,
-      "Slot": "Finger",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
         "Agi": 24.0,
         "Hit": 1.0
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Slot": null,
+        "Stats": {}
+      }
     },
     "Finger2": {
-      "Name": "Qiraji (1)",
-      "Id": 11,
-      "Slot": "Finger",
+      "Name": "Qiraji",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
         "AP": 40.0,
         "Crit": 1.0
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Slot": null,
+        "Stats": {}
+      }
     },
     "Trinket1": {
       "Name": "Hand of Justice",
-      "Id": 12,
-      "Slot": "Trinket",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
         "AP": 20.0
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Slot": null,
+        "Stats": {}
+      }
     },
     "Trinket2": {
       "Name": "DFT",
-      "Id": 13,
-      "Slot": "Trinket",
+      "Id": 0,
+      "Slot": null,
       "Stats": {
         "AP": 56.0,
         "Hit": 2.0
       },
-      "Enchantment": null
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Enchantment",
+        "Slot": null,
+        "Stats": {}
+      }
     }
   }
 }

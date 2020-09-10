@@ -1,0 +1,11 @@
+{
+  "Name": "Girdle",
+  "Id": 7,
+  "Slot": "Waist",
+  "Stats": {
+    "Str": 31.0,
+    "Hit": 1.0,
+    "Crit": 1.0
+  },
+  "Enchantment": null
+}

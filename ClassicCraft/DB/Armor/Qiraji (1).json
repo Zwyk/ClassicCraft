@@ -1,0 +1,10 @@
+{
+  "Name": "Qiraji (1)",
+  "Id": 11,
+  "Slot": "Finger",
+  "Stats": {
+    "AP": 40.0,
+    "Crit": 1.0
+  },
+  "Enchantment": null
+}

@@ -1,45 +1,37 @@
-Date : 2020/07/24 19:06:52
+Date : 2020/09/10 00:20:12
 
 Fight length : 90 seconds (±30%)
 
 Player :
-Orc Warrior level 60 | Stats : [Strength:461][Agility:314][Stamina:112][Intellect:31][Spirit:52][Health:2629][Mana:0][AP:1719][RangedAP:2347][CritChance:26.7][HitChance:9][Haste:0][SpellHitChance:0][SpellCritChance:0][SkillDagger:0][SkillSword:0][SkillAxe:0]
-Main weapon : Sword with 300 skill
+Orc Rogue level 60 | Stats : [Strength:405][Agility:394][Stamina:77][Intellect:36][Spirit:57][Health:2113][Mana:0][AP:1453][RangedAP:2241][CritChance:23.59][HitChance:14][Haste:0][SpellHitChance:0][SpellCritChance:0][SkillDagger:5][SkillSword:10][SkillAxe:0]
+Main weapon : Sword with 310 skill
 
 Boss (after raid debuffs) :
 Level 63, 336 Armor (5.76% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
 
-21586 simulations done in 22 032.78 ms, for 1.02 ms by sim
-Overall accuracy of results : ±0.34%
+10049 simulations done in 5,695.68 ms, for 0.57 ms by sim
+Overall accuracy of results : ±0.19%
+Average TPS : 275.12 tps (±0.28)
+Average DPS : 261.24 dps (±0.25)
 
-Base : 619.53 DPS
+Average stats for [AA MH] : 138.93 DPS (53.18%) / 138.93 TPS (50.50%)
+	Average of 247.87 threat for 50.44 uses (or 1 use every 1.78s)
+	Average of 247.87 damage for 50.44 uses (or 1 use every 1.78s)
+	7.69% Hit, 20.46% Crit, 13.16% Miss, 40.13% Glancing, 5.55% Dodge, 13.01% Parry
+Average Glancing damage : 271.36
 
-Weights by DPS :
-1 AP = 0.1941 DPS
-1 Str = 0.3882 DPS = 2.0000 AP
-1 Agi = 0.2557 DPS = 1.3173 AP
-1% Crit = 5.1140 DPS = 26.3458 AP
-1% Hit = 1.0267 DPS = 5.2894 AP
-1% Haste = 3.2195 DPS = 16.5859 AP
-+1 MH DPS = 0.5900 DPS = 3.0393 AP
-+1 OH DPS = 0.2353 DPS = 1.2120 AP
-+1 MH Skill = 0.5245 DPS = 2.7020 AP
-+1 OH Skill = 0.0000 DPS = 0.0000 AP
-+5 MH Skill = 12.4438 DPS = 64.1063 AP
-+5 OH Skill = 0.5494 DPS = 2.8303 AP
+Average stats for [AA OH] : 98.23 DPS (37.60%) / 98.23 TPS (35.70%)
+	Average of 223.20 threat for 39.61 uses (or 1 use every 2.27s)
+	Average of 223.20 damage for 39.61 uses (or 1 use every 2.27s)
+	6.27% Hit, 20.48% Crit, 13.61% Miss, 40.03% Glancing, 6.08% Dodge, 13.53% Parry
+Average Glancing damage : 233.41
 
-Base : 1 307.89 TPS
+Average stats for [Instant Poison] : 6.30 DPS (2.41%) / 6.30 TPS (2.29%)
+	Average of 107.75 threat for 5.26 uses (or 1 use every 17.11s)
+	Average of 107.75 damage for 5.26 uses (or 1 use every 17.11s)
+	82.84% Hit, 0.00% Crit, 17.16% Resist
 
-Weights by TPS :
-1 AP = 0.2820 TPS
-1 Str = 0.5640 TPS = 2.0000 AP
-1 Agi = 0.3627 TPS = 1.2862 AP
-1% Crit = 7.2543 TPS = 25.7240 AP
-1% Hit = 1.2277 TPS = 4.3533 AP
-1% Haste = 6.7140 TPS = 23.8082 AP
-+1 MH DPS = 0.8634 TPS = 3.0618 AP
-+1 OH DPS = 0.3264 TPS = 1.1573 AP
-+1 MH Skill = 0.8968 TPS = 3.1801 AP
-+1 OH Skill = 0.0000 TPS = 0.0000 AP
-+5 MH Skill = 19.6691 TPS = 69.7472 AP
-+5 OH Skill = 0.4992 TPS = 1.7702 AP
+Average stats for [Thunderfury] : 17.71 DPS (6.78%) / 31.58 TPS (11.48%)
+	Average of 444.87 threat for 6.39 uses (or 1 use every 14.09s)
+	Average of 249.43 damage for 6.39 uses (or 1 use every 14.09s)
+	83.14% Hit, 0.00% Crit, 16.86% Resist

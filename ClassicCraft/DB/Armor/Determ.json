@@ -1,0 +1,10 @@
+{
+  "Name": "Determ",
+  "Id": 6,
+  "Slot": "Hands",
+  "Stats": {
+    "Str": 19.0,
+    "Agi": 18.0
+  },
+  "Enchantment": null
+}

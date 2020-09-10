@@ -1,0 +1,10 @@
+{
+  "Name": "Fallen God",
+  "Id": 3,
+  "Slot": "Back",
+  "Stats": {
+    "Agi": 26.0,
+    "Str": 11.0
+  },
+  "Enchantment": null
+}

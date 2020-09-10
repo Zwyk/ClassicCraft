@@ -211,16 +211,16 @@ namespace ClassicCraft
             }
         }
 
-        public static void SaveJsons()
+        public static void SaveJsons(bool player = true, bool sim = true)
         {
             try
             {
-                File.WriteAllText(debug ? Path.Combine(debugPath, simJsonFileName) : simJsonFileName, JsonConvert.SerializeObject(jsonSim, Formatting.Indented));
-                File.WriteAllText(debug ? Path.Combine(debugPath, playerJsonFileName) : playerJsonFileName, JsonConvert.SerializeObject(jsonPlayer, Formatting.Indented));
+                if(sim) File.WriteAllText(debug ? Path.Combine(debugPath, simJsonFileName) : simJsonFileName, JsonConvert.SerializeObject(jsonSim, Formatting.Indented));
+                if(player) File.WriteAllText(debug ? Path.Combine(debugPath, playerJsonFileName) : playerJsonFileName, JsonConvert.SerializeObject(jsonPlayer, Formatting.Indented));
             }
             catch (Exception e)
             {
-                Output("Json loading failed :\n" + e);
+                Output("Json saving failed :\n" + e);
             }
         }
 
@@ -464,10 +464,10 @@ namespace ClassicCraft
 
                                 double currentPct = Math.Min(1, Math.Pow((100 - errorPct) / (100 - targetErrorPct), 1000)) * 100;
                                 GUISetProgress(done / simOrder.Count * 100 + currentPct);
-                                GUISetProgressText(String.Format("Simulating {0} DPS - {2}/{3}", simOrder[done], currentPct, done + 1, statsWeights ? simOrder.Count : 1));
+                                GUISetProgressText(String.Format("Simulating {0} - {2}/{3}", simOrder[done], currentPct, done + 1, statsWeights ? simOrder.Count : 1));
                                 
                                 OutputClear();
-                                Output(String.Format("Simulating {0} DPS, aiming for ±{1:N2}% precision...", simOrder[done], targetErrorPct));
+                                Output(String.Format("Simulating {0}, aiming for ±{1:N2}% precision...", simOrder[done], targetErrorPct));
                                 Output(String.Format("Sims done : {0:N0}", CurrentDpsList.Count));
                                 Output(String.Format("Sims running : {0:N0}", tasks.Count(t => !t.IsCompleted)));
                                 Output(String.Format("Current precision : ±{0:N2}%", errorPct));

@@ -1,0 +1,10 @@
+{
+  "Name": "AQ",
+  "Id": 10,
+  "Slot": "Finger",
+  "Stats": {
+    "Agi": 24.0,
+    "Hit": 1.0
+  },
+  "Enchantment": null
+}

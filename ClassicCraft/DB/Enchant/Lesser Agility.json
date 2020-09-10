@@ -1,0 +1,8 @@
+{
+  "Id": 5,
+  "Name": "Lesser Agility",
+  "Slot": "Back",
+  "Stats": {
+    "Agi": 3.0
+  }
+}

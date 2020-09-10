@@ -1,0 +1,16 @@
+{
+  "DamageMin": 101.0,
+  "DamageMax": 188.0,
+  "Speed": 2.3,
+  "TwoHanded": false,
+  "Type": "Axe",
+  "Buff": null,
+  "School": null,
+  "Name": "Crul",
+  "Id": 5,
+  "Slot": "Weapon",
+  "Stats": {
+    "AP": 36.0
+  },
+  "Enchantment": null
+}

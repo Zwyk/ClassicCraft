@@ -1,10 +1,10 @@
 {
   "Name": "T2.5",
   "Id": 0,
-  "Slot": "Shoulders",
+  "Slot": "Head",
   "Stats": {
-    "Str": 20.0,
-    "Agi": 16.0,
-    "Hit": 1.0
-  }
+    "Str": 29.0,
+    "Agi": 18.0
+  },
+  "Enchantment": null
 }

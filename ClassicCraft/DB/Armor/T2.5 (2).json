@@ -1,0 +1,11 @@
+{
+  "Name": "T2.5 (2)",
+  "Id": 8,
+  "Slot": "Legs",
+  "Stats": {
+    "Str": 33.0,
+    "Agi": 21.0,
+    "Hit": 1.0
+  },
+  "Enchantment": null
+}

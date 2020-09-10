@@ -1,12 +1,11 @@
 {
-  "Id": 0,
-  "Name": "+4 All Stats",
+  "Id": 6,
+  "Name": "Greater Stats",
   "Slot": "Chest",
   "Stats": {
     "Str": 4.0,
     "Agi": 4.0,
     "Int": 4.0,
-    "Spi": 4.0,
-    "Sta": 4.0
+    "Spi": 4.0
   }
 }

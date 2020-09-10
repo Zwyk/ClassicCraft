@@ -39,18 +39,17 @@ namespace ClassicCraftGUI
         public static string ENCHANTS_FOLDER = "Enchant";
 
         public List<JsonUtil.JsonItem> jsonItems = new List<JsonUtil.JsonItem>();
-        public List<string> itemsFileNames = new List<string>();
+        public Dictionary<JsonUtil.JsonItem, string> itemsFileNames = new Dictionary<JsonUtil.JsonItem, string>();
         public int selectedItemIndex = 0;
+        public Dictionary<Player.Slot, List<JsonUtil.JsonItem>> itemsByPlayerSlot = new Dictionary<Player.Slot, List<JsonUtil.JsonItem>>();
 
         public List<JsonUtil.JsonWeapon> jsonWeapons = new List<JsonUtil.JsonWeapon>();
-        public List<string> weaponsFileNames = new List<string>();
+        public Dictionary<JsonUtil.JsonWeapon, string> weaponsFileNames = new Dictionary<JsonUtil.JsonWeapon, string>();
         public int selectedWeaponIndex = 0;
 
         public List<JsonUtil.JsonEnchantment> jsonEnchants = new List<JsonUtil.JsonEnchantment>();
-        public List<string> enchantsFileNames = new List<string>();
+        public Dictionary<JsonUtil.JsonEnchantment, string> enchantsFileNames = new Dictionary<JsonUtil.JsonEnchantment, string>();
         public int selectedEnchantIndex = 0;
-
-        public Dictionary<Player.Slot, List<JsonUtil.JsonItem>> itemsByPlayerSlot = new Dictionary<Player.Slot, List<JsonUtil.JsonItem>>();
         public Dictionary<Player.Slot, List<JsonUtil.JsonEnchantment>> enchantsByPlayerSlot = new Dictionary<Player.Slot, List<JsonUtil.JsonEnchantment>>();
 
         public static MainWindow main;
@@ -67,12 +66,12 @@ namespace ClassicCraftGUI
             System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
             customCulture.NumberFormat.NumberDecimalSeparator = ".";
             System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
-
+            
             InitializeComponent();
             main = this;
             
             ConsoleTabControl.Items.Remove(ConsoleEmpty);
-
+            
             PopulateSlotLists();
             LoadDB();
             Program.LoadConfigJsons();
@@ -82,11 +81,47 @@ namespace ClassicCraftGUI
             LoadSimConfig();
             LoadPlayer();
 
+            SavePlayer();
+
             DataObject.AddPastingHandler(Talents, Talents_OnPaste);
 
             ItemsList.SelectedIndex = 0;
             WeaponsList.SelectedIndex = 0;
             EnchantsList.SelectedIndex = 0;
+        }
+
+        private class Human
+        {
+            public double Skill { get; set; }
+            public double Luck { get; set; }
+
+            public Human(double skill, double luck)
+            {
+                Skill = skill;
+                Luck = luck;
+            }
+
+            public override string ToString()
+            {
+                return string.Format("Skill : {0:N4}% | Luck : {1:N4}%", Skill*100, Luck*100);
+            }
+        }
+
+        private List<Human> GetTopHumans(int pool, int selectedPool, double luckPct)
+        {
+            List<Human> humans = new List<Human>();
+            for (int i = 0; i < pool; i++)
+            {
+                Human h = new Human(Randomer.NextDouble(), Randomer.NextDouble());
+                humans.Add(h);
+            }
+
+            return humans.OrderByDescending(h => HumanTotalScore(h, luckPct)).Take(selectedPool).ToList();
+        }
+
+        private double HumanTotalScore(Human h, double luckPct)
+        {
+            return h.Skill * (1 - luckPct) + h.Luck * luckPct;
         }
 
         private void Run(object sender, RoutedEventArgs e)
@@ -174,7 +209,8 @@ namespace ClassicCraftGUI
             sim.UnlimitedMana = UnlimitedMana.IsChecked == true;
             sim.UnlimitedResource = UnlimitedResource.IsChecked == true;
 
-            Program.SaveJsons();
+            Program.jsonSim = sim;
+            Program.SaveJsons(false, true);
         }
 
         #endregion
@@ -187,7 +223,28 @@ namespace ClassicCraftGUI
             Class.SelectedIndex = GetComboBoxIndexWithString(Class, player.Class);
             Talents.Text = player.Talents;
 
-            
+            foreach (string slot in player.Weapons.Keys)
+            {
+                JsonUtil.JsonWeapon weapon = player.Weapons[slot];
+                LoadPlayerWeapon(weapon, slot);
+                PlayerSlotToComboBox(Player.ToSlot(slot)).SelectedValue = weapon.Name;
+                if (weapon.Enchantment != null)
+                {
+                    LoadPlayerEnchant(weapon.Enchantment, slot);
+                    if (PlayerEnchantSlotToComboBox(Player.ToSlot(slot)) != null) PlayerEnchantSlotToComboBox(Player.ToSlot(slot)).SelectedValue = weapon.Enchantment.Name;
+                }
+            }
+            foreach (string slot in player.Equipment.Keys)
+            {
+                JsonUtil.JsonItem item = player.Equipment[slot];
+                LoadPlayerItem(item, slot);
+                PlayerSlotToComboBox(Player.ToSlot(slot)).SelectedValue = item.Name;
+                if (item.Enchantment != null)
+                {
+                    LoadPlayerEnchant(item.Enchantment, slot);
+                    if (PlayerEnchantSlotToComboBox(Player.ToSlot(slot)) != null) PlayerEnchantSlotToComboBox(Player.ToSlot(slot)).SelectedValue = item.Enchantment.Name;
+                }
+            }
         }
 
         private void SavePlayerClick(object sender, RoutedEventArgs e)
@@ -200,8 +257,9 @@ namespace ClassicCraftGUI
             player.Race = Race.Text;
             player.Class = Class.Text;
             player.Talents = Talents.Text;
-
-            Program.SaveJsons();
+            
+            Program.jsonPlayer = player;
+            Program.SaveJsons(true, false);
         }
 
         #endregion
@@ -247,8 +305,18 @@ namespace ClassicCraftGUI
                 foreach (string s in Directory.GetFiles(System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ARMOR_ITEMS_FOLDER), "*.json"))
                 {
                     JsonUtil.JsonItem item = JsonConvert.DeserializeObject<JsonUtil.JsonItem>(File.ReadAllText(s));
+                    
+                    if (jsonItems.Any(it => it.Id == item.Id))
+                    {
+                        item.Id = jsonItems.Max(it => it.Id) + 1;
+
+                        string path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ARMOR_ITEMS_FOLDER, s);
+
+                        File.WriteAllText(path, JsonConvert.SerializeObject(item, Newtonsoft.Json.Formatting.Indented));
+                    }
+
                     AddJsonItem(item);
-                    itemsFileNames.Add(System.IO.Path.GetFileNameWithoutExtension(s));
+                    itemsFileNames[item] = System.IO.Path.GetFileNameWithoutExtension(s);
                     ItemsList.Items.Add(item.Name);
                 }
             }
@@ -260,34 +328,55 @@ namespace ClassicCraftGUI
 
         private void SaveItemClick(object sender, RoutedEventArgs e)
         {
-            SaveItem();
+            if (CurrentItem().Name != ItemName.Text)
+            {
+                string name = ItemName.Text;
+                if (CollectionContainsString(ItemsList.Items, name))
+                {
+                    int i = 1;
+                    string currentName;
+                    do
+                    {
+                        currentName = name + " (" + i + ")";
+                        i++;
+                    }
+                    while (CollectionContainsString(ItemsList.Items, currentName));
+
+                    ItemName.Text = currentName;
+                }
+            }
+
+            SaveCurrentItem();
         }
 
-        private void SaveItem()
+        private void SaveCurrentItem()
         {
             JsonUtil.JsonItem item = UpdateCurrentItem();
 
             string path;
-            if (itemsFileNames[selectedItemIndex] != null)
+            if (itemsFileNames[item] != null)
             {
-                path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ARMOR_ITEMS_FOLDER, itemsFileNames[selectedItemIndex] + ".json");
+                path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ARMOR_ITEMS_FOLDER, itemsFileNames[item] + ".json");
 
 
                 if (ItemsList.Items[selectedItemIndex].ToString() != ItemName.Text)
                 {
                     File.Delete(path);
 
-                    itemsFileNames[selectedItemIndex] = UnusedFileNameFromString(ItemName.Text);
-                    path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ARMOR_ITEMS_FOLDER, itemsFileNames[selectedItemIndex] + ".json");
+                    itemsFileNames[item] = UnusedFileNameFromString(ItemName.Text);
+                    path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ARMOR_ITEMS_FOLDER, itemsFileNames[item] + ".json");
                 }
             }
             else
             {
-                itemsFileNames[selectedItemIndex] = UnusedFileNameFromString(ItemName.Text);
-                path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ARMOR_ITEMS_FOLDER, itemsFileNames[selectedItemIndex] + ".json");
+                itemsFileNames[item] = UnusedFileNameFromString(ItemName.Text);
+                path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ARMOR_ITEMS_FOLDER, itemsFileNames[item] + ".json");
             }
 
-            File.WriteAllText(path, JsonConvert.SerializeObject(CurrentItem(), Newtonsoft.Json.Formatting.Indented));
+            JsonUtil.JsonEnchantment e = item.Enchantment;
+            item.Enchantment = null;
+            File.WriteAllText(path, JsonConvert.SerializeObject(item, Newtonsoft.Json.Formatting.Indented));
+            item.Enchantment = e;
 
             jsonItems[selectedItemIndex] = item;
             ItemsList.Items[selectedItemIndex] = ItemName.Text;
@@ -344,13 +433,13 @@ namespace ClassicCraftGUI
 
         private void ItemsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ItemName.Text = ItemsList.Text;
-
             if (ItemsList.SelectedIndex != -1)
             {
                 selectedItemIndex = ItemsList.SelectedIndex;
 
                 JsonUtil.JsonItem item = CurrentItem();
+
+                ItemName.Text = item.Name;
 
                 ItemSlot.SelectedIndex = GetComboBoxIndexWithString(ItemSlot, item.Slot);
 
@@ -389,10 +478,61 @@ namespace ClassicCraftGUI
 
         }
 
+        private void LoadPlayerItem(JsonUtil.JsonItem item, string slot)
+        {
+            if (!jsonItems.Contains(item))
+            {
+                if (jsonItems.Any(e => e.Id == item.Id))
+                {
+                    List<JsonUtil.JsonItem> wes = jsonItems.Where(w => w.Id == item.Id && w.Name == item.Name && w.Slot == item.Slot && w.Stats.Count == item.Stats.Count
+                                                                    && !w.Stats.Except(item.Stats).Any()).ToList();
+                    JsonUtil.JsonItem we = wes.Count > 0 ? wes.First() : null;
+                    if (we != null)
+                    {
+                        JsonUtil.JsonEnchantment enc = item.Enchantment;
+                        item = we;
+                        item.Enchantment = enc;
+                        return;
+                    }
+                    else
+                    {
+                        item.Id = jsonItems.Max(e => e.Id) + 1;
+                    }
+                }
+
+                if (CollectionContainsString(ItemsList.Items, item.Name))
+                {
+                    int i = 1;
+                    string currentName;
+                    do
+                    {
+                        currentName = item.Name + " (" + i + ")";
+                        i++;
+                    }
+                    while (CollectionContainsString(ItemsList.Items, currentName));
+
+                    item.Name = currentName;
+                }
+                
+                if (item.Slot == null) item.Slot = StringPlayerSlotToSlot(slot);
+
+                itemsFileNames[item] = UnusedFileNameFromString(item.Name);
+                AddJsonItem(item);
+                ItemsList.Items.Add(item.Name);
+
+                JsonUtil.JsonEnchantment en = item.Enchantment;
+                item.Enchantment = null;
+                string path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ARMOR_ITEMS_FOLDER, itemsFileNames[item] + ".json");
+                File.WriteAllText(path, JsonConvert.SerializeObject(item, Newtonsoft.Json.Formatting.Indented));
+                item.Enchantment = en;
+            }
+        }
+
         private void NewItem(string name, string slot, Dictionary<string, double> attributes = null, JsonUtil.JsonEnchantment enchant = null)
         {
-            AddJsonItem(new JsonUtil.JsonItem(0, name, slot, attributes, enchant));
-            itemsFileNames.Add(null);
+            JsonUtil.JsonItem item = new JsonUtil.JsonItem(jsonItems.Max(it => it.Id) + 1, name, slot, attributes, enchant);
+            AddJsonItem(item);
+            itemsFileNames[item] = null;
 
             ItemsList.Items.Add(name);
 
@@ -401,13 +541,15 @@ namespace ClassicCraftGUI
 
         private void DeleteItemClick(object sender, RoutedEventArgs e)
         {
-            if (itemsFileNames[selectedItemIndex] != null)
+            JsonUtil.JsonItem item = jsonItems[selectedItemIndex];
+
+            if (itemsFileNames[item] != null)
             {
-                File.Delete(System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ARMOR_ITEMS_FOLDER, itemsFileNames[selectedItemIndex] + ".json"));
+                File.Delete(System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ARMOR_ITEMS_FOLDER, itemsFileNames[item] + ".json"));
             }
 
             RemoveJsonItem(jsonItems[selectedItemIndex]);
-            itemsFileNames.RemoveAt(selectedItemIndex);
+            itemsFileNames.Remove(item);
             ItemsList.Items.RemoveAt(selectedItemIndex);
 
             if (ItemsList.Items.Count > 0)
@@ -532,8 +674,18 @@ namespace ClassicCraftGUI
                 foreach (string s in Directory.GetFiles(System.IO.Path.Combine(Program.basePath(), DB_FOLDER, WEAPON_ITEMS_FOLDER), "*.json"))
                 {
                     JsonUtil.JsonWeapon weapon = JsonConvert.DeserializeObject<JsonUtil.JsonWeapon>(File.ReadAllText(s));
+
+                    if (jsonWeapons.Any(it => it.Id == weapon.Id))
+                    {
+                        weapon.Id = jsonWeapons.Max(it => it.Id) + 1;
+
+                        string path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, WEAPON_ITEMS_FOLDER, s);
+
+                        File.WriteAllText(path, JsonConvert.SerializeObject(weapon, Newtonsoft.Json.Formatting.Indented));
+                    }
+
                     AddJsonWeapon(weapon);
-                    weaponsFileNames.Add(System.IO.Path.GetFileNameWithoutExtension(s));
+                    weaponsFileNames[weapon] = System.IO.Path.GetFileNameWithoutExtension(s);
                     WeaponsList.Items.Add(weapon.Name);
                 }
             }
@@ -545,6 +697,24 @@ namespace ClassicCraftGUI
 
         private void SaveWeaponClick(object sender, RoutedEventArgs e)
         {
+            if (CurrentWeapon().Name != WeaponName.Text)
+            {
+                string name = WeaponName.Text;
+                if (CollectionContainsString(WeaponsList.Items, name))
+                {
+                    int i = 1;
+                    string currentName;
+                    do
+                    {
+                        currentName = name + " (" + i + ")";
+                        i++;
+                    }
+                    while (CollectionContainsString(WeaponsList.Items, currentName));
+
+                    WeaponName.Text = currentName;
+                }
+            }
+
             SaveWeapon();
         }
 
@@ -553,26 +723,29 @@ namespace ClassicCraftGUI
             JsonUtil.JsonWeapon weapon = UpdateCurrentWeapon();
 
             string path;
-            if (weaponsFileNames[selectedWeaponIndex] != null)
+            if (weaponsFileNames[weapon] != null)
             {
-                path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, WEAPON_ITEMS_FOLDER, weaponsFileNames[selectedWeaponIndex] + ".json");
+                path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, WEAPON_ITEMS_FOLDER, weaponsFileNames[weapon] + ".json");
 
 
                 if (WeaponsList.Items[selectedWeaponIndex].ToString() != WeaponName.Text)
                 {
                     File.Delete(path);
 
-                    weaponsFileNames[selectedWeaponIndex] = UnusedFileNameFromString(WeaponName.Text);
-                    path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, WEAPON_ITEMS_FOLDER, weaponsFileNames[selectedWeaponIndex] + ".json");
+                    weaponsFileNames[weapon] = UnusedFileNameFromString(WeaponName.Text);
+                    path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, WEAPON_ITEMS_FOLDER, weaponsFileNames[weapon] + ".json");
                 }
             }
             else
             {
-                weaponsFileNames[selectedWeaponIndex] = UnusedFileNameFromString(WeaponName.Text);
-                path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, WEAPON_ITEMS_FOLDER, weaponsFileNames[selectedWeaponIndex] + ".json");
+                weaponsFileNames[weapon] = UnusedFileNameFromString(WeaponName.Text);
+                path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, WEAPON_ITEMS_FOLDER, weaponsFileNames[weapon] + ".json");
             }
-
-            File.WriteAllText(path, JsonConvert.SerializeObject(CurrentWeapon(), Newtonsoft.Json.Formatting.Indented));
+            
+            JsonUtil.JsonEnchantment e = weapon.Enchantment;
+            weapon.Enchantment = null;
+            File.WriteAllText(path, JsonConvert.SerializeObject(weapon, Newtonsoft.Json.Formatting.Indented));
+            weapon.Enchantment = e;
 
             jsonWeapons[selectedWeaponIndex] = weapon;
             WeaponsList.Items[selectedWeaponIndex] = WeaponName.Text;
@@ -629,13 +802,13 @@ namespace ClassicCraftGUI
 
         private void WeaponsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            WeaponName.Text = WeaponsList.Text;
-
             if (WeaponsList.SelectedIndex != -1)
             {
                 selectedWeaponIndex = WeaponsList.SelectedIndex;
 
                 JsonUtil.JsonWeapon weapon = CurrentWeapon();
+
+                WeaponName.Text = weapon.Name;
 
                 WeaponType.SelectedIndex = GetComboBoxIndexWithString(WeaponType, weapon.Type);
                 TwoHanded.IsChecked = weapon.TwoHanded;
@@ -673,10 +846,62 @@ namespace ClassicCraftGUI
 
         }
 
+        private void LoadPlayerWeapon(JsonUtil.JsonWeapon weapon, string slot)
+        {
+            if (!jsonWeapons.Contains(weapon))
+            {
+                if (jsonWeapons.Any(e => e.Id == weapon.Id))
+                {
+                    List<JsonUtil.JsonWeapon> wes = jsonWeapons.Where(w => w.Id == weapon.Id && w.Name == weapon.Name && w.Slot == weapon.Slot && w.School == weapon.School
+                                                                    && w.Speed == weapon.Speed && w.TwoHanded == weapon.TwoHanded && w.Type == weapon.Type && w.Stats.Count == weapon.Stats.Count
+                                                                    && !w.Stats.Except(weapon.Stats).Any()).ToList();
+                    JsonUtil.JsonWeapon we = wes.Count > 0 ? wes.First() : null;
+                    if (we != null)
+                    {
+                        JsonUtil.JsonEnchantment enc = weapon.Enchantment;
+                        weapon = we;
+                        weapon.Enchantment = enc;
+                        return;
+                    }
+                    else
+                    {
+                        weapon.Id = jsonWeapons.Max(e => e.Id) + 1;
+                    }
+                }
+
+                if (CollectionContainsString(WeaponsList.Items, weapon.Name))
+                {
+                    int i = 1;
+                    string currentName;
+                    do
+                    {
+                        currentName = weapon.Name + " (" + i + ")";
+                        i++;
+                    }
+                    while (CollectionContainsString(WeaponsList.Items, currentName));
+
+                    weapon.Name = currentName;
+                }
+
+                if (weapon.Slot == null) weapon.Slot = StringPlayerSlotToSlot(slot);
+
+                weaponsFileNames[weapon] = UnusedFileNameFromString(weapon.Name);
+                AddJsonWeapon(weapon);
+                WeaponsList.Items.Add(weapon.Name);
+
+                JsonUtil.JsonEnchantment en = weapon.Enchantment;
+                weapon.Enchantment = null;
+                string path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, WEAPON_ITEMS_FOLDER, weaponsFileNames[weapon] + ".json");
+                File.WriteAllText(path, JsonConvert.SerializeObject(weapon, Newtonsoft.Json.Formatting.Indented));
+                weapon.Enchantment = en;
+            }
+        }
+
         private void NewWeapon(string name, bool twoHanded, string type, double dmgMin, double dmgMax, double speed, Dictionary<string, double> attributes = null, JsonUtil.JsonEnchantment enchant = null, JsonUtil.JsonEnchantment buffs = null)
         {
-            AddJsonWeapon(new JsonUtil.JsonWeapon(dmgMin, dmgMax, speed, twoHanded, type, 0, name, attributes, enchant, buffs));
-            weaponsFileNames.Add(null);
+            JsonUtil.JsonWeapon weapon = new JsonUtil.JsonWeapon(dmgMin, dmgMax, speed, twoHanded, type, jsonWeapons.Max(w => w.Id) + 1, name, attributes, enchant, buffs);
+            AddJsonWeapon(weapon);
+            weaponsFileNames[weapon] = null;
 
             WeaponsList.Items.Add(name);
 
@@ -685,13 +910,15 @@ namespace ClassicCraftGUI
 
         private void DeleteWeaponClick(object sender, RoutedEventArgs e)
         {
-            if (weaponsFileNames[selectedWeaponIndex] != null)
+            JsonUtil.JsonWeapon weapon = CurrentWeapon();
+
+            if (weaponsFileNames[weapon] != null)
             {
-                File.Delete(System.IO.Path.Combine(Program.basePath(), DB_FOLDER, WEAPON_ITEMS_FOLDER, weaponsFileNames[selectedWeaponIndex] + ".json"));
+                File.Delete(System.IO.Path.Combine(Program.basePath(), DB_FOLDER, WEAPON_ITEMS_FOLDER, weaponsFileNames[weapon] + ".json"));
             }
 
-            RemoveJsonWeapon(CurrentWeapon());
-            weaponsFileNames.RemoveAt(selectedWeaponIndex);
+            RemoveJsonWeapon(weapon);
+            weaponsFileNames.Remove(weapon);
             WeaponsList.Items.RemoveAt(selectedWeaponIndex);
 
             if (WeaponsList.Items.Count > 0)
@@ -863,8 +1090,18 @@ namespace ClassicCraftGUI
                 foreach (string s in Directory.GetFiles(System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ENCHANTS_FOLDER), "*.json"))
                 {
                     JsonUtil.JsonEnchantment enchant = JsonConvert.DeserializeObject<JsonUtil.JsonEnchantment>(File.ReadAllText(s));
+
+                    if (jsonEnchants.Any(it => it.Id == enchant.Id))
+                    {
+                        enchant.Id = jsonEnchants.Max(it => it.Id) + 1;
+
+                        string path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ENCHANTS_FOLDER, s);
+
+                        File.WriteAllText(path, JsonConvert.SerializeObject(enchant, Newtonsoft.Json.Formatting.Indented));
+                    }
+
                     AddJsonEnchant(enchant);
-                    enchantsFileNames.Add(System.IO.Path.GetFileNameWithoutExtension(s));
+                    enchantsFileNames[enchant] = System.IO.Path.GetFileNameWithoutExtension(s);
                     EnchantsList.Items.Add(enchant.Name);
                 }
             }
@@ -876,33 +1113,51 @@ namespace ClassicCraftGUI
 
         private void SaveEnchantClick(object sender, RoutedEventArgs e)
         {
-            SaveEnchant();
+            if (CurrentEnchant().Name != EnchantName.Text)
+            {
+                string name = EnchantName.Text;
+                if (CollectionContainsString(EnchantsList.Items, name))
+                {
+                    int i = 1;
+                    string currentName;
+                    do
+                    {
+                        currentName = name + " (" + i + ")";
+                        i++;
+                    }
+                    while (CollectionContainsString(EnchantsList.Items, currentName));
+
+                    EnchantName.Text = currentName;
+                }
+            }
+
+            SaveCurrentEnchant();
         }
 
-        private void SaveEnchant()
+        private void SaveCurrentEnchant()
         {
             JsonUtil.JsonEnchantment enchant = UpdateCurrentEnchant();
 
             string path;
-            if (enchantsFileNames[selectedEnchantIndex] != null)
+            if (enchantsFileNames[enchant] != null)
             {
-                path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ENCHANTS_FOLDER, enchantsFileNames[selectedEnchantIndex] + ".json");
+                path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ENCHANTS_FOLDER, enchantsFileNames[enchant] + ".json");
 
                 if (EnchantsList.Items[selectedEnchantIndex].ToString() != EnchantName.Text)
                 {
                     File.Delete(path);
 
-                    enchantsFileNames[selectedEnchantIndex] = UnusedFileNameFromString(EnchantName.Text);
-                    path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ENCHANTS_FOLDER, enchantsFileNames[selectedEnchantIndex] + ".json");
+                    enchantsFileNames[enchant] = UnusedFileNameFromString(EnchantName.Text);
+                    path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ENCHANTS_FOLDER, enchantsFileNames[enchant] + ".json");
                 }
             }
             else
             {
-                enchantsFileNames[selectedEnchantIndex] = UnusedFileNameFromString(EnchantName.Text);
-                path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ENCHANTS_FOLDER, enchantsFileNames[selectedEnchantIndex] + ".json");
+                enchantsFileNames[enchant] = UnusedFileNameFromString(EnchantName.Text);
+                path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ENCHANTS_FOLDER, enchantsFileNames[enchant] + ".json");
             }
 
-            File.WriteAllText(path, JsonConvert.SerializeObject(CurrentEnchant(), Newtonsoft.Json.Formatting.Indented));
+            File.WriteAllText(path, JsonConvert.SerializeObject(enchant, Newtonsoft.Json.Formatting.Indented));
 
             EnchantsList.Items[selectedEnchantIndex] = EnchantName.Text;
             EnchantsList.SelectedIndex = selectedEnchantIndex;
@@ -958,13 +1213,13 @@ namespace ClassicCraftGUI
 
         private void EnchantsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            EnchantName.Text = EnchantsList.Text;
-
             if (EnchantsList.SelectedIndex != -1)
             {
                 selectedEnchantIndex = EnchantsList.SelectedIndex;
 
                 JsonUtil.JsonEnchantment enchant = CurrentEnchant();
+
+                EnchantName.Text = enchant.Name;
 
                 EnchantSlot.SelectedIndex = GetComboBoxIndexWithString(EnchantSlot, enchant.Slot);
 
@@ -998,10 +1253,56 @@ namespace ClassicCraftGUI
 
         }
 
+        private void LoadPlayerEnchant(JsonUtil.JsonEnchantment enchant, string slot)
+        {
+            if (!jsonEnchants.Contains(enchant))
+            {
+                if(jsonEnchants.Any(e => e.Id == enchant.Id))
+                {
+                    List<JsonUtil.JsonEnchantment> ens = jsonEnchants.Where(e => e.Id == enchant.Id && e.Name == enchant.Name && e.Slot == enchant.Slot && e.Stats.Count == enchant.Stats.Count && !e.Stats.Except(enchant.Stats).Any()).ToList();
+                    JsonUtil.JsonEnchantment en = ens.Count > 0 ? ens.First() : null;
+                    if (en != null)
+                    {
+                        enchant = en;
+                        return;
+                    }
+                    else
+                    {
+                        enchant.Id = jsonEnchants.Max(e => e.Id) + 1;
+                    }
+                }
+
+                if (CollectionContainsString(EnchantsList.Items, enchant.Name))
+                {
+                    int i = 1;
+                    string currentName;
+                    do
+                    {
+                        currentName = enchant.Name + " (" + i + ")";
+                        i++;
+                    }
+                    while (CollectionContainsString(EnchantsList.Items, currentName));
+
+                    enchant.Name = currentName;
+                }
+
+                if (enchant.Slot == null) enchant.Slot = StringPlayerSlotToSlot(slot);
+
+                enchantsFileNames[enchant] = UnusedFileNameFromString(enchant.Name);
+                AddJsonEnchant(enchant);
+                EnchantsList.Items.Add(enchant.Name);
+
+                string path = System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ENCHANTS_FOLDER, enchantsFileNames[enchant] + ".json");
+                File.WriteAllText(path, JsonConvert.SerializeObject(enchant, Newtonsoft.Json.Formatting.Indented));
+            }
+        }
+
         private void NewEnchant(string name, string slot = "Any", Dictionary<string, double> attributes = null)
         {
-            AddJsonEnchant(new JsonUtil.JsonEnchantment(0, name, slot, attributes));
-            enchantsFileNames.Add(null);
+            JsonUtil.JsonEnchantment enchant = new JsonUtil.JsonEnchantment(jsonEnchants.Max(en => en.Id) + 1, name, slot, attributes);
+
+            AddJsonEnchant(enchant);
+            enchantsFileNames[enchant] = null;
 
             EnchantsList.Items.Add(name);
 
@@ -1010,13 +1311,15 @@ namespace ClassicCraftGUI
 
         private void DeleteEnchantClick(object sender, RoutedEventArgs e)
         {
-            if (enchantsFileNames[selectedEnchantIndex] != null)
+            JsonUtil.JsonEnchantment enchant = CurrentEnchant();
+
+            if (enchantsFileNames[enchant] != null)
             {
-                File.Delete(System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ENCHANTS_FOLDER, enchantsFileNames[selectedItemIndex] + ".json"));
+                File.Delete(System.IO.Path.Combine(Program.basePath(), DB_FOLDER, ENCHANTS_FOLDER, enchantsFileNames[enchant] + ".json"));
             }
 
-            RemoveJsonEnchant(CurrentEnchant());
-            enchantsFileNames.RemoveAt(selectedEnchantIndex);
+            RemoveJsonEnchant(enchant);
+            enchantsFileNames.Remove(enchant);
             EnchantsList.Items.RemoveAt(selectedEnchantIndex);
 
             if (EnchantsList.Items.Count > 0)
@@ -1176,6 +1479,20 @@ namespace ClassicCraftGUI
             }
         }
 
+        public string StringPlayerSlotToSlot(string pslot)
+        {
+            switch (pslot)
+            {
+                case "Trinket1": return "Trinket";
+                case "Trinket2": return "Trinket";
+                case "Finger1": return "Finger";
+                case "Finger2": return "Finger";
+                case "MH": return "Weapon";
+                case "OH": return "Weapon";
+                default: return pslot;
+            }
+        }
+
         public ComboBox PlayerEnchantSlotToComboBox(Player.Slot slot)
         {
             switch (slot)
@@ -1197,20 +1514,22 @@ namespace ClassicCraftGUI
 
         private string UnusedFileNameFromString(string s)
         {
-            string res = SafeFileName(s);
+            return UnusedStringFromList(SafeFileName(s), itemsFileNames.Values.ToList());
+        }
 
-            if (itemsFileNames.Contains(res))
+        private string UnusedStringFromList(string s, List<string> list)
+        {
+            string res = s;
+
+            if (list.Contains(res))
             {
                 int i = 1;
-                string currentName;
                 do
                 {
-                    currentName = res + " (" + i + ")";
+                    res = s + " (" + i + ")";
                     i++;
                 }
-                while (itemsFileNames.Contains(res));
-
-                res = currentName;
+                while (list.Contains(res));
             }
 
             return res;
@@ -1729,32 +2048,32 @@ namespace ClassicCraftGUI
 
         private void ItemsList_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(ItemsList.SelectedIndex > -1) ItemName.Text = ItemsList.Text;
+            //if(ItemsList.SelectedIndex > -1) ItemName.Text = ItemsList.Text;
         }
 
         private void ItemName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(ItemsList.SelectedIndex > -1) ItemsList.Text = ItemName.Text;
+            //if(ItemsList.SelectedIndex > -1) ItemsList.Text = ItemName.Text;
         }
 
         private void WeaponsList_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(WeaponsList.SelectedIndex > -1) WeaponName.Text = WeaponsList.Text;
+            //if(WeaponsList.SelectedIndex > -1) WeaponName.Text = WeaponsList.Text;
         }
 
         private void WeaponName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(WeaponsList.SelectedIndex > -1) WeaponsList.Text = WeaponName.Text;
+            //if(WeaponsList.SelectedIndex > -1) WeaponsList.Text = WeaponName.Text;
         }
 
         private void EnchantsList_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EnchantName.Text = EnchantsList.Text;
+            //EnchantName.Text = EnchantsList.Text;
         }
 
         private void EnchantName_TextChanged(object sender, TextChangedEventArgs e)
         {
-            EnchantsList.Text = EnchantName.Text;
+            //EnchantsList.Text = EnchantName.Text;
         }
 
         private void TalentsHyperlink_Click(object sender, RoutedEventArgs e)

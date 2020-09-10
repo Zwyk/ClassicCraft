@@ -7,12 +7,10 @@
   "Buff": null,
   "School": null,
   "Name": "Thunderfury",
-  "Id": 0,
+  "Id": 7,
   "Slot": "Weapon",
-  "Stats": {},
-  "Enchantment": {
-    "Id": 0,
-    "Name": "Enchantment",
-    "Stats": {}
-  }
+  "Stats": {
+    "Agi": 5.0
+  },
+  "Enchantment": null
 }

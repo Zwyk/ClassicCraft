@@ -1,0 +1,18 @@
+{
+  "DamageMin": 0.0,
+  "DamageMax": 0.0,
+  "Speed": 0.0,
+  "TwoHanded": false,
+  "Type": "Crossbow",
+  "Buff": null,
+  "School": null,
+  "Name": "Doom",
+  "Id": 6,
+  "Slot": "Ranged",
+  "Stats": {
+    "Hit": 1.0,
+    "Agi": 7.0,
+    "Str": 5.0
+  },
+  "Enchantment": null
+}

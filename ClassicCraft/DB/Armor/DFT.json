@@ -1,0 +1,10 @@
+{
+  "Name": "DFT",
+  "Id": 13,
+  "Slot": "Trinket",
+  "Stats": {
+    "AP": 56.0,
+    "Hit": 2.0
+  },
+  "Enchantment": null
+}

@@ -25,7 +25,6 @@ namespace ClassicCraft
                 Enchantment = enchantment;
 
                 if (Stats == null) Stats = new Dictionary<string, double>();
-                if (Enchantment == null) Enchantment = new JsonEnchantment();
             }
 
             public static Item ToItem(JsonItem ji)

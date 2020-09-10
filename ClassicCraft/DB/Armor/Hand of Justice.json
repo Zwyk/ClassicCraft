@@ -1,0 +1,9 @@
+{
+  "Name": "Hand of Justice",
+  "Id": 12,
+  "Slot": "Trinket",
+  "Stats": {
+    "AP": 20.0
+  },
+  "Enchantment": null
+}
