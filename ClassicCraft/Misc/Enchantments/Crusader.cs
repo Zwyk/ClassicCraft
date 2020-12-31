@@ -12,9 +12,12 @@ namespace ClassicCraft
 
         public static double BONUS = 100;
 
+        public double Bonus { get; set; }
+
         public Crusader(Player p)
             : base(p, p, true, LENGTH, 1)
         {
+            Bonus = BONUS * (p.Buffs.Any(b => b.Name.ToLower().Contains("blessing of kings")) ? 1.1 : 1) * (1 + 0.02 * p.GetTalentPoints("Vitality"));
         }
 
         public static void CheckProc(Player p, ResultType type, double weaponSpeed)
@@ -39,16 +42,16 @@ namespace ClassicCraft
         {
             base.StartEffect();
 
-            Player.BonusAttributes.SetValue(Attribute.Strength, Player.BonusAttributes.GetValue(Attribute.Strength) + BONUS);
-            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) + BONUS*2);
+            Player.BonusAttributes.SetValue(Attribute.Strength, Player.BonusAttributes.GetValue(Attribute.Strength) + Bonus);
+            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) + Bonus * 2 * (Program.version == Version.TBC ? 1 + 0.02 * Player.GetTalentPoints("IBStance") : 1));
         }
 
         public override void EndEffect()
         {
             base.EndEffect();
 
-            Player.BonusAttributes.SetValue(Attribute.Strength, Player.BonusAttributes.GetValue(Attribute.Strength) - BONUS);
-            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) - BONUS*2);
+            Player.BonusAttributes.SetValue(Attribute.Strength, Player.BonusAttributes.GetValue(Attribute.Strength) - Bonus);
+            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) - Bonus * 2 * (Program.version == Version.TBC ? 1 + 0.02 * Player.GetTalentPoints("IBStance") : 1));
         }
 
         public override string ToString()

@@ -35,7 +35,7 @@ namespace ClassicCraft
                 (Randomer.Next(minDmg, maxDmg + 1) * 2.25 + 180)
                 * (1 + Player.GetTalentPoints("NW") * 0.02)
                 * Player.Sim.DamageMod(res)
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor)
+                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level)
                 * Player.DamageMod);
 
             CommonAction();

@@ -12,9 +12,12 @@ namespace ClassicCraft
 
         public static int LENGTH = 20;
 
+        private double Bonus { get; set; }
+
         public MightyRageBuff(Player p, double baseLength = 20)
             : base(p, p, true, baseLength, 1)
         {
+            Bonus = 60 * (p.Buffs.Any(b => b.Name.ToLower().Contains("blessing of kings")) ? 1.1 : 1) * (1 + 0.02 * p.GetTalentPoints("Vitality"));
         }
 
         public override void StartEffect()
@@ -22,8 +25,8 @@ namespace ClassicCraft
             base.StartEffect();
 
             Player.Resource += Randomer.Next(45, 347);
-            Player.BonusAttributes.SetValue(Attribute.Strength, Player.BonusAttributes.GetValue(Attribute.Strength) + 60);
-            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) + 120);
+            Player.BonusAttributes.SetValue(Attribute.Strength, Player.BonusAttributes.GetValue(Attribute.Strength) + Bonus);
+            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) + Bonus * 2 * (Program.version == Version.TBC ? 1 + 0.02 * Player.GetTalentPoints("IBStance") : 1));
         }
 
         public override void EndEffect()
@@ -31,7 +34,7 @@ namespace ClassicCraft
             base.EndEffect();
 
             Player.BonusAttributes.SetValue(Attribute.Strength, Player.BonusAttributes.GetValue(Attribute.Strength) - 60);
-            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) - 120);
+            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) - Bonus * 2 * (Program.version == Version.TBC ? 1 + 0.02 * Player.GetTalentPoints("IBStance") : 1));
         }
     }
 }

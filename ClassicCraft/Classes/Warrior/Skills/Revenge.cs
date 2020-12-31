@@ -9,15 +9,15 @@ namespace ClassicCraft
     class Revenge : Skill
     {
         public static int BASE_COST = 5;
-        public static int CD = 8;//5;
+        public static int CD = 5;
 
-        public static int DMG_MIN = 64;//81;
-        public static int DMG_MAX = 78;//99;
+        public static int DMG_MIN = Program.version == Version.TBC ? 414 : 81;
+        public static int DMG_MAX = Program.version == Version.TBC ? 506 : 99;
 
-        public static int BONUS_THREAT = 315;//355;
+        public static int BONUS_THREAT = Program.version == Version.TBC ? 200 : 355;
 
         public Revenge(Player p)
-            : base(p, CD, BASE_COST) { }
+            : base(p, CD, BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") : 0)) { }
 
         public override void Cast()
         {
@@ -30,9 +30,10 @@ namespace ClassicCraft
 
             int damage = (int)Math.Round(Randomer.Next(DMG_MIN, DMG_MAX + 1)
                 * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0 + (0.1 * Player.GetTalentPoints("Impale")) : 0))
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor)
+                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level)
                 * Player.DamageMod
                 * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
+                * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
                 );
 
             int threat = (int)Math.Round((damage + BONUS_THREAT) * Player.ThreatMod);

@@ -19,11 +19,12 @@ namespace ClassicCraft
         {
         }
 
-        public static bool CheckProc(Player p, ResultType res, int points)
+        public static bool CheckProc(Player p, ResultType res, int points, double speed)
         {
             if(res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
             {
-                if(Randomer.NextDouble() < (0.08 * points))
+                double chance = (Program.version == Version.Vanilla ? 0.08 : speed / 20) * points;
+                if (Randomer.NextDouble() < chance)
                 {
                     p.Resource += 1;
                     return true;

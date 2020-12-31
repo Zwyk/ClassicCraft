@@ -43,6 +43,7 @@ namespace ClassicCraft
         WeaponDamage,
         WeaponDamageMH,
         WeaponDamageOH,
+        Expertise,
     }
 
     public class AttributeUtil
@@ -86,6 +87,7 @@ namespace ClassicCraft
                 case "WDmg": return Attribute.WeaponDamage;
                 case "WDmgMH": return Attribute.WeaponDamageMH;
                 case "WDmgOH": return Attribute.WeaponDamageOH;
+                case "Expertise": return Attribute.Expertise;
                 default: throw new Exception("Attribute not found : " + s);
             }
         }
@@ -129,6 +131,7 @@ namespace ClassicCraft
                 case Attribute.WeaponDamage: return "WDmg";
                 case Attribute.WeaponDamageMH: return "WDmgMH";
                 case Attribute.WeaponDamageOH: return "WDmgOH";
+                case Attribute.Expertise: return "Expertise";
                 default: throw new Exception("Attribute not found");
             }
         }
@@ -231,7 +234,12 @@ namespace ClassicCraft
             foreach (Attribute a in Values.Keys)
             {
                 double val = Values[a];
-                if (a == Attribute.CritChance || a == Attribute.HitChance || a == Attribute.Haste || a == Attribute.SpellCritChance || a == Attribute.SpellHitChance) val *= 100;
+                if (a == Attribute.CritChance || a == Attribute.HitChance || a == Attribute.Haste
+                    || a == Attribute.SpellCritChance || a == Attribute.SpellHitChance || a == Attribute.Expertise)
+                {
+                    val *= 100;
+                }
+
                 stats += "[" + a + ":" + Math.Round(val*100)/100 + "]";
             }
             return stats;

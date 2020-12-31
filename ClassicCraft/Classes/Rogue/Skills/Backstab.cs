@@ -25,14 +25,14 @@ namespace ClassicCraft
 
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss, ToString());
 
-            int minDmg = (int)Math.Round(weapon.DamageMin * 1.5 + Simulation.Normalization(weapon) * (Player.AP + Player.nextAABonus) / 14);
-            int maxDmg = (int)Math.Round(weapon.DamageMax * 1.5 + Simulation.Normalization(weapon) * (Player.AP + Player.nextAABonus) / 14);
+            int minDmg = (int)Math.Round(weapon.DamageMin * 1.5 + Simulation.Normalization(weapon) * Player.AP / 14);
+            int maxDmg = (int)Math.Round(weapon.DamageMax * 1.5 + Simulation.Normalization(weapon) * Player.AP / 14);
 
             Player.nextAABonus = 0;
 
             int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + 210)
                 * Player.Sim.DamageMod(res)
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor)
+                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level)
                 * (1 + (0.04 * Player.GetTalentPoints("Oppo")))
                 * (res == ResultType.Crit ? 1 + (0.06 * Player.GetTalentPoints("Letha")) : 1)
                 * (1 + (0.01 * Player.GetTalentPoints("Murder")))

@@ -11,10 +11,10 @@ namespace ClassicCraft
         public static int BASE_COST = 15;
         public static int CD = 0;
 
-        public static int BONUS_THREAT = 145;//175;
+        public static int BONUS_THREAT = Program.version == Version.TBC ? 196 : 175;
 
         public HeroicStrike(Player p)
-            : base(p, CD, BASE_COST - p.GetTalentPoints("IHS"), true)
+            : base(p, CD, BASE_COST - p.GetTalentPoints("IHS") - (Program.version == Version.TBC ? p.GetTalentPoints("FR") : 0), true)
         {
         }
 
@@ -43,11 +43,13 @@ namespace ClassicCraft
 
             Player.nextAABonus = 0;
 
-            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + 157)
+            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Program.version == Version.TBC ? 208 : 157))
                 * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0 + (0.1 * Player.GetTalentPoints("Impale")) : 0))
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor)
+                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level)
                 * Player.DamageMod
-                * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS"))));
+                * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
+                * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
+                );
 
             int threat = (int)Math.Round((damage + BONUS_THREAT) * Player.ThreatMod);
 
@@ -63,7 +65,7 @@ namespace ClassicCraft
 
             RegisterDamage(new ActionResult(res, damage, threat));
 
-            Player.CheckOnHits(true, false, res);
+            Player.CheckOnHits(true, true, res);
         }
 
         public override string ToString()

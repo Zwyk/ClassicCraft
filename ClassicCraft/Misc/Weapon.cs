@@ -106,6 +106,10 @@ namespace ClassicCraft
                 DamageMin += bonus;
                 DamageMax += bonus;
             }
+            else if(Buff == null)
+            {
+                Buff = new Enchantment();
+            }
 
             BaseMin = DamageMin;
             BaseMax = DamageMax;

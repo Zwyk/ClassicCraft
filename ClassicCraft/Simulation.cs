@@ -218,7 +218,15 @@ namespace ClassicCraft
 
         public static double ArmorMitigation(int armor, int attackerLevel = 60)
         {
-            double res = armor / (armor + 400 + 85.0 * attackerLevel);
+            double res = 0;
+            if(Program.version == Version.Vanilla || attackerLevel < 60)
+            {
+                res = armor / (armor + 400 + 85.0 * attackerLevel);
+            }
+            else if(Program.version == Version.TBC)
+            {
+                res = armor / (armor + 400 + 85 * (attackerLevel + 4.5 * (attackerLevel - 59)));
+            }
             return 1 - (res > 0.75 ? 0.75 : res);
         }
 
@@ -275,22 +283,21 @@ namespace ClassicCraft
 
         public double GlancingDamage(int skill = 300, int enemyLevel = 63)
         {
+            if (Program.version == Version.TBC) skill = 350;
             double low = Math.Max(0.01, Math.Min(0.91, 1.3 - 0.05 * (enemyLevel * 5 - skill)));
             double high = Math.Max(0.2, Math.Min(0.99, 1.2 - 0.03 * (enemyLevel * 5 - skill)));
             return Randomer.NextDouble() * (high - low) + low;
         }
 
-        public static double RageGained(int damage, int level = 60)
+        public static double RageGained(int damage, int level = 60, bool mh = true, bool crit = false, double speed = 1.0)
         {
-            return Math.Max(1, 7.5 * damage / RageConversionValue(level));
+            switch(Program.version)
+            {
+                case Version.Vanilla: return Math.Max(1, 7.5 * damage / RageConversionValue(level));
+                case Version.TBC: return Math.Min(15 * damage / RageConversionValue(level), 15 * damage / (4 * RageConversionValue(level)) + (RageWhiteHitFactor(mh, crit) * speed / 2));
+                default: return Math.Max(1, 7.5 * damage / RageConversionValue(level));
+            }
         }
-
-        /*
-        public static double RageGained2(int damage, double speed, bool mh, bool crit, int level = 60)
-        {
-            return Math.Max(15 * damage / RageConversionValue(level), 15 * damage / (4 * RageConversionValue(level)) + (RageWhiteHitFactor(mh, crit) * speed / 2));
-        }
-        */
 
         public static double RageConversionValue(int level = 60)
         {

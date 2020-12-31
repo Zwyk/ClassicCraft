@@ -6,24 +6,16 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Execute : Skill
+    class Devastate : Skill
     {
         public static int BASE_COST = 15;
         public static int CD = 0;
 
-        public Execute(Player p)
-            : base(p, CD, BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") : 0), true)
-        {
-            switch (Player.GetTalentPoints("IE"))
-            {
-                case 2: Cost -= 5; break;
-                case 1: Cost -= 2; break;
-            }
-        }
+        public static int BONUS_THREAT = 101;
 
-        public override bool CanUse()
+        public Devastate(Player p)
+            : base(p, CD, BASE_COST - p.GetTalentPoints("FR"))
         {
-            return Player.Sim.Boss.LifePct <= 0.2 && base.CanUse();
         }
 
         public override void Cast()
@@ -34,27 +26,32 @@ namespace ClassicCraft
         public override void DoAction()
         {
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
-            
-            int damage = (int)Math.Round(((Program.version == Version.TBC ? 925 : 600) + (Player.Resource - Cost) * (Program.version == Version.TBC ? 21 : 15))
-                * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0 + (0.1 * Player.GetTalentPoints("Impale")) : 0))
+
+            int minDmg = (int)Math.Round(Player.MH.DamageMin + Simulation.Normalization(Player.MH) * Player.AP / 14);
+            int maxDmg = (int)Math.Round(Player.MH.DamageMax + Simulation.Normalization(Player.MH) * Player.AP / 14);
+
+            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) * 0.5 + (35 * 5))
+                * Player.Sim.DamageMod(res)
                 * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level)
                 * Player.DamageMod
-                * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
+                * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1)
                 * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
                 );
+
+            int threat = (int)Math.Round((damage + BONUS_THREAT) * Player.ThreatMod);
 
             CommonAction();
             if (res == ResultType.Parry || res == ResultType.Dodge)
             {
                 // TODO à vérifier
-                Player.Resource = Cost / 2;
+                Player.Resource -= Cost / 2;
             }
             else
             {
-                Player.Resource = 0;
+                Player.Resource -= Cost;
             }
 
-            RegisterDamage(new ActionResult(res, damage));
+            RegisterDamage(new ActionResult(res, damage, threat));
 
             Player.CheckOnHits(true, false, res);
         }
@@ -63,6 +60,6 @@ namespace ClassicCraft
         {
             return NAME;
         }
-        public static new string NAME = "Execute";
+        public static new string NAME = "Devastate";
     }
 }

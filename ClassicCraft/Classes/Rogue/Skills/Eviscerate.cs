@@ -48,7 +48,7 @@ namespace ClassicCraft
             int damage = (int)Math.Round(
                 (Randomer.Next(minDmg, maxDmg + 1) + Player.AP * 0.15)
                 * Player.Sim.DamageMod(res)
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor)
+                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level)
                 * Player.DamageMod
                 * (1 + (0.02 * Player.GetTalentPoints("Agg")))
                 * (1 + (0.05 * Player.GetTalentPoints("IE")))

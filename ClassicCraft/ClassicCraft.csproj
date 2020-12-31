@@ -109,14 +109,18 @@
     <Compile Include="Classes\Warlock\Spells\Shadowburn.cs" />
     <Compile Include="Classes\Warlock\Warlock.cs" />
     <Compile Include="Classes\Warlock\Effects\ShadowTrance.cs" />
+    <Compile Include="Classes\Warrior\Effects\RampageBuff.cs" />
     <Compile Include="Classes\Warrior\Skills\BattleShout.cs" />
     <Compile Include="Classes\Warrior\Skills\Berserking.cs" />
     <Compile Include="Classes\Warrior\Skills\BloodFury.cs" />
     <Compile Include="Classes\Warrior\Skills\Bloodrage.cs" />
     <Compile Include="Classes\Warrior\Skills\DeathWish.cs" />
+    <Compile Include="Classes\Warrior\Skills\Devastate.cs" />
     <Compile Include="Classes\Warrior\Skills\Execute.cs" />
     <Compile Include="Classes\Warrior\Skills\Hamstring.cs" />
     <Compile Include="Classes\Druid\Skills\MCP.cs" />
+    <Compile Include="Classes\Warrior\Skills\MortalStrike.cs" />
+    <Compile Include="Classes\Warrior\Skills\Rampage.cs" />
     <Compile Include="Classes\Warrior\Skills\Revenge.cs" />
     <Compile Include="Classes\Warrior\Skills\SunderArmor.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -182,7 +186,7 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </ApplicationDefinition >
+    </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
     <Page Include="MainWindow.xaml">

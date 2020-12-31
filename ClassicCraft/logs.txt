@@ -1,37 +1,44 @@
-Date : 2020/09/10 00:20:12
+Date : 2020/12/10 03:35:35
 
-Fight length : 90 seconds (±30%)
+Fight length : 180 seconds (±10%)
 
 Player :
-Orc Rogue level 60 | Stats : [Strength:405][Agility:394][Stamina:77][Intellect:36][Spirit:57][Health:2113][Mana:0][AP:1453][RangedAP:2241][CritChance:23.59][HitChance:14][Haste:0][SpellHitChance:0][SpellCritChance:0][SkillDagger:5][SkillSword:10][SkillAxe:0]
-Main weapon : Sword with 310 skill
+Orc Warrior level 60 | Talents : 2-05050005505010051-5023011050 | Stats : [Strength:445][Agility:339][Stamina:112][Intellect:31][Spirit:52][Health:2629][Mana:0][AP:1586][RangedAP:2264][CritChance:30.95][HitChance:11][Haste:0][SpellHitChance:0][SpellCritChance:0][SkillDagger:0][SkillSword:0][SkillAxe:0][Expertise:0]
+Main weapon : Sword with 300 skill
 
 Boss (after raid debuffs) :
-Level 63, 336 Armor (5.76% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
+Level 63, 305 Armor (5.25% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
 
-10049 simulations done in 5,695.68 ms, for 0.57 ms by sim
-Overall accuracy of results : ±0.19%
-Average TPS : 275.12 tps (±0.28)
-Average DPS : 261.24 dps (±0.25)
+Base : 657.263566524149
+1489 simulations done in 4,045.08 ms, for 2.72 ms by sim
+Overall accuracy of results : ±0.31%
 
-Average stats for [AA MH] : 138.93 DPS (53.18%) / 138.93 TPS (50.50%)
-	Average of 247.87 threat for 50.44 uses (or 1 use every 1.78s)
-	Average of 247.87 damage for 50.44 uses (or 1 use every 1.78s)
-	7.69% Hit, 20.46% Crit, 13.16% Miss, 40.13% Glancing, 5.55% Dodge, 13.01% Parry
-Average Glancing damage : 271.36
+Average DPS : 657.26 dps (±1.03)
 
-Average stats for [AA OH] : 98.23 DPS (37.60%) / 98.23 TPS (35.70%)
-	Average of 223.20 threat for 39.61 uses (or 1 use every 2.27s)
-	Average of 223.20 damage for 39.61 uses (or 1 use every 2.27s)
-	6.27% Hit, 20.48% Crit, 13.61% Miss, 40.03% Glancing, 6.08% Dodge, 13.53% Parry
-Average Glancing damage : 233.41
+Average stats for [AA MH] : 174.54 DPS (26.56%)
+	Average of 264.24 damage for 118.90 uses (or 1 use every 1.51s)
+	5.59% Hit, 28.00% Crit, 20.02% Miss, 39.87% Glancing, 6.51% Dodge
 
-Average stats for [Instant Poison] : 6.30 DPS (2.41%) / 6.30 TPS (2.29%)
-	Average of 107.75 threat for 5.26 uses (or 1 use every 17.11s)
-	Average of 107.75 damage for 5.26 uses (or 1 use every 17.11s)
-	82.84% Hit, 0.00% Crit, 17.16% Resist
+Average stats for [AA OH] : 125.13 DPS (19.04%)
+	Average of 179.01 damage for 125.83 uses (or 1 use every 1.43s)
+	17.98% Hit, 28.02% Crit, 15.86% Miss, 31.69% Glancing, 6.44% Dodge
 
-Average stats for [Thunderfury] : 17.71 DPS (6.78%) / 31.58 TPS (11.48%)
-	Average of 444.87 threat for 6.39 uses (or 1 use every 14.09s)
-	Average of 249.43 damage for 6.39 uses (or 1 use every 14.09s)
-	83.14% Hit, 0.00% Crit, 16.86% Resist
+Average stats for [Bloodthirst] : 126.87 DPS (19.30%)
+	Average of 879.50 damage for 25.97 uses (or 1 use every 6.93s)
+	65.71% Hit, 27.98% Crit, 0.00% Miss, 0.00% Glancing, 6.31% Dodge
+
+Average stats for [Whirlwind] : 31.99 DPS (4.87%)
+	Average of 898.77 damage for 6.41 uses (or 1 use every 28.09s)
+	131.86% Hit, 55.18% Crit, 0.00% Miss, 0.00% Glancing, 12.97% Dodge
+
+Average stats for [Heroic Strike] : 89.96 DPS (13.69%)
+	Average of 532.09 damage for 30.43 uses (or 1 use every 5.91s)
+	65.52% Hit, 28.07% Crit, 0.00% Miss, 0.00% Glancing, 6.42% Dodge
+
+Average stats for [Execute] : 103.41 DPS (15.73%)
+	Average of 1,234.35 damage for 15.08 uses (or 1 use every 11.94s)
+	65.81% Hit, 27.40% Crit, 0.00% Miss, 0.00% Glancing, 6.79% Dodge
+
+Average stats for [Hamstring] : 5.05 DPS (0.77%)
+	Average of 51.99 damage for 17.48 uses (or 1 use every 10.30s)
+	65.52% Hit, 27.97% Crit, 0.00% Miss, 0.00% Glancing, 6.52% Dodge

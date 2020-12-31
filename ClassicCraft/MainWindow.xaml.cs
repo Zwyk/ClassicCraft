@@ -61,6 +61,8 @@ namespace ClassicCraftGUI
 
         public int nbSim = 0;
 
+        public static bool noDB = true;
+
         public MainWindow()
         {
             System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -72,16 +74,23 @@ namespace ClassicCraftGUI
             
             ConsoleTabControl.Items.Remove(ConsoleEmpty);
             
-            PopulateSlotLists();
-            LoadDB();
+            if(!noDB)
+            {
+                PopulateSlotLists();
+                LoadDB();
+            }
+
             Program.LoadConfigJsons();
             sim = Program.jsonSim;
             player = Program.jsonPlayer;
 
             LoadSimConfig();
             LoadPlayer();
-
-            SavePlayer();
+            
+            if(!noDB)
+            {
+                SavePlayer();
+            }
 
             DataObject.AddPastingHandler(Talents, Talents_OnPaste);
 
@@ -128,6 +137,16 @@ namespace ClassicCraftGUI
         {
             if (!Program.Running)
             {
+                if (noDB)
+                {
+                    Program.LoadConfigJsons();
+                    sim = Program.jsonSim;
+                    player = Program.jsonPlayer;
+
+                    LoadSimConfig();
+                    LoadPlayer();
+                }
+
                 SavePlayer();
                 SaveSimConfig();
 
@@ -149,7 +168,7 @@ namespace ClassicCraftGUI
 
         #region Sim config
 
-        private void LoadSimConfig()
+        public void LoadSimConfig()
         {
             LogFight.SelectedIndex = sim.LogFight ? 1 : 0;
             if (sim.TargetError) TargetError.Text = sim.TargetErrorPct.ToString();
@@ -217,32 +236,35 @@ namespace ClassicCraftGUI
 
         #region Player
 
-        private void LoadPlayer()
+        public void LoadPlayer()
         {
             Race.SelectedIndex = GetComboBoxIndexWithString(Race, player.Race);
             Class.SelectedIndex = GetComboBoxIndexWithString(Class, player.Class);
             Talents.Text = player.Talents;
 
-            foreach (string slot in player.Weapons.Keys)
+            if(!noDB)
             {
-                JsonUtil.JsonWeapon weapon = player.Weapons[slot];
-                LoadPlayerWeapon(weapon, slot);
-                PlayerSlotToComboBox(Player.ToSlot(slot)).SelectedValue = weapon.Name;
-                if (weapon.Enchantment != null)
+                foreach (string slot in player.Weapons.Keys)
                 {
-                    LoadPlayerEnchant(weapon.Enchantment, slot);
-                    if (PlayerEnchantSlotToComboBox(Player.ToSlot(slot)) != null) PlayerEnchantSlotToComboBox(Player.ToSlot(slot)).SelectedValue = weapon.Enchantment.Name;
+                    JsonUtil.JsonWeapon weapon = player.Weapons[slot];
+                    LoadPlayerWeapon(weapon, slot);
+                    PlayerSlotToComboBox(Player.ToSlot(slot)).SelectedValue = weapon.Name;
+                    if (weapon.Enchantment != null)
+                    {
+                        LoadPlayerEnchant(weapon.Enchantment, slot);
+                        if (PlayerEnchantSlotToComboBox(Player.ToSlot(slot)) != null) PlayerEnchantSlotToComboBox(Player.ToSlot(slot)).SelectedValue = weapon.Enchantment.Name;
+                    }
                 }
-            }
-            foreach (string slot in player.Equipment.Keys)
-            {
-                JsonUtil.JsonItem item = player.Equipment[slot];
-                LoadPlayerItem(item, slot);
-                PlayerSlotToComboBox(Player.ToSlot(slot)).SelectedValue = item.Name;
-                if (item.Enchantment != null)
+                foreach (string slot in player.Equipment.Keys)
                 {
-                    LoadPlayerEnchant(item.Enchantment, slot);
-                    if (PlayerEnchantSlotToComboBox(Player.ToSlot(slot)) != null) PlayerEnchantSlotToComboBox(Player.ToSlot(slot)).SelectedValue = item.Enchantment.Name;
+                    JsonUtil.JsonItem item = player.Equipment[slot];
+                    LoadPlayerItem(item, slot);
+                    PlayerSlotToComboBox(Player.ToSlot(slot)).SelectedValue = item.Name;
+                    if (item.Enchantment != null)
+                    {
+                        LoadPlayerEnchant(item.Enchantment, slot);
+                        if (PlayerEnchantSlotToComboBox(Player.ToSlot(slot)) != null) PlayerEnchantSlotToComboBox(Player.ToSlot(slot)).SelectedValue = item.Enchantment.Name;
+                    }
                 }
             }
         }

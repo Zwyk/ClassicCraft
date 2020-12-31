@@ -36,19 +36,19 @@ namespace ClassicCraft
                     Item res = new Item(SlotUtil.FromString(ji.Slot), new Attributes(ji.Stats), ji.Id, ji.Name, ClassicCraft.Enchantment.ToEnchantment(ji.Enchantment), null);
                     if(res.Attributes != null)
                     {
-                        res.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100);
-                        res.Attributes.SetValue(Attribute.HitChance, res.Attributes.GetValue(Attribute.HitChance) / 100);
-                        res.Attributes.SetValue(Attribute.Haste, res.Attributes.GetValue(Attribute.Haste) / 100);
-                        res.Attributes.SetValue(Attribute.SpellHitChance, res.Attributes.GetValue(Attribute.SpellHitChance) / 100);
-                        res.Attributes.SetValue(Attribute.SpellCritChance, res.Attributes.GetValue(Attribute.SpellCritChance) / 100);
+                        res.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1));
+                        res.Attributes.SetValue(Attribute.HitChance, res.Attributes.GetValue(Attribute.HitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.HitChance] : 1));
+                        res.Attributes.SetValue(Attribute.Haste, res.Attributes.GetValue(Attribute.Haste) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1));
+                        res.Attributes.SetValue(Attribute.SpellHitChance, res.Attributes.GetValue(Attribute.SpellHitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1));
+                        res.Attributes.SetValue(Attribute.SpellCritChance, res.Attributes.GetValue(Attribute.SpellCritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1));
                     }
                     if (res.Enchantment != null)
                     {
-                        res.Enchantment.Attributes.SetValue(Attribute.CritChance, res.Enchantment.Attributes.GetValue(Attribute.CritChance) / 100);
-                        res.Enchantment.Attributes.SetValue(Attribute.HitChance, res.Enchantment.Attributes.GetValue(Attribute.HitChance) / 100);
-                        res.Enchantment.Attributes.SetValue(Attribute.Haste, res.Enchantment.Attributes.GetValue(Attribute.Haste) / 100);
-                        res.Enchantment.Attributes.SetValue(Attribute.SpellHitChance, res.Enchantment.Attributes.GetValue(Attribute.SpellHitChance) / 100);
-                        res.Enchantment.Attributes.SetValue(Attribute.SpellCritChance, res.Enchantment.Attributes.GetValue(Attribute.SpellCritChance) / 100);
+                        res.Enchantment.Attributes.SetValue(Attribute.CritChance, res.Enchantment.Attributes.GetValue(Attribute.CritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1));
+                        res.Enchantment.Attributes.SetValue(Attribute.HitChance, res.Enchantment.Attributes.GetValue(Attribute.HitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.HitChance] : 1));
+                        res.Enchantment.Attributes.SetValue(Attribute.Haste, res.Enchantment.Attributes.GetValue(Attribute.Haste) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1));
+                        res.Enchantment.Attributes.SetValue(Attribute.SpellHitChance, res.Enchantment.Attributes.GetValue(Attribute.SpellHitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1));
+                        res.Enchantment.Attributes.SetValue(Attribute.SpellCritChance, res.Enchantment.Attributes.GetValue(Attribute.SpellCritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1));
                     }
                     return res;
                 }
@@ -62,19 +62,19 @@ namespace ClassicCraft
                     JsonItem res = new JsonItem(i.Id, i.Name, SlotUtil.ToString(i.Slot), Attributes.ToStringDic(i.Attributes), ClassicCraft.Enchantment.FromEnchantment(i.Enchantment));
                     if(res.Stats != null)
                     {
-                        if (res.Stats.ContainsKey("Crit")) res.Stats["Crit"] *= 100;
-                        if (res.Stats.ContainsKey("Hit")) res.Stats["Hit"] *= 100;
-                        if (res.Stats.ContainsKey("AS")) res.Stats["AS"] *= 100;
-                        if (res.Stats.ContainsKey("SpellHit")) res.Stats["SpellHit"] *= 100;
-                        if (res.Stats.ContainsKey("SpellCrit")) res.Stats["SpellCrit"] *= 100;
+                        if (res.Stats.ContainsKey("Crit")) res.Stats["Crit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1);
+                        if (res.Stats.ContainsKey("Hit")) res.Stats["Hit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.HitChance] : 1);
+                        if (res.Stats.ContainsKey("Haste")) res.Stats["Haste"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1);
+                        if (res.Stats.ContainsKey("SpellHit")) res.Stats["SpellHit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1);
+                        if (res.Stats.ContainsKey("SpellCrit")) res.Stats["SpellCrit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1);
                     }
                     if(res.Enchantment != null)
                     {
-                        if (res.Enchantment.Stats.ContainsKey("Crit")) res.Enchantment.Stats["Crit"] *= 100;
-                        if (res.Enchantment.Stats.ContainsKey("Hit")) res.Enchantment.Stats["Hit"] *= 100;
-                        if (res.Enchantment.Stats.ContainsKey("AS")) res.Enchantment.Stats["AS"] *= 100;
-                        if (res.Enchantment.Stats.ContainsKey("SpellHit")) res.Enchantment.Stats["SpellHit"] *= 100;
-                        if (res.Enchantment.Stats.ContainsKey("SpellCrit")) res.Enchantment.Stats["SpellCrit"] *= 100;
+                        if (res.Enchantment.Stats.ContainsKey("Crit")) res.Enchantment.Stats["Crit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1);
+                        if (res.Enchantment.Stats.ContainsKey("Hit")) res.Enchantment.Stats["Hit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.HitChance] : 1);
+                        if (res.Enchantment.Stats.ContainsKey("Haste")) res.Enchantment.Stats["Haste"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1);
+                        if (res.Enchantment.Stats.ContainsKey("SpellHit")) res.Enchantment.Stats["SpellHit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1);
+                        if (res.Enchantment.Stats.ContainsKey("SpellCrit")) res.Enchantment.Stats["SpellCrit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1);
                     }
                     return res;
                 }
@@ -117,27 +117,27 @@ namespace ClassicCraft
                     Weapon res = new Weapon(jw.DamageMin, jw.DamageMax, jw.Speed, jw.TwoHanded, Weapon.StringToType(jw.Type), new Attributes(jw.Stats), jw.Id, jw.Name, ClassicCraft.Enchantment.ToEnchantment(jw.Enchantment), ClassicCraft.Enchantment.ToEnchantment(jw.Buff), null, SchoolFromString(jw.School));
                     if(res.Attributes != null)
                     {
-                        res.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100);
-                        res.Attributes.SetValue(Attribute.HitChance, res.Attributes.GetValue(Attribute.HitChance) / 100);
-                        res.Attributes.SetValue(Attribute.Haste, res.Attributes.GetValue(Attribute.Haste) / 100);
-                        res.Attributes.SetValue(Attribute.SpellHitChance, res.Attributes.GetValue(Attribute.SpellHitChance) / 100);
-                        res.Attributes.SetValue(Attribute.SpellCritChance, res.Attributes.GetValue(Attribute.SpellCritChance) / 100);
+                        res.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1));
+                        res.Attributes.SetValue(Attribute.HitChance, res.Attributes.GetValue(Attribute.HitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.HitChance] : 1));
+                        res.Attributes.SetValue(Attribute.Haste, res.Attributes.GetValue(Attribute.Haste) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1));
+                        res.Attributes.SetValue(Attribute.SpellHitChance, res.Attributes.GetValue(Attribute.SpellHitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1));
+                        res.Attributes.SetValue(Attribute.SpellCritChance, res.Attributes.GetValue(Attribute.SpellCritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1));
                     }
                     if(res.Enchantment != null)
                     {
-                        res.Enchantment.Attributes.SetValue(Attribute.CritChance, res.Enchantment.Attributes.GetValue(Attribute.CritChance) / 100);
-                        res.Enchantment.Attributes.SetValue(Attribute.HitChance, res.Enchantment.Attributes.GetValue(Attribute.HitChance) / 100);
-                        res.Enchantment.Attributes.SetValue(Attribute.Haste, res.Enchantment.Attributes.GetValue(Attribute.Haste) / 100);
-                        res.Enchantment.Attributes.SetValue(Attribute.SpellHitChance, res.Enchantment.Attributes.GetValue(Attribute.SpellHitChance) / 100);
-                        res.Enchantment.Attributes.SetValue(Attribute.SpellCritChance, res.Enchantment.Attributes.GetValue(Attribute.SpellCritChance) / 100);
+                        res.Enchantment.Attributes.SetValue(Attribute.CritChance, res.Enchantment.Attributes.GetValue(Attribute.CritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1));
+                        res.Enchantment.Attributes.SetValue(Attribute.HitChance, res.Enchantment.Attributes.GetValue(Attribute.HitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.HitChance] : 1));
+                        res.Enchantment.Attributes.SetValue(Attribute.Haste, res.Enchantment.Attributes.GetValue(Attribute.Haste) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1));
+                        res.Enchantment.Attributes.SetValue(Attribute.SpellHitChance, res.Enchantment.Attributes.GetValue(Attribute.SpellHitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1));
+                        res.Enchantment.Attributes.SetValue(Attribute.SpellCritChance, res.Enchantment.Attributes.GetValue(Attribute.SpellCritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1));
                     }
                     if(res.Buff != null)
                     {
-                        res.Buff.Attributes.SetValue(Attribute.CritChance, res.Buff.Attributes.GetValue(Attribute.CritChance) / 100);
-                        res.Buff.Attributes.SetValue(Attribute.HitChance, res.Buff.Attributes.GetValue(Attribute.HitChance) / 100);
-                        res.Buff.Attributes.SetValue(Attribute.Haste, res.Buff.Attributes.GetValue(Attribute.Haste) / 100);
-                        res.Buff.Attributes.SetValue(Attribute.SpellHitChance, res.Buff.Attributes.GetValue(Attribute.SpellHitChance) / 100);
-                        res.Buff.Attributes.SetValue(Attribute.SpellCritChance, res.Buff.Attributes.GetValue(Attribute.SpellCritChance) / 100);
+                        res.Buff.Attributes.SetValue(Attribute.CritChance, res.Buff.Attributes.GetValue(Attribute.CritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1));
+                        res.Buff.Attributes.SetValue(Attribute.HitChance, res.Buff.Attributes.GetValue(Attribute.HitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.HitChance] : 1));
+                        res.Buff.Attributes.SetValue(Attribute.Haste, res.Buff.Attributes.GetValue(Attribute.Haste) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1));
+                        res.Buff.Attributes.SetValue(Attribute.SpellHitChance, res.Buff.Attributes.GetValue(Attribute.SpellHitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1));
+                        res.Buff.Attributes.SetValue(Attribute.SpellCritChance, res.Buff.Attributes.GetValue(Attribute.SpellCritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1));
                     }
                     return res;
                 }
@@ -151,27 +151,27 @@ namespace ClassicCraft
                     JsonWeapon res = new JsonWeapon(w.DamageMin, w.DamageMax, w.Speed, w.TwoHanded, Weapon.TypeToString(w.Type), w.Id, w.Name, Attributes.ToStringDic(w.Attributes), ClassicCraft.Enchantment.FromEnchantment(w.Enchantment), ClassicCraft.Enchantment.FromEnchantment(w.Buff), SchoolToString(w.School));
                     if(res.Stats != null)
                     {
-                        if (res.Stats.ContainsKey("Crit")) res.Stats["Crit"] *= 100;
-                        if (res.Stats.ContainsKey("Hit")) res.Stats["Hit"] *= 100;
-                        if (res.Stats.ContainsKey("AS")) res.Stats["AS"] *= 100;
-                        if (res.Stats.ContainsKey("SpellHit")) res.Stats["SpellHit"] *= 100;
-                        if (res.Stats.ContainsKey("SpellCrit")) res.Stats["SpellCrit"] *= 100;
+                        if (res.Stats.ContainsKey("Crit")) res.Stats["Crit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1);
+                        if (res.Stats.ContainsKey("Hit")) res.Stats["Hit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.HitChance] : 1);
+                        if (res.Stats.ContainsKey("Haste")) res.Stats["Haste"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1);
+                        if (res.Stats.ContainsKey("SpellHit")) res.Stats["SpellHit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1);
+                        if (res.Stats.ContainsKey("SpellCrit")) res.Stats["SpellCrit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1);
                     }
                     if(res.Enchantment != null)
                     {
-                        if (res.Enchantment.Stats.ContainsKey("Crit")) res.Enchantment.Stats["Crit"] *= 100;
-                        if (res.Enchantment.Stats.ContainsKey("Hit")) res.Enchantment.Stats["Hit"] *= 100;
-                        if (res.Enchantment.Stats.ContainsKey("AS")) res.Enchantment.Stats["AS"] *= 100;
-                        if (res.Enchantment.Stats.ContainsKey("SpellHit")) res.Enchantment.Stats["SpellHit"] *= 100;
-                        if (res.Enchantment.Stats.ContainsKey("SpellCrit")) res.Enchantment.Stats["SpellCrit"] *= 100;
+                        if (res.Enchantment.Stats.ContainsKey("Crit")) res.Enchantment.Stats["Crit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1);
+                        if (res.Enchantment.Stats.ContainsKey("Hit")) res.Enchantment.Stats["Hit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.HitChance] : 1);
+                        if (res.Enchantment.Stats.ContainsKey("Haste")) res.Enchantment.Stats["Haste"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1);
+                        if (res.Enchantment.Stats.ContainsKey("SpellHit")) res.Enchantment.Stats["SpellHit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1);
+                        if (res.Enchantment.Stats.ContainsKey("SpellCrit")) res.Enchantment.Stats["SpellCrit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1);
                     }
                     if(res.Buff != null)
                     {
-                        if (res.Buff.Stats.ContainsKey("Crit")) res.Buff.Stats["Crit"] *= 100;
-                        if (res.Buff.Stats.ContainsKey("Hit")) res.Buff.Stats["Hit"] *= 100;
-                        if (res.Buff.Stats.ContainsKey("AS")) res.Buff.Stats["AS"] *= 100;
-                        if (res.Buff.Stats.ContainsKey("SpellHit")) res.Buff.Stats["SpellHit"] *= 100;
-                        if (res.Buff.Stats.ContainsKey("SpellCrit")) res.Buff.Stats["SpellCrit"] *= 100;
+                        if (res.Buff.Stats.ContainsKey("Crit")) res.Buff.Stats["Crit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1);
+                        if (res.Buff.Stats.ContainsKey("Hit")) res.Buff.Stats["Hit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.HitChance] : 1);
+                        if (res.Buff.Stats.ContainsKey("Haste")) res.Buff.Stats["Haste"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1);
+                        if (res.Buff.Stats.ContainsKey("SpellHit")) res.Buff.Stats["SpellHit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1);
+                        if (res.Buff.Stats.ContainsKey("SpellCrit")) res.Buff.Stats["SpellCrit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1);
                     }
                     return res;
                 }
@@ -251,11 +251,11 @@ namespace ClassicCraft
                         {
                             if (e.Attributes != null)
                             {
-                                e.Attributes.SetValue(Attribute.CritChance, e.Attributes.GetValue(Attribute.CritChance) / 100);
-                                e.Attributes.SetValue(Attribute.HitChance, e.Attributes.GetValue(Attribute.HitChance) / 100);
-                                e.Attributes.SetValue(Attribute.Haste, e.Attributes.GetValue(Attribute.Haste) / 100);
-                                e.Attributes.SetValue(Attribute.SpellHitChance, e.Attributes.GetValue(Attribute.SpellHitChance) / 100);
-                                e.Attributes.SetValue(Attribute.SpellCritChance, e.Attributes.GetValue(Attribute.SpellCritChance) / 100);
+                                e.Attributes.SetValue(Attribute.CritChance, e.Attributes.GetValue(Attribute.CritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1));
+                                e.Attributes.SetValue(Attribute.HitChance, e.Attributes.GetValue(Attribute.HitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.HitChance] : 1));
+                                e.Attributes.SetValue(Attribute.Haste, e.Attributes.GetValue(Attribute.Haste) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1));
+                                e.Attributes.SetValue(Attribute.SpellHitChance, e.Attributes.GetValue(Attribute.SpellHitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1));
+                                e.Attributes.SetValue(Attribute.SpellCritChance, e.Attributes.GetValue(Attribute.SpellCritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1));
                             }
 
                             buffs.Add(e);
@@ -269,49 +269,49 @@ namespace ClassicCraft
                 switch(ToClass(jp.Class))
                 {
                     case Player.Classes.Druid:
-                        return new Druid(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
+                        return new Druid(null, ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Hunter:
-                        return new Hunter(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
+                        return new Hunter(null, ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Paladin:
-                        return new Paladin(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
+                        return new Paladin(null, ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Priest:
-                        return new Priest(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
+                        return new Priest(null, ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Rogue:
-                        return new Rogue(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
+                        return new Rogue(null, ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Shaman:
-                        return new Shaman(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
+                        return new Shaman(null, ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Warlock:
-                        return new Warlock(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
+                        return new Warlock(null, ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Warrior:
-                        return new Warrior(null, ToRace(jp.Race), 60, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
+                        return new Warrior(null, ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
@@ -409,9 +409,10 @@ namespace ClassicCraft
 
                 if (debuffsList != null && debuffsList.Count > 0)
                 {
-                    armor -= (debuffsList.Any(d => d.ToLower().Contains("expose armor")) ? 2550 : (debuffsList.Any(d => d.ToLower().Contains("sunder armor")) ? 2250 : 0))
-                        + (debuffsList.Any(d => d.ToLower().Contains("curse of recklessness")) ? 640 : 0)
-                        + (debuffsList.Any(d => d.ToLower().Contains("faerie fire")) ? 505 : 0)
+                    armor -= (debuffsList.Any(d => d.ToLower().Contains("expose armor")) ? Program.version == Version.TBC ? 3075 : 2550 : 
+                                (debuffsList.Any(d => d.ToLower().Contains("sunder armor")) ? Program.version == Version.TBC ? 2600 : 2250 : 0))
+                        + (debuffsList.Any(d => d.ToLower().Contains("curse of recklessness")) ? Program.version == Version.TBC ? 800 : 640 : 0)
+                        + (debuffsList.Any(d => d.ToLower().Contains("faerie fire")) ? Program.version == Version.TBC ? 610 : 505 : 0)
                         + (debuffsList.Any(d => d.ToLower().Contains("annihilator")) ? 600 : 0);
 
                     debuffs = new Dictionary<string, Effect>();

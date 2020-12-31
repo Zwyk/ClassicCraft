@@ -11,10 +11,10 @@ namespace ClassicCraft
         public static int BASE_COST = 15;
         public static int CD = 0;
 
-        public static int BONUS_THREAT = 260;//355;
+        public static int BONUS_THREAT = Program.version == Version.TBC ? 301 : 260;
 
         public SunderArmor(Player p)
-            : base(p, CD, BASE_COST - p.GetTalentPoints("ISA")) { }
+            : base(p, CD, BASE_COST - p.GetTalentPoints("ISA") - (Program.version == Version.TBC ? p.GetTalentPoints("FR") : 0)) { }
 
         public override void Cast()
         {

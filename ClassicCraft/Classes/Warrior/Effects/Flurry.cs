@@ -18,7 +18,7 @@ namespace ClassicCraft
             Haste = 1 + (points > 0 ? 0.1 + (points - 1) * 0.05 : 0);
         }
 
-        public static void CheckProc(Player p, ResultType type, int points, bool extraAA = false)
+        public static void CheckProc(Player p, ResultType type, int points, bool noDestack = false)
         {
             if(points > 0)
             {
@@ -29,7 +29,7 @@ namespace ClassicCraft
                     {
                         current.Refresh();
                     }
-                    else if (!extraAA)
+                    else if (!noDestack)
                     {
                         current.StackRemove();
                     }
@@ -50,7 +50,7 @@ namespace ClassicCraft
 
             if (Program.logFight)
             {
-                Program.Log(string.Format("{0:N2} : {1} started (haste = {2})", Player.Sim.CurrentTime, ToString(), Player.HasteMod));
+                Program.Log(string.Format("{0:N2} : {1} started (haste = {2:N2})", Player.Sim.CurrentTime, ToString(), Player.HasteMod));
             }
         }
 
@@ -65,7 +65,7 @@ namespace ClassicCraft
 
                 if (Program.logFight)
                 {
-                    Program.Log(string.Format("{0:N2} : {1} ended (haste = {2})", Player.Sim.CurrentTime, ToString(), Player.HasteMod));
+                    Program.Log(string.Format("{0:N2} : {1} ended (haste = {2:N2})", Player.Sim.CurrentTime, ToString(), Player.HasteMod));
                 }
             }
         }

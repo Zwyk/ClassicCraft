@@ -17,6 +17,7 @@ namespace ClassicCraft
             Id = id;
             Name = name;
             Attributes = attributes;
+            if (Attributes == null) Attributes = new Attributes();
         }
 
         public static Enchantment ToEnchantment(JsonUtil.JsonEnchantment json)

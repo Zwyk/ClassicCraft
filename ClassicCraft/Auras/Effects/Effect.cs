@@ -14,12 +14,13 @@ namespace ClassicCraft
         public double End { get; set; }
         public double BaseLength { get; set; }
         public int BaseStacks { get; set; }
+        public int MaxStacks { get; set; }
         public int CurrentStacks { get; set; }
         public List<double> AppliedTimes { get; set; }
 
         public bool IsPermanent { get; set; }
 
-        public Effect(Player p, Entity target, bool friendly, double baseLength, int baseStacks = 1)
+        public Effect(Player p, Entity target, bool friendly, double baseLength, int baseStacks = 1, int maxStacks = 0)
             : base(p)
         {
             IsPermanent = baseLength < 0;
@@ -29,6 +30,7 @@ namespace ClassicCraft
             BaseLength = IsPermanent ? -1 : baseLength;
             End = IsPermanent ? -1 : Start + BaseLength;
             BaseStacks = baseStacks;
+            MaxStacks = maxStacks;
             CurrentStacks = BaseStacks;
             AppliedTimes = new List<double>();
             AppliedTimes.Add(Start);
@@ -49,7 +51,6 @@ namespace ClassicCraft
 
         public virtual void Refresh()
         {
-            CurrentStacks = BaseStacks;
             End = Player.Sim.CurrentTime + BaseLength;
             AppliedTimes.Add(Player.Sim.CurrentTime);
 
@@ -71,15 +72,29 @@ namespace ClassicCraft
 
         public virtual void StackAdd(int nb = 1)
         {
-            CurrentStacks += nb;
+            int oldStacks = CurrentStacks;
+            int newStacks = CurrentStacks + nb;
+            if (MaxStacks > 0 && newStacks > MaxStacks) newStacks = MaxStacks;
+            CurrentStacks = newStacks;
+
+            if (oldStacks != CurrentStacks && Program.logFight)
+            {
+                Program.Log(string.Format("{0:N2} : {1} new stack : {2}", Player.Sim.CurrentTime, ToString(), CurrentStacks));
+            }
         }
 
         public virtual void StackRemove(int nb = 1)
         {
+            int oldStacks = CurrentStacks;
             CurrentStacks -= nb;
             if(CurrentStacks < 1)
             {
                 EndEffect();
+            }
+
+            if (oldStacks != CurrentStacks && Program.logFight)
+            {
+                Program.Log(string.Format("{0:N2} : {1} new stack : {2}", Player.Sim.CurrentTime, ToString(), CurrentStacks));
             }
         }
 

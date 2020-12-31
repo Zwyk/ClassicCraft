@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Bloodthirst : Skill
+    class MortalStrike : Skill
     {
         public static int BASE_COST = 30;
         public static int CD = 6;
 
-        public Bloodthirst(Player p)
-            : base(p, CD, BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") : 0)) {}
+        public MortalStrike(Player p)
+            : base(p, CD - Program.version == Version.TBC ? 0.2 * p.GetTalentPoints("IMS") - p.GetTalentPoints("FR") : 0, BASE_COST)
+        {
+        }
 
         public override void Cast()
         {
@@ -22,19 +24,24 @@ namespace ClassicCraft
         public override void DoAction()
         {
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
-            
-            int damage = (int)Math.Round(0.45 * Player.AP
-                * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0 + (0.1 * Player.GetTalentPoints("Impale")) : 0))
+
+            int minDmg = (int)Math.Round(Player.MH.DamageMin + Simulation.Normalization(Player.MH) * Player.AP / 14);
+            int maxDmg = (int)Math.Round(Player.MH.DamageMax + Simulation.Normalization(Player.MH) * Player.AP / 14);
+
+            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Program.version == Version.TBC ? 210 : 160))
+                * Player.Sim.DamageMod(res)
                 * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level)
                 * Player.DamageMod
+                * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1)
                 * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
+                * (1 + 0.01 * Player.GetTalentPoints("IMS"))
                 * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
                 );
-
+            
             int threat = (int)Math.Round(damage * Player.ThreatMod);
 
             CommonAction();
-            if(res == ResultType.Parry || res == ResultType.Dodge)
+            if (res == ResultType.Parry || res == ResultType.Dodge)
             {
                 // TODO à vérifier
                 Player.Resource -= Cost / 2;
@@ -53,6 +60,6 @@ namespace ClassicCraft
         {
             return NAME;
         }
-        public static new string NAME = "Bloodthirst";
+        public static new string NAME = "Mortal Strike";
     }
 }

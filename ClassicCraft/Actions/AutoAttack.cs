@@ -59,11 +59,11 @@ namespace ClassicCraft
             CastNextSwing();
             if(Type == AAType.Wand)
             {
-                Player.StartGCD(CurrentSpeed());
+                Player.StartGCD(CurrentSpeed(), true);
             }
         }
 
-        public void DoAA(List<string> alreadyProc = null, bool extra = false)
+        public void DoAA(List<string> alreadyProc = null, bool extra = false, bool isYellow = false)
         {
             double mitigation = 1;
             ResultType res;
@@ -77,7 +77,7 @@ namespace ClassicCraft
                 res = ResultType.Hit;
                 // TODO
             }
-            else if (Player.Class == Player.Classes.Warrior && !MH && Player.applyAtNextAA != null)
+            else if (isYellow || (Player.Class == Player.Classes.Warrior && !MH && Player.applyAtNextAA != null))
             {
                 res = Player.YellowAttackEnemy(Player.Sim.Boss);
             }
@@ -86,8 +86,6 @@ namespace ClassicCraft
                 res = Player.WhiteAttackEnemy(Player.Sim.Boss, MH);
             }
 
-
-            Player.nextAABonus = 0;
             int minDmg, maxDmg, damage;
             if(Type == AAType.Wand)
             {
@@ -113,19 +111,19 @@ namespace ClassicCraft
                     (Weapon.DamageMax + Weapon.Speed * (Player.AP + Player.nextAABonus) / 14)));
                 damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
                     * Player.Sim.DamageMod(res, Weapon.School, MH, true)
-                    * Simulation.ArmorMitigation(Player.Sim.Boss.Armor)
+                    * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level)
                     * Player.DamageMod
                     * (Player.DualWielding ? (MH ? 1 : 0.5 * (1 + ((Player.Class == Player.Classes.Rogue ? 0.1 : 0.05) * Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Player.GetTalentPoints("2HS")))
                     * mitigation
                     );
             }
+            Player.nextAABonus = 0;
 
             int threat = (int)Math.Round(damage * Player.ThreatMod);
 
             if (Player.Class == Player.Classes.Warrior || Player.Form == Player.Forms.Bear)
             {
-                Player.Resource += (int)Math.Round(Simulation.RageGained(damage, Player.Level));
-                //Player.Resource += (int)Math.Round(Simulation.RageGained2(damage, Weapon.Speed, MH, res == ResultType.Crit, Player.Level));
+                Player.Resource += (int)Math.Round(Simulation.RageGained(damage, Player.Level, MH, res == ResultType.Crit, Weapon.Speed));
             }
 
             RegisterDamage(new ActionResult(res, damage, threat));

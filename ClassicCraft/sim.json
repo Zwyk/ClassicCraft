@@ -1,9 +1,9 @@
 {
-  "FightLength": 90.0,
-  "FightLengthMod": 0.3,
+  "FightLength": 180.0,
+  "FightLengthMod": 0.1,
   "NbSim": 1,
   "StatsWeights": false,
-  "TargetErrorPct": 0.2,
+  "TargetErrorPct": 0.5,
   "TargetError": true,
   "LogFight": false,
   "BossAutoLife": true,
@@ -11,7 +11,7 @@
   "Boss": {
     "Level": 63,
     "Type": null,
-    "Armor": 3731,
+    "Armor": 3700,
     "Debuffs": [
       "Sunder Armor",
       "Curse of Recklessness",
@@ -24,7 +24,7 @@
   },
   "UnlimitedMana": false,
   "UnlimitedResource": false,
-  "Tanking": true,
+  "Tanking": false,
   "TankHitEvery": 2.0,
   "TankHitRage": 30.0
 }

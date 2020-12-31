@@ -30,7 +30,7 @@ namespace ClassicCraft
             int damage = (int)Math.Round(DAMAGE
                 * Player.Sim.DamageMod(res)
                 * (1 + Player.GetTalentPoints("SF") * 0.1)
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor)
+                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level)
                 * Player.DamageMod
                 );
 

@@ -28,7 +28,7 @@ namespace ClassicCraft
             {
                 Player.StartGCD();
             }
-
+            
             Player.Resource -= Cost;
         }
 

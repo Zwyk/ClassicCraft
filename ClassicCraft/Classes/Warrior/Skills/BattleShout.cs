@@ -13,7 +13,7 @@ namespace ClassicCraft
         public static int BASE_COST = 10;
         public static int CD = 0;
 
-        public static int THREAT_PER_BUFFED = 56; //70
+        public static int THREAT_PER_BUFFED = 70;
 
         public int NbBuffed { get; set; }
 
