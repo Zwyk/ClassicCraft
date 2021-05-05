@@ -2,7 +2,7 @@
   "Class": "Warrior",
   "Level": 70,
   "Race": "Orc",
-  "Talents": "32024001302-050500055050120521251",
+  "Talents": "32003301352010500221-0550000500521203",
   "Cooldowns": {
     "Racial": true,
     "Death Wish": true,
@@ -143,49 +143,25 @@
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 147.0,
-      "DamageMax": 275.0,
-      "Speed": 2.6,
-      "TwoHanded": false,
+      "DamageMin": 304.0,
+      "DamageMax": 456.0,
+      "Speed": 3.5,
+      "TwoHanded": true,
       "Type": "Sword",
       "Buff": null,
       "School": null,
-      "Name": "Dragonmaw",
+      "Name": "Quantum Blade",
       "Id": 7,
       "Slot": "Weapon",
       "Stats": {
-        "Hit": 19.0,
-        "AP": 38.0
+        "Hit": 30.0,
+        "AP": 103
       },
       "Enchantment": {
         "Id": 0,
-        "Name": "Mongoose",
+        "Name": "Crusader",
         "Slot": "Weapon",
         "Stats": {}
-      }
-    },
-    "OH": {
-      "DamageMin": 128.0,
-      "DamageMax": 239.0,
-      "Speed": 2.2,
-      "TwoHanded": false,
-      "Type": "Axe",
-      "Buff": null,
-      "School": null,
-      "Name": "Fel Edged",
-      "Id": 5,
-      "Slot": "Weapon",
-      "Stats": {
-        "AP": 21.0,
-        "Hit": 14.0
-      },
-      "Enchantment": {
-        "Id": 0,
-        "Name": "Mongoose",
-        "Slot": "Weapon",
-        "Stats": {
-          "Str": 8.0
-        }
       }
     },
     "Ranged": {

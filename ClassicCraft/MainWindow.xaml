@@ -1249,7 +1249,7 @@
                         </TabItem>
                     </TabControl>
                 </TabItem>
-                <TabItem Header= "Console" x:Name="ConsoleTab">
+                <TabItem Header= "Results" x:Name="ConsoleTab">
                     <Grid Margin="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />

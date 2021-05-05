@@ -59,6 +59,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Auras\Effects\CustomStatsBuff.cs" />
     <Compile Include="Auras\Effects\CustomEffect.cs" />
     <Compile Include="Classes\Druid\Druid.cs" />
     <Compile Include="Classes\Druid\Effects\InnervateBuff.cs" />

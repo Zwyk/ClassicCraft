@@ -24,7 +24,7 @@ namespace ClassicCraft
         {
             base.StartEffect();
 
-            Player.Resource += Randomer.Next(45, 347);
+            Player.Resource += Randomer.Next(45, 75);
             Player.BonusAttributes.SetValue(Attribute.Strength, Player.BonusAttributes.GetValue(Attribute.Strength) + Bonus);
             Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) + Bonus * 2 * (Program.version == Version.TBC ? 1 + 0.02 * Player.GetTalentPoints("IBStance") : 1));
         }

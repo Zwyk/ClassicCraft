@@ -8,6 +8,8 @@ namespace ClassicCraft
 {
     class Crusader : Effect
     {
+        // DEPRECATED
+
         public static int LENGTH = 15;
 
         public static double BONUS = 100;

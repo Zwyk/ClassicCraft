@@ -12,7 +12,7 @@ namespace ClassicCraft
         public static int CD = 6;
 
         public MortalStrike(Player p)
-            : base(p, CD - Program.version == Version.TBC ? 0.2 * p.GetTalentPoints("IMS") - p.GetTalentPoints("FR") : 0, BASE_COST)
+            : base(p, CD - (Program.version == Version.TBC ? 0.2 * p.GetTalentPoints("IMS") - p.GetTalentPoints("FR") : 0), BASE_COST)
         {
         }
 

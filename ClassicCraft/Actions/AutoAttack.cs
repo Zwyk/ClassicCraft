@@ -134,9 +134,14 @@ namespace ClassicCraft
             }
         }
 
-        public void ResetSwing()
+        public void Swing()
         {
             LockedUntil = Player.Sim.CurrentTime;
+        }
+
+        public void ResetSwing()
+        {
+            LockedUntil = Player.Sim.CurrentTime + CurrentSpeed();
         }
 
         public void CastNextSwing()

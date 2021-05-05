@@ -1,0 +1,189 @@
+{
+  "Class": "Warrior",
+  "Level": 70,
+  "Race": "Orc",
+  "Talents": "32024001302-050500055050120521251",
+  "Cooldowns": {
+    "Racial": true,
+    "Death Wish": true,
+    "Recklessness": false,
+    "Juju Flurry": false,
+    "Mighty Rage": false
+  },
+  "Buffs": [
+    {
+      "Id": 0,
+      "Name": "Windfury Totem",
+      "Slot": null,
+      "Stats": {}
+    },
+    {
+      "Id": 0,
+      "Name": "Test",
+      "Slot": null,
+      "Stats": {
+        "Hit": 201.0,
+        "Crit": 460.0,
+        "AP": 1308.0,
+        "Haste": 0.0,
+        "Dagger": 0.0,
+        "Sword": 0.0,
+        "Axe": 0.0,
+        "Agi": 88.0,
+        "Str": 379.0,
+        "Expertise": 6,
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Ragesteel",
+      "Slot": null,
+      "Stats": {
+        "Hit": 20.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Battle Shout",
+      "Slot": null,
+      "Stats": {
+        "AP": 381.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Totem STR",
+      "Slot": null,
+      "Stats": {
+        "Str": 99.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Benediction of Might",
+      "Slot": null,
+      "Stats": {
+        "AP": 264.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "blessing of kings",
+      "Slot": null,
+      "Stats": {}
+    },
+    {
+      "Id": 0,
+      "Name": "Benedictions",
+      "Slot": null,
+      "Stats": {
+        "AP": 264.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Trueshot Aura",
+      "Slot": null,
+      "Stats": {
+        "AP": 125.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Mark of the Wild",
+      "Slot": null,
+      "Stats": {
+        "Agi": 19.0,
+        "Str": 19.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Food",
+      "Slot": null,
+      "Stats": {
+        "Str": 20.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Flask",
+      "Slot": null,
+      "Stats": {
+        "AP": 120.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Elixir",
+      "Slot": null,
+      "Stats": {
+        "Str": 35.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Drums",
+      "Slot": null,
+      "Stats": {
+        "Haste": 80.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Seal of the Crusader",
+      "Slot": null,
+      "Stats": {}
+    },
+    {
+      "Id": 0,
+      "Name": "Blood Frenzy",
+      "Slot": null,
+      "Stats": {}
+    }
+  ],
+  "Weapons": {
+    "MH": {
+      "DamageMin": 182.0,
+      "DamageMax": 339.0,
+      "Speed": 2.7,
+      "TwoHanded": false,
+      "Type": "Sword",
+      "Buff": null,
+      "School": null,
+      "Name": "MH",
+      "Id": 7,
+      "Slot": "Weapon",
+      "Stats": {
+      },
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Crusader",
+        "Slot": "Weapon",
+        "Stats": {}
+      }
+    },
+    "OH": {
+      "DamageMin": 165.0,
+      "DamageMax": 308.0,
+      "Speed": 2.7,
+      "TwoHanded": false,
+      "Type": "Sword",
+      "Buff": null,
+      "School": null,
+      "Name": "OH",
+      "Id": 5,
+      "Slot": "Weapon",
+      "Stats": {
+      },
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Crusader",
+        "Slot": "Weapon",
+        "Stats": {
+        }
+      }
+    },
+  },
+  "Equipment": {}
+}

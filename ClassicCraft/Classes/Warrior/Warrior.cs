@@ -105,6 +105,7 @@ namespace ClassicCraft
                     Talents.Add("Impale", arms.Length > 10 ? (int)Char.GetNumericValue(arms[10]) : 0);
                     Talents.Add("Poleaxe", arms.Length > 11 ? (int)Char.GetNumericValue(arms[11]) : 0);
                     Talents.Add("DeathWish", arms.Length > 12 ? (int)Char.GetNumericValue(arms[12]) : 0);
+                    Talents.Add("Mace", arms.Length > 13 ? (int)Char.GetNumericValue(arms[13]) : 0);
                     Talents.Add("Sword", arms.Length > 14 ? (int)Char.GetNumericValue(arms[14]) : 0);
                     Talents.Add("ID", arms.Length > 17 ? (int)Char.GetNumericValue(arms[17]) : 0);
                     Talents.Add("MS", arms.Length > 19 ? (int)Char.GetNumericValue(arms[19]) : 0);
@@ -203,17 +204,31 @@ namespace ClassicCraft
 
             if (Program.version == Version.TBC)
             {
-                if (Sim.Tanking)
+                if (Sim.Tanking)                                    // Tank
                 {
-                    rota = 11;   // Fury Tank
+                    rota = 12;   // Fury Tank
                 }
-                else if (GetTalentPoints("IS") > 0)
+                else if(GetTalentPoints("BT") > 0)                  // Fury
                 {
-                    rota = 12;   // Fury Slam
+                    if (GetTalentPoints("IS") > 0)
+                    {
+                        rota = 101;   // Fury Slam
+                    }
+                    else
+                    {
+                        rota = 10;   // Fury regular
+                    }
                 }
-                else
+                else if (GetTalentPoints("MS") > 0)                 // Arms
                 {
-                    rota = 10;   // Fury
+                    if (GetTalentPoints("IS") > 0)
+                    {
+                        rota = 11;  // Arms Slam
+                    }
+                    else
+                    {
+                        rota = 111; // Arms no slam
+                    }
                 }
             }
             else
@@ -426,6 +441,54 @@ namespace ClassicCraft
                         exec.Cast();
                     }
                     */
+                }
+            }
+            else if (rota == 11) // Slam > MS > WW + HS + Exec
+            {
+                if (mh.LockedUntil - Sim.CurrentTime >= mh.CurrentSpeed() * 0.95 && slam.CanUse())
+                {
+                    slam.Cast();
+                }
+                else if (ms.CanUse())
+                {
+                    ms.Cast();
+                }
+                else if (ww.CanUse())
+                {
+                    ww.Cast();
+                }
+                else if (Sim.Boss.LifePct <= 0.2 && exec.CanUse())
+                {
+                    exec.Cast();
+                }
+
+                if (applyAtNextAA == null && Resource >= ms.Cost + ww.Cost + hs.Cost && hs.CanUse())
+                {
+                    hs.Cast();
+                }
+            }
+            else if (rota == 111) //MS > WW > Ham + HS + Exec
+            {
+                if (Sim.Boss.LifePct <= 0.2 && exec.CanUse())
+                {
+                    exec.Cast();
+                }
+                else if (ms.CanUse())
+                {
+                    ms.Cast();
+                }
+                else if (ww.CanUse())
+                {
+                    ww.Cast();
+                }
+                else if (ham.CanUse() && Resource >= bt.Cost + ww.Cost + hs.Cost && ww.RemainingCD() >= GCD_Hasted() && bt.RemainingCD() >= GCD_Hasted() && ww.RemainingCD() >= GCD_Hasted() && (!Effects.ContainsKey(Flurry.NAME) || ((Flurry)Effects[Flurry.NAME]).CurrentStacks < 3))
+                {
+                    ham.Cast();
+                }
+
+                if (applyAtNextAA == null && Resource >= ms.Cost + ww.Cost + hs.Cost && hs.CanUse())
+                {
+                    hs.Cast();
                 }
             }
 

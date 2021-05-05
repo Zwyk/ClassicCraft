@@ -2,7 +2,7 @@
   "Class": "Warrior",
   "Level": 70,
   "Race": "Orc",
-  "Talents": "32024001302-050500055050120521251",
+  "Talents": "32025301302010500321-0550000500521203",
   "Cooldowns": {
     "Racial": true,
     "Death Wish": true,
@@ -150,7 +150,7 @@
       "Type": "Sword",
       "Buff": null,
       "School": null,
-      "Name": "Dragonmaw",
+      "Name": "Vind Brand",
       "Id": 7,
       "Slot": "Weapon",
       "Stats": {
@@ -159,7 +159,7 @@
       },
       "Enchantment": {
         "Id": 0,
-        "Name": "Mongoose",
+        "Name": "Crusader",
         "Slot": "Weapon",
         "Stats": {}
       }
@@ -181,7 +181,7 @@
       },
       "Enchantment": {
         "Id": 0,
-        "Name": "Mongoose",
+        "Name": "Crusader",
         "Slot": "Weapon",
         "Stats": {
           "Str": 8.0

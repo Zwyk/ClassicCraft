@@ -47,7 +47,7 @@ namespace ClassicCraft
 
     public class Program
     {
-        public static Version version = Version.Vanilla;
+        public static Version version = Version.TBC;
 
         public static string simJsonFileName = "sim.json";
         public static string playerJsonFileName = "player.json";
@@ -532,7 +532,7 @@ namespace ClassicCraft
                         ThreatsList.Add(simOrder[done], CurrentTpsList);
                     }
 
-                    Log(simOrder[done] + " : " + CurrentDpsList.Average());
+                    //Log(simOrder[done] + " : " + CurrentDpsList.Average());
                 }
 
 
@@ -962,7 +962,7 @@ namespace ClassicCraft
                     //List<string> logList = totalActions.SelectMany(a => a.Select(t => t.Action.ToString()).OrderBy(b => b)).Distinct().ToList();
                     List<string> logListActions = new List<string>() { "AA MH", "AA OH", "AA Ranged", "AA Wand" };
                     if (playerBase.Class == Player.Classes.Warrior)
-                        logListActions.AddRange(new List<string>() { "Slam", "Bloodthirst", "Sunder Armor", "Revenge", "Whirlwind", "Heroic Strike", "Execute", "Hamstring", "Battle Shout" });
+                        logListActions.AddRange(new List<string>() { "Slam", "Bloodthirst", "Mortal Strike", "Sunder Armor", "Revenge", "Whirlwind", "Heroic Strike", "Execute", "Hamstring", "Battle Shout" });
                     else if (playerBase.Class == Player.Classes.Druid)
                         logListActions.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift", "Maul", "Swipe" });
                     else if (playerBase.Class == Player.Classes.Priest)

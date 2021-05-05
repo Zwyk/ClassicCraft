@@ -24,7 +24,7 @@ namespace ClassicCraft
 
             if(Program.logFight)
             {
-                Program.Log(string.Format("{0:N2} : {1} for {2} rage (rage {3})", Player.Sim.CurrentTime, ToString(), 1, Player.Resource));
+                Program.Log(string.Format("{0:N2} : {1} for {2} rage (rage {3}/{4})", Player.Sim.CurrentTime, ToString(), 1, Player.Resource, Player.MaxResource));
             }
         }
 

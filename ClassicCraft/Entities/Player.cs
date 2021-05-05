@@ -770,7 +770,7 @@ namespace ClassicCraft
 
         public static List<string> SPECIALSETS_LIST = new List<string>()
         {
-            "Nightslayer", "Shadowcraft", "Darkmantle"
+            "Nightslayer", "Shadowcraft", "Darkmantle", "Warbringer", "Destroyer", "Onslaught"
         };
 
         public static Dictionary<Attribute, double> RatingRatios = new Dictionary<Attribute, double>()
@@ -1234,7 +1234,6 @@ namespace ClassicCraft
             if(auto != null)
             {
                 auto.ResetSwing();
-                auto.CastNextSwing();
             }
         }
 
@@ -1346,8 +1345,7 @@ namespace ClassicCraft
             {
                 Attributes.SetValue(Attribute.Intellect, Attributes.GetValue(Attribute.Intellect)
                     * (1 + 0.04 * GetTalentPoints("HW")));
-                Attributes.SetValue(Attribute.Strength, Attributes.GetValue(Attribute.Strength)
-                    * (1 + 0.04 * GetTalentPoints("HW")));
+                if (Program.version == Version.Vanilla && !Tanking) Attributes.SetValue(Attribute.Strength, Attributes.GetValue(Attribute.Strength) * (1 + 0.04 * GetTalentPoints("HW")));
                 Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
                     + 0.01 * GetTalentPoints("SC"));
                 Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP)
@@ -1359,7 +1357,7 @@ namespace ClassicCraft
                 }
                 else
                 {
-                    Form = Forms.Cat;
+                    Form = Forms.Cat;   // TODO : Moonkin
                 }
             }
             else if (Class == Classes.Mage)
@@ -1451,9 +1449,13 @@ namespace ClassicCraft
                 }
             }
             Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Strength) * StrToAPRatio(Class) + Attributes.GetValue(Attribute.Agility) * AgiToAPRatio(this));
-            Attributes.SetValue(Attribute.RangedAP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Agility) * AgiToRangedAPRatio(Class));
+            Attributes.SetValue(Attribute.RangedAP, Attributes.GetValue(Attribute.RangedAP) + Attributes.GetValue(Attribute.Agility) * AgiToRangedAPRatio(Class));
             Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance) + Attributes.GetValue(Attribute.Agility) * AgiToCritRatio(Class));
             Attributes.SetValue(Attribute.SpellCritChance, Attributes.GetValue(Attribute.SpellCritChance) + BaseSpellCrit(Class) + Attributes.GetValue(Attribute.Intellect) * IntToCritRatio(Class));
+
+
+            if (Class == Classes.Druid && Program.version == Version.TBC && !Tanking) Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) * (1 + 0.02 * GetTalentPoints("HW")));
+            if (Class == Classes.Warrior && Program.version == Version.TBC) Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) * (1 + 0.02 * GetTalentPoints("IBStance")));
 
             int baseSkill = Level * 5;
             WeaponSkill = new Dictionary<Weapon.WeaponType, int>();
@@ -1501,12 +1503,12 @@ namespace ClassicCraft
                 if (Race == Races.Orc)
                 {
                     if (MH.Type == Weapon.WeaponType.Axe) MH.Buff.Attributes.SetValue(Attribute.CritChance, MH.Buff.Attributes.GetValue(Attribute.CritChance) + 0.01);
-                    if (OH.Type == Weapon.WeaponType.Axe) OH.Buff.Attributes.SetValue(Attribute.CritChance, OH.Buff.Attributes.GetValue(Attribute.CritChance) + 0.01);
+                    if (DualWielding && OH.Type == Weapon.WeaponType.Axe) OH.Buff.Attributes.SetValue(Attribute.CritChance, OH.Buff.Attributes.GetValue(Attribute.CritChance) + 0.01);
                 }
                 else if (Race == Races.Human)
                 {
                     if (MH.Type == Weapon.WeaponType.Sword || MH.Type == Weapon.WeaponType.Mace) MH.Enchantment.Attributes.SetValue(Attribute.CritChance, MH.Enchantment.Attributes.GetValue(Attribute.CritChance) + 0.01);
-                    if (OH.Type == Weapon.WeaponType.Sword || MH.Type == Weapon.WeaponType.Mace) OH.Enchantment.Attributes.SetValue(Attribute.CritChance, OH.Enchantment.Attributes.GetValue(Attribute.CritChance) + 0.01);
+                    if (DualWielding && OH.Type == Weapon.WeaponType.Sword || MH.Type == Weapon.WeaponType.Mace) OH.Enchantment.Attributes.SetValue(Attribute.CritChance, OH.Enchantment.Attributes.GetValue(Attribute.CritChance) + 0.01);
                 }
                 else if (Race == Races.Troll)
                 {
@@ -1541,6 +1543,8 @@ namespace ClassicCraft
                 alreadyProc = new List<string>();
             }
 
+            Weapon w = isMH ? MH : OH;
+
             if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
             {
                 if (Class == Classes.Warrior)
@@ -1566,7 +1570,7 @@ namespace ClassicCraft
                             Program.Log(string.Format("{0:N2} : Sword Specialization procs", Sim.CurrentTime));
                         }
 
-                        switch(Program.version)
+                        switch (Program.version)
                         {
                             case Version.Vanilla:
                                 ExtraAA(alreadyProc);
@@ -1576,9 +1580,25 @@ namespace ClassicCraft
                                 break;
                         }
                     }
-                    if(Program.version == Version.TBC && Effects.ContainsKey(RampageBuff.NAME))
+                    if (Program.version == Version.TBC)
                     {
-                        RampageBuff.CheckProc(this, res, isMH ? MH.Speed : OH.Speed);
+                        if (Effects.ContainsKey(RampageBuff.NAME))
+                        {
+                            RampageBuff.CheckProc(this, res, isMH ? MH.Speed : OH.Speed);
+                        }
+
+                        if (!alreadyProc.Contains("Mace")
+                            && Randomer.NextDouble() < w.Speed / 60 * 1.5)
+                        {
+                            alreadyProc.Add("Mace");
+
+                            if (Program.logFight)
+                            {
+                                Program.Log(string.Format("{0:N2} : Mace Specialization procs", Sim.CurrentTime));
+                            }
+
+                            Resource += 7;
+                        }
                     }
                 }
                 else if (Class == Classes.Druid)
@@ -1604,7 +1624,16 @@ namespace ClassicCraft
                         {
                             Program.Log(string.Format("{0:N2} : Sword Specialization procs", Sim.CurrentTime));
                         }
-                        ExtraAA(alreadyProc);
+                        
+                        switch (Program.version)
+                        {
+                            case Version.Vanilla:
+                                ExtraAA(alreadyProc);
+                                break;
+                            case Version.TBC:
+                                mh.DoAA(alreadyProc, true, true);
+                                break;
+                        }
                     }
                     if((!WindfuryTotem || !isMH) && !alreadyProc.Contains("IP") && Randomer.NextDouble() < 0.2)
                     {
@@ -1625,10 +1654,38 @@ namespace ClassicCraft
 
                 if (Form == Forms.Humanoid)
                 {
+                    if (!alreadyProc.Contains("crusader") &&
+                        ((isMH && MH?.Enchantment?.Name.ToLower().Contains("crusader") == true) || (!isMH && OH?.Enchantment?.Name.ToLower().Contains("crusader") == true))
+                        && (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
+                        && Randomer.NextDouble() < (isMH ? MH.Speed : OH.Speed) / 60)
+                    {
+                        string procName = "Crusader" + (isMH ? "MH" : "OH");
+                        alreadyProc.Add(procName);
+                        Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
+                            {
+                                { Attribute.Strength, 100 },
+                            };
+                        int procDuration = 15;
+
+                        if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
+                        {
+                            if (Effects.ContainsKey(procName))
+                            {
+                                Effects[procName].Refresh();
+                            }
+                            else
+                            {
+                                CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
+                                buff.StartEffect();
+                            }
+                        }
+                    }
+                    /* DEPRECATED
                     if ((isMH && MH.Enchantment != null && MH.Enchantment.Name == "Crusader") || (!isMH && OH.Enchantment != null && OH.Enchantment.Name == "Crusader"))
                     {
-                        Crusader.CheckProc(this, res, MH.Speed);
+                        Crusader.CheckProc(this, res, isMH ? MH.Speed : OH.Speed);
                     }
+                    */
 
                     if (isMH && WindfuryTotem && !alreadyProc.Contains("WF") && Randomer.NextDouble() < 0.2)
                     {
@@ -1640,7 +1697,16 @@ namespace ClassicCraft
                         }
 
                         nextAABonus = (int)Math.Round((Program.version == Version.TBC ? 445 : 315) * 1.3);
-                        ExtraAA(alreadyProc);
+
+                        switch (Program.version)
+                        {
+                            case Version.Vanilla:
+                                ExtraAA(alreadyProc);
+                                break;
+                            case Version.TBC:
+                                mh.DoAA(alreadyProc, true, true);
+                                break;
+                        }
                     }
                 }
 
@@ -1739,11 +1805,97 @@ namespace ClassicCraft
                     {
                         CustomActions.Add(procName, new CustomAction(this, procName, School.Nature));
                     }
-                    
+
                     double mitigation = Simulation.MagicMitigation(Sim.Boss.ResistChances[School.Nature]);
                     ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Sim.Boss);
                     int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Nature) * mitigation);
                     CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round((dmg + bonusThreat) * ThreatMod)));
+                }
+
+                if(Program.version == Version.TBC)
+                {
+                    if (Form == Forms.Humanoid)
+                    {
+                        if (!alreadyProc.Contains("mongoose") &&
+                            ((isMH && MH?.Enchantment?.Name.ToLower().Contains("mongoose") == true) || (!isMH && OH?.Enchantment?.Name.ToLower().Contains("mongoose") == true))
+                            && (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
+                            && Randomer.NextDouble() < (isMH ? MH.Speed : OH.Speed) / 60)
+                        {
+                            string procName = "Mongoose" + (isMH?"MH":"OH");
+                            alreadyProc.Add(procName);
+                            Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
+                            {
+                                { Attribute.Agility, 120 },
+                                { Attribute.Haste, 0.02 },
+                            };
+                            int procDuration = 15;
+
+                            if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
+                            {
+                                if (Effects.ContainsKey(procName))
+                                {
+                                    Effects[procName].Refresh();
+                                }
+                                else
+                                {
+                                    CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
+                                    buff.StartEffect();
+                                }
+                            }
+                        }
+                    }
+
+                    if (!alreadyProc.Contains("LHC") &&
+                        isMH && (MH?.Name.ToLower().Contains("lionheart champion") == true || MH?.Name.ToLower().Contains("lhc") == true) && Randomer.NextDouble() < 0.06)
+                    {
+                        string procName = "LHC";
+                        alreadyProc.Add(procName);
+                        Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.Strength, 100 }
+                        };
+                        int procDuration = 10;
+
+                        if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
+                        {
+                            if (Effects.ContainsKey(procName))
+                            {
+                                Effects[procName].Refresh();
+                            }
+                            else
+                            {
+                                CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
+                                buff.StartEffect();
+                            }
+                        }
+                    }
+
+                    if (!alreadyProc.Contains("dragonstrike") &&
+                        (w.Name.ToLower().Contains("dragonstrike") || w.Name.ToLower().Contains("dragonmaw") || w.Name.ToLower().Contains("drakefist"))
+                        && Randomer.NextDouble() < 0.045)
+                    {
+                        string procName = "Dragonstrike";
+                        alreadyProc.Add(procName);
+
+                        Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.Haste, 212 / RatingRatios[Attribute.Haste] / 100 }
+                        };
+                        int procDuration = 10;
+
+                        if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
+                        {
+                            if (Effects.ContainsKey(procName))
+                            {
+                                Effects[procName].Refresh();
+                            }
+                            else
+                            {
+                                CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
+                                buff.StartEffect();
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -1778,7 +1930,7 @@ namespace ClassicCraft
             if(Program.version == Version.TBC)
             {
                 MHParryExpertise = Math.Max(0, ExpertiseRating - enemy.DodgeChance(WeaponSkill[MH.Type]));
-                OHParryExpertise = Math.Max(0, ExpertiseRating - enemy.DodgeChance(WeaponSkill[OH.Type]));
+                if(DualWielding) OHParryExpertise = Math.Max(0, ExpertiseRating - enemy.DodgeChance(WeaponSkill[OH.Type]));
             }
 
             Dictionary<ResultType, double> whiteHitChancesMH = new Dictionary<ResultType, double>();
