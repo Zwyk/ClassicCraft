@@ -84,10 +84,11 @@ namespace ClassicCraft
 
             CurrentTime = 0;
             Boss.LifePct = 1;
-
+            
             /*
             if (Randomer.NextDouble() < 0.002)
             {
+                Program.Log(Player);
             }
             */
 
@@ -161,6 +162,10 @@ namespace ClassicCraft
             if (Player.Class == Player.Classes.Rogue || Player.Form == Player.Forms.Cat)
             {
                 Player.CheckEnergyTick();
+            }
+            if(Player.Class == Player.Classes.Warrior && Player.GetTalentPoints("AM") > 0)
+            {
+                (Player as Warrior).CheckAngerManagementTick();
             }
             if (Player.MaxMana > 0)
             {

@@ -15,7 +15,7 @@ namespace ClassicCraft
         public Flurry(Player p, int points, Entity target, double baseLength = 15, int stacks = 3)
             : base(p, target, true, baseLength, stacks)
         {
-            Haste = 1 + (points > 0 ? 0.1 + (points - 1) * 0.05 : 0);
+            Haste = 1 + (points > 0 ? (Program.version == Version.Vanilla ? 0.1 : 0.05) + (points - 1) * 0.05 : 0);
         }
 
         public static void CheckProc(Player p, ResultType type, int points, bool noDestack = false)
@@ -45,12 +45,12 @@ namespace ClassicCraft
         public override void StartEffect()
         {
             Target.Effects.Add(NAME, this);
-
+            double haste = Player.HasteMod;
             Player.HasteMod *= Haste;
 
             if (Program.logFight)
             {
-                Program.Log(string.Format("{0:N2} : {1} started (haste = {2:N2})", Player.Sim.CurrentTime, ToString(), Player.HasteMod));
+                Program.Log(string.Format("{0:N2} : {1} started", Player.Sim.CurrentTime, ToString()));
             }
         }
 
@@ -65,7 +65,7 @@ namespace ClassicCraft
 
                 if (Program.logFight)
                 {
-                    Program.Log(string.Format("{0:N2} : {1} ended (haste = {2:N2})", Player.Sim.CurrentTime, ToString(), Player.HasteMod));
+                    Program.Log(string.Format("{0:N2} : {1} ended", Player.Sim.CurrentTime, ToString()));
                 }
             }
         }

@@ -2,7 +2,7 @@
   "FightLength": 240.0,
   "FightLengthMod": 0.1,
   "NbSim": 1,
-  "StatsWeights": true,
+  "StatsWeights": false,
   "TargetErrorPct": 0.5,
   "TargetError": true,
   "LogFight": false,

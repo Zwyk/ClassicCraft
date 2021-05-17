@@ -630,74 +630,83 @@ namespace ClassicCraft
                     switch (r)
                     {
                         case Races.Dwarf:
-                            res.Values.Add(Attribute.Strength, 122);
-                            res.Values.Add(Attribute.Agility, 76);
-                            res.Values.Add(Attribute.Stamina, 113);
-                            res.Values.Add(Attribute.Intellect, 29);
-                            res.Values.Add(Attribute.Spirit, 44);
+                            res.Values.Add(Attribute.Strength, level == 70 ? 147 : 122);
+                            res.Values.Add(Attribute.Agility, level == 70 ? 92 : 76);
+                            res.Values.Add(Attribute.Stamina, level == 70 ? 136 : 113);
+                            res.Values.Add(Attribute.Intellect, level == 70 ? 32 : 29);
+                            res.Values.Add(Attribute.Spirit, level == 70 ? 50 : 44);
                             res.Values.Add(Attribute.Health, 1689);
                             res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Gnome:
-                            res.Values.Add(Attribute.Strength, 115);
-                            res.Values.Add(Attribute.Agility, 83);
-                            res.Values.Add(Attribute.Stamina, 109);
-                            res.Values.Add(Attribute.Intellect, 35);
-                            res.Values.Add(Attribute.Spirit, 45);
+                            res.Values.Add(Attribute.Strength, level == 70 ? 140 : 115);
+                            res.Values.Add(Attribute.Agility, level == 70 ? 99 : 83);
+                            res.Values.Add(Attribute.Stamina, level == 70 ? 132 : 109);
+                            res.Values.Add(Attribute.Intellect, level == 70 ? 38 : 35);
+                            res.Values.Add(Attribute.Spirit, level == 70 ? 51 : 45);
                             res.Values.Add(Attribute.Health, 1689);
                             res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Human:
-                            res.Values.Add(Attribute.Strength, 120);
-                            res.Values.Add(Attribute.Agility, 80);
-                            res.Values.Add(Attribute.Stamina, 110);
-                            res.Values.Add(Attribute.Intellect, 30);
-                            res.Values.Add(Attribute.Spirit, 47);
+                            res.Values.Add(Attribute.Strength, level == 70 ? 145 : 120);
+                            res.Values.Add(Attribute.Agility, level == 70 ? 96 : 80);
+                            res.Values.Add(Attribute.Stamina, level == 70 ? 133 : 110);
+                            res.Values.Add(Attribute.Intellect, level == 70 ? 33 : 30);
+                            res.Values.Add(Attribute.Spirit, level == 70 ? 56 : 47);
                             res.Values.Add(Attribute.Health, 1689);
                             res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.NightElf:
-                            res.Values.Add(Attribute.Strength, 117);
-                            res.Values.Add(Attribute.Agility, 85);
-                            res.Values.Add(Attribute.Stamina, 109);
-                            res.Values.Add(Attribute.Intellect, 30);
-                            res.Values.Add(Attribute.Spirit, 45);
+                            res.Values.Add(Attribute.Strength, level == 70 ? 142 : 117);
+                            res.Values.Add(Attribute.Agility, level == 70 ? 101 : 85);
+                            res.Values.Add(Attribute.Stamina, level == 70 ? 132 : 109);
+                            res.Values.Add(Attribute.Intellect, level == 70 ? 33 : 30);
+                            res.Values.Add(Attribute.Spirit, level == 70 ? 51 : 45);
                             res.Values.Add(Attribute.Health, 1689);
                             res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Orc:
-                            res.Values.Add(Attribute.Strength, 123);
-                            res.Values.Add(Attribute.Agility, 77);
-                            res.Values.Add(Attribute.Stamina, 112);
-                            res.Values.Add(Attribute.Intellect, 27);
-                            res.Values.Add(Attribute.Spirit, 48);
+                            res.Values.Add(Attribute.Strength, level == 70 ? 148 : 123);
+                            res.Values.Add(Attribute.Agility, level == 70 ? 93 : 77);
+                            res.Values.Add(Attribute.Stamina, level == 70 ? 135 : 112);
+                            res.Values.Add(Attribute.Intellect, level == 70 ? 30 : 27);
+                            res.Values.Add(Attribute.Spirit, level == 70 ? 54 : 48);
                             res.Values.Add(Attribute.Health, 1689);
                             res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Tauren:
-                            res.Values.Add(Attribute.Strength, 125);
-                            res.Values.Add(Attribute.Agility, 75);
-                            res.Values.Add(Attribute.Stamina, 112);
-                            res.Values.Add(Attribute.Intellect, 27);
-                            res.Values.Add(Attribute.Spirit, 47);
+                            res.Values.Add(Attribute.Strength, level == 70 ? 150 : 125);
+                            res.Values.Add(Attribute.Agility, level == 70 ? 91 : 75);
+                            res.Values.Add(Attribute.Stamina, level == 70 ? 135 : 112);
+                            res.Values.Add(Attribute.Intellect, level == 70 ? 28 : 27);
+                            res.Values.Add(Attribute.Spirit, level == 70 ? 53 : 47);
                             res.Values.Add(Attribute.Health, 1689);
                             res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Troll:
-                            res.Values.Add(Attribute.Strength, 121);
-                            res.Values.Add(Attribute.Agility, 82);
-                            res.Values.Add(Attribute.Stamina, 111);
-                            res.Values.Add(Attribute.Intellect, 26);
-                            res.Values.Add(Attribute.Spirit, 46);
+                            res.Values.Add(Attribute.Strength, level == 70 ? 146 : 121);
+                            res.Values.Add(Attribute.Agility, level == 70 ? 98 : 82);
+                            res.Values.Add(Attribute.Stamina, level == 70 ? 134 : 111);
+                            res.Values.Add(Attribute.Intellect, level == 70 ? 29 : 26);
+                            res.Values.Add(Attribute.Spirit, level == 70 ? 52 : 46);
                             res.Values.Add(Attribute.Health, 1689);
                             res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Undead:
-                            res.Values.Add(Attribute.Strength, 119);
-                            res.Values.Add(Attribute.Agility, 78);
-                            res.Values.Add(Attribute.Stamina, 111);
-                            res.Values.Add(Attribute.Intellect, 28);
-                            res.Values.Add(Attribute.Spirit, 50);
+                            res.Values.Add(Attribute.Strength, level == 70 ? 144 : 119);
+                            res.Values.Add(Attribute.Agility, level == 70 ? 94 : 78);
+                            res.Values.Add(Attribute.Stamina, level == 70 ? 134 : 111);
+                            res.Values.Add(Attribute.Intellect, level == 70 ? 31 : 28);
+                            res.Values.Add(Attribute.Spirit, level == 70 ? 56 : 50);
+                            res.Values.Add(Attribute.Health, 1689);
+                            res.Values.Add(Attribute.Mana, 0);
+                            break;
+                        case Races.Draenei:
+                            res.Values.Add(Attribute.Strength, level == 70 ? 146 : 124);
+                            res.Values.Add(Attribute.Agility, level == 70 ? 93 : 79);
+                            res.Values.Add(Attribute.Stamina, level == 70 ? 132 : 112);
+                            res.Values.Add(Attribute.Intellect, level == 70 ? 34 : 31);
+                            res.Values.Add(Attribute.Spirit, level == 70 ? 53 : 47);
                             res.Values.Add(Attribute.Health, 1689);
                             res.Values.Add(Attribute.Mana, 0);
                             break;
@@ -986,7 +995,7 @@ namespace ClassicCraft
         {
             get
             {
-                return Attributes.GetValue(Attribute.AP) + BonusAttributes.GetValue(Attribute.AP);
+                return Attributes.GetValue(Attribute.AP);
             }
         }
 
@@ -994,7 +1003,7 @@ namespace ClassicCraft
         {
             get
             {
-                return Attributes.GetValue(Attribute.SP) + BonusAttributes.GetValue(Attribute.SP);
+                return Attributes.GetValue(Attribute.SP);
             }
         }
 
@@ -1002,7 +1011,7 @@ namespace ClassicCraft
         {
             get
             {
-                return Attributes.GetValue(Attribute.CritChance) + BonusAttributes.GetValue(Attribute.CritChance);
+                return Attributes.GetValue(Attribute.CritChance);
             }
         }
 
@@ -1010,7 +1019,7 @@ namespace ClassicCraft
         {
             get
             {
-                return Attributes.GetValue(Attribute.HitChance) + BonusAttributes.GetValue(Attribute.HitChance);
+                return Attributes.GetValue(Attribute.HitChance);
             }
         }
 
@@ -1018,7 +1027,7 @@ namespace ClassicCraft
         {
             get
             {
-                return Attributes.GetValue(Attribute.Expertise) + BonusAttributes.GetValue(Attribute.Expertise);
+                return Attributes.GetValue(Attribute.Expertise);
             }
         }
 
@@ -1026,7 +1035,7 @@ namespace ClassicCraft
         {
             get
             {
-                return Attributes.GetValue(Attribute.SpellCritChance) + BonusAttributes.GetValue(Attribute.SpellCritChance);
+                return Attributes.GetValue(Attribute.SpellCritChance);
             }
         }
 
@@ -1034,7 +1043,7 @@ namespace ClassicCraft
         {
             get
             {
-                return Attributes.GetValue(Attribute.SpellHitChance) + BonusAttributes.GetValue(Attribute.SpellHitChance);
+                return Attributes.GetValue(Attribute.SpellHitChance);
             }
         }
 
@@ -1044,7 +1053,6 @@ namespace ClassicCraft
         }
 
         public Attributes Attributes { get; set; }
-        public Attributes BonusAttributes { get; set; }
 
         public double HasteMod { get; set; }
         public double DamageMod { get; set; }
@@ -1191,7 +1199,7 @@ namespace ClassicCraft
 
         public virtual void PrepFight()
         {
-            if(MH.Speed > 0)
+            if (MH.Speed > 0)
             {
                 mh = new AutoAttack(this, MH, true);
                 if (DualWielding)
@@ -1200,7 +1208,18 @@ namespace ClassicCraft
                 }
             }
 
-            if(Buffs.Any(b => b.Name.ToLower().Contains("drums")))
+            foreach (string s in Cooldowns)
+            {
+                switch (s)
+                {
+                    case "Bloodlust": cds.Add(new ActiveItemBuff(this, 600, 40, "Bloodlust", new Dictionary<Attribute, double>() { { Attribute.Haste, 0.3 } }), 40); break;
+                    case "Haste Pot": cds.Add(new ActiveItemBuff(this, 120, 15, "Haste Pot", new Dictionary<Attribute, double>() { { Attribute.Haste, 400 / RatingRatios[Attribute.Haste] / 100 } }), 15); break;
+                    case "Str Pot": cds.Add(new ActiveItemBuff(this, 120, 15, "Str Pot", new Dictionary<Attribute, double>() { { Attribute.Haste, 120 } }), 15); break;
+                    default: break;
+                }
+            }
+
+            if (Buffs.Any(b => b.Name.ToLower().Contains("drums")))
             {
                 cds.Add(new ActiveItemBuff(this, 120, 30, "Drums of Battle", new Dictionary<Attribute, double>() { { Attribute.Haste, 80 / RatingRatios[Attribute.Haste] / 100 } }), 30);
             }
@@ -1375,8 +1394,6 @@ namespace ClassicCraft
 
             Attributes = new Attributes();
             BaseMana = Attributes.GetValue(Attribute.Mana);
-
-            BonusAttributes = new Attributes();
         }
 
         public void SetBaseAttributes()
@@ -1434,10 +1451,8 @@ namespace ClassicCraft
                 Attributes.SetValue(Attribute.Intellect, Attributes.GetValue(Attribute.Intellect)
                     * (1 + 0.04 * GetTalentPoints("HW")));
                 if (Program.version == Version.Vanilla && !Tanking) Attributes.SetValue(Attribute.Strength, Attributes.GetValue(Attribute.Strength) * (1 + 0.04 * GetTalentPoints("HW")));
-                Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
-                    + 0.01 * GetTalentPoints("SC"));
-                Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP)
-                    + 0.5 * GetTalentPoints("PS") * Level);
+                Attributes.AddToValue(Attribute.CritChance, 0.01 * GetTalentPoints("SC"));
+                Attributes.AddToValue(Attribute.AP, 0.5 * GetTalentPoints("PS") * Level);
                 if(Tanking)
                 {
                     ThreatMod *= 1.3 * (1 + 0.03 * GetTalentPoints("FI"));
@@ -1450,8 +1465,7 @@ namespace ClassicCraft
             }
             else if (Class == Classes.Mage)
             {
-                Attributes.SetValue(Attribute.SpellCritChance, Attributes.GetValue(Attribute.SpellCritChance)
-                    + 0.01 * GetTalentPoints("AI"));
+                Attributes.AddToValue(Attribute.SpellCritChance, 0.01 * GetTalentPoints("AI"));
                 DamageMod *= 1 + 0.01 * GetTalentPoints("AI");
                 CastingManaRegenRate += 0.05 * GetTalentPoints("AMed");
             }
@@ -1461,43 +1475,37 @@ namespace ClassicCraft
             }
             else if (Class == Classes.Rogue)
             {
-                Attributes.SetValue(Attribute.HitChance, Attributes.GetValue(Attribute.HitChance)
-                    + GetTalentPoints("Prec") / 100.0);
-                Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
-                    + GetTalentPoints("Malice") / 100.0);
-                Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
-                    + GetTalentPoints("FS") / 100.0);
-                Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
-                    + GetTalentPoints("DS") / 100.0);
-                Attributes.SetValue(Attribute.SkillSword, Attributes.GetValue(Attribute.SkillSword)
-                    + (GetTalentPoints("WE") > 0 ? (GetTalentPoints("WE") == 1 ? 3 : 5) : 0));
-                Attributes.SetValue(Attribute.SkillDagger, Attributes.GetValue(Attribute.SkillDagger)
-                    + (GetTalentPoints("WE") > 0 ? (GetTalentPoints("WE") == 1 ? 3 : 5) : 0));
+                Attributes.AddToValue(Attribute.HitChance, GetTalentPoints("Prec") / 100.0);
+                Attributes.AddToValue(Attribute.CritChance, GetTalentPoints("Malice") / 100.0);
+                Attributes.AddToValue(Attribute.CritChance, GetTalentPoints("FS") / 100.0);
+                Attributes.AddToValue(Attribute.CritChance, GetTalentPoints("DS") / 100.0);
+                Attributes.AddToValue(Attribute.SkillSword, GetTalentPoints("WE") > 0 ? (GetTalentPoints("WE") == 1 ? 3 : 5) : 0);
+                Attributes.AddToValue(Attribute.SkillDagger, GetTalentPoints("WE") > 0 ? (GetTalentPoints("WE") == 1 ? 3 : 5) : 0);
             }
             else if(Class == Classes.Warlock)
             {
-                Attributes.SetValue(Attribute.Stamina, Attributes.GetValue(Attribute.Stamina)
-                    + 0.03 * GetTalentPoints("DE"));
-                Attributes.SetValue(Attribute.Spirit, Attributes.GetValue(Attribute.Spirit)
-                    - 0.01 * GetTalentPoints("DE"));
+                Attributes.AddToValue(Attribute.Stamina, 0.03 * GetTalentPoints("DE"));
+                Attributes.AddToValue(Attribute.Spirit, -0.01 * GetTalentPoints("DE"));
             }
             else if (Class == Classes.Warrior)
             {
-                Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance)
-                    + 0.01 * GetTalentPoints("Cruelty")
+                Attributes.AddToValue(Attribute.CritChance, 0.01 * GetTalentPoints("Cruelty")
                     + (Tanking ? 0 : 0.03)); // Berserker Stance, should be a spell for stance dancing
 
-                Attributes.SetValue(Attribute.HitChance, Attributes.GetValue(Attribute.HitChance)
-                    + 0.01 * GetTalentPoints("Precision"));
+                Attributes.AddToValue(Attribute.HitChance, 0.01 * GetTalentPoints("Precision"));
 
-                Attributes.SetValue(Attribute.Expertise, Attributes.GetValue(Attribute.Expertise)
-                    + 0.01 * GetTalentPoints("WM"));
+                Attributes.AddToValue(Attribute.Expertise, 0.01 * GetTalentPoints("WM"));
 
                 Attributes.SetValue(Attribute.Stamina, Attributes.GetValue(Attribute.Stamina)
                     * (1 + 0.01 * GetTalentPoints("Vitality")));
 
                 Attributes.SetValue(Attribute.Strength, Attributes.GetValue(Attribute.Strength)
                     * (1 + 0.02 * GetTalentPoints("Vitality")));
+
+                if(Program.version == Version.TBC)
+                {
+                    Attributes.AddToValue(Attribute.Expertise, 0.005 * GetTalentPoints("Defiance"));
+                }
 
                 if (Tanking)
                 {
@@ -1519,7 +1527,7 @@ namespace ClassicCraft
 
             if (Buffs.Any(b => b.Name.ToLower().Contains("seal of the crusader")))
             {
-                Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance) + 0.03);
+                Attributes.AddToValue(Attribute.CritChance, 0.03);
             }
 
             if (Buffs.Any(b => b.Name.ToLower().Contains("blood frenzy")))
@@ -1527,19 +1535,19 @@ namespace ClassicCraft
                 DamageMod *= 1.04; // TODO : only melee dmg
             }
 
-            Attributes.SetValue(Attribute.Health, Attributes.GetValue(Attribute.Health) + 20 + (Attributes.GetValue(Attribute.Stamina) - 20) * 10);
+            Attributes.AddToValue(Attribute.Health, 20 + (Attributes.GetValue(Attribute.Stamina) - 20) * 10);
             if (Attributes.GetValue(Attribute.Mana) > 0)
             {
-                Attributes.SetValue(Attribute.Mana, Attributes.GetValue(Attribute.Mana) + Attributes.GetValue(Attribute.Intellect) * 15);
+                Attributes.AddToValue(Attribute.Mana, Attributes.GetValue(Attribute.Intellect) * 15);
                 if(Class == Classes.Mage)
                 {
                     Attributes.SetValue(Attribute.Mana, Attributes.GetValue(Attribute.Mana) * 1 + (0.02 * GetTalentPoints("AMind")));
                 }
             }
-            Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) + Attributes.GetValue(Attribute.Strength) * StrToAPRatio(Class) + Attributes.GetValue(Attribute.Agility) * AgiToAPRatio(this));
-            Attributes.SetValue(Attribute.RangedAP, Attributes.GetValue(Attribute.RangedAP) + Attributes.GetValue(Attribute.Agility) * AgiToRangedAPRatio(Class));
-            Attributes.SetValue(Attribute.CritChance, Attributes.GetValue(Attribute.CritChance) + Attributes.GetValue(Attribute.Agility) * AgiToCritRatio(Class));
-            Attributes.SetValue(Attribute.SpellCritChance, Attributes.GetValue(Attribute.SpellCritChance) + BaseSpellCrit(Class) + Attributes.GetValue(Attribute.Intellect) * IntToCritRatio(Class));
+            Attributes.AddToValue(Attribute.AP, Attributes.GetValue(Attribute.Strength) * StrToAPRatio(Class) + Attributes.GetValue(Attribute.Agility) * AgiToAPRatio(this));
+            Attributes.AddToValue(Attribute.RangedAP, Attributes.GetValue(Attribute.Agility) * AgiToRangedAPRatio(Class));
+            Attributes.AddToValue(Attribute.CritChance, Attributes.GetValue(Attribute.Agility) * AgiToCritRatio(Class));
+            Attributes.AddToValue(Attribute.SpellCritChance, BaseSpellCrit(Class) + Attributes.GetValue(Attribute.Intellect) * IntToCritRatio(Class));
 
 
             if (Class == Classes.Druid && Program.version == Version.TBC && !Tanking) Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) * (1 + 0.02 * GetTalentPoints("HW")));
@@ -1586,25 +1594,25 @@ namespace ClassicCraft
             WeaponSkill[Weapon.WeaponType.Sword] += (int)Attributes.GetValue(Attribute.SkillSword) + (int)Attributes.GetValue(Attribute.Skill1H) + (int)Attributes.GetValue(Attribute.Skill2H);
             WeaponSkill[Weapon.WeaponType.Throwable] += (int)Attributes.GetValue(Attribute.SkillThrowable);
 
-            if(Program.version == Version.TBC)  // TODO : changed to +5 expertise later
+            if(Program.version == Version.TBC)
             {
                 if (Race == Races.Orc)
                 {
-                    if (MH.Type == Weapon.WeaponType.Axe) MH.Buff.Attributes.SetValue(Attribute.CritChance, MH.Buff.Attributes.GetValue(Attribute.CritChance) + 0.01);
-                    if (DualWielding && OH.Type == Weapon.WeaponType.Axe) OH.Buff.Attributes.SetValue(Attribute.CritChance, OH.Buff.Attributes.GetValue(Attribute.CritChance) + 0.01);
+                    if (MH.Type == Weapon.WeaponType.Axe) MH.Buff.Attributes.AddToValue(Attribute.Expertise, 1.25);
+                    if (DualWielding && OH.Type == Weapon.WeaponType.Axe) OH.Buff.Attributes.SetValue(Attribute.Expertise, 1.25);
                 }
                 else if (Race == Races.Human)
                 {
-                    if (MH.Type == Weapon.WeaponType.Sword || MH.Type == Weapon.WeaponType.Mace) MH.Enchantment.Attributes.SetValue(Attribute.CritChance, MH.Enchantment.Attributes.GetValue(Attribute.CritChance) + 0.01);
-                    if (DualWielding && OH.Type == Weapon.WeaponType.Sword || MH.Type == Weapon.WeaponType.Mace) OH.Enchantment.Attributes.SetValue(Attribute.CritChance, OH.Enchantment.Attributes.GetValue(Attribute.CritChance) + 0.01);
+                    if (MH.Type == Weapon.WeaponType.Sword || MH.Type == Weapon.WeaponType.Mace) MH.Buff.Attributes.AddToValue(Attribute.Expertise, 1.25);
+                    if (DualWielding && OH.Type == Weapon.WeaponType.Sword || MH.Type == Weapon.WeaponType.Mace) OH.Buff.Attributes.AddToValue(Attribute.Expertise, 1.25);
                 }
                 else if (Race == Races.Troll)
                 {
-                    if (Ranged.Type == Weapon.WeaponType.Bow || MH.Type == Weapon.WeaponType.Throwable) MH.Enchantment.Attributes.SetValue(Attribute.CritChance, MH.Enchantment.Attributes.GetValue(Attribute.CritChance) + 0.01);
+                    if (Ranged.Type == Weapon.WeaponType.Bow || MH.Type == Weapon.WeaponType.Throwable) MH.Buff.Attributes.AddToValue(Attribute.Expertise, 1.25);
                 }
                 else if (Race == Races.Dwarf)
                 {
-                    if (Ranged.Type == Weapon.WeaponType.Gun) MH.Enchantment.Attributes.SetValue(Attribute.CritChance, MH.Enchantment.Attributes.GetValue(Attribute.CritChance) + 0.01);
+                    if (Ranged.Type == Weapon.WeaponType.Gun) MH.Buff.Attributes.AddToValue(Attribute.Expertise, 1.25);
                 }
             }
 
@@ -1649,7 +1657,7 @@ namespace ClassicCraft
                     {
                         UnbridledWrath.CheckProc(this, res, GetTalentPoints("UW"), isMH ? MH.Speed : OH.Speed);
                     }
-                    if (!alreadyProc.Contains("Sword") && Randomer.NextDouble() < 0.01 * GetTalentPoints("Sword"))
+                    if (!alreadyProc.Contains("Sword") && GetTalentPoints("Sword") > 0 && Randomer.NextDouble() < 0.01 * GetTalentPoints("Sword"))
                     {
                         alreadyProc.Add("Sword");
 
@@ -1676,7 +1684,8 @@ namespace ClassicCraft
                         }
 
                         if (!alreadyProc.Contains("Mace")
-                            && Randomer.NextDouble() < w.Speed / 60 * 1.5)
+                            && GetTalentPoints("Mace") > 0
+                            && Randomer.NextDouble() < w.Speed * (0.3 * GetTalentPoints("Mace")) / 60)
                         {
                             alreadyProc.Add("Mace");
 
@@ -2199,8 +2208,8 @@ namespace ClassicCraft
 
             if(Program.version == Version.TBC)
             {
-                MHParryExpertise = Math.Max(0, ExpertiseRating - enemy.DodgeChance(WeaponSkill[MH.Type]));
-                if(DualWielding) OHParryExpertise = Math.Max(0, ExpertiseRating - enemy.DodgeChance(WeaponSkill[OH.Type]));
+                MHParryExpertise = Math.Max(0, ExpertiseRating + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.Expertise)) - enemy.DodgeChance(WeaponSkill[MH.Type]));
+                if(DualWielding) OHParryExpertise = Math.Max(0, ExpertiseRating + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.Expertise)) - enemy.DodgeChance(WeaponSkill[OH.Type]));
             }
 
             Dictionary<ResultType, double> whiteHitChancesMH = new Dictionary<ResultType, double>();

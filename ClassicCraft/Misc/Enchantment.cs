@@ -20,10 +20,10 @@ namespace ClassicCraft
             if (Attributes == null) Attributes = new Attributes();
         }
 
-        public static Enchantment ToEnchantment(JsonUtil.JsonEnchantment json)
+        public static Enchantment ToEnchantment(JsonUtil.JsonEnchantment json, JsonUtil.JsonEnchantment gems = null)
         {
             if (json == null) return null;
-            return new Enchantment(json.Id, json.Name, new Attributes(json.Stats));
+            return new Enchantment(json.Id, json.Name, new Attributes(json.Stats) + (gems != null ? new Attributes(gems.Stats) : null));
         }
 
         public static JsonUtil.JsonEnchantment FromEnchantment(Enchantment enchant)

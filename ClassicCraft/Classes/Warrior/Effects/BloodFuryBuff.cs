@@ -23,14 +23,14 @@ namespace ClassicCraft
 
             Bonus = Player.AP * 0.25;
 
-            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) + Bonus * (1 + 0.02 * Player.GetTalentPoints("IBStance")));
+            Player.Attributes.AddToValue(Attribute.AP, Bonus * (1 + 0.02 * Player.GetTalentPoints("IBStance")));
         }
 
         public override void EndEffect()
         {
             base.EndEffect();
 
-            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) - Bonus * (1 + 0.02 * Player.GetTalentPoints("IBStance")));
+            Player.Attributes.AddToValue(Attribute.AP, -Bonus * (1 + 0.02 * Player.GetTalentPoints("IBStance")));
         }
 
         public override string ToString()

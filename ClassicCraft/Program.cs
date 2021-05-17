@@ -198,9 +198,9 @@ namespace ClassicCraft
                                 {
                                     { Attribute.Expertise, 0.01 }
                                 })},
-                        { "+100 ArPen", new Attributes(new Dictionary<Attribute, double>()
+                        { "+500 ArPen", new Attributes(new Dictionary<Attribute, double>()
                                 {
-                                    { Attribute.ArmorPen, 100 }
+                                    { Attribute.ArmorPen, 500 }
                                 })},
                         { "+1000 ArPen", new Attributes(new Dictionary<Attribute, double>()
                                 {
@@ -383,8 +383,8 @@ namespace ClassicCraft
                         || playerBase.Class == Player.Classes.Paladin || playerBase.Class == Player.Classes.Hunter)
                     {
                         simOrder.Insert(5, "+1% Expertise");
-                        simOrder.Insert(6, "+100 ArPen");
-                        simOrder.Insert(7, "+1000 ArPen");
+                        simOrder.Insert(6, "+500 ArPen");
+                        //simOrder.Insert(7, "+1000 ArPen");
                     }
                 }
 
@@ -416,7 +416,7 @@ namespace ClassicCraft
                 }
 
                 /*
-                simOrder.Remove("+100 ArPen");
+                simOrder.Remove("+500 ArPen");
                 simOrder.Remove("+1000 ArPen");
                 simOrder.Remove("+1% Expertise");
                 simOrder.Remove("+1% Hit");
@@ -499,7 +499,7 @@ namespace ClassicCraft
                         we.Attributes = simBonusAttribs[simOrder[done]];
                         playerBase.CalculateAttributes();
 
-                        Log(simOrder[done] + "\n\t" + bossBase.ToString(playerBase.Attributes.GetValue(Attribute.ArmorPen)));
+                        //Log(simOrder[done] + "\n\t" + bossBase.ToString(playerBase.Attributes.GetValue(Attribute.ArmorPen)));
                         //Log(simOrder[done] + "\n\t" + playerBase.ToString());
                     }
 
@@ -607,7 +607,7 @@ namespace ClassicCraft
                         SimsAvgTPS.Add(simOrder[done], CurrentTpsList.Average());
                     }
 
-                    Log(simOrder[done] + " : " + CurrentDpsList.Average());
+                    //Log(simOrder[done] + " : " + CurrentDpsList.Average());
                 }
 
 
@@ -688,7 +688,7 @@ namespace ClassicCraft
                         double critDif = critDps - baseDps;
                         if (critDif < 0) critDif = 0;
 
-                        double agiDif = Player.AgiToAPRatio(playerBase) * apDif + Player.AgiToCritRatio(playerBase.Class) * 100 * critDif;
+                        double agiDif = Player.AgiToAPRatio(playerBase) * apDif + Player.AgiToCritRatio(playerBase.Class) * Player.BonusAgiToCritRatio(playerBase) * 100 * critDif;
                         Log(string.Format("1 Agi = {0:N4} DPS = {1:N4} AP", agiDif, agiDif / apDif));
 
                         critDif /= (version == Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1);
@@ -724,12 +724,12 @@ namespace ClassicCraft
 
                         weightsDone += 1;
                     }
-                    if (simOrder.Contains("+100 ArPen"))
+                    if (simOrder.Contains("+500 ArPen"))
                     {
-                        double arpenDps = SimsAvgDPS["+100 ArPen"];
-                        double arpenDif = (arpenDps - baseDps) / 100;
+                        double arpenDps = SimsAvgDPS["+500 ArPen"];
+                        double arpenDif = (arpenDps - baseDps) / 500;
                         if (arpenDif < 0) arpenDif = 0;
-                        Log(string.Format("1 Armor Penetration (+100) = {0:N4} DPS = {1:N4} AP", arpenDif, arpenDif / apDif));
+                        Log(string.Format("1 Armor Penetration = {0:N4} DPS = {1:N4} AP", arpenDif, arpenDif / apDif));
 
                         weightsDone += 1;
                     }
@@ -860,7 +860,7 @@ namespace ClassicCraft
                             if (apDif < 0) apDif = 0;
                             Log(string.Format("1 AP = {0:N4} TPS", apDif));
 
-                            double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * (playerBase.Class == Player.Classes.Druid ? (1 + 0.04 * playerBase.GetTalentPoints("HW")) : 1);
+                            double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * Player.BonusStrToAPRatio(playerBase);
                             Log(string.Format("1 Str = {0:N4} TPS = {1:N4} AP", strDif, strDif / apDif));
 
                             weightsDone += 1;
@@ -871,7 +871,7 @@ namespace ClassicCraft
                             double critDif = critTps - baseTps;
                             if (critDif < 0) critDif = 0;
 
-                            double agiDif = Player.AgiToAPRatio(playerBase) * apDif + Player.AgiToCritRatio(playerBase.Class) * 100 * critDif;
+                            double agiDif = Player.AgiToAPRatio(playerBase) * apDif + Player.AgiToCritRatio(playerBase.Class) * Player.BonusAgiToCritRatio(playerBase) * 100 * critDif;
                             Log(string.Format("1 Agi = {0:N4} TPS = {1:N4} AP", agiDif, agiDif / apDif));
 
                             Log(string.Format("1{2} Crit = {0:N4} TPS = {1:N4} AP", critDif, critDif / apDif, version == Version.TBC ? "" : "%"));
@@ -905,21 +905,12 @@ namespace ClassicCraft
 
                             weightsDone += 1;
                         }
-                        if (simOrder.Contains("+10 ArPen"))
+                        if (simOrder.Contains("+500 ArPen"))
                         {
-                            double arpenTps = SimsAvgDPS["+10 ArPen"];
-                            double arpenDif = (arpenTps - baseTps) / 10;
+                            double arpenTps = SimsAvgDPS["+500 ArPen"];
+                            double arpenDif = (arpenTps - baseTps) / 500;
                             if (arpenDif < 0) arpenDif = 0;
-                            Log(string.Format("1 Armor Penetration (+10) = {0:N4} TPS = {1:N4} AP", arpenDif, arpenDif / apDif));
-
-                            weightsDone += 1;
-                        }
-                        if (simOrder.Contains("+100 ArPen"))
-                        {
-                            double arpenTps = SimsAvgDPS["+100 ArPen"];
-                            double arpenDif = (arpenTps - baseTps) / 100;
-                            if (arpenDif < 0) arpenDif = 0;
-                            Log(string.Format("1 Armor Penetration (+100) = {0:N4} TPS = {1:N4} AP", arpenDif, arpenDif / apDif));
+                            Log(string.Format("1 Armor Penetration = {0:N4} TPS = {1:N4} AP", arpenDif, arpenDif / apDif));
 
                             weightsDone += 1;
                         }
@@ -1190,12 +1181,17 @@ namespace ClassicCraft
 
                     if (!CurrentData.Data.ContainsKey(s))
                     {
-                        data = new StatsData(s, result.Effects.First(a => a.Effect.ToString().Equals(s)).Effect);
+                        data = new StatsData(s, result.Effects.Any(a => a.Effect.ToString().Equals(s)) ? result.Effects.First(a => a.Effect.ToString().Equals(s)).Effect : null);
                         CurrentData.Data.Add(s, data);
                     }
                     else
                     {
                         data = CurrentData.Data[s];
+
+                        if (data.Sample == null && result.Effects.Any(a => a.Effect.ToString().Equals(s)))
+                        {
+                            data.Sample = result.Effects.First(a => a.Effect.ToString().Equals(s)).Effect;
+                        }
                     }
 
                     double avgUses = result.Effects.Count(t => t.Effect.ToString().Equals(s));

@@ -53,6 +53,7 @@ namespace ClassicCraft
                 * (1 + (0.02 * Player.GetTalentPoints("Agg")))
                 * (1 + (0.05 * Player.GetTalentPoints("IE")))
                 * (1 + (0.01 * Player.GetTalentPoints("Murder")))
+                * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless")) ? 1.03 : 1)
                 );
 
             CommonAction();

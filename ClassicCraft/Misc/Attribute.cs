@@ -193,7 +193,7 @@ namespace ClassicCraft
         {
             if (Values == null) Values = new Dictionary<Attribute, double>();
 
-            if(Values.ContainsKey(a))
+            if (Values.ContainsKey(a))
             {
                 Values[a] = val;
             }
@@ -201,6 +201,11 @@ namespace ClassicCraft
             {
                 Values.Add(a, val);
             }
+        }
+
+        public void AddToValue(Attribute a, double val)
+        {
+            SetValue(a, GetValue(a) + val);
         }
 
         public double GetValue(Attribute a)

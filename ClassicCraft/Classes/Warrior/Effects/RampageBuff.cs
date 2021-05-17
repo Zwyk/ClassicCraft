@@ -39,7 +39,7 @@ namespace ClassicCraft
         {
             base.StartEffect();
 
-            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) + AP_PER_STACK * BaseStacks * (1 + 0.02 * Player.GetTalentPoints("IBStance")));
+            Player.Attributes.AddToValue(Attribute.AP, AP_PER_STACK * BaseStacks * (1 + 0.02 * Player.GetTalentPoints("IBStance")));
         }
 
         public override void StackAdd(int nb = 1)
@@ -50,7 +50,7 @@ namespace ClassicCraft
             
             if(stacks < CurrentStacks)
             {
-                Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) + AP_PER_STACK * (CurrentStacks - stacks) * BaseStacks * (1 + 0.02 * Player.GetTalentPoints("IBStance")));
+                Player.Attributes.AddToValue(Attribute.AP, AP_PER_STACK * (CurrentStacks - stacks) * BaseStacks * (1 + 0.02 * Player.GetTalentPoints("IBStance")));
             }
         }
 
@@ -62,7 +62,7 @@ namespace ClassicCraft
 
             if (stacks > CurrentStacks)
             {
-                Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) + AP_PER_STACK * (CurrentStacks - stacks) * BaseStacks * (1 + 0.02 * Player.GetTalentPoints("IBStance")));
+                Player.Attributes.AddToValue(Attribute.AP, AP_PER_STACK * (CurrentStacks - stacks) * BaseStacks * (1 + 0.02 * Player.GetTalentPoints("IBStance")));
             }
         }
 
@@ -70,7 +70,7 @@ namespace ClassicCraft
         {
             base.EndEffect();
 
-            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) - AP_PER_STACK * CurrentStacks * BaseStacks * (1 + 0.02 * Player.GetTalentPoints("IBStance")));
+            Player.Attributes.AddToValue(Attribute.AP, -AP_PER_STACK * CurrentStacks * BaseStacks * (1 + 0.02 * Player.GetTalentPoints("IBStance")));
         }
 
         public override string ToString()

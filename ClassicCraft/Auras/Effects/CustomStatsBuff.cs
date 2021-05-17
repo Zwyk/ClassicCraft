@@ -77,16 +77,16 @@ namespace ClassicCraft
 
             bonus *= mult;
 
-            Player.BonusAttributes.SetValue(a, Player.BonusAttributes.GetValue(Attribute.Strength) + bonus);
+            Player.Attributes.AddToValue(a, bonus);
 
-            if (a == Attribute.Strength) Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) + bonus * Player.StrToAPRatio(Player.Class));
+            if (a == Attribute.Strength) Player.Attributes.AddToValue(Attribute.AP, bonus * Player.StrToAPRatio(Player.Class));
             else if (a == Attribute.Agility)
             {
-                Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.Agility) + bonus * Player.AgiToAPRatio(Player) * (1 + 0.02 * Player.GetTalentPoints("IBStance")));
-                Player.BonusAttributes.SetValue(Attribute.RangedAP, Player.BonusAttributes.GetValue(Attribute.RangedAP) + bonus * Player.AgiToRangedAPRatio(Player.Class));
-                Player.BonusAttributes.SetValue(Attribute.CritChance, Player.BonusAttributes.GetValue(Attribute.CritChance) + bonus * Player.AgiToCritRatio(Player.Class));
+                Player.Attributes.AddToValue(Attribute.AP, bonus * Player.AgiToAPRatio(Player) * (1 + 0.02 * Player.GetTalentPoints("IBStance")));
+                Player.Attributes.AddToValue(Attribute.RangedAP, bonus * Player.AgiToRangedAPRatio(Player.Class));
+                Player.Attributes.AddToValue(Attribute.CritChance, bonus * Player.AgiToCritRatio(Player.Class));
             }
-            else if (a == Attribute.Intellect) Player.BonusAttributes.SetValue(Attribute.SpellCritChance, Player.BonusAttributes.GetValue(Attribute.SpellCritChance) + bonus * Player.IntToCritRatio(Player.Class));
+            else if (a == Attribute.Intellect) Player.Attributes.AddToValue(Attribute.SpellCritChance, bonus * Player.IntToCritRatio(Player.Class));
         }
     }
 }

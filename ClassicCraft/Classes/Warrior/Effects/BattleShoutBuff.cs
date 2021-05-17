@@ -23,14 +23,14 @@ namespace ClassicCraft
 
             Bonus = (Program.version == Version.TBC ? 305 : 232) * (1 + (0.05 * Player.GetTalentPoints("IBS")));
 
-            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) + Bonus * (Program.version == Version.TBC ? 1 + 0.02 * Player.GetTalentPoints("IBStance") : 1));
+            Player.Attributes.AddToValue(Attribute.AP, Bonus * (Program.version == Version.TBC ? 1 + 0.02 * Player.GetTalentPoints("IBStance") : 1));
         }
 
         public override void EndEffect()
         {
             base.EndEffect();
 
-            Player.BonusAttributes.SetValue(Attribute.AP, Player.BonusAttributes.GetValue(Attribute.AP) - Bonus * (Program.version == Version.TBC ? 1 + 0.02 * Player.GetTalentPoints("IBStance") : 1));
+            Player.Attributes.AddToValue(Attribute.AP, -Bonus * (Program.version == Version.TBC ? 1 + 0.02 * Player.GetTalentPoints("IBStance") : 1));
         }
 
         public override string ToString()

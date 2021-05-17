@@ -15,14 +15,16 @@ namespace ClassicCraft
             public string Slot { get; set; }
             public Dictionary<string, double> Stats { get; set; }
             public JsonEnchantment Enchantment { get; set; }
+            public JsonEnchantment Gems { get; set; }
 
-            public JsonItem(int id = 0, string name = "New Item", string slot = "Any", Dictionary<string, double> attributes = null, JsonEnchantment enchantment = null)
+            public JsonItem(int id = 0, string name = "New Item", string slot = "Any", Dictionary<string, double> attributes = null, JsonEnchantment enchantment = null, JsonEnchantment gems = null)
             {
                 Name = name;
                 Id = id;
                 Slot = slot;
                 Stats = attributes;
                 Enchantment = enchantment;
+                Gems = gems;
 
                 if (Stats == null) Stats = new Dictionary<string, double>();
             }
@@ -33,7 +35,7 @@ namespace ClassicCraft
                 if (ji == null) return null;
                 else
                 {
-                    Item res = new Item(SlotUtil.FromString(ji.Slot), new Attributes(ji.Stats), ji.Id, ji.Name, ClassicCraft.Enchantment.ToEnchantment(ji.Enchantment), null);
+                    Item res = new Item(SlotUtil.FromString(ji.Slot), new Attributes(ji.Stats), ji.Id, ji.Name, ClassicCraft.Enchantment.ToEnchantment(ji.Enchantment, ji.Gems), null);
                     if(res.Attributes != null)
                     {
                         res.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1));
@@ -118,7 +120,7 @@ namespace ClassicCraft
                 if (jw == null) return null;
                 else
                 {
-                    Weapon res = new Weapon(jw.DamageMin, jw.DamageMax, jw.Speed, jw.TwoHanded, Weapon.StringToType(jw.Type), new Attributes(jw.Stats), jw.Id, jw.Name, ClassicCraft.Enchantment.ToEnchantment(jw.Enchantment), ClassicCraft.Enchantment.ToEnchantment(jw.Buff), null, SchoolFromString(jw.School));
+                    Weapon res = new Weapon(jw.DamageMin, jw.DamageMax, jw.Speed, jw.TwoHanded, Weapon.StringToType(jw.Type), new Attributes(jw.Stats), jw.Id, jw.Name, ClassicCraft.Enchantment.ToEnchantment(jw.Enchantment, jw.Gems), ClassicCraft.Enchantment.ToEnchantment(jw.Buff), null, SchoolFromString(jw.School));
                     if(res.Attributes != null)
                     {
                         res.Attributes.SetValue(Attribute.CritChance, res.Attributes.GetValue(Attribute.CritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1));

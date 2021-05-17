@@ -101,6 +101,7 @@ namespace ClassicCraft
                 case Version.TBC:
                     // Arms
                     Talents.Add("IHS", arms.Length > 0 ? (int)Char.GetNumericValue(arms[0]) : 0);
+                    Talents.Add("AM", arms.Length > 7 ? (int)Char.GetNumericValue(arms[7]) : 0);
                     Talents.Add("DW", arms.Length > 8 ? (int)Char.GetNumericValue(arms[8]) : 0);
                     Talents.Add("2HS", arms.Length > 9 ? (int)Char.GetNumericValue(arms[9]) : 0);
                     Talents.Add("Impale", arms.Length > 10 ? (int)Char.GetNumericValue(arms[10]) : 0);
@@ -153,7 +154,7 @@ namespace ClassicCraft
             bs = new BattleShout(this);
             bt = new Bloodthirst(this);
             hs = new HeroicStrike(this);
-            if(Talents["MS"] > 0) ms = new MortalStrike(this);
+            if (Talents["MS"] > 0) ms = new MortalStrike(this);
 
             if (Sim.Tanking)
             {
@@ -171,7 +172,7 @@ namespace ClassicCraft
                     slam = new Slam(this);
                 }
 
-                if(Program.version == Version.TBC && Talents["Rampage"] > 0)
+                if (Program.version == Version.TBC && Talents["Rampage"] > 0)
                 {
                     ramp = new Rampage(this);
                 }
@@ -185,7 +186,7 @@ namespace ClassicCraft
                 {
                     switch (s)
                     {
-                        case "Death Wish": if(Talents["DeathWish"]>0) cds.Add(new DeathWish(this), DeathWishBuff.LENGTH); break;
+                        case "Death Wish": if (Talents["DeathWish"] > 0) cds.Add(new DeathWish(this), DeathWishBuff.LENGTH); break;
                         case "Juju Flurry": cds.Add(new JujuFlurry(this), JujuFlurryBuff.LENGTH); break;
                         case "Mighty Rage": cds.Add(new MightyRage(this), MightyRageBuff.LENGTH); break;
                         case "Recklessness": cds.Add(new Recklessness(this), RecklessnessBuff.LENGTH); break;
@@ -209,7 +210,7 @@ namespace ClassicCraft
                 {
                     rota = 12;   // Fury Tank
                 }
-                else if(GetTalentPoints("BT") > 0)                  // Fury
+                else if (GetTalentPoints("BT") > 0)                  // Fury
                 {
                     if (GetTalentPoints("IS") > 0)
                     {
@@ -272,7 +273,7 @@ namespace ClassicCraft
                         (Sim.FightLength - Sim.CurrentTime <= cds[cd]
                         || Sim.FightLength - Sim.CurrentTime >= cd.BaseCD + cds[cd]))
                     {
-                        if(!(cd is MightyRage) || Sim.FightLength - Sim.CurrentTime >= cd.BaseCD + cds[cd] || (!Tanking && Resource < exec.Cost))
+                        if (!(cd is MightyRage) || Sim.FightLength - Sim.CurrentTime >= cd.BaseCD + cds[cd] || (!Tanking && Resource < exec.Cost))
                         {
                             cd.Cast();
                         }
@@ -387,7 +388,7 @@ namespace ClassicCraft
                 {
                     ramp.Cast();
                 }
-                
+
                 if (bt.CanUse())
                 {
                     bt.Cast();
@@ -482,5 +483,27 @@ namespace ClassicCraft
         }
 
         #endregion
+
+        public double AngerManagementTick { get; set; }
+
+        public void CheckAngerManagementTick()
+        {
+            if (Sim.CurrentTime >= AngerManagementTick + 3)
+            {
+                AngerManagementTick = AngerManagementTick + 3;
+                Resource += 1;
+                if (Program.logFight)
+                {
+                    Program.Log(string.Format("{0:N2} : Anger Management ticks ({1}/{2})", Sim.CurrentTime, Resource, MaxResource));
+                }
+            }
+        }
+
+        public override void Reset()
+        {
+            base.Reset();
+
+            AngerManagementTick = 0;
+        }
     }
 }

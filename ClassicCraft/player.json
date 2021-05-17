@@ -6,9 +6,12 @@
   "Cooldowns": {
     "Racial": true,
     "Death Wish": true,
+    "Bloodlust": true,
     "Recklessness": false,
     "Juju Flurry": false,
-    "Mighty Rage": false
+    "Mighty Rage": false,
+    "Haste Pot": true,
+    "Str Pot": false
   },
   "Buffs": [
     {
@@ -22,7 +25,7 @@
       "Name": "Test",
       "Slot": null,
       "Stats": {
-        "Hit": 0.0,
+        "Hit": 40.0,
         "Crit": 0.0,
         "AP": 0.0,
         "Haste": 0.0,
@@ -133,15 +136,15 @@
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 172.0,
-      "DamageMax": 320.0,
-      "Speed": 2.7,
+      "DamageMin": 147.0,
+      "DamageMax": 275.0,
+      "Speed": 2.6,
       "TwoHanded": false,
-      "Type": "Mace",
+      "Type": "Sword",
       "Buff": null,
       "School": null,
-      "Name": "Dragonmaw",
-      "Id": 7,
+      "Name": "Blinkstrike",
+      "Id": 5,
       "Slot": "Weapon",
       "Stats": {},
       "Enchantment": {
@@ -149,7 +152,8 @@
         "Name": "Mongoose",
         "Slot": "Weapon",
         "Stats": {}
-      }
+      },
+      "Gems": null
     },
     "OH": {
       "DamageMin": 128.0,
@@ -163,16 +167,16 @@
       "Id": 5,
       "Slot": "Weapon",
       "Stats": {
-        "Crit": 21.0,
-        "Hit": 18.0,
-        "Str": 5.0
+        "Crit": 29.0,
+        "Hit": 14.0
       },
       "Enchantment": {
         "Id": 0,
         "Name": "Mongoose",
         "Slot": "Weapon",
         "Stats": {}
-      }
+      },
+      "Gems": null
     },
     "Ranged": {
       "DamageMin": 0.0,
@@ -190,7 +194,8 @@
         "Crit": 10.0,
         "AP": 20.0
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null
     }
   },
   "Equipment": {
@@ -211,7 +216,8 @@
           "AP": 34.0,
           "Hit": 16.0
         }
-      }
+      },
+      "Gems": null
     },
     "Neck": {
       "Name": "Adamantine",
@@ -221,7 +227,8 @@
         "Crit": 30.0,
         "AP": 34.0
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null
     },
     "Shoulders": {
       "Name": "Ragesteel",
@@ -240,7 +247,8 @@
           "AP": 20.0,
           "Crit": 15.0
         }
-      }
+      },
+      "Gems": null
     },
     "Back": {
       "Name": "Vengeance",
@@ -259,7 +267,8 @@
         "Stats": {
           "Agi": 12.0
         }
-      }
+      },
+      "Gems": null
     },
     "Chest": {
       "Name": "Ragesteel",
@@ -279,7 +288,8 @@
           "Int": 6.0,
           "Spi": 6.0
         }
-      }
+      },
+      "Gems": null
     },
     "Wrists": {
       "Name": "Black felsteel",
@@ -296,7 +306,8 @@
         "Stats": {
           "Str": 12.0
         }
-      }
+      },
+      "Gems": null
     },
     "Hands": {
       "Name": "Ragesteel",
@@ -313,7 +324,8 @@
         "Stats": {
           "Str": 15.0
         }
-      }
+      },
+      "Gems": null
     },
     "Waist": {
       "Name": "Deathforge",
@@ -323,7 +335,8 @@
         "Str": 22.0,
         "Crit": 36.0
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null
     },
     "Legs": {
       "Name": "Vanquisher",
@@ -341,7 +354,8 @@
           "AP": 50.0,
           "Crit": 12.0
         }
-      }
+      },
+      "Gems": null
     },
     "Feet": {
       "Name": "Sha'tari",
@@ -359,7 +373,8 @@
         "Stats": {
           "Agi": 12.0
         }
-      }
+      },
+      "Gems": null
     },
     "Finger1": {
       "Name": "Shapeshifter",
@@ -369,7 +384,8 @@
         "Agi": 25.0,
         "Expertise": 20.0
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null
     },
     "Finger2": {
       "Name": "Arathi",
@@ -379,7 +395,8 @@
         "Crit": 23.0,
         "AP": 46.0
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null
     },
     "Trinket1": {
       "Name": "Hourglass of the Unraveller",
@@ -388,7 +405,8 @@
       "Stats": {
         "Crit": 32.0
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null
     },
     "Trinket2": {
       "Name": "Abacus of Violent Odds",
@@ -397,7 +415,8 @@
       "Stats": {
         "AP": 64.0
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null
     }
   }
 }

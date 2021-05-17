@@ -6,9 +6,12 @@
   "Cooldowns": {
     "Racial": true,
     "Death Wish": true,
+    "Bloodlust": true,
     "Recklessness": false,
     "Juju Flurry": false,
-    "Mighty Rage": false
+    "Mighty Rage": false,
+    "Haste Pot": true,
+    "Str Pot": false,
   },
   "Buffs": [
     {

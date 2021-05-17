@@ -1,90 +1,43 @@
-Date : 2021/05/17 13:36:11
+Date : 2021/05/17 18:07:04
 
 Fight length : 240 seconds (±10%)
 
 Player :
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0]
-Main weapon : Mace with 350 skill
+Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:608.3][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3098.26][RangedAP:438.4][HitChance:10.12%][CritChance:36.43%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0]
+Main weapon : Sword with 350 skill
 
 Boss (after raid debuffs) :
 Level 73, 2183 Armor (11.68% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0] | Bonus Stats : 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0] | Bonus Stats : 
-Base : 1350.95852256655
-+50 AP
-	Level 73, 2183 Armor (11.68% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
+1278 simulations done in 6,665.89 ms, for 5.22 ms by sim
+Overall accuracy of results : ±0.26%
 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3220.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0] | Bonus Stats : 
-+50 AP : 1394.88984787513
-+1% Hit
-	Level 73, 2183 Armor (11.68% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
+Average DPS : 1,532.43 dps (±2.05)
 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:8.83%][CritChance:36.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0] | Bonus Stats : 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:8.83%][CritChance:36.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0] | Bonus Stats : 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:8.83%][CritChance:36.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0] | Bonus Stats : 
-+1% Hit : 1374.65840804102
-+1% Crit
-	Level 73, 2183 Armor (11.68% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
+Average stats for [AA MH] : 365.96 DPS (23.88%)
+	Average of 858.74 damage for 102.32 uses (or 1 use every 2.34s)
+	15.54% Hit, 33.41% Crit, 16.04% Miss, 31.80% Glancing, 3.21% Dodge
 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:37.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0] | Bonus Stats : 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:37.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0] | Bonus Stats : 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:37.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0] | Bonus Stats : 
-+1% Crit : 1375.05760446559
-+1% Haste
-	Level 73, 2183 Armor (11.68% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
+Average stats for [AA OH] : 279.12 DPS (18.21%)
+	Average of 460.26 damage for 145.37 uses (or 1 use every 1.65s)
+	22.39% Hit, 33.59% Crit, 13.60% Miss, 27.19% Glancing, 3.24% Dodge
 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:1%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0] | Bonus Stats : 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:1%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0] | Bonus Stats : 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:1%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0] | Bonus Stats : 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:1%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0] | Bonus Stats : 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:1%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0] | Bonus Stats : 
-+1% Haste : 1368.06992552424
-+1% Expertise
-	Level 73, 2183 Armor (11.68% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
+Average stats for [Bloodthirst] : 315.21 DPS (20.57%)
+	Average of 1,996.02 damage for 37.87 uses (or 1 use every 6.33s)
+	63.50% Hit, 33.23% Crit, 0.00% Miss, 0.00% Glancing, 3.27% Dodge
 
-+1% Expertise : 1373.82149018705
-+100 ArPen
-	Level 73, 2083 Armor (11.20% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
+Average stats for [Whirlwind] : 180.14 DPS (11.76%)
+	Average of 1,677.89 damage for 25.74 uses (or 1 use every 9.31s)
+	62.89% Hit, 33.85% Crit, 0.00% Miss, 0.00% Glancing, 3.26% Dodge
 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0][ArmorPen:100] | Bonus Stats : 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0][ArmorPen:100] | Bonus Stats : 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0][ArmorPen:100] | Bonus Stats : 
-+100 ArPen : 1368.20304647438
-+1000 ArPen
-	Level 73, 1183 Armor (6.69% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
+Average stats for [Heroic Strike] : 253.60 DPS (16.55%)
+	Average of 1,360.54 damage for 44.68 uses (or 1 use every 5.37s)
+	63.24% Hit, 33.62% Crit, 0.00% Miss, 0.00% Glancing, 3.14% Dodge
 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0][ArmorPen:1000] | Bonus Stats : 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0][ArmorPen:1000] | Bonus Stats : 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0][ArmorPen:1000] | Bonus Stats : 
-+1000 ArPen : 1448.86828682345
-+10 DPS MH
-	Level 73, 2183 Armor (11.68% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
+Average stats for [Execute] : 100.69 DPS (6.57%)
+	Average of 1,769.31 damage for 13.68 uses (or 1 use every 17.53s)
+	63.11% Hit, 33.63% Crit, 0.00% Miss, 0.00% Glancing, 3.26% Dodge
 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0][WeaponDamageMH:27] | Bonus Stats : 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0][WeaponDamageMH:27] | Bonus Stats : 
-+10 DPS MH : 1384.43326276713
-+10 DPS OH
-	Level 73, 2183 Armor (11.68% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
-
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0][WeaponDamageOH:22] | Bonus Stats : 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0][WeaponDamageOH:22] | Bonus Stats : 
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:613.8][Agility:189.2][Stamina:123.2][Intellect:36.3][Spirit:59.4][Health:2741][Mana:0][AP:3110.36][RangedAP:438.4][HitChance:7.83%][CritChance:36.07%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.27%][SkillDagger:0][SkillSword:0][SkillAxe:0][WeaponDamageOH:22] | Bonus Stats : 
-+10 DPS OH : 1367.55719724758
-14717 simulations done in 47,701.96 ms, for 3.24 ms by sim
-Overall accuracy of results : ±0.28%
-
-Base : 1,350.96 DPS
-
-Weights by DPS :
-1 AP = 0.4393 DPS
-1 Str = 0.9665 DPS = 2.2000 AP
-1 Agi = 0.7303 DPS = 1.6623 AP
-1 Crit = 1.0914 DPS = 2.4844 AP
-1 Hit = 1.5028 DPS = 3.4209 AP
-1 Haste = 1.0851 DPS = 2.4699 AP
-1 Expertise = 1.4498 DPS = 3.3001 AP
-1 Armor Penetration (+100) = 0.1724 DPS = 0.3925 AP
-1 Armor Penetration (+1000) = 0.0979 DPS = 0.2229 AP
-1 MH DPS = 3.3475 DPS = 7.6198 AP
-1 OH DPS = 1.6599 DPS = 3.7783 AP
+Average stats for [Deep Wounds] : 37.71 DPS (2.46%)
+	Average of 114.85 damage for 78.74 ticks (or 1 tick every 3.05s)
+	98.51% Uptime
