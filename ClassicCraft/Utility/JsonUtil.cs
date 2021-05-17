@@ -41,6 +41,7 @@ namespace ClassicCraft
                         res.Attributes.SetValue(Attribute.Haste, res.Attributes.GetValue(Attribute.Haste) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1));
                         res.Attributes.SetValue(Attribute.SpellHitChance, res.Attributes.GetValue(Attribute.SpellHitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1));
                         res.Attributes.SetValue(Attribute.SpellCritChance, res.Attributes.GetValue(Attribute.SpellCritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1));
+                        res.Attributes.SetValue(Attribute.Expertise, res.Attributes.GetValue(Attribute.Expertise) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Expertise] : 1));
                     }
                     if (res.Enchantment != null)
                     {
@@ -49,6 +50,7 @@ namespace ClassicCraft
                         res.Enchantment.Attributes.SetValue(Attribute.Haste, res.Enchantment.Attributes.GetValue(Attribute.Haste) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1));
                         res.Enchantment.Attributes.SetValue(Attribute.SpellHitChance, res.Enchantment.Attributes.GetValue(Attribute.SpellHitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1));
                         res.Enchantment.Attributes.SetValue(Attribute.SpellCritChance, res.Enchantment.Attributes.GetValue(Attribute.SpellCritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1));
+                        res.Enchantment.Attributes.SetValue(Attribute.Expertise, res.Enchantment.Attributes.GetValue(Attribute.Expertise) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Expertise] : 1));
                     }
                     return res;
                 }
@@ -67,6 +69,7 @@ namespace ClassicCraft
                         if (res.Stats.ContainsKey("Haste")) res.Stats["Haste"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1);
                         if (res.Stats.ContainsKey("SpellHit")) res.Stats["SpellHit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1);
                         if (res.Stats.ContainsKey("SpellCrit")) res.Stats["SpellCrit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1);
+                        if (res.Stats.ContainsKey("Expertise")) res.Stats["Expertise"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Expertise] : 1);
                     }
                     if(res.Enchantment != null)
                     {
@@ -75,6 +78,7 @@ namespace ClassicCraft
                         if (res.Enchantment.Stats.ContainsKey("Haste")) res.Enchantment.Stats["Haste"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1);
                         if (res.Enchantment.Stats.ContainsKey("SpellHit")) res.Enchantment.Stats["SpellHit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1);
                         if (res.Enchantment.Stats.ContainsKey("SpellCrit")) res.Enchantment.Stats["SpellCrit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1);
+                        if (res.Enchantment.Stats.ContainsKey("Expertise")) res.Enchantment.Stats["Expertise"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Expertise] : 1);
                     }
                     return res;
                 }
@@ -122,6 +126,7 @@ namespace ClassicCraft
                         res.Attributes.SetValue(Attribute.Haste, res.Attributes.GetValue(Attribute.Haste) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1));
                         res.Attributes.SetValue(Attribute.SpellHitChance, res.Attributes.GetValue(Attribute.SpellHitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1));
                         res.Attributes.SetValue(Attribute.SpellCritChance, res.Attributes.GetValue(Attribute.SpellCritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1));
+                        res.Attributes.SetValue(Attribute.Expertise, res.Attributes.GetValue(Attribute.Expertise) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Expertise] : 1));
                     }
                     if(res.Enchantment != null)
                     {
@@ -130,6 +135,7 @@ namespace ClassicCraft
                         res.Enchantment.Attributes.SetValue(Attribute.Haste, res.Enchantment.Attributes.GetValue(Attribute.Haste) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1));
                         res.Enchantment.Attributes.SetValue(Attribute.SpellHitChance, res.Enchantment.Attributes.GetValue(Attribute.SpellHitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1));
                         res.Enchantment.Attributes.SetValue(Attribute.SpellCritChance, res.Enchantment.Attributes.GetValue(Attribute.SpellCritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1));
+                        res.Enchantment.Attributes.SetValue(Attribute.Expertise, res.Enchantment.Attributes.GetValue(Attribute.Expertise) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Expertise] : 1));
                     }
                     if(res.Buff != null)
                     {
@@ -138,6 +144,7 @@ namespace ClassicCraft
                         res.Buff.Attributes.SetValue(Attribute.Haste, res.Buff.Attributes.GetValue(Attribute.Haste) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1));
                         res.Buff.Attributes.SetValue(Attribute.SpellHitChance, res.Buff.Attributes.GetValue(Attribute.SpellHitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1));
                         res.Buff.Attributes.SetValue(Attribute.SpellCritChance, res.Buff.Attributes.GetValue(Attribute.SpellCritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1));
+                        res.Buff.Attributes.SetValue(Attribute.Expertise, res.Buff.Attributes.GetValue(Attribute.Expertise) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Expertise] : 1));
                     }
                     return res;
                 }
@@ -156,6 +163,7 @@ namespace ClassicCraft
                         if (res.Stats.ContainsKey("Haste")) res.Stats["Haste"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1);
                         if (res.Stats.ContainsKey("SpellHit")) res.Stats["SpellHit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1);
                         if (res.Stats.ContainsKey("SpellCrit")) res.Stats["SpellCrit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1);
+                        if (res.Stats.ContainsKey("Expertise")) res.Stats["Expertise"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Expertise] : 1);
                     }
                     if(res.Enchantment != null)
                     {
@@ -164,6 +172,7 @@ namespace ClassicCraft
                         if (res.Enchantment.Stats.ContainsKey("Haste")) res.Enchantment.Stats["Haste"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1);
                         if (res.Enchantment.Stats.ContainsKey("SpellHit")) res.Enchantment.Stats["SpellHit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1);
                         if (res.Enchantment.Stats.ContainsKey("SpellCrit")) res.Enchantment.Stats["SpellCrit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1);
+                        if (res.Enchantment.Stats.ContainsKey("Expertise")) res.Enchantment.Stats["Expertise"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Expertise] : 1);
                     }
                     if(res.Buff != null)
                     {
@@ -172,6 +181,7 @@ namespace ClassicCraft
                         if (res.Buff.Stats.ContainsKey("Haste")) res.Buff.Stats["Haste"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1);
                         if (res.Buff.Stats.ContainsKey("SpellHit")) res.Buff.Stats["SpellHit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1);
                         if (res.Buff.Stats.ContainsKey("SpellCrit")) res.Buff.Stats["SpellCrit"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1);
+                        if (res.Buff.Stats.ContainsKey("Expertise")) res.Buff.Stats["Expertise"] *= 100 * (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Expertise] : 1);
                     }
                     return res;
                 }
@@ -256,6 +266,7 @@ namespace ClassicCraft
                                 e.Attributes.SetValue(Attribute.Haste, e.Attributes.GetValue(Attribute.Haste) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1));
                                 e.Attributes.SetValue(Attribute.SpellHitChance, e.Attributes.GetValue(Attribute.SpellHitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1));
                                 e.Attributes.SetValue(Attribute.SpellCritChance, e.Attributes.GetValue(Attribute.SpellCritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1));
+                                e.Attributes.SetValue(Attribute.Expertise, e.Attributes.GetValue(Attribute.Expertise) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Expertise] : 1));
                             }
 
                             buffs.Add(e);

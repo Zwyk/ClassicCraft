@@ -30,12 +30,13 @@ namespace ClassicCraft
 
             int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Program.version == Version.TBC ? 210 : 160))
                 * Player.Sim.DamageMod(res)
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level)
+                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                 * Player.DamageMod
                 * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1)
                 * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
                 * (1 + 0.01 * Player.GetTalentPoints("IMS"))
                 * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
+                * (Player.Sets["Onslaught"] >= 4 ? 1.05 : 1)
                 );
             
             int threat = (int)Math.Round(damage * Player.ThreatMod);

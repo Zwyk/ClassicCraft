@@ -208,6 +208,13 @@ namespace ClassicCraft
                 * (p.Buffs.Any(b => b.Name.ToLower().Contains("blessing of kings")) ? 1.1 : 1);
         }
 
+        public static double BonusAgiToCritRatio(Player p)
+        {
+            return 1
+                * (p.Buffs.Any(b => b.Name.ToLower().Contains("blessing of kings")) ? 1.1 : 1)
+                ;
+        }
+
         public static int AgiToRangedAPRatio(Classes c)
         {
             return (c == Classes.Warrior || c == Classes.Hunter || c == Classes.Rogue) ? 2 : 1;
@@ -782,6 +789,10 @@ namespace ClassicCraft
             { Attribute.SpellCritChance, 22.08 },
             { Attribute.Haste, 15.77 },
             { Attribute.ArmorPen, 5.92 },
+            // { Attribute.Defense, 2.37 },
+            // { Attribute.Dodge, 18.92 },
+            // { Attribute.Parry, 23.65 },
+            // { Attribute.Block, 7.88 },
         };
 
         public bool IsCaster()
@@ -1055,6 +1066,7 @@ namespace ClassicCraft
         public Dictionary<string, CustomAction> CustomActions { get; set; }
 
         public Dictionary<Skill, int> cds = new Dictionary<Skill, int>();
+        public Dictionary<string, double> icds = new Dictionary<string, double>();
 
         public AutoAttack mh = null;
         public AutoAttack oh = null;
@@ -1123,13 +1135,25 @@ namespace ClassicCraft
             {
                 int skill = baseSkill;
 
-                if(Race == Races.Orc && type == Weapon.WeaponType.Axe)
+                // TODO : deprecated ?
+                if(Program.version == Version.Vanilla)
                 {
-                    skill += 5;
-                }
-                else if(Race == Races.Human && (type == Weapon.WeaponType.Mace || type == Weapon.WeaponType.Sword))
-                {
-                    skill += 5;
+                    if (Race == Races.Orc && type == Weapon.WeaponType.Axe)
+                    {
+                        skill += 5;
+                    }
+                    else if (Race == Races.Human && (type == Weapon.WeaponType.Mace || type == Weapon.WeaponType.Sword))
+                    {
+                        skill += 5;
+                    }
+                    else if (Race == Races.Troll && (type == Weapon.WeaponType.Bow || type == Weapon.WeaponType.Throwable))
+                    {
+                        skill += 5;
+                    }
+                    else if (Race == Races.Dwarf && type == Weapon.WeaponType.Gun)
+                    {
+                        skill += 5;
+                    }
                 }
 
                 WeaponSkill[type] = skill;
@@ -1170,6 +1194,53 @@ namespace ClassicCraft
                 {
                     oh = new AutoAttack(this, OH, false);
                 }
+            }
+
+            string[] tr = new string[] { Equipment[Slot.Trinket1]?.Name.ToLower(), Equipment[Slot.Trinket2]?.Name.ToLower() };
+
+            if (tr.Any(x => x == "kiss of the spider"))
+            {
+                cds.Add(new ActiveItemBuff(this, 120, 15, "Kiss of the Spider", new Dictionary<Attribute, double>() { { Attribute.Haste, 200 } }), 15);
+            }
+            if (tr.Any(x => x == "abacus of violent odds"))
+            {
+                cds.Add(new ActiveItemBuff(this, 120, 10, "Abacus of Violet Odds", new Dictionary<Attribute, double>() { { Attribute.Haste, 260 / RatingRatios[Attribute.Haste] / 100 } }), 10);
+            }
+            if (tr.Any(x => x == "bladefist's breadth"))
+            {
+                cds.Add(new ActiveItemBuff(this, 90, 15, "Bladefist's Breadth", new Dictionary<Attribute, double>() { { Attribute.AP, 200 } }), 15);
+            }
+            if (tr.Any(x => x == "bloodlust brooch"))
+            {
+                cds.Add(new ActiveItemBuff(this, 120, 20, "Bloodlust Brooch", new Dictionary<Attribute, double>() { { Attribute.AP, 278 } }), 20);
+            }
+            if (tr.Any(x => x == "ancient draenei war talisman"))
+            {
+                cds.Add(new ActiveItemBuff(this, 90, 20, "Ancient Draenei War Talisman", new Dictionary<Attribute, double>() { { Attribute.AP, 200 } }), 15);
+            }
+            if (tr.Any(x => x == "core of ar'kelos"))
+            {
+                cds.Add(new ActiveItemBuff(this, 120, 20, "core of ar'kelos", new Dictionary<Attribute, double>() { { Attribute.AP, 200 } }), 20);
+            }
+            if (tr.Any(x => x == "core of ar'kelos"))
+            {
+                cds.Add(new ActiveItemBuff(this, 120, 15, "core of ar'kelos", new Dictionary<Attribute, double>() { { Attribute.AP, 185 } }), 15);
+            }
+            if (tr.Any(x => x == "uniting charm"))
+            {
+                cds.Add(new ActiveItemBuff(this, 120, 15, "uniting charm", new Dictionary<Attribute, double>() { { Attribute.AP, 185 } }), 15);
+            }
+            if (tr.Any(x => x == "terokkar tablet of precision"))
+            {
+                cds.Add(new ActiveItemBuff(this, 90, 15, "Terokkar Tablet of Precision", new Dictionary<Attribute, double>() { { Attribute.AP, 140 } }), 15);
+            }
+            if (tr.Any(x => x == "crystalforged trinket"))
+            {
+                cds.Add(new ActiveItemBuff(this, 60, 10, "crystalforged trinket", new Dictionary<Attribute, double>() { { Attribute.AP, 216 } }), 10);
+            }
+            if (tr.Any(x => x == "icon of unyielding courage"))
+            {
+                cds.Add(new ActiveItemBuff(this, 120, 20, "icon of unyielding courage", new Dictionary<Attribute, double>() { { Attribute.ArmorPen, 600 } }), 20);
             }
         }
 
@@ -1258,7 +1329,7 @@ namespace ClassicCraft
 
         public int NbSet(string set)
         {
-            return Equipment.Where(a => a.Value != null).Count(e => e.Value.Name.Contains(set));
+            return Equipment.Where(a => a.Value != null).Count(e => e.Value.Name.ToLower().Contains(set.ToLower()));
         }
 
         public int GetTalentPoints(string talent)
@@ -1498,7 +1569,7 @@ namespace ClassicCraft
             WeaponSkill[Weapon.WeaponType.Sword] += (int)Attributes.GetValue(Attribute.SkillSword) + (int)Attributes.GetValue(Attribute.Skill1H) + (int)Attributes.GetValue(Attribute.Skill2H);
             WeaponSkill[Weapon.WeaponType.Throwable] += (int)Attributes.GetValue(Attribute.SkillThrowable);
 
-            if(Program.version == Version.TBC)
+            if(Program.version == Version.TBC)  // TODO : changed to +5 expertise later
             {
                 if (Race == Races.Orc)
                 {
@@ -1656,7 +1727,6 @@ namespace ClassicCraft
                 {
                     if (!alreadyProc.Contains("crusader") &&
                         ((isMH && MH?.Enchantment?.Name.ToLower().Contains("crusader") == true) || (!isMH && OH?.Enchantment?.Name.ToLower().Contains("crusader") == true))
-                        && (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
                         && Randomer.NextDouble() < (isMH ? MH.Speed : OH.Speed) / 60)
                     {
                         string procName = "Crusader" + (isMH ? "MH" : "OH");
@@ -1666,18 +1736,15 @@ namespace ClassicCraft
                                 { Attribute.Strength, 100 },
                             };
                         int procDuration = 15;
-
-                        if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
+                        
+                        if (Effects.ContainsKey(procName))
                         {
-                            if (Effects.ContainsKey(procName))
-                            {
-                                Effects[procName].Refresh();
-                            }
-                            else
-                            {
-                                CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
-                                buff.StartEffect();
-                            }
+                            Effects[procName].Refresh();
+                        }
+                        else
+                        {
+                            CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
+                            buff.StartEffect();
                         }
                     }
                     /* DEPRECATED
@@ -1687,7 +1754,7 @@ namespace ClassicCraft
                     }
                     */
 
-                    if (isMH && WindfuryTotem && !alreadyProc.Contains("WF") && Randomer.NextDouble() < 0.2)
+                    if (isMH && WindfuryTotem && (Program.version == Version.Vanilla ? true : isAA) && !alreadyProc.Contains("WF") && Randomer.NextDouble() < 0.2)
                     {
                         alreadyProc.Add("WF");
 
@@ -1829,35 +1896,31 @@ namespace ClassicCraft
                                 { Attribute.Haste, 0.02 },
                             };
                             int procDuration = 15;
-
-                            if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
+                            
+                            if (Effects.ContainsKey(procName))
                             {
-                                if (Effects.ContainsKey(procName))
-                                {
-                                    Effects[procName].Refresh();
-                                }
-                                else
-                                {
-                                    CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
-                                    buff.StartEffect();
-                                }
+                                Effects[procName].Refresh();
+                            }
+                            else
+                            {
+                                CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
+                                buff.StartEffect();
                             }
                         }
-                    }
-
-                    if (!alreadyProc.Contains("LHC") &&
-                        isMH && (MH?.Name.ToLower().Contains("lionheart champion") == true || MH?.Name.ToLower().Contains("lhc") == true) && Randomer.NextDouble() < 0.06)
-                    {
-                        string procName = "LHC";
-                        alreadyProc.Add(procName);
-                        Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
+                        if (!alreadyProc.Contains("Warglaives") &&
+                            (MH?.Name.ToLower().Contains("warglaive") == true && OH?.Name.ToLower().Contains("warglaive") == true)
+                            && (!icds.ContainsKey("Warglaives") || icds["Warglaives"] < Sim.CurrentTime - 45)
+                            && Randomer.NextDouble() < 0.2)
                         {
-                            { Attribute.Strength, 100 }
+                            string procName = "Warglaives";
+                            alreadyProc.Add(procName);
+
+                            Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.Haste, 450 / RatingRatios[Attribute.Haste] / 100 }
                         };
-                        int procDuration = 10;
+                            int procDuration = 10;
 
-                        if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
-                        {
                             if (Effects.ContainsKey(procName))
                             {
                                 Effects[procName].Refresh();
@@ -1870,6 +1933,27 @@ namespace ClassicCraft
                         }
                     }
 
+                    if (!alreadyProc.Contains("LHC") &&
+                        isMH && (MH?.Name.ToLower().Contains("lionheart champion") == true || MH?.Name.ToLower().Contains("lionheart executioner") == true || MH?.Name.ToLower().Contains("lhc") == true) && Randomer.NextDouble() < 0.06)
+                    {
+                        string procName = "LHC";
+                        alreadyProc.Add(procName);
+                        Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.Strength, 100 }
+                        };
+                        int procDuration = 10;
+                        
+                        if (Effects.ContainsKey(procName))
+                        {
+                            Effects[procName].Refresh();
+                        }
+                        else
+                        {
+                            CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
+                            buff.StartEffect();
+                        }
+                    }
                     if (!alreadyProc.Contains("dragonstrike") &&
                         (w.Name.ToLower().Contains("dragonstrike") || w.Name.ToLower().Contains("dragonmaw") || w.Name.ToLower().Contains("drakefist"))
                         && Randomer.NextDouble() < 0.045)
@@ -1882,18 +1966,64 @@ namespace ClassicCraft
                             { Attribute.Haste, 212 / RatingRatios[Attribute.Haste] / 100 }
                         };
                         int procDuration = 10;
-
-                        if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
+                        
+                        if (Effects.ContainsKey(procName))
                         {
-                            if (Effects.ContainsKey(procName))
-                            {
-                                Effects[procName].Refresh();
-                            }
-                            else
-                            {
-                                CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
-                                buff.StartEffect();
-                            }
+                            Effects[procName].Refresh();
+                        }
+                        else
+                        {
+                            CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
+                            buff.StartEffect();
+                        }
+                    }
+                    if (!alreadyProc.Contains("Hourglass")
+                        && res == ResultType.Crit
+                        && (Equipment[Slot.Trinket1]?.Name.ToLower() == "hourglass of the unraveller" || Equipment[Slot.Trinket2]?.Name.ToLower() == "hourglass of the unraveller")
+                        && (!icds.ContainsKey("Hourglass") || icds["Hourglass"] < Sim.CurrentTime - 50)
+                        && Randomer.NextDouble() < 0.10)
+                    {
+                        string procName = "Hourglass";
+                        alreadyProc.Add(procName);
+                        icds[procName] = Sim.CurrentTime;
+                        Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.AP, 300 }
+                        };
+                        int procDuration = 10;
+
+                        if (Effects.ContainsKey(procName))
+                        {
+                            Effects[procName].Refresh();
+                        }
+                        else
+                        {
+                            CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
+                            buff.StartEffect();
+                        }
+                    }
+                    if (!alreadyProc.Contains("Dragonspine Trophy") &&
+                        (Equipment[Slot.Trinket1]?.Name.ToLower() == "dragonspine trophy" || Equipment[Slot.Trinket2]?.Name.ToLower() == "dragonspine trophy")
+                        && (!icds.ContainsKey("Dragonspine Trophy") || icds["Dragonspine Trophy"] < Sim.CurrentTime - 20)
+                        && Randomer.NextDouble() < w.Speed / 60)
+                    {
+                        string procName = "Dragonspine Trophy";
+                        alreadyProc.Add(procName);
+                        icds[procName] = Sim.CurrentTime;
+                        Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.Haste, 325 / RatingRatios[Attribute.Haste] / 100 }
+                        };
+                        int procDuration = 10;
+
+                        if (Effects.ContainsKey(procName))
+                        {
+                            Effects[procName].Refresh();
+                        }
+                        else
+                        {
+                            CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
+                            buff.StartEffect();
                         }
                     }
                 }
@@ -1906,7 +2036,7 @@ namespace ClassicCraft
             {
                 return (int)Math.Round(baseDmg
                     * Sim.DamageMod(res)
-                    * Simulation.ArmorMitigation(Sim.Boss.Armor, Level)
+                    * Simulation.ArmorMitigation(Sim.Boss.Armor, Level, Attributes.GetValue(Attribute.ArmorPen))
                     * DamageMod);
             }
             else

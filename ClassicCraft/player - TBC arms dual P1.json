@@ -2,7 +2,7 @@
   "Class": "Warrior",
   "Level": 70,
   "Race": "Orc",
-  "Talents": "32025301302010500321-0550000500521203",
+  "Talents": "32015301302015400021-0550000500521203",
   "Cooldowns": {
     "Racial": true,
     "Death Wish": true,
@@ -21,25 +21,7 @@
       "Id": 0,
       "Name": "Test",
       "Slot": null,
-      "Stats": {
-        "Hit": 160.0,
-        "Crit": 460.0,
-        "AP": 1360.0,
-        "Haste": 0.0,
-        "Dagger": 0.0,
-        "Sword": 0.0,
-        "Axe": 0.0,
-        "Agi": 87.0,
-        "Str": 351.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Ragesteel",
-      "Slot": null,
-      "Stats": {
-        "Hit": 20.0
-      }
+      "Stats": {}
     },
     {
       "Id": 0,
@@ -143,46 +125,275 @@
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 147.0,
-      "DamageMax": 275.0,
-      "Speed": 2.6,
+      "DamageMin": 172.0,
+      "DamageMax": 320.0,
+      "Speed": 2.7,
       "TwoHanded": false,
-      "Type": "Sword",
+      "Type": "Mace",
       "Buff": null,
       "School": null,
-      "Name": "Vind Brand",
+      "Name": "Dragonmaw",
       "Id": 7,
       "Slot": "Weapon",
-      "Stats": {
-      },
+      "Stats": {},
       "Enchantment": {
         "Id": 0,
-        "Name": "Crusader",
+        "Name": "Mongoose",
         "Slot": "Weapon",
         "Stats": {}
       }
     },
     "OH": {
-      "DamageMin": 128.0,
-      "DamageMax": 239.0,
-      "Speed": 2.2,
+      "DamageMin": 165.0,
+      "DamageMax": 308.0,
+      "Speed": 2.7,
       "TwoHanded": false,
-      "Type": "Axe",
+      "Type": "Sword",
       "Buff": null,
       "School": null,
       "Name": "Fel Edged",
       "Id": 5,
       "Slot": "Weapon",
-      "Stats": {
-      },
+      "Stats": {},
       "Enchantment": {
         "Id": 0,
-        "Name": "Crusader",
+        "Name": "Mongoose",
         "Slot": "Weapon",
+        "Stats": {}
+      }
+    },
+    "Ranged": {
+      "DamageMin": 0.0,
+      "DamageMax": 0.0,
+      "Speed": 0.0,
+      "TwoHanded": false,
+      "Type": "Crossbow",
+      "Buff": null,
+      "School": null,
+      "Name": "Mama",
+      "Id": 6,
+      "Slot": "Ranged",
+      "Stats": {
+        "Crit": 20.0,
+        "Hit": 12.0
+      },
+      "Enchantment": null
+    }
+  },
+  "Equipment": {
+    "Head": {
+      "Name": "Warbringer",
+      "Id": 0,
+      "Slot": "Head",
+      "Stats": {
+        "Str": 50.0,
+        "Crit": 28.0,
+        "Hit": 18.0,
+        "AP": 24.0
+      },
+      "Enchantment": {
+        "Id": 4,
+        "Name": "Gems",
+        "Slot": "Head",
         "Stats": {
+          "AP": 34.0,
+          "Hit": 16.0
         }
       }
     },
-  },
-  "Equipment": {}
+    "Neck": {
+      "Name": "Traitor",
+      "Id": 1,
+      "Slot": "Neck",
+      "Stats": {
+        "Crit": 30.0,
+        "AP": 34.0
+      },
+      "Enchantment": null
+    },
+    "Shoulders": {
+      "Name": "Warbringer",
+      "Id": 2,
+      "Slot": "Shoulders",
+      "Stats": {
+        "Str": 40.0,
+        "Agi": 22.0,
+        "Hit": 13.0,
+        "Crit": 9.0
+      },
+      "Enchantment": {
+        "Id": 4,
+        "Name": "Enchant",
+        "Slot": "Shoulders",
+        "Stats": {
+          "AP": 20.0,
+          "Crit": 15.0
+        }
+      }
+    },
+    "Back": {
+      "Name": "Inciter",
+      "Id": 3,
+      "Slot": "Back",
+      "Stats": {
+        "Crit": 27.0,
+        "AP": 52.0,
+        "Hit": 2.0,
+        "Str": 5.0
+      },
+      "Enchantment": {
+        "Id": 5,
+        "Name": "Greater Agility",
+        "Slot": "Back",
+        "Stats": {
+          "Agi": 12.0
+        }
+      }
+    },
+    "Chest": {
+      "Name": "Warbringer",
+      "Id": 4,
+      "Slot": "Chest",
+      "Stats": {
+        "Str": 59.0,
+        "Crit": 38.0
+      },
+      "Enchantment": {
+        "Id": 6,
+        "Name": "Exceptional Stats",
+        "Slot": "Chest",
+        "Stats": {
+          "Str": 6.0,
+          "Agi": 6.0,
+          "Int": 6.0,
+          "Spi": 6.0
+        }
+      }
+    },
+    "Wrists": {
+      "Name": "General",
+      "Id": 5,
+      "Slot": "Wrists",
+      "Stats": {
+        "Str": 25.0,
+        "Crit": 33.0
+      },
+      "Enchantment": {
+        "Id": 7,
+        "Name": "Brawn",
+        "Slot": "Wrists",
+        "Stats": {
+          "Str": 12.0
+        }
+      }
+    },
+    "Hands": {
+      "Name": "Liar",
+      "Id": 6,
+      "Slot": "Hands",
+      "Stats": {
+        "Str": 25.0,
+        "Crit": 34.0,
+        "AP": 72.0
+      },
+      "Enchantment": {
+        "Id": 8,
+        "Name": "Str",
+        "Slot": "Hands",
+        "Stats": {
+          "Str": 15.0
+        }
+      }
+    },
+    "Waist": {
+      "Name": "General",
+      "Id": 7,
+      "Slot": "Waist",
+      "Stats": {
+        "Str": 44.0,
+        "Crit": 36.0
+      },
+      "Enchantment": null
+    },
+    "Legs": {
+      "Name": "Doomplate",
+      "Id": 8,
+      "Slot": "Legs",
+      "Stats": {
+        "Str": 15.0,
+        "Crit": 39.0,
+        "Hit": 17.0,
+        "AP": 64.0
+      },
+      "Enchantment": {
+        "Id": 8,
+        "Name": "Cobrahide",
+        "Slot": "Hands",
+        "Stats": {
+          "AP": 50.0,
+          "Crit": 12.0
+        }
+      }
+    },
+    "Feet": {
+      "Name": "Sha'tari",
+      "Id": 9,
+      "Slot": "Feet",
+      "Stats": {
+        "Str": 10.0,
+        "Crit": 25.0,
+        "Hit": 25.0,
+        "AP": 42.0
+      },
+      "Enchantment": {
+        "Id": 8,
+        "Name": "Feet agi",
+        "Slot": "Hands",
+        "Stats": {
+          "Agi": 12.0
+        }
+      }
+    },
+    "Finger1": {
+      "Name": "Umbral",
+      "Id": 10,
+      "Slot": "Finger",
+      "Stats": {
+        "Crit": 23.0,
+        "AP": 44.0,
+        "Hit": 19.0
+      },
+      "Enchantment": null
+    },
+    "Finger2": {
+      "Name": "Umbral",
+      "Id": 10,
+      "Slot": "Finger",
+      "Stats": {
+        "Crit": 20.0,
+        "AP": 40.0,
+        "Hit": 19.0
+      },
+      "Enchantment": null
+    },
+    "Trinket1": {
+      "Name": "Hourglass of the Unraveller",
+      "Id": 12,
+      "Slot": "Trinket",
+      "Stats": {
+        "Crit": 32.0
+      },
+      "Enchantment": null
+    },
+    "Trinket2": {
+      "Name": "DFT",
+      "Id": 13,
+      "Slot": "Trinket",
+      "Stats": {
+        "AP": 56.0,
+        "Hit": 20.0
+      },
+      "Enchantment": null
+    }
+  }
 }

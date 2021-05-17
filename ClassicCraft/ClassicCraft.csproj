@@ -127,6 +127,7 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Misc\ActiveItemBuff.cs" />
     <Compile Include="Misc\Consumables\JujuFlurry\JujuFlurry.cs" />
     <Compile Include="Misc\Consumables\ManaPotion.cs" />
     <Compile Include="Misc\Consumables\MightyRage\MightyRage.cs" />

@@ -12,7 +12,7 @@ namespace ClassicCraft
         public static int CD = 10;
 
         public Whirlwind(Player p)
-            : base(p, CD - (Program.version == Version.TBC ? p.GetTalentPoints("IWW") : 0), BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") : 0))
+            : base(p, CD - (Program.version == Version.TBC ? p.GetTalentPoints("IWW") : 0), BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") + 5*p.Sets["Warbringer"] : 0))
         {
         }
 
@@ -33,7 +33,7 @@ namespace ClassicCraft
 
             int damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
                 * Player.Sim.DamageMod(res)
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level)
+                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                 * Player.DamageMod
                 * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1 )
                 * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
@@ -51,7 +51,7 @@ namespace ClassicCraft
 
                 damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
                     * Player.Sim.DamageMod(res)
-                    * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level)
+                    * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                     * Player.DamageMod
                     * (res == ResultType.Crit ? 1 + (0.1 * Player.GetTalentPoints("Impale")) : 1)
                     * 0.5 * (1 + 0.05 * Player.GetTalentPoints("DWS")));

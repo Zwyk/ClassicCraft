@@ -23,7 +23,7 @@ namespace ClassicCraft
         {
             if(res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
             {
-                double chance = (Program.version == Version.Vanilla ? 0.08 : speed / 20) * points;
+                double chance = (Program.version == Version.Vanilla ? 0.08 : speed * 3 / 60) * points;
                 if (Randomer.NextDouble() < chance)
                 {
                     p.Resource += 1;

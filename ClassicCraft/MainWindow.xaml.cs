@@ -99,54 +99,10 @@ namespace ClassicCraftGUI
             EnchantsList.SelectedIndex = 0;
         }
 
-        private class Human
-        {
-            public double Skill { get; set; }
-            public double Luck { get; set; }
-
-            public Human(double skill, double luck)
-            {
-                Skill = skill;
-                Luck = luck;
-            }
-
-            public override string ToString()
-            {
-                return string.Format("Skill : {0:N4}% | Luck : {1:N4}%", Skill*100, Luck*100);
-            }
-        }
-
-        private List<Human> GetTopHumans(int pool, int selectedPool, double luckPct)
-        {
-            List<Human> humans = new List<Human>();
-            for (int i = 0; i < pool; i++)
-            {
-                Human h = new Human(Randomer.NextDouble(), Randomer.NextDouble());
-                humans.Add(h);
-            }
-
-            return humans.OrderByDescending(h => HumanTotalScore(h, luckPct)).Take(selectedPool).ToList();
-        }
-
-        private double HumanTotalScore(Human h, double luckPct)
-        {
-            return h.Skill * (1 - luckPct) + h.Luck * luckPct;
-        }
-
         private void Run(object sender, RoutedEventArgs e)
         {
             if (!Program.Running)
             {
-                if (noDB)
-                {
-                    Program.LoadConfigJsons();
-                    sim = Program.jsonSim;
-                    player = Program.jsonPlayer;
-
-                    LoadSimConfig();
-                    LoadPlayer();
-                }
-
                 SavePlayer();
                 SaveSimConfig();
 
@@ -1917,8 +1873,8 @@ namespace ClassicCraftGUI
         {
             if (TargetError != null && NbSim != null)
             {
-                TargetError.SelectedIndex = 0;
                 TargetError.IsEnabled = LogFight.SelectedIndex == 0;
+                TargetError.SelectedIndex = TargetError.IsEnabled ? 2 : 0;
                 StatsWeights.SelectedIndex = 1;
                 StatsWeights.IsEnabled = LogFight.SelectedIndex == 0;
             }
@@ -2102,7 +2058,7 @@ namespace ClassicCraftGUI
         {
             try
             {
-                Process.Start(new ProcessStartInfo(@"https://classic.wowhead.com/talent-calc/" + Class.Text.ToLower() + "/" + Talents.Text));
+                Process.Start(new ProcessStartInfo(@"https://" + (Program.version == ClassicCraft.Version.Vanilla ? "classic" : "tbc") + ".wowhead.com/talent-calc/" + Class.Text.ToLower() + "/" + Talents.Text));
             }
             catch (Exception ex)
             {

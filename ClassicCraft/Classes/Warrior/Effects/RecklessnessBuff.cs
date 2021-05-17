@@ -11,7 +11,7 @@ namespace ClassicCraft
         public static int LENGTH = 15;
 
         public RecklessnessBuff(Player p)
-            : base(p, p, true, LENGTH, 1)
+            : base(p, p, true, LENGTH + 2 * p.GetTalentPoints("ID"), 1)
         {
         }
 

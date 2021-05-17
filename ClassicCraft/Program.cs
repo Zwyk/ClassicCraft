@@ -76,14 +76,51 @@ namespace ClassicCraft
 
         public static int nbTasksForSims = 1000;
 
-        private static List<SimResult> CurrentResults;
+        public class StatsData
+        {
+            public string Name;
+            public double AvgDmg = 0;
+            public double AvgDPS = 0;
+            public double AvgThreat = 0;
+            public double AvgTPS = 0;
+            public double AvgUses = 0;
+            public double AvgHit = 0;
+            public double AvgCrit = 0;
+            public double AvgMiss = 0;
+            public double AvgGlance = 0;
+            public double AvgDodge = 0;
+            public double AvgParry = 0;
+            public double AvgResist = 0;
+
+            public PlayerObject Sample;
+
+            public StatsData(string name, PlayerObject sample)
+            {
+                Name = name;
+                Sample = sample;
+            }
+        }
+
+        public class SimData
+        {
+            public int NB = 0;
+            public Dictionary<string, StatsData> Data = new Dictionary<string, StatsData>();
+
+            public SimData()
+            {
+            }
+        }
+        
+        private static SimData CurrentData;
         private static List<double> CurrentDpsList;
         private static List<double> CurrentTpsList;
-
-        private static Dictionary<string, List<SimResult>> ResultsList;
-        private static Dictionary<string, List<double>> DamagesList;
-        private static Dictionary<string, List<double>> ThreatsList;
+        
+        private static Dictionary<string, double> SimsAvgDPS;
+        private static Dictionary<string, double> SimsAvgTPS;
         private static List<double> ErrorList;
+
+        public static List<string> logListActions;
+        public static List<string> logListEffects;
 
         public static string logs;
 
@@ -115,10 +152,8 @@ namespace ClassicCraft
 
         public static void Reset()
         {
-
-            ResultsList = new Dictionary<string, List<SimResult>>();
-            DamagesList = new Dictionary<string, List<double>>();
-            ThreatsList = new Dictionary<string, List<double>>();
+            SimsAvgDPS = new Dictionary<string, double>();
+            SimsAvgTPS = new Dictionary<string, double>();
             ErrorList = new List<double>();
 
             logs = "";
@@ -397,11 +432,40 @@ namespace ClassicCraft
                         }
                     }
                 }
-                bossBase = JsonUtil.JsonBoss.ToBoss(jsonSim.Boss, playerBase.Attributes.GetValue(Attribute.ArmorPen));
+                bossBase = JsonUtil.JsonBoss.ToBoss(jsonSim.Boss, 0);//playerBase.Attributes.GetValue(Attribute.ArmorPen));
                 int bossBaseArmor = bossBase.Armor;
 
                 Log("\nBoss (after raid debuffs) :");
-                Log(bossBase.ToString());
+                Log(bossBase.ToString(playerBase.Attributes.GetValue(Attribute.ArmorPen)));
+
+                if(!statsWeights)
+                {
+                    //logListActions = totalActions.SelectMany(a => a.Select(t => t.Action.ToString()).OrderBy(b => b)).Distinct().ToList();
+                    logListActions = new List<string>() { "AA MH", "AA OH", "AA Ranged", "AA Wand" };
+                    if (playerBase.Class == Player.Classes.Warrior)
+                        logListActions.AddRange(new List<string>() { "Slam", "Bloodthirst", "Mortal Strike", "Sunder Armor", "Revenge", "Whirlwind", "Heroic Strike", "Execute", "Hamstring", "Battle Shout" });
+                    else if (playerBase.Class == Player.Classes.Druid)
+                        logListActions.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift", "Maul", "Swipe" });
+                    else if (playerBase.Class == Player.Classes.Priest)
+                        logListActions.AddRange(new List<string>() { "Mind Blast", "Mind Flay", "SW:P", "Devouring Plague" });
+                    else if (playerBase.Class == Player.Classes.Rogue)
+                        logListActions.AddRange(new List<string>() { "Sinister Strike", "Backstab", "Eviscerate", "Ambush", "Instant Poison" });
+                    else if (playerBase.Class == Player.Classes.Warlock)
+                        logListActions.AddRange(new List<string>() { "Shadow Bolt" });
+
+                    logListActions.AddRange(new List<string>() { "Thunderfury", "Deathbringer", "Vis'kag the Bloodletter", "Perdition's Blade" });
+
+                    //logListEffects = totalEffects.SelectMany(a => a.Select(t => t.Effect.ToString()).OrderBy(b => b)).Distinct().ToList();
+                    logListEffects = new List<string>() { };
+                    if (playerBase.Class == Player.Classes.Priest)
+                        logListEffects.AddRange(new List<string>() { "Mind Flay", "SW:P", "Devouring Plague" });
+                    if (playerBase.Class == Player.Classes.Warrior)
+                        logListEffects.AddRange(new List<string>() { "Deep Wounds" });
+                    if (playerBase.Class == Player.Classes.Warlock)
+                        logListEffects.AddRange(new List<string>() { "Corruption", "Malediction of Agony" });
+
+                    CurrentData = new SimData();
+                }
 
                 DateTime start = DateTime.Now;
 
@@ -415,14 +479,13 @@ namespace ClassicCraft
                 {
                     CurrentDpsList = new List<double>();
                     CurrentTpsList = new List<double>();
-                    CurrentResults = new List<SimResult>();
                     
                     if (done > 0)
                     {
                         we.Attributes = simBonusAttribs[simOrder[done]];
                         playerBase.CalculateAttributes();
 
-                        bossBase.Armor = bossBaseArmor - (int)we.Attributes.GetValue(Attribute.ArmorPen);
+                        //bossBase.Armor = bossBaseArmor - (int)we.Attributes.GetValue(Attribute.ArmorPen);
                         
                         //Log(simOrder[done] + "\n\t" + playerBase.ToString() + "\n\t" + bossBase.ToString());
                     }
@@ -525,11 +588,10 @@ namespace ClassicCraft
                     }
 
                     ErrorList.Add(Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average()));
-                    ResultsList.Add(simOrder[done], CurrentResults);
-                    DamagesList.Add(simOrder[done], CurrentDpsList);
+                    SimsAvgDPS.Add(simOrder[done], CurrentDpsList.Average());
                     if(jsonSim.Tanking)
                     {
-                        ThreatsList.Add(simOrder[done], CurrentTpsList);
+                        SimsAvgTPS.Add(simOrder[done], CurrentTpsList.Average());
                     }
 
                     //Log(simOrder[done] + " : " + CurrentDpsList.Average());
@@ -580,7 +642,7 @@ namespace ClassicCraft
 
                     double weightsDone = 0;
 
-                    double baseDps = DamagesList["Base"].Average();
+                    double baseDps = SimsAvgDPS["Base"];
                     Log(string.Format("\nBase : {0:N2} DPS", baseDps));
 
                     Log("\nWeights by DPS :");
@@ -588,7 +650,7 @@ namespace ClassicCraft
                     double apDif = 0;
                     if (simOrder.Contains("+50 AP"))
                     {
-                        double apDps = DamagesList["+50 AP"].Average();
+                        double apDps = SimsAvgDPS["+50 AP"];
                         apDif = (apDps - baseDps) / (version == Version.TBC ? 100 : 50);
                         if (apDif < 0) apDif = 0;
                         Log(string.Format("1 AP = {0:N4} DPS", apDif));
@@ -600,7 +662,7 @@ namespace ClassicCraft
                     }
                     if (simOrder.Contains("+50 SP"))
                     {
-                        double apDps = DamagesList["+50 SP"].Average();
+                        double apDps = SimsAvgDPS["+50 SP"];
                         apDif = (apDps - baseDps) / (version == Version.TBC ? 100 : 50);
                         if (apDif < 0) apDif = 0;
                         Log(string.Format("1 SP = {0:N4} DPS", apDif));
@@ -609,7 +671,7 @@ namespace ClassicCraft
                     }
                     if (simOrder.Contains("+1% Crit"))
                     {
-                        double critDps = DamagesList["+1% Crit"].Average();
+                        double critDps = SimsAvgDPS["+1% Crit"];
                         double critDif = critDps - baseDps;
                         if (critDif < 0) critDif = 0;
 
@@ -624,7 +686,7 @@ namespace ClassicCraft
                     }
                     if (simOrder.Contains("+1% Hit"))
                     {
-                        double hitDps = DamagesList["+1% Hit"].Average();
+                        double hitDps = SimsAvgDPS["+1% Hit"];
                         double hitDif = (hitDps - baseDps) / (version == Version.TBC ? Player.RatingRatios[Attribute.HitChance] : 1);
                         if (hitDif < 0) hitDif = 0;
                         Log(string.Format("1{2} Hit = {0:N4} DPS = {1:N4} AP", hitDif, hitDif / apDif, version == Version.TBC ? "" : "%"));
@@ -633,7 +695,7 @@ namespace ClassicCraft
                     }
                     if (simOrder.Contains("+1% Haste"))
                     {
-                        double hasteDps = DamagesList["+1% Haste"].Average();
+                        double hasteDps = SimsAvgDPS["+1% Haste"];
                         double hasteDif = (hasteDps - baseDps) / (version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1);
                         if (hasteDif < 0) hasteDif = 0;
                         Log(string.Format("1{2} Haste = {0:N4} DPS = {1:N4} AP", hasteDif, hasteDif / apDif, version == Version.TBC ? "" : "%"));
@@ -642,7 +704,7 @@ namespace ClassicCraft
                     }
                     if (simOrder.Contains("+1% Expertise"))
                     {
-                        double expDps = DamagesList["+1% Expertise"].Average();
+                        double expDps = SimsAvgDPS["+1% Expertise"];
                         double expDif = (expDps - baseDps) / (version == Version.TBC ? Player.RatingRatios[Attribute.Expertise] : 1);
                         if (expDif < 0) expDif = 0;
                         Log(string.Format("1{2} Expertise = {0:N4} DPS = {1:N4} AP", expDif, expDif / apDif, version == Version.TBC ? "" : "%"));
@@ -651,7 +713,7 @@ namespace ClassicCraft
                     }
                     if (simOrder.Contains("+10 ArPen"))
                     {
-                        double arpenDps = DamagesList["+10 ArPen"].Average();
+                        double arpenDps = SimsAvgDPS["+10 ArPen"];
                         double arpenDif = (arpenDps - baseDps) / 10;
                         if (arpenDif < 0) arpenDif = 0;
                         Log(string.Format("1 Armor Penetration (+10) = {0:N4} DPS = {1:N4} AP", arpenDif, arpenDif / apDif));
@@ -660,7 +722,7 @@ namespace ClassicCraft
                     }
                     if (simOrder.Contains("+100 ArPen"))
                     {
-                        double arpenDps = DamagesList["+100 ArPen"].Average();
+                        double arpenDps = SimsAvgDPS["+100 ArPen"];
                         double arpenDif = (arpenDps - baseDps) / 100;
                         if (arpenDif < 0) arpenDif = 0;
                         Log(string.Format("1 Armor Penetration (+100) = {0:N4} DPS = {1:N4} AP", arpenDif, arpenDif / apDif));
@@ -669,7 +731,7 @@ namespace ClassicCraft
                     }
                     if (simOrder.Contains("+1000 ArPen"))
                     {
-                        double arpenDps = DamagesList["+1000 ArPen"].Average();
+                        double arpenDps = SimsAvgDPS["+1000 ArPen"];
                         double arpenDif = (arpenDps - baseDps) / 1000;
                         if (arpenDif < 0) arpenDif = 0;
                         Log(string.Format("1 Armor Penetration (+1000) = {0:N4} DPS = {1:N4} AP", arpenDif, arpenDif / apDif));
@@ -678,7 +740,7 @@ namespace ClassicCraft
                     }
                     if (simOrder.Contains("+10 DPS MH"))
                     {
-                        double mhDps = DamagesList["+10 DPS MH"].Average();
+                        double mhDps = SimsAvgDPS["+10 DPS MH"];
                         double mhDif = (mhDps - baseDps) / simBonusAttribs["+10 DPS MH"].GetValue(Attribute.WeaponDamageMH);
                         if (mhDif < 0) mhDif = 0;
                         Log(string.Format("1 MH DPS = {0:N4} DPS = {1:N4} AP", mhDif, mhDif / apDif));
@@ -687,7 +749,7 @@ namespace ClassicCraft
                     }
                     if (simOrder.Contains("+10 DPS OH"))
                     {
-                        double ohDps = DamagesList["+10 DPS OH"].Average();
+                        double ohDps = SimsAvgDPS["+10 DPS OH"];
                         double ohDif = (ohDps - baseDps) / simBonusAttribs["+10 DPS OH"].GetValue(Attribute.WeaponDamageOH);
                         if (ohDif < 0) ohDif = 0;
                         Log(string.Format("1 OH DPS = {0:N4} DPS = {1:N4} AP", ohDif, ohDif / apDif));
@@ -696,7 +758,7 @@ namespace ClassicCraft
                     }
                     if (simOrder.Contains("+1 MH Skill"))
                     {
-                        double mhSkillDps = DamagesList["+1 MH Skill"].Average();
+                        double mhSkillDps = SimsAvgDPS["+1 MH Skill"];
                         double mhSkillDif = mhSkillDps - baseDps;
                         if (mhSkillDif < 0) mhSkillDif = 0;
                         Log(string.Format("1 MH Skill = {0:N4} DPS = {1:N4} AP", mhSkillDif, mhSkillDif / apDif));
@@ -705,7 +767,7 @@ namespace ClassicCraft
                     }
                     if (simOrder.Contains("+1 OH Skill"))
                     {
-                        double ohSkillDps = DamagesList["+1 OH Skill"].Average();
+                        double ohSkillDps = SimsAvgDPS["+1 OH Skill"];
                         double ohSkillDif = ohSkillDps - baseDps;
                         if (ohSkillDif < 0) ohSkillDif = 0;
                         Log(string.Format("1 OH Skill = {0:N4} DPS = {1:N4} AP", ohSkillDif, ohSkillDif / apDif));
@@ -714,7 +776,7 @@ namespace ClassicCraft
                     }
                     if (simOrder.Contains("+5 MH Skill"))
                     {
-                        double mhSkillDps = DamagesList["+5 MH Skill"].Average();
+                        double mhSkillDps = SimsAvgDPS["+5 MH Skill"];
                         double mhSkillDif = mhSkillDps - baseDps;
                         if (mhSkillDif < 0) mhSkillDif = 0;
                         Log(string.Format("5 MH Skill = {0:N4} DPS = {1:N4} AP", mhSkillDif, mhSkillDif / apDif));
@@ -723,7 +785,7 @@ namespace ClassicCraft
                     }
                     if (simOrder.Contains("+5 OH Skill"))
                     {
-                        double ohSkillDps = DamagesList["+5 OH Skill"].Average();
+                        double ohSkillDps = SimsAvgDPS["+5 OH Skill"];
                         double ohSkillDif = ohSkillDps - baseDps;
                         if (ohSkillDif < 0) ohSkillDif = 0;
                         Log(string.Format("5 OH Skill = {0:N4} DPS = {1:N4} AP", ohSkillDif, ohSkillDif / apDif));
@@ -732,7 +794,7 @@ namespace ClassicCraft
                     }
                     if (simOrder.Contains("+1% SpellCrit"))
                     {
-                        double critDps = DamagesList["+1% SpellCrit"].Average();
+                        double critDps = SimsAvgDPS["+1% SpellCrit"];
                         double critDif = (critDps - baseDps) / (version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1);
                         if (critDif < 0) critDif = 0;
                         Log(string.Format("1% SpellCrit = {0:N4} DPS = {1:N4} SP", critDif, critDif / apDif, version == Version.TBC ? "" : "%"));
@@ -741,7 +803,7 @@ namespace ClassicCraft
                     }
                     if (simOrder.Contains("+1% SpellHit"))
                     {
-                        double hitDps = DamagesList["+1% SpellHit"].Average();
+                        double hitDps = SimsAvgDPS["+1% SpellHit"];
                         double hitDif = (hitDps - baseDps) / (version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1);
                         if (hitDif < 0) hitDif = 0;
                         Log(string.Format("1{2} SpellHit = {0:N4} DPS = {1:N4} SP", hitDif, hitDif / apDif, version == Version.TBC ? "" : "%"));
@@ -750,7 +812,7 @@ namespace ClassicCraft
                     }
                     if (simOrder.Contains("+50 Int"))
                     {
-                        double intDps = DamagesList["+50 Int"].Average();
+                        double intDps = SimsAvgDPS["+50 Int"];
                         double intDif = (intDps - baseDps) / (version == Version.TBC ? 100 : 50);
                         if (intDif < 0) intDif = 0;
                         string comp = simOrder.Contains("+50 AP") ? "AP" : "SP";
@@ -760,7 +822,7 @@ namespace ClassicCraft
                     }
                     if (simOrder.Contains("+50 Spi"))
                     {
-                        double spiDps = DamagesList["+50 Spi"].Average();
+                        double spiDps = SimsAvgDPS["+50 Spi"];
                         double spiDif = (spiDps - baseDps) / (version == Version.TBC ? 100 : 50);
                         if (spiDif < 0) spiDif = 0;
                         string comp = simOrder.Contains("+50 AP") ? "AP" : "SP";
@@ -770,7 +832,7 @@ namespace ClassicCraft
                     }
                     if (simOrder.Contains("+30 MP5"))
                     {
-                        double mp5Dps = DamagesList["+30 MP5"].Average();
+                        double mp5Dps = SimsAvgDPS["+30 MP5"];
                         double mp5Dif = (mp5Dps - baseDps) / 30;
                         if (mp5Dif < 0) mp5Dif = 0;
                         string comp = simOrder.Contains("+50 AP") ? "AP" : "SP";
@@ -781,7 +843,7 @@ namespace ClassicCraft
 
                     if (jsonSim.Tanking)
                     {
-                        double baseTps = ThreatsList["Base"].Average();
+                        double baseTps = SimsAvgTPS["Base"];
                         Log(string.Format("\nBase : {0:N2} TPS", baseTps));
 
                         Log("\nWeights by TPS :");
@@ -789,7 +851,7 @@ namespace ClassicCraft
                         apDif = 0;
                         if (simOrder.Contains("+50 AP"))
                         {
-                            double apTps = ThreatsList["+50 AP"].Average();
+                            double apTps = SimsAvgTPS["+50 AP"];
                             apDif = (apTps - baseTps) / (version == Version.TBC ? 100 : 50);
                             if (apDif < 0) apDif = 0;
                             Log(string.Format("1 AP = {0:N4} TPS", apDif));
@@ -801,7 +863,7 @@ namespace ClassicCraft
                         }
                         if (simOrder.Contains("+1% Crit"))
                         {
-                            double critTps = ThreatsList["+1% Crit"].Average();
+                            double critTps = SimsAvgTPS["+1% Crit"];
                             double critDif = critTps - baseTps;
                             if (critDif < 0) critDif = 0;
 
@@ -814,7 +876,7 @@ namespace ClassicCraft
                         }
                         if (simOrder.Contains("+1% Hit"))
                         {
-                            double hitTps = ThreatsList["+1% Hit"].Average();
+                            double hitTps = SimsAvgTPS["+1% Hit"];
                             double hitDif = hitTps - baseTps;
                             if (hitDif < 0) hitDif = 0;
                             Log(string.Format("1{2} Hit = {0:N4} TPS = {1:N4} AP", hitDif, hitDif / apDif, version == Version.TBC ? "" : "%"));
@@ -823,7 +885,7 @@ namespace ClassicCraft
                         }
                         if (simOrder.Contains("+1% Haste"))
                         {
-                            double hasteTps = ThreatsList["+1% Haste"].Average();
+                            double hasteTps = SimsAvgTPS["+1% Haste"];
                             double hasteDif = hasteTps - baseTps;
                             if (hasteDif < 0) hasteDif = 0;
                             Log(string.Format("1{2} Haste = {0:N4} TPS = {1:N4} AP", hasteDif, hasteDif / apDif, version == Version.TBC ? "" : "%"));
@@ -832,7 +894,7 @@ namespace ClassicCraft
                         }
                         if (simOrder.Contains("+1% Expertise"))
                         {
-                            double expTps = ThreatsList["+1% Expertise"].Average();
+                            double expTps = SimsAvgTPS["+1% Expertise"];
                             double expDif = expTps - baseTps;
                             if (expDif < 0) expDif = 0;
                             Log(string.Format("1{2} Expertise = {0:N4} TPS = {1:N4} AP", expDif, expDif / apDif, version == Version.TBC ? "" : "%"));
@@ -841,7 +903,7 @@ namespace ClassicCraft
                         }
                         if (simOrder.Contains("+10 ArPen"))
                         {
-                            double arpenTps = DamagesList["+10 ArPen"].Average();
+                            double arpenTps = SimsAvgDPS["+10 ArPen"];
                             double arpenDif = (arpenTps - baseTps) / 10;
                             if (arpenDif < 0) arpenDif = 0;
                             Log(string.Format("1 Armor Penetration (+10) = {0:N4} TPS = {1:N4} AP", arpenDif, arpenDif / apDif));
@@ -850,7 +912,7 @@ namespace ClassicCraft
                         }
                         if (simOrder.Contains("+100 ArPen"))
                         {
-                            double arpenTps = DamagesList["+100 ArPen"].Average();
+                            double arpenTps = SimsAvgDPS["+100 ArPen"];
                             double arpenDif = (arpenTps - baseTps) / 100;
                             if (arpenDif < 0) arpenDif = 0;
                             Log(string.Format("1 Armor Penetration (+100) = {0:N4} TPS = {1:N4} AP", arpenDif, arpenDif / apDif));
@@ -859,7 +921,7 @@ namespace ClassicCraft
                         }
                         if (simOrder.Contains("+1000 ArPen"))
                         {
-                            double arpenTps = DamagesList["+1000 ArPen"].Average();
+                            double arpenTps = SimsAvgDPS["+1000 ArPen"];
                             double arpenDif = (arpenTps - baseTps) / 1000;
                             if (arpenDif < 0) arpenDif = 0;
                             Log(string.Format("1 Armor Penetration (+1000) = {0:N4} TPS = {1:N4} AP", arpenDif, arpenDif / apDif));
@@ -868,7 +930,7 @@ namespace ClassicCraft
                         }
                         if (simOrder.Contains("+10 DPS MH"))
                         {
-                            double mhTps = ThreatsList["+10 DPS MH"].Average();
+                            double mhTps = SimsAvgTPS["+10 DPS MH"];
                             double mhDif = (mhTps - baseTps) / simBonusAttribs["+10 DPS MH"].GetValue(Attribute.WeaponDamageMH);
                             if (mhDif < 0) mhDif = 0;
                             Log(string.Format("1 MH DPS = {0:N4} TPS = {1:N4} AP", mhDif, mhDif / apDif));
@@ -877,7 +939,7 @@ namespace ClassicCraft
                         }
                         if (simOrder.Contains("+10 DPS OH"))
                         {
-                            double ohTps = ThreatsList["+10 DPS OH"].Average();
+                            double ohTps = SimsAvgTPS["+10 DPS OH"];
                             double ohDif = (ohTps - baseTps) / simBonusAttribs["+10 DPS OH"].GetValue(Attribute.WeaponDamageOH);
                             if (ohDif < 0) ohDif = 0;
                             Log(string.Format("1 OH DPS = {0:N4} TPS = {1:N4} AP", ohDif, ohDif / apDif));
@@ -886,7 +948,7 @@ namespace ClassicCraft
                         }
                         if (simOrder.Contains("+1 MH Skill"))
                         {
-                            double mhSkillTps = ThreatsList["+1 MH Skill"].Average();
+                            double mhSkillTps = SimsAvgTPS["+1 MH Skill"];
                             double mhSkillDif = mhSkillTps - baseTps;
                             if (mhSkillDif < 0) mhSkillDif = 0;
                             Log(string.Format("1 MH Skill = {0:N4} TPS = {1:N4} AP", mhSkillDif, mhSkillDif / apDif));
@@ -895,7 +957,7 @@ namespace ClassicCraft
                         }
                         if (simOrder.Contains("+1 OH Skill"))
                         {
-                            double ohSkillTps = ThreatsList["+1 OH Skill"].Average();
+                            double ohSkillTps = SimsAvgTPS["+1 OH Skill"];
                             double ohSkillDif = ohSkillTps - baseTps;
                             if (ohSkillDif < 0) ohSkillDif = 0;
                             Log(string.Format("1 OH Skill = {0:N4} TPS = {1:N4} AP", ohSkillDif, ohSkillDif / apDif));
@@ -904,7 +966,7 @@ namespace ClassicCraft
                         }
                         if (simOrder.Contains("+5 MH Skill"))
                         {
-                            double mhSkillTps = ThreatsList["+5 MH Skill"].Average();
+                            double mhSkillTps = SimsAvgTPS["+5 MH Skill"];
                             double mhSkillDif = mhSkillTps - baseTps;
                             if (mhSkillDif < 0) mhSkillDif = 0;
                             Log(string.Format("5 MH Skill = {0:N4} TPS = {1:N4} AP", mhSkillDif, mhSkillDif / apDif));
@@ -913,7 +975,7 @@ namespace ClassicCraft
                         }
                         if (simOrder.Contains("+5 OH Skill"))
                         {
-                            double ohSkillTps = ThreatsList["+5 OH Skill"].Average();
+                            double ohSkillTps = SimsAvgTPS["+5 OH Skill"];
                             double ohSkillDif = ohSkillTps - baseTps;
                             if (ohSkillDif < 0) ohSkillDif = 0;
                             Log(string.Format("5 OH Skill = {0:N4} TPS = {1:N4} AP", ohSkillDif, ohSkillDif / apDif));
@@ -922,7 +984,7 @@ namespace ClassicCraft
                         }
                         if (simOrder.Contains("+50 Int"))
                         {
-                            double intTps = ThreatsList["+50 Int"].Average();
+                            double intTps = SimsAvgTPS["+50 Int"];
                             double intDif = (intTps - baseTps) / (version == Version.TBC ? 100 : 50);
                             if (intDif < 0) intDif = 0;
                             Log(string.Format("1 Int = {0:N4} TPS = {1:N4} AP", intDif, intDif / apDif));
@@ -931,7 +993,7 @@ namespace ClassicCraft
                         }
                         if (simOrder.Contains("+50 Spi"))
                         {
-                            double spiTps = ThreatsList["+50 Spi"].Average();
+                            double spiTps = SimsAvgTPS["+50 Spi"];
                             double spiDif = (spiTps - baseTps) / (version == Version.TBC ? 100 : 50);
                             if (spiDif < 0) spiDif = 0;
                             Log(string.Format("1 Spi = {0:N4} TPS = {1:N4} AP", spiDif, spiDif / apDif));
@@ -946,9 +1008,6 @@ namespace ClassicCraft
 
                     double avgDps = CurrentDpsList.Average();
 
-                    List<List<RegisteredAction>> totalActions = ResultsList["Base"].Select(r => r.Actions).ToList();
-                    List<List<RegisteredEffect>> totalEffects = ResultsList["Base"].Select(r => r.Effects).ToList();
-
                     if (jsonSim.Tanking)
                     {
                         Log(string.Format("Average TPS : {0:N2} tps (±{1:N2})", CurrentTpsList.Average(), Stats.MeanStdDev(CurrentTpsList.ToArray())));
@@ -959,73 +1018,52 @@ namespace ClassicCraft
                     }
                     Log(string.Format("Average DPS : {0:N2} dps (±{1:N2})", avgDps, Stats.MeanStdDev(CurrentDpsList.ToArray())));
 
-                    //List<string> logList = totalActions.SelectMany(a => a.Select(t => t.Action.ToString()).OrderBy(b => b)).Distinct().ToList();
-                    List<string> logListActions = new List<string>() { "AA MH", "AA OH", "AA Ranged", "AA Wand" };
-                    if (playerBase.Class == Player.Classes.Warrior)
-                        logListActions.AddRange(new List<string>() { "Slam", "Bloodthirst", "Mortal Strike", "Sunder Armor", "Revenge", "Whirlwind", "Heroic Strike", "Execute", "Hamstring", "Battle Shout" });
-                    else if (playerBase.Class == Player.Classes.Druid)
-                        logListActions.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift", "Maul", "Swipe" });
-                    else if (playerBase.Class == Player.Classes.Priest)
-                        logListActions.AddRange(new List<string>() { "Mind Blast", "Mind Flay", "SW:P", "Devouring Plague" });
-                    else if (playerBase.Class == Player.Classes.Rogue)
-                        logListActions.AddRange(new List<string>() { "Sinister Strike", "Backstab", "Eviscerate", "Ambush", "Instant Poison" });
-                    else if (playerBase.Class == Player.Classes.Warlock)
-                        logListActions.AddRange(new List<string>() { "Shadow Bolt" });
-
-                    logListActions.AddRange(new List<string>() { "Thunderfury", "Deathbringer", "Vis'kag the Bloodletter", "Perdition's Blade" });
-
-                    //logList = totalEffects.SelectMany(a => a.Select(t => t.Effect.ToString()).OrderBy(b => b)).Distinct().ToList();
-                    List<string> logListEffects = new List<string>() { };
-                    if (playerBase.Class == Player.Classes.Priest)
-                        logListEffects.AddRange(new List<string>() { "Mind Flay", "SW:P", "Devouring Plague" });
-                    if (playerBase.Class == Player.Classes.Warrior)
-                        logListEffects.AddRange(new List<string>() { "Deep Wounds" });
-                    if (playerBase.Class == Player.Classes.Warlock)
-                        logListEffects.AddRange(new List<string>() { "Corruption", "Malediction of Agony" });
-
                     int statsDone = 0;
                     int statsTotal = logListActions.Count + logListEffects.Count;
+
                     foreach (string ac in logListActions)
                     {
-                        double totalAc = totalActions.Select(a => a.Where(t => t.Action.ToString().Equals(ac)).Count()).Sum();
-                        if (totalAc > 0)
+                        StatsData data = CurrentData.Data[ac];
+
+                        if(data.AvgUses > 0)
                         {
-                            double avgAcUse = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac)));
-                            double avgAcDps = totalActions.Average(a => a.Where(t => t.Action.ToString().Equals(ac)).Sum(r => r.Result.Damage / jsonSim.FightLength));
-                            double avgAcDmg = totalActions.Sum(a => a.Where(t => t.Action.ToString().Equals(ac)).Sum(r => r.Result.Damage / totalAc));
+                            double avgAcUse = data.AvgUses;
+                            double avgAcDps = data.AvgDPS;
+                            double avgAcDmg = data.AvgDmg;
                             string res = "\nAverage stats for [" + ac + "] : ";
                             res += string.Format("{0:N2} DPS ({1:N2}%)", avgAcDps, avgAcDps / avgDps * 100);
+
                             if (jsonSim.Tanking)
                             {
                                 double avgTps = CurrentTpsList.Average();
-                                double avgAcTps = totalActions.Average(a => a.Where(t => t.Action.ToString().Equals(ac)).Sum(r => r.Result.Threat / jsonSim.FightLength));
-                                double avgAcThreat = totalActions.Sum(a => a.Where(t => t.Action.ToString().Equals(ac)).Sum(r => r.Result.Threat / totalAc));
+                                double avgAcTps = data.AvgTPS;
+                                double avgAcThreat = data.AvgTPS;
                                 res += string.Format(" / {0:N2} TPS ({1:N2}%)\n\tAverage of {2:N2} threat for {3:N2} uses (or 1 use every {4:N2}s)", avgAcTps, avgAcTps / avgTps * 100, avgAcThreat, avgAcUse, jsonSim.FightLength / avgAcUse);
                             }
-                            if(ac == "Whirlwind")
+                            if (ac == "Whirlwind" && version == Version.TBC)
                             {
                                 avgAcUse /= 2;
                                 avgAcDmg *= 2;
                             }
                             res += string.Format("\n\tAverage of {0:N2} damage for {1:N2} uses (or 1 use every {2:N2}s)", avgAcDmg, avgAcUse, jsonSim.FightLength / avgAcUse);
 
-                            double hitPct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Hit)) / avgAcUse * 100;
-                            double critPct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Crit)) / avgAcUse * 100;
+                            double hitPct = data.AvgHit;
+                            double critPct = data.AvgCrit;
                             res += string.Format("\n\t{0:N2}% Hit, {1:N2}% Crit", hitPct, critPct);
-                            if (totalActions.Any(l => l.Any(a => a.Action.ToString().Equals(ac) && a.Action.School != School.Physical)))
+                            if ((data.Sample as Action).School != School.Physical)
                             {
-                                double resistPct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Resist)) / avgAcUse * 100;
+                                double resistPct = data.AvgResist;
                                 res += string.Format(", {0:N2}% Resist", resistPct);
                             }
                             else
                             {
-                                double missPct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Miss)) / avgAcUse * 100;
-                                double glancePct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Glance)) / avgAcUse * 100;
-                                double dodgePct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Dodge)) / avgAcUse * 100;
+                                double missPct = data.AvgMiss;
+                                double glancePct = data.AvgGlance;
+                                double dodgePct = data.AvgDodge;
                                 res += string.Format(", {0:N2}% Miss, {1:N2}% Glancing, {2:N2}% Dodge", missPct, glancePct, dodgePct);
-                                if(jsonSim.Tanking)
+                                if (jsonSim.Tanking)
                                 {
-                                    double parryPct = totalActions.Average(a => a.Count(t => t.Action.ToString().Equals(ac) && t.Result.Type == ResultType.Parry)) / avgAcUse * 100;
+                                    double parryPct = data.AvgParry;
                                     res += string.Format(", {0:N2}% Parry", parryPct);
                                 }
                             }
@@ -1034,15 +1072,15 @@ namespace ClassicCraft
 
                         statsDone++;
                     }
-
                     foreach (string ac in logListEffects)
                     {
-                        double totalAc = totalEffects.Select(a => a.Where(t => t.Effect.ToString().Equals(ac)).Count()).Sum();
-                        if(totalAc > 0)
+                        StatsData data = CurrentData.Data[ac];
+
+                        if (data.AvgUses > 0)
                         {
-                            double avgAcUse = totalEffects.Average(a => a.Count(t => t.Effect.ToString().Equals(ac)));
-                            double avgAcDps = totalEffects.Average(a => a.Where(t => t.Effect.ToString().Equals(ac)).Sum(r => r.Damage / jsonSim.FightLength));
-                            double avgAcDmg = totalEffects.Sum(a => a.Where(t => t.Effect.ToString().Equals(ac)).Sum(r => r.Damage / totalAc));
+                            double avgAcUse = data.AvgUses;
+                            double avgAcDps = data.AvgDPS;
+                            double avgAcDmg = data.AvgDmg;
                             string res = "\nAverage stats for [" + ac + "] : ";
                             res += string.Format("{0:N2} DPS ({1:N2}%)\n\tAverage of {2:N2} damage for {3:N2} ticks (or 1 tick every {4:N2}s)", avgAcDps, avgAcDps / avgDps * 100, avgAcDmg, avgAcUse, jsonSim.FightLength / avgAcUse);
                             double tickDelay = 3;
@@ -1074,7 +1112,7 @@ namespace ClassicCraft
 
                 Output("Logs written in " + path);
 
-                GUISetProgressText(String.Format("Finished !"));
+                GUISetProgressText(String.Format("Finished!"));
             }
             catch(Exception e)
             {
@@ -1093,9 +1131,82 @@ namespace ClassicCraft
 
         public static void AddSimResult(SimResult result)
         {
-            lock (CurrentResults)
+            lock(CurrentData)
             {
-                CurrentResults.Add(result);
+                foreach (string s in logListActions)
+                {
+                    StatsData data;
+
+                    if (!CurrentData.Data.ContainsKey(s))
+                    {
+                        data = new StatsData(s, result.Actions.Any(a => a.Action.ToString().Equals(s)) ? result.Actions.First(a => a.Action.ToString().Equals(s)).Action : null);
+                        CurrentData.Data.Add(s, data);
+                    }
+                    else
+                    {
+                        data = CurrentData.Data[s];
+
+                        if(data.Sample == null && result.Actions.Any(a => a.Action.ToString().Equals(s)))
+                        {
+                            data.Sample = result.Actions.First(a => a.Action.ToString().Equals(s)).Action;
+                        }
+                    }
+
+                    double avgUses = result.Actions.Count(t => t.Action.ToString().Equals(s));
+                    data.AvgUses = (CurrentData.NB * data.AvgUses + avgUses) / (CurrentData.NB + 1);
+
+                    if (avgUses > 0)
+                    {
+                        double avgDmg = result.Actions.Where(t => t.Action.ToString().Equals(s)).Average(a => a.Result.Damage);
+                        double avgDPS = avgDmg * avgUses / result.FightLength;
+                        double avgHit = result.Actions.Count(t => t.Action.ToString().Equals(s) && t.Result.Type == ResultType.Hit) / avgUses * 100;
+                        double avgCrit = result.Actions.Count(t => t.Action.ToString().Equals(s) && t.Result.Type == ResultType.Crit) / avgUses * 100;
+                        double avgMiss = result.Actions.Count(t => t.Action.ToString().Equals(s) && t.Result.Type == ResultType.Miss) / avgUses * 100;
+                        double avgGlance = result.Actions.Count(t => t.Action.ToString().Equals(s) && t.Result.Type == ResultType.Glance) / avgUses * 100;
+                        double avgDodge = result.Actions.Count(t => t.Action.ToString().Equals(s) && t.Result.Type == ResultType.Dodge) / avgUses * 100;
+                        double avgParry = result.Actions.Count(t => t.Action.ToString().Equals(s) && t.Result.Type == ResultType.Parry) / avgUses * 100;
+                        double avgResist = result.Actions.Count(t => t.Action.ToString().Equals(s) && t.Result.Type == ResultType.Resist) / avgUses * 100;
+
+                        data.AvgDmg = (CurrentData.NB * data.AvgDmg + avgDmg) / (CurrentData.NB + 1);
+                        data.AvgDPS = (CurrentData.NB * data.AvgDPS + avgDPS) / (CurrentData.NB + 1);
+                        data.AvgHit = (CurrentData.NB * data.AvgHit + avgHit) / (CurrentData.NB + 1);
+                        data.AvgCrit = (CurrentData.NB * data.AvgCrit + avgCrit) / (CurrentData.NB + 1);
+                        data.AvgMiss = (CurrentData.NB * data.AvgMiss + avgMiss) / (CurrentData.NB + 1);
+                        data.AvgGlance = (CurrentData.NB * data.AvgGlance + avgGlance) / (CurrentData.NB + 1);
+                        data.AvgDodge = (CurrentData.NB * data.AvgDodge + avgDodge) / (CurrentData.NB + 1);
+                        data.AvgParry = (CurrentData.NB * data.AvgParry + avgParry) / (CurrentData.NB + 1);
+                        data.AvgResist = (CurrentData.NB * data.AvgResist + avgResist) / (CurrentData.NB + 1);
+                    }
+                }
+
+                foreach (string s in logListEffects)
+                {
+                    StatsData data;
+
+                    if (!CurrentData.Data.ContainsKey(s))
+                    {
+                        data = new StatsData(s, result.Effects.First(a => a.Effect.ToString().Equals(s)).Effect);
+                        CurrentData.Data.Add(s, data);
+                    }
+                    else
+                    {
+                        data = CurrentData.Data[s];
+                    }
+
+                    double avgUses = result.Effects.Count(t => t.Effect.ToString().Equals(s));
+                    data.AvgUses = (CurrentData.NB * data.AvgUses + avgUses) / (CurrentData.NB + 1);
+
+                    if(avgUses > 0)
+                    {
+                        double avgDmg = result.Effects.Where(t => t.Effect.ToString().Equals(s)).Average(a => a.Damage);
+                        double avgDPS = avgDmg * avgUses / result.FightLength;
+
+                        data.AvgDmg = (CurrentData.NB * data.AvgDmg + avgDmg) / (CurrentData.NB + 1);
+                        data.AvgDPS = (CurrentData.NB * data.AvgDPS + avgDPS) / (CurrentData.NB + 1);
+                    }
+                }
+
+                CurrentData.NB++;
             }
         }
 

@@ -30,7 +30,7 @@ namespace ClassicCraft
 
             int damage = (int)Math.Round(Randomer.Next(DMG_MIN, DMG_MAX + 1)
                 * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0 + (0.1 * Player.GetTalentPoints("Impale")) : 0))
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level)
+                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                 * Player.DamageMod
                 * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
                 * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)

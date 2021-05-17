@@ -31,7 +31,6 @@ namespace ClassicCraft
             {
                 if (a == Attribute.Haste)
                 {
-                    Program.Log("Haste : " + Player.HasteMod + " -> " + (Player.HasteMod * 1 + Buffs[a]));
                     Player.HasteMod *= 1 + Buffs[a];
                 }
                 else ApplyAttribute(a, Buffs[a]);
@@ -46,7 +45,6 @@ namespace ClassicCraft
             {
                 if(a == Attribute.Haste)
                 {
-                    Program.Log("Haste : " + Player.HasteMod + " -> " + (Player.HasteMod * 1 + Buffs[a]));
                     Player.HasteMod /= 1 + Buffs[a];
                 }
                 else ApplyAttribute(a, -Buffs[a]);

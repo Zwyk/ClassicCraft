@@ -97,7 +97,11 @@ namespace ClassicCraft
             {
                 Program.AddSimThreat(Threat / FightLength);
             }
-            Program.AddSimResult(Results);
+
+            if (!Program.statsWeights)
+            {
+                Program.AddSimResult(Results);
+            }
 
             Ended = true;
         }
@@ -163,7 +167,10 @@ namespace ClassicCraft
 
         public void RegisterAction(RegisteredAction action)
         {
-            Results.Actions.Add(action);
+            if(!Program.statsWeights)
+            {
+                Results.Actions.Add(action);
+            }
             Damage += action.Result.Damage;
             if (Tanking)
             {
@@ -173,7 +180,10 @@ namespace ClassicCraft
 
         public void RegisterEffect(RegisteredEffect effect)
         {
-            Results.Effects.Add(effect);
+            if (!Program.statsWeights)
+            {
+                Results.Effects.Add(effect);
+            }
             Damage += effect.Damage;
         }
 
@@ -216,9 +226,10 @@ namespace ClassicCraft
             }
         }
 
-        public static double ArmorMitigation(int armor, int attackerLevel = 60)
+        public static double ArmorMitigation(int armor, int attackerLevel = 60, double armorpen = 0)
         {
             double res = 0;
+            armor -= (int)Math.Round(armorpen);
             if(Program.version == Version.Vanilla || attackerLevel < 60)
             {
                 res = armor / (armor + 400 + 85.0 * attackerLevel);

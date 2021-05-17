@@ -49,7 +49,7 @@ namespace ClassicCraft
         
         public override double GetExternalModifiers()
         {
-            return base.GetExternalModifiers() * Simulation.ArmorMitigation(Target.Armor, Player.Level);
+            return base.GetExternalModifiers() * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen));
         }
     }
 }

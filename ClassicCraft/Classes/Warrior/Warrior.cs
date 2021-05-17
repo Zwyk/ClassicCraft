@@ -8,18 +8,18 @@ namespace ClassicCraft
 {
     class Warrior : Player
     {
-        private Whirlwind ww;
-        private Bloodthirst bt;
-        private HeroicStrike hs;
-        private Execute exec;
-        private Bloodrage br;
-        private BattleShout bs;
-        private Hamstring ham;
-        private Slam slam;
-        private Revenge rev;
-        private SunderArmor sa;
-        private Rampage ramp;
-        private MortalStrike ms;
+        private Whirlwind ww = null;
+        private Bloodthirst bt = null;
+        private HeroicStrike hs = null;
+        private Execute exec = null;
+        private Bloodrage br = null;
+        private BattleShout bs = null;
+        private Hamstring ham = null;
+        private Slam slam = null;
+        private Revenge rev = null;
+        private SunderArmor sa = null;
+        private Rampage ramp = null;
+        private MortalStrike ms = null;
 
         #region Constructors
 
@@ -82,6 +82,7 @@ namespace ClassicCraft
                     Talents.Add("2HS", arms.Length > 9 ? (int)Char.GetNumericValue(arms[9]) : 0);
                     Talents.Add("Impale", arms.Length > 10 ? (int)Char.GetNumericValue(arms[10]) : 0);
                     Talents.Add("Sword", arms.Length > 14 ? (int)Char.GetNumericValue(arms[14]) : 0);
+                    Talents.Add("MS", arms.Length > 19 ? (int)Char.GetNumericValue(arms[17]) : 0);
                     // Fury
                     Talents.Add("Cruelty", fury.Length > 1 ? (int)Char.GetNumericValue(fury[1]) : 0);
                     Talents.Add("UW", fury.Length > 3 ? (int)Char.GetNumericValue(fury[3]) : 0);
@@ -152,7 +153,7 @@ namespace ClassicCraft
             bs = new BattleShout(this);
             bt = new Bloodthirst(this);
             hs = new HeroicStrike(this);
-            ms = new MortalStrike(this);
+            if(Talents["MS"] > 0) ms = new MortalStrike(this);
 
             if (Sim.Tanking)
             {
@@ -170,7 +171,7 @@ namespace ClassicCraft
                     slam = new Slam(this);
                 }
 
-                if(Program.version == Version.TBC)
+                if(Program.version == Version.TBC && Talents["Rampage"] > 0)
                 {
                     ramp = new Rampage(this);
                 }
@@ -184,7 +185,7 @@ namespace ClassicCraft
                 {
                     switch (s)
                     {
-                        case "Death Wish": cds.Add(new DeathWish(this), DeathWishBuff.LENGTH); break;
+                        case "Death Wish": if(Talents["DeathWish"]>0) cds.Add(new DeathWish(this), DeathWishBuff.LENGTH); break;
                         case "Juju Flurry": cds.Add(new JujuFlurry(this), JujuFlurryBuff.LENGTH); break;
                         case "Mighty Rage": cds.Add(new MightyRage(this), MightyRageBuff.LENGTH); break;
                         case "Recklessness": cds.Add(new Recklessness(this), RecklessnessBuff.LENGTH); break;
@@ -380,7 +381,7 @@ namespace ClassicCraft
             }
             else if (rota == 10) //RAMPAGE > BT > WW > HAM + HS + EXEC
             {
-                if ((!Effects.ContainsKey(RampageBuff.NAME) || Effects[RampageBuff.NAME].RemainingTime() < GCD_Hasted()) && ramp.CanUse())
+                if (ramp != null && (!Effects.ContainsKey(RampageBuff.NAME) || Effects[RampageBuff.NAME].RemainingTime() < GCD_Hasted()) && ramp.CanUse())
                 {
                     ramp.Cast();
                 }
@@ -394,10 +395,6 @@ namespace ClassicCraft
                     else if (ww.CanUse() && bt.RemainingCD() >= GCD_Hasted() / 2)
                     {
                         ww.Cast();
-                    }
-                    else if (ham.CanUse() && Resource >= bt.Cost + ww.Cost + hs.Cost && ww.RemainingCD() >= GCD_Hasted() && bt.RemainingCD() >= GCD_Hasted() && ww.RemainingCD() >= GCD_Hasted() && (!Effects.ContainsKey(Flurry.NAME) || ((Flurry)Effects[Flurry.NAME]).CurrentStacks < 3))
-                    {
-                        ham.Cast();
                     }
 
                     if (!MH.TwoHanded && applyAtNextAA == null && Resource >= bt.Cost + ww.Cost + hs.Cost && hs.CanUse())

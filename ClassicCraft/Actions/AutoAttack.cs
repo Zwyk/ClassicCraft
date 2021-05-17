@@ -111,9 +111,10 @@ namespace ClassicCraft
                     (Weapon.DamageMax + Weapon.Speed * (Player.AP + Player.nextAABonus) / 14)));
                 damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
                     * Player.Sim.DamageMod(res, Weapon.School, MH, true)
-                    * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level)
+                    * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                     * Player.DamageMod
                     * (Player.DualWielding ? (MH ? 1 : 0.5 * (1 + ((Player.Class == Player.Classes.Rogue ? 0.1 : 0.05) * Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Player.GetTalentPoints("2HS")))
+                    * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
                     * mitigation
                     );
             }

@@ -231,6 +231,7 @@ namespace ClassicCraft
         public override string ToString()
         {
             string stats = "";
+            string pct;
             foreach (Attribute a in Values.Keys)
             {
                 double val = Values[a];
@@ -238,9 +239,11 @@ namespace ClassicCraft
                     || a == Attribute.SpellCritChance || a == Attribute.SpellHitChance || a == Attribute.Expertise)
                 {
                     val *= 100;
+                    pct = "%";
                 }
+                else pct = "";
 
-                stats += "[" + a + ":" + Math.Round(val*100)/100 + "]";
+                stats += "[" + a + ":" + Math.Round(val*100)/100 + pct + "]";
             }
             return stats;
         }
