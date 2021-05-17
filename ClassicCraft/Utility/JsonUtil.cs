@@ -401,9 +401,9 @@ namespace ClassicCraft
                 Debuffs = debuffs;
             }
 
-            public static Boss ToBoss(JsonBoss jb, double armorPen = 0)
+            public static Boss ToBoss(JsonBoss jb)
             {
-                int armor = jb.Armor - (int)Math.Round(armorPen);
+                int armor = jb.Armor;
 
                 Dictionary<School, int> magicResist = null;
                 if (jb.SchoolResists != null)

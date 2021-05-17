@@ -2,8 +2,8 @@
   "FightLength": 240.0,
   "FightLengthMod": 0.1,
   "NbSim": 1,
-  "StatsWeights": false,
-  "TargetErrorPct": 0.1,
+  "StatsWeights": true,
+  "TargetErrorPct": 0.5,
   "TargetError": true,
   "LogFight": false,
   "BossAutoLife": true,
@@ -11,7 +11,7 @@
   "Boss": {
     "Level": 73,
     "Type": null,
-    "Armor": 6200,
+    "Armor": 6193,
     "Debuffs": [
       "Sunder Armor",
       "Curse of Recklessness",

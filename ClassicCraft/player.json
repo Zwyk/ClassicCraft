@@ -22,7 +22,7 @@
       "Name": "Test",
       "Slot": null,
       "Stats": {
-        "Hit": 40.0,
+        "Hit": 0.0,
         "Crit": 0.0,
         "AP": 0.0,
         "Haste": 0.0,
@@ -73,10 +73,10 @@
     },
     {
       "Id": 0,
-      "Name": "Benedictions",
+      "Name": "Expose Weakness",
       "Slot": null,
       "Stats": {
-        "AP": 264.0
+        "AP": 200.0
       }
     },
     {
@@ -114,19 +114,9 @@
     },
     {
       "Id": 0,
-      "Name": "Elixir",
-      "Slot": null,
-      "Stats": {
-        "Str": 35.0
-      }
-    },
-    {
-      "Id": 0,
       "Name": "Drums",
       "Slot": null,
-      "Stats": {
-        "Haste": 80.0
-      }
+      "Stats": {}
     },
     {
       "Id": 0,

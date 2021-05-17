@@ -85,6 +85,12 @@ namespace ClassicCraft
             CurrentTime = 0;
             Boss.LifePct = 1;
 
+            /*
+            if (Randomer.NextDouble() < 0.002)
+            {
+            }
+            */
+
             while (CurrentTime < FightLength)
             {
                 SimTick();
@@ -236,7 +242,7 @@ namespace ClassicCraft
             }
             else if(Program.version == Version.TBC)
             {
-                res = armor / (armor + 400 + 85 * (attackerLevel + 4.5 * (attackerLevel - 59)));
+                res = armor / (armor + 400 + 85 * (attackerLevel + (5.5 * attackerLevel - 265.5)));
             }
             return 1 - (res > 0.75 ? 0.75 : res);
         }

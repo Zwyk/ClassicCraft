@@ -65,7 +65,7 @@ namespace ClassicCraft
                     magicResists += "[" + s.ToString() + ":" + MagicResist[s] + "]";
                 }
             }
-            return string.Format("Level {0}, {1} Armor ({2:N2}% mitigation), Magic Resists : {3}\n", Level, Armor, (1-Simulation.ArmorMitigation(Armor, Program.version == Version.TBC ? 70 : 60, armorpen))*100, magicResists);
+            return string.Format("Level {0}, {1} Armor ({2:N2}% mitigation), Magic Resists : {3}\n", Level, Armor - armorpen, (1-Simulation.ArmorMitigation(Armor, Program.version == Version.TBC ? 70 : 60, armorpen))*100, magicResists);
         }
     }
 }

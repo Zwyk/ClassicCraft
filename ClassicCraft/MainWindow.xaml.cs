@@ -103,6 +103,14 @@ namespace ClassicCraftGUI
         {
             if (!Program.Running)
             {
+                if(noDB)
+                {
+                    SaveSimConfig();
+                    Program.LoadConfigJsons();
+                    player = Program.jsonPlayer;
+                    LoadPlayer();
+                }
+
                 SavePlayer();
                 SaveSimConfig();
 

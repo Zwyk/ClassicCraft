@@ -141,7 +141,7 @@
                                                         <TextBlock Text="Boss Life Mode" TextWrapping="Wrap" Grid.Column="0" />
                                                         <ComboBox x:Name="BossLifeMode" SelectionChanged="BossLifeMode_SelectionChanged" Grid.Column="1" SelectedIndex="0" Height="22" VerticalAlignment="Top">
                                                             <ComboBoxItem>Auto</ComboBoxItem>
-                                                            <ComboBoxItem>Custom time</ComboBoxItem>
+                                                            <ComboBoxItem>Low life timer</ComboBoxItem>
                                                         </ComboBox>
                                                     </Grid>
                                                     <Grid Margin="0 10 0 0">
@@ -161,7 +161,9 @@
                                                         <ComboBox IsEditable="True" x:Name="BossArmor" PreviewTextInput="WholeNumberCheck" Grid.Column="1" SelectedIndex="1">
                                                             <ComboBoxItem>0</ComboBoxItem>
                                                             <ComboBoxItem>4400</ComboBoxItem>
+                                                            <ComboBoxItem>6193</ComboBoxItem>
                                                             <ComboBoxItem>6400</ComboBoxItem>
+                                                            <ComboBoxItem>7684</ComboBoxItem>
                                                         </ComboBox>
                                                     </Grid>
                                                     <Grid Margin="0 10 0 0">

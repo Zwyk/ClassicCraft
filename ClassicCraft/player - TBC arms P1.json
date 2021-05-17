@@ -21,7 +21,17 @@
       "Id": 0,
       "Name": "Test",
       "Slot": null,
-      "Stats": {}
+      "Stats": {
+        "Hit": 0.0,
+        "Crit": 0.0,
+        "AP": 0.0,
+        "Haste": 0.0,
+        "Dagger": 0.0,
+        "Sword": 0.0,
+        "Axe": 0.0,
+        "Agi": 0.0,
+        "Str": 0.0
+      }
     },
     {
       "Id": 0,
@@ -55,10 +65,10 @@
     },
     {
       "Id": 0,
-      "Name": "Benedictions",
+      "Name": "Expose Weakness",
       "Slot": null,
       "Stats": {
-        "AP": 264.0
+        "AP": 200.0
       }
     },
     {
@@ -96,19 +106,9 @@
     },
     {
       "Id": 0,
-      "Name": "Elixir",
-      "Slot": null,
-      "Stats": {
-        "Str": 35.0
-      }
-    },
-    {
-      "Id": 0,
       "Name": "Drums",
       "Slot": null,
-      "Stats": {
-        "Haste": 80.0
-      }
+      "Stats": {}
     },
     {
       "Id": 0,

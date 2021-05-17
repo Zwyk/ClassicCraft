@@ -104,6 +104,7 @@ namespace ClassicCraft
         public class SimData
         {
             public int NB = 0;
+            public double AvgSimLength = 0;
             public Dictionary<string, StatsData> Data = new Dictionary<string, StatsData>();
 
             public SimData()
@@ -389,11 +390,13 @@ namespace ClassicCraft
 
                 if (simOrder.Contains("+10 DPS MH"))
                 {
-                    simBonusAttribs["+10 DPS MH"].SetValue(Attribute.WeaponDamageMH, simBonusAttribs["+10 DPS MH"].GetValue(Attribute.WeaponDamageMH) * playerBase.MH.Speed);
+                    double dmg = simBonusAttribs["+10 DPS MH"].GetValue(Attribute.WeaponDamageMH) * playerBase.MH.Speed;
+                    simBonusAttribs["+10 DPS MH"].SetValue(Attribute.WeaponDamageMH, dmg);
                 }
                 if (simOrder.Contains("+10 DPS OH"))
                 {
-                    simBonusAttribs["+10 DPS OH"].SetValue(Attribute.WeaponDamageOH, simBonusAttribs["+10 DPS OH"].GetValue(Attribute.WeaponDamageOH) * playerBase.OH.Speed);
+                    double dmg = simBonusAttribs["+10 DPS OH"].GetValue(Attribute.WeaponDamageOH) * playerBase.OH.Speed;
+                    simBonusAttribs["+10 DPS OH"].SetValue(Attribute.WeaponDamageOH, dmg);
                 }
                 if (simOrder.Contains("+1 MH Skill"))
                 {
@@ -411,6 +414,17 @@ namespace ClassicCraft
                 {
                     simBonusAttribs["+5 OH Skill"].SetValue(AttributeUtil.FromWeaponType(playerBase.OH.Type), 5);
                 }
+
+                /*
+                simOrder.Remove("+100 ArPen");
+                simOrder.Remove("+1000 ArPen");
+                simOrder.Remove("+1% Expertise");
+                simOrder.Remove("+1% Hit");
+                simOrder.Remove("+1% Crit");
+                simOrder.Remove("+1% Haste");
+                simOrder.Remove("+10 DPS MH");
+                simOrder.Remove("+10 DPS OH");
+                */
 
                 playerBase.SetupTalents(jsonPlayer.Talents);
                 playerBase.CalculateAttributes();
@@ -432,7 +446,7 @@ namespace ClassicCraft
                         }
                     }
                 }
-                bossBase = JsonUtil.JsonBoss.ToBoss(jsonSim.Boss, 0);//playerBase.Attributes.GetValue(Attribute.ArmorPen));
+                bossBase = JsonUtil.JsonBoss.ToBoss(jsonSim.Boss);
                 int bossBaseArmor = bossBase.Armor;
 
                 Log("\nBoss (after raid debuffs) :");
@@ -453,7 +467,7 @@ namespace ClassicCraft
                     else if (playerBase.Class == Player.Classes.Warlock)
                         logListActions.AddRange(new List<string>() { "Shadow Bolt" });
 
-                    logListActions.AddRange(new List<string>() { "Thunderfury", "Deathbringer", "Vis'kag the Bloodletter", "Perdition's Blade" });
+                    logListActions.AddRange(new List<string>() { "Thunderfury", "Deathbringer", "Vis'kag the Bloodletter", "Perdition's Blade", "Romulo's Poison Vial" });
 
                     //logListEffects = totalEffects.SelectMany(a => a.Select(t => t.Effect.ToString()).OrderBy(b => b)).Distinct().ToList();
                     logListEffects = new List<string>() { };
@@ -485,9 +499,8 @@ namespace ClassicCraft
                         we.Attributes = simBonusAttribs[simOrder[done]];
                         playerBase.CalculateAttributes();
 
-                        //bossBase.Armor = bossBaseArmor - (int)we.Attributes.GetValue(Attribute.ArmorPen);
-                        
-                        //Log(simOrder[done] + "\n\t" + playerBase.ToString() + "\n\t" + bossBase.ToString());
+                        Log(simOrder[done] + "\n\t" + bossBase.ToString(playerBase.Attributes.GetValue(Attribute.ArmorPen)));
+                        //Log(simOrder[done] + "\n\t" + playerBase.ToString());
                     }
 
                     if (!threading && !targetError)
@@ -594,7 +607,7 @@ namespace ClassicCraft
                         SimsAvgTPS.Add(simOrder[done], CurrentTpsList.Average());
                     }
 
-                    //Log(simOrder[done] + " : " + CurrentDpsList.Average());
+                    Log(simOrder[done] + " : " + CurrentDpsList.Average());
                 }
 
 
@@ -711,15 +724,6 @@ namespace ClassicCraft
 
                         weightsDone += 1;
                     }
-                    if (simOrder.Contains("+10 ArPen"))
-                    {
-                        double arpenDps = SimsAvgDPS["+10 ArPen"];
-                        double arpenDif = (arpenDps - baseDps) / 10;
-                        if (arpenDif < 0) arpenDif = 0;
-                        Log(string.Format("1 Armor Penetration (+10) = {0:N4} DPS = {1:N4} AP", arpenDif, arpenDif / apDif));
-
-                        weightsDone += 1;
-                    }
                     if (simOrder.Contains("+100 ArPen"))
                     {
                         double arpenDps = SimsAvgDPS["+100 ArPen"];
@@ -741,7 +745,7 @@ namespace ClassicCraft
                     if (simOrder.Contains("+10 DPS MH"))
                     {
                         double mhDps = SimsAvgDPS["+10 DPS MH"];
-                        double mhDif = (mhDps - baseDps) / simBonusAttribs["+10 DPS MH"].GetValue(Attribute.WeaponDamageMH);
+                        double mhDif = (mhDps - baseDps) / 10;
                         if (mhDif < 0) mhDif = 0;
                         Log(string.Format("1 MH DPS = {0:N4} DPS = {1:N4} AP", mhDif, mhDif / apDif));
 
@@ -750,7 +754,7 @@ namespace ClassicCraft
                     if (simOrder.Contains("+10 DPS OH"))
                     {
                         double ohDps = SimsAvgDPS["+10 DPS OH"];
-                        double ohDif = (ohDps - baseDps) / simBonusAttribs["+10 DPS OH"].GetValue(Attribute.WeaponDamageOH);
+                        double ohDif = (ohDps - baseDps) / 10;
                         if (ohDif < 0) ohDif = 0;
                         Log(string.Format("1 OH DPS = {0:N4} DPS = {1:N4} AP", ohDif, ohDif / apDif));
 
@@ -931,7 +935,7 @@ namespace ClassicCraft
                         if (simOrder.Contains("+10 DPS MH"))
                         {
                             double mhTps = SimsAvgTPS["+10 DPS MH"];
-                            double mhDif = (mhTps - baseTps) / simBonusAttribs["+10 DPS MH"].GetValue(Attribute.WeaponDamageMH);
+                            double mhDif = (mhTps - baseTps) / 10;
                             if (mhDif < 0) mhDif = 0;
                             Log(string.Format("1 MH DPS = {0:N4} TPS = {1:N4} AP", mhDif, mhDif / apDif));
 
@@ -940,7 +944,7 @@ namespace ClassicCraft
                         if (simOrder.Contains("+10 DPS OH"))
                         {
                             double ohTps = SimsAvgTPS["+10 DPS OH"];
-                            double ohDif = (ohTps - baseTps) / simBonusAttribs["+10 DPS OH"].GetValue(Attribute.WeaponDamageOH);
+                            double ohDif = (ohTps - baseTps) / 10;
                             if (ohDif < 0) ohDif = 0;
                             Log(string.Format("1 OH DPS = {0:N4} TPS = {1:N4} AP", ohDif, ohDif / apDif));
 
@@ -1006,6 +1010,7 @@ namespace ClassicCraft
                 {
                     GUISetProgressText(String.Format("Generating Fight Stats..."));
 
+                    double avgFightLength = CurrentData.AvgSimLength;
                     double avgDps = CurrentDpsList.Average();
 
                     if (jsonSim.Tanking)
@@ -1045,7 +1050,7 @@ namespace ClassicCraft
                                 avgAcUse /= 2;
                                 avgAcDmg *= 2;
                             }
-                            res += string.Format("\n\tAverage of {0:N2} damage for {1:N2} uses (or 1 use every {2:N2}s)", avgAcDmg, avgAcUse, jsonSim.FightLength / avgAcUse);
+                            res += string.Format("\n\tAverage of {0:N2} damage for {1:N2} uses (or 1 use every {2:N2}s)", avgAcDmg, avgAcUse, avgFightLength / avgAcUse);
 
                             double hitPct = data.AvgHit;
                             double critPct = data.AvgCrit;
@@ -1085,7 +1090,7 @@ namespace ClassicCraft
                             res += string.Format("{0:N2} DPS ({1:N2}%)\n\tAverage of {2:N2} damage for {3:N2} ticks (or 1 tick every {4:N2}s)", avgAcDps, avgAcDps / avgDps * 100, avgAcDmg, avgAcUse, jsonSim.FightLength / avgAcUse);
                             double tickDelay = 3;
                             if (ac == "Mind Flay") tickDelay = 1;
-                            double uptime = tickDelay / (jsonSim.FightLength / avgAcUse) * 100;
+                            double uptime = tickDelay / (avgFightLength / avgAcUse) * 100;
                             res += string.Format("\n\t{0:N2}% Uptime", uptime);
                             Log(res);
                         }
@@ -1205,6 +1210,8 @@ namespace ClassicCraft
                         data.AvgDPS = (CurrentData.NB * data.AvgDPS + avgDPS) / (CurrentData.NB + 1);
                     }
                 }
+
+                CurrentData.AvgSimLength = (CurrentData.NB * CurrentData.AvgSimLength + result.FightLength) / (CurrentData.NB + 1);
 
                 CurrentData.NB++;
             }

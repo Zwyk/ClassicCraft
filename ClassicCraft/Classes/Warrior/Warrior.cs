@@ -280,6 +280,7 @@ namespace ClassicCraft
                 }
             }
 
+            // VANILLA
             if (rota == 0) //BT > WW > HAM + HS + EXEC
             {
                 if (Sim.Boss.LifePct > 0.2)
@@ -379,65 +380,30 @@ namespace ClassicCraft
                     applyAtNextAA = null;
                 }
             }
-            else if (rota == 10) //RAMPAGE > BT > WW > HAM + HS + EXEC
+            // TBC
+            else if (rota == 10) // RAMPAGE > BT > WW + HS + EXEC
             {
                 if (ramp != null && (!Effects.ContainsKey(RampageBuff.NAME) || Effects[RampageBuff.NAME].RemainingTime() < GCD_Hasted()) && ramp.CanUse())
                 {
                     ramp.Cast();
                 }
-
-                if (Sim.Boss.LifePct > 0.2)
+                
+                if (bt.CanUse())
                 {
-                    if (bt.CanUse())
-                    {
-                        bt.Cast();
-                    }
-                    else if (ww.CanUse() && bt.RemainingCD() >= GCD_Hasted() / 2)
-                    {
-                        ww.Cast();
-                    }
-
-                    if (!MH.TwoHanded && applyAtNextAA == null && Resource >= bt.Cost + ww.Cost + hs.Cost && hs.CanUse())
-                    {
-                        hs.Cast();
-                    }
-                    else if (!MH.TwoHanded && Resource < bt.Cost + ww.Cost + hs.Cost)
-                    {
-                        applyAtNextAA = null;
-                    }
+                    bt.Cast();
                 }
-                else
+                else if (ww.CanUse() && bt.RemainingCD() >= GCD_Hasted() / 2)
                 {
-                    // Exec as filler
-                    if (AvgBTDmg() > AvgExecDmg() && bt.CanUse())
-                    {
-                        bt.Cast();
-                    }
-                    else if (AvgWWDmg() > AvgExecDmg() && ww.CanUse())
-                    {
-                        ww.Cast();
-                    }
-                    else if (exec.CanUse())
-                    {
-                        exec.Cast();
-                    }
+                    ww.Cast();
+                }
+                else if (Sim.Boss.LifePct <= 0.2 && exec.CanUse())
+                {
+                    exec.Cast();
+                }
 
-                    if (!MH.TwoHanded && applyAtNextAA == null && Resource >= bt.Cost + ww.Cost + hs.Cost && hs.CanUse())
-                    {
-                        hs.Cast();
-                    }
-                    else if (!MH.TwoHanded && Resource < bt.Cost + ww.Cost + hs.Cost)
-                    {
-                        applyAtNextAA = null;
-                    }
-
-                    // Spam Exec (seems less efficient)
-                    /*
-                    if (exec.CanUse())
-                    {
-                        exec.Cast();
-                    }
-                    */
+                if (applyAtNextAA == null && Resource >= bt.Cost + ww.Cost + hs.Cost && hs.CanUse())
+                {
+                    hs.Cast();
                 }
             }
             else if (rota == 11) // Slam > MS > WW + HS + Exec
@@ -464,7 +430,7 @@ namespace ClassicCraft
                     hs.Cast();
                 }
             }
-            else if (rota == 111) //MS > WW > Ham + HS + Exec
+            else if (rota == 111) // MS > WW > Ham + HS + Exec
             {
                 if (Sim.Boss.LifePct <= 0.2 && exec.CanUse())
                 {
@@ -477,10 +443,6 @@ namespace ClassicCraft
                 else if (ww.CanUse())
                 {
                     ww.Cast();
-                }
-                else if (ham.CanUse() && Resource >= bt.Cost + ww.Cost + hs.Cost && ww.RemainingCD() >= GCD_Hasted() && bt.RemainingCD() >= GCD_Hasted() && ww.RemainingCD() >= GCD_Hasted() && (!Effects.ContainsKey(Flurry.NAME) || ((Flurry)Effects[Flurry.NAME]).CurrentStacks < 3))
-                {
-                    ham.Cast();
                 }
 
                 if (applyAtNextAA == null && Resource >= ms.Cost + ww.Cost + hs.Cost && hs.CanUse())
