@@ -73,28 +73,26 @@ namespace ClassicCraft
         public virtual void StackAdd(int nb = 1)
         {
             int oldStacks = CurrentStacks;
-            int newStacks = CurrentStacks + nb;
-            if (MaxStacks > 0 && newStacks > MaxStacks) newStacks = MaxStacks;
-            CurrentStacks = newStacks;
+            CurrentStacks = Math.Min(MaxStacks, CurrentStacks + nb);
 
             if (oldStacks != CurrentStacks && Program.logFight)
             {
-                Program.Log(string.Format("{0:N2} : {1} new stack : {2}", Player.Sim.CurrentTime, ToString(), CurrentStacks));
+                Program.Log(string.Format("{0:N2} : {1} stacks at {2}", Player.Sim.CurrentTime, ToString(), CurrentStacks));
             }
         }
 
         public virtual void StackRemove(int nb = 1)
         {
             int oldStacks = CurrentStacks;
-            CurrentStacks -= nb;
+            CurrentStacks -= Math.Max(0, nb);
             if(CurrentStacks < 1)
             {
                 EndEffect();
             }
 
-            if (oldStacks != CurrentStacks && Program.logFight)
+            if (oldStacks != CurrentStacks && CurrentStacks > 0 && Program.logFight)
             {
-                Program.Log(string.Format("{0:N2} : {1} new stack : {2}", Player.Sim.CurrentTime, ToString(), CurrentStacks));
+                Program.Log(string.Format("{0:N2} : {1} stacks at {2}", Player.Sim.CurrentTime, ToString(), CurrentStacks));
             }
         }
 

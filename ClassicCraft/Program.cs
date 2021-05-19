@@ -71,6 +71,8 @@ namespace ClassicCraft
 
         public static bool statsWeights = false;
 
+        public static int nbTargets = 1;
+
         //public static List<Attribute> toWeight = null;
         //public static Attribute weighted;
 
@@ -143,6 +145,7 @@ namespace ClassicCraft
 
         public static void ConsoleRun()
         {
+            LoadConfigJsons();
             Run(null, debugPath);
         }
 
@@ -172,84 +175,84 @@ namespace ClassicCraft
             };
 
             simBonusAttribs = new Dictionary<string, Attributes>()
-                    {
-                        { "Base", new Attributes() },
-                        { "+50 AP", new Attributes(new Dictionary<Attribute, double>()
-                                {
-                                    { Attribute.AP, version == Version.TBC ? 100 : 50 }
-                                })},
-                        { "+50 SP", new Attributes(new Dictionary<Attribute, double>()
-                                {
-                                    { Attribute.SP, version == Version.TBC ? 100 : 50 }
-                                })},
-                        { "+1% Hit", new Attributes(new Dictionary<Attribute, double>()
-                                {
-                                    { Attribute.HitChance, 0.01 }
-                                })},
-                        { "+1% Crit", new Attributes(new Dictionary<Attribute, double>()
-                                {
-                                    { Attribute.CritChance, 0.01 }
-                                })},
-                        { "+1% Haste", new Attributes(new Dictionary<Attribute, double>()
-                                {
-                                    { Attribute.Haste, 0.01 }
-                                })},
-                        { "+1% Expertise", new Attributes(new Dictionary<Attribute, double>()
-                                {
-                                    { Attribute.Expertise, 0.01 }
-                                })},
-                        { "+500 ArPen", new Attributes(new Dictionary<Attribute, double>()
-                                {
-                                    { Attribute.ArmorPen, 500 }
-                                })},
-                        { "+1000 ArPen", new Attributes(new Dictionary<Attribute, double>()
-                                {
-                                    { Attribute.ArmorPen, 1000 }
-                                })},
-                        { "+10 DPS MH", new Attributes(new Dictionary<Attribute, double>()
-                                {
-                                    { Attribute.WeaponDamageMH, 10 }
-                                })},
-                        { "+10 DPS OH", new Attributes(new Dictionary<Attribute, double>()
-                                {
-                                    { Attribute.WeaponDamageOH, 10 }
-                                })},
-                        { "+1 MH Skill", new Attributes(new Dictionary<Attribute, double>()) },
-                        { "+1 OH Skill", new Attributes(new Dictionary<Attribute, double>()) },
-                        { "+5 MH Skill", new Attributes(new Dictionary<Attribute, double>()) },
-                        { "+5 OH Skill", new Attributes(new Dictionary<Attribute, double>()) },
-                        { "+1% SpellHit", new Attributes(new Dictionary<Attribute, double>()
-                                {
-                                    { Attribute.SpellHitChance, 0.01 }
-                                })},
-                        { "+1% SpellCrit", new Attributes(new Dictionary<Attribute, double>()
-                                {
-                                    { Attribute.SpellCritChance, 0.01 }
-                                })},
-                        { "+50 Int", new Attributes(new Dictionary<Attribute, double>()
-                                {
-                                    { Attribute.Intellect, version == Version.TBC ? 100 : 50 }
-                                })},
-                        { "+50 Spi", new Attributes(new Dictionary<Attribute, double>()
-                                {
-                                    { Attribute.Spirit, version == Version.TBC ? 100 : 50 }
-                                })},
-                        { "+30 MP5", new Attributes(new Dictionary<Attribute, double>()
-                                {
-                                    { Attribute.MP5, (version == Version.TBC ? 60 : 30) }
-                                })},
-                        /*
-                        { "1", new Attributes(new Dictionary<Attribute, double>()) },
-                        { "2", new Attributes(new Dictionary<Attribute, double>()) },
-                        { "3", new Attributes(new Dictionary<Attribute, double>()) },
-                        { "4", new Attributes(new Dictionary<Attribute, double>()) },
-                        { "5", new Attributes(new Dictionary<Attribute, double>()) },
-                        { "6", new Attributes(new Dictionary<Attribute, double>()) },
-                        { "7", new Attributes(new Dictionary<Attribute, double>()) },
-                        { "8", new Attributes(new Dictionary<Attribute, double>()) },
-                        { "9", new Attributes(new Dictionary<Attribute, double>()) },
-                        */
-                    };
+            {
+                { "Base", new Attributes() },
+                { "+50 AP", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.AP, version == Version.TBC ? 100 : 50 }
+                        })},
+                { "+50 SP", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.SP, version == Version.TBC ? 100 : 50 }
+                        })},
+                { "+1% Hit", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.HitChance, 0.01 }
+                        })},
+                { "+1% Crit", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.CritChance, 0.01 }
+                        })},
+                { "+1% Haste", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.Haste, 0.01 }
+                        })},
+                { "+1% Expertise", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.Expertise, 0.01 }
+                        })},
+                { "+500 ArPen", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.ArmorPen, 500 }
+                        })},
+                { "+1000 ArPen", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.ArmorPen, 1000 }
+                        })},
+                { "+10 DPS MH", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.WeaponDamageMH, 10 }
+                        })},
+                { "+10 DPS OH", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.WeaponDamageOH, 10 }
+                        })},
+                { "+1 MH Skill", new Attributes(new Dictionary<Attribute, double>()) },
+                { "+1 OH Skill", new Attributes(new Dictionary<Attribute, double>()) },
+                { "+5 MH Skill", new Attributes(new Dictionary<Attribute, double>()) },
+                { "+5 OH Skill", new Attributes(new Dictionary<Attribute, double>()) },
+                { "+1% SpellHit", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.SpellHitChance, 0.01 }
+                        })},
+                { "+1% SpellCrit", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.SpellCritChance, 0.01 }
+                        })},
+                { "+50 Int", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.Intellect, version == Version.TBC ? 100 : 50 }
+                        })},
+                { "+50 Spi", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.Spirit, version == Version.TBC ? 100 : 50 }
+                        })},
+                { "+30 MP5", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.MP5, (version == Version.TBC ? 60 : 30) }
+                        })},
+                /*
+                { "1", new Attributes(new Dictionary<Attribute, double>()) },
+                { "2", new Attributes(new Dictionary<Attribute, double>()) },
+                { "3", new Attributes(new Dictionary<Attribute, double>()) },
+                { "4", new Attributes(new Dictionary<Attribute, double>()) },
+                { "5", new Attributes(new Dictionary<Attribute, double>()) },
+                { "6", new Attributes(new Dictionary<Attribute, double>()) },
+                { "7", new Attributes(new Dictionary<Attribute, double>()) },
+                { "8", new Attributes(new Dictionary<Attribute, double>()) },
+                { "9", new Attributes(new Dictionary<Attribute, double>()) },
+                */
+            };
         }
 
         public static void LoadConfigJsons()
@@ -303,13 +306,15 @@ namespace ClassicCraft
                 targetError = jsonSim.TargetError;
                 logFight = jsonSim.LogFight;
                 statsWeights = jsonSim.StatsWeights;
+                nbTargets = jsonSim.NbTargets;
                 
                 Log(string.Format("Date : {0}\n", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")));
                 Log(string.Format("Fight length : {0} seconds (±{1}%)", jsonSim.FightLength, jsonSim.FightLengthMod * 100));
+                Log(string.Format("Number of targets : {0}", jsonSim.NbTargets));
 
+                threading = !logFight;
                 if (logFight)
                 {
-                    threading = false;
                     targetError = false;
                     statsWeights = false;
 
@@ -320,6 +325,9 @@ namespace ClassicCraft
                 }
                 
                 playerBase = JsonUtil.JsonPlayer.ToPlayer(jsonPlayer, jsonSim.Tanking);
+
+                if (playerBase.Level > 60) version = Version.TBC;
+                else version = Version.Vanilla;
 
                 if(playerBase.MH == null)
                 {
@@ -449,15 +457,17 @@ namespace ClassicCraft
                 bossBase = JsonUtil.JsonBoss.ToBoss(jsonSim.Boss);
                 int bossBaseArmor = bossBase.Armor;
 
-                Log("\nBoss (after raid debuffs) :");
-                Log(bossBase.ToString(playerBase.Attributes.GetValue(Attribute.ArmorPen)));
+                Log("\nBoss :");
+                Log(bossBase.ToString(0, jsonSim.Boss.Armor));  // TODO : base magic armor
+                Log("After raid debuffs and player penetration :");
+                Log(bossBase.ToString(playerBase.Attributes.GetValue(Attribute.ArmorPen)) + "\n");
 
                 if(!statsWeights)
                 {
                     //logListActions = totalActions.SelectMany(a => a.Select(t => t.Action.ToString()).OrderBy(b => b)).Distinct().ToList();
                     logListActions = new List<string>() { "AA MH", "AA OH", "AA Ranged", "AA Wand" };
                     if (playerBase.Class == Player.Classes.Warrior)
-                        logListActions.AddRange(new List<string>() { "Slam", "Bloodthirst", "Mortal Strike", "Sunder Armor", "Revenge", "Whirlwind", "Heroic Strike", "Execute", "Hamstring", "Battle Shout" });
+                        logListActions.AddRange(new List<string>() { "Slam", "Bloodthirst", "Mortal Strike", "Sunder Armor", "Revenge", "Whirlwind", "Sweeping Strikes", "Cleave", "Heroic Strike", "Execute", "Hamstring", "Battle Shout" });
                     else if (playerBase.Class == Player.Classes.Druid)
                         logListActions.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift", "Maul", "Swipe" });
                     else if (playerBase.Class == Player.Classes.Priest)
@@ -527,17 +537,23 @@ namespace ClassicCraft
                             {
                                 double pct = (double)CurrentDpsList.Count / nbSim * 100;
                                 GUISetProgress(pct);
-                                GUISetProgressText(String.Format("Simulations done : {0}/{1}", CurrentDpsList.Count, nbSim));
+                                GUISetProgressText(String.Format("Simulating {0} - {1}/{2}", simOrder[done], done + 1, statsWeights ? simOrder.Count : 1));
+                                string outputText = "";
 
                                 if (!logFight)
                                 {
-                                    OutputClear();
-                                    Output(String.Format("{0:N2}% ({1}/{2})", pct, CurrentDpsList.Count, nbSim));
-                                }
+                                    outputText += String.Format("Simulating {0}...", simOrder[done]);
+                                    outputText += String.Format("\nSims done : {0:N0}", CurrentDpsList.Count);
+                                    outputText += String.Format("\nSims running : {0:N0}", tasks.Count(t => !t.IsCompleted));
 
-                                if (CurrentDpsList.Count > 0)
-                                {
-                                    Output(String.Format("Precision : ±{0:N2}%", Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average())));
+                                    lock (CurrentDpsList)
+                                    {
+                                        if (CurrentDpsList.Count > 1)
+                                        {
+                                            outputText += String.Format("\nCurrent precision : ±{0:N2}%", Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average()));
+                                        }
+                                    }
+                                    Output(outputText, true, !logFight);
                                 }
 
                                 Thread.Sleep(TimeSpan.FromSeconds(Display == DisplayMode.Console ? 1.0/2 : 1.0/60));
@@ -582,13 +598,14 @@ namespace ClassicCraft
 
                                 double currentPct = Math.Min(1, Math.Pow((100 - errorPct) / (100 - targetErrorPct), 1000)) * 100;
                                 GUISetProgress(done / simOrder.Count * 100 + currentPct);
-                                GUISetProgressText(String.Format("Simulating {0} - {2}/{3}", simOrder[done], currentPct, done + 1, statsWeights ? simOrder.Count : 1));
+                                GUISetProgressText(String.Format("Simulating {0} - {1}/{2}", simOrder[done], done + 1, statsWeights ? simOrder.Count : 1));
                                 
-                                OutputClear();
-                                Output(String.Format("Simulating {0}, aiming for ±{1:N2}% precision...", simOrder[done], targetErrorPct));
-                                Output(String.Format("Sims done : {0:N0}", CurrentDpsList.Count));
-                                Output(String.Format("Sims running : {0:N0}", tasks.Count(t => !t.IsCompleted)));
-                                Output(String.Format("Current precision : ±{0:N2}%", errorPct));
+                                string outputText = "";
+                                outputText += String.Format("Simulating {0}, aiming for ±{1:N2}% precision...", simOrder[done], targetErrorPct);
+                                outputText += String.Format("\nSims done : {0:N0}", CurrentDpsList.Count);
+                                outputText += String.Format("\nSims running : {0:N0}", tasks.Count(t => !t.IsCompleted));
+                                outputText += String.Format("\nCurrent precision : ±{0:N2}%", errorPct);
+                                Output(outputText, true, true);
 
                                 Thread.Sleep(TimeSpan.FromSeconds(Display == DisplayMode.Console ? 1.0 / 2 : 1.0 / 60));
                             }
@@ -1036,10 +1053,15 @@ namespace ClassicCraft
                                 double avgAcThreat = data.AvgTPS;
                                 res += string.Format(" / {0:N2} TPS ({1:N2}%)\n\tAverage of {2:N2} threat for {3:N2} uses (or 1 use every {4:N2}s)", avgAcTps, avgAcTps / avgTps * 100, avgAcThreat, avgAcUse, jsonSim.FightLength / avgAcUse);
                             }
-                            if (ac == "Whirlwind" && version == Version.TBC)
+                            if (ac == "Cleave")
                             {
-                                avgAcUse /= 2;
-                                avgAcDmg *= 2;
+                                avgAcUse /= Math.Min(2, nbTargets);
+                                avgAcDmg *= Math.Min(2, nbTargets);
+                            }
+                            else if (ac == "Whirlwind" && version == Version.TBC)
+                            {
+                                avgAcUse /= 2 * nbTargets;
+                                avgAcDmg *= 2 * nbTargets;
                             }
                             res += string.Format("\n\tAverage of {0:N2} damage for {1:N2} uses (or 1 use every {2:N2}s)", avgAcDmg, avgAcUse, avgFightLength / avgAcUse);
 
@@ -1229,9 +1251,9 @@ namespace ClassicCraft
             }
         }
 
-        public static void Log(object log)
+        public static void Log(object log, bool newLine = true)
         {
-            logs += log.ToString() + "\n";
+            logs += log.ToString() + (newLine ? "\n" : "");
         }
 
         public static void Debug(object str)
@@ -1239,16 +1261,18 @@ namespace ClassicCraft
             System.Diagnostics.Debug.WriteLine(str);
         }
 
-        public static void Output(object str, bool newLine = true)
+        public static void Output(object str, bool newLine = true, bool erase = false)
         {
             if(Display == DisplayMode.Console)
             {
+                if (erase) Console.Clear();
                 if (newLine) Console.WriteLine(str.ToString());
                 else Console.Write(str.ToString());
             }
             else if(GUI != null)
             {
-                GUI.ConsoleTextAdd(str.ToString(), newLine);
+                if(erase) GUI.ConsoleTextSet(str.ToString());
+                else GUI.ConsoleTextAdd(str.ToString(), newLine);
             }
         }
 
@@ -1318,7 +1342,7 @@ namespace ClassicCraft
 
             Boss boss = new Boss(bossBase);
 
-            Simulation s = new Simulation(player, boss, jsonSim.FightLength, jsonSim.BossAutoLife, jsonSim.BossLowLifeTime, jsonSim.FightLengthMod, jsonSim.UnlimitedMana, jsonSim.UnlimitedResource, jsonSim.Tanking, jsonSim.TankHitEvery, jsonSim.TankHitRage);
+            Simulation s = new Simulation(player, boss, jsonSim.FightLength, jsonSim.BossAutoLife, jsonSim.BossLowLifeTime, jsonSim.FightLengthMod, jsonSim.UnlimitedMana, jsonSim.UnlimitedResource, jsonSim.Tanking, jsonSim.TankHitEvery, jsonSim.TankHitRage, jsonSim.NbTargets);
             s.StartSim();
         }
     }

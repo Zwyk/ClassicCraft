@@ -58,6 +58,8 @@ namespace ClassicCraft
             RegisterDamage(new ActionResult(res, damage));
 
             Player.CheckOnHits(true, false, res);
+
+            SweepingStrikesBuff.CheckProc(Player, damage, res);
         }
 
         public override string ToString()

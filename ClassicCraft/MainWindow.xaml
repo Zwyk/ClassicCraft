@@ -13,7 +13,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TabControl x:Name="Tabs" SelectedIndex="1" Grid.Row="0" Grid.ColumnSpan="2">
-                <TabItem Header="News">
+                <TabItem Header="News" IsEnabled="False">
                     <ScrollViewer VerticalScrollBarVisibility="Visible" Padding="4">
                     </ScrollViewer>
                 </TabItem>
@@ -116,6 +116,20 @@
                                                 <ComboBoxItem>0</ComboBoxItem>
                                                 <ComboBoxItem>10</ComboBoxItem>
                                                 <ComboBoxItem>20</ComboBoxItem>
+                                            </ComboBox>
+                                        </Grid>
+                                        <Grid Margin="0 10 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="100" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Number of targets (BETA)" TextWrapping="Wrap" Grid.Column="0" />
+                                            <ComboBox IsEditable="True" x:Name="NbTargets" PreviewTextInput="WholeNumberCheck" Grid.Column="1" SelectedIndex="1">
+                                                <ComboBoxItem>1</ComboBoxItem>
+                                                <ComboBoxItem>2</ComboBoxItem>
+                                                <ComboBoxItem>3</ComboBoxItem>
+                                                <ComboBoxItem>4</ComboBoxItem>
+                                                <ComboBoxItem>10</ComboBoxItem>
                                             </ComboBox>
                                         </Grid>
                                         <TextBlock Text="Boss" Margin="0 5 0 0" />
@@ -422,8 +436,21 @@
                                                 <ColumnDefinition Width="100" />
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Level" Grid.Column="0" />
+                                            <ComboBox x:Name="Level" Grid.Column="1" SelectedIndex="1">
+                                                <ComboBoxItem>60</ComboBoxItem>
+                                                <ComboBoxItem>70</ComboBoxItem>
+                                            </ComboBox>
+                                        </Grid>
+                                        <Grid Margin="0 10 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
                                             <TextBlock Text="Race" Grid.Column="0" />
                                             <ComboBox x:Name="Race" Grid.Column="1" SelectedIndex="4">
+                                                <ComboBoxItem>Blood Elf</ComboBoxItem>
+                                                <ComboBoxItem>Draenei</ComboBoxItem>
                                                 <ComboBoxItem>Dwarf</ComboBoxItem>
                                                 <ComboBoxItem>Gnome</ComboBoxItem>
                                                 <ComboBoxItem>Human</ComboBoxItem>
@@ -460,7 +487,7 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="Talents" Grid.Column="0" />
-                                            <TextBox x:Name="Talents" Grid.Column="1" ToolTip="You can use https://classic.wowhead.com/talent-calc and paste the whole URL here" PreviewTextInput="Talents_PreviewTextInput" />
+                                            <TextBox x:Name="Talents" Grid.Column="1" ToolTip="You can use https://classic.wowhead.com/talent-calc or https://tbc.wowhead.com/talent-calc and paste the whole URL here" PreviewTextInput="Talents_PreviewTextInput" />
                                             <TextBlock Grid.Column="3">
                                                 <Hyperlink x:Name="TalentsHyperlink" Click="TalentsHyperlink_Click">View in browser</Hyperlink>
                                             </TextBlock>
@@ -468,6 +495,8 @@
                                         <StackPanel Margin="0 10 0 0">
                                             <TextBlock Text="Equipment" TextWrapping="Wrap" />
                                             <Border Padding="5 2 5 2" BorderBrush="#D2D2D2" BorderThickness="1" Background="#F2F2F2" CornerRadius="2">
+                                                <TextBlock Margin="5 5 0 0" Text="/!\ UNDER DEVELOPMENT, edit the &quot;player.json&quot; file directly for now /!\" TextWrapping="Wrap" />
+                                                <!--
                                                 <StackPanel>
                                                     <Grid>
                                                         <Grid.ColumnDefinitions>
@@ -697,11 +726,12 @@
                                                         <ComboBox x:Name="Trinket2" IsTextSearchEnabled="True" VerticalAlignment="Center" Grid.Column="2" Margin="10 0 10 0" />
                                                     </Grid>
                                                 </StackPanel>
+                                                -->
                                             </Border>
                                         </StackPanel>
                                     </StackPanel>
                                 </TabItem>
-                                <TabItem Header="Cooldowns">
+                                <TabItem Header="Cooldowns" IsEnabled="False">
                                     <StackPanel Margin="2">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
@@ -907,7 +937,7 @@
                         </StackPanel>
                     </ScrollViewer>
                 </TabItem>
-                <TabItem Header="Database">
+                <TabItem Header="Database" IsEnabled="False">
                     <TabControl Margin="2">
                         <TabItem Header="Armors">
                             <ScrollViewer VerticalScrollBarVisibility="Visible" Padding="4">
@@ -1262,7 +1292,7 @@
                         <TabControl  Grid.Row="2" x:Name="ConsoleTabControl">
                             <TabItem Header= "" x:Name="ConsoleEmpty">
                                 <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto">
-                                    <TextBox />
+                                    <TextBox>Nothing there yet!</TextBox>
                                 </ScrollViewer>
                             </TabItem>
                         </TabControl>

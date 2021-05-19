@@ -92,7 +92,7 @@ namespace ClassicCraft
 
             if(Program.logFight)
             {
-                string log = string.Format("{0:N2} : {1} {2}", Player.Sim.CurrentTime, ToString(), res.Type);
+                string log = string.Format("{0:N2} : [{1}] {2}", Player.Sim.CurrentTime, ToString(), res.Type);
                 if(res.Type != ResultType.Miss && res.Type != ResultType.Parry && res.Type != ResultType.Resist && res.Type != ResultType.Dodge)
                 {
                     log += string.Format(" for {0} damage", res.Damage);
@@ -122,7 +122,7 @@ namespace ClassicCraft
 
             if(Program.logFight)
             {
-                string log = string.Format("{0:N2} : {1} cast", Player.Sim.CurrentTime, ToString());
+                string log = string.Format("{0:N2} : [{1}] cast", Player.Sim.CurrentTime, ToString());
                 if (!ResourceName().Equals("mana"))
                 {
                     log += string.Format(" ({0} {1}/{2})", ResourceName(), Player.Resource, Player.MaxResource);

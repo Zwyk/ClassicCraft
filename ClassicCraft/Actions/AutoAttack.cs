@@ -133,6 +133,11 @@ namespace ClassicCraft
             {
                 Player.CheckOnHits(MH, true, res, extra, alreadyProc);
             }
+
+            if(Player.Class == Player.Classes.Warrior)
+            {
+                SweepingStrikesBuff.CheckProc(Player, damage, res);
+            }
         }
 
         public void Swing()

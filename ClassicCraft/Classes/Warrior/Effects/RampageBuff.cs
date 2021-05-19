@@ -23,9 +23,9 @@ namespace ClassicCraft
             {
                 if (true) // TODO : proc chance ?
                 {
-                    if (p.Effects.ContainsKey(RampageBuff.NAME))
+                    if (p.Effects.ContainsKey(NAME))
                     {
-                        p.Effects[RampageBuff.NAME].StackAdd();
+                        p.Effects[NAME].StackAdd();
                     }
                     else
                     {

@@ -111,10 +111,12 @@
     <Compile Include="Classes\Warlock\Warlock.cs" />
     <Compile Include="Classes\Warlock\Effects\ShadowTrance.cs" />
     <Compile Include="Classes\Warrior\Effects\RampageBuff.cs" />
+    <Compile Include="Classes\Warrior\Effects\SweepingStrikesBuff.cs" />
     <Compile Include="Classes\Warrior\Skills\BattleShout.cs" />
     <Compile Include="Classes\Warrior\Skills\Berserking.cs" />
     <Compile Include="Classes\Warrior\Skills\BloodFury.cs" />
     <Compile Include="Classes\Warrior\Skills\Bloodrage.cs" />
+    <Compile Include="Classes\Warrior\Skills\Cleave.cs" />
     <Compile Include="Classes\Warrior\Skills\DeathWish.cs" />
     <Compile Include="Classes\Warrior\Skills\Devastate.cs" />
     <Compile Include="Classes\Warrior\Skills\Execute.cs" />
@@ -124,6 +126,7 @@
     <Compile Include="Classes\Warrior\Skills\Rampage.cs" />
     <Compile Include="Classes\Warrior\Skills\Revenge.cs" />
     <Compile Include="Classes\Warrior\Skills\SunderArmor.cs" />
+    <Compile Include="Classes\Warrior\Skills\SweepingStrikes.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -144,7 +147,6 @@
     <Compile Include="Classes\Warrior\Effects\DeathWishBuff.cs" />
     <Compile Include="Classes\Warrior\Effects\BloodrageBuff.cs" />
     <Compile Include="Misc\Consumables\ManaRune.cs" />
-    <Compile Include="Misc\Enchantments\Crusader.cs" />
     <Compile Include="Classes\Druid\Effects\MCPBuff.cs" />
     <Compile Include="Misc\Consumables\JujuFlurry\JujuFlurryBuff.cs" />
     <Compile Include="Misc\Consumables\MightyRage\MightyRageBuff.cs" />
@@ -182,6 +184,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Misc\Enchantments\" />
     <Folder Include="Misc\Weapons\" />
   </ItemGroup>
   <ItemGroup>

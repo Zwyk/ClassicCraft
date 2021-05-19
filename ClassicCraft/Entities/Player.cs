@@ -86,15 +86,17 @@ namespace ClassicCraft
         {
             switch (s)
             {
-                case "Human": return Races.Human;
+                case "Blood Elf": return Races.BloodElf;
+                case "Draenei": return Races.Draenei;
                 case "Dwarf": return Races.Dwarf;
-                case "NightElf": return Races.NightElf;
                 case "Gnome": return Races.Gnome;
+                case "Human": return Races.Human;
+                case "Night Elf": return Races.NightElf;
                 case "Orc": return Races.Orc;
-                case "Undead": return Races.Undead;
-                case "Tauren": return Races.Tauren;
                 case "Troll": return Races.Troll;
-                default: throw new Exception("Race not found");
+                case "Tauren": return Races.Tauren;
+                case "Undead": return Races.Undead;
+                default: throw new Exception("Race not found : " + s);
             }
         }
 
@@ -102,14 +104,16 @@ namespace ClassicCraft
         {
             switch (r)
             {
-                case Races.Human: return "Human";
+                case Races.BloodElf: return "Blood Elf";
+                case Races.Draenei: return "Draenei";
                 case Races.Dwarf: return "Dwarf";
-                case Races.NightElf: return "NightElf";
                 case Races.Gnome: return "Gnome";
+                case Races.Human: return "Human";
+                case Races.NightElf: return "NightElf";
                 case Races.Orc: return "Orc";
-                case Races.Undead: return "Undead";
                 case Races.Tauren: return "Tauren";
                 case Races.Troll: return "Troll";
+                case Races.Undead: return "Undead";
                 default: throw new Exception("Race not found");
             }
         }
@@ -1007,7 +1011,7 @@ namespace ClassicCraft
             }
         }
 
-        public double CritRating
+        public double CritChance
         {
             get
             {
@@ -1015,7 +1019,7 @@ namespace ClassicCraft
             }
         }
 
-        public double HitRating
+        public double HitChance
         {
             get
             {
@@ -1023,7 +1027,7 @@ namespace ClassicCraft
             }
         }
 
-        public double ExpertiseRating
+        public double ExpertisePercent
         {
             get
             {
@@ -1031,7 +1035,7 @@ namespace ClassicCraft
             }
         }
 
-        public double SpellCritRating
+        public double SpellCritChance
         {
             get
             {
@@ -1039,7 +1043,7 @@ namespace ClassicCraft
             }
         }
 
-        public double SpellHitRating
+        public double SpellHitChance
         {
             get
             {
@@ -1653,7 +1657,7 @@ namespace ClassicCraft
                     {
                         Flurry.CheckProc(this, res, GetTalentPoints("Flurry"), extra || !isAA);
                     }
-                    if (GetTalentPoints("UW") > 0)
+                    if (isAA && GetTalentPoints("UW") > 0)
                     {
                         UnbridledWrath.CheckProc(this, res, GetTalentPoints("UW"), isMH ? MH.Speed : OH.Speed);
                     }
@@ -1911,10 +1915,9 @@ namespace ClassicCraft
                     {
                         if (!alreadyProc.Contains("mongoose")
                             && ((isMH && MH?.Enchantment?.Name.ToLower().Contains("mongoose") == true) || (!isMH && OH?.Enchantment?.Name.ToLower().Contains("mongoose") == true))
-                            && (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
                             && Randomer.NextDouble() < (isMH ? MH.Speed : OH.Speed) / 60)
                         {
-                            string procName = "Mongoose" + (isMH?"MH":"OH");
+                            string procName = "Mongoose" + (isMH ? "MH" : "OH");
                             alreadyProc.Add(procName);
                             Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
                             {
@@ -1922,7 +1925,30 @@ namespace ClassicCraft
                                 { Attribute.Haste, 0.02 },
                             };
                             int procDuration = 15;
-                            
+
+                            if (Effects.ContainsKey(procName))
+                            {
+                                Effects[procName].Refresh();
+                            }
+                            else
+                            {
+                                CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
+                                buff.StartEffect();
+                            }
+                        }
+                        if (!alreadyProc.Contains("executioner")
+                            && ((isMH && MH?.Enchantment?.Name.ToLower().Contains("executioner") == true) || (!isMH && OH?.Enchantment?.Name.ToLower().Contains("executioner") == true))
+                            && (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
+                            && Randomer.NextDouble() < (isMH ? MH.Speed : OH.Speed) / 60)
+                        {
+                            string procName = "Executioner" + (isMH ? "MH" : "OH");
+                            alreadyProc.Add(procName);
+                            Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
+                            {
+                                { Attribute.ArmorPen, 840 },
+                            };
+                            int procDuration = 15;
+
                             if (Effects.ContainsKey(procName))
                             {
                                 Effects[procName].Refresh();
@@ -2038,6 +2064,22 @@ namespace ClassicCraft
                         }
                         ExtraAA(alreadyProc);
                     }
+                    if (!alreadyProc.Contains("Rod of the Sun King")
+                        && w.Name.ToLower().Contains("rod of the sun king")
+                        && Randomer.NextDouble() < 0.05) // TODO : Check proc-rate
+                    {
+                        string procName = "Rod of the Sun King";
+                        alreadyProc.Add(procName);
+
+                        if (Program.logFight)
+                        {
+                            Program.Log(string.Format("{0:N2} : Blinkstrike procs", Sim.CurrentTime));
+                        }
+
+                        if (Class == Classes.Warrior) Resource += 5;
+                        else if (Class == Classes.Rogue) Resource += 10;
+                    }
+
                     if (!alreadyProc.Contains("Hourglass")
                         && res == ResultType.Crit
                         && (Equipment[Slot.Trinket1]?.Name.ToLower() == "hourglass of the unraveller" || Equipment[Slot.Trinket2]?.Name.ToLower() == "hourglass of the unraveller")
@@ -2208,38 +2250,38 @@ namespace ClassicCraft
 
             if(Program.version == Version.TBC)
             {
-                MHParryExpertise = Math.Max(0, ExpertiseRating + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.Expertise)) - enemy.DodgeChance(WeaponSkill[MH.Type]));
-                if(DualWielding) OHParryExpertise = Math.Max(0, ExpertiseRating + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.Expertise)) - enemy.DodgeChance(WeaponSkill[OH.Type]));
+                MHParryExpertise = Math.Max(0, ExpertisePercent + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.Expertise)) - enemy.DodgeChance(WeaponSkill[MH.Type]));
+                if(DualWielding) OHParryExpertise = Math.Max(0, ExpertisePercent + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.Expertise)) - enemy.DodgeChance(WeaponSkill[OH.Type]));
             }
 
             Dictionary<ResultType, double> whiteHitChancesMH = new Dictionary<ResultType, double>();
-            whiteHitChancesMH.Add(ResultType.Miss, MissChance(DualWielding, HitRating, WeaponSkill[MH.Type], enemy.Level));
-            whiteHitChancesMH.Add(ResultType.Dodge, Program.version == Version.TBC ? EnemyDodgeChance(enemy.DodgeChance(WeaponSkill[MH.Type]), ExpertiseRating) : enemy.DodgeChance(WeaponSkill[MH.Type]));
+            whiteHitChancesMH.Add(ResultType.Miss, MissChance(DualWielding, HitChance, WeaponSkill[MH.Type], enemy.Level));
+            whiteHitChancesMH.Add(ResultType.Dodge, Program.version == Version.TBC ? EnemyDodgeChance(enemy.DodgeChance(WeaponSkill[MH.Type]), ExpertisePercent) : enemy.DodgeChance(WeaponSkill[MH.Type]));
             whiteHitChancesMH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level, Sim.Tanking, MHParryExpertise));
             whiteHitChancesMH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level));
             whiteHitChancesMH.Add(ResultType.Block, enemy.BlockChance());
-            whiteHitChancesMH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritRating + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glance], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
+            whiteHitChancesMH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritChance + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glance], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
             whiteHitChancesMH.Add(ResultType.Hit, RealHitChance(whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glance], whiteHitChancesMH[ResultType.Crit], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
 
             Dictionary<ResultType, double> whiteHitChancesOH = null;
             if (DualWielding)
             {
                 whiteHitChancesOH = new Dictionary<ResultType, double>();
-                whiteHitChancesOH.Add(ResultType.Miss, MissChance(true, HitRating + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.HitChance)), WeaponSkill[OH.Type], enemy.Level));
-                whiteHitChancesOH.Add(ResultType.Dodge, Program.version == Version.TBC ? EnemyDodgeChance(enemy.DodgeChance(WeaponSkill[OH.Type]), ExpertiseRating) : enemy.DodgeChance(WeaponSkill[OH.Type]));
+                whiteHitChancesOH.Add(ResultType.Miss, MissChance(true, HitChance + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.HitChance)), WeaponSkill[OH.Type], enemy.Level));
+                whiteHitChancesOH.Add(ResultType.Dodge, Program.version == Version.TBC ? EnemyDodgeChance(enemy.DodgeChance(WeaponSkill[OH.Type]), ExpertisePercent) : enemy.DodgeChance(WeaponSkill[OH.Type]));
                 whiteHitChancesOH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[OH.Type], enemy.Level, Sim.Tanking, OHParryExpertise));
                 whiteHitChancesOH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level));
                 whiteHitChancesOH.Add(ResultType.Block, enemy.BlockChance());
-                whiteHitChancesOH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritRating + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glance], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
+                whiteHitChancesOH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritChance + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glance], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
                 whiteHitChancesOH.Add(ResultType.Hit, RealHitChance(whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glance], whiteHitChancesOH[ResultType.Crit], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
             }
 
             Dictionary<ResultType, double> yellowHitChances = new Dictionary<ResultType, double>();
-            yellowHitChances.Add(ResultType.Miss, MissChanceYellow(HitRating, WeaponSkill[MH.Type], enemy.Level));
-            yellowHitChances.Add(ResultType.Dodge, Program.version == Version.TBC ? EnemyDodgeChance(enemy.DodgeChance(WeaponSkill[MH.Type]), ExpertiseRating) : enemy.DodgeChance(WeaponSkill[MH.Type]));
+            yellowHitChances.Add(ResultType.Miss, MissChanceYellow(HitChance, WeaponSkill[MH.Type], enemy.Level));
+            yellowHitChances.Add(ResultType.Dodge, Program.version == Version.TBC ? EnemyDodgeChance(enemy.DodgeChance(WeaponSkill[MH.Type]), ExpertisePercent) : enemy.DodgeChance(WeaponSkill[MH.Type]));
             yellowHitChances.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level, Sim.Tanking, MHParryExpertise));
             yellowHitChances.Add(ResultType.Block, enemy.BlockChance());
-            yellowHitChances.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritRating + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), yellowHitChances[ResultType.Miss], 0, yellowHitChances[ResultType.Dodge], yellowHitChances[ResultType.Parry], yellowHitChances[ResultType.Block]));
+            yellowHitChances.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritChance + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), yellowHitChances[ResultType.Miss], 0, yellowHitChances[ResultType.Dodge], yellowHitChances[ResultType.Parry], yellowHitChances[ResultType.Block]));
             yellowHitChances.Add(ResultType.Hit, RealHitChance(yellowHitChances[ResultType.Miss], 0, yellowHitChances[ResultType.Crit], yellowHitChances[ResultType.Dodge], yellowHitChances[ResultType.Parry], yellowHitChances[ResultType.Block]));
 
             if (HitChancesByEnemy.ContainsKey(enemy))
@@ -2392,7 +2434,7 @@ namespace ClassicCraft
             return Math.Max(0, MissChanceBase(hitRating, skill, enemyLevel));
         }
 
-        public static double SpellHitChance(double spellHit, int level, int enemyLevel)
+        public static double SpellHitChanceReal(double spellHit, int level, int enemyLevel)
         {
             int skillDif = enemyLevel - level;
             double baseHit;
@@ -2429,9 +2471,9 @@ namespace ClassicCraft
 
         public ResultType SpellAttackEnemy(Entity enemy, bool canCrit = true, double bonusHit = 0, double bonusCrit = 0)
         {
-            if(Randomer.NextDouble() < SpellHitChance(SpellHitRating + bonusHit, Level, enemy.Level))
+            if(Randomer.NextDouble() < SpellHitChanceReal(SpellHitChance + bonusHit, Level, enemy.Level))
             {
-                if (canCrit && Randomer.NextDouble() < SpellCritRating + bonusCrit)
+                if (canCrit && Randomer.NextDouble() < SpellCritChance + bonusCrit)
                 {
                     return ResultType.Crit;
                 }
@@ -2448,9 +2490,9 @@ namespace ClassicCraft
 
         public ResultType RangedMagicAttackEnemy(Entity enemy, bool canCrit = true, double bonusHit = 0, double bonusCrit = 0)
         {
-            if (Randomer.NextDouble() < RangedMagicHitChance(HitRating + bonusHit, WeaponSkill[Weapon.WeaponType.Wand], enemy.Level))
+            if (Randomer.NextDouble() < RangedMagicHitChance(HitChance + bonusHit, WeaponSkill[Weapon.WeaponType.Wand], enemy.Level))
             {
-                if (canCrit && Randomer.NextDouble() < CritRating)
+                if (canCrit && Randomer.NextDouble() < CritChance)
                 {
                     return ResultType.Crit;
                 }

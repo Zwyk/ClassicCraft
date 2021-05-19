@@ -168,6 +168,7 @@ namespace ClassicCraftGUI
             sim.StatsWeights = StatsWeights.SelectedIndex == 0;
             sim.FightLength = double.Parse(FightLength.Text);
             sim.FightLengthMod = double.Parse(FightLengthVariation.Text);
+            sim.NbTargets = int.Parse(NbTargets.Text);
             sim.Boss.Level = int.Parse(BossLevel.Text);
             sim.BossAutoLife = BossLifeMode.SelectedIndex == 0;
             sim.BossLowLifeTime = double.Parse(BossLowLifeTime.Text);
@@ -202,6 +203,7 @@ namespace ClassicCraftGUI
 
         public void LoadPlayer()
         {
+            Level.SelectedIndex = GetComboBoxIndexWithString(Level, player.Level.ToString());
             Race.SelectedIndex = GetComboBoxIndexWithString(Race, player.Race);
             Class.SelectedIndex = GetComboBoxIndexWithString(Class, player.Class);
             Talents.Text = player.Talents;
@@ -240,6 +242,7 @@ namespace ClassicCraftGUI
 
         private void SavePlayer()
         {
+            player.Level = int.Parse(Level.Text);
             player.Race = Race.Text;
             player.Class = Class.Text;
             player.Talents = Talents.Text;
@@ -1444,6 +1447,7 @@ namespace ClassicCraftGUI
         {
             switch (slot)
             {
+                /*
                 case Player.Slot.MH: return MH;
                 case Player.Slot.OH: return OH;
                 case Player.Slot.Ranged: return Ranged;
@@ -1461,6 +1465,7 @@ namespace ClassicCraftGUI
                 case Player.Slot.Finger2: return Finger2;
                 case Player.Slot.Trinket1: return Trinket1;
                 case Player.Slot.Trinket2: return Trinket2;
+                */
                 default: return null;
             }
         }
@@ -1483,6 +1488,7 @@ namespace ClassicCraftGUI
         {
             switch (slot)
             {
+                /*
                 case Player.Slot.MH: return EnchantMH;
                 case Player.Slot.OH: return EnchantOH;
                 case Player.Slot.Ranged: return EnchantRanged;
@@ -1494,6 +1500,7 @@ namespace ClassicCraftGUI
                 case Player.Slot.Hands: return EnchantHands;
                 case Player.Slot.Legs: return EnchantLegs;
                 case Player.Slot.Feet: return EnchantFeet;
+                */
                 default: return null;
             }
         }
@@ -2066,7 +2073,7 @@ namespace ClassicCraftGUI
         {
             try
             {
-                Process.Start(new ProcessStartInfo(@"https://" + (Program.version == ClassicCraft.Version.Vanilla ? "classic" : "tbc") + ".wowhead.com/talent-calc/" + Class.Text.ToLower() + "/" + Talents.Text));
+                Process.Start(new ProcessStartInfo(@"https://" + (int.Parse(Level.Text) > 60 ? "tbc" : "classic") + ".wowhead.com/talent-calc/" + Class.Text.ToLower() + "/" + Talents.Text));
             }
             catch (Exception ex)
             {

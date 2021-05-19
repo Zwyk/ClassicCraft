@@ -49,11 +49,13 @@ namespace ClassicCraft
         public bool Tanking { get; set; }
         public double TankHitEvery { get; set; }
         public double TankHitRage { get; set; }
+        public int NbTargets { get; set; }
+
         public double LastHit { get; set; }
 
         public bool Ended { get; set; }
 
-        public Simulation(Player player, Boss boss, double fightLength, bool autoBossLife = true, double lowLifeTime = 0, double fightLengthMod = 0.2, bool unlimitedMana = false, bool unlimitedResource = false, bool tanking = false, double tankHitEvery = 1, double tankHitRage = 25)
+        public Simulation(Player player, Boss boss, double fightLength, bool autoBossLife = true, double lowLifeTime = 0, double fightLengthMod = 0.2, bool unlimitedMana = false, bool unlimitedResource = false, bool tanking = false, double tankHitEvery = 1, double tankHitRage = 25, int nbTargets = 1)
         {
             Player = player;
             Boss = boss;
@@ -72,6 +74,7 @@ namespace ClassicCraft
             Tanking = tanking;
             TankHitEvery = tankHitEvery;
             TankHitRage = tankHitRage;
+            NbTargets = nbTargets;
 
             LastHit = -TankHitEvery;
 
@@ -219,7 +222,7 @@ namespace ClassicCraft
             switch (type)
             {
                 // TODO BLOCK / BLOCKCRIT
-                case ResultType.Crit: return school == School.Physical || isWeapon ? 2 : 1.5;
+                case ResultType.Crit: return (school == School.Physical || isWeapon) ? 2 : 1.5;
                 case ResultType.Hit: return 1;
                 case ResultType.Glance: return GlancingDamage(Player.WeaponSkill[MH ? Player.MH.Type : Player.OH.Type], Boss.Level);
                 default: return 0;
@@ -241,6 +244,8 @@ namespace ClassicCraft
         {
             double res = 0;
             armor -= (int)Math.Round(armorpen);
+            //armor = Math.Max(0, armor);
+
             if(Program.version == Version.Vanilla || attackerLevel < 60)
             {
                 res = armor / (armor + 400 + 85.0 * attackerLevel);

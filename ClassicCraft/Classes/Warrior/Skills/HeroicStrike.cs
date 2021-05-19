@@ -12,6 +12,7 @@ namespace ClassicCraft
         public static int CD = 0;
 
         public static int BONUS_THREAT = Program.version == Version.TBC ? 196 : 175;
+        public static int BONUS_DMG = Program.version == Version.TBC ? 208 : 157;
 
         public HeroicStrike(Player p)
             : base(p, CD, BASE_COST - p.GetTalentPoints("IHS") - (Program.version == Version.TBC ? p.GetTalentPoints("FR") : 0), true)
@@ -43,7 +44,7 @@ namespace ClassicCraft
 
             Player.nextAABonus = 0;
 
-            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Program.version == Version.TBC ? 208 : 157))
+            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + BONUS_DMG)
                 * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0.1 * Player.GetTalentPoints("Impale") : 0))
                 * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                 * Player.DamageMod
@@ -67,6 +68,8 @@ namespace ClassicCraft
             RegisterDamage(new ActionResult(res, damage, threat));
 
             Player.CheckOnHits(true, true, res);
+
+            SweepingStrikesBuff.CheckProc(Player, damage, res);
         }
 
         public override string ToString()

@@ -20,6 +20,8 @@ namespace ClassicCraft
         private SunderArmor sa = null;
         private Rampage ramp = null;
         private MortalStrike ms = null;
+        private Cleave cl = null;
+        private SweepingStrikes ss = null;
 
         #region Constructors
 
@@ -154,7 +156,9 @@ namespace ClassicCraft
             bs = new BattleShout(this);
             bt = new Bloodthirst(this);
             hs = new HeroicStrike(this);
+            cl = new Cleave(this);
             if (Talents["MS"] > 0) ms = new MortalStrike(this);
+            if (Talents["SS"] > 0) ss = new SweepingStrikes(this);
 
             if (Sim.Tanking)
             {
@@ -286,7 +290,11 @@ namespace ClassicCraft
             {
                 if (Sim.Boss.LifePct > 0.2)
                 {
-                    if (bt.CanUse())
+                    if (Sim.NbTargets > 1 && ww.CanUse())
+                    {
+                        ww.Cast();
+                    }
+                    else if (bt.CanUse())
                     {
                         bt.Cast();
                     }
@@ -299,7 +307,11 @@ namespace ClassicCraft
                         ham.Cast();
                     }
 
-                    if (!MH.TwoHanded && applyAtNextAA == null && Resource >= bt.Cost + ww.Cost + hs.Cost && hs.CanUse())
+                    if (applyAtNextAA == null && Sim.NbTargets > 1 && Resource >= ww.Cost + cl.Cost && cl.CanUse())
+                    {
+                        cl.Cast();
+                    }
+                    else if (!MH.TwoHanded && applyAtNextAA == null && Resource >= bt.Cost + ww.Cost + hs.Cost && hs.CanUse())
                     {
                         hs.Cast();
                     }
@@ -335,7 +347,11 @@ namespace ClassicCraft
             }
             else if (rota == 2) //BT > REVENGE > SA + HS
             {
-                if (bt.CanUse())
+                if (Sim.NbTargets > 1 && ww.CanUse())
+                {
+                    ww.Cast();
+                }
+                else if (bt.CanUse())
                 {
                     bt.Cast();
                 }
@@ -348,7 +364,11 @@ namespace ClassicCraft
                     sa.Cast();
                 }
 
-                if (!MH.TwoHanded && applyAtNextAA == null && Resource >= bt.Cost + sa.Cost + hs.Cost && hs.CanUse())
+                if (applyAtNextAA == null && Sim.NbTargets > 1 && Resource >= ww.Cost + cl.Cost && cl.CanUse())
+                {
+                    cl.Cast();
+                }
+                else if (!MH.TwoHanded && applyAtNextAA == null && Resource >= bt.Cost + sa.Cost + hs.Cost && hs.CanUse())
                 {
                     hs.Cast();
                 }
@@ -359,7 +379,11 @@ namespace ClassicCraft
             }
             else if (rota == 3) //BT > REVENGE > BS + HS
             {
-                if (bt.CanUse())
+                if (Sim.NbTargets > 1 && ww.CanUse())
+                {
+                    ww.Cast();
+                }
+                else if (bt.CanUse())
                 {
                     bt.Cast();
                 }
@@ -372,7 +396,11 @@ namespace ClassicCraft
                     bs.Cast();
                 }
 
-                if (!MH.TwoHanded && applyAtNextAA == null && Resource >= bt.Cost + sa.Cost + hs.Cost && hs.CanUse())
+                if (applyAtNextAA == null && Sim.NbTargets > 1 && Resource >= ww.Cost + cl.Cost && cl.CanUse())
+                {
+                    cl.Cast();
+                }
+                else if (!MH.TwoHanded && applyAtNextAA == null && Resource >= bt.Cost + sa.Cost + hs.Cost && hs.CanUse())
                 {
                     hs.Cast();
                 }
@@ -384,12 +412,19 @@ namespace ClassicCraft
             // TBC
             else if (rota == 10) // RAMPAGE > BT > WW + HS + EXEC
             {
-                if (ramp != null && (!Effects.ContainsKey(RampageBuff.NAME) || Effects[RampageBuff.NAME].RemainingTime() < GCD_Hasted()) && ramp.CanUse())
+                if (ramp != null && (!Effects.ContainsKey(RampageBuff.NAME) || Effects[RampageBuff.NAME].RemainingTime() < GCD_Hasted() * 2) && ramp.CanUse())
                 {
                     ramp.Cast();
                 }
-
-                if (bt.CanUse())
+                else if(ss != null && Sim.NbTargets > 1 && ss.CanUse())
+                {
+                    ss.Cast();
+                }
+                else if (Sim.NbTargets > 1 && ww.CanUse())
+                {
+                    ww.Cast();
+                }
+                else if (bt.CanUse())
                 {
                     bt.Cast();
                 }
@@ -402,14 +437,22 @@ namespace ClassicCraft
                     exec.Cast();
                 }
 
-                if (applyAtNextAA == null && Resource >= bt.Cost + ww.Cost + hs.Cost && hs.CanUse())
+                if (applyAtNextAA == null && Sim.NbTargets > 1 && Resource >= ww.Cost + cl.Cost && cl.CanUse())
+                {
+                    cl.Cast();
+                }
+                else if (applyAtNextAA == null && Resource >= bt.Cost + ww.Cost + hs.Cost && hs.CanUse())
                 {
                     hs.Cast();
                 }
             }
             else if (rota == 11) // Slam > MS > WW + HS + Exec
             {
-                if (mh.LockedUntil - Sim.CurrentTime >= mh.CurrentSpeed() * 0.95 && slam.CanUse())
+                if (Sim.NbTargets > 1 && ww.CanUse())
+                {
+                    ww.Cast();
+                }
+                else if (mh.LockedUntil - Sim.CurrentTime >= mh.CurrentSpeed() * 0.95 && slam.CanUse())
                 {
                     slam.Cast();
                 }
@@ -426,14 +469,22 @@ namespace ClassicCraft
                     exec.Cast();
                 }
 
-                if (applyAtNextAA == null && Resource >= ms.Cost + ww.Cost + hs.Cost && hs.CanUse())
+                if (applyAtNextAA == null && Sim.NbTargets > 1 && Resource >= ww.Cost + cl.Cost && cl.CanUse())
+                {
+                    cl.Cast();
+                }
+                else if (applyAtNextAA == null && Resource >= ms.Cost + ww.Cost + hs.Cost && hs.CanUse())
                 {
                     hs.Cast();
                 }
             }
-            else if (rota == 111) // MS > WW > Ham + HS + Exec
+            else if (rota == 111) // MS > WW > HS + Exec
             {
-                if (Sim.Boss.LifePct <= 0.2 && exec.CanUse())
+                if (Sim.NbTargets > 1 && ww.CanUse())
+                {
+                    ww.Cast();
+                }
+                else if (Sim.Boss.LifePct <= 0.2 && exec.CanUse())
                 {
                     exec.Cast();
                 }
@@ -446,40 +497,17 @@ namespace ClassicCraft
                     ww.Cast();
                 }
 
-                if (applyAtNextAA == null && Resource >= ms.Cost + ww.Cost + hs.Cost && hs.CanUse())
+                if (applyAtNextAA == null && Sim.NbTargets > 1 && Resource >= ww.Cost + cl.Cost && cl.CanUse())
+                {
+                    cl.Cast();
+                }
+                else if (applyAtNextAA == null && Resource >= ms.Cost + ww.Cost + hs.Cost && hs.CanUse())
                 {
                     hs.Cast();
                 }
             }
 
             CheckAAs();
-        }
-
-        public double AvgBTDmg()
-        {
-            double res = 1;
-
-            // TODO
-
-            return res;
-        }
-
-        public double AvgWWDmg()
-        {
-            double res = 1;
-
-            // TODO
-
-            return res;
-        }
-
-        public double AvgExecDmg()
-        {
-            double res = 0;
-
-            // TODO
-
-            return res;
         }
 
         #endregion

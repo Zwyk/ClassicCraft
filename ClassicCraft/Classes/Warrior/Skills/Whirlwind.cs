@@ -23,44 +23,58 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
-
             CommonAction();
             Player.Resource -= Cost;
 
-            int minDmg = (int)Math.Round(Player.MH.DamageMin + Simulation.Normalization(Player.MH) * Player.AP / 14);
-            int maxDmg = (int)Math.Round(Player.MH.DamageMax + Simulation.Normalization(Player.MH) * Player.AP / 14);
+            int firstDamage = 0;
+            ResultType firstRes = ResultType.Hit;
 
-            int damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
-                * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0.1 * Player.GetTalentPoints("Impale") : 0))
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
-                * Player.DamageMod
-                * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
-                * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
-                * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless")) ? 1.03 : 1)
-                );
-
-            RegisterDamage(new ActionResult(res, damage));
-
-            Player.CheckOnHits(true, false, res);
-
-            if (Program.version == Version.TBC && Player.DualWielding && Player.OH != null)
+            for (int i = 1; i <= Math.Min(4, Player.Sim.NbTargets); i++)
             {
-                minDmg = (int)Math.Round(Player.MH.DamageMin + Simulation.Normalization(Player.MH) * Player.AP / 14);
-                maxDmg = (int)Math.Round(Player.MH.DamageMax + Simulation.Normalization(Player.MH) * Player.AP / 14);
+                ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
 
-                damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
+                int minDmg = (int)Math.Round(Player.MH.DamageMin + Simulation.Normalization(Player.MH) * Player.AP / 14);
+                int maxDmg = (int)Math.Round(Player.MH.DamageMax + Simulation.Normalization(Player.MH) * Player.AP / 14);
+
+                int damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
                     * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0.1 * Player.GetTalentPoints("Impale") : 0))
                     * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                     * Player.DamageMod
-                    * 0.5 * (1 + 0.05 * Player.GetTalentPoints("DWS"))
+                    * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
+                    * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
                     * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless")) ? 1.03 : 1)
                     );
 
                 RegisterDamage(new ActionResult(res, damage));
 
-                Player.CheckOnHits(false, false, res);
+                Player.CheckOnHits(true, false, res);
+
+                if(i == 1)
+                {
+                    firstDamage = damage;
+                    firstRes = res;
+                }
+
+                if (Program.version == Version.TBC && Player.DualWielding && Player.OH != null)
+                {
+                    minDmg = (int)Math.Round(Player.MH.DamageMin + Simulation.Normalization(Player.MH) * Player.AP / 14);
+                    maxDmg = (int)Math.Round(Player.MH.DamageMax + Simulation.Normalization(Player.MH) * Player.AP / 14);
+
+                    damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
+                        * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0.1 * Player.GetTalentPoints("Impale") : 0))
+                        * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
+                        * Player.DamageMod
+                        * 0.5 * (1 + 0.05 * Player.GetTalentPoints("DWS"))
+                        * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless")) ? 1.03 : 1)
+                        );
+
+                    RegisterDamage(new ActionResult(res, damage));
+
+                    Player.CheckOnHits(false, false, res);
+                }
             }
+
+            SweepingStrikesBuff.CheckProc(Player, firstDamage, firstRes);
         }
 
         public override string ToString()
