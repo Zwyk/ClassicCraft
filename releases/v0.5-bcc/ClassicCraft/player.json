@@ -2,7 +2,7 @@
   "Class": "Warrior",
   "Level": 70,
   "Race": "Orc",
-  "Talents": "32025301302010500321-0550000500521203",
+  "Talents": "32024001302-050500055050120521251",
   "Cooldowns": {
     "Racial": true,
     "Death Wish": true,
@@ -11,7 +11,7 @@
     "Juju Flurry": false,
     "Mighty Rage": false,
     "Haste Pot": true,
-    "Str Pot": false,
+    "Str Pot": false
   },
   "Buffs": [
     {
@@ -25,7 +25,7 @@
       "Name": "Test",
       "Slot": null,
       "Stats": {
-        "Hit": 0.0,
+        "Hit": 40.0,
         "Crit": 0.0,
         "AP": 0.0,
         "Haste": 0.0,
@@ -33,7 +33,8 @@
         "Sword": 0.0,
         "Axe": 0.0,
         "Agi": 0.0,
-        "Str": 0.0
+        "Str": 0.0,
+        "ArmorPen": 0.0
       }
     },
     {
@@ -143,19 +144,17 @@
       "Type": "Sword",
       "Buff": null,
       "School": null,
-      "Name": "Vind Brand",
-      "Id": 7,
+      "Name": "Blinkstrike",
+      "Id": 5,
       "Slot": "Weapon",
-      "Stats": {
-        "Hit": 19.0,
-        "AP": 38.0
-      },
+      "Stats": {},
       "Enchantment": {
         "Id": 0,
-        "Name": "Crusader",
+        "Name": "Mongoose",
         "Slot": "Weapon",
         "Stats": {}
-      }
+      },
+      "Gems": null
     },
     "OH": {
       "DamageMin": 128.0,
@@ -169,17 +168,16 @@
       "Id": 5,
       "Slot": "Weapon",
       "Stats": {
-        "AP": 21.0,
+        "Crit": 29.0,
         "Hit": 14.0
       },
       "Enchantment": {
         "Id": 0,
-        "Name": "Crusader",
+        "Name": "Mongoose",
         "Slot": "Weapon",
-        "Stats": {
-          "Str": 8.0
-        }
-      }
+        "Stats": {}
+      },
+      "Gems": null
     },
     "Ranged": {
       "DamageMin": 0.0,
@@ -189,15 +187,16 @@
       "Type": "Crossbow",
       "Buff": null,
       "School": null,
-      "Name": "Mama",
+      "Name": "Knives",
       "Id": 6,
       "Slot": "Ranged",
       "Stats": {
-        "Agi": 10.0,
-        "Crit": 6.0,
-        "AP": 32.0
+        "Hit": 10.0,
+        "Crit": 10.0,
+        "AP": 20.0
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null
     }
   },
   "Equipment": {
@@ -208,29 +207,29 @@
       "Stats": {
         "Str": 29.0,
         "Hit": 13.0,
-        "Crit": 24.0
+        "Crit": 48.0
       },
       "Enchantment": {
         "Id": 4,
-        "Name": "Gems",
+        "Name": "Cena",
         "Slot": "Head",
         "Stats": {
-          "Str": 24.0,
           "AP": 34.0,
           "Hit": 16.0
         }
-      }
+      },
+      "Gems": null
     },
     "Neck": {
-      "Name": "Traitor",
+      "Name": "Adamantine",
       "Id": 1,
       "Slot": "Neck",
       "Stats": {
-        "Crit": 18.0,
-        "Hit": 12.0,
-        "AP": 38.0
+        "Crit": 30.0,
+        "AP": 34.0
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null
     },
     "Shoulders": {
       "Name": "Ragesteel",
@@ -238,7 +237,7 @@
       "Slot": "Shoulders",
       "Stats": {
         "Str": 32.0,
-        "Crit": 17.0,
+        "Crit": 36.0,
         "Hit": 9.0
       },
       "Enchantment": {
@@ -246,20 +245,21 @@
         "Name": "Enchant",
         "Slot": "Shoulders",
         "Stats": {
-          "Str": 16.0,
-          "AP": 30.0,
-          "Crit": 10.0
+          "AP": 20.0,
+          "Crit": 15.0
         }
-      }
+      },
+      "Gems": null
     },
     "Back": {
-      "Name": "Inciter",
+      "Name": "Vengeance",
       "Id": 3,
       "Slot": "Back",
       "Stats": {
-        "Crit": 18.0,
-        "Hit": 16.0,
-        "AP": 30.0
+        "Crit": 23.0,
+        "AP": 52.0,
+        "Str": 5.0,
+        "Hit": 6.0
       },
       "Enchantment": {
         "Id": 5,
@@ -268,16 +268,16 @@
         "Stats": {
           "Agi": 12.0
         }
-      }
+      },
+      "Gems": null
     },
     "Chest": {
-      "Name": "A'dal",
+      "Name": "Ragesteel",
       "Id": 4,
       "Slot": "Chest",
       "Stats": {
-        "Str": 35.0,
-        "Crit": 25.0,
-        "Hit": 22.0
+        "Str": 50.0,
+        "Crit": 29.0
       },
       "Enchantment": {
         "Id": 6,
@@ -289,15 +289,16 @@
           "Int": 6.0,
           "Spi": 6.0
         }
-      }
+      },
+      "Gems": null
     },
     "Wrists": {
-      "Name": "General",
+      "Name": "Black felsteel",
       "Id": 5,
       "Slot": "Wrists",
       "Stats": {
-        "Str": 27.0,
-        "Crit": 14.0
+        "Str": 26.0,
+        "Crit": 22.0
       },
       "Enchantment": {
         "Id": 7,
@@ -306,7 +307,8 @@
         "Stats": {
           "Str": 12.0
         }
-      }
+      },
+      "Gems": null
     },
     "Hands": {
       "Name": "Ragesteel",
@@ -323,37 +325,38 @@
         "Stats": {
           "Str": 15.0
         }
-      }
+      },
+      "Gems": null
     },
     "Waist": {
-      "Name": "General",
+      "Name": "Deathforge",
       "Id": 7,
       "Slot": "Waist",
       "Stats": {
-        "Str": 27.0,
-        "Crit": 27.0
+        "Str": 22.0,
+        "Crit": 36.0
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null
     },
     "Legs": {
-      "Name": "Doomplate",
+      "Name": "Vanquisher",
       "Id": 8,
       "Slot": "Legs",
       "Stats": {
         "Str": 36.0,
-        "Agi": 21.0,
-        "Crit": 27.0,
-        "Hit": 17.0
+        "Crit": 47.0
       },
       "Enchantment": {
         "Id": 8,
         "Name": "Cobrahide",
         "Slot": "Hands",
         "Stats": {
-          "AP": 40.0,
-          "Crit": 10.0
+          "AP": 50.0,
+          "Crit": 12.0
         }
-      }
+      },
+      "Gems": null
     },
     "Feet": {
       "Name": "Sha'tari",
@@ -361,56 +364,60 @@
       "Slot": "Feet",
       "Stats": {
         "Str": 24.0,
-        "Agi": 21.0
+        "Agi": 21.0,
+        "Crit": 16.0
       },
       "Enchantment": {
         "Id": 8,
-        "Name": "Gems",
+        "Name": "Agi",
         "Slot": "Hands",
         "Stats": {
-          "Agi": 6.0,
-          "Str": 16.0
+          "Agi": 12.0
         }
-      }
+      },
+      "Gems": null
     },
     "Finger1": {
-      "Name": "Umbral",
+      "Name": "Shapeshifter",
       "Id": 10,
       "Slot": "Finger",
       "Stats": {
-        "Crit": 20.0,
-        "AP": 40.0
+        "Agi": 25.0,
+        "Expertise": 20.0
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null
     },
     "Finger2": {
-      "Name": "Umbral",
+      "Name": "Arathi",
       "Id": 10,
       "Slot": "Finger",
       "Stats": {
-        "Crit": 20.0,
-        "AP": 40.0
+        "Crit": 23.0,
+        "AP": 46.0
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null
     },
     "Trinket1": {
-      "Name": "Hand of Justice",
+      "Name": "Hourglass of the Unraveller",
       "Id": 12,
       "Slot": "Trinket",
       "Stats": {
-        "AP": 20.0
+        "Crit": 32.0
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null
     },
     "Trinket2": {
-      "Name": "DFT",
+      "Name": "Abacus of Violent Odds",
       "Id": 13,
       "Slot": "Trinket",
       "Stats": {
-        "AP": 56.0,
-        "Hit": 20.0
+        "AP": 64.0
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null
     }
   }
 }

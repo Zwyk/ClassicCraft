@@ -11,6 +11,8 @@ namespace ClassicCraft
         public static int BASE_COST = 30;
         public static int CD = 6;
 
+        public static int BASE_DMG = Program.version == Version.TBC ? 210 : 160;
+
         public MortalStrike(Player p)
             : base(p, CD - (Program.version == Version.TBC ? 0.2 * p.GetTalentPoints("IMS") - p.GetTalentPoints("FR") : 0), BASE_COST)
         {
@@ -28,7 +30,7 @@ namespace ClassicCraft
             int minDmg = (int)Math.Round(Player.MH.DamageMin + Simulation.Normalization(Player.MH) * Player.AP / 14);
             int maxDmg = (int)Math.Round(Player.MH.DamageMax + Simulation.Normalization(Player.MH) * Player.AP / 14);
 
-            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Program.version == Version.TBC ? 210 : 160))
+            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + BASE_DMG)
                 * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0.1 * Player.GetTalentPoints("Impale") : 0))
                 * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                 * Player.DamageMod
@@ -36,7 +38,8 @@ namespace ClassicCraft
                 * (1 + 0.01 * Player.GetTalentPoints("IMS"))
                 * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
                 * (Player.Sets["Onslaught"] >= 4 ? 1.05 : 1)
-                * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless")) ? 1.03 : 1)
+                * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
+                * (Player.Sim.Boss.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
                 );
             
             int threat = (int)Math.Round(damage * Player.ThreatMod);
@@ -44,8 +47,7 @@ namespace ClassicCraft
             CommonAction();
             if (res == ResultType.Parry || res == ResultType.Dodge)
             {
-                // TODO à vérifier
-                Player.Resource -= Cost / 2;
+                Player.Resource -= (int)(Cost * 0.2);
             }
             else
             {

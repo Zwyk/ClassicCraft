@@ -55,7 +55,7 @@ namespace ClassicCraft
             return 0;
         }
 
-        public string ToString(double armorpen = 0, double customArmor = -1)
+        public string ToString(double armorpen = 0, int customArmor = -1)
         {
             string magicResists = "";
             foreach(School s in MagicResist.Keys)
@@ -65,7 +65,7 @@ namespace ClassicCraft
                     magicResists += "[" + s.ToString() + ":" + MagicResist[s] + "]";
                 }
             }
-            return string.Format("Level {0}, {1} Armor ({2:N2}% mitigation), Magic Resists : {3}", Level, (customArmor >= 0 ? customArmor : Armor) - armorpen, (1-Simulation.ArmorMitigation(Armor, Program.version == Version.TBC ? 70 : 60, armorpen))*100, magicResists);
+            return string.Format("Level {0}, {1} Armor ({2:N2}% mitigation), Magic Resists : {3}", Level, (customArmor >= 0 ? customArmor : Armor) - armorpen, (1-Simulation.ArmorMitigation((customArmor >= 0 ? customArmor : Armor), Program.version == Version.TBC ? 70 : 60, armorpen))*100, magicResists);
         }
     }
 }

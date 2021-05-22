@@ -37,7 +37,7 @@ namespace ClassicCraft
                 * (res == ResultType.Crit ? 1 + (0.06 * Player.GetTalentPoints("Letha")) : 1)
                 * (1 + (0.01 * Player.GetTalentPoints("Murder")))
                 * Player.DamageMod
-                * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless")) ? 1.03 : 1)
+                * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
                 );
 
             CommonAction();

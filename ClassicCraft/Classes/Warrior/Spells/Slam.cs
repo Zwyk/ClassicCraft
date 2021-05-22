@@ -12,6 +12,8 @@ namespace ClassicCraft
         public static int CD = 0;
         public static double CAST_TIME = 1.5;
 
+        public static int BASE_DMG = Program.version == Version.TBC ? 140 : 87;
+
         public Slam(Player p)
             : base(p, CD, BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") : 0), false, true, School.Physical, CAST_TIME - (Program.version == Version.TBC ? 0.5 : 0.1) * p.GetTalentPoints("IS"))
         {
@@ -28,12 +30,13 @@ namespace ClassicCraft
             int minDmg = (int)Math.Round(Player.MH.DamageMin + Player.MH.Speed * Player.AP / 14);
             int maxDmg = (int)Math.Round(Player.MH.DamageMax + Player.MH.Speed * Player.AP / 14);
 
-            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Program.version == Version.TBC ? 140 : 87))
+            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + BASE_DMG)
                 * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0.1 * Player.GetTalentPoints("Impale") : 0))
                 * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                 * Player.DamageMod
                 * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
-                * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless")) ? 1.03 : 1)
+                * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
+                * (Player.Sim.Boss.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
                 );
 
             RegisterDamage(new ActionResult(res, damage));

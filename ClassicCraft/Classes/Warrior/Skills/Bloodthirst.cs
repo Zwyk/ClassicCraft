@@ -12,7 +12,7 @@ namespace ClassicCraft
         public static int CD = 6;
 
         public Bloodthirst(Player p)
-            : base(p, CD, BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") : 0)) {}
+            : base(p, CD, BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") + (p.Sets["Destroyer"] >= 4 ? 5 : 0) : 0)) {}
 
         public override void Cast()
         {
@@ -22,7 +22,7 @@ namespace ClassicCraft
         public override void DoAction()
         {
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
-            
+
             int damage = (int)Math.Round(0.45 * Player.AP
                 * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0.1 * Player.GetTalentPoints("Impale") : 0))
                 * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
@@ -30,7 +30,8 @@ namespace ClassicCraft
                 * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
                 * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
                 * (Player.Sets["Onslaught"] >= 4 ? 1.05 : 1)
-                * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless")) ? 1.03 : 1)
+                * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
+                * (Player.Sim.Boss.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
                 );
 
             int threat = (int)Math.Round(damage * Player.ThreatMod);
@@ -38,8 +39,7 @@ namespace ClassicCraft
             CommonAction();
             if(res == ResultType.Parry || res == ResultType.Dodge)
             {
-                // TODO à vérifier
-                Player.Resource -= Cost / 2;
+                Player.Resource -= (int)(Cost * 0.2);
             }
             else
             {

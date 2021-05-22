@@ -154,11 +154,12 @@ namespace ClassicCraft
 
             br = new Bloodrage(this);
             bs = new BattleShout(this);
-            bt = new Bloodthirst(this);
             hs = new HeroicStrike(this);
             cl = new Cleave(this);
+            if (Talents["BT"] > 0) bt = new Bloodthirst(this);
             if (Talents["MS"] > 0) ms = new MortalStrike(this);
-            if (Talents["SS"] > 0) ss = new SweepingStrikes(this);
+            if (GetTalentPoints("SS") > 0) ss = new SweepingStrikes(this);
+            if (Talents["IS"] > 0) slam = new Slam(this);
 
             if (Sim.Tanking)
             {
@@ -170,11 +171,6 @@ namespace ClassicCraft
                 ham = new Hamstring(this);
                 ww = new Whirlwind(this);
                 exec = new Execute(this);
-
-                if (GetTalentPoints("IS") > 0)
-                {
-                    slam = new Slam(this);
-                }
 
                 if (Program.version == Version.TBC && Talents["Rampage"] > 0)
                 {
@@ -207,9 +203,10 @@ namespace ClassicCraft
                     }
                 }
             }
-
+            
             if (Program.version == Version.TBC)
             {
+                /*
                 if (Sim.Tanking)                                    // Tank
                 {
                     rota = 12;   // Fury Tank
@@ -236,6 +233,23 @@ namespace ClassicCraft
                         rota = 111; // Arms no slam
                     }
                 }
+                */
+
+                rota = Tanking ? 21 : 20;
+                Spells = new List<Action>();
+                if (bt != null) Spells.Add(bt);
+                if (ms != null) Spells.Add(ms);
+                if (slam != null) Spells.Add(slam);
+                if(Tanking)
+                {
+                    Spells.Add(sa);
+                    Spells.Add(rev);
+                }
+                else
+                {
+                    Spells.Add(ww);
+                    Spells.Add(exec);
+                }
             }
             else
             {
@@ -253,6 +267,8 @@ namespace ClassicCraft
                     rota = 0;   // Fury
                 }
             }
+
+            Program.Log("relentless : " + Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")));
         }
 
         public override void Rota()
@@ -410,27 +426,24 @@ namespace ClassicCraft
                 }
             }
             // TBC
-            else if (rota == 10) // RAMPAGE > BT > WW + HS + EXEC
+            else if (rota == 10) // RAMPAGE > WW > BT > EXEC > HS
             {
+                if (ss != null && Sim.NbTargets > 1 && ss.CanUse())
+                {
+                    ss.Cast();
+                }
+
                 if (ramp != null && (!Effects.ContainsKey(RampageBuff.NAME) || Effects[RampageBuff.NAME].RemainingTime() < GCD_Hasted() * 2) && ramp.CanUse())
                 {
                     ramp.Cast();
                 }
-                else if(ss != null && Sim.NbTargets > 1 && ss.CanUse())
-                {
-                    ss.Cast();
-                }
-                else if (Sim.NbTargets > 1 && ww.CanUse())
+                else if (ww.CanUse())
                 {
                     ww.Cast();
                 }
                 else if (bt.CanUse())
                 {
                     bt.Cast();
-                }
-                else if (ww.CanUse() && bt.RemainingCD() >= GCD_Hasted() / 2)
-                {
-                    ww.Cast();
                 }
                 else if (Sim.Boss.LifePct <= 0.2 && exec.CanUse())
                 {
@@ -448,6 +461,12 @@ namespace ClassicCraft
             }
             else if (rota == 11) // Slam > MS > WW + HS + Exec
             {
+                if (ss != null && Sim.NbTargets > 1 && ss.CanUse())
+                {
+                    ss.Cast();
+                }
+
+
                 if (Sim.NbTargets > 1 && ww.CanUse())
                 {
                     ww.Cast();
@@ -480,6 +499,11 @@ namespace ClassicCraft
             }
             else if (rota == 111) // MS > WW > HS + Exec
             {
+                if (ss != null && Sim.NbTargets > 1 && ss.CanUse())
+                {
+                    ss.Cast();
+                }
+
                 if (Sim.NbTargets > 1 && ww.CanUse())
                 {
                     ww.Cast();
@@ -506,11 +530,130 @@ namespace ClassicCraft
                     hs.Cast();
                 }
             }
+            // AUTO BY DPR
+            else if (rota == 20)
+            {
+                if (HasGCD() && 
+                    (DPRAtAP != AP || (Sim.Boss.LifePct <= 0.2 && DPRAtRage != Resource)))
+                {
+                    CalcDPR();
+                }
+
+                if (ss != null && Sim.NbTargets > 1 && ss.CanUse())
+                {
+                    ss.Cast();
+                }
+
+                if(HasGCD())
+                {
+                    if (ramp != null && (!Effects.ContainsKey(RampageBuff.NAME) || Effects[RampageBuff.NAME].RemainingTime() < GCD_Hasted() * 2) && ramp.CanUse())
+                    {
+                        ramp.Cast();
+                    }
+                    else
+                    {
+                        foreach (KeyValuePair<Action, double> a in SpellsDPR)
+                        {
+                            if (a.Key.CanUse())
+                            {
+                                a.Key.Cast();
+                            }
+                        }
+                    }
+                }
+
+                if (applyAtNextAA == null && Sim.NbTargets > 1 && Resource >= ww.Cost + cl.Cost && cl.CanUse())
+                {
+                    cl.Cast();
+                }
+                else if (applyAtNextAA == null && Resource >= (bt != null ? bt.Cost : 0) + (ms != null ? bt.Cost : 0) + (slam != null ? slam.Cost : 0) + ww.Cost + hs.Cost && hs.CanUse())
+                {
+                    hs.Cast();
+                }
+            }
 
             CheckAAs();
         }
 
         #endregion
+
+        public List<Action> Spells;
+        public List<KeyValuePair<Action, double>> SpellsDPR;
+        int DPRAtRage = -1;
+        double DPRAtAP = -1;
+
+        // TODO : SweepingStrikes
+        public void CalcDPR()
+        {
+            SpellsDPR = new List<KeyValuePair<Action, double>>();
+            DPRAtRage = Resource;
+            DPRAtAP = AP;
+            double aaDmg = AvgAADmg();
+            double aaRage = AvgAARage(aaDmg);
+
+            foreach (Action a in Spells)
+            {
+                if (a is Bloodthirst)
+                {
+                    SpellsDPR.Add(new KeyValuePair<Action, double>(a,
+                    0.45 * AP
+                    / bt.Cost));
+                }
+                else if (a is Whirlwind)
+                {
+                    SpellsDPR.Add(new KeyValuePair<Action, double>(a,
+                    ((MH.DamageMin + MH.DamageMax) / 2 + Simulation.Normalization(MH) * AP / 14
+                        + (Program.version == Version.Vanilla ? 0 : ((OH.DamageMin + OH.DamageMax) / 2 + Simulation.Normalization(OH) * AP / 14) * 0.5 * (1 + 0.05 * GetTalentPoints("DWS"))))
+                    * Math.Min(4, Sim.NbTargets)
+                    / ww.Cost));
+                }
+                else if (a is MortalStrike)
+                {
+                    SpellsDPR.Add(new KeyValuePair<Action, double>(a,
+                    ((MH.DamageMin + MH.DamageMax) / 2 + Simulation.Normalization(MH) * AP / 14 + MortalStrike.BASE_DMG)
+                    / ms.Cost));
+                }
+                else if (a is Execute && Sim.Boss.LifePct <= 0.2)
+                {
+                    SpellsDPR.Add(new KeyValuePair<Action, double>(a,
+                    (Execute.BASE_DMG + Execute.DMG_BY_RAGE * (Resource - exec.Cost))
+                    / (double)Resource));
+                }
+                else if (a is HeroicStrike)
+                {
+                    SpellsDPR.Add(new KeyValuePair<Action, double>(a,
+                    (((MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + HeroicStrike.BONUS_DMG) - aaDmg)
+                    / (hs.Cost + aaRage)));
+                }
+                else if (a is Cleave)
+                {
+                    SpellsDPR.Add(new KeyValuePair<Action, double>(a,
+                    ((MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + HeroicStrike.BONUS_DMG - aaDmg)
+                    * Math.Min(2, Sim.NbTargets)
+                    / (hs.Cost + aaRage)));
+                }
+                else if (a is Slam)
+                {
+                    SpellsDPR.Add(new KeyValuePair<Action, double>(a,
+                    ((MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + Slam.BASE_DMG - slam.CastTime/MH.Speed*aaDmg)
+                    / (slam.Cost + slam.CastTime / MH.Speed*aaRage)));
+                }
+                // TODO : Prot spells
+            }
+
+            SpellsDPR.Sort((x,y) => y.Value.CompareTo(x.Value));
+        }
+
+        public double AvgAADmg()
+        {
+            return (MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14
+                * 0.8; // TODO : properly mitigate using dmg lost from glancing blows (+ crit% lost)
+        }
+
+        public double AvgAARage(double avgDmg)
+        {
+            return Simulation.RageGained(avgDmg, Level, true, false, MH.Speed);
+        }
 
         public double AngerManagementTick { get; set; }
 

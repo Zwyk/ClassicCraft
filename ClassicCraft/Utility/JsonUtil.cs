@@ -31,7 +31,6 @@ namespace ClassicCraft
 
             public static Item ToItem(JsonItem ji)
             {
-                // TODO : Item Effect from ID/Name
                 if (ji == null) return null;
                 else
                 {
@@ -116,7 +115,6 @@ namespace ClassicCraft
 
             public static Weapon ToWeapon(JsonWeapon jw)
             {
-                // TODO : Item Effect from ID/Name
                 if (jw == null) return null;
                 else
                 {
@@ -228,8 +226,6 @@ namespace ClassicCraft
 
         public class JsonPlayer
         {
-            // TODO LATER Spells level
-
             public string Class { get; set; }
             public int Level { get; set; }
             public string Race { get; set; }
@@ -253,6 +249,7 @@ namespace ClassicCraft
 
             public static Player ToPlayer(JsonPlayer jp, bool tanking = false)
             {
+
                 List<Enchantment> buffs = new List<Enchantment>();
                 if(jp.Buffs != null)
                 {
@@ -275,8 +272,13 @@ namespace ClassicCraft
                         }
                     }
                 }
+                JsonEnchantment headGems = jp.Equipment["Head"].Gems;
+                if (headGems != null)
+                {
+                    buffs.Add(new Enchantment(0, headGems.Name, null));
+                }
 
-                bool windfurytotem = jp.Buffs != null && jp.Buffs.Any(b => b.Name.ToLower().Contains("windfury totem"));
+                bool windfurytotem = jp.Buffs != null && jp.Buffs.Any(b => b.Name.ToLower().Equals("windfury totem"));
                 List<string> cooldowns = jp.Cooldowns.Where(v => v.Value == true).Select(c => c.Key).ToList();
                 
                 switch(Player.ToClass(jp.Class))
@@ -358,10 +360,10 @@ namespace ClassicCraft
             public int Level { get; set; }
             public string Type { get; set; }
             public int Armor { get; set; }
-            public List<string> Debuffs { get; set; }
+            public Dictionary<string, bool> Debuffs { get; set; }
             public Dictionary<string, int> SchoolResists { get; set; }
 
-            public JsonBoss(int level = 63, string type = "Humanoid", int armor = 4400, Dictionary<string, int> schoolResists = null, List<string> debuffs = null)
+            public JsonBoss(int level = 63, string type = "Humanoid", int armor = 4400, Dictionary<string, int> schoolResists = null, Dictionary<string, bool> debuffs = null)
             {
                 Level = level;
                 Type = type;
@@ -384,21 +386,22 @@ namespace ClassicCraft
                     }
                 }
 
-                List<string> debuffsList = jb.Debuffs;
+                Dictionary<string, bool> debuffsList = jb.Debuffs;
                 Dictionary<string, Effect> debuffs = null;
 
                 if (debuffsList != null && debuffsList.Count > 0)
                 {
-                    armor -= (debuffsList.Any(d => d.ToLower().Contains("expose armor")) ? Program.version == Version.TBC ? 3075 : 2550 : 
-                                (debuffsList.Any(d => d.ToLower().Contains("sunder armor")) ? Program.version == Version.TBC ? 2600 : 2250 : 0))
-                        + (debuffsList.Any(d => d.ToLower().Contains("curse of recklessness")) ? Program.version == Version.TBC ? 800 : 640 : 0)
-                        + (debuffsList.Any(d => d.ToLower().Contains("faerie fire")) ? Program.version == Version.TBC ? 610 : 505 : 0)
-                        + (debuffsList.Any(d => d.ToLower().Contains("annihilator")) ? 600 : 0);
+                    if (debuffsList["Improved Expose Armor"]) armor -= Program.version == Version.TBC ? 3075 : 2550;
+                    else if (debuffsList["Expose Armor"]) armor -= Program.version == Version.TBC ? 2050 : 1700;
+                    else if (debuffsList["Sunder Armor"]) armor -= Program.version == Version.TBC ? 2600 : 2250;
+                    if (debuffsList["Curse of Recklessness"]) armor -= Program.version == Version.TBC ? 800 : 640;
+                    if (debuffsList["Faerie Fire"]) armor -= Program.version == Version.TBC ? 610 : 505;
+                    if (debuffsList["Annihilator"]) armor -= 600;
 
                     debuffs = new Dictionary<string, Effect>();
-                    foreach (string s in debuffsList)
+                    foreach (string s in debuffsList.Keys)
                     {
-                        debuffs.Add(s, new CustomEffect(null, null, s, false, -1));
+                        if(debuffsList[s]) debuffs.Add(s, new CustomEffect(null, null, s, false, -1));
                     }
                 }
 

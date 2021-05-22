@@ -32,8 +32,7 @@ namespace ClassicCraft
             CommonAction();
             if (res == ResultType.Parry || res == ResultType.Dodge)
             {
-                // TODO à vérifier
-                Player.Resource -= Cost / 2;
+                Player.Resource -= (int)(Cost * 0.2);
             }
             else
             {

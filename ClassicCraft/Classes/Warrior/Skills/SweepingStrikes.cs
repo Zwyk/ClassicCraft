@@ -15,7 +15,7 @@ namespace ClassicCraft
         public static int CD = 30;
 
         public SweepingStrikes(Player p)
-            : base(p, CD, BASE_COST, true)
+            : base(p, CD, BASE_COST, false)
         {
         }
 

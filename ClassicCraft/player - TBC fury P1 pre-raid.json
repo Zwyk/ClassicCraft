@@ -2,101 +2,33 @@
   "Class": "Warrior",
   "Level": 70,
   "Race": "Orc",
-  "Talents": "32003301352010500221-0550000500521203",
+  "Talents": "32024001302-050500055050120521251",
   "Cooldowns": {
     "Racial": true,
     "Death Wish": true,
-    "Bloodlust": true,
     "Recklessness": false,
-    "Juju Flurry": false,
+    "Bloodlust": true,
     "Mighty Rage": false,
-    "Haste Pot": true,
-    "Str Pot": false,
+    "Haste Potion": true,
+    "Insane Strength Potion": false
   },
   "Buffs": [
-    {
-      "Id": 0,
-      "Name": "Windfury Totem",
-      "Slot": null,
-      "Stats": {}
-    },
     {
       "Id": 0,
       "Name": "Test",
       "Slot": null,
       "Stats": {
+        "Str": 0.0,
+        "Agi": 0.0,
         "Hit": 0.0,
         "Crit": 0.0,
         "AP": 0.0,
         "Haste": 0.0,
-        "Dagger": 0.0,
-        "Sword": 0.0,
-        "Axe": 0.0,
-        "Agi": 0.0,
-        "Str": 0.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Battle Shout",
-      "Slot": null,
-      "Stats": {
-        "AP": 381.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Totem STR",
-      "Slot": null,
-      "Stats": {
-        "Str": 99.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Benediction of Might",
-      "Slot": null,
-      "Stats": {
-        "AP": 264.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "blessing of kings",
-      "Slot": null,
-      "Stats": {}
-    },
-    {
-      "Id": 0,
-      "Name": "Expose Weakness",
-      "Slot": null,
-      "Stats": {
-        "AP": 200.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Trueshot Aura",
-      "Slot": null,
-      "Stats": {
-        "AP": 125.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Mark of the Wild",
-      "Slot": null,
-      "Stats": {
-        "Agi": 19.0,
-        "Str": 19.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Food",
-      "Slot": null,
-      "Stats": {
-        "Str": 20.0
+        "ArmorPen": 0.0,
+        "Expertise": 0.0,
+        "WDmg": 0.0,
+        "WDmgMH": 0.0,
+        "WDmgOH": 0.0
       }
     },
     {
@@ -109,28 +41,77 @@
     },
     {
       "Id": 0,
-      "Name": "Drums",
+      "Name": "Food",
+      "Slot": null,
+      "Stats": {
+        "Str": 20.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Battle Shout",
+      "Slot": null,
+      "Stats": {
+        "AP": 381.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Benediction of Might",
+      "Slot": null,
+      "Stats": {
+        "AP": 264.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Blessing of Kings",
       "Slot": null,
       "Stats": {}
     },
     {
       "Id": 0,
-      "Name": "Seal of the Crusader",
+      "Name": "Mark of the Wild",
+      "Slot": null,
+      "Stats": {
+        "Agi": 19.0,
+        "Str": 19.0,
+        "Int": 19.0,
+        "Spi": 19.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Totem STR",
+      "Slot": null,
+      "Stats": {
+        "Str": 98.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Windfury Totem",
       "Slot": null,
       "Stats": {}
     },
     {
       "Id": 0,
-      "Name": "Blood Frenzy",
+      "Name": "Drums of Battle",
       "Slot": null,
       "Stats": {}
-    }
+    },
+    {
+      "Id": 0,
+      "Name": "null",
+      "Slot": null,
+      "Stats": {}
+    },
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 365.0,
-      "DamageMax": 549.0,
-      "Speed": 3.6,
+      "DamageMin": 172.0,
+      "DamageMax": 320.0,
+      "Speed": 2.7,
       "TwoHanded": false,
       "Type": "Mace",
       "Buff": null,
@@ -138,9 +119,29 @@
       "Name": "Dragonmaw",
       "Id": 7,
       "Slot": "Weapon",
+      "Stats": {},
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Mongoose",
+        "Slot": "Weapon",
+        "Stats": {}
+      }
+    },
+    "OH": {
+      "DamageMin": 128.0,
+      "DamageMax": 239.0,
+      "Speed": 2.2,
+      "TwoHanded": false,
+      "Type": "Axe",
+      "Buff": null,
+      "School": null,
+      "Name": "Fel Edged",
+      "Id": 5,
+      "Slot": "Weapon",
       "Stats": {
-        "Str": 52,
-        "Agi": 44
+        "Crit": 21.0,
+        "Hit": 18.0,
+        "Str": 5.0
       },
       "Enchantment": {
         "Id": 0,
@@ -157,30 +158,30 @@
       "Type": "Crossbow",
       "Buff": null,
       "School": null,
-      "Name": "Mama",
+      "Name": "Knives",
       "Id": 6,
       "Slot": "Ranged",
       "Stats": {
-        "Crit": 20.0,
-        "Hit": 12.0
+        "Hit": 10.0,
+        "Crit": 10.0,
+        "AP": 20.0
       },
       "Enchantment": null
     }
   },
   "Equipment": {
     "Head": {
-      "Name": "Warbringer",
+      "Name": "Second Sight",
       "Id": 0,
       "Slot": "Head",
       "Stats": {
-        "Str": 50.0,
-        "Crit": 28.0,
-        "Hit": 18.0,
-        "AP": 24.0
+        "Str": 29.0,
+        "Hit": 13.0,
+        "Crit": 48.0
       },
       "Enchantment": {
         "Id": 4,
-        "Name": "Gems",
+        "Name": "Cena",
         "Slot": "Head",
         "Stats": {
           "AP": 34.0,
@@ -189,7 +190,7 @@
       }
     },
     "Neck": {
-      "Name": "Traitor",
+      "Name": "Adamantine",
       "Id": 1,
       "Slot": "Neck",
       "Stats": {
@@ -199,14 +200,13 @@
       "Enchantment": null
     },
     "Shoulders": {
-      "Name": "Warbringer",
+      "Name": "Ragesteel",
       "Id": 2,
       "Slot": "Shoulders",
       "Stats": {
-        "Str": 40.0,
-        "Agi": 22.0,
-        "Hit": 13.0,
-        "Crit": 9.0
+        "Str": 32.0,
+        "Crit": 36.0,
+        "Hit": 9.0
       },
       "Enchantment": {
         "Id": 4,
@@ -219,14 +219,14 @@
       }
     },
     "Back": {
-      "Name": "Inciter",
+      "Name": "Vengeance",
       "Id": 3,
       "Slot": "Back",
       "Stats": {
-        "Crit": 27.0,
+        "Crit": 23.0,
         "AP": 52.0,
-        "Hit": 2.0,
-        "Str": 5.0
+        "Str": 5.0,
+        "Hit": 6.0
       },
       "Enchantment": {
         "Id": 5,
@@ -238,12 +238,12 @@
       }
     },
     "Chest": {
-      "Name": "Warbringer",
+      "Name": "Ragesteel",
       "Id": 4,
       "Slot": "Chest",
       "Stats": {
-        "Str": 59.0,
-        "Crit": 38.0
+        "Str": 50.0,
+        "Crit": 29.0
       },
       "Enchantment": {
         "Id": 6,
@@ -258,12 +258,12 @@
       }
     },
     "Wrists": {
-      "Name": "General",
+      "Name": "Black felsteel",
       "Id": 5,
       "Slot": "Wrists",
       "Stats": {
-        "Str": 25.0,
-        "Crit": 33.0
+        "Str": 26.0,
+        "Crit": 22.0
       },
       "Enchantment": {
         "Id": 7,
@@ -275,13 +275,12 @@
       }
     },
     "Hands": {
-      "Name": "Liar",
+      "Name": "Ragesteel",
       "Id": 6,
       "Slot": "Hands",
       "Stats": {
-        "Str": 25.0,
-        "Crit": 34.0,
-        "AP": 72.0
+        "Str": 35.0,
+        "Crit": 27.0
       },
       "Enchantment": {
         "Id": 8,
@@ -293,24 +292,22 @@
       }
     },
     "Waist": {
-      "Name": "General",
+      "Name": "Deathforge",
       "Id": 7,
       "Slot": "Waist",
       "Stats": {
-        "Str": 44.0,
+        "Str": 22.0,
         "Crit": 36.0
       },
       "Enchantment": null
     },
     "Legs": {
-      "Name": "Doomplate",
+      "Name": "Vanquisher",
       "Id": 8,
       "Slot": "Legs",
       "Stats": {
-        "Str": 15.0,
-        "Crit": 39.0,
-        "Hit": 17.0,
-        "AP": 64.0
+        "Str": 36.0,
+        "Crit": 47.0
       },
       "Enchantment": {
         "Id": 8,
@@ -327,14 +324,13 @@
       "Id": 9,
       "Slot": "Feet",
       "Stats": {
-        "Str": 10.0,
-        "Crit": 25.0,
-        "Hit": 25.0,
-        "AP": 42.0
+        "Str": 24.0,
+        "Agi": 21.0,
+        "Crit": 16.0
       },
       "Enchantment": {
         "Id": 8,
-        "Name": "Feet agi",
+        "Name": "Agi",
         "Slot": "Hands",
         "Stats": {
           "Agi": 12.0
@@ -342,24 +338,22 @@
       }
     },
     "Finger1": {
-      "Name": "Umbral",
+      "Name": "Shapeshifter",
       "Id": 10,
       "Slot": "Finger",
       "Stats": {
-        "Crit": 23.0,
-        "AP": 44.0,
-        "Hit": 19.0
+        "Agi": 25.0,
+        "Expertise": 20.0
       },
       "Enchantment": null
     },
     "Finger2": {
-      "Name": "Umbral",
+      "Name": "Arathi",
       "Id": 10,
       "Slot": "Finger",
       "Stats": {
-        "Crit": 20.0,
-        "AP": 40.0,
-        "Hit": 19.0
+        "Crit": 23.0,
+        "AP": 46.0
       },
       "Enchantment": null
     },

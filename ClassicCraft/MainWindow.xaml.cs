@@ -105,14 +105,20 @@ namespace ClassicCraftGUI
             {
                 if(noDB)
                 {
+                    /*
                     SaveSimConfig();
                     Program.LoadConfigJsons();
+                    sim = Program.jsonSim;
                     player = Program.jsonPlayer;
+                    LoadSimConfig();
                     LoadPlayer();
+                    */
                 }
 
-                SavePlayer();
-                SaveSimConfig();
+                UpdatePlayer();
+                player = Program.jsonPlayer;
+                UpdateSimConfig();
+                sim = Program.jsonSim;
 
                 NewConsole();
 
@@ -131,6 +137,13 @@ namespace ClassicCraftGUI
         }
 
         #region Sim config
+        
+        private void LoadSimConfigClick(object sender, RoutedEventArgs e)
+        {
+            Program.LoadConfigJsons(false, true);
+            sim = Program.jsonSim;
+            LoadSimConfig();
+        }
 
         public void LoadSimConfig()
         {
@@ -140,7 +153,8 @@ namespace ClassicCraftGUI
             NbSim.Text = sim.NbSim.ToString();
             StatsWeights.SelectedIndex = sim.StatsWeights ? 0 : 1;
             FightLength.Text = sim.FightLength.ToString();
-            FightLengthVariation.Text = sim.FightLengthMod.ToString();
+            FightLengthVariation.Text = (sim.FightLengthMod*100).ToString();
+            NbTargets.Text = sim.NbTargets.ToString();
             BossLevel.Text = sim.Boss.Level.ToString();
             BossLifeMode.SelectedIndex = sim.BossAutoLife ? 0 : 1;
             BossLowLifeTime.Text = sim.BossLowLifeTime.ToString();
@@ -156,10 +170,22 @@ namespace ClassicCraftGUI
 
         private void SaveSimConfigClick(object sender, RoutedEventArgs e)
         {
+            UpdateAndSaveSimConfig();
+        }
+
+        private void UpdateAndSaveSimConfig()
+        {
+            UpdateSimConfig();
             SaveSimConfig();
         }
 
         private void SaveSimConfig()
+        {
+            Program.jsonSim = sim;
+            Program.SaveJsons(false, true);
+        }
+
+        private void UpdateSimConfig()
         {
             sim.LogFight = LogFight.SelectedIndex == 1;
             sim.TargetError = TargetError.SelectedIndex != 0;
@@ -167,7 +193,7 @@ namespace ClassicCraftGUI
             sim.NbSim = int.Parse(NbSim.Text);
             sim.StatsWeights = StatsWeights.SelectedIndex == 0;
             sim.FightLength = double.Parse(FightLength.Text);
-            sim.FightLengthMod = double.Parse(FightLengthVariation.Text);
+            sim.FightLengthMod = double.Parse(FightLengthVariation.Text)/100;
             sim.NbTargets = int.Parse(NbTargets.Text);
             sim.Boss.Level = int.Parse(BossLevel.Text);
             sim.BossAutoLife = BossLifeMode.SelectedIndex == 0;
@@ -192,14 +218,18 @@ namespace ClassicCraftGUI
             sim.TankHitRage = double.Parse(TankingRage.Text);
             sim.UnlimitedMana = UnlimitedMana.IsChecked == true;
             sim.UnlimitedResource = UnlimitedResource.IsChecked == true;
-
-            Program.jsonSim = sim;
-            Program.SaveJsons(false, true);
         }
 
         #endregion
 
         #region Player
+
+        private void LoadPlayerClick(object sender, RoutedEventArgs e)
+        {
+            Program.LoadConfigJsons(true, false);
+            player = Program.jsonPlayer;
+            LoadPlayer();
+        }
 
         public void LoadPlayer()
         {
@@ -237,18 +267,27 @@ namespace ClassicCraftGUI
 
         private void SavePlayerClick(object sender, RoutedEventArgs e)
         {
+            UpdateAndSavePlayer();
+        }
+
+        private void UpdateAndSavePlayer()
+        {
+            UpdatePlayer();
             SavePlayer();
         }
 
         private void SavePlayer()
         {
+            Program.jsonPlayer = player;
+            Program.SaveJsons(true, false);
+        }
+
+        private void UpdatePlayer()
+        {
             player.Level = int.Parse(Level.Text);
             player.Race = Race.Text;
             player.Class = Class.Text;
             player.Talents = Talents.Text;
-            
-            Program.jsonPlayer = player;
-            Program.SaveJsons(true, false);
         }
 
         #endregion
@@ -1889,7 +1928,7 @@ namespace ClassicCraftGUI
             if (TargetError != null && NbSim != null)
             {
                 TargetError.IsEnabled = LogFight.SelectedIndex == 0;
-                TargetError.SelectedIndex = TargetError.IsEnabled ? 2 : 0;
+                TargetError.SelectedIndex = TargetError.IsEnabled ? 1 : 0;
                 StatsWeights.SelectedIndex = 1;
                 StatsWeights.IsEnabled = LogFight.SelectedIndex == 0;
             }
@@ -1913,6 +1952,7 @@ namespace ClassicCraftGUI
             }
         }
 
+        /*
         private void CheckBoxDebuffsMagical_Changed(object sender, RoutedEventArgs e)
         {
             CheckAllChildrenCheckboxes(MagicalDebuffs, CheckBoxDebuffsMagical.IsChecked == true);
@@ -1987,6 +2027,7 @@ namespace ClassicCraftGUI
                 CheckParentCheckbox(CheckBoxConsumables, ((CheckBox)sender).IsChecked);
             }
         }
+        */
 
         private void StatsAdd_Click(object sender, RoutedEventArgs e)
         {

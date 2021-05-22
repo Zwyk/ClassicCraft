@@ -8,7 +8,6 @@
     "Death Wish": true,
     "Bloodlust": true,
     "Recklessness": false,
-    "Juju Flurry": false,
     "Mighty Rage": false,
     "Haste Pot": true,
     "Str Pot": false,
@@ -16,15 +15,20 @@
   "Buffs": [
     {
       "Id": 0,
-      "Name": "Windfury Totem",
-      "Slot": null,
-      "Stats": {}
-    },
-    {
-      "Id": 0,
       "Name": "Test",
       "Slot": null,
-      "Stats": {}
+      "Stats": {
+        "Hit": 0.0,
+        "Crit": 0.0,
+        "AP": 0.0,
+        "Haste": 0.0,
+        "Dagger": 0.0,
+        "Sword": 0.0,
+        "Axe": 0.0,
+        "Agi": 0.0,
+        "Str": 0.0,
+        "ArmorPen": 0.0
+      }
     },
     {
       "Id": 0,
@@ -33,6 +37,12 @@
       "Stats": {
         "AP": 381.0
       }
+    },
+    {
+      "Id": 0,
+      "Name": "Windfury Totem",
+      "Slot": null,
+      "Stats": {}
     },
     {
       "Id": 0,
@@ -52,33 +62,13 @@
     },
     {
       "Id": 0,
-      "Name": "blessing of kings",
-      "Slot": null,
-      "Stats": {}
-    },
-    {
-      "Id": 0,
-      "Name": "Expose Weakness",
-      "Slot": null,
-      "Stats": {
-        "AP": 200.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Trueshot Aura",
-      "Slot": null,
-      "Stats": {
-        "AP": 125.0
-      }
-    },
-    {
-      "Id": 0,
       "Name": "Mark of the Wild",
       "Slot": null,
       "Stats": {
         "Agi": 19.0,
-        "Str": 19.0
+        "Str": 19.0,
+        "Int": 19.0,
+        "Spi": 19.0
       }
     },
     {
@@ -99,21 +89,29 @@
     },
     {
       "Id": 0,
-      "Name": "Drums",
+      "Name": "Blessing of Kings",
       "Slot": null,
       "Stats": {}
     },
     {
       "Id": 0,
-      "Name": "Seal of the Crusader",
+      "Name": "Unleashed Rage",
       "Slot": null,
       "Stats": {}
     },
     {
       "Id": 0,
-      "Name": "Blood Frenzy",
+      "Name": "Drums of Battle",
       "Slot": null,
       "Stats": {}
+    },
+    {
+      "Id": 0,
+      "Name": "Expose Weakness",
+      "Slot": null,
+      "Stats": {
+        "AP": 200.0
+      }
     }
   ],
   "Weapons": {

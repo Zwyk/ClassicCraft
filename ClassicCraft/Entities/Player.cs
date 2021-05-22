@@ -211,13 +211,13 @@ namespace ClassicCraft
         {
             return 1
                 * (p.Class == Classes.Druid ? (1 + 0.04 * p.GetTalentPoints("HW")) : 1)
-                * (p.Buffs.Any(b => b.Name.ToLower().Contains("blessing of kings")) ? 1.1 : 1);
+                * (p.Buffs.Any(b => b.Name.ToLower().Equals("blessing of kings")) ? 1.1 : 1);
         }
 
         public static double BonusAgiToCritRatio(Player p)
         {
             return 1
-                * (p.Buffs.Any(b => b.Name.ToLower().Contains("blessing of kings")) ? 1.1 : 1)
+                * (p.Buffs.Any(b => b.Name.ToLower().Equals("blessing of kings")) ? 1.1 : 1)
                 ;
         }
 
@@ -273,9 +273,7 @@ namespace ClassicCraft
 
         public static Attributes BaseAttributes(Classes c, Races r, int level = 60)
         {
-            // TODO : by level
-            // TODO : TBC
-            // TODO : BF/Dra
+            // TODO : by level, TBC, BF/Dra
 
             Attributes res = new Attributes();
 
@@ -805,7 +803,6 @@ namespace ClassicCraft
             { Attribute.SpellHitChance, 12.62 },
             { Attribute.SpellCritChance, 22.08 },
             { Attribute.Haste, 15.77 },
-            { Attribute.ArmorPen, 5.92 },
             // { Attribute.Defense, 2.37 },
             // { Attribute.Dodge, 18.92 },
             // { Attribute.Parry, 23.65 },
@@ -1149,30 +1146,7 @@ namespace ClassicCraft
             WeaponSkill = new Dictionary<Weapon.WeaponType, int>();
             foreach (Weapon.WeaponType type in (Weapon.WeaponType[])Enum.GetValues(typeof(Weapon.WeaponType)))
             {
-                int skill = baseSkill;
-
-                // TODO : deprecated ?
-                if(Program.version == Version.Vanilla)
-                {
-                    if (Race == Races.Orc && type == Weapon.WeaponType.Axe)
-                    {
-                        skill += 5;
-                    }
-                    else if (Race == Races.Human && (type == Weapon.WeaponType.Mace || type == Weapon.WeaponType.Sword))
-                    {
-                        skill += 5;
-                    }
-                    else if (Race == Races.Troll && (type == Weapon.WeaponType.Bow || type == Weapon.WeaponType.Throwable))
-                    {
-                        skill += 5;
-                    }
-                    else if (Race == Races.Dwarf && type == Weapon.WeaponType.Gun)
-                    {
-                        skill += 5;
-                    }
-                }
-
-                WeaponSkill[type] = skill;
+                WeaponSkill[type] = baseSkill;
             }
 
             if(items == null)
@@ -1217,15 +1191,19 @@ namespace ClassicCraft
                 switch (s)
                 {
                     case "Bloodlust": cds.Add(new ActiveItemBuff(this, 600, 40, "Bloodlust", new Dictionary<Attribute, double>() { { Attribute.Haste, 0.3 } }), 40); break;
-                    case "Haste Pot": cds.Add(new ActiveItemBuff(this, 120, 15, "Haste Pot", new Dictionary<Attribute, double>() { { Attribute.Haste, 400 / RatingRatios[Attribute.Haste] / 100 } }), 15); break;
-                    case "Str Pot": cds.Add(new ActiveItemBuff(this, 120, 15, "Str Pot", new Dictionary<Attribute, double>() { { Attribute.Haste, 120 } }), 15); break;
+                    case "Haste Potion": cds.Add(new ActiveItemBuff(this, 120, 15, "Haste Pot", new Dictionary<Attribute, double>() { { Attribute.Haste, 400 / RatingRatios[Attribute.Haste] / 100 } }), 15); break;
+                    case "Insane Strength Potion": cds.Add(new ActiveItemBuff(this, 120, 15, "Str Pot", new Dictionary<Attribute, double>() { { Attribute.Haste, 120 } }), 15); break;
                     default: break;
                 }
             }
 
-            if (Buffs.Any(b => b.Name.ToLower().Contains("drums")))
+            if (Buffs.Any(b => b.Name.ToLower().Equals("drums of battle")))
             {
                 cds.Add(new ActiveItemBuff(this, 120, 30, "Drums of Battle", new Dictionary<Attribute, double>() { { Attribute.Haste, 80 / RatingRatios[Attribute.Haste] / 100 } }), 30);
+            }
+            else if (Buffs.Any(b => b.Name.ToLower().Equals("drums of war")))
+            {
+                cds.Add(new ActiveItemBuff(this, 120, 30, "Drums of Battle", new Dictionary<Attribute, double>() { { Attribute.AP, 60 }, { Attribute.SP, 60 } }), 30);
             }
 
             string[] tr = new string[] { Equipment[Slot.Trinket1]?.Name.ToLower(), Equipment[Slot.Trinket2]?.Name.ToLower() };
@@ -1520,23 +1498,13 @@ namespace ClassicCraft
 
             Attributes += BonusAttributesByRace(Race, Attributes);
 
-            if (Buffs.Any(b => b.Name.ToLower().Contains("blessing of kings")))
+            if (Buffs.Any(b => b.Name.ToLower().Equals("blessing of kings")))
             {
                 Attributes.SetValue(Attribute.Stamina, Attributes.GetValue(Attribute.Stamina) * 1.1);
                 Attributes.SetValue(Attribute.Intellect, Attributes.GetValue(Attribute.Intellect) * 1.1);
                 Attributes.SetValue(Attribute.Strength, Attributes.GetValue(Attribute.Strength) * 1.1);
                 Attributes.SetValue(Attribute.Agility, Attributes.GetValue(Attribute.Agility) * 1.1);
                 Attributes.SetValue(Attribute.Spirit, Attributes.GetValue(Attribute.Spirit) * 1.1);
-            }
-
-            if (Buffs.Any(b => b.Name.ToLower().Contains("seal of the crusader")))
-            {
-                Attributes.AddToValue(Attribute.CritChance, 0.03);
-            }
-
-            if (Buffs.Any(b => b.Name.ToLower().Contains("blood frenzy")))
-            {
-                DamageMod *= 1.04; // TODO : only melee dmg
             }
 
             Attributes.AddToValue(Attribute.Health, 20 + (Attributes.GetValue(Attribute.Stamina) - 20) * 10);
@@ -1553,9 +1521,12 @@ namespace ClassicCraft
             Attributes.AddToValue(Attribute.CritChance, Attributes.GetValue(Attribute.Agility) * AgiToCritRatio(Class));
             Attributes.AddToValue(Attribute.SpellCritChance, BaseSpellCrit(Class) + Attributes.GetValue(Attribute.Intellect) * IntToCritRatio(Class));
 
-
             if (Class == Classes.Druid && Program.version == Version.TBC && !Tanking) Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) * (1 + 0.02 * GetTalentPoints("HW")));
             if (Class == Classes.Warrior && Program.version == Version.TBC) Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) * (1 + 0.02 * GetTalentPoints("IBStance")));
+
+            if (Buffs.Any(b => b.Name.ToLower().Equals("unleashed rage"))) Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) * 1.06);
+            if (Buffs.Any(b => b.Name.ToLower().Equals("ferocious inspiration"))) DamageMod *= 1.03;
+            if (Buffs.Any(b => b.Name.ToLower().Equals("improved sanctity aura"))) DamageMod *= 1.02;
 
             int baseSkill = Level * 5;
             WeaponSkill = new Dictionary<Weapon.WeaponType, int>();
@@ -1575,11 +1546,11 @@ namespace ClassicCraft
                     }
                     else if (Race == Races.Troll && (type == Weapon.WeaponType.Bow || type == Weapon.WeaponType.Throwable))
                     {
-                        skill += 5;
+                        Attributes.AddToValue(Attribute.CritChance, 0.01);
                     }
                     else if (Race == Races.Dwarf && type == Weapon.WeaponType.Gun)
                     {
-                        skill += 5;
+                        Attributes.AddToValue(Attribute.CritChance, 0.01);
                     }
                 }
 
@@ -1625,15 +1596,22 @@ namespace ClassicCraft
 
         public void ExtraAA(List<string> alreadyProc)
         {
-            if (applyAtNextAA != null)
+            if(Program.version == Version.Vanilla)
             {
-                applyAtNextAA.DoAction();
+                if (applyAtNextAA != null)
+                {
+                    applyAtNextAA.DoAction();
+                }
+                else
+                {
+                    mh.DoAA(alreadyProc, true);
+                }
+                ResetMHSwing();
             }
             else
             {
                 mh.DoAA(alreadyProc, true);
             }
-            ResetMHSwing();
         }
 
         public void CheckOnHits(bool isMH, bool isAA, ResultType res, bool extra = false, List<string> alreadyProc = null)
@@ -1821,7 +1799,7 @@ namespace ClassicCraft
                     }
                 }
 
-                if ((Equipment[Slot.Trinket1]?.Name == "Hand of Justice" || Equipment[Slot.Trinket2]?.Name == "Hand of Justice") && !alreadyProc.Contains("HoJ") && Randomer.NextDouble() < 0.02)
+                if ((Equipment[Slot.Trinket1]?.Name == "Hand of Justice" || Equipment[Slot.Trinket2]?.Name == "Hand of Justice") && !alreadyProc.Contains("HoJ") && Randomer.NextDouble() < (Program.version == Version.Vanilla ? 0.02 : 0.012))
                 {
                     alreadyProc.Add("HoJ");
                     if (Program.logFight)
@@ -1964,7 +1942,7 @@ namespace ClassicCraft
                     if (!alreadyProc.Contains("Warglaives")
                         && (MH?.Name.ToLower().Contains("warglaive") == true && OH?.Name.ToLower().Contains("warglaive") == true)
                         && (!icds.ContainsKey("Warglaives") || icds["Warglaives"] < Sim.CurrentTime - 45)
-                        && Randomer.NextDouble() < 0.2)
+                        && Randomer.NextDouble() < MH.Speed * 2 / 60)   // TODO : Check proc-rate (2PPM on Mangos) 
                     {
                         string procName = "Warglaives";
                         alreadyProc.Add(procName);
@@ -2071,13 +2049,13 @@ namespace ClassicCraft
                         string procName = "Rod of the Sun King";
                         alreadyProc.Add(procName);
 
-                        if (Program.logFight)
-                        {
-                            Program.Log(string.Format("{0:N2} : Blinkstrike procs", Sim.CurrentTime));
-                        }
-
                         if (Class == Classes.Warrior) Resource += 5;
                         else if (Class == Classes.Rogue) Resource += 10;
+
+                        if (Program.logFight)
+                        {
+                            Program.Log(string.Format("{0:N2} : Rod of the Sun King procs ({3} {1}/{2})", Sim.CurrentTime, Resource, MaxResource, Class == Classes.Warrior ? "rage" : "energy"));
+                        }
                     }
 
                     if (!alreadyProc.Contains("Hourglass")
@@ -2196,7 +2174,7 @@ namespace ClassicCraft
                     if (!alreadyProc.Contains("Shard of Contempt")
                         && (Equipment[Slot.Trinket1]?.Name.ToLower() == "shard of contempt" || Equipment[Slot.Trinket2]?.Name.ToLower() == "shard of contempt")
                         && (!icds.ContainsKey("Shard of Contempt") || icds["Shard of Contempt"] < Sim.CurrentTime - 45)
-                        && Randomer.NextDouble() < 0.2)  // TODO : Check proc-rate
+                        && Randomer.NextDouble() < 0.1)  // TODO : Check proc-rate
                     {
                         string procName = "Shard of Contempt";
                         alreadyProc.Add(procName);
@@ -2217,6 +2195,14 @@ namespace ClassicCraft
                             buff.StartEffect();
                         }
                     }
+                }
+            }
+            else if(Class == Classes.Warrior && (res == ResultType.Parry || res == ResultType.Dodge) && Sets["Warbringer"] >= 4)
+            {
+                Resource += 2;
+                if (Program.logFight)
+                {
+                    Program.Log(string.Format("{0:N2} : Warbringer 4P procs (rage {1}/{2})", Sim.CurrentTime, Resource, MaxResource));
                 }
             }
         }
@@ -2253,6 +2239,9 @@ namespace ClassicCraft
                 MHParryExpertise = Math.Max(0, ExpertisePercent + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.Expertise)) - enemy.DodgeChance(WeaponSkill[MH.Type]));
                 if(DualWielding) OHParryExpertise = Math.Max(0, ExpertisePercent + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.Expertise)) - enemy.DodgeChance(WeaponSkill[OH.Type]));
             }
+
+            double? MHCritBuff = MH.Buff?.Attributes.GetValue(Attribute.CritChance);
+            double? OHCritBuff = OH.Buff?.Attributes.GetValue(Attribute.CritChance);
 
             Dictionary<ResultType, double> whiteHitChancesMH = new Dictionary<ResultType, double>();
             whiteHitChancesMH.Add(ResultType.Miss, MissChance(DualWielding, HitChance, WeaponSkill[MH.Type], enemy.Level));
@@ -2425,8 +2414,8 @@ namespace ClassicCraft
         {
             int enemySkill = enemyLevel * 5;
             int skillDif = enemySkill - skill;
-
-            return Math.Max(0, BASE_MISS - hitRating + (skillDif > 10 ? 0.01 : 0) + skillDif * (skillDif > 10 ? 0.002 : 0.001));
+            
+            return BASE_MISS - hitRating + (skillDif > 10 ? 0.01 : 0) + skillDif * (skillDif > 10 ? 0.002 : 0.001);
         }
 
         public static double MissChanceYellow(double hitRating, int skill, int enemyLevel)

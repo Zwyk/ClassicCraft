@@ -121,6 +121,8 @@ namespace ClassicCraft
         private static Dictionary<string, double> SimsAvgDPS;
         private static Dictionary<string, double> SimsAvgTPS;
         private static List<double> ErrorList;
+        private static Dictionary<string, double> SimsDPSStDev;
+        private static Dictionary<string, double> SimsTPSStDev;
 
         public static List<string> logListActions;
         public static List<string> logListEffects;
@@ -159,12 +161,14 @@ namespace ClassicCraft
             SimsAvgDPS = new Dictionary<string, double>();
             SimsAvgTPS = new Dictionary<string, double>();
             ErrorList = new List<double>();
+            SimsDPSStDev = new Dictionary<string, double>();
+            SimsTPSStDev = new Dictionary<string, double>();
 
             logs = "";
 
             simOrder = new List<string>(){
                 "Base",
-                "+50 AP", "+50 SP",
+                "+100 AP", "+100 SP",
                 "+1% Hit","+1% Crit", "+1% Haste",
                 "+10 DPS MH", "+10 DPS OH",
                 "+1 MH Skill", "+1 OH Skill",
@@ -177,11 +181,11 @@ namespace ClassicCraft
             simBonusAttribs = new Dictionary<string, Attributes>()
             {
                 { "Base", new Attributes() },
-                { "+50 AP", new Attributes(new Dictionary<Attribute, double>()
+                { "+100 AP", new Attributes(new Dictionary<Attribute, double>()
                         {
                             { Attribute.AP, version == Version.TBC ? 100 : 50 }
                         })},
-                { "+50 SP", new Attributes(new Dictionary<Attribute, double>()
+                { "+100 SP", new Attributes(new Dictionary<Attribute, double>()
                         {
                             { Attribute.SP, version == Version.TBC ? 100 : 50 }
                         })},
@@ -255,14 +259,20 @@ namespace ClassicCraft
             };
         }
 
-        public static void LoadConfigJsons()
+        public static void LoadConfigJsons(bool player = true, bool sim = true)
         {
             try
             {
-                string simString = File.ReadAllText(debug ? Path.Combine(debugPath, simJsonFileName) : simJsonFileName);
-                jsonSim = JsonConvert.DeserializeObject<JsonUtil.JsonSim>(simString);
-                string playerString = File.ReadAllText(debug ? Path.Combine(debugPath, playerJsonFileName) : playerJsonFileName);
-                jsonPlayer = JsonConvert.DeserializeObject<JsonUtil.JsonPlayer>(playerString);
+                if(sim)
+                {
+                    string simString = File.ReadAllText(debug ? Path.Combine(debugPath, simJsonFileName) : simJsonFileName);
+                    jsonSim = JsonConvert.DeserializeObject<JsonUtil.JsonSim>(simString);
+                }
+                if(player)
+                {
+                    string playerString = File.ReadAllText(debug ? Path.Combine(debugPath, playerJsonFileName) : playerJsonFileName);
+                    jsonPlayer = JsonConvert.DeserializeObject<JsonUtil.JsonPlayer>(playerString);
+                }
             }
             catch(Exception e)
             {
@@ -336,7 +346,7 @@ namespace ClassicCraft
 
                 if (playerBase.Class == Player.Classes.Rogue || playerBase.Class == Player.Classes.Warrior || jsonSim.Tanking)
                 {
-                    simOrder.Remove("+50 SP");
+                    simOrder.Remove("+100 SP");
                     simOrder.Remove("+50 Int");
                     simOrder.Remove("+50 Spi");
                     simOrder.Remove("+30 MP5");
@@ -367,14 +377,14 @@ namespace ClassicCraft
                     || playerBase.Class == Player.Classes.Mage
                     || playerBase.Class == Player.Classes.Priest)
                 {
-                    simOrder.Remove("+50 AP");
+                    simOrder.Remove("+100 AP");
                     simOrder.Remove("+1% Hit");
                     simOrder.Remove("+1% Crit");
                     simOrder.Remove("+1% Haste");
                 }
                 else
                 {
-                    simOrder.Remove("+50 SP");
+                    simOrder.Remove("+100 SP");
                     simOrder.Remove("+1% SpellHit");
                     simOrder.Remove("+1% SpellCrit");
                 }
@@ -590,7 +600,7 @@ namespace ClassicCraft
 
                                 lock(CurrentDpsList)
                                 {
-                                    if (CurrentDpsList.Count > 0)
+                                    if (CurrentDpsList.Count > 10)
                                     {
                                         errorPct = Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average());
                                     }
@@ -601,7 +611,7 @@ namespace ClassicCraft
                                 GUISetProgressText(String.Format("Simulating {0} - {1}/{2}", simOrder[done], done + 1, statsWeights ? simOrder.Count : 1));
                                 
                                 string outputText = "";
-                                outputText += String.Format("Simulating {0}, aiming for ±{1:N2}% precision...", simOrder[done], targetErrorPct);
+                                outputText += String.Format("Simulating {0}, aiming for minimum ±{1:N2}% precision...", simOrder[done], targetErrorPct);
                                 outputText += String.Format("\nSims done : {0:N0}", CurrentDpsList.Count);
                                 outputText += String.Format("\nSims running : {0:N0}", tasks.Count(t => !t.IsCompleted));
                                 outputText += String.Format("\nCurrent precision : ±{0:N2}%", errorPct);
@@ -612,19 +622,20 @@ namespace ClassicCraft
                             
                             Output("Waiting for remaining simulations to complete...");
                             
-
                             Task.WaitAll(tasks.ToArray());
                         }
                     }
 
                     ErrorList.Add(Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average()));
                     SimsAvgDPS.Add(simOrder[done], CurrentDpsList.Average());
+                    SimsDPSStDev.Add(simOrder[done], Stats.StandardError(Stats.StdDev(CurrentDpsList.ToArray())));
                     if(jsonSim.Tanking)
                     {
                         SimsAvgTPS.Add(simOrder[done], CurrentTpsList.Average());
+                        SimsTPSStDev.Add(simOrder[done], Stats.StandardError(Stats.StdDev(CurrentTpsList.ToArray())));
                     }
 
-                    //Log(simOrder[done] + " : " + CurrentDpsList.Average());
+                    Log(simOrder[done] + " : " + CurrentDpsList.Average());
                 }
 
 
@@ -659,7 +670,8 @@ namespace ClassicCraft
                 Output(endMsg1);
                 Log(endMsg1);
 
-                string endMsg2 = string.Format("Overall accuracy of results : ±{0:N2}%", ErrorList.Average());
+                string endMsg2 = string.Format("Overall accuracy of results : ±{0:N2}% (±{1:N2} DPS)", ErrorList.Average(), ErrorList[0] / 100 * SimsAvgDPS["Base"]);
+                if(jsonSim.Tanking) endMsg2 += string.Format(" (±{1:N2} TPS)", ErrorList.Average(), ErrorList[0] / 100 * SimsAvgTPS["Base"]);
                 Output(endMsg2);
                 Log(endMsg2);
 
@@ -671,208 +683,19 @@ namespace ClassicCraft
                     GUISetProgressText(String.Format("Generating Stats Weights..."));
 
                     double weightsDone = 0;
-
-                    double baseDps = SimsAvgDPS["Base"];
-                    Log(string.Format("\nBase : {0:N2} DPS", baseDps));
-
-                    Log("\nWeights by DPS :");
-
                     double apDif = 0;
-                    if (simOrder.Contains("+50 AP"))
-                    {
-                        double apDps = SimsAvgDPS["+50 AP"];
-                        apDif = (apDps - baseDps) / (version == Version.TBC ? 100 : 50);
-                        if (apDif < 0) apDif = 0;
-                        Log(string.Format("1 AP = {0:N4} DPS", apDif));
-
-                        double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * Player.BonusStrToAPRatio(playerBase);
-                        Log(string.Format("1 Str = {0:N4} DPS = {1:N4} AP", strDif, strDif / apDif));
-
-                        weightsDone += 1;
-                    }
-                    if (simOrder.Contains("+50 SP"))
-                    {
-                        double apDps = SimsAvgDPS["+50 SP"];
-                        apDif = (apDps - baseDps) / (version == Version.TBC ? 100 : 50);
-                        if (apDif < 0) apDif = 0;
-                        Log(string.Format("1 SP = {0:N4} DPS", apDif));
-
-                        weightsDone += 1;
-                    }
-                    if (simOrder.Contains("+1% Crit"))
-                    {
-                        double critDps = SimsAvgDPS["+1% Crit"];
-                        double critDif = critDps - baseDps;
-                        if (critDif < 0) critDif = 0;
-
-                        double agiDif = Player.AgiToAPRatio(playerBase) * apDif + Player.AgiToCritRatio(playerBase.Class) * Player.BonusAgiToCritRatio(playerBase) * 100 * critDif;
-                        Log(string.Format("1 Agi = {0:N4} DPS = {1:N4} AP", agiDif, agiDif / apDif));
-
-                        critDif /= (version == Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1);
-
-                        Log(string.Format("1{2} Crit = {0:N4} DPS = {1:N4} AP", critDif, critDif / apDif, version == Version.TBC ? "" : "%"));
-
-                        weightsDone += 1;
-                    }
-                    if (simOrder.Contains("+1% Hit"))
-                    {
-                        double hitDps = SimsAvgDPS["+1% Hit"];
-                        double hitDif = (hitDps - baseDps) / (version == Version.TBC ? Player.RatingRatios[Attribute.HitChance] : 1);
-                        if (hitDif < 0) hitDif = 0;
-                        Log(string.Format("1{2} Hit = {0:N4} DPS = {1:N4} AP", hitDif, hitDif / apDif, version == Version.TBC ? "" : "%"));
-
-                        weightsDone += 1;
-                    }
-                    if (simOrder.Contains("+1% Haste"))
-                    {
-                        double hasteDps = SimsAvgDPS["+1% Haste"];
-                        double hasteDif = (hasteDps - baseDps) / (version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1);
-                        if (hasteDif < 0) hasteDif = 0;
-                        Log(string.Format("1{2} Haste = {0:N4} DPS = {1:N4} AP", hasteDif, hasteDif / apDif, version == Version.TBC ? "" : "%"));
-
-                        weightsDone += 1;
-                    }
-                    if (simOrder.Contains("+1% Expertise"))
-                    {
-                        double expDps = SimsAvgDPS["+1% Expertise"];
-                        double expDif = (expDps - baseDps) / (version == Version.TBC ? Player.RatingRatios[Attribute.Expertise] : 1);
-                        if (expDif < 0) expDif = 0;
-                        Log(string.Format("1{2} Expertise = {0:N4} DPS = {1:N4} AP", expDif, expDif / apDif, version == Version.TBC ? "" : "%"));
-
-                        weightsDone += 1;
-                    }
-                    if (simOrder.Contains("+500 ArPen"))
-                    {
-                        double arpenDps = SimsAvgDPS["+500 ArPen"];
-                        double arpenDif = (arpenDps - baseDps) / 500;
-                        if (arpenDif < 0) arpenDif = 0;
-                        Log(string.Format("1 Armor Penetration = {0:N4} DPS = {1:N4} AP", arpenDif, arpenDif / apDif));
-
-                        weightsDone += 1;
-                    }
-                    if (simOrder.Contains("+1000 ArPen"))
-                    {
-                        double arpenDps = SimsAvgDPS["+1000 ArPen"];
-                        double arpenDif = (arpenDps - baseDps) / 1000;
-                        if (arpenDif < 0) arpenDif = 0;
-                        Log(string.Format("1 Armor Penetration (+1000) = {0:N4} DPS = {1:N4} AP", arpenDif, arpenDif / apDif));
-
-                        weightsDone += 1;
-                    }
-                    if (simOrder.Contains("+10 DPS MH"))
-                    {
-                        double mhDps = SimsAvgDPS["+10 DPS MH"];
-                        double mhDif = (mhDps - baseDps) / 10;
-                        if (mhDif < 0) mhDif = 0;
-                        Log(string.Format("1 MH DPS = {0:N4} DPS = {1:N4} AP", mhDif, mhDif / apDif));
-
-                        weightsDone += 1;
-                    }
-                    if (simOrder.Contains("+10 DPS OH"))
-                    {
-                        double ohDps = SimsAvgDPS["+10 DPS OH"];
-                        double ohDif = (ohDps - baseDps) / 10;
-                        if (ohDif < 0) ohDif = 0;
-                        Log(string.Format("1 OH DPS = {0:N4} DPS = {1:N4} AP", ohDif, ohDif / apDif));
-
-                        weightsDone += 1;
-                    }
-                    if (simOrder.Contains("+1 MH Skill"))
-                    {
-                        double mhSkillDps = SimsAvgDPS["+1 MH Skill"];
-                        double mhSkillDif = mhSkillDps - baseDps;
-                        if (mhSkillDif < 0) mhSkillDif = 0;
-                        Log(string.Format("1 MH Skill = {0:N4} DPS = {1:N4} AP", mhSkillDif, mhSkillDif / apDif));
-
-                        weightsDone += 1;
-                    }
-                    if (simOrder.Contains("+1 OH Skill"))
-                    {
-                        double ohSkillDps = SimsAvgDPS["+1 OH Skill"];
-                        double ohSkillDif = ohSkillDps - baseDps;
-                        if (ohSkillDif < 0) ohSkillDif = 0;
-                        Log(string.Format("1 OH Skill = {0:N4} DPS = {1:N4} AP", ohSkillDif, ohSkillDif / apDif));
-
-                        weightsDone += 1;
-                    }
-                    if (simOrder.Contains("+5 MH Skill"))
-                    {
-                        double mhSkillDps = SimsAvgDPS["+5 MH Skill"];
-                        double mhSkillDif = mhSkillDps - baseDps;
-                        if (mhSkillDif < 0) mhSkillDif = 0;
-                        Log(string.Format("5 MH Skill = {0:N4} DPS = {1:N4} AP", mhSkillDif, mhSkillDif / apDif));
-
-                        weightsDone += 1;
-                    }
-                    if (simOrder.Contains("+5 OH Skill"))
-                    {
-                        double ohSkillDps = SimsAvgDPS["+5 OH Skill"];
-                        double ohSkillDif = ohSkillDps - baseDps;
-                        if (ohSkillDif < 0) ohSkillDif = 0;
-                        Log(string.Format("5 OH Skill = {0:N4} DPS = {1:N4} AP", ohSkillDif, ohSkillDif / apDif));
-
-                        weightsDone += 1;
-                    }
-                    if (simOrder.Contains("+1% SpellCrit"))
-                    {
-                        double critDps = SimsAvgDPS["+1% SpellCrit"];
-                        double critDif = (critDps - baseDps) / (version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1);
-                        if (critDif < 0) critDif = 0;
-                        Log(string.Format("1% SpellCrit = {0:N4} DPS = {1:N4} SP", critDif, critDif / apDif, version == Version.TBC ? "" : "%"));
-                        
-                        weightsDone += 1;
-                    }
-                    if (simOrder.Contains("+1% SpellHit"))
-                    {
-                        double hitDps = SimsAvgDPS["+1% SpellHit"];
-                        double hitDif = (hitDps - baseDps) / (version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1);
-                        if (hitDif < 0) hitDif = 0;
-                        Log(string.Format("1{2} SpellHit = {0:N4} DPS = {1:N4} SP", hitDif, hitDif / apDif, version == Version.TBC ? "" : "%"));
-
-                        weightsDone += 1;
-                    }
-                    if (simOrder.Contains("+50 Int"))
-                    {
-                        double intDps = SimsAvgDPS["+50 Int"];
-                        double intDif = (intDps - baseDps) / (version == Version.TBC ? 100 : 50);
-                        if (intDif < 0) intDif = 0;
-                        string comp = simOrder.Contains("+50 AP") ? "AP" : "SP";
-                        Log(string.Format("1 Int = {0:N4} DPS = {1:N4} {2}", intDif, intDif / apDif, comp));
-
-                        weightsDone += 1;
-                    }
-                    if (simOrder.Contains("+50 Spi"))
-                    {
-                        double spiDps = SimsAvgDPS["+50 Spi"];
-                        double spiDif = (spiDps - baseDps) / (version == Version.TBC ? 100 : 50);
-                        if (spiDif < 0) spiDif = 0;
-                        string comp = simOrder.Contains("+50 AP") ? "AP" : "SP";
-                        Log(string.Format("1 Spi = {0:N4} DPS = {1:N4} {2}", spiDif, spiDif / apDif, comp));
-
-                        weightsDone += 1;
-                    }
-                    if (simOrder.Contains("+30 MP5"))
-                    {
-                        double mp5Dps = SimsAvgDPS["+30 MP5"];
-                        double mp5Dif = (mp5Dps - baseDps) / 30;
-                        if (mp5Dif < 0) mp5Dif = 0;
-                        string comp = simOrder.Contains("+50 AP") ? "AP" : "SP";
-                        Log(string.Format("1 MP5 = {0:N4} DPS = {1:N4} {2}", mp5Dif, mp5Dif / apDif, comp));
-
-                        weightsDone += 1;
-                    }
-
+                    
+                    // TPS
                     if (jsonSim.Tanking)
                     {
                         double baseTps = SimsAvgTPS["Base"];
-                        Log(string.Format("\nBase : {0:N2} TPS", baseTps));
+                        Log(string.Format("\nBase : {0:N2} TPS (±{1:N2})", baseTps, SimsTPSStDev["Base"]));
 
                         Log("\nWeights by TPS :");
-
-                        apDif = 0;
-                        if (simOrder.Contains("+50 AP"))
+                        
+                        if (simOrder.Contains("+100 AP"))
                         {
-                            double apTps = SimsAvgTPS["+50 AP"];
+                            double apTps = SimsAvgTPS["+100 AP"];
                             apDif = (apTps - baseTps) / (version == Version.TBC ? 100 : 50);
                             if (apDif < 0) apDif = 0;
                             Log(string.Format("1 AP = {0:N4} TPS", apDif));
@@ -1013,6 +836,198 @@ namespace ClassicCraft
                             weightsDone += 1;
                         }
                     }
+
+                    // DPS
+                    if (true)
+                    {
+                        double baseDps = SimsAvgDPS["Base"];
+                        Log(string.Format("\nBase : {0:N2} DPS (±{1:N2})", baseDps, SimsDPSStDev["Base"]));
+
+                        Log("\nWeights by DPS :");
+                        if (simOrder.Contains("+100 AP"))
+                        {
+                            double apDps = SimsAvgDPS["+100 AP"];
+                            apDif = (apDps - baseDps) / (version == Version.TBC ? 100 : 50);
+                            if (apDif < 0) apDif = 0;
+                            Log(string.Format("1 AP = {0:N4} DPS (±{1:N2})", apDif));
+
+                            double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * Player.BonusStrToAPRatio(playerBase);
+                            Log(string.Format("1 Str = {0:N4} DPS = {1:N4} AP", strDif, strDif / apDif));
+
+                            weightsDone += 1;
+                        }
+                        if (simOrder.Contains("+100 SP"))
+                        {
+                            double apDps = SimsAvgDPS["+100 SP"];
+                            apDif = (apDps - baseDps) / (version == Version.TBC ? 100 : 50);
+                            if (apDif < 0) apDif = 0;
+                            Log(string.Format("1 SP = {0:N4} DPS", apDif));
+
+                            weightsDone += 1;
+                        }
+                        if (simOrder.Contains("+1% Crit"))
+                        {
+                            double critDps = SimsAvgDPS["+1% Crit"];
+                            double critDif = critDps - baseDps;
+                            if (critDif < 0) critDif = 0;
+
+                            double agiDif = Player.AgiToAPRatio(playerBase) * apDif + Player.AgiToCritRatio(playerBase.Class) * Player.BonusAgiToCritRatio(playerBase) * 100 * critDif;
+                            Log(string.Format("1 Agi = {0:N4} DPS = {1:N4} AP", agiDif, agiDif / apDif));
+
+                            critDif /= (version == Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1);
+
+                            Log(string.Format("1{2} Crit = {0:N4} DPS = {1:N4} AP", critDif, critDif / apDif, version == Version.TBC ? "" : "%"));
+
+                            weightsDone += 1;
+                        }
+                        if (simOrder.Contains("+1% Hit"))
+                        {
+                            double hitDps = SimsAvgDPS["+1% Hit"];
+                            double hitDif = (hitDps - baseDps) / (version == Version.TBC ? Player.RatingRatios[Attribute.HitChance] : 1);
+                            if (hitDif < 0) hitDif = 0;
+                            Log(string.Format("1{2} Hit = {0:N4} DPS = {1:N4} AP", hitDif, hitDif / apDif, version == Version.TBC ? "" : "%"));
+
+                            weightsDone += 1;
+                        }
+                        if (simOrder.Contains("+1% Haste"))
+                        {
+                            double hasteDps = SimsAvgDPS["+1% Haste"];
+                            double hasteDif = (hasteDps - baseDps) / (version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1);
+                            if (hasteDif < 0) hasteDif = 0;
+                            Log(string.Format("1{2} Haste = {0:N4} DPS = {1:N4} AP", hasteDif, hasteDif / apDif, version == Version.TBC ? "" : "%"));
+
+                            weightsDone += 1;
+                        }
+                        if (simOrder.Contains("+1% Expertise"))
+                        {
+                            double expDps = SimsAvgDPS["+1% Expertise"];
+                            double expDif = (expDps - baseDps) / (version == Version.TBC ? Player.RatingRatios[Attribute.Expertise] : 1);
+                            if (expDif < 0) expDif = 0;
+                            Log(string.Format("1{2} Expertise = {0:N4} DPS = {1:N4} AP", expDif, expDif / apDif, version == Version.TBC ? "" : "%"));
+
+                            weightsDone += 1;
+                        }
+                        if (simOrder.Contains("+500 ArPen"))
+                        {
+                            double arpenDps = SimsAvgDPS["+500 ArPen"];
+                            double arpenDif = (arpenDps - baseDps) / 500;
+                            if (arpenDif < 0) arpenDif = 0;
+                            Log(string.Format("1 Armor Penetration = {0:N4} DPS = {1:N4} AP", arpenDif, arpenDif / apDif));
+
+                            weightsDone += 1;
+                        }
+                        if (simOrder.Contains("+1000 ArPen"))
+                        {
+                            double arpenDps = SimsAvgDPS["+1000 ArPen"];
+                            double arpenDif = (arpenDps - baseDps) / 1000;
+                            if (arpenDif < 0) arpenDif = 0;
+                            Log(string.Format("1 Armor Penetration (+1000) = {0:N4} DPS = {1:N4} AP", arpenDif, arpenDif / apDif));
+
+                            weightsDone += 1;
+                        }
+                        if (simOrder.Contains("+10 DPS MH"))
+                        {
+                            double mhDps = SimsAvgDPS["+10 DPS MH"];
+                            double mhDif = (mhDps - baseDps) / 10;
+                            if (mhDif < 0) mhDif = 0;
+                            Log(string.Format("1 MH DPS = {0:N4} DPS = {1:N4} AP", mhDif, mhDif / apDif));
+
+                            weightsDone += 1;
+                        }
+                        if (simOrder.Contains("+10 DPS OH"))
+                        {
+                            double ohDps = SimsAvgDPS["+10 DPS OH"];
+                            double ohDif = (ohDps - baseDps) / 10;
+                            if (ohDif < 0) ohDif = 0;
+                            Log(string.Format("1 OH DPS = {0:N4} DPS = {1:N4} AP", ohDif, ohDif / apDif));
+
+                            weightsDone += 1;
+                        }
+                        if (simOrder.Contains("+1 MH Skill"))
+                        {
+                            double mhSkillDps = SimsAvgDPS["+1 MH Skill"];
+                            double mhSkillDif = mhSkillDps - baseDps;
+                            if (mhSkillDif < 0) mhSkillDif = 0;
+                            Log(string.Format("1 MH Skill = {0:N4} DPS = {1:N4} AP", mhSkillDif, mhSkillDif / apDif));
+
+                            weightsDone += 1;
+                        }
+                        if (simOrder.Contains("+1 OH Skill"))
+                        {
+                            double ohSkillDps = SimsAvgDPS["+1 OH Skill"];
+                            double ohSkillDif = ohSkillDps - baseDps;
+                            if (ohSkillDif < 0) ohSkillDif = 0;
+                            Log(string.Format("1 OH Skill = {0:N4} DPS = {1:N4} AP", ohSkillDif, ohSkillDif / apDif));
+
+                            weightsDone += 1;
+                        }
+                        if (simOrder.Contains("+5 MH Skill"))
+                        {
+                            double mhSkillDps = SimsAvgDPS["+5 MH Skill"];
+                            double mhSkillDif = mhSkillDps - baseDps;
+                            if (mhSkillDif < 0) mhSkillDif = 0;
+                            Log(string.Format("5 MH Skill = {0:N4} DPS = {1:N4} AP", mhSkillDif, mhSkillDif / apDif));
+
+                            weightsDone += 1;
+                        }
+                        if (simOrder.Contains("+5 OH Skill"))
+                        {
+                            double ohSkillDps = SimsAvgDPS["+5 OH Skill"];
+                            double ohSkillDif = ohSkillDps - baseDps;
+                            if (ohSkillDif < 0) ohSkillDif = 0;
+                            Log(string.Format("5 OH Skill = {0:N4} DPS = {1:N4} AP", ohSkillDif, ohSkillDif / apDif));
+
+                            weightsDone += 1;
+                        }
+                        if (simOrder.Contains("+1% SpellCrit"))
+                        {
+                            double critDps = SimsAvgDPS["+1% SpellCrit"];
+                            double critDif = (critDps - baseDps) / (version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1);
+                            if (critDif < 0) critDif = 0;
+                            Log(string.Format("1% SpellCrit = {0:N4} DPS = {1:N4} SP", critDif, critDif / apDif, version == Version.TBC ? "" : "%"));
+
+                            weightsDone += 1;
+                        }
+                        if (simOrder.Contains("+1% SpellHit"))
+                        {
+                            double hitDps = SimsAvgDPS["+1% SpellHit"];
+                            double hitDif = (hitDps - baseDps) / (version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1);
+                            if (hitDif < 0) hitDif = 0;
+                            Log(string.Format("1{2} SpellHit = {0:N4} DPS = {1:N4} SP", hitDif, hitDif / apDif, version == Version.TBC ? "" : "%"));
+
+                            weightsDone += 1;
+                        }
+                        if (simOrder.Contains("+50 Int"))
+                        {
+                            double intDps = SimsAvgDPS["+50 Int"];
+                            double intDif = (intDps - baseDps) / (version == Version.TBC ? 100 : 50);
+                            if (intDif < 0) intDif = 0;
+                            string comp = simOrder.Contains("+100 AP") ? "AP" : "SP";
+                            Log(string.Format("1 Int = {0:N4} DPS = {1:N4} {2}", intDif, intDif / apDif, comp));
+
+                            weightsDone += 1;
+                        }
+                        if (simOrder.Contains("+50 Spi"))
+                        {
+                            double spiDps = SimsAvgDPS["+50 Spi"];
+                            double spiDif = (spiDps - baseDps) / (version == Version.TBC ? 100 : 50);
+                            if (spiDif < 0) spiDif = 0;
+                            string comp = simOrder.Contains("+100 AP") ? "AP" : "SP";
+                            Log(string.Format("1 Spi = {0:N4} DPS = {1:N4} {2}", spiDif, spiDif / apDif, comp));
+
+                            weightsDone += 1;
+                        }
+                        if (simOrder.Contains("+30 MP5"))
+                        {
+                            double mp5Dps = SimsAvgDPS["+30 MP5"];
+                            double mp5Dif = (mp5Dps - baseDps) / 30;
+                            if (mp5Dif < 0) mp5Dif = 0;
+                            string comp = simOrder.Contains("+100 AP") ? "AP" : "SP";
+                            Log(string.Format("1 MP5 = {0:N4} DPS = {1:N4} {2}", mp5Dif, mp5Dif / apDif, comp));
+
+                            weightsDone += 1;
+                        }
+                    }
                 }
                 else if (nbSim >= 1)
                 {
@@ -1021,15 +1036,17 @@ namespace ClassicCraft
                     double avgFightLength = CurrentData.AvgSimLength;
                     double avgDps = CurrentDpsList.Average();
 
+                    double avgTps = 0;
                     if (jsonSim.Tanking)
                     {
-                        Log(string.Format("Average TPS : {0:N2} tps (±{1:N2})", CurrentTpsList.Average(), Stats.MeanStdDev(CurrentTpsList.ToArray())));
+                        avgTps = CurrentTpsList.Average();
+                        Log(string.Format("Average TPS : {0:N2} TPS (±{1:N2})", avgTps, SimsTPSStDev["Base"]));
                     }
                     else
                     {
                         Log("");
                     }
-                    Log(string.Format("Average DPS : {0:N2} dps (±{1:N2})", avgDps, Stats.MeanStdDev(CurrentDpsList.ToArray())));
+                    Log(string.Format("Average DPS : {0:N2} DPS (±{1:N2})", avgDps, SimsDPSStDev["Base"]));
 
                     int statsDone = 0;
                     int statsTotal = logListActions.Count + logListEffects.Count;
@@ -1048,7 +1065,6 @@ namespace ClassicCraft
 
                             if (jsonSim.Tanking)
                             {
-                                double avgTps = CurrentTpsList.Average();
                                 double avgAcTps = data.AvgTPS;
                                 double avgAcThreat = data.AvgTPS;
                                 res += string.Format(" / {0:N2} TPS ({1:N2}%)\n\tAverage of {2:N2} threat for {3:N2} uses (or 1 use every {4:N2}s)", avgAcTps, avgAcTps / avgTps * 100, avgAcThreat, avgAcUse, jsonSim.FightLength / avgAcUse);

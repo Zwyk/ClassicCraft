@@ -34,7 +34,8 @@ namespace ClassicCraft
                 * Player.DamageMod
                 * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
                 * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
-                * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless")) ? 1.03 : 1)
+                * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
+                * (Player.Sim.Boss.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
                 );
 
             int threat = (int)Math.Round((damage + BONUS_THREAT) * Player.ThreatMod);
@@ -42,8 +43,7 @@ namespace ClassicCraft
             CommonAction();
             if (res == ResultType.Parry || res == ResultType.Dodge)
             {
-                // TODO à vérifier
-                Player.Resource -= Cost / 2;
+                Player.Resource -= (int)(Cost * 0.2);
             }
             else
             {

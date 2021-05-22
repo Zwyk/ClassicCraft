@@ -6,106 +6,29 @@
   "Cooldowns": {
     "Racial": true,
     "Death Wish": true,
-    "Bloodlust": true,
     "Recklessness": false,
-    "Juju Flurry": false,
+    "Bloodlust": true,
     "Mighty Rage": false,
-    "Haste Pot": true,
-    "Str Pot": false
+    "Haste Potion": true,
+    "Insane Strength Potion": false
   },
   "Buffs": [
-    {
-      "Id": 0,
-      "Name": "Windfury Totem",
-      "Slot": null,
-      "Stats": {}
-    },
     {
       "Id": 0,
       "Name": "Test",
       "Slot": null,
       "Stats": {
-        "Hit": 40.0,
+        "Str": 0.0,
+        "Agi": 0.0,
+        "Hit": 0.0,
         "Crit": 0.0,
         "AP": 0.0,
         "Haste": 0.0,
-        "Dagger": 0.0,
-        "Sword": 0.0,
-        "Axe": 0.0,
-        "Agi": 0.0,
-        "Str": 0.0,
-        "ArmorPen": 0.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Ragesteel",
-      "Slot": null,
-      "Stats": {
-        "Hit": 20.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Battle Shout",
-      "Slot": null,
-      "Stats": {
-        "AP": 381.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Totem STR",
-      "Slot": null,
-      "Stats": {
-        "Str": 99.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Benediction of Might",
-      "Slot": null,
-      "Stats": {
-        "AP": 264.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "blessing of kings",
-      "Slot": null,
-      "Stats": {}
-    },
-    {
-      "Id": 0,
-      "Name": "Expose Weakness",
-      "Slot": null,
-      "Stats": {
-        "AP": 200.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Trueshot Aura",
-      "Slot": null,
-      "Stats": {
-        "AP": 125.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Mark of the Wild",
-      "Slot": null,
-      "Stats": {
-        "Agi": 19.0,
-        "Str": 19.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Food",
-      "Slot": null,
-      "Stats": {
-        "Str": 20.0
+        "ArmorPen": 0.0,
+        "Expertise": 0.0,
+        "WDmg": 0.0,
+        "WDmgMH": 0.0,
+        "WDmgOH": 0.0
       }
     },
     {
@@ -118,34 +41,77 @@
     },
     {
       "Id": 0,
-      "Name": "Drums",
+      "Name": "Food",
+      "Slot": null,
+      "Stats": {
+        "Str": 20.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Battle Shout",
+      "Slot": null,
+      "Stats": {
+        "AP": 381.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Benediction of Might",
+      "Slot": null,
+      "Stats": {
+        "AP": 264.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Blessing of Kings",
       "Slot": null,
       "Stats": {}
     },
     {
       "Id": 0,
-      "Name": "Seal of the Crusader",
+      "Name": "Mark of the Wild",
+      "Slot": null,
+      "Stats": {
+        "Agi": 19.0,
+        "Str": 19.0,
+        "Int": 19.0,
+        "Spi": 19.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Totem STR",
+      "Slot": null,
+      "Stats": {
+        "Str": 98.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Windfury Totem",
       "Slot": null,
       "Stats": {}
     },
     {
       "Id": 0,
-      "Name": "Blood Frenzy",
+      "Name": "Drums of Battle",
       "Slot": null,
       "Stats": {}
     }
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 147.0,
-      "DamageMax": 275.0,
-      "Speed": 2.6,
+      "DamageMin": 172.0,
+      "DamageMax": 320.0,
+      "Speed": 2.7,
       "TwoHanded": false,
-      "Type": "Sword",
+      "Type": "Mace",
       "Buff": null,
       "School": null,
-      "Name": "Blinkstrike",
-      "Id": 5,
+      "Name": "Dragonmaw",
+      "Id": 7,
       "Slot": "Weapon",
       "Stats": {},
       "Enchantment": {
@@ -168,8 +134,9 @@
       "Id": 5,
       "Slot": "Weapon",
       "Stats": {
-        "Crit": 29.0,
-        "Hit": 14.0
+        "Crit": 21.0,
+        "Hit": 18.0,
+        "Str": 5.0
       },
       "Enchantment": {
         "Id": 0,
@@ -218,7 +185,14 @@
           "Hit": 16.0
         }
       },
-      "Gems": null
+      "Gems": {
+        "Id": 0,
+        "Name": "chaotic",
+        "Slot": "Head",
+        "Stats": {
+          "SCrit": 12,
+        }
+      },
     },
     "Neck": {
       "Name": "Adamantine",
@@ -410,11 +384,12 @@
       "Gems": null
     },
     "Trinket2": {
-      "Name": "Abacus of Violent Odds",
+      "Name": "DFT",
       "Id": 13,
       "Slot": "Trinket",
       "Stats": {
-        "AP": 64.0
+        "AP": 56.0,
+        "Hit": 20.0
       },
       "Enchantment": null,
       "Gems": null

@@ -56,7 +56,7 @@ namespace ClassicCraft
             double mult = 1;
 
             if ((a == Attribute.Agility || a == Attribute.Strength || a == Attribute.Intellect || a == Attribute.Spirit || a == Attribute.Stamina)
-                && Player.Buffs.Any(b => b.Name.ToLower().Contains("blessing of kings")))
+                && Player.Buffs.Any(b => b.Name.ToLower().Equals("blessing of kings")))
             {
                 mult *= 1.1;
             }

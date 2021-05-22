@@ -184,6 +184,11 @@ namespace ClassicCraft
             return stdDev;
         }
 
+        public static double StdDev(double[] values)
+        {
+            return Math.Sqrt(Variance(values));
+        }
+
         public static double MeanStdDev(double[] values)
         {
             return Math.Sqrt(Variance(values) / values.Count());

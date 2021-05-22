@@ -203,17 +203,24 @@ namespace ClassicCraft
 
         public static double Normalization(Weapon w)
         {
-            if (w.Type == Weapon.WeaponType.Dagger)
+            if(Program.version == Version.Vanilla)
             {
-                return 1.7;
-            }
-            else if (w.TwoHanded)
-            {
-                return 3.3;
+                return w.Speed;
             }
             else
             {
-                return 2.4;
+                if (w.Type == Weapon.WeaponType.Dagger)
+                {
+                    return 1.7;
+                }
+                else if (w.TwoHanded)
+                {
+                    return 3.3;
+                }
+                else
+                {
+                    return 2.4;
+                }
             }
         }
 
@@ -316,7 +323,7 @@ namespace ClassicCraft
             return Randomer.NextDouble() * (high - low) + low;
         }
 
-        public static double RageGained(int damage, int level = 60, bool mh = true, bool crit = false, double speed = 1.0)
+        public static double RageGained(double damage, int level = 60, bool mh = true, bool crit = false, double speed = 1.0)
         {
             switch(Program.version)
             {

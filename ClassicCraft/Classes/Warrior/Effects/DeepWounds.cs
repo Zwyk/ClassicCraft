@@ -41,8 +41,12 @@ namespace ClassicCraft
             int maxDmg = (int)Math.Round(Player.MH.DamageMax + Player.MH.Speed * Player.AP / 14);
 
             int damage = (int)Math.Round((minDmg + maxDmg) / 2
-                * (Player.DualWielding ? 1 : 1.03)
-                * Ratio);
+                * Ratio
+                * Player.DamageMod
+                * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
+                * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
+                * (Player.Sim.Boss.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
+                );
 
             return (int)Math.Round(damage / BaseLength * TickDelay);
         }
