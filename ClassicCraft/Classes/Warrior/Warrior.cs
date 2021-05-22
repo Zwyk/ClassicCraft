@@ -267,8 +267,6 @@ namespace ClassicCraft
                     rota = 0;   // Fury
                 }
             }
-
-            Program.Log("relentless : " + Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")));
         }
 
         public override void Rota()

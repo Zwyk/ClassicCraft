@@ -1546,11 +1546,11 @@ namespace ClassicCraft
                     }
                     else if (Race == Races.Troll && (type == Weapon.WeaponType.Bow || type == Weapon.WeaponType.Throwable))
                     {
-                        Attributes.AddToValue(Attribute.CritChance, 0.01);
+                        skill += 5;
                     }
                     else if (Race == Races.Dwarf && type == Weapon.WeaponType.Gun)
                     {
-                        Attributes.AddToValue(Attribute.CritChance, 0.01);
+                        skill += 5;
                     }
                 }
 
@@ -1573,21 +1573,21 @@ namespace ClassicCraft
             {
                 if (Race == Races.Orc)
                 {
-                    if (MH.Type == Weapon.WeaponType.Axe) MH.Buff.Attributes.AddToValue(Attribute.Expertise, 1.25);
-                    if (DualWielding && OH.Type == Weapon.WeaponType.Axe) OH.Buff.Attributes.SetValue(Attribute.Expertise, 1.25);
+                    if (MH.Type == Weapon.WeaponType.Axe) MH.Buff.Attributes.AddToValue(Attribute.Expertise, 0.0125);
+                    if (DualWielding && OH.Type == Weapon.WeaponType.Axe) OH.Buff.Attributes.SetValue(Attribute.Expertise, 0.0125);
                 }
                 else if (Race == Races.Human)
                 {
-                    if (MH.Type == Weapon.WeaponType.Sword || MH.Type == Weapon.WeaponType.Mace) MH.Buff.Attributes.AddToValue(Attribute.Expertise, 1.25);
-                    if (DualWielding && OH.Type == Weapon.WeaponType.Sword || MH.Type == Weapon.WeaponType.Mace) OH.Buff.Attributes.AddToValue(Attribute.Expertise, 1.25);
+                    if (MH.Type == Weapon.WeaponType.Sword || MH.Type == Weapon.WeaponType.Mace) MH.Buff.Attributes.AddToValue(Attribute.Expertise, 0.0125);
+                    if (DualWielding && OH.Type == Weapon.WeaponType.Sword || MH.Type == Weapon.WeaponType.Mace) OH.Buff.Attributes.AddToValue(Attribute.Expertise, 0.0125);
                 }
                 else if (Race == Races.Troll)
                 {
-                    if (Ranged.Type == Weapon.WeaponType.Bow || MH.Type == Weapon.WeaponType.Throwable) MH.Buff.Attributes.AddToValue(Attribute.Expertise, 1.25);
+                    if (Ranged.Type == Weapon.WeaponType.Bow || MH.Type == Weapon.WeaponType.Throwable) Attributes.AddToValue(Attribute.CritChance, 0.0125);
                 }
                 else if (Race == Races.Dwarf)
                 {
-                    if (Ranged.Type == Weapon.WeaponType.Gun) MH.Buff.Attributes.AddToValue(Attribute.Expertise, 1.25);
+                    if (Ranged.Type == Weapon.WeaponType.Gun) Attributes.AddToValue(Attribute.CritChance, 0.01);
                 }
             }
 
@@ -2007,6 +2007,29 @@ namespace ClassicCraft
                             buff.StartEffect();
                         }
                     }
+                    if (!alreadyProc.Contains("blackout")
+                        && w.Name.ToLower().Contains("blackout")
+                        && Randomer.NextDouble() < 0.025)       // TODO : Check 1PPM
+                    {
+                        string procName = "Blackout Truncheon";
+                        alreadyProc.Add(procName);
+
+                        Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.Haste, 132 / RatingRatios[Attribute.Haste] / 100 }
+                        };
+                        int procDuration = 10;
+
+                        if (Effects.ContainsKey(procName))
+                        {
+                            Effects[procName].Refresh();
+                        }
+                        else
+                        {
+                            CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
+                            buff.StartEffect();
+                        }
+                    }
                     if (!alreadyProc.Contains("bladefist")
                         && w.Name.ToLower().Contains("bladefist")
                         && Randomer.NextDouble() < 0.045)
@@ -2245,7 +2268,7 @@ namespace ClassicCraft
 
             Dictionary<ResultType, double> whiteHitChancesMH = new Dictionary<ResultType, double>();
             whiteHitChancesMH.Add(ResultType.Miss, MissChance(DualWielding, HitChance, WeaponSkill[MH.Type], enemy.Level));
-            whiteHitChancesMH.Add(ResultType.Dodge, Program.version == Version.TBC ? EnemyDodgeChance(enemy.DodgeChance(WeaponSkill[MH.Type]), ExpertisePercent) : enemy.DodgeChance(WeaponSkill[MH.Type]));
+            whiteHitChancesMH.Add(ResultType.Dodge, Program.version == Version.TBC ? EnemyDodgeChance(enemy.DodgeChance(WeaponSkill[MH.Type]), ExpertisePercent + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.Expertise))) : enemy.DodgeChance(WeaponSkill[MH.Type]));
             whiteHitChancesMH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level, Sim.Tanking, MHParryExpertise));
             whiteHitChancesMH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level));
             whiteHitChancesMH.Add(ResultType.Block, enemy.BlockChance());
@@ -2257,7 +2280,7 @@ namespace ClassicCraft
             {
                 whiteHitChancesOH = new Dictionary<ResultType, double>();
                 whiteHitChancesOH.Add(ResultType.Miss, MissChance(true, HitChance + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.HitChance)), WeaponSkill[OH.Type], enemy.Level));
-                whiteHitChancesOH.Add(ResultType.Dodge, Program.version == Version.TBC ? EnemyDodgeChance(enemy.DodgeChance(WeaponSkill[OH.Type]), ExpertisePercent) : enemy.DodgeChance(WeaponSkill[OH.Type]));
+                whiteHitChancesOH.Add(ResultType.Dodge, Program.version == Version.TBC ? EnemyDodgeChance(enemy.DodgeChance(WeaponSkill[OH.Type]), ExpertisePercent + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.Expertise))) : enemy.DodgeChance(WeaponSkill[OH.Type]));
                 whiteHitChancesOH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[OH.Type], enemy.Level, Sim.Tanking, OHParryExpertise));
                 whiteHitChancesOH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level));
                 whiteHitChancesOH.Add(ResultType.Block, enemy.BlockChance());
@@ -2267,7 +2290,7 @@ namespace ClassicCraft
 
             Dictionary<ResultType, double> yellowHitChances = new Dictionary<ResultType, double>();
             yellowHitChances.Add(ResultType.Miss, MissChanceYellow(HitChance, WeaponSkill[MH.Type], enemy.Level));
-            yellowHitChances.Add(ResultType.Dodge, Program.version == Version.TBC ? EnemyDodgeChance(enemy.DodgeChance(WeaponSkill[MH.Type]), ExpertisePercent) : enemy.DodgeChance(WeaponSkill[MH.Type]));
+            yellowHitChances.Add(ResultType.Dodge, Program.version == Version.TBC ? EnemyDodgeChance(enemy.DodgeChance(WeaponSkill[MH.Type]), ExpertisePercent + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.Expertise))) : enemy.DodgeChance(WeaponSkill[MH.Type]));
             yellowHitChances.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level, Sim.Tanking, MHParryExpertise));
             yellowHitChances.Add(ResultType.Block, enemy.BlockChance());
             yellowHitChances.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritChance + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), yellowHitChances[ResultType.Miss], 0, yellowHitChances[ResultType.Dodge], yellowHitChances[ResultType.Parry], yellowHitChances[ResultType.Block]));

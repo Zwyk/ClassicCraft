@@ -29,7 +29,8 @@ namespace ClassicCraft
 
         public static void Proc(Player Player, int damage)
         {
-            ResultType res = Randomer.NextDouble() < Player.SpellCritChance ? ResultType.Crit : ResultType.Hit;
+            // TODO : Check if SS crit is in TBC (quick testing didn't show any crit)
+            ResultType res = Program.version == Version.Vanilla && Randomer.NextDouble() < Player.SpellCritChance ? ResultType.Crit : ResultType.Hit;
 
             damage = (int)Math.Round(damage
                    * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0.1 * Player.GetTalentPoints("Impale") : 0))
