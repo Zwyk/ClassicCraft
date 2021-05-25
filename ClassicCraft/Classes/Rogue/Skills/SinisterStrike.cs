@@ -11,6 +11,8 @@ namespace ClassicCraft
         public static int BASE_COST = 45;
         public static int CD = 0;
 
+        public static int BASE_DMG = Program.version == Version.Vanilla ? 68 : 98;
+
         public SinisterStrike(Player p)
             : base(p, CD, BASE_COST - (p.GetTalentPoints("ISS") > 0 ? (p.GetTalentPoints("ISS") > 1 ? 5 : 3) : 0)) { }
 
@@ -30,7 +32,7 @@ namespace ClassicCraft
 
             Player.nextAABonus = 0;
 
-            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + 68)
+            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + BASE_DMG)
                 * Player.Sim.DamageMod(res)
                 * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                 * (1 + (0.02 * Player.GetTalentPoints("Agg")))

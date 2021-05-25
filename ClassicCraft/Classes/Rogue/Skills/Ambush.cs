@@ -11,6 +11,9 @@ namespace ClassicCraft
         public static int BASE_COST = 60;
         public static int CD = 0;
 
+        public static int BASE_DMG = Program.version == Version.Vanilla ? 290 : 335;
+        public static double WEAP_RATIO = Program.version == Version.Vanilla ? 2.5 : 2.75;
+
         public Ambush(Player p)
             : base(p, CD, BASE_COST) { }
 
@@ -25,12 +28,12 @@ namespace ClassicCraft
 
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
 
-            int minDmg = (int)Math.Round(weapon.DamageMin * 2.5 + Simulation.Normalization(weapon) * Player.AP / 14);
-            int maxDmg = (int)Math.Round(weapon.DamageMax * 2.5 + Simulation.Normalization(weapon) * Player.AP / 14);
+            int minDmg = (int)Math.Round(weapon.DamageMin * WEAP_RATIO + Simulation.Normalization(weapon) * Player.AP / 14);
+            int maxDmg = (int)Math.Round(weapon.DamageMax * WEAP_RATIO + Simulation.Normalization(weapon) * Player.AP / 14);
 
             Player.nextAABonus = 0;
 
-            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + 290)
+            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + BASE_DMG)
                 * Player.Sim.DamageMod(res)
                 * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                 * (1 + (0.04 * Player.GetTalentPoints("Oppo")))

@@ -28,11 +28,6 @@ namespace ClassicCraftGUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static string CONFIG_FOLDER = "Config";
-
-        public static string PLAYER_CONFIG_FOLDER = "Player";
-        public static string SIM_CONFIG_FOLDER = "Simulation";
-
         public static string DB_FOLDER = "DB";
         public static string ARMOR_ITEMS_FOLDER = "Armor";
         public static string WEAPON_ITEMS_FOLDER = "Weapon";
@@ -63,40 +58,54 @@ namespace ClassicCraftGUI
 
         public static bool noDB = true;
 
+        public static bool init = false;
+
         public MainWindow()
         {
-            System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
-            customCulture.NumberFormat.NumberDecimalSeparator = ".";
-            System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
-            
-            InitializeComponent();
-            main = this;
-            
-            ConsoleTabControl.Items.Remove(ConsoleEmpty);
-            
-            if(!noDB)
+            try
             {
-                PopulateSlotLists();
-                LoadDB();
+                System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+                customCulture.NumberFormat.NumberDecimalSeparator = ".";
+                System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+
+                InitializeComponent();
+                main = this;
+
+                ConsoleTabControl.Items.Remove(ConsoleEmpty);
+
+                if (!noDB)
+                {
+                    PopulateSlotLists();
+                    LoadDB();
+                }
+
+                Program.LoadConfig();
+                LoadSimJsons();
+                LoadPlayerJsons();
+                Program.LoadConfigJsons();
+                sim = Program.jsonSim;
+                player = Program.jsonPlayer;
+                LoadSimConfig();
+                LoadPlayer();
+
+                if (!noDB)
+                {
+                    SavePlayer();
+                }
+
+                DataObject.AddPastingHandler(Talents, Talents_OnPaste);
+
+                ItemsList.SelectedIndex = 0;
+                WeaponsList.SelectedIndex = 0;
+                EnchantsList.SelectedIndex = 0;
+
+                init = true;
             }
-
-            Program.LoadConfigJsons();
-            sim = Program.jsonSim;
-            player = Program.jsonPlayer;
-
-            LoadSimConfig();
-            LoadPlayer();
-            
-            if(!noDB)
+            catch(Exception e)
             {
-                SavePlayer();
+                string path = "Error Log " + DateTime.Now.ToString("_yyyyMMdd-HHmmss-fff") + Program.txt;
+                File.WriteAllText(path, e.ToString());
             }
-
-            DataObject.AddPastingHandler(Talents, Talents_OnPaste);
-
-            ItemsList.SelectedIndex = 0;
-            WeaponsList.SelectedIndex = 0;
-            EnchantsList.SelectedIndex = 0;
         }
 
         private void Run(object sender, RoutedEventArgs e)
@@ -136,8 +145,68 @@ namespace ClassicCraftGUI
             LoadEnchants();
         }
 
+        private void LoadPlayerJsons()
+        {
+            try
+            {
+                PlayerCB.Items.Clear();
+                int selected = -1;
+                int i = 0;
+                foreach (string s in Directory.GetFiles(System.IO.Path.Combine(Program.basePath(), Program.CONFIG_FOLDER, Program.PLAYER_CONFIG_FOLDER), "*.json"))
+                {
+                    string str = System.IO.Path.GetFileNameWithoutExtension(s);
+                    if (str.Equals(Program.Config.Player)) selected = i;
+                    PlayerCB.Items.Add(str);
+                    i++;
+                }
+
+                if(selected == -1)
+                {
+                    selected = 0;
+                    Program.Config.Player = PlayerCB.Items[0].ToString();
+                    Program.SaveConfig();
+                }
+
+                PlayerCB.SelectedIndex = selected;
+            }
+            catch (Exception e)
+            {
+                Program.Debug("Error while loading Player jsons : " + e.ToString());
+            }
+        }
+
+        private void LoadSimJsons()
+        {
+            try
+            {
+                SimCB.Items.Clear();
+                int selected = -1;
+                int i = 0;
+                foreach (string s in Directory.GetFiles(System.IO.Path.Combine(Program.basePath(), Program.CONFIG_FOLDER, Program.SIM_CONFIG_FOLDER), "*.json"))
+                {
+                    string str = System.IO.Path.GetFileNameWithoutExtension(s);
+                    if (str.Equals(Program.Config.Sim)) selected = i;
+                    SimCB.Items.Add(str);
+                    i++;
+                }
+
+                if (selected == -1)
+                {
+                    selected = 0;
+                    Program.Config.Sim = SimCB.Items[0].ToString();
+                    Program.SaveConfig();
+                }
+
+                SimCB.SelectedIndex = selected;
+            }
+            catch (Exception e)
+            {
+                Program.Debug("Error while loading Sim jsons : " + e.ToString());
+            }
+        }
+
         #region Sim config
-        
+
         private void LoadSimConfigClick(object sender, RoutedEventArgs e)
         {
             Program.LoadConfigJsons(false, true);
@@ -220,6 +289,25 @@ namespace ClassicCraftGUI
             sim.UnlimitedResource = UnlimitedResource.IsChecked == true;
         }
 
+        private void SimRefreshClick(object sender, RoutedEventArgs e)
+        {
+            LoadSimJsons();
+        }
+
+        private void SimCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(init)
+            {
+                Program.Config.Sim = SimCB.SelectedItem.ToString();
+
+                Program.LoadConfigJsons(false, true);
+                sim = Program.jsonSim;
+                LoadSimConfig();
+
+                Program.SaveConfig();
+            }
+        }
+
         #endregion
 
         #region Player
@@ -288,6 +376,28 @@ namespace ClassicCraftGUI
             player.Race = Race.Text;
             player.Class = Class.Text;
             player.Talents = Talents.Text;
+        }
+
+        private void PlayerRefreshClick(object sender, RoutedEventArgs e)
+        {
+            init = false;
+            LoadPlayerJsons();
+            LoadPlayer();
+            init = true;
+        }
+
+        private void PlayerCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(init)
+            {
+                Program.Config.Player = PlayerCB.SelectedItem.ToString();
+
+                Program.LoadConfigJsons(true, false);
+                player = Program.jsonPlayer;
+                LoadPlayer();
+
+                Program.SaveConfig();
+            }
         }
 
         #endregion

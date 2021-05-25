@@ -30,6 +30,10 @@ namespace ClassicCraft
             899,
         };
 
+        public static int MIN_TBC = 245;
+        public static int MAX_TBC = 365;
+        public static double AP_RATIO_PER_POINTS = 0.03;
+
         public Eviscerate(Player p)
             : base(p, CD, BASE_COST) { }
 
@@ -42,11 +46,11 @@ namespace ClassicCraft
         {
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
 
-            int minDmg = min[Player.Combo - 1];
-            int maxDmg = max[Player.Combo - 1];
+            int minDmg = Program.version == Version.Vanilla ? min[Player.Combo - 1] : MIN_TBC;
+            int maxDmg = Program.version == Version.Vanilla ? max[Player.Combo - 1] : MAX_TBC;
 
             int damage = (int)Math.Round(
-                (Randomer.Next(minDmg, maxDmg + 1) + Player.AP * 0.15)
+                (Randomer.Next(minDmg, maxDmg + 1) + Player.AP * (Program.version == Version.Vanilla ? 0.15 : AP_RATIO_PER_POINTS * Player.Combo))
                 * Player.Sim.DamageMod(res)
                 * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                 * Player.DamageMod

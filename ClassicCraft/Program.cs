@@ -49,9 +49,12 @@ namespace ClassicCraft
     {
         public static Version version = Version.TBC;
 
-        public static string simJsonFileName = "sim.json";
-        public static string playerJsonFileName = "player.json";
-        public static string itemsJsonFileName = "items.json";
+        public static JsonUtil.Config Config = null;
+
+        public static string CONFIG_FILE = "config.json";
+        public static string CONFIG_FOLDER = "Config";
+        public static string PLAYER_CONFIG_FOLDER = "Player";
+        public static string SIM_CONFIG_FOLDER = "Sim";
         public static string logsFileDir = "Logs";
         public static string logsFileName = "logs";
         public static string txt = ".txt";
@@ -76,7 +79,8 @@ namespace ClassicCraft
         //public static List<Attribute> toWeight = null;
         //public static Attribute weighted;
 
-        public static int nbTasksForSims = 1000;
+        public static int CONCURRENT_SIMS = 1000;
+        public static int nbTasksForSims;
 
         public class StatsData
         {
@@ -259,18 +263,29 @@ namespace ClassicCraft
             };
         }
 
+        public static void LoadConfig()
+        {
+            string configStr = File.ReadAllText(Path.Combine(basePath(), CONFIG_FOLDER, CONFIG_FILE));
+            Config = JsonConvert.DeserializeObject<JsonUtil.Config>(configStr);
+        }
+
+        public static void SaveConfig()
+        {
+            File.WriteAllText(Path.Combine(basePath(), CONFIG_FOLDER, CONFIG_FILE), JsonConvert.SerializeObject(Config, Formatting.Indented));
+        }
+
         public static void LoadConfigJsons(bool player = true, bool sim = true)
         {
             try
             {
                 if(sim)
                 {
-                    string simString = File.ReadAllText(debug ? Path.Combine(debugPath, simJsonFileName) : simJsonFileName);
+                    string simString = File.ReadAllText(Path.Combine(basePath(), CONFIG_FOLDER, SIM_CONFIG_FOLDER, Config.Sim + ".json"));
                     jsonSim = JsonConvert.DeserializeObject<JsonUtil.JsonSim>(simString);
                 }
                 if(player)
                 {
-                    string playerString = File.ReadAllText(debug ? Path.Combine(debugPath, playerJsonFileName) : playerJsonFileName);
+                    string playerString = File.ReadAllText(Path.Combine(basePath(), CONFIG_FOLDER, PLAYER_CONFIG_FOLDER, Config.Player + ".json"));
                     jsonPlayer = JsonConvert.DeserializeObject<JsonUtil.JsonPlayer>(playerString);
                 }
             }
@@ -284,8 +299,8 @@ namespace ClassicCraft
         {
             try
             {
-                if(sim) File.WriteAllText(debug ? Path.Combine(debugPath, simJsonFileName) : simJsonFileName, JsonConvert.SerializeObject(jsonSim, Formatting.Indented));
-                if(player) File.WriteAllText(debug ? Path.Combine(debugPath, playerJsonFileName) : playerJsonFileName, JsonConvert.SerializeObject(jsonPlayer, Formatting.Indented));
+                if(sim) File.WriteAllText(Path.Combine(basePath(), CONFIG_FOLDER, SIM_CONFIG_FOLDER, Config.Sim + ".json"), JsonConvert.SerializeObject(jsonSim, Formatting.Indented));
+                if(player) File.WriteAllText(Path.Combine(basePath(), CONFIG_FOLDER, PLAYER_CONFIG_FOLDER, Config.Player + ".json"), JsonConvert.SerializeObject(jsonPlayer, Formatting.Indented));
             }
             catch (Exception e)
             {
@@ -317,6 +332,13 @@ namespace ClassicCraft
                 logFight = jsonSim.LogFight;
                 statsWeights = jsonSim.StatsWeights;
                 nbTargets = jsonSim.NbTargets;
+
+                if (targetError)
+                {
+                    if (targetErrorPct > 0.5) nbTasksForSims = CONCURRENT_SIMS / 10;
+                    else if (targetErrorPct > 0.3) nbTasksForSims = CONCURRENT_SIMS / 2;
+                    else nbTasksForSims = CONCURRENT_SIMS;
+                }
                 
                 Log(string.Format("Date : {0}\n", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")));
                 Log(string.Format("Fight length : {0} seconds (±{1}%)", jsonSim.FightLength, jsonSim.FightLengthMod * 100));
@@ -586,8 +608,13 @@ namespace ClassicCraft
 
                             while (errorPct > targetErrorPct)
                             {
-                                while (tasks.Count(t => !t.IsCompleted) < nbTasksForSims)
+                                double currentPct = Math.Min(1, Math.Pow((100 - errorPct) / (100 - targetErrorPct), 0.2 / targetErrorPct * 1000)) * 100;
+
+                                double working = tasks.Count(t => !t.IsCompleted);
+                                while (working < nbTasksForSims && (currentPct == 0 || 
+                                        (CurrentDpsList.Count+working*0.9) < (100/currentPct*CurrentDpsList.Count)))
                                 {
+                                    working++;
                                     nbSim++;
                                     tasks.Add(Task.Factory.StartNew(() => DoSim()));
                                 }
@@ -605,8 +632,7 @@ namespace ClassicCraft
                                         errorPct = Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average());
                                     }
                                 }
-
-                                double currentPct = Math.Min(1, Math.Pow((100 - errorPct) / (100 - targetErrorPct), 0.2/targetErrorPct*1000)) * 100;
+                                
                                 GUISetProgress(done / simOrder.Count * 100 + currentPct);
                                 GUISetProgressText(String.Format("Simulating {0} - {1}/{2}", simOrder[done], done + 1, statsWeights ? simOrder.Count : 1));
                                 
@@ -1141,7 +1167,8 @@ namespace ClassicCraft
                     Output(logs);
                 }
 
-                string path = debug ? Path.Combine(debugPath, logsFileName + txt) : Path.Combine(logsFileDir, logsFileName + DateTime.Now.ToString("_yyyyMMdd-HHmmss-fff") + txt);
+                string path = debug ? Path.Combine(debugPath, logsFileName + txt) : 
+                                    Path.Combine(logsFileDir, Config.Sim + " "  + Config.Player + DateTime.Now.ToString(" - yyyyMMdd_HHmmss_fff") + txt);
                 File.WriteAllText(path, logs);
 
                 Output("Logs written in " + path);

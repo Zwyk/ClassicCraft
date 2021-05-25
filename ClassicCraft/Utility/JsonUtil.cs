@@ -522,5 +522,17 @@ namespace ClassicCraft
                 default: return "Physical";
             }
         }
+
+        public class Config
+        {
+            public string Player { get; set; }
+            public string Sim { get; set; }
+
+            public Config(string player, string sim)
+            {
+                Player = player;
+                Sim = sim;
+            }
+        }
     }
 }

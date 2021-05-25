@@ -64,30 +64,66 @@ namespace ClassicCraft
             string subti = talents.Length > 2 ? talents[2] : "";
 
             Talents = new Dictionary<string, int>();
-            // Assassination
-            Talents.Add("IE", assass.Length > 0 ? (int)Char.GetNumericValue(assass[0]) : 0);
-            Talents.Add("Malice", assass.Length > 2 ? (int)Char.GetNumericValue(assass[2]) : 0);
-            Talents.Add("Ruth", assass.Length > 3 ? (int)Char.GetNumericValue(assass[3]) : 0);
-            Talents.Add("Murder", (assass.Length > 4 && (Program.jsonSim.Boss.Type == "Humanoid" || Program.jsonSim.Boss.Type == "Giant" || Program.jsonSim.Boss.Type == "Beast" || Program.jsonSim.Boss.Type == "Dragonkin"))
-                 ? (int)Char.GetNumericValue(assass[4]) : 0);
-            Talents.Add("ISD", assass.Length > 5 ? (int)Char.GetNumericValue(assass[5]) : 0);
-            Talents.Add("RS", assass.Length > 6 ? (int)Char.GetNumericValue(assass[6]) : 0);
-            Talents.Add("Letha", assass.Length > 8 ? (int)Char.GetNumericValue(assass[8]) : 0);
-            // Combat
-            Talents.Add("IG", combat.Length > 0 ? (int)Char.GetNumericValue(combat[0]) : 0);
-            Talents.Add("ISS", combat.Length > 1 ? (int)Char.GetNumericValue(combat[1]) : 0);
-            Talents.Add("IB", combat.Length > 3 ? (int)Char.GetNumericValue(combat[3]) : 0);
-            Talents.Add("Prec", combat.Length > 5 ? (int)Char.GetNumericValue(combat[5]) : 0);
-            Talents.Add("DS", combat.Length > 10 ? (int)Char.GetNumericValue(combat[10]) : 0);
-            Talents.Add("DWS", combat.Length > 11 ? (int)Char.GetNumericValue(combat[11]) : 0);
-            Talents.Add("BF", combat.Length > 13 ? (int)Char.GetNumericValue(combat[13]) : 0);
-            Talents.Add("SS", combat.Length > 14 ? (int)Char.GetNumericValue(combat[14]) : 0);
-            Talents.Add("FS", combat.Length > 15 ? (int)Char.GetNumericValue(combat[15]) : 0);
-            Talents.Add("WE", combat.Length > 16 ? (int)Char.GetNumericValue(combat[16]) : 0);
-            Talents.Add("Agg", combat.Length > 17 ? (int)Char.GetNumericValue(combat[17]) : 0);
-            Talents.Add("AR", combat.Length > 18 ? (int)Char.GetNumericValue(combat[18]) : 0);
-            // Subtlety
-            Talents.Add("Oppo", subti.Length > 1 ? (int)Char.GetNumericValue(subti[1]) : 0);
+
+            switch(Program.version)
+            {
+                case Version.Vanilla:
+                    // Assassination
+                    Talents.Add("IE", assass.Length > 0 ? (int)Char.GetNumericValue(assass[0]) : 0);
+                    Talents.Add("Malice", assass.Length > 2 ? (int)Char.GetNumericValue(assass[2]) : 0);
+                    Talents.Add("Ruth", assass.Length > 3 ? (int)Char.GetNumericValue(assass[3]) : 0);
+                    Talents.Add("Murder", (assass.Length > 4 && (Program.jsonSim.Boss.Type == "Humanoid" || Program.jsonSim.Boss.Type == "Giant" || Program.jsonSim.Boss.Type == "Beast" || Program.jsonSim.Boss.Type == "Dragonkin"))
+                         ? (int)Char.GetNumericValue(assass[4]) : 0);
+                    Talents.Add("ISD", assass.Length > 5 ? (int)Char.GetNumericValue(assass[5]) : 0);
+                    Talents.Add("RS", assass.Length > 6 ? (int)Char.GetNumericValue(assass[6]) : 0);
+                    Talents.Add("Letha", assass.Length > 8 ? (int)Char.GetNumericValue(assass[8]) : 0);
+                    // Combat
+                    Talents.Add("ISS", combat.Length > 1 ? (int)Char.GetNumericValue(combat[1]) : 0);
+                    Talents.Add("IB", combat.Length > 3 ? (int)Char.GetNumericValue(combat[3]) : 0);
+                    Talents.Add("Prec", combat.Length > 5 ? (int)Char.GetNumericValue(combat[5]) : 0);
+                    Talents.Add("DS", combat.Length > 10 ? (int)Char.GetNumericValue(combat[10]) : 0);
+                    Talents.Add("DWS", combat.Length > 11 ? (int)Char.GetNumericValue(combat[11]) : 0);
+                    Talents.Add("BF", combat.Length > 13 ? (int)Char.GetNumericValue(combat[13]) : 0);
+                    Talents.Add("SS", combat.Length > 14 ? (int)Char.GetNumericValue(combat[14]) : 0);
+                    Talents.Add("FS", combat.Length > 15 ? (int)Char.GetNumericValue(combat[15]) : 0);
+                    Talents.Add("WE", combat.Length > 16 ? (int)Char.GetNumericValue(combat[16]) : 0);
+                    Talents.Add("Agg", combat.Length > 17 ? (int)Char.GetNumericValue(combat[17]) : 0);
+                    Talents.Add("AR", combat.Length > 18 ? (int)Char.GetNumericValue(combat[18]) : 0);
+                    // Subtlety
+                    Talents.Add("Oppo", subti.Length > 1 ? (int)Char.GetNumericValue(subti[1]) : 0);
+                    break;
+                case Version.TBC:
+                    // Assassination
+                    Talents.Add("IE", assass.Length > 0 ? (int)Char.GetNumericValue(assass[0]) : 0);
+                    Talents.Add("Malice", assass.Length > 2 ? (int)Char.GetNumericValue(assass[2]) : 0);
+                    Talents.Add("Ruth", assass.Length > 3 ? (int)Char.GetNumericValue(assass[3]) : 0);
+                    Talents.Add("Murder", (assass.Length > 4 && (Program.jsonSim.Boss.Type == "Humanoid" || Program.jsonSim.Boss.Type == "Giant" || Program.jsonSim.Boss.Type == "Beast" || Program.jsonSim.Boss.Type == "Dragonkin"))
+                         ? (int)Char.GetNumericValue(assass[4]) : 0);
+                    Talents.Add("PW", assass.Length > 5 ? (int)Char.GetNumericValue(assass[5]) : 0);
+                    Talents.Add("RS", assass.Length > 6 ? (int)Char.GetNumericValue(assass[6]) : 0);
+                    Talents.Add("Letha", assass.Length > 8 ? (int)Char.GetNumericValue(assass[8]) : 0);
+                    Talents.Add("VP", assass.Length > 9 ? (int)Char.GetNumericValue(assass[9]) : 0);
+                    Talents.Add("IP", assass.Length > 10 ? (int)Char.GetNumericValue(assass[10]) : 0);
+                    // Combat
+                    Talents.Add("ISS", combat.Length > 1 ? (int)Char.GetNumericValue(combat[1]) : 0);
+                    Talents.Add("ISD", combat.Length > 3 ? (int)Char.GetNumericValue(combat[3]) : 0);
+                    Talents.Add("Prec", combat.Length > 5 ? (int)Char.GetNumericValue(combat[5]) : 0);
+                    Talents.Add("DS", combat.Length > 10 ? (int)Char.GetNumericValue(combat[10]) : 0);
+                    Talents.Add("DWS", combat.Length > 11 ? (int)Char.GetNumericValue(combat[11]) : 0);
+                    Talents.Add("Mace", combat.Length > 12 ? (int)Char.GetNumericValue(combat[12]) : 0);
+                    Talents.Add("BF", combat.Length > 13 ? (int)Char.GetNumericValue(combat[13]) : 0);
+                    Talents.Add("Sword", combat.Length > 14 ? (int)Char.GetNumericValue(combat[14]) : 0);
+                    Talents.Add("Fists", combat.Length > 15 ? (int)Char.GetNumericValue(combat[15]) : 0);
+                    Talents.Add("WE", combat.Length > 17 ? (int)Char.GetNumericValue(combat[17]) : 0);
+                    Talents.Add("Agg", combat.Length > 18 ? (int)Char.GetNumericValue(combat[18]) : 0);
+                    Talents.Add("Vitality", combat.Length > 19 ? (int)Char.GetNumericValue(combat[19]) : 0);
+                    Talents.Add("AR", combat.Length > 20 ? (int)Char.GetNumericValue(combat[20]) : 0);
+                    Talents.Add("CP", combat.Length > 22 ? (int)Char.GetNumericValue(combat[22]) : 0);
+                    Talents.Add("SA", combat.Length > 23 ? (int)Char.GetNumericValue(combat[23]) : 0);
+                    // Subtlety
+                    Talents.Add("Oppo", subti.Length > 1 ? (int)Char.GetNumericValue(subti[1]) : 0);
+                    break;
+            }
         }
 
         #endregion

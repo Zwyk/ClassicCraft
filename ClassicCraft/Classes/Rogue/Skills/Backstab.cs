@@ -11,6 +11,8 @@ namespace ClassicCraft
         public static int BASE_COST = 60;
         public static int CD = 0;
 
+        public static int BASE_DMG = Program.version == Version.Vanilla ? 210 : 255;
+
         public Backstab(Player p)
             : base(p, CD, BASE_COST) { }
 
@@ -30,7 +32,7 @@ namespace ClassicCraft
 
             Player.nextAABonus = 0;
 
-            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + 210)
+            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + BASE_DMG)
                 * Player.Sim.DamageMod(res)
                 * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                 * (1 + (0.04 * Player.GetTalentPoints("Oppo")))

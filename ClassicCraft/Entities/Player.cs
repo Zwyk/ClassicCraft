@@ -484,65 +484,74 @@ namespace ClassicCraft
                     switch (r)
                     {
                         case Races.Dwarf:
-                            res.Values.Add(Attribute.Strength, 82);
-                            res.Values.Add(Attribute.Agility, 126);
-                            res.Values.Add(Attribute.Stamina, 78);
-                            res.Values.Add(Attribute.Intellect, 34);
-                            res.Values.Add(Attribute.Spirit, 49);
+                            res.Values.Add(Attribute.Strength, level == 70 ? 97 : 82);
+                            res.Values.Add(Attribute.Agility, level == 70 ? 154 : 126);
+                            res.Values.Add(Attribute.Stamina, level == 70 ? 92 : 78);
+                            res.Values.Add(Attribute.Intellect, level == 70 ? 38 : 34);
+                            res.Values.Add(Attribute.Spirit, level == 70 ? 57 : 49);
                             res.Values.Add(Attribute.Health, 1523);
                             res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Gnome:
-                            res.Values.Add(Attribute.Strength, 75);
-                            res.Values.Add(Attribute.Agility, 133);
-                            res.Values.Add(Attribute.Stamina, 74);
-                            res.Values.Add(Attribute.Intellect, 40);
-                            res.Values.Add(Attribute.Spirit, 50);
+                            res.Values.Add(Attribute.Strength, level == 70 ? 90 : 75);
+                            res.Values.Add(Attribute.Agility, level == 70 ? 161 : 133);
+                            res.Values.Add(Attribute.Stamina, level == 70 ? 88 : 74);
+                            res.Values.Add(Attribute.Intellect, level == 70 ? 45 : 40);
+                            res.Values.Add(Attribute.Spirit, level == 70 ? 58 : 50);
                             res.Values.Add(Attribute.Health, 1523);
                             res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Human:
-                            res.Values.Add(Attribute.Strength, 80);
-                            res.Values.Add(Attribute.Agility, 130);
-                            res.Values.Add(Attribute.Stamina, 75);
-                            res.Values.Add(Attribute.Intellect, 35);
-                            res.Values.Add(Attribute.Spirit, 52);
+                            res.Values.Add(Attribute.Strength, level == 70 ? 95 : 80);
+                            res.Values.Add(Attribute.Agility, level == 70 ? 158 : 130);
+                            res.Values.Add(Attribute.Stamina, level == 70 ? 89 : 75);
+                            res.Values.Add(Attribute.Intellect, level == 70 ? 39 : 35);
+                            res.Values.Add(Attribute.Spirit, level == 70 ? 63 : 52);
                             res.Values.Add(Attribute.Health, 1523);
                             res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.NightElf:
-                            res.Values.Add(Attribute.Strength, 77);
-                            res.Values.Add(Attribute.Agility, 135);
-                            res.Values.Add(Attribute.Stamina, 74);
-                            res.Values.Add(Attribute.Intellect, 35);
-                            res.Values.Add(Attribute.Spirit, 50);
+                            res.Values.Add(Attribute.Strength, level == 70 ? 92 : 77);
+                            res.Values.Add(Attribute.Agility, level == 70 ? 163 : 135);
+                            res.Values.Add(Attribute.Stamina, level == 70 ? 88 : 74);
+                            res.Values.Add(Attribute.Intellect, level == 70 ? 39 : 35);
+                            res.Values.Add(Attribute.Spirit, level == 70 ? 58 : 50);
                             res.Values.Add(Attribute.Health, 1523);
                             res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Orc:
-                            res.Values.Add(Attribute.Strength, 83);
-                            res.Values.Add(Attribute.Agility, 127);
-                            res.Values.Add(Attribute.Stamina, 77);
-                            res.Values.Add(Attribute.Intellect, 32);
-                            res.Values.Add(Attribute.Spirit, 53);
+                            res.Values.Add(Attribute.Strength, level == 70 ? 98 : 83);
+                            res.Values.Add(Attribute.Agility, level == 70 ? 155 : 127);
+                            res.Values.Add(Attribute.Stamina, level == 70 ? 91 : 77);
+                            res.Values.Add(Attribute.Intellect, level == 70 ? 36 : 32);
+                            res.Values.Add(Attribute.Spirit, level == 70 ? 61 : 53);
                             res.Values.Add(Attribute.Health, 1523);
                             res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Troll:
-                            res.Values.Add(Attribute.Strength, 81);
-                            res.Values.Add(Attribute.Agility, 132);
-                            res.Values.Add(Attribute.Stamina, 76);
-                            res.Values.Add(Attribute.Intellect, 31);
-                            res.Values.Add(Attribute.Spirit, 51);
+                            res.Values.Add(Attribute.Strength, level == 70 ? 96 : 81);
+                            res.Values.Add(Attribute.Agility, level == 70 ? 160 : 132);
+                            res.Values.Add(Attribute.Stamina, level == 70 ? 90 : 76);
+                            res.Values.Add(Attribute.Intellect, level == 70 ? 35 : 31);
+                            res.Values.Add(Attribute.Spirit, level == 70 ? 59 : 51);
                             res.Values.Add(Attribute.Health, 1523);
                             res.Values.Add(Attribute.Mana, 0);
                             break;
                         case Races.Undead:
-                            res.Values.Add(Attribute.Strength, 79);
-                            res.Values.Add(Attribute.Agility, 128);
-                            res.Values.Add(Attribute.Stamina, 76);
-                            res.Values.Add(Attribute.Intellect, 33);
-                            res.Values.Add(Attribute.Spirit, 55);
+                            res.Values.Add(Attribute.Strength, level == 70 ? 94 : 79);
+                            res.Values.Add(Attribute.Agility, level == 70 ? 156 : 128);
+                            res.Values.Add(Attribute.Stamina, level == 70 ? 90 : 76);
+                            res.Values.Add(Attribute.Intellect, level == 70 ? 37 : 33);
+                            res.Values.Add(Attribute.Spirit, level == 70 ? 63 : 55);
+                            res.Values.Add(Attribute.Health, 1523);
+                            res.Values.Add(Attribute.Mana, 0);
+                            break;
+                        case Races.BloodElf:
+                            res.Values.Add(Attribute.Strength, level == 70 ? 92 : 79);
+                            res.Values.Add(Attribute.Agility, level == 70 ? 160 : 136);
+                            res.Values.Add(Attribute.Stamina, level == 70 ? 88 : 76);
+                            res.Values.Add(Attribute.Intellect, level == 70 ? 43 : 39);
+                            res.Values.Add(Attribute.Spirit, level == 70 ? 57 : 50);
                             res.Values.Add(Attribute.Health, 1523);
                             res.Values.Add(Attribute.Mana, 0);
                             break;
@@ -2571,10 +2580,18 @@ namespace ClassicCraft
                 table[ResultType.Crit] = 1;
             }
 
-            if (Class == Classes.Rogue && spell.Equals("Backstab"))
+            if (Class == Classes.Rogue)
             {
-                table = new Dictionary<ResultType, double>(table);
-                table[ResultType.Crit] += 0.1 * GetTalentPoints("IB");
+                if (spell.Equals("Backstab")) // TODO : Mutilate
+                {
+                    table = new Dictionary<ResultType, double>(table);
+                    table[ResultType.Crit] += 0.1 * GetTalentPoints("IB");
+                }
+                if (GetTalentPoints("SA") > 0 && (spell.Equals("Eviscerate") || spell.Equals("Rupture")))
+                {
+                    table = new Dictionary<ResultType, double>(table);
+                    table[ResultType.Dodge] += 0.1 * GetTalentPoints("IB");
+                }
             }
 
             ResultType res = PickFromTable(table, Randomer.NextDouble());

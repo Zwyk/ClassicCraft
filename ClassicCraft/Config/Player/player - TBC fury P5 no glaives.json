@@ -1,0 +1,484 @@
+{
+  "Class": "Warrior",
+  "Level": 70,
+  "Race": "Orc",
+  "Talents": "32024001302-050500055050120521251",
+  "Cooldowns": {
+    "Racial": true,
+    "Death Wish": false,
+    "Recklessness": false,
+    "Bloodlust": true,
+    "Mighty Rage": false,
+    "Haste Potion": true,
+    "Insane Strength Potion": false
+  },
+  "Buffs": [
+    {
+      "Id": 0,
+      "Name": "Test",
+      "Slot": null,
+      "Stats": {
+        "Str": 0.0,
+        "Agi": 0.0,
+        "Hit": 0.0,
+        "Crit": 0.0,
+        "AP": 0.0,
+        "Haste": 0.0,
+        "ArmorPen": 0.0,
+        "Expertise": 0.0,
+        "WDmg": 0.0,
+        "WDmgMH": 0.0,
+        "WDmgOH": 0.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Flask",
+      "Slot": null,
+      "Stats": {
+        "AP": 120.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Food",
+      "Slot": null,
+      "Stats": {
+        "Str": 20.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Battle Shout",
+      "Slot": null,
+      "Stats": {
+        "AP": 381.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Benediction of Might",
+      "Slot": null,
+      "Stats": {
+        "AP": 264.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Blessing of Kings",
+      "Slot": null,
+      "Stats": {}
+    },
+    {
+      "Id": 0,
+      "Name": "Mark of the Wild",
+      "Slot": null,
+      "Stats": {
+        "Agi": 19.0,
+        "Str": 19.0,
+        "Int": 19.0,
+        "Spi": 19.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Totem STR",
+      "Slot": null,
+      "Stats": {
+        "Str": 98.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Windfury Totem",
+      "Slot": null,
+      "Stats": {}
+    },
+    {
+      "Id": 0,
+      "Name": "Drums of Battle",
+      "Slot": null,
+      "Stats": {}
+    },
+  ],
+  "Weapons": {
+    "MH": {
+      "DamageMin": 184.0,
+      "DamageMax": 343.0,
+      "Speed": 2.7,
+      "TwoHanded": false,
+      "Type": "Mace",
+      "Buff": null,
+      "School": null,
+      "Name": "Dragonstrike",
+      "Id": 5,
+      "Slot": "Weapon",
+      "Stats": {},
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Mongoose",
+        "Slot": "Weapon",
+        "Stats": {}
+      },
+      "Gems": null
+    },
+    "OH": {
+      "DamageMin": 196.0,
+      "DamageMax": 365.0,
+      "Speed": 2.6,
+      "TwoHanded": false,
+      "Type": "Sword",
+      "Buff": null,
+      "School": null,
+      "Name": "Muramasa",
+      "Id": 5,
+      "Slot": "Weapon",
+      "Stats": {
+        "Haste": 35.0,
+        "Hit": 17.0,
+      },
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Mongoose",
+        "Slot": "Weapon",
+        "Stats": {}
+      },
+      "Gems": null
+    },
+    "Ranged": {
+      "DamageMin": 0.0,
+      "DamageMax": 0.0,
+      "Speed": 0.0,
+      "TwoHanded": false,
+      "Type": "Bow",
+      "Buff": null,
+      "School": null,
+      "Name": "Thori'dal",
+      "Id": 6,
+      "Slot": "Ranged",
+      "Stats": {
+        "Crit": 16.0,
+        "AP": 34.0,
+        "ArmorPen": 112.0,
+      },
+      "Enchantment": null
+    }
+  },
+  "Equipment": {
+    "Head": {
+      "Name": "Duplicitous",
+      "Id": 0,
+      "Slot": "Head",
+      "Stats": {
+        "Agi": 43.0,
+        "Hit": 30.0,
+        "Haste": 34.0,
+        "AP": 126.0,
+      },
+      "Enchantment": {
+        "Id": 4,
+        "Name": "Ferocity",
+        "Slot": "Head",
+        "Stats": {
+          "AP": 34.0,
+          "Hit": 16.0
+        }
+      },
+      "Gems": {
+        "Id": 0,
+        "Name": "Relentless Earthstorm Diamond",
+        "Slot": "Head",
+        "Stats": {
+          "Agi": 12.0,
+          "Str": 5.0,
+          "Crit": 5.0,
+          "Hit": 4.0,
+        }
+      }
+    },
+    "Neck": {
+      "Name": "Khorium",
+      "Id": 1,
+      "Slot": "Neck",
+      "Stats": {
+        "Haste": 29.0,
+        "AP": 58.0,
+        "ArmorPen": 150.0
+      },
+      "Enchantment": null,
+      "Gems": {
+        "Id": 0,
+        "Name": "Gems",
+        "Slot": "Neck",
+        "Stats": {
+          "Str": 5.0,
+          "Crit": 5.0,
+          "AP": 4.0,
+        }
+      },
+    },
+    "Shoulders": {
+      "Name": "Onslaught",
+      "Id": 2,
+      "Slot": "Shoulders",
+      "Stats": {
+        "Str": 39.0,
+        "Agi": 39.0,
+        "ArmorPen": 91.0,
+      },
+      "Enchantment": {
+        "Id": 4,
+        "Name": "Enchant",
+        "Slot": "Shoulders",
+        "Stats": {
+          "AP": 20.0,
+          "Crit": 15.0
+        }
+      },
+      "Gems": {
+        "Id": 0,
+        "Name": "Gems",
+        "Slot": "Shoulders",
+        "Stats": {
+          "Str": 10.0,
+          "Crit": 10.0,
+        }
+      }
+    },
+    "Back": {
+      "Name": "Unforgivable",
+      "Id": 3,
+      "Slot": "Back",
+      "Stats": {
+        "Agi": 26.0,
+        "Haste": 32.0,
+        "AP": 72.0
+      },
+      "Enchantment": {
+        "Id": 5,
+        "Name": "Greater Agi",
+        "Slot": "Back",
+        "Stats": {
+          "Agi": 12.0
+        }
+      },
+      "Gems": {
+        "Id": 0,
+        "Name": "Gems",
+        "Slot": "Back",
+        "Stats": {
+          "Str": 5.0,
+          "Crit": 5.0,
+          "AP": 4.0,
+        }
+      }
+    },
+    "Chest": {
+      "Name": "Bladed Chaos",
+      "Id": 4,
+      "Slot": "Chest",
+      "Stats": {
+        "Agi": 42.0,
+        "Crit": 38.0,
+        "AP": 120.0,
+        "ArmorPen": 126,
+      },
+      "Enchantment": {
+        "Id": 6,
+        "Name": "Exceptional Stats",
+        "Slot": "Chest",
+        "Stats": {
+          "Str": 6.0,
+          "Agi": 6.0,
+          "Int": 6.0,
+          "Spi": 6.0
+        }
+      },
+      "Gems": {
+        "Id": 0,
+        "Name": "Gems",
+        "Slot": "Chest",
+        "Stats": {
+          "Str": 15.0,
+          "Crit": 10.0,
+          "AP": 8.0,
+        }
+      }
+    },
+    "Wrists": {
+      "Name": "Onslaught Bracers",
+      "Id": 5,
+      "Slot": "Wrists",
+      "Stats": {
+        "Str": 33.0,
+        "Crit": 30.0,
+        "Hit": 16.0,
+        "ArmorPen": 140.0
+      },
+      "Enchantment": {
+        "Id": 7,
+        "Name": "Brawn",
+        "Slot": "Wrists",
+        "Stats": {
+          "Str": 12.0
+        }
+      },
+      "Gems": {
+        "Id": 0,
+        "Name": "Gems",
+        "Slot": "Wrists",
+        "Stats": {
+          "Str": 5.0,
+          "Crit": 5.0,
+        }
+      }
+    },
+    "Hands": {
+      "Name": "Immortal Dusk",
+      "Id": 6,
+      "Slot": "Hands",
+      "Stats": {
+        "Agi": 30.0,
+        "Crit": 30.0,
+        "AP": 90.0,
+        "ArmorPen": 154.0
+      },
+      "Enchantment": {
+        "Id": 8,
+        "Name": "Str",
+        "Slot": "Hands",
+        "Stats": {
+          "Str": 15.0
+        }
+      },
+      "Gems": {
+        "Id": 0,
+        "Name": "Gems",
+        "Slot": "Hands",
+        "Stats": {
+          "Str": 10.0,
+          "Crit": 13.0,
+        }
+      }
+    },
+    "Waist": {
+      "Name": "Onslaught Belt",
+      "Id": 7,
+      "Slot": "Waist",
+      "Stats": {
+        "Str": 43.0,
+        "Expertise": 26.0,
+        "Crit": 40.0,
+        "Haste": 26.0,
+      },
+      "Enchantment": null,
+      "Gems": {
+        "Id": 8,
+        "Name": "Gems",
+        "Slot": "Waist",
+        "Stats": {
+          "Str": 7.0,
+          "Crit": 5.0
+        }
+      }
+    },
+    "Legs": {
+      "Name": "Felfury",
+      "Id": 8,
+      "Slot": "Legs",
+      "Stats": {
+        "Str": 61.0,
+        "Haste": 50.0,
+        "Crit": 34.0,
+      },
+      "Enchantment": {
+        "Id": 8,
+        "Name": "Cobrahide",
+        "Slot": "Hands",
+        "Stats": {
+          "AP": 50.0,
+          "Crit": 12.0
+        }
+      },
+      "Gems": {
+        "Id": 8,
+        "Name": "Gems",
+        "Slot": "Legs",
+        "Stats": {
+          "Str": 7.0,
+        }
+      }
+    },
+    "Feet": {
+      "Name": "Onslaught Feet",
+      "Id": 9,
+      "Slot": "Feet",
+      "Stats": {
+        "Str": 44.0,
+        "Crit": 36.0,
+        "Hit": 25.0,
+        "Haste": 30.0,
+      },
+      "Enchantment": {
+        "Id": 8,
+        "Name": "Feet agi",
+        "Slot": "Hands",
+        "Stats": {
+          "Agi": 12.0
+        }
+      },
+      "Gems": {
+        "Id": 8,
+        "Name": "Gems",
+        "Slot": "Feet",
+        "Stats": {
+          "Str": 7.0,
+          "Crit": 5.0
+        }
+      }
+    },
+    "Finger1": {
+      "Name": "Ruinous Delight",
+      "Id": 10,
+      "Slot": "Finger",
+      "Stats": {
+        "Crit": 32.0,
+        "ArmorPen": 161.0,
+        "AP": 66.0,
+      },
+      "Enchantment": null
+    },
+    "Finger2": {
+      "Name": "Khorium",
+      "Id": 10,
+      "Slot": "Finger",
+      "Stats": {
+        "Agi": 30.0,
+        "Haste": 28.0,
+        "AP": 58.0,
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Trinket1": {
+      "Name": "Blackened Naaru Sliver",
+      "Id": 12,
+      "Slot": "Trinket",
+      "Stats": {
+        "Haste": 54.0,
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Trinket2": {
+      "Name": "Dragonspine Trophy",
+      "Id": 13,
+      "Slot": "Trinket",
+      "Stats": {
+        "AP": 40.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    }
+  }
+}

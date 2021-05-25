@@ -29,7 +29,8 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <ComboBox Text="sim.json" Grid.Column="1" SelectedIndex="0" Margin="0 0 10 0" IsEditable="True" IsTextSearchEnabled="True" VerticalAlignment="Center" IsEnabled="False" />
+                                <Button Content="⟳" Click="SimRefreshClick" Margin="0,2,10,2" Padding="3 0 3 2" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <ComboBox x:Name="SimCB" SelectionChanged="SimCB_SelectionChanged" Grid.Column="1" SelectedIndex="0" Margin="0 0 10 0" IsEditable="False" IsTextSearchEnabled="True" VerticalAlignment="Center" IsEnabled="True" />
                                 <Button Content="save" Click="SaveSimConfigClick" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 <Button Content="load" Click="LoadSimConfigClick" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 <Button Content="new" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False" />
@@ -432,7 +433,8 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <ComboBox Text="player.json" Grid.Column="1" SelectedIndex="0" Margin="0 0 10 0" IsEditable="True" IsTextSearchEnabled="True" VerticalAlignment="Center" IsEnabled="False" />
+                                <Button Content="⟳" Click="PlayerRefreshClick" Margin="0,2,10,2" Padding="3 0 3 2" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <ComboBox x:Name="PlayerCB" SelectionChanged="PlayerCB_SelectionChanged" Grid.Column="1" SelectedIndex="0" Margin="0 0 10 0" IsEditable="False" IsTextSearchEnabled="True" VerticalAlignment="Center" IsEnabled="True" />
                                 <Button Content="save" Click="SavePlayerClick" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 <Button Content="load" Click="LoadPlayerClick" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 <Button Content="new" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False" />

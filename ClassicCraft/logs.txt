@@ -1,46 +1,47 @@
-Date : 2021/05/25 04:43:03
+500
+Date : 2021/05/25 14:54:46
 
 Fight length : 240 seconds (±10%)
-Number of targets : 4
+Number of targets : 1
 
 Player :
-Orc Warrior level 70 | Talents : 32003301352010500221-0550000500521203 | Stats : [Strength:713.9][Agility:250.8][Stamina:123.2][Intellect:57.2][Spirit:80.3][Health:2741][Mana:0][AP:2798.8][RangedAP:561.6][CritChance:30.91%][HitChance:7.1%][Haste:0%][SpellHitChance:0%][SpellCritChance:0.54%][Expertise:2%][ArmorPen:0][WeaponDamage:0][WeaponDamageMH:0][WeaponDamageOH:0]
-Main weapon : Sword with 350 skill
+Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:660][Agility:250.8][Stamina:123.2][Intellect:57.2][Spirit:80.3][Health:2741][Mana:0][AP:2960.1][RangedAP:561.6][CritChance:30.91%][HitChance:9.1%][Haste:0%][SpellHitChance:0%][SpellCritChance:0.54%][Expertise:2%][ArmorPen:0][WeaponDamage:0][WeaponDamageMH:0][WeaponDamageOH:0]
+Main weapon : Mace with 350 skill
 
 Boss :
 Level 73, 6193 Armor (27.28% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
 After raid debuffs and player penetration :
 Level 73, 1708 Armor (9.38% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
 
-5672 simulations done in 31,462.68 ms, for 5.55 ms by sim
-Overall accuracy of results : ±0.18% (±4.40 DPS)
+596 simulations done in 3,084.97 ms, for 5.18 ms by sim
+Overall accuracy of results : ±0.46% (±7.29 DPS)
 
-Average DPS : 2,409.80 DPS (±331.08)
+Average DPS : 1,597.86 DPS (±178.07)
 
-Average stats for [AA MH] : 608.70 DPS (25.26%)
-	Average of 1,514.67 damage for 96.50 uses (or 1 use every 2.49s)
-	40.28% Hit, 28.08% Crit, 1.90% Miss, 25.29% Glancing, 4.45% Dodge
+Average stats for [AA MH] : 381.88 DPS (23.90%)
+	Average of 877.59 damage for 104.71 uses (or 1 use every 2.30s)
+	20.81% Hit, 28.05% Crit, 15.52% Miss, 31.18% Glancing, 4.43% Dodge
 
-Average stats for [Mortal Strike] : 234.10 DPS (9.71%)
-	Average of 1,813.15 damage for 31.00 uses (or 1 use every 7.75s)
-	65.82% Hit, 27.83% Crit, 1.90% Miss, 0.00% Glancing, 4.45% Dodge
+Average stats for [AA OH] : 281.03 DPS (17.59%)
+	Average of 512.24 damage for 131.80 uses (or 1 use every 1.82s)
+	27.68% Hit, 27.93% Crit, 13.11% Miss, 26.66% Glancing, 4.62% Dodge
 
-Average stats for [Whirlwind] : 569.39 DPS (23.63%)
-	Average of 1,533.88 damage for 89.13 uses (or 1 use every 2.69s)
-	65.73% Hit, 27.87% Crit, 1.89% Miss, 0.00% Glancing, 4.51% Dodge
+Average stats for [Bloodthirst] : 272.45 DPS (17.05%)
+	Average of 1,873.69 damage for 34.95 uses (or 1 use every 6.88s)
+	67.78% Hit, 27.73% Crit, 0.00% Miss, 0.00% Glancing, 4.48% Dodge
 
-Average stats for [Sweeping Strikes] : 440.44 DPS (18.28%)
-	Average of 1,751.75 damage for 60.27 uses (or 1 use every 3.98s)
-	100.00% Hit, 0.00% Crit, 0.00% Miss, 0.00% Glancing, 0.00% Dodge
+Average stats for [Whirlwind] : 190.24 DPS (11.91%)
+	Average of 1,634.47 damage for 27.97 uses (or 1 use every 8.59s)
+	67.24% Hit, 28.20% Crit, 0.00% Miss, 0.00% Glancing, 4.56% Dodge
 
-Average stats for [Cleave] : 377.01 DPS (15.64%)
-	Average of 3,472.01 damage for 26.07 uses (or 1 use every 9.21s)
-	65.84% Hit, 27.84% Crit, 1.87% Miss, 0.00% Glancing, 4.45% Dodge
+Average stats for [Heroic Strike] : 310.76 DPS (19.45%)
+	Average of 1,366.65 damage for 54.62 uses (or 1 use every 4.40s)
+	67.73% Hit, 27.81% Crit, 0.00% Miss, 0.00% Glancing, 4.46% Dodge
 
-Average stats for [Execute] : 120.69 DPS (5.01%)
-	Average of 1,901.81 damage for 15.25 uses (or 1 use every 15.75s)
-	65.62% Hit, 27.98% Crit, 1.95% Miss, 0.00% Glancing, 4.45% Dodge
+Average stats for [Execute] : 120.15 DPS (7.52%)
+	Average of 1,707.30 damage for 16.92 uses (or 1 use every 14.20s)
+	68.33% Hit, 27.39% Crit, 0.00% Miss, 0.00% Glancing, 4.28% Dodge
 
-Average stats for [Deep Wounds] : 59.48 DPS (2.47%)
-	Average of 187.98 damage for 75.98 ticks (or 1 tick every 3.16s)
-	94.92% Uptime
+Average stats for [Deep Wounds] : 41.34 DPS (2.59%)
+	Average of 127.01 damage for 78.22 ticks (or 1 tick every 3.07s)
+	97.64% Uptime

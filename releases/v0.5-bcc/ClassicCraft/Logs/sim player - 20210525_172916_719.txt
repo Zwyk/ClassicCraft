@@ -1,0 +1,47 @@
+500
+Date : 2021/05/25 17:29:13
+
+Fight length : 240 seconds (±10%)
+Number of targets : 1
+
+Player :
+Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:660][Agility:250.8][Stamina:123.2][Intellect:57.2][Spirit:80.3][Health:2741][Mana:0][AP:2960.1][RangedAP:561.6][CritChance:30.91%][HitChance:9.1%][Haste:0%][SpellHitChance:0%][SpellCritChance:0.54%][Expertise:2%][ArmorPen:0][WeaponDamage:0][WeaponDamageMH:0][WeaponDamageOH:0]
+Main weapon : Mace with 350 skill
+
+Boss :
+Level 73, 6193 Armor (27.28% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
+After raid debuffs and player penetration :
+Level 73, 1708 Armor (9.38% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
+
+663 simulations done in 2,909.18 ms, for 4.39 ms by sim
+Overall accuracy of results : ±0.41% (±6.49 DPS)
+
+Average DPS : 1,594.40 DPS (±167.04)
+
+Average stats for [AA MH] : 379.75 DPS (23.82%)
+	Average of 873.75 damage for 104.55 uses (or 1 use every 2.30s)
+	20.55% Hit, 27.90% Crit, 15.68% Miss, 31.47% Glancing, 4.40% Dodge
+
+Average stats for [AA OH] : 281.00 DPS (17.62%)
+	Average of 511.79 damage for 131.85 uses (or 1 use every 1.82s)
+	27.83% Hit, 27.84% Crit, 13.26% Miss, 26.57% Glancing, 4.50% Dodge
+
+Average stats for [Bloodthirst] : 272.94 DPS (17.12%)
+	Average of 1,878.38 damage for 34.91 uses (or 1 use every 6.88s)
+	67.13% Hit, 28.19% Crit, 0.00% Miss, 0.00% Glancing, 4.68% Dodge
+
+Average stats for [Whirlwind] : 190.44 DPS (11.94%)
+	Average of 1,635.66 damage for 27.97 uses (or 1 use every 8.59s)
+	66.99% Hit, 28.34% Crit, 0.00% Miss, 0.00% Glancing, 4.66% Dodge
+
+Average stats for [Heroic Strike] : 308.18 DPS (19.33%)
+	Average of 1,364.95 damage for 54.22 uses (or 1 use every 4.43s)
+	67.80% Hit, 27.70% Crit, 0.00% Miss, 0.00% Glancing, 4.51% Dodge
+
+Average stats for [Execute] : 120.79 DPS (7.58%)
+	Average of 1,701.71 damage for 17.07 uses (or 1 use every 14.07s)
+	67.86% Hit, 27.54% Crit, 0.00% Miss, 0.00% Glancing, 4.61% Dodge
+
+Average stats for [Deep Wounds] : 41.29 DPS (2.59%)
+	Average of 127.04 damage for 78.09 ticks (or 1 tick every 3.07s)
+	97.51% Uptime
