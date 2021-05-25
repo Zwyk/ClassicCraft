@@ -293,7 +293,7 @@
                                                             <ColumnDefinition Width="200" />
                                                             <ColumnDefinition Width="100" />
                                                         </Grid.ColumnDefinitions>
-                                                        <TextBlock Text="Player Tanking" TextWrapping="Wrap" Grid.Column="0" />
+                                                        <TextBlock Text="Player Tanking (or boss facing)" TextWrapping="Wrap" Grid.Column="0" />
                                                         <CheckBox x:Name="Tanking" Grid.Column="1" Checked="Tanking_Changed" Unchecked="Tanking_Changed"  />
                                                     </Grid>
                                                     <Grid Margin="0 10 0 0">
@@ -305,6 +305,7 @@
                                                         </Grid.ColumnDefinitions>
                                                         <TextBlock Text="Player Tanking Hit Frequency (s)" TextWrapping="Wrap" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,99,0" />
                                                         <ComboBox x:Name="TankingHitEvery" SelectedIndex="2" IsEditable="True" IsTextSearchEnabled="True" PreviewTextInput="NumberCheck" IsEnabled="False" Grid.Column="1" Grid.ColumnSpan="2" Margin="1,0,95,0">
+                                                            <ComboBoxItem Content="0" />
                                                             <ComboBoxItem Content="1" />
                                                             <ComboBoxItem Content="2" />
                                                             <ComboBoxItem Content="3" />

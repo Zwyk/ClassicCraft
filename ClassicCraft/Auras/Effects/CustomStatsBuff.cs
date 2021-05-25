@@ -11,8 +11,8 @@ namespace ClassicCraft
         public string Name { get; set; }
         public Dictionary<Attribute, double> Buffs { get; set; }
 
-        public CustomStatsBuff(Player p, string name, double baseLength, int baseStacks = 1, Dictionary<Attribute, double> buffs = null)
-            : base(p, p, true, baseLength, baseStacks)
+        public CustomStatsBuff(Player p, string name, double baseLength, int baseStacks = 1, Dictionary<Attribute, double> buffs = null, int maxStacks = 0)
+            : base(p, p, true, baseLength, baseStacks, maxStacks)
         {
             Name = name;
             Buffs = buffs;
@@ -37,6 +37,25 @@ namespace ClassicCraft
             }
         }
 
+        public override void StackAdd(int nb = 1)
+        {
+            int oldStacks = CurrentStacks;
+
+            base.StackAdd(nb);
+            
+            if(CurrentStacks > oldStacks)
+            {
+                foreach (Attribute a in Buffs?.Keys)
+                {
+                    if (a == Attribute.Haste)
+                    {
+                        Player.HasteMod *= 1 + Buffs[a] * nb;
+                    }
+                    else ApplyAttribute(a, Buffs[a] * nb);
+                }
+            }
+        }
+
         public override void EndEffect()
         {
             base.EndEffect();
@@ -45,9 +64,28 @@ namespace ClassicCraft
             {
                 if(a == Attribute.Haste)
                 {
-                    Player.HasteMod /= 1 + Buffs[a];
+                    Player.HasteMod /= 1 + Buffs[a] * CurrentStacks;
                 }
-                else ApplyAttribute(a, -Buffs[a]);
+                else ApplyAttribute(a, -Buffs[a] * CurrentStacks);
+            }
+        }
+
+        public override void StackRemove(int nb = 1)
+        {
+            int oldStacks = CurrentStacks;
+
+            base.StackRemove(nb);
+
+            if (CurrentStacks < oldStacks)
+            {
+                foreach (Attribute a in Buffs?.Keys)
+                {
+                    if (a == Attribute.Haste)
+                    {
+                        Player.HasteMod /= 1 + Buffs[a] * nb;
+                    }
+                    else ApplyAttribute(a, -Buffs[a] * nb);
+                }
             }
         }
 
@@ -76,7 +114,7 @@ namespace ClassicCraft
             }
 
             bonus *= mult;
-
+            
             Player.Attributes.AddToValue(a, bonus);
 
             if (a == Attribute.Strength) Player.Attributes.AddToValue(Attribute.AP, bonus * Player.StrToAPRatio(Player.Class));

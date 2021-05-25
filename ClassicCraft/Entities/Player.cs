@@ -756,7 +756,7 @@ namespace ClassicCraft
                 case Classes.Druid:
                     // -20 // Normal
                     // level * 1.5 - 20 // Moonkin
-                    return Tanking ?
+                    return Tanking && Sim.TankHitRage > 0 && Sim.TankHitEvery > 0 ?
                         level * 3 - 20 + 180: //Bear
                         level * 2 - 20 + 40; // Cat
                 default:
@@ -1432,10 +1432,10 @@ namespace ClassicCraft
             {
                 Attributes.SetValue(Attribute.Intellect, Attributes.GetValue(Attribute.Intellect)
                     * (1 + 0.04 * GetTalentPoints("HW")));
-                if (Program.version == Version.Vanilla && !Tanking) Attributes.SetValue(Attribute.Strength, Attributes.GetValue(Attribute.Strength) * (1 + 0.04 * GetTalentPoints("HW")));
+                if (Program.version == Version.Vanilla && (!Tanking || Sim.TankHitRage == 0 || Sim.TankHitEvery == 0)) Attributes.SetValue(Attribute.Strength, Attributes.GetValue(Attribute.Strength) * (1 + 0.04 * GetTalentPoints("HW")));
                 Attributes.AddToValue(Attribute.CritChance, 0.01 * GetTalentPoints("SC"));
                 Attributes.AddToValue(Attribute.AP, 0.5 * GetTalentPoints("PS") * Level);
-                if(Tanking)
+                if(Tanking && Sim.TankHitRage > 0 && Sim.TankHitEvery > 0)
                 {
                     ThreatMod *= 1.3 * (1 + 0.03 * GetTalentPoints("FI"));
                     Form = Forms.Bear;
@@ -1487,9 +1487,12 @@ namespace ClassicCraft
                 if(Program.version == Version.TBC)
                 {
                     Attributes.AddToValue(Attribute.Expertise, 0.005 * GetTalentPoints("Defiance"));
+
+                    if (MH.Type == Weapon.WeaponType.Axe || MH.Type == Weapon.WeaponType.Polearm) MH.Buff.Attributes.AddToValue(Attribute.CritChance, 0.01 * GetTalentPoints("Poleaxe"));
+                    if (DualWielding && (OH.Type == Weapon.WeaponType.Axe || MH.Type == Weapon.WeaponType.Polearm)) OH.Buff.Attributes.SetValue(Attribute.CritChance, 0.01 * GetTalentPoints("Poleaxe"));
                 }
 
-                if (Tanking)
+                if (Tanking && Sim.TankHitRage > 0 && Sim.TankHitEvery > 0)
                 {
                     DamageMod *= 0.9;
                     ThreatMod *= 1.3 * (1 + 0.03 * GetTalentPoints("Defiance"));
@@ -1521,7 +1524,7 @@ namespace ClassicCraft
             Attributes.AddToValue(Attribute.CritChance, Attributes.GetValue(Attribute.Agility) * AgiToCritRatio(Class));
             Attributes.AddToValue(Attribute.SpellCritChance, BaseSpellCrit(Class) + Attributes.GetValue(Attribute.Intellect) * IntToCritRatio(Class));
 
-            if (Class == Classes.Druid && Program.version == Version.TBC && !Tanking) Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) * (1 + 0.02 * GetTalentPoints("HW")));
+            if (Class == Classes.Druid && Program.version == Version.TBC && Form != Forms.Bear) Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) * (1 + 0.02 * GetTalentPoints("HW")));
             if (Class == Classes.Warrior && Program.version == Version.TBC) Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) * (1 + 0.02 * GetTalentPoints("IBStance")));
 
             if (Buffs.Any(b => b.Name.ToLower().Equals("unleashed rage"))) Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) * 1.06);
@@ -2218,6 +2221,30 @@ namespace ClassicCraft
                             buff.StartEffect();
                         }
                     }
+                    if (!alreadyProc.Contains("Blackened Naaru Sliver")
+                        && (Equipment[Slot.Trinket1]?.Name.ToLower() == "blackened naaru sliver" || Equipment[Slot.Trinket2]?.Name.ToLower() == "blackened naaru sliver")
+                        && (!icds.ContainsKey("Blackened Naaru Sliver") || Effects.ContainsKey("Blackened Naaru Sliver") || icds["Blackened Naaru Sliver"] < Sim.CurrentTime - 45)
+                        && (Effects.ContainsKey("Blackened Naaru Sliver") || Randomer.NextDouble() < 0.1))
+                    {
+                        string procName = "Blackened Naaru Sliver";
+                        alreadyProc.Add(procName);
+                        icds[procName] = Sim.CurrentTime;
+                        Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.AP, 44 }
+                        };
+                        int procDuration = 20;
+
+                        if (Effects.ContainsKey(procName))
+                        {
+                            Effects[procName].StackAdd();
+                        }
+                        else
+                        {
+                            CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes, 10);
+                            buff.StartEffect();
+                        }
+                    }
                 }
             }
             else if(Class == Classes.Warrior && (res == ResultType.Parry || res == ResultType.Dodge) && Sets["Warbringer"] >= 4)
@@ -2264,7 +2291,7 @@ namespace ClassicCraft
             }
 
             double? MHCritBuff = MH.Buff?.Attributes.GetValue(Attribute.CritChance);
-            double? OHCritBuff = OH.Buff?.Attributes.GetValue(Attribute.CritChance);
+            double? OHCritBuff = OH?.Buff?.Attributes.GetValue(Attribute.CritChance);
 
             Dictionary<ResultType, double> whiteHitChancesMH = new Dictionary<ResultType, double>();
             whiteHitChancesMH.Add(ResultType.Miss, MissChance(DualWielding, HitChance, WeaponSkill[MH.Type], enemy.Level));

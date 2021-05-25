@@ -105,7 +105,7 @@ namespace ClassicCraft
                 {
                     log += " [combo " + Player.Combo + "]";
                 }
-                if (Player.Mana > 0 && !Player.Tanking)
+                if (Player.Mana > 0 && Player.Form != Player.Forms.Bear)
                 {
                     log += " - Mana " + Player.Mana + "/" + Player.MaxMana;
                 }

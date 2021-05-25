@@ -148,10 +148,10 @@
       "DamageMax": 0.0,
       "Speed": 0.0,
       "TwoHanded": false,
-      "Type": "Crossbow",
+      "Type": "Bow",
       "Buff": null,
       "School": null,
-      "Name": "Knives",
+      "Name": "Phoenix",
       "Id": 6,
       "Slot": "Ranged",
       "Stats": {
@@ -183,14 +183,13 @@
       },
       "Gems": {
         "Id": 0,
-        "Name": "Chaotic",
+        "Name": "Chaotic Skyfire Diamond",
         "Slot": "Head",
         "Stats": {
-          "AP": 0.0,
+          "SCrit": 12.0,
           "Str": 4.0,
           "Crit": 4.0,
           "Hit": 4.0,
-          "SCrit": 12.0,
         }
       }
     },
@@ -228,8 +227,8 @@
         "Name": "Gems",
         "Slot": "Shoulders",
         "Stats": {
-          "Str": 0.0,
-          "Crit": 16.0
+          "Str": 11.0,
+          "Crit": 4.0
         }
       }
     },
@@ -284,8 +283,8 @@
         "Name": "Gems",
         "Slot": "Chest",
         "Stats": {
-          "Str": 0.0,
-          "Crit": 24.0
+          "Str": 12.0,
+          "Crit": 12.0
         }
       }
     },
@@ -310,8 +309,8 @@
         "Name": "Gems",
         "Slot": "Wrists",
         "Stats": {
-          "Str": 0.0,
-          "Crit": 16.0
+          "Str": 11.0,
+          "Crit": 4.0
         }
       }
     },
@@ -408,7 +407,7 @@
       "Gems": {
         "Id": 8,
         "Name": "Str",
-        "Slot": "Legs",
+        "Slot": "Feet",
         "Stats": {
           "Str": 8.0,
           "Crit": 8.0,

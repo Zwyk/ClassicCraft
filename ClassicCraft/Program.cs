@@ -606,7 +606,7 @@ namespace ClassicCraft
                                     }
                                 }
 
-                                double currentPct = Math.Min(1, Math.Pow((100 - errorPct) / (100 - targetErrorPct), 1000)) * 100;
+                                double currentPct = Math.Min(1, Math.Pow((100 - errorPct) / (100 - targetErrorPct), 0.2/targetErrorPct*1000)) * 100;
                                 GUISetProgress(done / simOrder.Count * 100 + currentPct);
                                 GUISetProgressText(String.Format("Simulating {0} - {1}/{2}", simOrder[done], done + 1, statsWeights ? simOrder.Count : 1));
                                 
@@ -635,7 +635,7 @@ namespace ClassicCraft
                         SimsTPSStDev.Add(simOrder[done], Stats.StandardError(Stats.StdDev(CurrentTpsList.ToArray())));
                     }
 
-                    Log(simOrder[done] + " : " + CurrentDpsList.Average());
+                    //Log(simOrder[done] + " : " + CurrentDpsList.Average());
                 }
 
 
@@ -750,7 +750,7 @@ namespace ClassicCraft
                             double arpenTps = SimsAvgDPS["+500 ArPen"];
                             double arpenDif = (arpenTps - baseTps) / 500;
                             if (arpenDif < 0) arpenDif = 0;
-                            Log(string.Format("1 Armor Penetration = {0:N4} TPS = {1:N4} AP", arpenDif, arpenDif / apDif));
+                            Log(string.Format("1 Armor Pen = {0:N4} TPS = {1:N4} AP", arpenDif, arpenDif / apDif));
 
                             weightsDone += 1;
                         }
@@ -759,7 +759,7 @@ namespace ClassicCraft
                             double arpenTps = SimsAvgDPS["+1000 ArPen"];
                             double arpenDif = (arpenTps - baseTps) / 1000;
                             if (arpenDif < 0) arpenDif = 0;
-                            Log(string.Format("1 Armor Penetration (+1000) = {0:N4} TPS = {1:N4} AP", arpenDif, arpenDif / apDif));
+                            Log(string.Format("1 Armor Pen (+1000) = {0:N4} TPS = {1:N4} AP", arpenDif, arpenDif / apDif));
 
                             weightsDone += 1;
                         }
@@ -849,7 +849,7 @@ namespace ClassicCraft
                             double apDps = SimsAvgDPS["+100 AP"];
                             apDif = (apDps - baseDps) / (version == Version.TBC ? 100 : 50);
                             if (apDif < 0) apDif = 0;
-                            Log(string.Format("1 AP = {0:N4} DPS (±{1:N2})", apDif));
+                            Log(string.Format("1 AP = {0:N4} DPS", apDif));
 
                             double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * Player.BonusStrToAPRatio(playerBase);
                             Log(string.Format("1 Str = {0:N4} DPS = {1:N4} AP", strDif, strDif / apDif));
@@ -1076,8 +1076,8 @@ namespace ClassicCraft
                             }
                             else if (ac == "Whirlwind" && version == Version.TBC)
                             {
-                                avgAcUse /= 2 * nbTargets;
-                                avgAcDmg *= 2 * nbTargets;
+                                avgAcUse /= (playerBase.DualWielding ? 2 : 1) * nbTargets;
+                                avgAcDmg *= (playerBase.DualWielding ? 2 : 1) * nbTargets;
                             }
                             res += string.Format("\n\tAverage of {0:N2} damage for {1:N2} uses (or 1 use every {2:N2}s)", avgAcDmg, avgAcUse, avgFightLength / avgAcUse);
 

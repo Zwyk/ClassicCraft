@@ -84,6 +84,7 @@ namespace ClassicCraft
                 case "Crossbow": return Attribute.SkillCrossbow;
                 case "Gun": return Attribute.SkillGun;
                 case "Throwable": return Attribute.SkillThrowable;
+                case "Thrown": return Attribute.SkillThrowable;
                 case "WDmg": return Attribute.WeaponDamage;
                 case "WDmgMH": return Attribute.WeaponDamageMH;
                 case "WDmgOH": return Attribute.WeaponDamageOH;
@@ -127,7 +128,7 @@ namespace ClassicCraft
                 case Attribute.SkillBow: return "Bow";
                 case Attribute.SkillCrossbow: return "Crossbow";
                 case Attribute.SkillGun: return "Gun";
-                case Attribute.SkillThrowable: return "Throwable";
+                case Attribute.SkillThrowable: return "Thrown";
                 case Attribute.WeaponDamage: return "WDmg";
                 case Attribute.WeaponDamageMH: return "WDmgMH";
                 case Attribute.WeaponDamageOH: return "WDmgOH";

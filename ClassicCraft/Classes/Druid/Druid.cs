@@ -80,7 +80,7 @@ namespace ClassicCraft
         {
             base.PrepFight();
 
-            if(Tanking)
+            if(Tanking && Sim.TankHitRage > 0 && Sim.TankHitEvery > 0)
             {
                 maul = new Maul(this);
                 swipe = new Swipe(this);
@@ -106,7 +106,7 @@ namespace ClassicCraft
                 new MCP(this).Cast();
             }
 
-            if(Tanking)
+            if(Tanking && Sim.TankHitRage > 0 && Sim.TankHitEvery > 0)
             {
                 Form = Forms.Bear;
             }
@@ -121,7 +121,7 @@ namespace ClassicCraft
 
         public override void Rota()
         {
-            if (Tanking) // MAUL + SWIPE
+            if (Tanking && Sim.TankHitRage > 0 && Sim.TankHitEvery > 0) // MAUL + SWIPE
             {
                 if(maul.CanUse())
                 {

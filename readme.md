@@ -22,13 +22,13 @@
 		- Class, Race
 		- Talents (rotation detection from them)
 		- Gear (special sets and trinkets auto detection)
-		- Enchantements (Crusader, Poisons, ...)
+		- Enchantements (Crusader, Mongoose, ...)
 		- Consumables
 		- CDs to use
 		- Raid buffs
 		- World buffs
 	- Encounter setup
-		- Boss Level/Armor
+		- Boss Level/Armor/Magic resistances
 		- Length (+ boss low life length)
 		- Number of targets (AoE rotations)
 		- Is the player tanking ? (activates TPS stats and rage from boss hits)
@@ -55,12 +55,11 @@
 			- Slam
 	- Burning Crusade Classic
 		- Warrior
-			- Fury
-			- Arms 1H/2H
+			- Any DPS spec (Fury, Arms, Slam, 21/40/0, 0/31/30, ...)
 
 ### FAQ
-- I have an issue / I have a question / I have a suggestion / I want to help you
-	- Either use tickets on GitHub or hit me on Discord, see the links below!
+- When I try to run a simultion there seems to be an error
+	- First, make sure your `player.json` and `sim.json` files don't have any typos or are badly formatted (e.g. missing a comma). Try running a simultion with one of the example json files. If you still have an issue, please copy/paste (or screenshot) the error and open a ticket on [GitHub](https://github.com/Zwyk/ClassicCraft/issues)!
 - Is X item's/set's special effect implemented yet ?
 	- Either scrap the code for a mention of the item/set, or just try running a simulation with the item/set equipped (its name properly written) and activating "LogFight" ("Full Fight Log" on the GUI) to see if it procs or is being used! For sets, you if you want to test the X parts effect, you'll need to have X items with the set's name in it.
 - Is there a Wiki with all the information about the program (mechanics, proc-rates, etc.) ?
@@ -69,4 +68,4 @@
 	- Not a proper roadmap but here is a rough order of priority (purely personnal and indicative) : Popular DPS Melee Specs > Popular DPS Caster Specs > GUI > Alternative DPS Specs -> Extra features (multiple players, tanking/healing sim, ...)
 
 
-Please report any issue or suggestion either on [GitHub](https://github.com/Zwyk/ClassicCraft/issues) or on [Discord](https://discord.gg/tG4q7HE) where you can discuss, hang-out and ask me anything about ClassicCraft!
+For anything else related to ClassicCraft and if you want to make contact with me, join the [Discord](https://discord.gg/tG4q7HE)!

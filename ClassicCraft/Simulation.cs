@@ -103,7 +103,7 @@ namespace ClassicCraft
             }
 
             Program.AddSimDps(Damage / FightLength);
-            if(Tanking)
+            if(Tanking && TankHitEvery > 0 && TankHitRage > 0)
             {
                 Program.AddSimThreat(Threat / FightLength);
             }
@@ -120,7 +120,7 @@ namespace ClassicCraft
         {
             if (AutoLife)
             {
-                Boss.LifePct = Math.Max(0, 1 - (CurrentTime / FightLength) * (16.0 / 17.0));
+                Boss.LifePct = Math.Max(0, 1 - (CurrentTime / FightLength) * (Program.version == Version.Vanilla ? 16.0 / 17.0 : 1));
             }
             else if (CurrentTime >= LowLifeTime && Boss.LifePct == 1)
             {
@@ -137,7 +137,7 @@ namespace ClassicCraft
                 e.CheckEffect();
             }
 
-            if(Tanking && (Player.Class == Player.Classes.Warrior || Player.Form == Player.Forms.Bear) && LastHit + TankHitEvery <= CurrentTime)
+            if(Tanking && TankHitEvery > 0 && TankHitRage > 0 && (Player.Class == Player.Classes.Warrior || Player.Class == Player.Classes.Paladin || Player.Form == Player.Forms.Bear) && LastHit + TankHitEvery <= CurrentTime)
             {
                 Player.Resource += (int)TankHitRage;
 
@@ -186,7 +186,7 @@ namespace ClassicCraft
                 Results.Actions.Add(action);
             }
             Damage += action.Result.Damage;
-            if (Tanking)
+            if (Tanking && TankHitEvery > 0 && TankHitRage > 0)
             {
                 Threat += action.Result.Threat;
             }

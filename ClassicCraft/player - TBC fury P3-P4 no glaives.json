@@ -5,88 +5,30 @@
   "Talents": "32024001302-050500055050120521251",
   "Cooldowns": {
     "Racial": true,
-    "Death Wish": true,
-    "Bloodlust": true,
+    "Death Wish": false,
     "Recklessness": false,
-    "Juju Flurry": false,
+    "Bloodlust": true,
     "Mighty Rage": false,
-    "Haste Pot": true,
-    "Str Pot": false,
+    "Haste Potion": true,
+    "Insane Strength Potion": false
   },
   "Buffs": [
     {
       "Id": 0,
-      "Name": "Windfury Totem",
-      "Slot": null,
-      "Stats": {}
-    },
-    {
-      "Id": 0,
       "Name": "Test",
       "Slot": null,
-      "Stats": {}
-    },
-    {
-      "Id": 0,
-      "Name": "Battle Shout",
-      "Slot": null,
       "Stats": {
-        "AP": 381.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Totem STR",
-      "Slot": null,
-      "Stats": {
-        "Str": 99.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Benediction of Might",
-      "Slot": null,
-      "Stats": {
-        "AP": 264.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "blessing of kings",
-      "Slot": null,
-      "Stats": {}
-    },
-    {
-      "Id": 0,
-      "Name": "Expose Weakness",
-      "Slot": null,
-      "Stats": {
-        "AP": 200.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Trueshot Aura",
-      "Slot": null,
-      "Stats": {
-        "AP": 125.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Mark of the Wild",
-      "Slot": null,
-      "Stats": {
-        "Agi": 19.0,
-        "Str": 19.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Food",
-      "Slot": null,
-      "Stats": {
-        "Str": 20.0
+        "Str": 0.0,
+        "Agi": 0.0,
+        "Hit": 0.0,
+        "Crit": 0.0,
+        "AP": 0.0,
+        "Haste": 0.0,
+        "ArmorPen": 0.0,
+        "Expertise": 0.0,
+        "WDmg": 0.0,
+        "WDmgMH": 0.0,
+        "WDmgOH": 0.0
       }
     },
     {
@@ -99,22 +41,65 @@
     },
     {
       "Id": 0,
-      "Name": "Drums",
+      "Name": "Food",
+      "Slot": null,
+      "Stats": {
+        "Str": 20.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Battle Shout",
+      "Slot": null,
+      "Stats": {
+        "AP": 381.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Benediction of Might",
+      "Slot": null,
+      "Stats": {
+        "AP": 264.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Blessing of Kings",
       "Slot": null,
       "Stats": {}
     },
     {
       "Id": 0,
-      "Name": "Seal of the Crusader",
+      "Name": "Mark of the Wild",
+      "Slot": null,
+      "Stats": {
+        "Agi": 19.0,
+        "Str": 19.0,
+        "Int": 19.0,
+        "Spi": 19.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Totem STR",
+      "Slot": null,
+      "Stats": {
+        "Str": 98.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Windfury Totem",
       "Slot": null,
       "Stats": {}
     },
     {
       "Id": 0,
-      "Name": "Blood Frenzy",
+      "Name": "Drums of Battle",
       "Slot": null,
       "Stats": {}
-    }
+    },
   ],
   "Weapons": {
     "MH": {
@@ -126,25 +111,6 @@
       "Buff": null,
       "School": null,
       "Name": "Dragonstrike",
-      "Id": 7,
-      "Slot": "Weapon",
-      "Stats": {},
-      "Enchantment": {
-        "Id": 0,
-        "Name": "Mongoose",
-        "Slot": "Weapon",
-        "Stats": {}
-      }
-    },
-    "OH": {
-      "DamageMin": 174.0,
-      "DamageMax": 323.0,
-      "Speed": 2.6,
-      "TwoHanded": false,
-      "Type": "Sword",
-      "Buff": null,
-      "School": null,
-      "Name": "Heartless",
       "Id": 5,
       "Slot": "Weapon",
       "Stats": {},
@@ -153,57 +119,92 @@
         "Name": "Mongoose",
         "Slot": "Weapon",
         "Stats": {}
-      }
+      },
+      "Gems": null
+    },
+    "OH": {
+      "DamageMin": 181.0,
+      "DamageMax": 339.0,
+      "Speed": 2.6,
+      "TwoHanded": false,
+      "Type": "Sword",
+      "Buff": null,
+      "School": null,
+      "Name": "Blade of Infamy",
+      "Id": 5,
+      "Slot": "Weapon",
+      "Stats": {
+        "Agi": 28.0,
+        "AP": 56.0,
+      },
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Mongoose",
+        "Slot": "Weapon",
+        "Stats": {}
+      },
+      "Gems": null
     },
     "Ranged": {
       "DamageMin": 0.0,
       "DamageMax": 0.0,
       "Speed": 0.0,
       "TwoHanded": false,
-      "Type": "Crossbow",
+      "Type": "Throwable",
       "Buff": null,
       "School": null,
-      "Name": "Mama",
+      "Name": "Zarak",
       "Id": 6,
       "Slot": "Ranged",
       "Stats": {
-        "AP": 38.0,
-        "ArmorPen": 126.0
+        "AP": 23.0,
+        "Crit": 16.0,
       },
       "Enchantment": null
     }
   },
   "Equipment": {
     "Head": {
-      "Name": "Onslaught",
+      "Name": "Sargeras",
       "Id": 0,
       "Slot": "Head",
       "Stats": {
-        "Str": 63.0,
-        "Crit": 5.0,
-        "Agi": 41.0,
-        "AP": 24.0,
-        "ArmorPen": 105,
+        "Agi": 39.0,
+        "Crit": 38.0,
+        "Hit": 21.0,
+        "AP": 108.0,
       },
       "Enchantment": {
         "Id": 4,
-        "Name": "Gems",
+        "Name": "Ferocity",
         "Slot": "Head",
         "Stats": {
           "AP": 34.0,
           "Hit": 16.0
         }
+      },
+      "Gems": {
+        "Id": 0,
+        "Name": "Relentless Earthstorm Diamond",
+        "Slot": "Head",
+        "Stats": {
+          "Agi": 12.0,
+          "Str": 5.0,
+          "Crit": 5.0,
+        }
       }
     },
     "Neck": {
-      "Name": "Traitor",
+      "Name": "Nightmares",
       "Id": 1,
       "Slot": "Neck",
       "Stats": {
-        "ArmorPen": 175.0,
-        "AP": 70.0
+        "Crit": 27.0,
+        "Hit": 21.0,
+        "AP": 72.0
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null,
     },
     "Shoulders": {
       "Name": "Onslaught",
@@ -213,30 +214,38 @@
         "Str": 39.0,
         "Agi": 39.0,
         "ArmorPen": 91.0,
-        "Crit": 20.0
       },
       "Enchantment": {
         "Id": 4,
         "Name": "Enchant",
         "Slot": "Shoulders",
         "Stats": {
-          "AP": 26.0,
-          "Crit": 14.0
+          "AP": 20.0,
+          "Crit": 15.0
+        }
+      },
+      "Gems": {
+        "Id": 0,
+        "Name": "Gems",
+        "Slot": "Shoulders",
+        "Stats": {
+          "Str": 10.0,
+          "Crit": 8.0,
         }
       }
     },
     "Back": {
-      "Name": "Inciter",
+      "Name": "Shadowmoon",
       "Id": 3,
       "Slot": "Back",
       "Stats": {
-        "Crit": 20.0,
-        "AP": 46.0,
-        "ArmorPen": 112
+        "Crit": 24.0,
+        "Hit": 17.0,
+        "AP": 72.0
       },
       "Enchantment": {
         "Id": 5,
-        "Name": "Greater Agility",
+        "Name": "Greater Agi",
         "Slot": "Back",
         "Stats": {
           "Agi": 12.0
@@ -249,10 +258,9 @@
       "Slot": "Chest",
       "Stats": {
         "Str": 53.0,
+        "Agi": 34.0,
         "Hit": 16.0,
-        "Agi": 34,
         "ArmorPen": 126,
-        "Crit": 30,
       },
       "Enchantment": {
         "Id": 6,
@@ -264,15 +272,25 @@
           "Int": 6.0,
           "Spi": 6.0
         }
+      },
+      "Gems": {
+        "Id": 0,
+        "Name": "Gems",
+        "Slot": "Chest",
+        "Stats": {
+          "Str": 15.0,
+          "Crit": 15.0,
+        }
       }
     },
     "Wrists": {
-      "Name": "General",
+      "Name": "Deadly Cuffs",
       "Id": 5,
       "Slot": "Wrists",
       "Stats": {
-        "Str": 32.0,
-        "ArmorPen": 150.0
+        "Crit": 28.0,
+        "Hit": 12.0,
+        "AP": 58.0
       },
       "Enchantment": {
         "Id": 7,
@@ -281,6 +299,15 @@
         "Stats": {
           "Str": 12.0
         }
+      },
+      "Gems": {
+        "Id": 0,
+        "Name": "Gems",
+        "Slot": "Wrists",
+        "Stats": {
+          "Str": 10.0,
+          "Crit": 10.0,
+        }
       }
     },
     "Hands": {
@@ -288,9 +315,8 @@
       "Id": 6,
       "Slot": "Hands",
       "Stats": {
-        "Str": 46.0,
-        "Agi": 30,
-        "Crit": 7.0,
+        "Str": 41.0,
+        "Agi": 30.0,
         "ArmorPen": 91
       },
       "Enchantment": {
@@ -300,28 +326,46 @@
         "Stats": {
           "Str": 15.0
         }
+      },
+      "Gems": {
+        "Id": 0,
+        "Name": "Gems",
+        "Slot": "Hands",
+        "Stats": {
+          "Str": 5.0,
+          "Crit": 7.0,
+        }
       }
     },
     "Waist": {
-      "Name": "General",
+      "Name": "Hundred Deaths",
       "Id": 7,
       "Slot": "Waist",
       "Stats": {
-        "Str": 34.0,
-        "Hit": 14.0,
-        "ArmorPen": 154,
-        "Crit": 20
+        "Agi": 29.0,
+        "Expertise": 25.0,
+        "AP": 74.0,
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": {
+        "Id": 8,
+        "Name": "Gems",
+        "Slot": "Waist",
+        "Stats": {
+          "Str": 10.0,
+          "Crit": 10.0
+        }
+      }
     },
     "Legs": {
-      "Name": "Doomplate",
+      "Name": "Onslaught",
       "Id": 8,
       "Slot": "Legs",
       "Stats": {
-        "Str": 51.0,
-        "Crit": 35.0,
-        "ArmorPen": 350.0,
+        "Str": 62.0,
+        "Agi": 41.0,
+        "Hit": 14.0,
+        "ArmorPen": 105.0,
       },
       "Enchantment": {
         "Id": 8,
@@ -331,15 +375,23 @@
           "AP": 50.0,
           "Crit": 12.0
         }
+      },
+      "Gems": {
+        "Id": 8,
+        "Name": "Gems",
+        "Slot": "Legs",
+        "Stats": {
+          "Str": 7.0,
+        }
       }
     },
     "Feet": {
-      "Name": "Sha'tari",
+      "Name": "Dreadboots",
       "Id": 9,
       "Slot": "Feet",
       "Stats": {
-        "Str": 41.0,
-        "Crit": 50.0,
+        "Str": 38.0,
+        "Crit": 30.0,
         "Hit": 18.0,
       },
       "Enchantment": {
@@ -349,48 +401,59 @@
         "Stats": {
           "Agi": 12.0
         }
+      },
+      "Gems": {
+        "Id": 8,
+        "Name": "Gems",
+        "Slot": "Feet",
+        "Stats": {
+          "Str": 13.0,
+          "Crit": 10.0
+        }
       }
     },
     "Finger1": {
-      "Name": "Umbral",
+      "Name": "Unstoppable",
       "Id": 10,
       "Slot": "Finger",
       "Stats": {
-        "Hit": 30.0,
-        "AP": 66.0,
-        "ArmorPen": 126.0
+        "Str": 36.0,
+        "Crit": 30.0,
       },
       "Enchantment": null
     },
     "Finger2": {
-      "Name": "Umbral",
+      "Name": "Band of the Ranger-General",
       "Id": 10,
       "Slot": "Finger",
       "Stats": {
-        "Agi": 28.0,
-        "AP": 58.0,
-        "ArmorPen": 126.0
+        "Crit": 28.0,
+        "Hit": 18.0,
+        "AP": 56.0,
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null
     },
     "Trinket1": {
-      "Name": "Hourglass of the Unraveller",
+      "Name": "Tsunami Talisman",
       "Id": 12,
       "Slot": "Trinket",
       "Stats": {
-        "Crit": 32.0
+        "Crit": 38.0,
+        "Hit": 10.0,
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null
     },
     "Trinket2": {
-      "Name": "DFT",
+      "Name": "Dragonspine Trophy",
       "Id": 13,
       "Slot": "Trinket",
       "Stats": {
-        "AP": 56.0,
-        "Hit": 20.0
+        "AP": 40.0
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null
     }
   }
 }

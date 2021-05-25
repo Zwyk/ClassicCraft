@@ -161,7 +161,7 @@ namespace ClassicCraft
             if (GetTalentPoints("SS") > 0) ss = new SweepingStrikes(this);
             if (Talents["IS"] > 0) slam = new Slam(this);
 
-            if (Sim.Tanking)
+            if (Sim.Tanking && Sim.TankHitRage > 0 && Sim.TankHitEvery > 0)
             {
                 sa = new SunderArmor(this);
                 rev = new Revenge(this);
@@ -235,12 +235,12 @@ namespace ClassicCraft
                 }
                 */
 
-                rota = Tanking ? 21 : 20;
+                rota = Tanking && Sim.TankHitRage > 0 && Sim.TankHitEvery > 0 ? 21 : 20;
                 Spells = new List<Action>();
                 if (bt != null) Spells.Add(bt);
                 if (ms != null) Spells.Add(ms);
                 if (slam != null) Spells.Add(slam);
-                if(Tanking)
+                if(Tanking && Sim.TankHitRage > 0 && Sim.TankHitEvery > 0)
                 {
                     Spells.Add(sa);
                     Spells.Add(rev);
@@ -253,7 +253,7 @@ namespace ClassicCraft
             }
             else
             {
-                if (Sim.Tanking)
+                if (Sim.Tanking && Sim.TankHitRage > 0 && Sim.TankHitEvery > 0)
                 {
                     rota = 2;   // Fury Tank
                     // rota = 3 // Fury Tank Battle Shout
@@ -291,7 +291,7 @@ namespace ClassicCraft
                         (Sim.FightLength - Sim.CurrentTime <= cds[cd]
                         || Sim.FightLength - Sim.CurrentTime >= cd.BaseCD + cds[cd]))
                     {
-                        if (!(cd is MightyRage) || Sim.FightLength - Sim.CurrentTime >= cd.BaseCD + cds[cd] || (!Tanking && Resource < exec.Cost))
+                        if (!(cd is MightyRage) || Sim.FightLength - Sim.CurrentTime >= cd.BaseCD + cds[cd] || ((!Tanking || Sim.TankHitRage == 0 || Sim.TankHitEvery == 0) && Resource < exec.Cost))
                         {
                             cd.Cast();
                         }
@@ -532,7 +532,7 @@ namespace ClassicCraft
             else if (rota == 20)
             {
                 if (HasGCD() && 
-                    (DPRAtAP != AP || (Sim.Boss.LifePct <= 0.2 && DPRAtRage != Resource)))
+                    (DPRAtAP != AP || (Sim.Boss.LifePct <= 0.2 && DPRAtRage != Resource) || (slam != null && slam.CanUse())))
                 {
                     CalcDPR();
                 }
@@ -552,9 +552,19 @@ namespace ClassicCraft
                     {
                         foreach (KeyValuePair<Action, double> a in SpellsDPR)
                         {
-                            if (a.Key.CanUse())
+                            if (a.Key.CanUse() && a.Value > 0)
                             {
-                                a.Key.Cast();
+                                if (a.Key is Slam)
+                                {
+                                    if (a.Value == SpellsDPR.Max(v => v.Value))
+                                    {
+                                        a.Key.Cast();
+                                    }
+                                }
+                                else
+                                {
+                                    a.Key.Cast();
+                                }
                             }
                         }
                     }
@@ -564,7 +574,7 @@ namespace ClassicCraft
                 {
                     cl.Cast();
                 }
-                else if (applyAtNextAA == null && Resource >= (bt != null ? bt.Cost : 0) + (ms != null ? bt.Cost : 0) + (slam != null ? slam.Cost : 0) + ww.Cost + hs.Cost && hs.CanUse())
+                else if (DualWielding && applyAtNextAA == null && Resource >= (bt != null ? bt.Cost : 0) + (ms != null ? ms.Cost : 0) + (slam != null ? slam.Cost : 0) + ww.Cost + hs.Cost && hs.CanUse())
                 {
                     hs.Cast();
                 }
@@ -601,7 +611,7 @@ namespace ClassicCraft
                 {
                     SpellsDPR.Add(new KeyValuePair<Action, double>(a,
                     ((MH.DamageMin + MH.DamageMax) / 2 + Simulation.Normalization(MH) * AP / 14
-                        + (Program.version == Version.Vanilla ? 0 : ((OH.DamageMin + OH.DamageMax) / 2 + Simulation.Normalization(OH) * AP / 14) * 0.5 * (1 + 0.05 * GetTalentPoints("DWS"))))
+                        + (Program.version == Version.Vanilla || !DualWielding ? 0 : ((OH.DamageMin + OH.DamageMax) / 2 + Simulation.Normalization(OH) * AP / 14) * 0.5 * (1 + 0.05 * GetTalentPoints("DWS"))))
                     * Math.Min(4, Sim.NbTargets)
                     / ww.Cost));
                 }
@@ -632,19 +642,31 @@ namespace ClassicCraft
                 }
                 else if (a is Slam)
                 {
+                    /*
                     SpellsDPR.Add(new KeyValuePair<Action, double>(a,
-                    ((MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + Slam.BASE_DMG - slam.CastTime/MH.Speed*aaDmg)
-                    / (slam.Cost + slam.CastTime / MH.Speed*aaRage)));
+                    ((MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + Slam.BASE_DMG - slam.CastTime/mh.CurrentSpeed()*aaDmg)
+                    / (slam.Cost + slam.CastTime / mh.CurrentSpeed()*aaRage)));
+                    */
+                    SpellsDPR.Add(new KeyValuePair<Action, double>(a,
+                    ((MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + Slam.BASE_DMG - (1 - (mh.LockedUntil - Sim.CurrentTime) / mh.CurrentSpeed()) * aaDmg)
+                    / (slam.Cost + (1 - (mh.LockedUntil - Sim.CurrentTime) / mh.CurrentSpeed()) * aaRage)));
                 }
                 // TODO : Prot spells
             }
 
             SpellsDPR.Sort((x,y) => y.Value.CompareTo(x.Value));
+
+            /*
+            foreach (KeyValuePair<Action, double> a in SpellsDPR)
+            {
+                Program.Log(a.Key + " : " + a.Value);
+            }
+            */
         }
 
         public double AvgAADmg()
         {
-            return (MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14
+            return ((MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14)
                 * 0.8; // TODO : properly mitigate using dmg lost from glancing blows (+ crit% lost)
         }
 
