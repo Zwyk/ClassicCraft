@@ -479,14 +479,14 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="Class" Grid.Column="0" />
-                                            <ComboBox x:Name="Class" Grid.Column="1" SelectedIndex="8">
+                                            <ComboBox x:Name="Class" Grid.Column="1" SelectedIndex="4">
                                                 <ComboBoxItem>Druid</ComboBoxItem>
-                                                <ComboBoxItem>Hunter</ComboBoxItem>
-                                                <ComboBoxItem>Mage</ComboBoxItem>
-                                                <ComboBoxItem>Paladin</ComboBoxItem>
+                                                <!--<ComboBoxItem>Hunter</ComboBoxItem>-->
+                                                <!--<ComboBoxItem>Mage</ComboBoxItem>-->
+                                                <!--<ComboBoxItem>Paladin</ComboBoxItem>-->
                                                 <ComboBoxItem>Priest</ComboBoxItem>
                                                 <ComboBoxItem>Rogue</ComboBoxItem>
-                                                <ComboBoxItem>Shaman</ComboBoxItem>
+                                                <!--<ComboBoxItem>Shaman</ComboBoxItem>-->
                                                 <ComboBoxItem>Warlock</ComboBoxItem>
                                                 <ComboBoxItem>Warrior</ComboBoxItem>
                                             </ComboBox>
