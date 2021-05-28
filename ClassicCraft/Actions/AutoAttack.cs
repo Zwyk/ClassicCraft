@@ -141,6 +141,10 @@ namespace ClassicCraft
             {
                 SweepingStrikesBuff.CheckProc(Player, damage, res);
             }
+            else if(Player.Class == Player.Classes.Rogue)
+            {
+                BladeFlurryBuff.CheckProc(Player, damage, res);
+            }
         }
 
         public void Swing()

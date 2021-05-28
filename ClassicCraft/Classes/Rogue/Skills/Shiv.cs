@@ -67,6 +67,8 @@ namespace ClassicCraft
             RegisterDamage(new ActionResult(res, damage));
 
             Player.CheckOnHits(true, false, res, false, null, this);
+
+            BladeFlurryBuff.CheckProc(Player, damage, res);
         }
     }
 }
