@@ -642,14 +642,9 @@ namespace ClassicCraft
                 }
                 else if (a is Slam)
                 {
-                    /*
                     SpellsDPR.Add(new KeyValuePair<Action, double>(a,
-                    ((MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + Slam.BASE_DMG - slam.CastTime/mh.CurrentSpeed()*aaDmg)
-                    / (slam.Cost + slam.CastTime / mh.CurrentSpeed()*aaRage)));
-                    */
-                    SpellsDPR.Add(new KeyValuePair<Action, double>(a,
-                    ((MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + Slam.BASE_DMG - (1 - (mh.LockedUntil - Sim.CurrentTime) / mh.CurrentSpeed()) * aaDmg)
-                    / (slam.Cost + (1 - (mh.LockedUntil - Sim.CurrentTime) / mh.CurrentSpeed()) * aaRage)));
+                    ((MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + Slam.BASE_DMG - (1 - ((mh.LockedUntil - Sim.CurrentTime) / mh.CurrentSpeed())) * aaDmg)
+                    / (slam.Cost + (1 - ((mh.LockedUntil - Sim.CurrentTime) / mh.CurrentSpeed())) * aaRage)));
                 }
                 // TODO : Prot spells
             }
@@ -667,12 +662,13 @@ namespace ClassicCraft
         public double AvgAADmg()
         {
             return ((MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14)
-                * 0.8; // TODO : properly mitigate using dmg lost from glancing blows (+ crit% lost)
+                * 1;    // TODO : properly mitigate using dmg lost from glancing blows (+ crit% lost)
         }
 
         public double AvgAARage(double avgDmg)
         {
-            return Simulation.RageGained(avgDmg, Level, true, false, MH.Speed);
+            return Simulation.RageGained(avgDmg, Level, true, false, MH.Speed)
+                * 2;    // TODO : properly estimate with Crit, glancing etc.
         }
 
         public double AngerManagementTick { get; set; }
