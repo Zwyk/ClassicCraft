@@ -59,7 +59,7 @@ namespace ClassicCraft
         public static string logsFileName = "logs";
         public static string txt = ".txt";
 
-        public static bool debug = false;
+        public static bool debug = true;
         public static string debugPath = @".\..\..";
 
         public static Player playerBase = null;
@@ -505,7 +505,7 @@ namespace ClassicCraft
                     else if (playerBase.Class == Player.Classes.Priest)
                         logListActions.AddRange(new List<string>() { "Mind Blast", "Mind Flay", "SW:P", "Devouring Plague" });
                     else if (playerBase.Class == Player.Classes.Rogue)
-                        logListActions.AddRange(new List<string>() { "Sinister Strike", "Backstab", "Eviscerate", "Ambush", "Instant Poison" });
+                        logListActions.AddRange(new List<string>() { "Sinister Strike", "Backstab", "Eviscerate", "Ambush", "Blade Flurry", "Instant Poison" });
                     else if (playerBase.Class == Player.Classes.Warlock)
                         logListActions.AddRange(new List<string>() { "Shadow Bolt" });
 
