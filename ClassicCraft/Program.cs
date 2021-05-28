@@ -608,12 +608,13 @@ namespace ClassicCraft
 
                             double errorPct = 100;
 
-                            while (errorPct > targetErrorPct)
+                            while (errorPct > targetErrorPct || tasks.Count > 0)
                             {
                                 double currentPct = Math.Min(1, Math.Pow((100 - errorPct) / (100 - targetErrorPct), 0.2 / targetErrorPct * 1000)) * 100;
 
                                 double working = tasks.Count(t => !t.IsCompleted);
-                                while (working < nbTasksForSims && (currentPct == 0 || 
+                                while (errorPct > targetErrorPct
+                                    && working < nbTasksForSims && (currentPct == 0 || 
                                         (CurrentDpsList.Count+working*0.9) < (100/currentPct*CurrentDpsList.Count)))
                                 {
                                     working++;
@@ -645,12 +646,13 @@ namespace ClassicCraft
                                 outputText += String.Format("\nCurrent precision : ±{0:N2}%", errorPct);
                                 Output(outputText, true, true);
 
+                                if(errorPct <= targetErrorPct)
+                                {
+                                    Output("Waiting for remaining simulations to complete...");
+                                }
+
                                 Thread.Sleep(TimeSpan.FromSeconds(Display == DisplayMode.Console ? 1.0 / 2 : 1.0 / 60));
                             }
-                            
-                            Output("Waiting for remaining simulations to complete...");
-                            
-                            Task.WaitAll(tasks.ToArray());
                         }
                     }
 
