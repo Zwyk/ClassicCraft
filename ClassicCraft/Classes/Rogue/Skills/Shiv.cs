@@ -6,20 +6,18 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Ambush : Skill
+    class Shiv : Skill
     {
-        public static int BASE_COST = 60;
+        public override string ToString() { return NAME; }
+        public static new string NAME = "Shiv";
+
+        public static int BASE_COST = 20;
         public static int CD = 0;
 
-        public static int BASE_DMG = Program.version == Version.Vanilla ? 290 : 335;
-        public static double WEAP_RATIO = Program.version == Version.Vanilla ? 2.5 : 2.75;
-
-        public Ambush(Player p)
-            : base(p, CD, BASE_COST) { }
-
-        public override void Cast()
+        public Shiv(Player p)
+            : base(p, CD, BASE_COST)
         {
-            DoAction();
+            Cost += (int)Math.Round(p.OH.Speed / 10);
         }
 
         public override void DoAction()
@@ -28,18 +26,20 @@ namespace ClassicCraft
 
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
 
-            int minDmg = (int)Math.Round(weapon.DamageMin * WEAP_RATIO + Simulation.Normalization(weapon) * Player.AP / 14);
-            int maxDmg = (int)Math.Round(weapon.DamageMax * WEAP_RATIO + Simulation.Normalization(weapon) * Player.AP / 14);
+            int minDmg = (int)Math.Round(weapon.DamageMin + Simulation.Normalization(weapon) * Player.AP / 14);
+            int maxDmg = (int)Math.Round(weapon.DamageMax + Simulation.Normalization(weapon) * Player.AP / 14);
 
             Player.nextAABonus = 0;
 
-            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + BASE_DMG)
+            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1))
                 * Player.Sim.DamageMod(res)
                 * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
-                * (1 + (0.04 * Player.GetTalentPoints("Oppo")))
+                * (1 + (0.02 * Player.GetTalentPoints("Agg")))
+                * (res == ResultType.Crit ? 1 + (0.06 * Player.GetTalentPoints("Letha")) : 1)
                 * (1 + (0.01 * Player.GetTalentPoints("Murder")))
                 * Player.DamageMod
                 * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
+                * (1 + (Player.Class == Player.Classes.Rogue && res == ResultType.Crit && Player.OH.Type == Weapon.WeaponType.Mace ? 0.01 * Player.GetTalentPoints("Mace") : 0))
                 );
 
             CommonAction();
@@ -66,13 +66,7 @@ namespace ClassicCraft
 
             RegisterDamage(new ActionResult(res, damage));
 
-            Player.CheckOnHits(true, false, res);
+            Player.CheckOnHits(true, false, res, false, null, this);
         }
-
-        public override string ToString()
-        {
-            return NAME;
-        }
-        public static new string NAME = "Ambush";
     }
 }

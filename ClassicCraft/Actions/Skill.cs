@@ -8,7 +8,7 @@ namespace ClassicCraft
 {
     public abstract class Skill : Action
     {
-        public int Cost { get; set; }
+        public virtual int Cost { get; set; }
         public bool AffectedByGCD { get; set; }
         public bool UseMana { get; set; }
 
@@ -18,6 +18,11 @@ namespace ClassicCraft
             Cost = resourceCost;
             AffectedByGCD = gcd;
             UseMana = useMana;
+        }
+
+        public override void Cast()
+        {
+            DoAction();
         }
 
         public void CommonRessourceSkill()

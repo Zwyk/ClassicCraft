@@ -58,13 +58,11 @@ namespace ClassicCraft
             {
                 Player.Combo++;
             }
-
-            /*
+            
             if (res == ResultType.Crit && Randomer.NextDouble() < 0.2 * Player.GetTalentPoints("SF"))
             {
                 Player.Combo++;
             }
-            */
 
             RegisterDamage(new ActionResult(res, damage));
 

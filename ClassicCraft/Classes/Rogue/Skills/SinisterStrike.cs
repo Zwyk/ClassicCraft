@@ -33,13 +33,15 @@ namespace ClassicCraft
             Player.nextAABonus = 0;
 
             int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + BASE_DMG)
+                * Player.DamageMod
                 * Player.Sim.DamageMod(res)
                 * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                 * (1 + (0.02 * Player.GetTalentPoints("Agg")))
                 * (res == ResultType.Crit ? 1 + (0.06 * Player.GetTalentPoints("Letha")) : 1)
                 * (1 + (0.01 * Player.GetTalentPoints("Murder")))
-                * Player.DamageMod
                 * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
+                * (1 + (Player.NbSet("Slayer's")>=4 ? 0.06 : 0))
+                * (1 + (Player.Class == Player.Classes.Rogue && res == ResultType.Crit && Player.MH.Type == Weapon.WeaponType.Mace ? 0.01 * Player.GetTalentPoints("Mace") : 0))
                 );
 
             CommonAction();
@@ -58,13 +60,11 @@ namespace ClassicCraft
             {
                 Player.Combo++;
             }
-
-            /*
+            
             if (res == ResultType.Crit && Randomer.NextDouble() < 0.2 * Player.GetTalentPoints("SF"))
             {
                 Player.Combo++;
             }
-            */
 
             RegisterDamage(new ActionResult(res, damage));
 

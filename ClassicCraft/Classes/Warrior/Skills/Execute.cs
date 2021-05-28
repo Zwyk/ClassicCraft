@@ -15,7 +15,7 @@ namespace ClassicCraft
         public static int DMG_BY_RAGE = Program.version == Version.TBC ? 21 : 15;
 
         public Execute(Player p)
-            : base(p, CD, BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") : 0) - (p.Sets["Onslaught"]>=2?3:0), true)
+            : base(p, CD, BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") : 0) - (p.NbSet("Onslaught")>=2?3:0), true)
         {
             switch (Player.GetTalentPoints("IE"))
             {

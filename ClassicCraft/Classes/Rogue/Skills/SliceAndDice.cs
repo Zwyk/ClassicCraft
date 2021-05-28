@@ -18,14 +18,13 @@ namespace ClassicCraft
         {
         }
 
-        public override void Cast()
-        {
-            CommonRessourceSkill();
-            DoAction();
-        }
-
         public override void DoAction()
         {
+            CommonAction();
+
+            Player.Resource -= Player.Effects.ContainsKey("CdG") ? 0 : Cost;
+            if (Player.Effects.ContainsKey("CdG")) Player.Effects["CdG"].EndEffect();
+
             if (Player.Effects.ContainsKey(SliceAndDiceBuff.NAME))
             {
                 Player.Effects[SliceAndDiceBuff.NAME].Refresh();
@@ -36,6 +35,15 @@ namespace ClassicCraft
             }
 
             Player.Combo = 0;
+
+            if (Randomer.NextDouble() < 0.2 * Player.GetTalentPoints("Ruth"))
+            {
+                Player.Combo++;
+            }
+            if (Player.NbSet("Netherblade") >= 4 && Randomer.NextDouble() < 0.15)
+            {
+                Player.Combo++;
+            }
 
             LogAction();
         }

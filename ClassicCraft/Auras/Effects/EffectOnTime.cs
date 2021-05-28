@@ -13,8 +13,8 @@ namespace ClassicCraft
         public double NextTick { get; set; }
         public int TickDamage { get; set; }
 
-        public EffectOnTime(Player p, Entity target, bool friendly, double baseLength, int baseStacks = 1, int tickDelay = 3)
-            : base(p, target, friendly, baseLength, baseStacks)
+        public EffectOnTime(Player p, Entity target, bool friendly, double baseLength, int baseStacks = 1, int tickDelay = 3, int maxStacks = 1)
+            : base(p, target, friendly, baseLength, baseStacks, maxStacks)
         {
             TickDelay = tickDelay;
         }

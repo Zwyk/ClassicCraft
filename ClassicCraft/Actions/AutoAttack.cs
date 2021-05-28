@@ -118,6 +118,7 @@ namespace ClassicCraft
                     * mitigation
                     * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
                     * (Player.Sim.Boss.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
+                    * (1 + (Player.Class == Player.Classes.Rogue && res == ResultType.Crit && Weapon.Type == Weapon.WeaponType.Mace ? 0.01 * Player.GetTalentPoints("Mace") : 0))
                     );
             }
             Player.nextAABonus = 0;

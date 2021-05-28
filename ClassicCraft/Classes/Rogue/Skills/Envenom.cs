@@ -6,48 +6,16 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Eviscerate : Skill
+    class Envenom : Skill
     {
         public static int BASE_COST = 35;
         public static int CD = 0;
 
-        // rank 8
-        public static int[] min =
-        {
-            199,
-            350,
-            501,
-            652,
-            803,
-        };
-        // rank 8
-        public static int[] max =
-        {
-            295,
-            446,
-            597,
-            748,
-            899,
-        };
-
-        public static int MIN_TBC = 245;
-        public static int MAX_TBC = 365;
+        public static int DMG = 180;
         public static double AP_RATIO_PER_POINTS = 0.03;
 
-        public Eviscerate(Player p)
+        public Envenom(Player p)
             : base(p, CD, BASE_COST) { }
-
-        public override void Cast()
-        {
-            CDAction();
-
-            if (AffectedByGCD)
-            {
-                Player.StartGCD();
-            }
-
-            DoAction();
-        }
 
         public override void DoAction()
         {
@@ -55,14 +23,10 @@ namespace ClassicCraft
 
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
 
-            int minDmg = Program.version == Version.Vanilla ? min[Player.Combo - 1] : MIN_TBC;
-            int maxDmg = Program.version == Version.Vanilla ? max[Player.Combo - 1] : MAX_TBC;
-
             int damage = (int)Math.Round(
-                (Randomer.Next(minDmg, maxDmg + 1) + Player.AP * (Program.version == Version.Vanilla ? 0.15 : AP_RATIO_PER_POINTS * Player.Combo)
-                    + (Player.NbSet("Deathmantle") >= 2 ? 40 : 0))
+                (DMG * Player.Combo + Player.AP * AP_RATIO_PER_POINTS * Player.Combo)
                 * Player.Sim.DamageMod(res)
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
+                * Simulation.MagicMitigation(Player.Sim.Boss.ResistChances[School.Nature])
                 * Player.DamageMod
                 * (1 + (0.02 * Player.GetTalentPoints("Agg")))
                 * (1 + (0.05 * Player.GetTalentPoints("IE")))
@@ -81,6 +45,11 @@ namespace ClassicCraft
             {
                 Player.Resource -= Player.Effects.ContainsKey("CdG") ? 0 : Cost;
                 if (Player.Effects.ContainsKey("CdG")) Player.Effects["CdG"].EndEffect();
+
+                if (Player.Sim.Boss.Effects.ContainsKey("Deadly Poison"))
+                {
+                    Player.Sim.Boss.Effects["Deadly Poison"].StackRemove(Player.Combo);
+                }
 
                 if (Player.GetTalentPoints("RS") > 0 && Randomer.NextDouble() < 0.2 * Player.Combo)
                 {

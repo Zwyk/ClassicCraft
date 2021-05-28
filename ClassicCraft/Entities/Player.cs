@@ -207,18 +207,20 @@ namespace ClassicCraft
             return (c == Classes.Druid || c == Classes.Warrior || c == Classes.Shaman || c == Classes.Paladin) ? 2 : 1;
         }
 
-        public static double BonusStrToAPRatio(Player p)
+        public static double BonusStrRatio(Player p)
         {
             return 1
-                * (p.Class == Classes.Druid ? (1 + 0.04 * p.GetTalentPoints("HW")) : 1)
-                * (p.Buffs.Any(b => b.Name.ToLower().Equals("blessing of kings")) ? 1.1 : 1);
+                * ((p.Class == Classes.Druid ? (1 + 0.04 * p.GetTalentPoints("HW")) : 1)
+                * (p.Buffs.Any(b => b.Name.ToLower().Equals("blessing of kings")) ? 1.1 : 1)
+                );
         }
 
-        public static double BonusAgiToCritRatio(Player p)
+        public static double BonusAgiRatio(Player p)
         {
             return 1
-                * (p.Buffs.Any(b => b.Name.ToLower().Equals("blessing of kings")) ? 1.1 : 1)
-                ;
+                * ((p.Buffs.Any(b => b.Name.ToLower().Equals("blessing of kings")) ? 1.1 : 1)
+                * (p.Class == Classes.Rogue ? (1 + 0.01 * p.GetTalentPoints("Vitality")) : 1)
+                );
         }
 
         public static int AgiToRangedAPRatio(Classes c)
@@ -801,7 +803,9 @@ namespace ClassicCraft
 
         public static List<string> SPECIALSETS_LIST = new List<string>()
         {
-            "Nightslayer", "Shadowcraft", "Darkmantle", "Warbringer", "Destroyer", "Onslaught"
+            "Nightslayer", "Shadowcraft", "Darkmantle",
+            "Warbringer", "Destroyer", "Onslaught",
+            "Wastewalker", "Netherblade", "Deathmantle", "Slayer's",
         };
 
         public static Dictionary<Attribute, double> RatingRatios = new Dictionary<Attribute, double>()
@@ -1084,6 +1088,7 @@ namespace ClassicCraft
         public List<string> Cooldowns { get; set; }
 
         public Dictionary<string, int> Sets { get; set; }
+        public int SetPieces(string set) { return Sets.ContainsKey(set) ? Sets[set] : 0; }
 
         public Dictionary<string, CustomAction> CustomActions { get; set; }
 
@@ -1339,7 +1344,7 @@ namespace ClassicCraft
         {
             if (Class == Classes.Rogue)
             {
-                if (Sets["Nightslayer"] >= 5)
+                if (NbSet("Nightslayer") >= 5)
                 {
                     MaxResource += 10;
                 }
@@ -1350,7 +1355,8 @@ namespace ClassicCraft
         {
             foreach(string s in SPECIALSETS_LIST)
             {
-                Sets.Add(s, NbSet(s));
+                int nb = NbSet(s);
+                if(nb > 0) Sets.Add(s, nb);
             }
         }
 
@@ -1470,8 +1476,22 @@ namespace ClassicCraft
                 Attributes.AddToValue(Attribute.CritChance, GetTalentPoints("Malice") / 100.0);
                 Attributes.AddToValue(Attribute.CritChance, GetTalentPoints("FS") / 100.0);
                 Attributes.AddToValue(Attribute.CritChance, GetTalentPoints("DS") / 100.0);
-                Attributes.AddToValue(Attribute.SkillSword, GetTalentPoints("WE") > 0 ? (GetTalentPoints("WE") == 1 ? 3 : 5) : 0);
-                Attributes.AddToValue(Attribute.SkillDagger, GetTalentPoints("WE") > 0 ? (GetTalentPoints("WE") == 1 ? 3 : 5) : 0);
+
+                if(Program.version == Version.Vanilla)
+                {
+                    Attributes.AddToValue(Attribute.SkillSword, GetTalentPoints("WE") > 0 ? (GetTalentPoints("WE") == 1 ? 3 : 5) : 0);
+                    Attributes.AddToValue(Attribute.SkillDagger, GetTalentPoints("WE") > 0 ? (GetTalentPoints("WE") == 1 ? 3 : 5) : 0);
+                }
+                else
+                {
+                    Attributes.AddToValue(Attribute.Expertise, GetTalentPoints("WE") * 5);
+
+                    Attributes.SetValue(Attribute.Agility, Attributes.GetValue(Attribute.Agility)
+                        * (1 + 0.01 * GetTalentPoints("Vitality")));
+                }
+
+                if (MH.Type == Weapon.WeaponType.Fist) MH.Buff.Attributes.AddToValue(Attribute.CritChance, 0.01 * GetTalentPoints("Fist"));
+                if (DualWielding && OH.Type == Weapon.WeaponType.Fist) OH.Buff.Attributes.SetValue(Attribute.CritChance, 0.01 * GetTalentPoints("Fist"));
             }
             else if(Class == Classes.Warlock)
             {
@@ -1626,7 +1646,7 @@ namespace ClassicCraft
             }
         }
 
-        public void CheckOnHits(bool isMH, bool isAA, ResultType res, bool extra = false, List<string> alreadyProc = null)
+        public void CheckOnHits(bool isMH, bool isAA, ResultType res, bool extra = false, List<string> alreadyProc = null, Action action = null)
         {
             if(alreadyProc == null)
             {
@@ -1651,25 +1671,6 @@ namespace ClassicCraft
                     {
                         UnbridledWrath.CheckProc(this, res, GetTalentPoints("UW"), isMH ? MH.Speed : OH.Speed);
                     }
-                    if (!alreadyProc.Contains("Sword") && GetTalentPoints("Sword") > 0 && Randomer.NextDouble() < 0.01 * GetTalentPoints("Sword"))
-                    {
-                        alreadyProc.Add("Sword");
-
-                        if (Program.logFight)
-                        {
-                            Program.Log(string.Format("{0:N2} : Sword Specialization procs", Sim.CurrentTime));
-                        }
-
-                        switch (Program.version)
-                        {
-                            case Version.Vanilla:
-                                ExtraAA(alreadyProc);
-                                break;
-                            case Version.TBC:
-                                mh.DoAA(alreadyProc, true, true);
-                                break;
-                        }
-                    }
                     if (Program.version == Version.TBC)
                     {
                         if (Effects.ContainsKey(RampageBuff.NAME))
@@ -1682,13 +1683,13 @@ namespace ClassicCraft
                             && Randomer.NextDouble() < w.Speed * (0.3 * GetTalentPoints("Mace")) / 60)
                         {
                             alreadyProc.Add("Mace");
+                            
+                            Resource += 7;
 
                             if (Program.logFight)
                             {
-                                Program.Log(string.Format("{0:N2} : Mace Specialization procs", Sim.CurrentTime));
+                                Program.Log(string.Format("{0:N2} : Mace specialization procs ({3} {1}/{2})", Sim.CurrentTime, Resource, MaxResource, "rage"));
                             }
-
-                            Resource += 7;
                         }
                     }
                 }
@@ -1726,7 +1727,10 @@ namespace ClassicCraft
                                 break;
                         }
                     }
-                    if((!WindfuryTotem || !isMH) && !alreadyProc.Contains("IP") && Randomer.NextDouble() < 0.2)
+                    if ((WindfuryTotem || !isMH)
+                        && (w.Buff == null || w.Buff.Name == "Instant Poison")
+                        && !alreadyProc.Contains("IP")
+                        && (action is Shiv || Randomer.NextDouble() < (0.2 + 0.02 * GetTalentPoints("IP"))))
                     {
                         alreadyProc.Add("IP");
                         string procName = "Instant Poison";
@@ -1740,6 +1744,71 @@ namespace ClassicCraft
                         ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Sim.Boss);
                         int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Nature) * mitigation);
                         CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg));
+                    }
+                    if ((WindfuryTotem || !isMH)
+                        && w.Buff?.Name == "Deadly Poison"
+                        && !alreadyProc.Contains("DP")
+                        && (action is Shiv || Randomer.NextDouble() < (0.2 + 0.02 * GetTalentPoints("IP"))))
+                    {
+                        alreadyProc.Add("IP");
+                        string procName = "Deadly Poison";
+                        double mitigation = Simulation.MagicMitigation(Sim.Boss.ResistChances[School.Nature]);
+                        ResultType res2 = mitigation == 0 ? ResultType.Resist : ResultType.Hit;
+
+                        if (!CustomActions.ContainsKey(procName))
+                        {
+                            CustomActions.Add(procName, new CustomAction(this, procName, School.Nature));
+                        }
+                        Sim.RegisterAction(new RegisteredAction(CustomActions[procName], new ActionResult(res2, 0), Sim.CurrentTime));
+
+                        if(res2 == ResultType.Hit)
+                        {
+                            if (Sim.Boss.Effects.ContainsKey(DeadlyPoisonDoT.NAME))
+                            {
+                                Sim.Boss.Effects[DeadlyPoisonDoT.NAME].StackAdd();
+                                Sim.Boss.Effects[DeadlyPoisonDoT.NAME].Refresh();
+                            }
+                            else
+                            {
+                                new DeadlyPoisonDoT(this, Sim.Boss).StartEffect();
+                            }
+                        }
+                    }
+                    if (!alreadyProc.Contains("CdG") && NbSet("Deathmantle") >= 4
+                        && Randomer.NextDouble() < w.Speed / 60     // TODO : 1 PPM ? Check proc-rate
+                        )                                           // TODO : icd ?
+                    {
+                        string procName = "CdG";
+                        alreadyProc.Add(procName);
+                        if (Program.logFight)
+                        {
+                            Program.Log(string.Format("{0:N2} : Deathmantle 4P (Coup de Grace) procs", Sim.CurrentTime));
+                        }
+
+                        int procDuration = 15;
+
+                        if (Effects.ContainsKey(procName))
+                        {
+                            Effects[procName].Refresh();
+                        }
+                        else
+                        {
+                            CustomEffect buff = new CustomEffect(this, this, procName, true, procDuration);
+                            buff.StartEffect();
+                        }
+                    }
+
+                    if (!isMH && !alreadyProc.Contains("CombatPotency") && GetTalentPoints("CombatPotency") > 0
+                        && Randomer.NextDouble() < 0.2)
+                    {
+                        alreadyProc.Add("CombatPotency");
+
+                        if (Program.logFight)
+                        {
+                            Program.Log(string.Format("{0:N2} : Combat Potency procs ({3} {1}/{2})", Sim.CurrentTime, Resource, MaxResource, "energy"));
+                        }
+
+                        Resource += 7;
                     }
                 }
 
@@ -1767,12 +1836,6 @@ namespace ClassicCraft
                             buff.StartEffect();
                         }
                     }
-                    /* DEPRECATED
-                    if ((isMH && MH.Enchantment != null && MH.Enchantment.Name == "Crusader") || (!isMH && OH.Enchantment != null && OH.Enchantment.Name == "Crusader"))
-                    {
-                        Crusader.CheckProc(this, res, isMH ? MH.Speed : OH.Speed);
-                    }
-                    */
 
                     if (isMH && WindfuryTotem && (Program.version == Version.Vanilla ? true : isAA) && !alreadyProc.Contains("WF") && Randomer.NextDouble() < 0.2)
                     {
@@ -1799,7 +1862,7 @@ namespace ClassicCraft
 
                 if(isAA && (Class == Classes.Rogue || Form == Forms.Cat))
                 {
-                    if ((Sets["Shadowcraft"] >= 6 || Sets["Darkmantle"] >= 4) && 
+                    if ((NbSet("Shadowcraft") >= 6 || NbSet("Darkmantle") >= 4) && 
                         (Form == Forms.Cat && Randomer.NextDouble() < 1.0 / 60 ||
                         (Form != Forms.Cat && ((isMH && Randomer.NextDouble() < MH.Speed / 60) || (!isMH && Randomer.NextDouble() < OH.Speed / 60)))))
                     {
@@ -1811,6 +1874,25 @@ namespace ClassicCraft
                     }
                 }
 
+                if (!alreadyProc.Contains("Sword") && GetTalentPoints("Sword") > 0 && Randomer.NextDouble() < 0.01 * GetTalentPoints("Sword"))
+                {
+                    alreadyProc.Add("Sword");
+
+                    if (Program.logFight)
+                    {
+                        Program.Log(string.Format("{0:N2} : Sword Specialization procs", Sim.CurrentTime));
+                    }
+
+                    switch (Program.version)
+                    {
+                        case Version.Vanilla:
+                            ExtraAA(alreadyProc);
+                            break;
+                        case Version.TBC:
+                            mh.DoAA(alreadyProc, true, true);
+                            break;
+                    }
+                }
                 if ((Equipment[Slot.Trinket1]?.Name == "Hand of Justice" || Equipment[Slot.Trinket2]?.Name == "Hand of Justice") && !alreadyProc.Contains("HoJ") && Randomer.NextDouble() < (Program.version == Version.Vanilla ? 0.02 : 0.012))
                 {
                     alreadyProc.Add("HoJ");
@@ -2077,7 +2159,8 @@ namespace ClassicCraft
                         }
                         ExtraAA(alreadyProc);
                     }
-                    if (!alreadyProc.Contains("Rod of the Sun King")
+                    if ((Class == Classes.Warrior || Class == Classes.Rogue)
+                        && !alreadyProc.Contains("Rod of the Sun King")
                         && w.Name.ToLower().Contains("rod of the sun king")
                         && Randomer.NextDouble() < 0.05) // TODO : Check proc-rate
                     {
@@ -2254,9 +2337,31 @@ namespace ClassicCraft
                             buff.StartEffect();
                         }
                     }
+                    if (!alreadyProc.Contains("wastewalker")
+                        && (NbSet("wastewalker") >= 4)
+                        && Randomer.NextDouble() < 0.02)
+                    {
+                        string procName = "Wastewalker";
+                        alreadyProc.Add(procName);
+                        Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
+                            {
+                                { Attribute.AP, 160 },
+                            };
+                        int procDuration = 15;
+
+                        if (Effects.ContainsKey(procName))
+                        {
+                            Effects[procName].Refresh();
+                        }
+                        else
+                        {
+                            CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
+                            buff.StartEffect();
+                        }
+                    }
                 }
             }
-            else if(Class == Classes.Warrior && (res == ResultType.Parry || res == ResultType.Dodge) && Sets["Warbringer"] >= 4)
+            else if(Class == Classes.Warrior && (res == ResultType.Parry || res == ResultType.Dodge) && NbSet("Warbringer") >= 4)
             {
                 Resource += 2;
                 if (Program.logFight)
@@ -2299,8 +2404,11 @@ namespace ClassicCraft
                 if(DualWielding) OHParryExpertise = Math.Max(0, ExpertisePercent + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.Expertise)) - enemy.DodgeChance(WeaponSkill[OH.Type]));
             }
 
-            double? MHCritBuff = MH.Buff?.Attributes.GetValue(Attribute.CritChance);
-            double? OHCritBuff = OH?.Buff?.Attributes.GetValue(Attribute.CritChance);
+            double MHBonusCrit = (MH.Buff != null ? MH.Buff.Attributes.GetValue(Attribute.CritChance) : 0);
+            double OHBonusCrit = (OH != null && OH.Buff != null ? MH.Buff.Attributes.GetValue(Attribute.CritChance) : 0);
+
+
+            OH?.Buff?.Attributes.GetValue(Attribute.CritChance);
 
             Dictionary<ResultType, double> whiteHitChancesMH = new Dictionary<ResultType, double>();
             whiteHitChancesMH.Add(ResultType.Miss, MissChance(DualWielding, HitChance, WeaponSkill[MH.Type], enemy.Level));
@@ -2308,7 +2416,7 @@ namespace ClassicCraft
             whiteHitChancesMH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level, Sim.Tanking, MHParryExpertise));
             whiteHitChancesMH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level));
             whiteHitChancesMH.Add(ResultType.Block, enemy.BlockChance());
-            whiteHitChancesMH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritChance + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glance], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
+            whiteHitChancesMH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritChance + MHBonusCrit, Level, enemy.Level), whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glance], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
             whiteHitChancesMH.Add(ResultType.Hit, RealHitChance(whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glance], whiteHitChancesMH[ResultType.Crit], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
 
             Dictionary<ResultType, double> whiteHitChancesOH = null;
@@ -2320,7 +2428,7 @@ namespace ClassicCraft
                 whiteHitChancesOH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[OH.Type], enemy.Level, Sim.Tanking, OHParryExpertise));
                 whiteHitChancesOH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level));
                 whiteHitChancesOH.Add(ResultType.Block, enemy.BlockChance());
-                whiteHitChancesOH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritChance + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glance], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
+                whiteHitChancesOH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritChance + OHBonusCrit, Level, enemy.Level), whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glance], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
                 whiteHitChancesOH.Add(ResultType.Hit, RealHitChance(whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glance], whiteHitChancesOH[ResultType.Crit], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
             }
 
@@ -2329,7 +2437,7 @@ namespace ClassicCraft
             yellowHitChances.Add(ResultType.Dodge, Program.version == Version.TBC ? EnemyDodgeChance(enemy.DodgeChance(WeaponSkill[MH.Type]), ExpertisePercent + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.Expertise))) : enemy.DodgeChance(WeaponSkill[MH.Type]));
             yellowHitChances.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level, Sim.Tanking, MHParryExpertise));
             yellowHitChances.Add(ResultType.Block, enemy.BlockChance());
-            yellowHitChances.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritChance + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.CritChance)), Level, enemy.Level), yellowHitChances[ResultType.Miss], 0, yellowHitChances[ResultType.Dodge], yellowHitChances[ResultType.Parry], yellowHitChances[ResultType.Block]));
+            yellowHitChances.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritChance + MHBonusCrit, Level, enemy.Level), yellowHitChances[ResultType.Miss], 0, yellowHitChances[ResultType.Dodge], yellowHitChances[ResultType.Parry], yellowHitChances[ResultType.Block]));
             yellowHitChances.Add(ResultType.Hit, RealHitChance(yellowHitChances[ResultType.Miss], 0, yellowHitChances[ResultType.Crit], yellowHitChances[ResultType.Dodge], yellowHitChances[ResultType.Parry], yellowHitChances[ResultType.Block]));
 
             if (HitChancesByEnemy.ContainsKey(enemy))

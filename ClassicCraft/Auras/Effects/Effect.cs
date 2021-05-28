@@ -77,7 +77,7 @@ namespace ClassicCraft
 
             if (oldStacks != CurrentStacks && Program.logFight)
             {
-                Program.Log(string.Format("{0:N2} : {1} stacks at {2}", Player.Sim.CurrentTime, ToString(), CurrentStacks));
+                Program.Log(string.Format("{0:N2} : {1} stacks added, at {2}", Player.Sim.CurrentTime, ToString(), CurrentStacks));
             }
         }
 
@@ -92,7 +92,7 @@ namespace ClassicCraft
 
             if (oldStacks != CurrentStacks && CurrentStacks > 0 && Program.logFight)
             {
-                Program.Log(string.Format("{0:N2} : {1} stacks at {2}", Player.Sim.CurrentTime, ToString(), CurrentStacks));
+                Program.Log(string.Format("{0:N2} : {1} stacks lost, at {2}", Player.Sim.CurrentTime, ToString(), CurrentStacks));
             }
         }
 

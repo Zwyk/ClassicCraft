@@ -103,37 +103,14 @@
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 214.0,
-      "DamageMax": 398.0,
-      "Speed": 2.8,
+      "DamageMin": 184.0,
+      "DamageMax": 343.0,
+      "Speed": 2.7,
       "TwoHanded": false,
-      "Type": "Sword",
+      "Type": "Mace",
       "Buff": null,
       "School": null,
-      "Name": "Warglaive MH",
-      "Id": 7,
-      "Slot": "Weapon",
-      "Stats": {},
-      "Enchantment": {
-        "Id": 0,
-        "Name": "Mongoose",
-        "Slot": "Weapon",
-        "Stats": {
-          "Agi": 22.0,
-          "Hit": 21.0,
-          "AP": 44.0
-        }
-      }
-    },
-    "OH": {
-      "DamageMin": 107.0,
-      "DamageMax": 199.0,
-      "Speed": 1.4,
-      "TwoHanded": false,
-      "Type": "Sword",
-      "Buff": null,
-      "School": null,
-      "Name": "Warglaive OH",
+      "Name": "Dragonstrike",
       "Id": 5,
       "Slot": "Weapon",
       "Stats": {},
@@ -141,12 +118,32 @@
         "Id": 0,
         "Name": "Mongoose",
         "Slot": "Weapon",
-        "Stats": {
-          "Agi": 21.0,
-          "Crit": 23.0,
-          "AP": 44.0
-        }
-      }
+        "Stats": {}
+      },
+      "Gems": null
+    },
+    "OH": {
+      "DamageMin": 181.0,
+      "DamageMax": 339.0,
+      "Speed": 2.6,
+      "TwoHanded": false,
+      "Type": "Sword",
+      "Buff": null,
+      "School": null,
+      "Name": "Blade of Infamy",
+      "Id": 5,
+      "Slot": "Weapon",
+      "Stats": {
+        "Agi": 28.0,
+        "AP": 56.0,
+      },
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Mongoose",
+        "Slot": "Weapon",
+        "Stats": {}
+      },
+      "Gems": null
     },
     "Ranged": {
       "DamageMin": 0.0,

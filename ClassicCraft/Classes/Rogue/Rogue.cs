@@ -8,13 +8,14 @@ namespace ClassicCraft
 {
     class Rogue : Player
     {
-        private Ambush am;
-        private Backstab bs;
-        private Eviscerate ev;
-        private SinisterStrike ss;
-        private SliceAndDice sad;
-        private AdrenalineRush ar;
-        private BladeFlurry bf;
+        private Ambush am = null;
+        private Backstab bs = null;
+        private Eviscerate ev = null;
+        private SinisterStrike ss = null;
+        private SliceAndDice snd = null;
+        private Rupture rup = null;
+        private Shiv shiv = null;
+        private Envenom env = null;
 
         #region Constructors
 
@@ -113,7 +114,7 @@ namespace ClassicCraft
                     Talents.Add("Mace", combat.Length > 12 ? (int)Char.GetNumericValue(combat[12]) : 0);
                     Talents.Add("BF", combat.Length > 13 ? (int)Char.GetNumericValue(combat[13]) : 0);
                     Talents.Add("Sword", combat.Length > 14 ? (int)Char.GetNumericValue(combat[14]) : 0);
-                    Talents.Add("Fists", combat.Length > 15 ? (int)Char.GetNumericValue(combat[15]) : 0);
+                    Talents.Add("Fist", combat.Length > 15 ? (int)Char.GetNumericValue(combat[15]) : 0);
                     Talents.Add("WE", combat.Length > 17 ? (int)Char.GetNumericValue(combat[17]) : 0);
                     Talents.Add("Agg", combat.Length > 18 ? (int)Char.GetNumericValue(combat[18]) : 0);
                     Talents.Add("Vitality", combat.Length > 19 ? (int)Char.GetNumericValue(combat[19]) : 0);
@@ -133,14 +134,11 @@ namespace ClassicCraft
         public override void PrepFight()
         {
             base.PrepFight();
-
-            am = new Ambush(this);
-            bs = new Backstab(this);
             ev = new Eviscerate(this);
-            ss = new SinisterStrike(this);
-            sad = new SliceAndDice(this);
-            ar = new AdrenalineRush(this);
-            bf = new BladeFlurry(this);
+            snd = new SliceAndDice(this);
+            env = new Envenom(this);
+            shiv = new Shiv(this);
+            rup = new Rupture(this);
 
             Stealthed = true;
 
@@ -150,49 +148,82 @@ namespace ClassicCraft
 
             if (MH.Type == Weapon.WeaponType.Dagger)
             {
+                am = new Ambush(this);
+                bs = new Backstab(this);
+
                 rota = 1;
+            }
+            else
+            {
+                ss = new SinisterStrike(this);
+
+                rota = 0;
+            }
+
+            if (GetTalentPoints("BF") > 0) cds.Add(new BladeFlurry(this), BladeFlurryBuff.LENGTH);
+            if (GetTalentPoints("AR") > 0) cds.Add(new AdrenalineRush(this), AdrenalineRushBuff.LENGTH);
+            if (Cooldowns != null)
+            {
+                foreach (string s in Cooldowns)
+                {
+                    switch (s)
+                    {
+                        case "Racial":
+                            if (Race == Races.Orc)
+                            {
+                                cds.Add(new BloodFury(this), BloodFuryBuff.LENGTH);
+                            }
+                            else if (Race == Races.Troll)
+                            {
+                                cds.Add(new Berserking(this), BerserkingBuff.LENGTH);
+                            }
+                            break;
+                    }
+                }
             }
         }
 
         public override void Rota()
         {
-            double sadleft = 0;
+            double sndLeft = 0;
             if (Effects.ContainsKey(SliceAndDiceBuff.NAME))
             {
-                sadleft = Effects[SliceAndDiceBuff.NAME].RemainingTime();
+                sndLeft = Effects[SliceAndDiceBuff.NAME].RemainingTime();
             }
 
-            if (sadleft > 0)
+            if (sndLeft > 0)
             {
-                if (bf.CanUse())
+                if (cds != null)
                 {
-                    bf.Cast();
-                }
-                if (ar.CanUse())
-                {
-                    ar.Cast();
-                }
-            }
-
-            if (rota == 0) // SS + EV
-            {
-                if (Sim.FightLength - Sim.CurrentTime > SliceAndDiceBuff.DurationCalc(this) && Combo > 0 && sadleft == 0 && sad.CanUse())
-                {
-                    sad.Cast();
-                }
-                else if (Combo > 4)
-                {
-                    if (Sim.FightLength - Sim.CurrentTime > SliceAndDiceBuff.DurationCalc(this) && sadleft < 10)
+                    foreach (Skill cd in cds.Keys)
                     {
-                        if (Resource >= 80 && sad.CanUse())
+                        if (cd.CanUse() &&
+                            (Sim.FightLength - Sim.CurrentTime <= cds[cd]
+                            || Sim.FightLength - Sim.CurrentTime >= cd.BaseCD + cds[cd]))
                         {
-                            sad.Cast();
+                            cd.Cast();
                         }
                     }
-                    else if (ev.CanUse())
-                    {
-                        ev.Cast();
-                    }
+                }
+            }
+
+            if (rota == 0) // SS + SND + RUPT>EV
+            {
+                if (Combo > 0 && sndLeft == 0 && snd.CanUse())
+                {
+                    snd.Cast();
+                }
+                else if (Combo > 4 && sndLeft < 4 && snd.CanUse() && Sim.FightLength - Sim.CurrentTime > SliceAndDiceBuff.DurationCalc(this))
+                {
+                    snd.Cast();
+                }
+                else if (Combo > 4 && rup.CanUse() && Sim.FightLength - Sim.CurrentTime > RuptureDoT.DurationCalc(this) && !Sim.Boss.Effects.ContainsKey("Rupture"))
+                {
+                    rup.Cast();
+                }
+                else if (Combo > 2 && ev.CanUse() && Sim.Boss.Effects.ContainsKey("Rupture"))
+                {
+                    ev.Cast();
                 }
                 else if (ss.CanUse())
                 {
@@ -201,17 +232,17 @@ namespace ClassicCraft
             }
             else if (rota == 1) // BS + EV
             {
-                if (Sim.FightLength - Sim.CurrentTime > SliceAndDiceBuff.DurationCalc(this) && Combo > 1 && sadleft == 0 && sad.CanUse())
+                if (Sim.FightLength - Sim.CurrentTime > SliceAndDiceBuff.DurationCalc(this) && Combo > 1 && sndLeft == 0 && snd.CanUse())
                 {
-                    sad.Cast();
+                    snd.Cast();
                 }
                 else if (Combo > 4)
                 {
-                    if (Sim.FightLength - Sim.CurrentTime > SliceAndDiceBuff.DurationCalc(this) && sadleft < 10)
+                    if (Sim.FightLength - Sim.CurrentTime > SliceAndDiceBuff.DurationCalc(this) && sndLeft < 10)
                     {
-                        if (Resource >= 80 && sad.CanUse())
+                        if (Resource >= 80 && snd.CanUse())
                         {
-                            sad.Cast();
+                            snd.Cast();
                         }
                     }
                     else if (ev.CanUse())

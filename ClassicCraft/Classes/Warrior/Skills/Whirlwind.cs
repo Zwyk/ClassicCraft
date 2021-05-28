@@ -12,7 +12,7 @@ namespace ClassicCraft
         public static int CD = 10;
 
         public Whirlwind(Player p)
-            : base(p, CD - (Program.version == Version.TBC ? p.GetTalentPoints("IWW") : 0), BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") + (p.Sets["Warbringer"]>=2?5:0) : 0))
+            : base(p, CD - (Program.version == Version.TBC ? p.GetTalentPoints("IWW") : 0), BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") + (p.NbSet("Warbringer")>=2?5:0) : 0))
         {
         }
 

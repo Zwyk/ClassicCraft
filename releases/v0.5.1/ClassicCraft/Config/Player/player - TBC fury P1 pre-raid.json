@@ -5,7 +5,7 @@
   "Talents": "32024001302-050500055050120521251",
   "Cooldowns": {
     "Racial": true,
-    "Death Wish": false,
+    "Death Wish": true,
     "Recklessness": false,
     "Bloodlust": true,
     "Mighty Rage": false,
@@ -100,17 +100,25 @@
       "Slot": null,
       "Stats": {}
     },
+    {
+      "Id": 0,
+      "Name": "Ragesteel",
+      "Slot": null,
+      "Stats": {
+        "Hit": 20.0,
+      }
+    },
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 214.0,
-      "DamageMax": 398.0,
-      "Speed": 2.8,
+      "DamageMin": 172.0,
+      "DamageMax": 320.0,
+      "Speed": 2.7,
       "TwoHanded": false,
-      "Type": "Sword",
+      "Type": "Mace",
       "Buff": null,
       "School": null,
-      "Name": "Warglaive MH",
+      "Name": "Dragonmaw",
       "Id": 7,
       "Slot": "Weapon",
       "Stats": {},
@@ -118,34 +126,27 @@
         "Id": 0,
         "Name": "Mongoose",
         "Slot": "Weapon",
-        "Stats": {
-          "Agi": 22.0,
-          "Hit": 21.0,
-          "AP": 44.0
-        }
+        "Stats": {}
       }
     },
     "OH": {
-      "DamageMin": 107.0,
-      "DamageMax": 199.0,
-      "Speed": 1.4,
+      "DamageMin": 147.0,
+      "DamageMax": 275.0,
+      "Speed": 2.6,
       "TwoHanded": false,
       "Type": "Sword",
       "Buff": null,
       "School": null,
-      "Name": "Warglaive OH",
+      "Name": "Blinkstrike",
       "Id": 5,
       "Slot": "Weapon",
-      "Stats": {},
+      "Stats": {
+      },
       "Enchantment": {
         "Id": 0,
         "Name": "Mongoose",
         "Slot": "Weapon",
-        "Stats": {
-          "Agi": 21.0,
-          "Crit": 23.0,
-          "AP": 44.0
-        }
+        "Stats": {}
       }
     },
     "Ranged": {
@@ -153,33 +154,33 @@
       "DamageMax": 0.0,
       "Speed": 0.0,
       "TwoHanded": false,
-      "Type": "Throwable",
+      "Type": "Gun",
       "Buff": null,
       "School": null,
-      "Name": "Zarak",
+      "Name": "Mama",
       "Id": 6,
       "Slot": "Ranged",
       "Stats": {
-        "AP": 23.0,
-        "Crit": 16.0,
+        "Agi": 10.0,
+        "Crit": 6.0,
+        "AP": 32.0
       },
       "Enchantment": null
     }
   },
   "Equipment": {
     "Head": {
-      "Name": "Sargeras",
+      "Name": "Deceiver",
       "Id": 0,
       "Slot": "Head",
       "Stats": {
-        "Agi": 39.0,
-        "Crit": 38.0,
-        "Hit": 21.0,
-        "AP": 108.0,
+        "Agi": 32.0,
+        "Hit": 16.0,
+        "AP": 64.0
       },
       "Enchantment": {
         "Id": 4,
-        "Name": "Ferocity",
+        "Name": "Cena",
         "Slot": "Head",
         "Stats": {
           "AP": 34.0,
@@ -187,36 +188,44 @@
         }
       },
       "Gems": {
-        "Id": 0,
-        "Name": "Relentless Earthstorm Diamond",
+        "Id": 4,
+        "Name": "Chaotic Skyfire Diamond",
         "Slot": "Head",
         "Stats": {
-          "Agi": 12.0,
-          "Str": 5.0,
-          "Crit": 5.0,
+          "SCrit": 12.0,
+          "Str": 4.0,
+          "Crit": 4.0,
+          "Agi": 4.0,
         }
       }
     },
     "Neck": {
-      "Name": "Nightmares",
+      "Name": "Adamantine",
       "Id": 1,
       "Slot": "Neck",
       "Stats": {
-        "Crit": 27.0,
-        "Hit": 21.0,
-        "AP": 72.0
+        "Crit": 30.0,
+        "AP": 34.0
       },
       "Enchantment": null,
-      "Gems": null,
+      "Gems": {
+        "Id": 4,
+        "Name": "Gems",
+        "Slot": "Neck",
+        "Stats": {
+          "Str": 0.0,
+          "Crit": 16.0
+        }
+      }
     },
     "Shoulders": {
-      "Name": "Onslaught",
+      "Name": "Ragesteel",
       "Id": 2,
       "Slot": "Shoulders",
       "Stats": {
-        "Str": 39.0,
-        "Agi": 39.0,
-        "ArmorPen": 91.0,
+        "Str": 32.0,
+        "Crit": 17.0,
+        "Hit": 9.0
       },
       "Enchantment": {
         "Id": 4,
@@ -228,42 +237,49 @@
         }
       },
       "Gems": {
-        "Id": 0,
+        "Id": 4,
         "Name": "Gems",
         "Slot": "Shoulders",
         "Stats": {
-          "Str": 10.0,
-          "Crit": 8.0,
+          "Str": 8.0,
+          "Crit": 11.0
         }
       }
     },
     "Back": {
-      "Name": "Shadowmoon",
+      "Name": "Vengeance",
       "Id": 3,
       "Slot": "Back",
       "Stats": {
-        "Crit": 24.0,
-        "Hit": 17.0,
-        "AP": 72.0
+        "Crit": 23.0,
+        "AP": 52.0,
       },
       "Enchantment": {
         "Id": 5,
-        "Name": "Greater Agi",
+        "Name": "Greater Agility",
         "Slot": "Back",
         "Stats": {
           "Agi": 12.0
         }
+      },
+      "Gems": {
+        "Id": 4,
+        "Name": "Gems",
+        "Slot": "Back",
+        "Stats": {
+          "Str": 4.0,
+          "Crit": 4.0,
+          "Hit": 2.0,
+        }
       }
     },
     "Chest": {
-      "Name": "Onslaught",
+      "Name": "Ragesteel",
       "Id": 4,
       "Slot": "Chest",
       "Stats": {
-        "Str": 53.0,
-        "Agi": 34.0,
-        "Hit": 16.0,
-        "ArmorPen": 126,
+        "Str": 50.0,
+        "Crit": 29.0
       },
       "Enchantment": {
         "Id": 6,
@@ -277,23 +293,22 @@
         }
       },
       "Gems": {
-        "Id": 0,
+        "Id": 4,
         "Name": "Gems",
         "Slot": "Chest",
         "Stats": {
-          "Str": 15.0,
-          "Crit": 15.0,
+          "Str": 0.0,
+          "Crit": 16.0
         }
       }
     },
     "Wrists": {
-      "Name": "Deadly Cuffs",
+      "Name": "Black felsteel",
       "Id": 5,
       "Slot": "Wrists",
       "Stats": {
-        "Crit": 28.0,
-        "Hit": 12.0,
-        "AP": 58.0
+        "Str": 26.0,
+        "Crit": 22.0
       },
       "Enchantment": {
         "Id": 7,
@@ -304,23 +319,23 @@
         }
       },
       "Gems": {
-        "Id": 0,
+        "Id": 4,
         "Name": "Gems",
         "Slot": "Wrists",
         "Stats": {
-          "Str": 10.0,
-          "Crit": 10.0,
+          "Str": 0.0,
+          "Crit": 16.0
         }
       }
     },
     "Hands": {
-      "Name": "Onslaught",
+      "Name": "Fel Leather",
       "Id": 6,
       "Slot": "Hands",
       "Stats": {
-        "Str": 41.0,
-        "Agi": 30.0,
-        "ArmorPen": 91
+        "Hit": 17.0,
+        "Crit": 24.0,
+        "AP": 36.0,
       },
       "Enchantment": {
         "Id": 8,
@@ -331,132 +346,130 @@
         }
       },
       "Gems": {
-        "Id": 0,
+        "Id": 4,
         "Name": "Gems",
         "Slot": "Hands",
         "Stats": {
-          "Str": 5.0,
-          "Crit": 7.0,
+          "Str": 8.0,
+          "Crit": 8.0,
+          "AP": 6.0,
         }
       }
     },
     "Waist": {
-      "Name": "Hundred Deaths",
+      "Name": "Deathforge",
       "Id": 7,
       "Slot": "Waist",
       "Stats": {
-        "Agi": 29.0,
-        "Expertise": 25.0,
-        "AP": 74.0,
+        "Str": 22.0,
+        "Crit": 20.0
       },
       "Enchantment": null,
       "Gems": {
-        "Id": 8,
+        "Id": 4,
         "Name": "Gems",
         "Slot": "Waist",
         "Stats": {
-          "Str": 10.0,
-          "Crit": 10.0
+          "Str": 8.0,
+          "Crit": 4.0,
+          "Agi": 3.0,
         }
       }
     },
     "Legs": {
-      "Name": "Onslaught",
+      "Name": "Midnight",
       "Id": 8,
       "Slot": "Legs",
       "Stats": {
-        "Str": 62.0,
-        "Agi": 41.0,
-        "Hit": 14.0,
-        "ArmorPen": 105.0,
+        "Crit": 27.0,
+        "Hit": 17.0,
+        "AP": 64.0,
       },
       "Enchantment": {
         "Id": 8,
         "Name": "Cobrahide",
-        "Slot": "Hands",
+        "Slot": "Legs",
         "Stats": {
           "AP": 50.0,
           "Crit": 12.0
         }
       },
       "Gems": {
-        "Id": 8,
+        "Id": 4,
         "Name": "Gems",
         "Slot": "Legs",
         "Stats": {
-          "Str": 7.0,
+          "Str": 12.0,
+          "Crit": 8.0,
+          "Hit": 4.0,
         }
       }
     },
     "Feet": {
-      "Name": "Dreadboots",
+      "Name": "Fel Leather",
       "Id": 9,
       "Slot": "Feet",
       "Stats": {
-        "Str": 38.0,
-        "Crit": 30.0,
-        "Hit": 18.0,
+        "Hit": 25.0,
+        "Crit": 17.0,
+        "AP": 36.0
       },
       "Enchantment": {
         "Id": 8,
-        "Name": "Feet agi",
-        "Slot": "Hands",
+        "Name": "Agi",
+        "Slot": "Feet",
         "Stats": {
           "Agi": 12.0
         }
       },
       "Gems": {
-        "Id": 8,
+        "Id": 4,
         "Name": "Gems",
         "Slot": "Feet",
         "Stats": {
-          "Str": 13.0,
-          "Crit": 10.0
+          "Str": 0.0,
+          "Crit": 16.0
         }
       }
     },
     "Finger1": {
-      "Name": "Unstoppable",
+      "Name": "Shaffar",
       "Id": 10,
       "Slot": "Finger",
       "Stats": {
-        "Str": 36.0,
-        "Crit": 30.0,
+        "Crit": 20.0,
+        "Hit": 19.0,
+        "AP": 40.0,
       },
       "Enchantment": null
     },
     "Finger2": {
-      "Name": "Band of the Ranger-General",
+      "Name": "Arathi",
       "Id": 10,
       "Slot": "Finger",
       "Stats": {
-        "Crit": 28.0,
-        "Hit": 18.0,
-        "AP": 56.0,
+        "Crit": 23.0,
+        "AP": 46.0
       },
-      "Enchantment": null,
-      "Gems": null
+      "Enchantment": null
     },
     "Trinket1": {
-      "Name": "Tsunami Talisman",
+      "Name": "Hourglass of the Unraveller",
       "Id": 12,
       "Slot": "Trinket",
       "Stats": {
-        "Crit": 38.0,
-        "Hit": 10.0,
+        "Crit": 32.0
       },
-      "Enchantment": null,
-      "Gems": null
+      "Enchantment": null
     },
     "Trinket2": {
-      "Name": "Dragonspine Trophy",
+      "Name": "Bloodlust Brooch",
       "Id": 13,
       "Slot": "Trinket",
       "Stats": {
-        "AP": 40.0
+        "AP": 72.0,
       },
-      "Enchantment": null,
-      "Gems": null
+      "Enchantment": null
     }
   }
 }

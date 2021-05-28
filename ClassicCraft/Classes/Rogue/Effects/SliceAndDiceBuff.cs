@@ -19,7 +19,7 @@ namespace ClassicCraft
 
         public static double DurationCalc(Player p)
         {
-            return p.Combo == 0 ? 0 : LENGTH[p.Combo - 1] * (1 + 0.15 * p.GetTalentPoints("ISD"));
+            return p.Combo == 0 ? 0 : (LENGTH[p.Combo - 1] + (p.NbSet("Netherblade") >= 2 ? 3 : 0)) * (1 + 0.15 * p.GetTalentPoints("ISD"));
         }
 
         public double Bonus { get; set; }
@@ -27,7 +27,7 @@ namespace ClassicCraft
         public SliceAndDiceBuff(Player p, double bonusPct = 30)
             : base(p, p, true, DurationCalc(p), 1)
         {
-            Bonus = 1 + bonusPct / 100;
+            Bonus = 1 + (bonusPct + (p.NbSet("Slayer's") >= 2 ? 5 : 0)) / 100;
         }
 
         public override void Refresh()

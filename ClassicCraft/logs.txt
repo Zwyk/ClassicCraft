@@ -1,47 +1,46 @@
-500
-Date : 2021/05/25 14:54:46
+Date : 2021/05/28 02:33:23
 
 Fight length : 240 seconds (±10%)
 Number of targets : 1
 
 Player :
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:660][Agility:250.8][Stamina:123.2][Intellect:57.2][Spirit:80.3][Health:2741][Mana:0][AP:2960.1][RangedAP:561.6][CritChance:30.91%][HitChance:9.1%][Haste:0%][SpellHitChance:0%][SpellCritChance:0.54%][Expertise:2%][ArmorPen:0][WeaponDamage:0][WeaponDamageMH:0][WeaponDamageOH:0]
-Main weapon : Mace with 350 skill
+Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:634.7][Agility:430.1][Stamina:123.2][Intellect:57.2][Spirit:80.3][Health:2741][Mana:0][AP:3401.64][RangedAP:920.2][HitChance:9.1%][Haste:17.95%][CritChance:37.29%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.65%][ArmorPen:934][WeaponDamage:0][WeaponDamageMH:0][WeaponDamageOH:0]
+Main weapon : Sword with 350 skill
 
 Boss :
 Level 73, 6193 Armor (27.28% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
 After raid debuffs and player penetration :
-Level 73, 1708 Armor (9.38% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
+Level 73, 774 Armor (4.48% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
 
-596 simulations done in 3,084.97 ms, for 5.18 ms by sim
-Overall accuracy of results : ±0.46% (±7.29 DPS)
+565 simulations done in 4,298.54 ms, for 7.61 ms by sim
+Overall accuracy of results : ±0.33% (±9.34 DPS)
 
-Average DPS : 1,597.86 DPS (±178.07)
+Average DPS : 2,846.70 DPS (±221.97)
 
-Average stats for [AA MH] : 381.88 DPS (23.90%)
-	Average of 877.59 damage for 104.71 uses (or 1 use every 2.30s)
-	20.81% Hit, 28.05% Crit, 15.52% Miss, 31.18% Glancing, 4.43% Dodge
+Average stats for [AA MH] : 504.70 DPS (17.73%)
+	Average of 1,274.72 damage for 94.92 uses (or 1 use every 2.52s)
+	22.68% Hit, 34.27% Crit, 13.41% Miss, 26.72% Glancing, 2.92% Dodge
 
-Average stats for [AA OH] : 281.03 DPS (17.59%)
-	Average of 512.24 damage for 131.80 uses (or 1 use every 1.82s)
-	27.68% Hit, 27.93% Crit, 13.11% Miss, 26.66% Glancing, 4.62% Dodge
+Average stats for [AA OH] : 596.39 DPS (20.95%)
+	Average of 406.92 damage for 350.91 uses (or 1 use every 0.68s)
+	35.80% Hit, 34.43% Crit, 8.92% Miss, 18.03% Glancing, 2.83% Dodge
 
-Average stats for [Bloodthirst] : 272.45 DPS (17.05%)
-	Average of 1,873.69 damage for 34.95 uses (or 1 use every 6.88s)
-	67.78% Hit, 27.73% Crit, 0.00% Miss, 0.00% Glancing, 4.48% Dodge
+Average stats for [Bloodthirst] : 401.79 DPS (14.11%)
+	Average of 2,606.27 damage for 36.92 uses (or 1 use every 6.49s)
+	63.04% Hit, 34.02% Crit, 0.00% Miss, 0.00% Glancing, 2.94% Dodge
 
-Average stats for [Whirlwind] : 190.24 DPS (11.91%)
-	Average of 1,634.47 damage for 27.97 uses (or 1 use every 8.59s)
-	67.24% Hit, 28.20% Crit, 0.00% Miss, 0.00% Glancing, 4.56% Dodge
+Average stats for [Whirlwind] : 242.46 DPS (8.52%)
+	Average of 2,091.12 damage for 27.77 uses (or 1 use every 8.63s)
+	63.25% Hit, 33.90% Crit, 0.00% Miss, 0.00% Glancing, 2.85% Dodge
 
-Average stats for [Heroic Strike] : 310.76 DPS (19.45%)
-	Average of 1,366.65 damage for 54.62 uses (or 1 use every 4.40s)
-	67.73% Hit, 27.81% Crit, 0.00% Miss, 0.00% Glancing, 4.46% Dodge
+Average stats for [Heroic Strike] : 854.00 DPS (30.00%)
+	Average of 1,828.92 damage for 111.80 uses (or 1 use every 2.14s)
+	62.78% Hit, 34.38% Crit, 0.00% Miss, 0.00% Glancing, 2.84% Dodge
 
-Average stats for [Execute] : 120.15 DPS (7.52%)
-	Average of 1,707.30 damage for 16.92 uses (or 1 use every 14.20s)
-	68.33% Hit, 27.39% Crit, 0.00% Miss, 0.00% Glancing, 4.28% Dodge
+Average stats for [Execute] : 193.54 DPS (6.80%)
+	Average of 2,534.70 damage for 18.32 uses (or 1 use every 13.07s)
+	62.42% Hit, 34.57% Crit, 0.00% Miss, 0.00% Glancing, 3.01% Dodge
 
-Average stats for [Deep Wounds] : 41.34 DPS (2.59%)
-	Average of 127.01 damage for 78.22 ticks (or 1 tick every 3.07s)
-	97.64% Uptime
+Average stats for [Deep Wounds] : 53.82 DPS (1.89%)
+	Average of 163.06 damage for 79.05 ticks (or 1 tick every 3.04s)
+	99.02% Uptime

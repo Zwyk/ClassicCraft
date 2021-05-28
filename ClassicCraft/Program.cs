@@ -515,6 +515,8 @@ namespace ClassicCraft
                     logListEffects = new List<string>() { };
                     if (playerBase.Class == Player.Classes.Priest)
                         logListEffects.AddRange(new List<string>() { "Mind Flay", "SW:P", "Devouring Plague" });
+                    if (playerBase.Class == Player.Classes.Rogue)
+                        logListEffects.AddRange(new List<string>() { "Rupture", "Deadly Poison" });
                     if (playerBase.Class == Player.Classes.Warrior)
                         logListEffects.AddRange(new List<string>() { "Deep Wounds" });
                     if (playerBase.Class == Player.Classes.Warlock)
@@ -632,8 +634,8 @@ namespace ClassicCraft
                                         errorPct = Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average());
                                     }
                                 }
-                                
-                                GUISetProgress(done / simOrder.Count * 100 + currentPct);
+
+                                GUISetProgress((double)done / (statsWeights ? simOrder.Count : 1) * 100 + currentPct / (statsWeights ? simOrder.Count : 1));
                                 GUISetProgressText(String.Format("Simulating {0} - {1}/{2}", simOrder[done], done + 1, statsWeights ? simOrder.Count : 1));
                                 
                                 string outputText = "";
@@ -726,7 +728,7 @@ namespace ClassicCraft
                             if (apDif < 0) apDif = 0;
                             Log(string.Format("1 AP = {0:N4} TPS", apDif));
 
-                            double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * Player.BonusStrToAPRatio(playerBase);
+                            double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * Player.BonusStrRatio(playerBase);
                             Log(string.Format("1 Str = {0:N4} TPS = {1:N4} AP", strDif, strDif / apDif));
 
                             weightsDone += 1;
@@ -737,7 +739,8 @@ namespace ClassicCraft
                             double critDif = critTps - baseTps;
                             if (critDif < 0) critDif = 0;
 
-                            double agiDif = Player.AgiToAPRatio(playerBase) * apDif + Player.AgiToCritRatio(playerBase.Class) * Player.BonusAgiToCritRatio(playerBase) * 100 * critDif;
+                            double agiDif = Player.AgiToAPRatio(playerBase) * Player.BonusAgiRatio(playerBase) * apDif
+                                + Player.AgiToCritRatio(playerBase.Class) * Player.BonusAgiRatio(playerBase) * 100 * critDif;
                             Log(string.Format("1 Agi = {0:N4} TPS = {1:N4} AP", agiDif, agiDif / apDif));
 
                             Log(string.Format("1{2} Crit = {0:N4} TPS = {1:N4} AP", critDif, critDif / apDif, version == Version.TBC ? "" : "%"));
@@ -877,7 +880,7 @@ namespace ClassicCraft
                             if (apDif < 0) apDif = 0;
                             Log(string.Format("1 AP = {0:N4} DPS", apDif));
 
-                            double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * Player.BonusStrToAPRatio(playerBase);
+                            double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * Player.BonusStrRatio(playerBase);
                             Log(string.Format("1 Str = {0:N4} DPS = {1:N4} AP", strDif, strDif / apDif));
 
                             weightsDone += 1;
@@ -897,7 +900,7 @@ namespace ClassicCraft
                             double critDif = critDps - baseDps;
                             if (critDif < 0) critDif = 0;
 
-                            double agiDif = Player.AgiToAPRatio(playerBase) * apDif + Player.AgiToCritRatio(playerBase.Class) * Player.BonusAgiToCritRatio(playerBase) * 100 * critDif;
+                            double agiDif = Player.AgiToAPRatio(playerBase) * apDif + Player.AgiToCritRatio(playerBase.Class) * Player.BonusAgiRatio(playerBase) * 100 * critDif;
                             Log(string.Format("1 Agi = {0:N4} DPS = {1:N4} AP", agiDif, agiDif / apDif));
 
                             critDif /= (version == Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1);
