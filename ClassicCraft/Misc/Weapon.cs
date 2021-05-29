@@ -23,6 +23,7 @@ namespace ClassicCraft
             Wand,
             Throwable,
             Offhand,
+            Shield,
         }
 
         public static string TypeToString(WeaponType wt)
@@ -42,6 +43,7 @@ namespace ClassicCraft
                 case WeaponType.Wand: return "Wand";
                 case WeaponType.Throwable: return "Throwable";
                 case WeaponType.Offhand: return "Offhand";
+                case WeaponType.Shield: return "Shield";
                 default: throw new Exception("WeaponType not found");
             }
         }
@@ -63,6 +65,7 @@ namespace ClassicCraft
                 case "Wand": return WeaponType.Wand;
                 case "Throwable": return WeaponType.Throwable;
                 case "Offhand": return WeaponType.Offhand;
+                case "Shield": return WeaponType.Shield;
                 default: throw new Exception("WeaponType not found : " + s);
             }
         }
@@ -124,7 +127,7 @@ namespace ClassicCraft
             }
 
             string s = string.Format("[{0}] ({1}) {2} : {3} | Type = {4}", Slot, Id, Name, attributes, Type);
-            if(Type != WeaponType.Offhand)
+            if(Type != WeaponType.Offhand && Type != WeaponType.Shield)
             {
                 s += string.Format(", {0}-{1} at {2}, 2H = {3}", DamageMin, DamageMax, Speed, TwoHanded);
             }

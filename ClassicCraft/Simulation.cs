@@ -101,7 +101,7 @@ namespace ClassicCraft
 
                 CurrentTime += 1 / RATE;
             }
-
+            
             Program.AddSimDps(Damage / FightLength);
             if(Tanking && TankHitEvery > 0 && TankHitRage > 0)
             {
@@ -199,6 +199,10 @@ namespace ClassicCraft
                 Results.Effects.Add(effect);
             }
             Damage += effect.Damage;
+            if (Tanking && TankHitEvery > 0 && TankHitRage > 0)
+            {
+                Threat += effect.Threat;
+            }
         }
 
         public static double Normalization(Weapon w)

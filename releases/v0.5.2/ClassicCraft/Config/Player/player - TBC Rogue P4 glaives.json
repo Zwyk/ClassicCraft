@@ -1,16 +1,11 @@
 {
-  "Class": "Warrior",
+  "Class": "Rogue",
   "Level": 70,
   "Race": "Orc",
-  "Talents": "32024001302-050500055050120521251",
+  "Talents": "0053201054-023305002005015002321151",
   "Cooldowns": {
     "Racial": true,
-    "Death Wish": false,
-    "Recklessness": false,
-    "Bloodlust": true,
-    "Mighty Rage": false,
     "Haste Potion": true,
-    "Insane Strength Potion": false,
   },
   "Buffs": [
     {
@@ -103,14 +98,40 @@
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 172.0,
-      "DamageMax": 320.0,
-      "Speed": 2.7,
+      "DamageMin": 214.0,
+      "DamageMax": 398.0,
+      "Speed": 2.8,
       "TwoHanded": false,
-      "Type": "Mace",
+      "Type": "Sword",
       "Buff": null,
       "School": null,
-      "Name": "Dragonmaw",
+      "Name": "Warglaive MH",
+      "Id": 7,
+      "Slot": "Weapon",
+      "Stats": {},
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Mongoose",
+        "Slot": "Weapon",
+        "Stats": {
+          "Agi": 22.0,
+          "Hit": 21.0,
+          "AP": 44.0
+        }
+      }
+    },
+    "OH": {
+      "DamageMin": 107.0,
+      "DamageMax": 199.0,
+      "Speed": 1.4,
+      "TwoHanded": false,
+      "Type": "Sword",
+      "Buff": 
+      {
+        "Name": "Deadly Poison"
+      },
+      "School": null,
+      "Name": "Warglaive OH",
       "Id": 5,
       "Slot": "Weapon",
       "Stats": {},
@@ -118,59 +139,50 @@
         "Id": 0,
         "Name": "Mongoose",
         "Slot": "Weapon",
-        "Stats": {}
-      },
-      "Gems": null
-    },
-    "OH": {
-      "DamageMin": 147.0,
-      "DamageMax": 275.0,
-      "Speed": 2.6,
-      "TwoHanded": false,
-      "Type": "Sword",
-      "Buff": null,
-      "School": null,
-      "Name": "Blinkstrike",
-      "Id": 5,
-      "Slot": "Weapon",
-      "Stats": {
-      },
-      "Enchantment": {
-        "Id": 0,
-        "Name": "Mongoose",
-        "Slot": "Weapon",
-        "Stats": {}
-      },
-      "Gems": null
+        "Stats": {
+          "Agi": 21.0,
+          "Crit": 23.0,
+          "AP": 44.0
+        }
+      }
     },
     "Ranged": {
       "DamageMin": 0.0,
       "DamageMax": 0.0,
       "Speed": 0.0,
       "TwoHanded": false,
-      "Type": "Bow",
+      "Type": "Gun",
       "Buff": null,
       "School": null,
-      "Name": "Phoenix",
+      "Name": "Longrifle",
       "Id": 6,
       "Slot": "Ranged",
       "Stats": {
-        "Agi": 19.0,
-        "AP": 34.0
+        "Agi": 16,
       },
       "Enchantment": null,
-      "Gems": null
+      "Gems": 
+      {
+        "Id": 0,
+        "Name": "Gems",
+        "Slot": "Ranged",
+        "Stats":
+        {
+          "Agi": 20,
+        }
+      }
     }
   },
   "Equipment": {
     "Head": {
-      "Name": "Warbringer Helm",
+      "Name": "Sargeras",
       "Id": 0,
       "Slot": "Head",
       "Stats": {
-        "Str": 45.0,
-        "Crit": 24.0,
-        "Hit": 14.0
+        "Agi": 39,
+        "Crit": 38,
+        "Hit": 21,
+        "AP": 108,
       },
       "Enchantment": {
         "Id": 4,
@@ -183,35 +195,33 @@
       },
       "Gems": {
         "Id": 0,
-        "Name": "Chaotic Skyfire Diamond",
+        "Name": "Relentless",
         "Slot": "Head",
         "Stats": {
-          "SCrit": 12.0,
-          "Str": 4.0,
-          "Crit": 4.0,
-          "Hit": 4.0,
+          "Agi": 22,
         }
       }
     },
     "Neck": {
-      "Name": "Adamantine",
+      "Name": "Nightmares",
       "Id": 1,
       "Slot": "Neck",
       "Stats": {
-        "Crit": 30.0,
-        "AP": 34.0
+        "Crit": 27,
+        "Hit": 21,
+        "AP": 72,
       },
       "Enchantment": null,
       "Gems": null
     },
     "Shoulders": {
-      "Name": "Warbringer Shoulders",
+      "Name": "Slayer's",
       "Id": 2,
       "Slot": "Shoulders",
       "Stats": {
-        "Str": 32.0,
-        "Agi": 22.0,
-        "Hit": 13.0
+        "Agi": 34,
+        "AP": 68,
+        "ArmorPen": 175,
       },
       "Enchantment": {
         "Id": 4,
@@ -227,18 +237,18 @@
         "Name": "Gems",
         "Slot": "Shoulders",
         "Stats": {
-          "Str": 11.0,
-          "Crit": 4.0
+          "Agi": 20,
         }
       }
     },
     "Back": {
-      "Name": "Vengeance",
+      "Name": "Destroyer",
       "Id": 3,
       "Slot": "Back",
       "Stats": {
-        "Crit": 23.0,
-        "AP": 52.0
+        "Crit": 24,
+        "Hit": 17,
+        "AP": 72,
       },
       "Enchantment": {
         "Id": 5,
@@ -260,12 +270,14 @@
       }
     },
     "Chest": {
-      "Name": "Warbringer Chest",
+      "Name": "Slayer's",
       "Id": 4,
       "Slot": "Chest",
       "Stats": {
-        "Str": 44.0,
-        "Crit": 26.0
+        "Agi": 45,
+        "Crit": 28,
+        "Hit": 15,
+        "AP": 92,
       },
       "Enchantment": {
         "Id": 6,
@@ -283,25 +295,27 @@
         "Name": "Gems",
         "Slot": "Chest",
         "Stats": {
-          "Str": 12.0,
-          "Crit": 12.0
+          "Agi": 5,
+          "AP": 28,
+          "Crit": 10,
         }
       }
     },
     "Wrists": {
-      "Name": "Bladespire",
+      "Name": "Insidious",
       "Id": 5,
       "Slot": "Wrists",
       "Stats": {
-        "Str": 20.0,
-        "Crit": 24.0
+        "Agi": 28,
+        "Hit": 12,
+        "AP": 58,
       },
       "Enchantment": {
         "Id": 7,
         "Name": "Brawn",
         "Slot": "Wrists",
         "Stats": {
-          "Str": 12.0
+          "AP": 24.0
         }
       },
       "Gems": {
@@ -309,25 +323,28 @@
         "Name": "Gems",
         "Slot": "Wrists",
         "Stats": {
-          "Str": 11.0,
-          "Crit": 4.0
+          "Agi": 2,
+          "AP": 10,
+          "Crit": 5,
         }
       }
     },
     "Hands": {
-      "Name": "Martial",
+      "Name": "Slayer's",
       "Id": 6,
       "Slot": "Hands",
       "Stats": {
-        "Str": 36.0,
-        "Crit": 23.0
+        "Agi": 34,
+        "Hit": 18,
+        "AP": 68,
+        "ArmorPen": 175,
       },
       "Enchantment": {
         "Id": 8,
-        "Name": "Str",
+        "Name": "Agi",
         "Slot": "Hands",
         "Stats": {
-          "Str": 15.0
+          "Agi": 15.0
         }
       },
       "Gems": {
@@ -341,12 +358,13 @@
       }
     },
     "Waist": {
-      "Name": "Endless Pit",
+      "Name": "Shadow-Walker",
       "Id": 7,
       "Slot": "Waist",
       "Stats": {
-        "Str": 34.0,
-        "Crit": 28.0
+        "Agi": 27,
+        "Haste": 37,
+        "AP": 76,
       },
       "Enchantment": null,
       "Gems": {
@@ -354,19 +372,17 @@
         "Name": "Gems",
         "Slot": "Waist",
         "Stats": {
-          "Str": 8.0,
-          "Crit": 8.0
         }
       }
     },
     "Legs": {
-      "Name": "Skulker",
+      "Name": "Slayer's",
       "Id": 8,
       "Slot": "Legs",
       "Stats": {
-        "Agi": 32.0,
-        "Hit": 28.0,
-        "AP": 64.0
+        "Agi": 46,
+        "Crit": 45,
+        "AP": 94,
       },
       "Enchantment": {
         "Id": 8,
@@ -382,19 +398,18 @@
         "Name": "Gems",
         "Slot": "Legs",
         "Stats": {
-          "Str": 12.0,
-          "Crit": 12.0
+          "Agi": 10,
         }
       }
     },
     "Feet": {
-      "Name": "Edgewalker",
+      "Name": "Shadowmaster",
       "Id": 9,
       "Slot": "Feet",
       "Stats": {
-        "Agi": 29.0,
-        "Hit": 13.0,
-        "AP": 44.0
+        "Agi": 30.0,
+        "Crit": 17.0,
+        "AP": 76.0
       },
       "Enchantment": {
         "Id": 8,
@@ -409,51 +424,53 @@
         "Name": "Str",
         "Slot": "Feet",
         "Stats": {
-          "Str": 8.0,
-          "Crit": 8.0,
-          "Hit": 3.0
+          "Agi": 10,
+          "AP": 10,
+          "Crit": 8
         }
       }
     },
     "Finger1": {
-      "Name": "Thounsand Marks",
+      "Name": "Stormrage",
       "Id": 10,
       "Slot": "Finger",
       "Stats": {
-        "Crit": 23.0,
-        "Hit": 19.0,
-        "AP": 44.0
+        "Hit": 30,
+        "AP": 66,
+        "ArmorPen": 126,
       },
       "Enchantment": null,
       "Gems": null
     },
     "Finger2": {
-      "Name": "Mithril Band",
+      "Name": "Ranger-General",
       "Id": 10,
       "Slot": "Finger",
       "Stats": {
-        "Str": 26.0,
-        "Crit": 22.0
+        "Crit": 28,
+        "Hit": 18,
+        "AP": 56,
       },
       "Enchantment": null,
       "Gems": null
     },
     "Trinket1": {
-      "Name": "Hourglass of the Unraveller",
+      "Name": "Dragonspine Trophy",
       "Id": 12,
       "Slot": "Trinket",
       "Stats": {
-        "Crit": 32.0
+        "AP": 40,
       },
       "Enchantment": null,
       "Gems": null
     },
     "Trinket2": {
-      "Name": "Dragonspine Trophy",
+      "Name": "Tsunami Talisman",
       "Id": 13,
       "Slot": "Trinket",
       "Stats": {
-        "AP": 40.0
+        "Crit": 38,
+        "Hit": 10,
       },
       "Enchantment": null,
       "Gems": null

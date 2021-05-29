@@ -10,7 +10,7 @@
     "Bloodlust": true,
     "Mighty Rage": false,
     "Haste Potion": true,
-    "Insane Strength Potion": false,
+    "Insane Strength Potion": false
   },
   "Buffs": [
     {
@@ -99,7 +99,7 @@
       "Name": "Drums of Battle",
       "Slot": null,
       "Stats": {}
-    },
+    }
   ],
   "Weapons": {
     "MH": {
@@ -133,8 +133,7 @@
       "Name": "Blinkstrike",
       "Id": 5,
       "Slot": "Weapon",
-      "Stats": {
-      },
+      "Stats": {},
       "Enchantment": {
         "Id": 0,
         "Name": "Mongoose",
@@ -189,7 +188,7 @@
           "SCrit": 12.0,
           "Str": 4.0,
           "Crit": 4.0,
-          "Hit": 4.0,
+          "Hit": 4.0
         }
       }
     },

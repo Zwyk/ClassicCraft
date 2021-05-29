@@ -2,15 +2,15 @@
   "Class": "Warrior",
   "Level": 70,
   "Race": "Orc",
-  "Talents": "32024001302-050500055050120521251",
+  "Talents": "32015301302015400021-0550000500521203",
   "Cooldowns": {
     "Racial": true,
-    "Death Wish": false,
+    "Death Wish": true,
     "Recklessness": false,
     "Bloodlust": true,
     "Mighty Rage": false,
     "Haste Potion": true,
-    "Insane Strength Potion": false,
+    "Insane Strength Potion": false
   },
   "Buffs": [
     {

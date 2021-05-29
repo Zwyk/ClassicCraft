@@ -34,7 +34,7 @@ namespace ClassicCraft
                 * (Player.Sim.Boss.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
                 );
 
-            int threat = (int)Math.Round(damage * Player.ThreatMod);
+            int threat = (int)Math.Round(damage * (1 + 0.21 * Player.GetTalentPoints("TM")) * Player.ThreatMod);
 
             CommonAction();
             if(res == ResultType.Parry || res == ResultType.Dodge)

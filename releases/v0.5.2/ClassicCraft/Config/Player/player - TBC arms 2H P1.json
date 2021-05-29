@@ -2,15 +2,15 @@
   "Class": "Warrior",
   "Level": 70,
   "Race": "Orc",
-  "Talents": "32024001302-050500055050120521251",
+  "Talents": "32003301352010500221-0550000500521203",
   "Cooldowns": {
     "Racial": true,
-    "Death Wish": false,
+    "Death Wish": true,
     "Recklessness": false,
     "Bloodlust": true,
     "Mighty Rage": false,
     "Haste Potion": true,
-    "Insane Strength Potion": false,
+    "Insane Strength Potion": false
   },
   "Buffs": [
     {
@@ -103,37 +103,18 @@
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 172.0,
-      "DamageMax": 320.0,
-      "Speed": 2.7,
-      "TwoHanded": false,
-      "Type": "Mace",
-      "Buff": null,
-      "School": null,
-      "Name": "Dragonmaw",
-      "Id": 5,
-      "Slot": "Weapon",
-      "Stats": {},
-      "Enchantment": {
-        "Id": 0,
-        "Name": "Mongoose",
-        "Slot": "Weapon",
-        "Stats": {}
-      },
-      "Gems": null
-    },
-    "OH": {
-      "DamageMin": 147.0,
-      "DamageMax": 275.0,
-      "Speed": 2.6,
-      "TwoHanded": false,
+      "DamageMin": 341.0,
+      "DamageMax": 513.0,
+      "Speed": 3.6,
+      "TwoHanded": true,
       "Type": "Sword",
       "Buff": null,
       "School": null,
-      "Name": "Blinkstrike",
+      "Name": "Lionheart Champion",
       "Id": 5,
       "Slot": "Weapon",
       "Stats": {
+        "Str": 49.0,
       },
       "Enchantment": {
         "Id": 0,

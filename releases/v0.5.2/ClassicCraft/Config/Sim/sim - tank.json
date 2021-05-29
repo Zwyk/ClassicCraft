@@ -28,7 +28,7 @@
   },
   "UnlimitedMana": false,
   "UnlimitedResource": false,
-  "Tanking": false,
+  "Tanking": true,
   "TankHitEvery": 2.0,
   "TankHitRage": 30.0,
   "NbTargets": 1

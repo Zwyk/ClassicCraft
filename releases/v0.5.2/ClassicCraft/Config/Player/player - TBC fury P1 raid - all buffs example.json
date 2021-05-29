@@ -10,7 +10,7 @@
     "Bloodlust": true,
     "Mighty Rage": false,
     "Haste Potion": true,
-    "Insane Strength Potion": false,
+    "Insane Strength Potion": false
   },
   "Buffs": [
     {
@@ -82,6 +82,22 @@
     },
     {
       "Id": 0,
+      "Name": "Improved Faerie Fire",
+      "Slot": null,
+      "Stats": {
+        "Hit": 47.31,
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Expose Weakness",
+      "Slot": null,
+      "Stats": {
+        "AP": 200.0
+      }
+    },
+    {
+      "Id": 0,
       "Name": "Totem STR",
       "Slot": null,
       "Stats": {
@@ -90,7 +106,49 @@
     },
     {
       "Id": 0,
+      "Name": "Totem AGI",
+      "Slot": null,
+      "Stats": {
+        "Agi": 88.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Trueshot Aura",
+      "Slot": null,
+      "Stats": {
+        "AP": 125.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Leader of the Pack",
+      "Slot": null,
+      "Stats": {
+        "Crit": 110.4
+      }
+    },
+    {
+      "Id": 0,
       "Name": "Windfury Totem",
+      "Slot": null,
+      "Stats": {}
+    },
+    {
+      "Id": 0,
+      "Name": "Unleashed Rage",
+      "Slot": null,
+      "Stats": {}
+    },
+    {
+      "Id": 0,
+      "Name": "Improved Sanctity Aura",
+      "Slot": null,
+      "Stats": {}
+    },
+    {
+      "Id": 0,
+      "Name": "Ferocious Inspiration",
       "Slot": null,
       "Stats": {}
     },

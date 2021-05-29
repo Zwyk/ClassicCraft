@@ -233,6 +233,11 @@ namespace ClassicCraft
             return (p.Form == Forms.Cat || p.Class == Classes.Hunter || p.Class == Classes.Rogue) ? 1 : 0;
         }
 
+        public static double StrToBlockValueRatio()
+        {
+            return 0.05;
+        }
+
         public static double AgiToCritRatio(Classes c)
         {
             switch (c)
@@ -1061,9 +1066,17 @@ namespace ClassicCraft
             }
         }
 
+        public double BlockValue
+        {
+            get
+            {
+                return Attributes.GetValue(Attribute.BlockValue) * (1 + 0.1 * GetTalentPoints("SM")) + Attributes.GetValue(Attribute.Strength) * StrToBlockValueRatio();
+            }
+        }
+
         public bool DualWielding
         {
-            get { return MH != null && !MH.TwoHanded && OH != null && OH.Type != Weapon.WeaponType.Offhand; }
+            get { return MH != null && !MH.TwoHanded && OH != null && OH.Type != Weapon.WeaponType.Offhand && OH.Type != Weapon.WeaponType.Shield; }
         }
 
         public Attributes Attributes { get; set; }
@@ -1521,7 +1534,7 @@ namespace ClassicCraft
                     if (DualWielding && (OH.Type == Weapon.WeaponType.Axe || MH.Type == Weapon.WeaponType.Polearm)) OH.Buff.Attributes.SetValue(Attribute.CritChance, 0.01 * GetTalentPoints("Poleaxe"));
                 }
 
-                if (Tanking && Sim.TankHitRage > 0 && Sim.TankHitEvery > 0)
+                if (Tanking && Program.jsonSim.TankHitRage > 0 && Program.jsonSim.TankHitEvery > 0)
                 {
                     DamageMod *= 0.9;
                     ThreatMod *= 1.3 * (1 + 0.03 * GetTalentPoints("Defiance"));

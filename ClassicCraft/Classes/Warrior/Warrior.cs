@@ -22,6 +22,8 @@ namespace ClassicCraft
         private MortalStrike ms = null;
         private Cleave cl = null;
         private SweepingStrikes ss = null;
+        private ShieldSlam shslam = null;
+        private Devastate dev = null;
 
         #region Constructors
 
@@ -165,6 +167,8 @@ namespace ClassicCraft
             {
                 sa = new SunderArmor(this);
                 rev = new Revenge(this);
+                dev = new Devastate(this);
+                if(!DualWielding) shslam = new ShieldSlam(this);
             }
             else
             {
@@ -190,6 +194,7 @@ namespace ClassicCraft
                         case "Juju Flurry": cds.Add(new JujuFlurry(this), JujuFlurryBuff.LENGTH); break;
                         case "Mighty Rage": cds.Add(new MightyRage(this), MightyRageBuff.LENGTH); break;
                         case "Recklessness": cds.Add(new Recklessness(this), RecklessnessBuff.LENGTH); break;
+                        case "Shield Block": cds.Add(new ShieldBlock(this), 5); break;
                         case "Racial":
                             if (Race == Races.Orc)
                             {
@@ -361,11 +366,7 @@ namespace ClassicCraft
             }
             else if (rota == 2) //BT > REVENGE > SA + HS
             {
-                if (Sim.NbTargets > 1 && ww.CanUse())
-                {
-                    ww.Cast();
-                }
-                else if (bt.CanUse())
+                if (bt.CanUse())
                 {
                     bt.Cast();
                 }
@@ -393,11 +394,7 @@ namespace ClassicCraft
             }
             else if (rota == 3) //BT > REVENGE > BS + HS
             {
-                if (Sim.NbTargets > 1 && ww.CanUse())
-                {
-                    ww.Cast();
-                }
-                else if (bt.CanUse())
+                if (bt.CanUse())
                 {
                     bt.Cast();
                 }
@@ -528,7 +525,7 @@ namespace ClassicCraft
                     hs.Cast();
                 }
             }
-            // AUTO BY DPR
+            // AUTO DPS BY DPR
             else if (rota == 20)
             {
                 if (HasGCD() && 
@@ -575,6 +572,43 @@ namespace ClassicCraft
                     cl.Cast();
                 }
                 else if (DualWielding && applyAtNextAA == null && Resource >= (bt != null ? bt.Cost : 0) + (ms != null ? ms.Cost : 0) + (slam != null ? slam.Cost : 0) + ww.Cost + hs.Cost && hs.CanUse())
+                {
+                    hs.Cast();
+                }
+            }
+            // TANKING
+            else if(rota == 21)
+            {
+                if (bt != null && bt.CanUse())
+                {
+                    bt.Cast();
+                }
+                if (ms != null && ms.CanUse())
+                {
+                    ms.Cast();
+                }
+                else if (shslam != null && shslam.CanUse())
+                {
+                    shslam.Cast();
+                }
+                else if (rev.CanUse())
+                {
+                    rev.Cast();
+                }
+                else if (dev != null && dev.CanUse())
+                {
+                    dev.Cast();
+                }
+                else if (dev == null && sa.CanUse())
+                {
+                    sa.Cast();
+                }
+
+                if (applyAtNextAA == null && Sim.NbTargets > 1 && Resource >= 50 && cl.CanUse())
+                {
+                    cl.Cast();
+                }
+                else if (applyAtNextAA == null && !MH.TwoHanded && Resource >= 50 && hs.CanUse())
                 {
                     hs.Cast();
                 }

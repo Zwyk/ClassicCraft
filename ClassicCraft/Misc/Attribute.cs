@@ -44,6 +44,7 @@ namespace ClassicCraft
         WeaponDamageMH,
         WeaponDamageOH,
         Expertise,
+        BlockValue,
     }
 
     public class AttributeUtil
@@ -53,14 +54,21 @@ namespace ClassicCraft
             switch(s)
             {
                 case "Sta": return Attribute.Stamina;
+                case "Stamina": return Attribute.Stamina;
                 case "Str": return Attribute.Strength;
+                case "Strength": return Attribute.Strength;
                 case "Agi": return Attribute.Agility;
+                case "Agility": return Attribute.Agility;
                 case "Int": return Attribute.Intellect;
+                case "Intellect": return Attribute.Intellect;
                 case "Spi": return Attribute.Spirit;
+                case "Spirit": return Attribute.Spirit;
                 case "HP": return Attribute.Health;
+                case "Health": return Attribute.Health;
                 case "Mana": return Attribute.Mana;
                 case "Armor": return Attribute.Armor;
                 case "ArmorPen": return Attribute.ArmorPen;
+                case "ArPen": return Attribute.ArmorPen;
                 case "Haste": return Attribute.Haste;
                 case "AP": return Attribute.AP;
                 case "RAP": return Attribute.RangedAP;
@@ -68,8 +76,10 @@ namespace ClassicCraft
                 case "HSP": return Attribute.HSP;
                 case "Hit": return Attribute.HitChance;
                 case "SHit": return Attribute.SpellHitChance;
+                case "SpellHit": return Attribute.SpellHitChance;
                 case "Crit": return Attribute.CritChance;
                 case "SCrit": return Attribute.SpellCritChance;
+                case "SpellCrit": return Attribute.SpellCritChance;
                 case "MP5": return Attribute.MP5;
                 case "Sword": return Attribute.SkillSword;
                 case "Axe": return Attribute.SkillAxe;
@@ -89,6 +99,8 @@ namespace ClassicCraft
                 case "WDmgMH": return Attribute.WeaponDamageMH;
                 case "WDmgOH": return Attribute.WeaponDamageOH;
                 case "Expertise": return Attribute.Expertise;
+                case "BlockValue": return Attribute.BlockValue;
+                case "Block": return Attribute.BlockValue;
                 default: throw new Exception("Attribute not found : " + s);
             }
         }
@@ -133,6 +145,7 @@ namespace ClassicCraft
                 case Attribute.WeaponDamageMH: return "WDmgMH";
                 case Attribute.WeaponDamageOH: return "WDmgOH";
                 case Attribute.Expertise: return "Expertise";
+                case Attribute.BlockValue: return "BlockValue";
                 default: throw new Exception("Attribute not found");
             }
         }

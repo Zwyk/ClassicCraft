@@ -23,6 +23,7 @@ namespace ClassicCraft
         Weapon,
         Ranged,
         Offhand,
+        Shield,
         Any
     }
 
@@ -47,6 +48,7 @@ namespace ClassicCraft
                 case "Weapon": return Slot.Weapon;
                 case "Ranged": return Slot.Ranged;
                 case "Offhand": return Slot.Offhand;
+                case "Shield": return Slot.Shield;
                 default: return Slot.Any;
             }
         }
@@ -70,6 +72,7 @@ namespace ClassicCraft
                 case Slot.Weapon: return "Weapon";
                 case Slot.Ranged: return "Ranged";
                 case Slot.Offhand: return "Offhand";
+                case Slot.Shield: return "Shield";
                 case Slot.Any: return "Any";
                 default: throw new Exception("Slot not found");
             }
@@ -95,6 +98,7 @@ namespace ClassicCraft
                 case Slot.Weapon: return new List<Player.Slot>() { Player.Slot.OH, Player.Slot.MH };
                 case Slot.Ranged: return new List<Player.Slot>() { Player.Slot.Ranged };
                 case Slot.Offhand: return new List<Player.Slot>() { Player.Slot.OH };
+                case Slot.Shield: return new List<Player.Slot>() { Player.Slot.OH };
                 default: throw new Exception("Slot not eligible for Player Slot");
             }
         }

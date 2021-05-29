@@ -133,6 +133,8 @@
     <Compile Include="Classes\Warrior\Skills\MortalStrike.cs" />
     <Compile Include="Classes\Warrior\Skills\Rampage.cs" />
     <Compile Include="Classes\Warrior\Skills\Revenge.cs" />
+    <Compile Include="Classes\Warrior\Skills\ShieldBlock.cs" />
+    <Compile Include="Classes\Warrior\Skills\ShieldSlam.cs" />
     <Compile Include="Classes\Warrior\Skills\SunderArmor.cs" />
     <Compile Include="Classes\Warrior\Skills\SweepingStrikes.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -209,8 +211,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
-    <Content Include="man-with-two-swords.ico" />
-    <Content Include="TextTemplate.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

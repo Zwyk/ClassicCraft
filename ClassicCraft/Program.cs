@@ -27,16 +27,18 @@ namespace ClassicCraft
 
     public class RegisteredEffect
     {
-        public RegisteredEffect(Effect effect, int damage, double time)
+        public RegisteredEffect(Effect effect, int damage, double time, int? threat = null)
         {
             Effect = effect;
             Damage = damage;
             Time = time;
+            Threat = threat == null ? damage : threat.Value;
         }
 
         public Effect Effect { get; set; }
         public double Time { get; set; }
         public int Damage { get; set; }
+        public int Threat { get; set; }
     }
 
     public enum Version
@@ -499,7 +501,7 @@ namespace ClassicCraft
                     //logListActions = totalActions.SelectMany(a => a.Select(t => t.Action.ToString()).OrderBy(b => b)).Distinct().ToList();
                     logListActions = new List<string>() { "AA MH", "AA OH", "AA Ranged", "AA Wand" };
                     if (playerBase.Class == Player.Classes.Warrior)
-                        logListActions.AddRange(new List<string>() { "Slam", "Bloodthirst", "Mortal Strike", "Sunder Armor", "Revenge", "Whirlwind", "Sweeping Strikes", "Cleave", "Heroic Strike", "Execute", "Hamstring", "Battle Shout" });
+                        logListActions.AddRange(new List<string>() { "Slam", "Bloodthirst", "Mortal Strike", "Shield Slam", "Devastate", "Sunder Armor", "Revenge", "Whirlwind", "Sweeping Strikes", "Cleave", "Heroic Strike", "Execute", "Hamstring", "Battle Shout" });
                     else if (playerBase.Class == Player.Classes.Druid)
                         logListActions.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift", "Maul", "Swipe" });
                     else if (playerBase.Class == Player.Classes.Priest)
@@ -1097,8 +1099,8 @@ namespace ClassicCraft
                             if (jsonSim.Tanking)
                             {
                                 double avgAcTps = data.AvgTPS;
-                                double avgAcThreat = data.AvgTPS;
-                                res += string.Format(" / {0:N2} TPS ({1:N2}%)\n\tAverage of {2:N2} threat for {3:N2} uses (or 1 use every {4:N2}s)", avgAcTps, avgAcTps / avgTps * 100, avgAcThreat, avgAcUse, jsonSim.FightLength / avgAcUse);
+                                double avgAcThreat = data.AvgThreat;
+                                res += string.Format(" / {0:N2} TPS ({1:N2}%)\n\tAverage of {2:N2} threat for {3:N2} uses (or 1 use every {4:N2}s)", avgAcTps, avgAcTps / avgTps * 100, avgAcThreat, avgAcUse, avgFightLength / avgAcUse);
                             }
                             if (ac == "Cleave")
                             {
@@ -1242,6 +1244,14 @@ namespace ClassicCraft
                         data.AvgDodge = (CurrentData.NB * data.AvgDodge + avgDodge) / (CurrentData.NB + 1);
                         data.AvgParry = (CurrentData.NB * data.AvgParry + avgParry) / (CurrentData.NB + 1);
                         data.AvgResist = (CurrentData.NB * data.AvgResist + avgResist) / (CurrentData.NB + 1);
+
+                        if (jsonSim.Tanking && jsonSim.TankHitEvery > 0 && jsonSim.TankHitRage > 0)
+                        {
+                            double avgThreat = result.Actions.Where(t => t.Action.ToString().Equals(s)).Average(a => a.Result.Threat);
+                            double avgTPS = avgThreat * avgUses / result.FightLength;
+                            data.AvgThreat = (CurrentData.NB * data.AvgThreat + avgThreat) / (CurrentData.NB + 1);
+                            data.AvgTPS = (CurrentData.NB * data.AvgTPS + avgTPS) / (CurrentData.NB + 1);
+                        }
                     }
                 }
 
@@ -1267,13 +1277,22 @@ namespace ClassicCraft
                     double avgUses = result.Effects.Count(t => t.Effect.ToString().Equals(s));
                     data.AvgUses = (CurrentData.NB * data.AvgUses + avgUses) / (CurrentData.NB + 1);
 
-                    if(avgUses > 0)
+                    if (avgUses > 0)
                     {
                         double avgDmg = result.Effects.Where(t => t.Effect.ToString().Equals(s)).Average(a => a.Damage);
                         double avgDPS = avgDmg * avgUses / result.FightLength;
 
                         data.AvgDmg = (CurrentData.NB * data.AvgDmg + avgDmg) / (CurrentData.NB + 1);
                         data.AvgDPS = (CurrentData.NB * data.AvgDPS + avgDPS) / (CurrentData.NB + 1);
+
+                        if (jsonSim.Tanking && jsonSim.TankHitEvery > 0 && jsonSim.TankHitRage > 0)
+                        {
+                            double avgThreat = result.Effects.Where(t => t.Effect.ToString().Equals(s)).Average(a => a.Threat);
+                            double avgTPS = avgThreat * avgUses / result.FightLength;
+
+                            data.AvgThreat = (CurrentData.NB * data.AvgThreat + avgThreat) / (CurrentData.NB + 1);
+                            data.AvgTPS = (CurrentData.NB * data.AvgTPS + avgTPS) / (CurrentData.NB + 1);
+                        }
                     }
                 }
 

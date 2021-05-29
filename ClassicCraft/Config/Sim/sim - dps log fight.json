@@ -5,7 +5,7 @@
   "StatsWeights": false,
   "TargetErrorPct": 0.5,
   "TargetError": false,
-  "LogFight": false,
+  "LogFight": true,
   "BossAutoLife": true,
   "BossLowLifeTime": 0.0,
   "Boss": {
