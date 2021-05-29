@@ -4,7 +4,7 @@
   "NbSim": 1,
   "StatsWeights": false,
   "TargetErrorPct": 0.5,
-  "TargetError": false,
+  "TargetError": true,
   "LogFight": false,
   "BossAutoLife": true,
   "BossLowLifeTime": 0.0,
