@@ -36,6 +36,7 @@ namespace ClassicCraft
                 * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
                 * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
                 * (Player.Sim.Boss.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
+                * (Player.Effects.ContainsKey("T4 4P") ? 1.1 : 1)
                 );
 
             int threat = (int)Math.Round((damage + BONUS_THREAT) * Player.ThreatMod);
@@ -55,6 +56,20 @@ namespace ClassicCraft
             Player.CheckOnHits(true, false, res);
 
             SweepingStrikesBuff.CheckProc(Player, damage, res);
+
+            if (Player.NbSet("Warbringer") >= 4)
+            {
+                string procName = "T4 4P";
+                if (Player.Effects.ContainsKey(procName))
+                {
+                    Player.Effects[procName].Refresh();
+                }
+                else
+                {
+                    CustomEffect buff = new CustomEffect(Player, Player, procName, true, 15);   // Unsure about duration
+                    buff.StartEffect();
+                }
+            }
         }
 
         public override string ToString()

@@ -35,6 +35,7 @@ namespace ClassicCraft
                 * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
                 * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
                 * (Player.Sim.Boss.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
+                * (Player.Effects.ContainsKey("T4 4P") ? 1.1 : 1)
                 );
 
             CommonAction();
@@ -44,6 +45,8 @@ namespace ClassicCraft
             }
 
             RegisterDamage(new ActionResult(res, damage, (int)(damage * Player.ThreatMod)));
+
+            if (Player.Effects.ContainsKey("T4 4P")) Player.Effects["T4 4P"].EndEffect();
 
             Player.CheckOnHits(true, false, res);
 

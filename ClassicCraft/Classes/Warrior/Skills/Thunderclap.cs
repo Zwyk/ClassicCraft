@@ -42,10 +42,13 @@ namespace ClassicCraft
                     * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
                     * (Player.Sim.Boss.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
                     * (1 + (Player.GetTalentPoints("ITC") > 0 ? 0.1 + 0.3 * Player.GetTalentPoints("ITC") : 0))
+                    * (Player.Effects.ContainsKey("T4 4P") ? 1.1 : 1)
                     );
 
                 RegisterDamage(new ActionResult(res, damage, (int)(damage * THREAT_MOD * Player.ThreatMod)));
             }
+
+            if (Player.Effects.ContainsKey("T4 4P")) Player.Effects["T4 4P"].EndEffect();
         }
 
         public override string ToString()

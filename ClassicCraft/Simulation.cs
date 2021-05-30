@@ -150,6 +150,12 @@ namespace ClassicCraft
                 }
 
                 LastHit += TankHitEvery;
+
+                if(Player.Class == Player.Classes.Warrior && Player.NbSet("Destroyer") >= 4 && Randomer.NextDouble() < 0.07)
+                {
+                    if (Player.Effects.ContainsKey("T5 4P")) Player.Effects["T5 4P"].Refresh();
+                    else new CustomStatsBuff(Player, "T5 4P", 10, 1, new Dictionary<Attribute, double>() { { Attribute.Haste, 200 / Player.RatingRatios[Attribute.Haste] / 100 } }).StartEffect();
+                }
             }
 
             if (Player.casting != null)
