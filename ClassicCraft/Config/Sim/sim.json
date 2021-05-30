@@ -2,10 +2,11 @@
   "FightLength": 240.0,
   "FightLengthMod": 0.1,
   "NbSim": 1,
+  "Threat": true,
   "StatsWeights": false,
-  "TargetErrorPct": 0.5,
+  "TargetErrorPct": 0.2,
   "TargetError": false,
-  "LogFight": false,
+  "LogFight": true,
   "BossAutoLife": true,
   "BossLowLifeTime": 0.0,
   "Boss": {
@@ -28,8 +29,9 @@
   },
   "UnlimitedMana": false,
   "UnlimitedResource": false,
-  "Tanking": false,
+  "Tanking": true,
   "TankHitEvery": 2.0,
   "TankHitRage": 30.0,
-  "NbTargets": 1
+  "NbTargets": 1,
+  "Facing": true,
 }

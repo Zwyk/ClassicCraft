@@ -216,11 +216,12 @@ namespace ClassicCraftGUI
 
         public void LoadSimConfig()
         {
-            LogFight.SelectedIndex = sim.LogFight ? 1 : 0;
+            LogFight.IsChecked = sim.LogFight;
             if (sim.TargetError) TargetError.Text = sim.TargetErrorPct.ToString();
             else TargetError.SelectedIndex = 0;
             NbSim.Text = sim.NbSim.ToString();
-            StatsWeights.SelectedIndex = sim.StatsWeights ? 0 : 1;
+            Threat.IsChecked = sim.Threat;
+            StatsWeights.IsChecked = sim.StatsWeights;
             FightLength.Text = sim.FightLength.ToString();
             FightLengthVariation.Text = (sim.FightLengthMod*100).ToString();
             NbTargets.Text = sim.NbTargets.ToString();
@@ -233,6 +234,7 @@ namespace ClassicCraftGUI
             Tanking.IsChecked = sim.Tanking;
             TankingHitEvery.Text = sim.TankHitEvery.ToString();
             TankingRage.Text = sim.TankHitRage.ToString();
+            Facing.IsChecked = sim.Facing;
             UnlimitedMana.IsChecked = sim.UnlimitedMana;
             UnlimitedResource.IsChecked = sim.UnlimitedResource;
         }
@@ -256,11 +258,12 @@ namespace ClassicCraftGUI
 
         private void UpdateSimConfig()
         {
-            sim.LogFight = LogFight.SelectedIndex == 1;
+            sim.LogFight = LogFight.IsChecked == true;
             sim.TargetError = TargetError.SelectedIndex != 0;
             sim.TargetErrorPct = TargetError.SelectedIndex == 0 ? 0.2 : double.Parse(TargetError.Text);
             sim.NbSim = int.Parse(NbSim.Text);
-            sim.StatsWeights = StatsWeights.SelectedIndex == 0;
+            sim.Threat = Threat.IsChecked == true;
+            sim.StatsWeights = StatsWeights.IsChecked == true;
             sim.FightLength = double.Parse(FightLength.Text);
             sim.FightLengthMod = double.Parse(FightLengthVariation.Text)/100;
             sim.NbTargets = int.Parse(NbTargets.Text);
@@ -285,6 +288,7 @@ namespace ClassicCraftGUI
             sim.Tanking = Tanking.IsChecked == true;
             sim.TankHitEvery = double.Parse(TankingHitEvery.Text);
             sim.TankHitRage = double.Parse(TankingRage.Text);
+            sim.Facing = Facing.IsChecked == true;
             sim.UnlimitedMana = UnlimitedMana.IsChecked == true;
             sim.UnlimitedResource = UnlimitedResource.IsChecked == true;
         }
@@ -2033,14 +2037,15 @@ namespace ClassicCraftGUI
             }
         }
 
-        private void LogFight_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void LogFight_Changed(object sender, RoutedEventArgs e)
         {
             if (TargetError != null && NbSim != null)
             {
-                TargetError.IsEnabled = LogFight.SelectedIndex == 0;
+                bool enable = ((CheckBox)sender).IsChecked == true;
+                TargetError.IsEnabled = !enable;
                 TargetError.SelectedIndex = TargetError.IsEnabled ? 1 : 0;
-                StatsWeights.SelectedIndex = 1;
-                StatsWeights.IsEnabled = LogFight.SelectedIndex == 0;
+                StatsWeights.IsEnabled = !enable;
+                if(enable) StatsWeights.IsChecked = false;
             }
         }
 
@@ -2059,6 +2064,8 @@ namespace ClassicCraftGUI
                 bool enable = ((CheckBox)sender).IsChecked == true;
                 TankingHitEvery.IsEnabled = enable;
                 TankingRage.IsEnabled = enable;
+                Facing.IsEnabled = !enable;
+                if (enable) Facing.IsChecked = true;
             }
         }
 

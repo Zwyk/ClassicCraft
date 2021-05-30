@@ -27,12 +27,12 @@ namespace ClassicCraft
 
     public class RegisteredEffect
     {
-        public RegisteredEffect(Effect effect, int damage, double time, int? threat = null)
+        public RegisteredEffect(Effect effect, int damage, double time, int threat)
         {
             Effect = effect;
             Damage = damage;
             Time = time;
-            Threat = threat == null ? damage : threat.Value;
+            Threat = threat;
         }
 
         public Effect Effect { get; set; }
@@ -231,6 +231,10 @@ namespace ClassicCraft
                 { "+1 OH Skill", new Attributes(new Dictionary<Attribute, double>()) },
                 { "+5 MH Skill", new Attributes(new Dictionary<Attribute, double>()) },
                 { "+5 OH Skill", new Attributes(new Dictionary<Attribute, double>()) },
+                { "+100 Block Value", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.BlockValue, 100 }
+                        })},
                 { "+1% SpellHit", new Attributes(new Dictionary<Attribute, double>()
                         {
                             { Attribute.SpellHitChance, 0.01 }
@@ -358,7 +362,7 @@ namespace ClassicCraft
                     }
                 }
                 
-                playerBase = JsonUtil.JsonPlayer.ToPlayer(jsonPlayer, jsonSim.Tanking);
+                playerBase = JsonUtil.JsonPlayer.ToPlayer(jsonPlayer, jsonSim.Tanking, jsonSim.Facing);
 
                 if (playerBase.Level > 60) version = Version.TBC;
                 else version = Version.Vanilla;
@@ -368,93 +372,101 @@ namespace ClassicCraft
                     playerBase.MH = new Weapon();
                 }
 
-                if (playerBase.Class == Player.Classes.Rogue || playerBase.Class == Player.Classes.Warrior || jsonSim.Tanking)
+                if(statsWeights)
                 {
-                    simOrder.Remove("+100 SP");
-                    simOrder.Remove("+50 Int");
-                    simOrder.Remove("+50 Spi");
-                    simOrder.Remove("+30 MP5");
-                }
-                if(playerBase.OH == null || !playerBase.DualWielding)
-                {
-                    simOrder.Remove("+10 DPS OH");
-                    simOrder.Remove("+1 OH Skill");
-                    simOrder.Remove("+5 OH Skill");
-                }
-                else if(playerBase.MH.Type == playerBase.OH.Type)
-                {
-                    simOrder.Remove("+1 OH Skill");
-                    simOrder.Remove("+5 OH Skill");
-                }
-                if(playerBase.Class == Player.Classes.Druid
-                    || playerBase.Class == Player.Classes.Warlock
-                    || playerBase.Class == Player.Classes.Mage
-                    || playerBase.Class == Player.Classes.Priest
-                    || playerBase.MH == null)
-                {
-                    simOrder.Remove("+10 DPS MH");
-                    simOrder.Remove("+1 MH Skill");
-                    simOrder.Remove("+5 MH Skill");
-                }
-
-                if (playerBase.Class == Player.Classes.Warlock
-                    || playerBase.Class == Player.Classes.Mage
-                    || playerBase.Class == Player.Classes.Priest)
-                {
-                    simOrder.Remove("+100 AP");
-                    simOrder.Remove("+1% Hit");
-                    simOrder.Remove("+1% Crit");
-                    simOrder.Remove("+1% Haste");
-                }
-                else
-                {
-                    simOrder.Remove("+100 SP");
-                    simOrder.Remove("+1% SpellHit");
-                    simOrder.Remove("+1% SpellCrit");
-                }
-
-                if(version == Version.TBC)
-                {
-                    simOrder.Remove("+1 MH Skill");
-                    simOrder.Remove("+5 MH Skill");
-                    simOrder.Remove("+1 OH Skill");
-                    simOrder.Remove("+5 OH Skill");
-
-                    if(playerBase.Class == Player.Classes.Rogue || playerBase.Class == Player.Classes.Warrior
-                        || playerBase.Class == Player.Classes.Druid || playerBase.Class == Player.Classes.Shaman
-                        || playerBase.Class == Player.Classes.Paladin || playerBase.Class == Player.Classes.Hunter)
+                    if (playerBase.Class == Player.Classes.Rogue || playerBase.Class == Player.Classes.Warrior)
                     {
-                        simOrder.Insert(5, "+1% Expertise");
-                        simOrder.Insert(6, "+500 ArPen");
-                        //simOrder.Insert(7, "+1000 ArPen");
+                        simOrder.Remove("+100 SP");
+                        simOrder.Remove("+50 Int");
+                        simOrder.Remove("+50 Spi");
+                        simOrder.Remove("+30 MP5");
                     }
-                }
+                    if (playerBase.OH == null || !playerBase.DualWielding)
+                    {
+                        simOrder.Remove("+10 DPS OH");
+                        simOrder.Remove("+1 OH Skill");
+                        simOrder.Remove("+5 OH Skill");
+                    }
+                    else if (playerBase.MH.Type == playerBase.OH.Type)
+                    {
+                        simOrder.Remove("+1 OH Skill");
+                        simOrder.Remove("+5 OH Skill");
+                    }
+                    if (playerBase.Class == Player.Classes.Druid
+                        || playerBase.Class == Player.Classes.Warlock
+                        || playerBase.Class == Player.Classes.Mage
+                        || playerBase.Class == Player.Classes.Priest
+                        || playerBase.MH == null)
+                    {
+                        simOrder.Remove("+10 DPS MH");
+                        simOrder.Remove("+1 MH Skill");
+                        simOrder.Remove("+5 MH Skill");
+                    }
 
-                if (simOrder.Contains("+10 DPS MH"))
-                {
-                    double dmg = simBonusAttribs["+10 DPS MH"].GetValue(Attribute.WeaponDamageMH) * playerBase.MH.Speed;
-                    simBonusAttribs["+10 DPS MH"].SetValue(Attribute.WeaponDamageMH, dmg);
-                }
-                if (simOrder.Contains("+10 DPS OH"))
-                {
-                    double dmg = simBonusAttribs["+10 DPS OH"].GetValue(Attribute.WeaponDamageOH) * playerBase.OH.Speed;
-                    simBonusAttribs["+10 DPS OH"].SetValue(Attribute.WeaponDamageOH, dmg);
-                }
-                if (simOrder.Contains("+1 MH Skill"))
-                {
-                    simBonusAttribs["+1 MH Skill"].SetValue(AttributeUtil.FromWeaponType(playerBase.MH.Type), 1);
-                }
-                if (simOrder.Contains("+1 OH Skill"))
-                {
-                    simBonusAttribs["+1 OH Skill"].SetValue(AttributeUtil.FromWeaponType(playerBase.OH.Type), 1);
-                }
-                if (simOrder.Contains("+5 MH Skill"))
-                {
-                    simBonusAttribs["+5 MH Skill"].SetValue(AttributeUtil.FromWeaponType(playerBase.MH.Type), 5);
-                }
-                if (simOrder.Contains("+5 OH Skill"))
-                {
-                    simBonusAttribs["+5 OH Skill"].SetValue(AttributeUtil.FromWeaponType(playerBase.OH.Type), 5);
+                    if (playerBase.Class == Player.Classes.Warlock
+                        || playerBase.Class == Player.Classes.Mage
+                        || playerBase.Class == Player.Classes.Priest)
+                    {
+                        simOrder.Remove("+100 AP");
+                        simOrder.Remove("+1% Hit");
+                        simOrder.Remove("+1% Crit");
+                        simOrder.Remove("+1% Haste");
+                    }
+                    else
+                    {
+                        simOrder.Remove("+100 SP");
+                        simOrder.Remove("+1% SpellHit");
+                        simOrder.Remove("+1% SpellCrit");
+                    }
+
+                    if (version == Version.TBC)
+                    {
+                        simOrder.Remove("+1 MH Skill");
+                        simOrder.Remove("+5 MH Skill");
+                        simOrder.Remove("+1 OH Skill");
+                        simOrder.Remove("+5 OH Skill");
+
+                        if (playerBase.Class == Player.Classes.Rogue || playerBase.Class == Player.Classes.Warrior
+                            || playerBase.Class == Player.Classes.Druid || playerBase.Class == Player.Classes.Shaman
+                            || playerBase.Class == Player.Classes.Paladin || playerBase.Class == Player.Classes.Hunter)
+                        {
+                            simOrder.Insert(5, "+1% Expertise");
+                            simOrder.Insert(6, "+500 ArPen");
+                            //simOrder.Insert(7, "+1000 ArPen");
+                        }
+                    }
+                    if (jsonSim.Tanking && jsonSim.TankHitRage > 0 && jsonSim.TankHitEvery > 0 && jsonPlayer.Class == "Warrior"
+                        && jsonPlayer.Weapons["OH"] != null && jsonPlayer.Weapons["OH"].Slot == "Shield")
+                    {
+                        simOrder.Add("+100 Block Value");
+                    }
+
+                    if (simOrder.Contains("+10 DPS MH"))
+                    {
+                        double dmg = simBonusAttribs["+10 DPS MH"].GetValue(Attribute.WeaponDamageMH) * playerBase.MH.Speed;
+                        simBonusAttribs["+10 DPS MH"].SetValue(Attribute.WeaponDamageMH, dmg);
+                    }
+                    if (simOrder.Contains("+10 DPS OH"))
+                    {
+                        double dmg = simBonusAttribs["+10 DPS OH"].GetValue(Attribute.WeaponDamageOH) * playerBase.OH.Speed;
+                        simBonusAttribs["+10 DPS OH"].SetValue(Attribute.WeaponDamageOH, dmg);
+                    }
+                    if (simOrder.Contains("+1 MH Skill"))
+                    {
+                        simBonusAttribs["+1 MH Skill"].SetValue(AttributeUtil.FromWeaponType(playerBase.MH.Type), 1);
+                    }
+                    if (simOrder.Contains("+1 OH Skill"))
+                    {
+                        simBonusAttribs["+1 OH Skill"].SetValue(AttributeUtil.FromWeaponType(playerBase.OH.Type), 1);
+                    }
+                    if (simOrder.Contains("+5 MH Skill"))
+                    {
+                        simBonusAttribs["+5 MH Skill"].SetValue(AttributeUtil.FromWeaponType(playerBase.MH.Type), 5);
+                    }
+                    if (simOrder.Contains("+5 OH Skill"))
+                    {
+                        simBonusAttribs["+5 OH Skill"].SetValue(AttributeUtil.FromWeaponType(playerBase.OH.Type), 5);
+                    }
                 }
 
                 /*
@@ -661,7 +673,7 @@ namespace ClassicCraft
                     ErrorList.Add(Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average()));
                     SimsAvgDPS.Add(simOrder[done], CurrentDpsList.Average());
                     SimsDPSStDev.Add(simOrder[done], Stats.StandardError(Stats.StdDev(CurrentDpsList.ToArray())));
-                    if(jsonSim.Tanking)
+                    if(jsonSim.Threat)
                     {
                         SimsAvgTPS.Add(simOrder[done], CurrentTpsList.Average());
                         SimsTPSStDev.Add(simOrder[done], Stats.StandardError(Stats.StdDev(CurrentTpsList.ToArray())));
@@ -703,7 +715,7 @@ namespace ClassicCraft
                 Log(endMsg1);
 
                 string endMsg2 = string.Format("Overall accuracy of results : ±{0:N2}% (±{1:N2} DPS)", ErrorList.Average(), ErrorList[0] / 100 * SimsAvgDPS["Base"]);
-                if(jsonSim.Tanking) endMsg2 += string.Format(" (±{1:N2} TPS)", ErrorList.Average(), ErrorList[0] / 100 * SimsAvgTPS["Base"]);
+                if(jsonSim.Threat) endMsg2 += string.Format(" (±{1:N2} TPS)", ErrorList.Average(), ErrorList[0] / 100 * SimsAvgTPS["Base"]);
                 Output(endMsg2);
                 Log(endMsg2);
 
@@ -718,7 +730,7 @@ namespace ClassicCraft
                     double apDif = 0;
                     
                     // TPS
-                    if (jsonSim.Tanking)
+                    if (jsonSim.Threat)
                     {
                         double baseTps = SimsAvgTPS["Base"];
                         Log(string.Format("\nBase : {0:N2} TPS (±{1:N2})", baseTps, SimsTPSStDev["Base"]));
@@ -847,6 +859,14 @@ namespace ClassicCraft
                             double ohSkillDif = ohSkillTps - baseTps;
                             if (ohSkillDif < 0) ohSkillDif = 0;
                             Log(string.Format("5 OH Skill = {0:N4} TPS = {1:N4} AP", ohSkillDif, ohSkillDif / apDif));
+
+                            weightsDone += 1;
+                        }
+                        if (simOrder.Contains("+100 Block Value"))
+                        {
+                            double val = SimsAvgTPS["+100 Block Value"];
+                            double dif = Math.Max(0, (val - baseTps) / 100);
+                            Log(string.Format("1 Block Value = {0:N4} TPS = {1:N4} AP", dif, dif/ apDif));
 
                             weightsDone += 1;
                         }
@@ -1012,6 +1032,14 @@ namespace ClassicCraft
 
                             weightsDone += 1;
                         }
+                        if (simOrder.Contains("+100 Block Value"))
+                        {
+                            double val = SimsAvgDPS["+100 Block Value"];
+                            double dif = Math.Max(0, (val - baseDps) / 100);
+                            Log(string.Format("1 Block Value = {0:N4} TPS = {1:N4} AP", dif, dif / apDif));
+
+                            weightsDone += 1;
+                        }
                         if (simOrder.Contains("+1% SpellCrit"))
                         {
                             double critDps = SimsAvgDPS["+1% SpellCrit"];
@@ -1070,7 +1098,7 @@ namespace ClassicCraft
                     double avgDps = CurrentDpsList.Average();
 
                     double avgTps = 0;
-                    if (jsonSim.Tanking)
+                    if (jsonSim.Threat)
                     {
                         avgTps = CurrentTpsList.Average();
                         Log(string.Format("Average TPS : {0:N2} TPS (±{1:N2})", avgTps, SimsTPSStDev["Base"]));
@@ -1096,7 +1124,7 @@ namespace ClassicCraft
                             string res = "\nAverage stats for [" + ac + "] : ";
                             res += string.Format("{0:N2} DPS ({1:N2}%)", avgAcDps, avgAcDps / avgDps * 100);
 
-                            if (jsonSim.Tanking)
+                            if (jsonSim.Threat)
                             {
                                 double avgAcTps = data.AvgTPS;
                                 double avgAcThreat = data.AvgThreat;
@@ -1128,7 +1156,7 @@ namespace ClassicCraft
                                 double glancePct = data.AvgGlance;
                                 double dodgePct = data.AvgDodge;
                                 res += string.Format(", {0:N2}% Miss, {1:N2}% Glancing, {2:N2}% Dodge", missPct, glancePct, dodgePct);
-                                if (jsonSim.Tanking)
+                                if (jsonSim.Facing)
                                 {
                                     double parryPct = data.AvgParry;
                                     res += string.Format(", {0:N2}% Parry", parryPct);
@@ -1245,7 +1273,7 @@ namespace ClassicCraft
                         data.AvgParry = (CurrentData.NB * data.AvgParry + avgParry) / (CurrentData.NB + 1);
                         data.AvgResist = (CurrentData.NB * data.AvgResist + avgResist) / (CurrentData.NB + 1);
 
-                        if (jsonSim.Tanking && jsonSim.TankHitEvery > 0 && jsonSim.TankHitRage > 0)
+                        if (jsonSim.Threat)
                         {
                             double avgThreat = result.Actions.Where(t => t.Action.ToString().Equals(s)).Average(a => a.Result.Threat);
                             double avgTPS = avgThreat * avgUses / result.FightLength;
@@ -1285,7 +1313,7 @@ namespace ClassicCraft
                         data.AvgDmg = (CurrentData.NB * data.AvgDmg + avgDmg) / (CurrentData.NB + 1);
                         data.AvgDPS = (CurrentData.NB * data.AvgDPS + avgDPS) / (CurrentData.NB + 1);
 
-                        if (jsonSim.Tanking && jsonSim.TankHitEvery > 0 && jsonSim.TankHitRage > 0)
+                        if (jsonSim.Threat)
                         {
                             double avgThreat = result.Effects.Where(t => t.Effect.ToString().Equals(s)).Average(a => a.Threat);
                             double avgTPS = avgThreat * avgUses / result.FightLength;
@@ -1409,7 +1437,7 @@ namespace ClassicCraft
 
             Boss boss = new Boss(bossBase);
 
-            Simulation s = new Simulation(player, boss, jsonSim.FightLength, jsonSim.BossAutoLife, jsonSim.BossLowLifeTime, jsonSim.FightLengthMod, jsonSim.UnlimitedMana, jsonSim.UnlimitedResource, jsonSim.Tanking, jsonSim.TankHitEvery, jsonSim.TankHitRage, jsonSim.NbTargets);
+            Simulation s = new Simulation(player, boss, jsonSim.FightLength, jsonSim.BossAutoLife, jsonSim.BossLowLifeTime, jsonSim.FightLengthMod, jsonSim.UnlimitedMana, jsonSim.UnlimitedResource, jsonSim.Tanking, jsonSim.TankHitEvery, jsonSim.TankHitRage, jsonSim.NbTargets, jsonSim.Threat);
             s.StartSim();
         }
     }

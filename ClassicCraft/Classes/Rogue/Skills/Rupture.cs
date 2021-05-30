@@ -31,7 +31,7 @@ namespace ClassicCraft
                 Player.Resource -= Player.Effects.ContainsKey("CdG") ? 0 : Cost / 2;
                 if (Player.Effects.ContainsKey("CdG")) Player.Effects["CdG"].EndEffect();
 
-                Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(res, 0), Player.Sim.CurrentTime));
+                Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(res, 0, 0), Player.Sim.CurrentTime));
             }
             else
             {
@@ -43,7 +43,7 @@ namespace ClassicCraft
                     Player.Resource += 25;
                 }
 
-                Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Hit, 0), Player.Sim.CurrentTime));
+                Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Hit, 0, 0), Player.Sim.CurrentTime));
                 if (Player.Sim.Boss.Effects.ContainsKey(RuptureDoT.NAME))
                 {
                     Player.Sim.Boss.Effects[RuptureDoT.NAME].EndEffect();

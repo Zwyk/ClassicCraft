@@ -247,7 +247,7 @@ namespace ClassicCraft
                 Cooldowns = cooldowns;
             }
 
-            public static Player ToPlayer(JsonPlayer jp, bool tanking = false)
+            public static Player ToPlayer(JsonPlayer jp, bool tanking = false, bool facing = false)
             {
 
                 List<Enchantment> buffs = new List<Enchantment>();
@@ -284,49 +284,49 @@ namespace ClassicCraft
                 switch(Player.ToClass(jp.Class))
                 {
                     case Player.Classes.Druid:
-                        return new Druid(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
+                        return new Druid(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Hunter:
-                        return new Hunter(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
+                        return new Hunter(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Paladin:
-                        return new Paladin(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
+                        return new Paladin(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Priest:
-                        return new Priest(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
+                        return new Priest(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Rogue:
-                        return new Rogue(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
+                        return new Rogue(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Shaman:
-                        return new Shaman(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
+                        return new Shaman(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Warlock:
-                        return new Warlock(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
+                        return new Warlock(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
                         };
                     case Player.Classes.Warrior:
-                        return new Warrior(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking)
+                        return new Warrior(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing)
                         {
                             WindfuryTotem = windfurytotem,
                             Cooldowns = cooldowns
@@ -428,6 +428,7 @@ namespace ClassicCraft
             public double FightLength { get; set; }
             public double FightLengthMod { get; set; }
             public int NbSim { get; set; }
+            public bool Threat { get; set; }
             public bool StatsWeights { get; set; }
             public double TargetErrorPct { get; set; }
             public bool TargetError { get; set; }
@@ -437,12 +438,13 @@ namespace ClassicCraft
             public JsonBoss Boss { get; set; }
             public bool UnlimitedMana { get; set; }
             public bool UnlimitedResource { get; set; }
+            public bool Facing { get; set; }
             public bool Tanking { get; set; }
             public double TankHitEvery { get; set; }
             public double TankHitRage { get; set; }
             public int NbTargets { get; set; }
 
-            public JsonSim(JsonBoss boss = null, double fightLength = 300, double fightLengthMod = 0.2, int nbSim = 1000, double targetErrorPct = 0.5, bool targetError = true, bool logFight = false, bool statsWeights = false, bool bossAutoLife = true, double bossLowLifeTime = 0, bool unlimitedMana = false, bool unlimitedResource = false, bool tanking = false, double tankHitEvery = 1, double tankHitRage = 25, int nbTargets = 1)
+            public JsonSim(JsonBoss boss = null, double fightLength = 300, double fightLengthMod = 0.2, int nbSim = 1000, double targetErrorPct = 0.5, bool targetError = true, bool logFight = false, bool statsWeights = false, bool bossAutoLife = true, double bossLowLifeTime = 0, bool unlimitedMana = false, bool unlimitedResource = false, bool tanking = false, double tankHitEvery = 1, double tankHitRage = 25, int nbTargets = 1, bool threat = false, bool facing = false)
             {
                 Boss = boss;
                 FightLength = fightLength;
@@ -460,6 +462,8 @@ namespace ClassicCraft
                 TankHitEvery = tankHitEvery;
                 TankHitRage = tankHitRage;
                 NbTargets = nbTargets;
+                Facing = facing;
+                Threat = threat;
             }
         }
 

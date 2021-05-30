@@ -50,12 +50,13 @@ namespace ClassicCraft
         public double TankHitEvery { get; set; }
         public double TankHitRage { get; set; }
         public int NbTargets { get; set; }
+        public bool DoThreat { get; set; }
 
         public double LastHit { get; set; }
 
         public bool Ended { get; set; }
 
-        public Simulation(Player player, Boss boss, double fightLength, bool autoBossLife = true, double lowLifeTime = 0, double fightLengthMod = 0.2, bool unlimitedMana = false, bool unlimitedResource = false, bool tanking = false, double tankHitEvery = 1, double tankHitRage = 25, int nbTargets = 1)
+        public Simulation(Player player, Boss boss, double fightLength, bool autoBossLife = true, double lowLifeTime = 0, double fightLengthMod = 0.2, bool unlimitedMana = false, bool unlimitedResource = false, bool tanking = false, double tankHitEvery = 1, double tankHitRage = 25, int nbTargets = 1, bool doThreat = false)
         {
             Player = player;
             Boss = boss;
@@ -75,6 +76,8 @@ namespace ClassicCraft
             TankHitEvery = tankHitEvery;
             TankHitRage = tankHitRage;
             NbTargets = nbTargets;
+            
+            DoThreat = doThreat;
 
             LastHit = -TankHitEvery;
 
@@ -103,7 +106,7 @@ namespace ClassicCraft
             }
             
             Program.AddSimDps(Damage / FightLength);
-            if(Tanking && TankHitEvery > 0 && TankHitRage > 0)
+            if(DoThreat)
             {
                 Program.AddSimThreat(Threat / FightLength);
             }
@@ -186,7 +189,7 @@ namespace ClassicCraft
                 Results.Actions.Add(action);
             }
             Damage += action.Result.Damage;
-            if (Tanking && TankHitEvery > 0 && TankHitRage > 0)
+            if (DoThreat)
             {
                 Threat += action.Result.Threat;
             }
@@ -199,7 +202,7 @@ namespace ClassicCraft
                 Results.Effects.Add(effect);
             }
             Damage += effect.Damage;
-            if (Tanking && TankHitEvery > 0 && TankHitRage > 0)
+            if (DoThreat)
             {
                 Threat += effect.Threat;
             }

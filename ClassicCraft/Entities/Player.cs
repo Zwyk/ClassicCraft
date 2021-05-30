@@ -1088,6 +1088,7 @@ namespace ClassicCraft
         public Classes Class { get; set; }
 
         public bool Tanking { get; set; }
+        public bool Facing { get; set; }
 
         public Action applyAtNextAA = null;
         public int nextAABonus = 0;
@@ -1126,11 +1127,12 @@ namespace ClassicCraft
         }
 
         public Player(Simulation s, Player p)
-            : this(s, p.Class, p.Race, p.Level, p.Equipment, p.Talents, p.Buffs, p.Tanking)
+            : this(s, p.Class, p.Race, p.Level, p.Equipment, p.Talents, p.Buffs, p.Tanking, p.Facing)
         {
             Attributes.Values = new Dictionary<Attribute, double>(p.Attributes.Values);
 
             Tanking = p.Tanking;
+            Facing = p.Facing;
 
             DamageMod = p.DamageMod;
             ThreatMod = p.ThreatMod;
@@ -1154,13 +1156,14 @@ namespace ClassicCraft
         }
 
         public Player(Simulation s = null, Classes c = Classes.Warrior, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, 
-            Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false)
+            Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false)
             : base(s, MobType.Humanoid, level)
         {
             Race = r;
             Class = c;
 
             Tanking = tanking;
+            Facing = facing;
 
             pot = new ManaPotion(this);
             rune = new ManaRune(this);
@@ -1539,6 +1542,15 @@ namespace ClassicCraft
                     DamageMod *= 0.9;
                     ThreatMod *= 1.3 * (1 + 0.03 * GetTalentPoints("Defiance"));
                 }
+                else
+                {
+                    ThreatMod *= 0.8 * (1 - 0.02 * GetTalentPoints("IBS"));
+                }
+            }
+
+            if(Buffs.Any(b => b.Name.ToLower().Equals("blessing of salvation")))
+            {
+                ThreatMod *= 0.7;
             }
 
             Attributes += BonusAttributesByRace(Race, Attributes);
@@ -1756,7 +1768,7 @@ namespace ClassicCraft
                         double mitigation = Simulation.MagicMitigation(Sim.Boss.ResistChances[School.Nature]);
                         ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Sim.Boss);
                         int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Nature) * mitigation);
-                        CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg));
+                        CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)(dmg * ThreatMod)));
                     }
                     if ((WindfuryTotem || !isMH)
                         && w.Buff?.Name == "Deadly Poison"
@@ -1772,7 +1784,7 @@ namespace ClassicCraft
                         {
                             CustomActions.Add(procName, new CustomAction(this, procName, School.Nature));
                         }
-                        Sim.RegisterAction(new RegisteredAction(CustomActions[procName], new ActionResult(res2, 0), Sim.CurrentTime));
+                        Sim.RegisterAction(new RegisteredAction(CustomActions[procName], new ActionResult(res2, 0, 0), Sim.CurrentTime));
 
                         if(res2 == ResultType.Hit)
                         {
@@ -2253,7 +2265,7 @@ namespace ClassicCraft
                         double mitigation = Simulation.MagicMitigation(Sim.Boss.ResistChances[School.Nature]);
                         ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Sim.Boss);
                         int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Nature) * mitigation);
-                        CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg));
+                        CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)(dmg * ThreatMod)));
                     }
                     if (!alreadyProc.Contains("Tsunami Talisman")
                         && res == ResultType.Crit
@@ -2426,7 +2438,7 @@ namespace ClassicCraft
             Dictionary<ResultType, double> whiteHitChancesMH = new Dictionary<ResultType, double>();
             whiteHitChancesMH.Add(ResultType.Miss, MissChance(DualWielding, HitChance, WeaponSkill[MH.Type], enemy.Level));
             whiteHitChancesMH.Add(ResultType.Dodge, Program.version == Version.TBC ? EnemyDodgeChance(enemy.DodgeChance(WeaponSkill[MH.Type]), ExpertisePercent + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.Expertise))) : enemy.DodgeChance(WeaponSkill[MH.Type]));
-            whiteHitChancesMH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level, Sim.Tanking, MHParryExpertise));
+            whiteHitChancesMH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level, Facing, MHParryExpertise));
             whiteHitChancesMH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level));
             whiteHitChancesMH.Add(ResultType.Block, enemy.BlockChance());
             whiteHitChancesMH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritChance + MHBonusCrit, Level, enemy.Level), whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glance], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
@@ -2438,7 +2450,7 @@ namespace ClassicCraft
                 whiteHitChancesOH = new Dictionary<ResultType, double>();
                 whiteHitChancesOH.Add(ResultType.Miss, MissChance(true, HitChance + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.HitChance)), WeaponSkill[OH.Type], enemy.Level));
                 whiteHitChancesOH.Add(ResultType.Dodge, Program.version == Version.TBC ? EnemyDodgeChance(enemy.DodgeChance(WeaponSkill[OH.Type]), ExpertisePercent + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.Expertise))) : enemy.DodgeChance(WeaponSkill[OH.Type]));
-                whiteHitChancesOH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[OH.Type], enemy.Level, Sim.Tanking, OHParryExpertise));
+                whiteHitChancesOH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[OH.Type], enemy.Level, Facing, OHParryExpertise));
                 whiteHitChancesOH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level));
                 whiteHitChancesOH.Add(ResultType.Block, enemy.BlockChance());
                 whiteHitChancesOH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritChance + OHBonusCrit, Level, enemy.Level), whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glance], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
@@ -2448,7 +2460,7 @@ namespace ClassicCraft
             Dictionary<ResultType, double> yellowHitChances = new Dictionary<ResultType, double>();
             yellowHitChances.Add(ResultType.Miss, MissChanceYellow(HitChance, WeaponSkill[MH.Type], enemy.Level));
             yellowHitChances.Add(ResultType.Dodge, Program.version == Version.TBC ? EnemyDodgeChance(enemy.DodgeChance(WeaponSkill[MH.Type]), ExpertisePercent + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.Expertise))) : enemy.DodgeChance(WeaponSkill[MH.Type]));
-            yellowHitChances.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level, Sim.Tanking, MHParryExpertise));
+            yellowHitChances.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level, Facing, MHParryExpertise));
             yellowHitChances.Add(ResultType.Block, enemy.BlockChance());
             yellowHitChances.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritChance + MHBonusCrit, Level, enemy.Level), yellowHitChances[ResultType.Miss], 0, yellowHitChances[ResultType.Dodge], yellowHitChances[ResultType.Parry], yellowHitChances[ResultType.Block]));
             yellowHitChances.Add(ResultType.Hit, RealHitChance(yellowHitChances[ResultType.Miss], 0, yellowHitChances[ResultType.Crit], yellowHitChances[ResultType.Dodge], yellowHitChances[ResultType.Parry], yellowHitChances[ResultType.Block]));

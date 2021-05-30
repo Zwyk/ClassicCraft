@@ -70,7 +70,7 @@ namespace ClassicCraft
                     }
                 }
 
-                RegisterDamage(new ActionResult(res, damage));
+                RegisterDamage(new ActionResult(res, damage, (int)(damage * Player.ThreatMod)));
 
                 Player.CheckOnHits(true, true, res);
 

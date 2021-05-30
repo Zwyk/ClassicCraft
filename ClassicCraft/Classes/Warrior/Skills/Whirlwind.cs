@@ -46,7 +46,7 @@ namespace ClassicCraft
                     * (Player.Sim.Boss.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
                     );
 
-                RegisterDamage(new ActionResult(res, damage));
+                RegisterDamage(new ActionResult(res, damage, (int)(damage * Player.ThreatMod)));
 
                 Player.CheckOnHits(true, false, res);
 
@@ -70,7 +70,7 @@ namespace ClassicCraft
                         * (Player.Sim.Boss.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
                         );
 
-                    RegisterDamage(new ActionResult(res, damage));
+                    RegisterDamage(new ActionResult(res, damage, (int)(damage * Player.ThreatMod)));
 
                     Player.CheckOnHits(false, false, res);
                 }

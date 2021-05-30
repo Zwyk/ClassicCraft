@@ -40,7 +40,7 @@ namespace ClassicCraft
                 + (Player.Equipment[Player.Slot.Head].Name == "Wolfshead Helm" ? 20 : 0);
 
             LogAction();
-            Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Hit, 0), Player.Sim.CurrentTime));
+            Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Hit, 0, 0), Player.Sim.CurrentTime));
         }
     }
 }

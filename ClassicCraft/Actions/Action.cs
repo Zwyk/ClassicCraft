@@ -26,11 +26,11 @@ namespace ClassicCraft
         public int Damage { get; set; }
         public int Threat { get; set; }
 
-        public ActionResult(ResultType type, int damage, int? threat = null)
+        public ActionResult(ResultType type, int damage, int threat)
         {
             Type = type;
             Damage = damage;
-            Threat = threat == null ? damage : threat.Value;
+            Threat = threat;
         }
     }
 

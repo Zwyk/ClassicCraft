@@ -42,7 +42,7 @@ namespace ClassicCraft
                 Player.CustomActions.Add(NAME, new CustomAction(Player, NAME, School.Physical));
             }
             
-            Player.CustomActions[NAME].RegisterDamage(new ActionResult(res, damage));
+            Player.CustomActions[NAME].RegisterDamage(new ActionResult(res, damage, (int)(damage * Player.ThreatMod)));
         }
 
         public override string ToString()

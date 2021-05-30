@@ -33,13 +33,13 @@ namespace ClassicCraft
 
             if (res == ResultType.Hit)
             {
-                Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Hit, 0), Player.Sim.CurrentTime));
+                Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Hit, 0, 0), Player.Sim.CurrentTime));
                 TickDamage = GetTickDamage();
                 base.StartCast(forceInstant);
             }
             else
             {
-                Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Resist, 0), Player.Sim.CurrentTime));
+                Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Resist, 0, 0), Player.Sim.CurrentTime));
             }
         }
 
@@ -57,7 +57,7 @@ namespace ClassicCraft
         public virtual void ApplyTick(int damage)
         {
             //Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Hit, damage), Player.Sim.CurrentTime));
-            Player.Sim.RegisterEffect(new RegisteredEffect(new CustomEffect(Player, Player.Sim.Boss, ToString(), false, 1), damage, Player.Sim.CurrentTime));
+            Player.Sim.RegisterEffect(new RegisteredEffect(new CustomEffect(Player, Player.Sim.Boss, ToString(), false, 1), damage, Player.Sim.CurrentTime, (int)(damage * Player.ThreatMod)));
 
             if (Program.logFight)
             {

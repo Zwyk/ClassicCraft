@@ -46,10 +46,7 @@
                                                 <ColumnDefinition Width="100" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="Full Fight Log (10 sim max)" ToolTip="If enabled, the simulation will log every action (disables target error and stats weights options)" TextWrapping="Wrap" Grid.Column="0" />
-                                            <ComboBox x:Name="LogFight" SelectionChanged="LogFight_SelectionChanged" Grid.Column="1" SelectedIndex="0">
-                                                <ComboBoxItem>Disabled</ComboBoxItem>
-                                                <ComboBoxItem>Enabled</ComboBoxItem>
-                                            </ComboBox>
+                                            <CheckBox x:Name="LogFight" Grid.Column="1" Checked="LogFight_Changed" Unchecked="LogFight_Changed" />
                                         </Grid>
                                         <Grid Margin="0 10 0 0">
                                             <Grid.ColumnDefinitions>
@@ -85,11 +82,16 @@
                                                 <ColumnDefinition Width="200" />
                                                 <ColumnDefinition Width="100" />
                                             </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Threat data" ToolTip="Register stats for threat generated" TextWrapping="Wrap" Grid.Column="0" />
+                                            <CheckBox x:Name="Threat" Grid.Column="1" />
+                                        </Grid>
+                                        <Grid Margin="0 10 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="100" />
+                                            </Grid.ColumnDefinitions>
                                             <TextBlock Text="Stats Weights" ToolTip="If enabled, simulation will do iterations to calculate each stat weight (disables detailed fight stats)" TextWrapping="Wrap" Grid.Column="0" />
-                                            <ComboBox x:Name="StatsWeights" SelectedIndex="0" Grid.Column="1">
-                                                <ComboBoxItem>Enable</ComboBoxItem>
-                                                <ComboBoxItem>Disable</ComboBoxItem>
-                                            </ComboBox>
+                                            <CheckBox x:Name="StatsWeights" Grid.Column="1" />
                                         </Grid>
                                     </StackPanel>
                                 </TabItem>
@@ -294,7 +296,7 @@
                                                             <ColumnDefinition Width="200" />
                                                             <ColumnDefinition Width="100" />
                                                         </Grid.ColumnDefinitions>
-                                                        <TextBlock Text="Player Tanking (or boss facing)" TextWrapping="Wrap" Grid.Column="0" />
+                                                        <TextBlock Text="Player Tanking Boss" TextWrapping="Wrap" Grid.Column="0" />
                                                         <CheckBox x:Name="Tanking" Grid.Column="1" Checked="Tanking_Changed" Unchecked="Tanking_Changed"  />
                                                     </Grid>
                                                     <Grid Margin="0 10 0 0">
@@ -324,6 +326,14 @@
                                                             <ComboBoxItem Content="30" />
                                                             <ComboBoxItem Content="40" />
                                                         </ComboBox>
+                                                    </Grid>
+                                                    <Grid Margin="0 10 0 0">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="200" />
+                                                            <ColumnDefinition Width="100" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Text="Boss Facing" TextWrapping="Wrap" Grid.Column="0" />
+                                                        <CheckBox x:Name="Facing" Grid.Column="1" />
                                                     </Grid>
                                                     <Grid Margin="0 10 0 0">
                                                         <Grid.ColumnDefinitions>

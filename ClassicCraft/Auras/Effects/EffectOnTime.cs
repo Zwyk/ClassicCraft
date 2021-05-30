@@ -54,7 +54,7 @@ namespace ClassicCraft
 
         public virtual void ApplyTick(int damage)
         {
-            Player.Sim.RegisterEffect(new RegisteredEffect(this, damage, Player.Sim.CurrentTime));
+            Player.Sim.RegisterEffect(new RegisteredEffect(this, damage, Player.Sim.CurrentTime, (int)(damage * Player.ThreatMod)));
 
             if(Program.logFight)
             {

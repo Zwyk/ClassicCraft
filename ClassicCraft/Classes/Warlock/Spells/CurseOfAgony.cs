@@ -33,7 +33,7 @@ namespace ClassicCraft
 
             if (res == ResultType.Hit)
             {
-                Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Hit, 0), Player.Sim.CurrentTime));
+                Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Hit, 0, 0), Player.Sim.CurrentTime));
                 if (Player.Sim.Boss.Effects.ContainsKey(CurseOfAgonyDoT.NAME))
                 {
                     Player.Sim.Boss.Effects[CurseOfAgonyDoT.NAME].Refresh();
@@ -45,7 +45,7 @@ namespace ClassicCraft
             }
             else
             {
-                Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Resist, 0), Player.Sim.CurrentTime));
+                Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Resist, 0, 0), Player.Sim.CurrentTime));
             }
         }
     }
