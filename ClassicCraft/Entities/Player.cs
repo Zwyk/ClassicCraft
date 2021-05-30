@@ -2227,7 +2227,8 @@ namespace ClassicCraft
                         }
                     }
                     if (!alreadyProc.Contains("Dragonspine Trophy")
-                        && (Equipment[Slot.Trinket1]?.Name.ToLower() == "dragonspine trophy" || Equipment[Slot.Trinket2]?.Name.ToLower() == "dragonspine trophy")
+                        && (Equipment[Slot.Trinket1]?.Name.ToLower() == "dragonspine trophy" || Equipment[Slot.Trinket2]?.Name.ToLower() == "dragonspine trophy"
+                            || Equipment[Slot.Trinket1]?.Name.ToLower() == "dst" || Equipment[Slot.Trinket1]?.Name.ToLower() == "dst")
                         && (!icds.ContainsKey("Dragonspine Trophy") || icds["Dragonspine Trophy"] < Sim.CurrentTime - 20)
                         && Randomer.NextDouble() < w.Speed / 60)
                     {

@@ -24,6 +24,7 @@ namespace ClassicCraft
         private SweepingStrikes ss = null;
         private ShieldSlam shslam = null;
         private Devastate dev = null;
+        private Thunderclap tc = null;
 
         #region Constructors
 
@@ -105,6 +106,7 @@ namespace ClassicCraft
                 case Version.TBC:
                     // Arms
                     Talents.Add("IHS", arms.Length > 0 ? (int)Char.GetNumericValue(arms[0]) : 0);
+                    Talents.Add("ITC", arms.Length > 5 ? (int)Char.GetNumericValue(arms[5]) : 0);
                     Talents.Add("AM", arms.Length > 7 ? (int)Char.GetNumericValue(arms[7]) : 0);
                     Talents.Add("DW", arms.Length > 8 ? (int)Char.GetNumericValue(arms[8]) : 0);
                     Talents.Add("2HS", arms.Length > 9 ? (int)Char.GetNumericValue(arms[9]) : 0);
@@ -168,6 +170,7 @@ namespace ClassicCraft
                 sa = new SunderArmor(this);
                 rev = new Revenge(this);
                 dev = new Devastate(this);
+                tc = new Thunderclap(this);
                 if(!DualWielding) shslam = new ShieldSlam(this);
             }
             else
@@ -579,11 +582,15 @@ namespace ClassicCraft
             // TANKING
             else if(rota == 21)
             {
-                if (bt != null && bt.CanUse())
+                if (tc != null && Sim.NbTargets > 1 && tc.CanUse())
+                {
+                    tc.Cast();
+                }
+                else if (bt != null && bt.CanUse())
                 {
                     bt.Cast();
                 }
-                if (ms != null && ms.CanUse())
+                else if (ms != null && ms.CanUse())
                 {
                     ms.Cast();
                 }

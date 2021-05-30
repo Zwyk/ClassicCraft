@@ -513,7 +513,7 @@ namespace ClassicCraft
                     //logListActions = totalActions.SelectMany(a => a.Select(t => t.Action.ToString()).OrderBy(b => b)).Distinct().ToList();
                     logListActions = new List<string>() { "AA MH", "AA OH", "AA Ranged", "AA Wand" };
                     if (playerBase.Class == Player.Classes.Warrior)
-                        logListActions.AddRange(new List<string>() { "Slam", "Bloodthirst", "Mortal Strike", "Shield Slam", "Devastate", "Sunder Armor", "Revenge", "Whirlwind", "Sweeping Strikes", "Cleave", "Heroic Strike", "Execute", "Hamstring", "Battle Shout" });
+                        logListActions.AddRange(new List<string>() { "Slam", "Bloodthirst", "Mortal Strike", "Shield Slam", "Devastate", "Sunder Armor", "Revenge", "Whirlwind", "Thunder Clap", "Sweeping Strikes", "Cleave", "Heroic Strike", "Execute", "Hamstring", "Battle Shout" });
                     else if (playerBase.Class == Player.Classes.Druid)
                         logListActions.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift", "Maul", "Swipe" });
                     else if (playerBase.Class == Player.Classes.Priest)
@@ -1124,22 +1124,34 @@ namespace ClassicCraft
                             string res = "\nAverage stats for [" + ac + "] : ";
                             res += string.Format("{0:N2} DPS ({1:N2}%)", avgAcDps, avgAcDps / avgDps * 100);
 
+                            double avgAcTps = 0;
+                            double avgAcThreat = 0;
                             if (jsonSim.Threat)
                             {
-                                double avgAcTps = data.AvgTPS;
-                                double avgAcThreat = data.AvgThreat;
-                                res += string.Format(" / {0:N2} TPS ({1:N2}%)\n\tAverage of {2:N2} threat for {3:N2} uses (or 1 use every {4:N2}s)", avgAcTps, avgAcTps / avgTps * 100, avgAcThreat, avgAcUse, avgFightLength / avgAcUse);
+                                avgAcTps = data.AvgTPS;
+                                avgAcThreat = data.AvgThreat;
                             }
+
                             if (ac == "Cleave")
                             {
                                 avgAcUse /= Math.Min(2, nbTargets);
                                 avgAcDmg *= Math.Min(2, nbTargets);
+                                avgAcThreat *= Math.Min(2, nbTargets);
                             }
                             else if (ac == "Whirlwind" && version == Version.TBC)
                             {
-                                avgAcUse /= (playerBase.DualWielding ? 2 : 1) * nbTargets;
-                                avgAcDmg *= (playerBase.DualWielding ? 2 : 1) * nbTargets;
+                                avgAcUse /= (playerBase.DualWielding ? 2 : 1) * Math.Min(4, nbTargets);
+                                avgAcDmg *= (playerBase.DualWielding ? 2 : 1) * Math.Min(4, nbTargets);
+                                avgAcThreat *= (playerBase.DualWielding ? 2 : 1) * Math.Min(4, nbTargets);
                             }
+                            else if (ac == "Thunder Clap")
+                            {
+                                avgAcUse /= Math.Min(4, nbTargets);
+                                avgAcDmg *= Math.Min(4, nbTargets);
+                                avgAcThreat *= Math.Min(4, nbTargets);
+                            }
+
+                            if(jsonSim.Threat) res += string.Format(" / {0:N2} TPS ({1:N2}%)\n\tAverage of {2:N2} threat for {3:N2} uses (or 1 use every {4:N2}s)", avgAcTps, avgAcTps / avgTps * 100, avgAcThreat, avgAcUse, avgFightLength / avgAcUse);
                             res += string.Format("\n\tAverage of {0:N2} damage for {1:N2} uses (or 1 use every {2:N2}s)", avgAcDmg, avgAcUse, avgFightLength / avgAcUse);
 
                             double hitPct = data.AvgHit;

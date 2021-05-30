@@ -137,6 +137,7 @@
     <Compile Include="Classes\Warrior\Skills\ShieldSlam.cs" />
     <Compile Include="Classes\Warrior\Skills\SunderArmor.cs" />
     <Compile Include="Classes\Warrior\Skills\SweepingStrikes.cs" />
+    <Compile Include="Classes\Warrior\Skills\Thunderclap.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>

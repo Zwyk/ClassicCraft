@@ -11,6 +11,8 @@ namespace ClassicCraft
         public static int BASE_COST = 25;
         public static int CD = 10;
 
+        public static int MAX_TARGETS = 4;
+
         public Whirlwind(Player p)
             : base(p, CD - (Program.version == Version.TBC ? p.GetTalentPoints("IWW") : 0), BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") + (p.NbSet("Warbringer")>=2?5:0) : 0))
         {
@@ -29,7 +31,7 @@ namespace ClassicCraft
             int firstDamage = 0;
             ResultType firstRes = ResultType.Hit;
 
-            for (int i = 1; i <= Math.Min(4, Player.Sim.NbTargets); i++)
+            for (int i = 1; i <= Math.Min(MAX_TARGETS, Player.Sim.NbTargets); i++)
             {
                 ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
 
