@@ -47,6 +47,9 @@ namespace ClassicCraftGUI
         public int selectedEnchantIndex = 0;
         public Dictionary<Player.Slot, List<JsonUtil.JsonEnchantment>> enchantsByPlayerSlot = new Dictionary<Player.Slot, List<JsonUtil.JsonEnchantment>>();
 
+        public List<string> Sims;
+        public List<string> Players;
+
         public static MainWindow main;
 
         public JsonUtil.JsonSim sim;
@@ -78,7 +81,7 @@ namespace ClassicCraftGUI
                     PopulateSlotLists();
                     LoadDB();
                 }
-
+                
                 Program.LoadConfig();
                 LoadSimJsons();
                 LoadPlayerJsons();
@@ -149,12 +152,14 @@ namespace ClassicCraftGUI
         {
             try
             {
+                Players = new List<string>();
                 PlayerCB.Items.Clear();
                 int selected = -1;
                 int i = 0;
                 foreach (string s in Directory.GetFiles(System.IO.Path.Combine(Program.basePath(), Program.CONFIG_FOLDER, Program.PLAYER_CONFIG_FOLDER), "*.json"))
                 {
                     string str = System.IO.Path.GetFileNameWithoutExtension(s);
+                    Players.Add(str);
                     if (str.Equals(Program.Config.Player)) selected = i;
                     PlayerCB.Items.Add(str);
                     i++;
@@ -179,12 +184,14 @@ namespace ClassicCraftGUI
         {
             try
             {
+                Sims = new List<string>();
                 SimCB.Items.Clear();
                 int selected = -1;
                 int i = 0;
                 foreach (string s in Directory.GetFiles(System.IO.Path.Combine(Program.basePath(), Program.CONFIG_FOLDER, Program.SIM_CONFIG_FOLDER), "*.json"))
                 {
                     string str = System.IO.Path.GetFileNameWithoutExtension(s);
+                    Sims.Add(str);
                     if (str.Equals(Program.Config.Sim)) selected = i;
                     SimCB.Items.Add(str);
                     i++;
@@ -237,6 +244,14 @@ namespace ClassicCraftGUI
             Facing.IsChecked = sim.Facing;
             UnlimitedMana.IsChecked = sim.UnlimitedMana;
             UnlimitedResource.IsChecked = sim.UnlimitedResource;
+            
+            ArmorDebuff.SelectedIndex = sim.Boss.Debuffs["Improved Expose Armor"] ? 3 : (sim.Boss.Debuffs["Expose Armor"] ? 2 : (sim.Boss.Debuffs["Sunder Armor"] ? 1 : 0));
+            CurseOfRecklessness.IsChecked = sim.Boss.Debuffs["Curse of Recklessness"];
+            FaerieFire.IsChecked = sim.Boss.Debuffs["Faerie Fire"];
+            IFF.IsChecked = sim.Boss.Debuffs["Improved Faerie Fire"];
+            BloodFrenzy.IsChecked = sim.Boss.Debuffs["Blood Frenzy"];
+            ISoC.IsChecked = sim.Boss.Debuffs["Improved Seal of the Crusader"];
+            Annihilator.IsChecked = sim.Boss.Debuffs["Annihilator"];
         }
 
         private void SaveSimConfigClick(object sender, RoutedEventArgs e)
@@ -291,6 +306,16 @@ namespace ClassicCraftGUI
             sim.Facing = Facing.IsChecked == true;
             sim.UnlimitedMana = UnlimitedMana.IsChecked == true;
             sim.UnlimitedResource = UnlimitedResource.IsChecked == true;
+
+            sim.Boss.Debuffs["Sunder Armor"] = ArmorDebuff.SelectedIndex == 1;
+            sim.Boss.Debuffs["Expose Armor"] = ArmorDebuff.SelectedIndex == 2;
+            sim.Boss.Debuffs["Improved Expose Armor"] = ArmorDebuff.SelectedIndex == 3;
+            sim.Boss.Debuffs["Curse of Recklessness"] = CurseOfRecklessness.IsChecked == true;
+            sim.Boss.Debuffs["Faerie Fire"] = FaerieFire.IsChecked == true;
+            sim.Boss.Debuffs["Improved Faerie Fire"] = IFF.IsChecked == true;
+            sim.Boss.Debuffs["Blood Frenzy"] = BloodFrenzy.IsChecked == true;
+            sim.Boss.Debuffs["Improved Seal of the Crusader"] = ISoC.IsChecked == true;
+            sim.Boss.Debuffs["Annihilator"] = Annihilator.IsChecked == true;
         }
 
         private void SimRefreshClick(object sender, RoutedEventArgs e)
@@ -298,9 +323,61 @@ namespace ClassicCraftGUI
             LoadSimJsons();
         }
 
+        private void SimNewClick(object sender, RoutedEventArgs e)
+        {
+            if (NewSimName.Text != "")
+            {
+                string baseName = NewSimName.Text;
+                string name = baseName;
+                int i = 1;
+                while (Sims.Contains(name))
+                {
+                    name = baseName + " (" + i + ")";
+                    i++;
+                }
+
+                Program.Config.Sim = name;
+                Program.SaveJsons(false, true);
+
+                LoadSimJsons();
+
+                NewSimName.Text = "";
+            }
+        }
+
+        private void SimDeleteClick(object sender, RoutedEventArgs e)
+        {
+            File.Delete(System.IO.Path.Combine(Program.basePath(), Program.CONFIG_FOLDER, Program.SIM_CONFIG_FOLDER, Program.Config.Sim + ".json"));
+            LoadSimJsons();
+        }
+
+        private void SimRenameClick(object sender, RoutedEventArgs e)
+        {
+            if(NewSimName.Text != "")
+            {
+                string baseName = NewSimName.Text;
+                string name = baseName;
+                int i = 1;
+                while (Sims.Contains(name))
+                {
+                    name = baseName + " (" + i + ")";
+                    i++;
+                }
+
+                File.Move(System.IO.Path.Combine(Program.basePath(), Program.CONFIG_FOLDER, Program.SIM_CONFIG_FOLDER, Program.Config.Sim + ".json"),
+                    System.IO.Path.Combine(Program.basePath(), Program.CONFIG_FOLDER, Program.SIM_CONFIG_FOLDER, name + ".json"));
+
+                Program.Config.Sim = name;
+
+                LoadSimJsons();
+
+                NewSimName.Text = "";
+            }
+        }
+
         private void SimCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(init)
+            if(init && SimCB.SelectedIndex >= 0)
             {
                 Program.Config.Sim = SimCB.SelectedItem.ToString();
 
@@ -329,8 +406,77 @@ namespace ClassicCraftGUI
             Race.SelectedIndex = GetComboBoxIndexWithString(Race, player.Race);
             Class.SelectedIndex = GetComboBoxIndexWithString(Class, player.Class);
             Talents.Text = player.Talents;
+            
+            Drums.SelectedIndex = player.Cooldowns["Drums of War"] ? 2 : (player.Cooldowns["Drums of Battle"] ? 1 : 0);
+            Racial.IsChecked = player.Cooldowns["Racial"];
+            Bloodlust.IsChecked = player.Cooldowns["Bloodlust"];
 
-            if(!noDB)
+            if(player.Class == "Warrior")
+            {
+                Potion.SelectedIndex = player.Cooldowns["Mighty Rage Potion"] ? 3 : (player.Cooldowns["Insane Strength Potion"] ? 2 : (player.Cooldowns["Haste Potion"] ? 1 : 0));
+                DeathWish.IsChecked = player.Cooldowns["Death Wish"];
+                Recklessness.IsChecked = player.Cooldowns["Recklessness"];
+                ShieldBlock.IsChecked = player.Cooldowns["Shield Block"];
+            }
+            else
+            {
+                Potion.SelectedIndex = player.Cooldowns["Haste Potion"] ? 1 : 0;
+            }
+
+            Kings.IsChecked = player.Buffs.Any(b => b.Name.Equals("Blessing of Kings"));
+            Trueshot.IsChecked = player.Buffs.Any(b => b.Name.Equals("Trueshot Aura"));
+            LotP.IsChecked = player.Buffs.Any(b => b.Name.Equals("Leader of the Pack"));
+            Unleashed.IsChecked = player.Buffs.Any(b => b.Name.Equals("Unleashed Rage"));
+            ISA.IsChecked = player.Buffs.Any(b => b.Name.Equals("Improved Sanctity Aura"));
+            FlaskElixir.SelectedIndex = 0;
+            Food.SelectedIndex = 0;
+            BattleShout.SelectedIndex = 0;
+            Might.SelectedIndex = 0;
+            MotW.SelectedIndex = 0;
+            TotemStr.SelectedIndex = 0;
+            TotemAgi.SelectedIndex = 0;
+
+            foreach (JsonUtil.JsonEnchantment buff in player.Buffs)
+            {
+                switch(buff.Name)
+                {
+                    case "Flask/Elixir":
+                        if (buff.Stats.ContainsKey("AP")) FlaskElixir.SelectedIndex = 1;
+                        else if (buff.Stats.ContainsKey("Agi")) FlaskElixir.SelectedIndex = 2;
+                        break;
+                    case "Food":
+                        if (buff.Stats.ContainsKey("Str")) Food.SelectedIndex = 1;
+                        else if (buff.Stats.ContainsKey("AP")) Food.SelectedIndex = 2;
+                        else if (buff.Stats.ContainsKey("Hit")) Food.SelectedIndex = 3;
+                        else if (buff.Stats.ContainsKey("Agi")) Food.SelectedIndex = 4;
+                        break;
+                    case "Battle Shout": BattleShout.SelectedIndex = buff.Stats["AP"] == 382.0 ? 2 : 1; break;
+                    case "Blessing of Might": Might.SelectedIndex = buff.Stats["AP"] == 264.0 ? 2 : 1; break;
+                    case "Mark of the Wild": MotW.SelectedIndex = buff.Stats["Str"] == 18.0 ? 2 : 1; break;
+                    case "Totem Strength": TotemStr.SelectedIndex = buff.Stats["Str"] == 98.0 ? 2 : 1; break;
+                    case "Totem Agility": TotemAgi.SelectedIndex = buff.Stats["Agi"] == 88.0 ? 2 : 1; break;
+                }
+            }
+
+            if (player.Buffs.Any(b => b.Name.Contains("Windfury Totem")))
+            {
+                int rank;
+                string[] split = player.Buffs.Where(b => b.Name.Contains("Windfury Totem")).First().Name.Split('*');
+                if (!int.TryParse(split.Last(), out rank)) rank = 0;
+                Windfury.SelectedIndex = rank == 2 ? 2 : 1;
+            }
+            else Windfury.SelectedIndex = 0;
+
+            if (player.Buffs.Any(b => b.Name.Contains("Ferocious Inspiration")))
+            {
+                int nb;
+                string[] split = player.Buffs.Where(b => b.Name.Contains("Ferocious Inspiration")).First().Name.Split('*');
+                if (!int.TryParse(split.Last(), out nb)) nb = 0;
+                Ferocious.SelectedIndex = nb;
+            }
+            else Ferocious.SelectedIndex = 0;
+
+            if (!noDB)
             {
                 foreach (string slot in player.Weapons.Keys)
                 {
@@ -380,6 +526,76 @@ namespace ClassicCraftGUI
             player.Race = Race.Text;
             player.Class = Class.Text;
             player.Talents = Talents.Text;
+
+            player.Cooldowns["Haste Potion"] = Potion.SelectedIndex == 1;
+            player.Cooldowns["Drums of Battle"] = Drums.SelectedIndex == 1;
+            player.Cooldowns["Drums of War"] = Drums.SelectedIndex == 2;
+            player.Cooldowns["Racial"] = Racial.IsChecked == true;
+            if(player.Class == "Warrior")
+            {
+                player.Cooldowns["Insane Strength Potion"] = Potion.SelectedIndex == 2;
+                player.Cooldowns["Mighty Rage Potion"] = Potion.SelectedIndex == 3;
+                player.Cooldowns["Death Wish"] = DeathWish.IsChecked == true;
+                player.Cooldowns["Recklessness"] = Recklessness.IsChecked == true;
+                player.Cooldowns["Bloodlust"] = Bloodlust.IsChecked == true;
+                player.Cooldowns["Shield Block"] = ShieldBlock.IsChecked == true;
+            }
+
+            player.Buffs = new List<JsonUtil.JsonEnchantment>();
+            if (FlaskElixir.SelectedIndex > 0)
+            {
+                Dictionary<string, double> stats = new Dictionary<string, double>();
+                switch (FlaskElixir.SelectedIndex)
+                {
+                    case 1: stats.Add("AP", 120); break;
+                    case 2:
+                        stats.Add("Agi", 120);
+                        stats.Add("Crit", 20);
+                        break;
+                }
+                player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Flask/Elixir", "Any", stats));
+            }
+            if (Food.SelectedIndex > 0)
+            {
+                Dictionary<string, double> stats = new Dictionary<string, double>();
+                switch (Food.SelectedIndex)
+                {
+                    case 1: stats.Add("Str", 20); break;
+                    case 2: stats.Add("AP", 40); break;
+                    case 3: stats.Add("Hit", 20); break;
+                    case 4: stats.Add("Agi", 20); break;
+                }
+                player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Food", "Any", stats));
+            }
+            if (BattleShout.SelectedIndex > 0)
+                player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Battle Shout", "Any", new Dictionary<string, double>() { { "AP", BattleShout.SelectedIndex == 2 ? 382 : 306 } }));
+            if (Might.SelectedIndex > 0)
+                player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Blessing of Might", "Any", new Dictionary<string, double>() { { "AP", Might.SelectedIndex == 2 ? 264 : 220 } }));
+            if (MotW.SelectedIndex > 0)
+                player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Mark of the Wild", "Any", new Dictionary<string, double>() {
+                    { "Str", MotW.SelectedIndex == 2 ? 18 : 14 },
+                    { "Agi", MotW.SelectedIndex == 2 ? 18 : 14 },
+                    { "Int", MotW.SelectedIndex == 2 ? 18 : 14 },
+                    { "Spi", MotW.SelectedIndex == 2 ? 18 : 14 },
+                }));
+            if (TotemStr.SelectedIndex > 0)
+                player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Totem Strength", "Any", new Dictionary<string, double>() { { "Str", TotemStr.SelectedIndex == 2 ? 98 : 86 } }));
+            if (TotemAgi.SelectedIndex > 0)
+                player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Totem Agility", "Any", new Dictionary<string, double>() { { "Agi", TotemAgi.SelectedIndex == 2 ? 88 : 77 } }));
+            if (Windfury.SelectedIndex > 0)
+                player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Windfury Totem *" + (Windfury.SelectedIndex == 2 ? 2 : 0), "Any", null));
+            if (Ferocious.SelectedIndex > 0)
+                player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Ferocious Inspiration *" + Ferocious.SelectedIndex, "Any", null));
+            if (Kings.IsChecked == true)
+                player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Blessing of Kings", "Any", null));
+            if (Trueshot.IsChecked == true)
+                player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Trueshot Aura", "Any", new Dictionary<string, double>() { { "AP", 125 } }));
+            if (LotP.IsChecked == true)
+                player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Leader of the Pack", "Any", new Dictionary<string, double>() { { "Crit", 110.4 } }));
+            if (Unleashed.IsChecked == true)
+                player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Unleashed Rage", "Any", null));
+            if (ISA.IsChecked == true)
+                player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Improved Sanctity Aura", "Any", null));
         }
 
         private void PlayerRefreshClick(object sender, RoutedEventArgs e)
@@ -390,9 +606,61 @@ namespace ClassicCraftGUI
             init = true;
         }
 
+        private void PlayerNewClick(object sender, RoutedEventArgs e)
+        {
+            if (NewPlayerName.Text != "")
+            {
+                string baseName = NewPlayerName.Text;
+                string name = baseName;
+                int i = 1;
+                while (Players.Contains(name))
+                {
+                    name = baseName + " (" + i + ")";
+                    i++;
+                }
+
+                Program.Config.Player = name;
+                Program.SaveJsons(true, false);
+
+                LoadPlayerJsons();
+
+                NewPlayerName.Text = "";
+            }
+        }
+
+        private void PlayerDeleteClick(object sender, RoutedEventArgs e)
+        {
+            File.Delete(System.IO.Path.Combine(Program.basePath(), Program.CONFIG_FOLDER, Program.PLAYER_CONFIG_FOLDER, Program.Config.Player + ".json"));
+            LoadPlayerJsons();
+        }
+
+        private void PlayerRenameClick(object sender, RoutedEventArgs e)
+        {
+            if (NewPlayerName.Text != "")
+            {
+                string baseName = NewPlayerName.Text;
+                string name = baseName;
+                int i = 1;
+                while (Players.Contains(name))
+                {
+                    name = baseName + " (" + i + ")";
+                    i++;
+                }
+
+                File.Move(System.IO.Path.Combine(Program.basePath(), Program.CONFIG_FOLDER, Program.PLAYER_CONFIG_FOLDER, Program.Config.Player + ".json"),
+                    System.IO.Path.Combine(Program.basePath(), Program.CONFIG_FOLDER, Program.PLAYER_CONFIG_FOLDER, name + ".json"));
+
+                Program.Config.Player = name;
+
+                LoadPlayerJsons();
+
+                NewPlayerName.Text = "";
+            }
+        }
+
         private void PlayerCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(init)
+            if(init && PlayerCB.SelectedIndex >= 0)
             {
                 Program.Config.Player = PlayerCB.SelectedItem.ToString();
 
@@ -2270,5 +2538,10 @@ namespace ClassicCraftGUI
         }
 
         #endregion
+
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+
+        }
     }
 }

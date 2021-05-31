@@ -810,7 +810,13 @@ namespace ClassicCraft
         {
             "Nightslayer", "Shadowcraft", "Darkmantle",
             "Warbringer", "Destroyer", "Onslaught",
-            "Wastewalker", "Netherblade", "Deathmantle", "Slayer's",
+            "Netherblade", "Deathmantle", "Slayer's",
+            "Assassination",
+            "Wastewalker", // 2 = 35 hit
+            "Felsteel", // 3 = 25 str
+            "Ragesteel", // 2 = 20 hit
+            "Doomplate", // 2 = 35 hit
+            "Desolation", // 2 = 35 hit
         };
 
         public static Dictionary<Attribute, double> RatingRatios = new Dictionary<Attribute, double>()
@@ -1098,6 +1104,7 @@ namespace ClassicCraft
         public Dictionary<Entity, HitChances> HitChancesByEnemy { get; set; }
 
         public bool WindfuryTotem { get; set; }
+        public int WindfuryTotemImp = 0;
 
         public List<string> Cooldowns { get; set; }
 
@@ -1148,6 +1155,7 @@ namespace ClassicCraft
                 OH.DamageMax = p.OH.DamageMax;
             }
             WindfuryTotem = p.WindfuryTotem;
+            WindfuryTotemImp = p.WindfuryTotemImp;
             Cooldowns = p.Cooldowns;
             BaseMana = p.BaseMana;
 
@@ -1156,7 +1164,7 @@ namespace ClassicCraft
         }
 
         public Player(Simulation s = null, Classes c = Classes.Warrior, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, 
-            Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false)
+            Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false, List<string> cooldowns = null)
             : base(s, MobType.Humanoid, level)
         {
             Race = r;
@@ -1198,6 +1206,8 @@ namespace ClassicCraft
 
             Sets = new Dictionary<string, int>();
 
+            Cooldowns = cooldowns;
+
             Reset();
         }
 
@@ -1223,17 +1233,10 @@ namespace ClassicCraft
                     case "Bloodlust": cds.Add(new ActiveItemBuff(this, 600, 40, "Bloodlust", new Dictionary<Attribute, double>() { { Attribute.Haste, 0.3 } }), 40); break;
                     case "Haste Potion": cds.Add(new ActiveItemBuff(this, 120, 15, "Haste Pot", new Dictionary<Attribute, double>() { { Attribute.Haste, 400 / RatingRatios[Attribute.Haste] / 100 } }), 15); break;
                     case "Insane Strength Potion": cds.Add(new ActiveItemBuff(this, 120, 15, "Str Pot", new Dictionary<Attribute, double>() { { Attribute.Haste, 120 } }), 15); break;
+                    case "Drums of Battle": cds.Add(new ActiveItemBuff(this, 120, 30, "Drums of Battle", new Dictionary<Attribute, double>() { { Attribute.Haste, 80 / RatingRatios[Attribute.Haste] / 100 } }), 30); break;
+                    case "Drums of War": cds.Add(new ActiveItemBuff(this, 120, 30, "Drums of Battle", new Dictionary<Attribute, double>() { { Attribute.AP, 60 } }), 30); break;
                     default: break;
                 }
-            }
-
-            if (Buffs.Any(b => b.Name.ToLower().Equals("drums of battle")))
-            {
-                cds.Add(new ActiveItemBuff(this, 120, 30, "Drums of Battle", new Dictionary<Attribute, double>() { { Attribute.Haste, 80 / RatingRatios[Attribute.Haste] / 100 } }), 30);
-            }
-            else if (Buffs.Any(b => b.Name.ToLower().Equals("drums of war")))
-            {
-                cds.Add(new ActiveItemBuff(this, 120, 30, "Drums of Battle", new Dictionary<Attribute, double>() { { Attribute.AP, 60 }, { Attribute.SP, 60 } }), 30);
             }
 
             string[] tr = new string[] { Equipment[Slot.Trinket1]?.Name.ToLower(), Equipment[Slot.Trinket2]?.Name.ToLower() };
@@ -1459,6 +1462,20 @@ namespace ClassicCraft
                 OH.DamageMax = OH.BaseMax + wbonus + wbonusOH;
             }
 
+            WindfuryTotemImp = 0;
+            WindfuryTotem = Buffs.Any(b => b.Name.Contains("Windfury Totem"));
+            if (WindfuryTotem)
+            {
+                string[] split = Buffs.Where(b => b.Name.Contains("Windfury Totem")).First().Name.Split('*');
+                if (!int.TryParse(split.Last(), out WindfuryTotemImp)) WindfuryTotemImp = 0;
+            }
+
+            if (NbSet("Wastewalker") >= 2) Attributes.AddToValue(Attribute.HitChance, 35 / RatingRatios[Attribute.HitChance] / 100);
+            if (NbSet("Felsteel") >= 3) Attributes.AddToValue(Attribute.Strength, 25);
+            if (NbSet("Ragesteel") >= 2) Attributes.AddToValue(Attribute.HitChance, 20 / RatingRatios[Attribute.HitChance] / 100);
+            if (NbSet("Doomplate") >= 2) Attributes.AddToValue(Attribute.HitChance, 35 / RatingRatios[Attribute.HitChance] / 100);
+            if (NbSet("Desolation") >= 2) Attributes.AddToValue(Attribute.HitChance, 35 / RatingRatios[Attribute.HitChance] / 100);
+
             if (Class == Classes.Druid)
             {
                 Attributes.SetValue(Attribute.Intellect, Attributes.GetValue(Attribute.Intellect)
@@ -1582,8 +1599,17 @@ namespace ClassicCraft
             if (Class == Classes.Warrior && Program.version == Version.TBC) Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) * (1 + 0.02 * GetTalentPoints("IBStance")));
 
             if (Buffs.Any(b => b.Name.ToLower().Equals("unleashed rage"))) Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) * 1.06);
-            if (Buffs.Any(b => b.Name.ToLower().Equals("ferocious inspiration"))) DamageMod *= 1.03;
+            if (Buffs.Any(b => b.Name.ToLower().Contains("ferocious inspiration")))
+            {
+                string name = Buffs.Where(b => b.Name.ToLower().Contains("ferocious inspiration")).First().Name;
+                string[] split = name.Split('*');
+                int nb;
+                if (!int.TryParse(split.Last(), out nb)) nb = 0;
+                DamageMod *= 1 + (0.03 * nb);
+            }
             if (Buffs.Any(b => b.Name.ToLower().Equals("improved sanctity aura"))) DamageMod *= 1.02;
+
+            if (Program.jsonSim.Boss.Debuffs.Any(b => b.Key.ToLower().Equals("improved faerie fire"))) Attributes.AddToValue(Attribute.HitChance, 0.03);
 
             int baseSkill = Level * 5;
             WeaponSkill = new Dictionary<Weapon.WeaponType, int>();
@@ -1871,7 +1897,7 @@ namespace ClassicCraft
                             Program.Log(string.Format("{0:N2} : Windfury procs", Sim.CurrentTime));
                         }
 
-                        nextAABonus = (int)Math.Round((Program.version == Version.TBC ? 445 : 315) * 1.3);
+                        nextAABonus = (int)((Program.version == Version.TBC ? 445 : 315) * (1 + 0.15 * WindfuryTotemImp));
 
                         switch (Program.version)
                         {
@@ -2373,6 +2399,52 @@ namespace ClassicCraft
                             {
                                 { Attribute.AP, 160 },
                             };
+                        int procDuration = 15;
+
+                        if (Effects.ContainsKey(procName))
+                        {
+                            Effects[procName].Refresh();
+                        }
+                        else
+                        {
+                            CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
+                            buff.StartEffect();
+                        }
+                    }
+                    if (!alreadyProc.Contains("Doomplate")
+                        && NbSet("Doomplate") >= 4
+                        && Randomer.NextDouble() < 0.02)
+                    {
+                        string procName = "Doomplate";
+                        alreadyProc.Add(procName);
+                        icds[procName] = Sim.CurrentTime;
+                        Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.AP, 160 }
+                        };
+                        int procDuration = 15;
+
+                        if (Effects.ContainsKey(procName))
+                        {
+                            Effects[procName].Refresh();
+                        }
+                        else
+                        {
+                            CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
+                            buff.StartEffect();
+                        }
+                    }
+                    if (!alreadyProc.Contains("Desolation")
+                        && NbSet("Desolation") >= 4
+                        && Randomer.NextDouble() < 0.01)
+                    {
+                        string procName = "Doomplate";
+                        alreadyProc.Add(procName);
+                        icds[procName] = Sim.CurrentTime;
+                        Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.AP, 160 }
+                        };
                         int procDuration = 15;
 
                         if (Effects.ContainsKey(procName))

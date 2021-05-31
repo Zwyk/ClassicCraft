@@ -16,8 +16,9 @@
     "Debuffs": {
       "Sunder Armor": true,
       "Expose Armor": false,
-      "Improved Expose Armor": true,
+      "Improved Expose Armor": false,
       "Faerie Fire": true,
+      "Improved Faerie Fire": true,
       "Curse of Recklessness": true,
       "Annihilator": false,
       "Blood Frenzy": true,
@@ -29,9 +30,9 @@
   },
   "UnlimitedMana": false,
   "UnlimitedResource": false,
+  "Facing": true,
   "Tanking": true,
   "TankHitEvery": 2.0,
   "TankHitRage": 30.0,
-  "NbTargets": 1,
-  "Facing": true,
+  "NbTargets": 1
 }

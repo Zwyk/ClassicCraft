@@ -20,21 +20,32 @@
                 <TabItem Header="Simulation setup">
                     <ScrollViewer VerticalScrollBarVisibility="Visible" Padding="4">
                         <StackPanel>
-                            <Grid HorizontalAlignment="Center">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="150" />
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Button Content="⟳" Click="SimRefreshClick" Margin="0,2,10,2" Padding="3 0 3 2" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <ComboBox x:Name="SimCB" SelectionChanged="SimCB_SelectionChanged" Grid.Column="1" SelectedIndex="0" Margin="0 0 10 0" IsEditable="False" IsTextSearchEnabled="True" VerticalAlignment="Center" IsEnabled="True" />
-                                <Button Content="save" Click="SaveSimConfigClick" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <Button Content="load" Click="LoadSimConfigClick" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <Button Content="new" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False" />
-                                <Button Content="copy" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"/>
+                                <Grid HorizontalAlignment="Left" Grid.Column="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="250" />
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Button Content="⟳" Click="SimRefreshClick" Margin="10,2,10,2" Padding="3 0 3 2" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <ComboBox x:Name="SimCB" SelectionChanged="SimCB_SelectionChanged" Grid.Column="1" SelectedIndex="0" Margin="0 0 10 0" IsEditable="False" IsTextSearchEnabled="True" VerticalAlignment="Center" IsEnabled="True" />
+                                    <Button Content="save" Click="SaveSimConfigClick" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <Button Content="load" Click="LoadSimConfigClick" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Grid>
+                                <StackPanel Orientation="Horizontal" Margin="10,2,100,2" Grid.Column="1">
+                                    <TextBox Width="150" x:Name="NewSimName" />
+                                    <Button Content="new" Click="SimNewClick" Margin="10,0,0,0" Padding="3 0 3 0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <Button Content="rename" Click="SimRenameClick" Margin="10,0,0,0" Padding="3 0 3 0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </StackPanel>
+                                <Button Content="delete" Click="SimDeleteClick" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             </Grid>
 
                             <TabControl x:Name="ConfigTabs"  Margin="0 5 0 0" SelectedIndex="0" Grid.Row="0" Grid.ColumnSpan="2">
@@ -90,7 +101,7 @@
                                                 <ColumnDefinition Width="200" />
                                                 <ColumnDefinition Width="100" />
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Text="Stats Weights" ToolTip="If enabled, simulation will do iterations to calculate each stat weight (disables detailed fight stats)" TextWrapping="Wrap" Grid.Column="0" />
+                                            <TextBlock Text="Stats Weights (EP Values)" ToolTip="If enabled, simulation will do iterations to calculate each stat weight (disables detailed fight stats)" TextWrapping="Wrap" Grid.Column="0" />
                                             <CheckBox x:Name="StatsWeights" Grid.Column="1" />
                                         </Grid>
                                     </StackPanel>
@@ -357,47 +368,58 @@
                                     </StackPanel>
                                 </TabItem>
                                 <TabItem Header="Boss debuffs" IsEnabled="True">
-                                    <TextBlock Margin="5 5 0 0" Text="/!\ UNDER DEVELOPMENT, edit the &quot;sim.json&quot; file manually then click the &quot;load&quot; button /!\" TextWrapping="Wrap" />
-                                    <!--
                                     <Grid Margin="2">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Grid.Column="0" Margin="0 0 5 0">
-                                            <CheckBox Grid.Column="0" x:Name="CheckBoxDebuffsPhysical" Click="CheckBoxDebuffsPhysical_Changed">
-                                                <TextBlock Text="Physical" TextWrapping="Wrap" />
-                                            </CheckBox>
+                                            <TextBlock Text="Physical" TextWrapping="Wrap" Margin="10 0 0 0" />
                                             <Border Margin="2" Padding="2" BorderBrush="#D6D6D6" BorderThickness="1" Background="#F2F2F2" CornerRadius="2">
                                                 <StackPanel x:Name="PhysicalDebuffs">
-                                                    <Border Margin="0" Padding="0" BorderBrush="#D6D6D6" BorderThickness="1" Background="#F2F2F2" CornerRadius="2">
-                                                        <StackPanel>
-                                                            <CheckBox x:Name="SunderArmor" Checked="PhysicalDebuff_Changed">
-                                                                <TextBlock Text="Sunder Armor" TextWrapping="Wrap" />
-                                                            </CheckBox>
-                                                            <CheckBox x:Name="ExposeArmor" Checked="PhysicalDebuff_Changed">
-                                                                <TextBlock Text="Expose Armor" TextWrapping="Wrap" />
-                                                            </CheckBox>
-                                                        </StackPanel>
-                                                    </Border>
-                                                    <CheckBox x:Name="CurseOfRecklessness" Margin="1 0 0 0" Checked="PhysicalDebuff_Changed">
-                                                        <TextBlock Text="Curse of Recklessness" TextWrapping="Wrap" />
+                                                    <Grid Margin="1 0 0 0">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Text="Sunder/Expose Armor : " TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="0"/>
+                                                        <ComboBox x:Name="ArmorDebuff" SelectedIndex="0" Width="200" HorizontalAlignment="Left" Grid.Column="1">
+                                                            <ComboBoxItem>None</ComboBoxItem>
+                                                            <ComboBoxItem>Sunder Armor (-2600)</ComboBoxItem>
+                                                            <ComboBoxItem>Expose Armor (-2050)</ComboBoxItem>
+                                                            <ComboBoxItem>Improved Expose Armor (-3075)</ComboBoxItem>
+                                                        </ComboBox>
+                                                    </Grid>
+                                                    <CheckBox x:Name="CurseOfRecklessness" Margin="1 0 0 0">
+                                                        <TextBlock Text="Curse of Recklessness (-800 armor)" TextWrapping="Wrap" />
                                                     </CheckBox>
-                                                    <CheckBox x:Name="FaerieFire" Margin="1 0 0 0" Checked="PhysicalDebuff_Changed">
-                                                        <TextBlock Text="Faerie Fire" TextWrapping="Wrap" />
+                                                    <CheckBox x:Name="FaerieFire" Margin="1 0 0 0">
+                                                        <TextBlock Text="Faerie Fire (-610 armor)" TextWrapping="Wrap" />
                                                     </CheckBox>
-                                                    <CheckBox x:Name="Arthas" Margin="1 0 0 0" Checked="PhysicalDebuff_Changed">
+                                                    <CheckBox x:Name="Annihilator" Margin="1 0 0 0">
+                                                        <TextBlock Text="Annihilator (-600 armor)" TextWrapping="Wrap" />
+                                                    </CheckBox>
+                                                    <CheckBox x:Name="IFF" Margin="1 0 0 0">
+                                                        <TextBlock Text="Improved Faerie Fire (player +3% hit)" TextWrapping="Wrap" />
+                                                    </CheckBox>
+                                                    <CheckBox x:Name="BloodFrenzy" Margin="1 0 0 0">
+                                                        <TextBlock Text="Blood Frenzy (player +4% phys dmg)" TextWrapping="Wrap" />
+                                                    </CheckBox>
+                                                    <CheckBox x:Name="ISoC" Margin="1 0 0 0">
+                                                        <TextBlock Text="Improved Seal of the Crusader (player +2% dmg)" TextWrapping="Wrap" />
+                                                    </CheckBox>
+                                                    <!--
+                                                    <CheckBox x:Name="Arthas" Margin="1 0 0 0">
                                                         <TextBlock Text="Gift of Arthas" TextWrapping="Wrap" />
                                                     </CheckBox>
-                                                    <CheckBox x:Name="Annihilator" Margin="1 0 0 0" Checked="PhysicalDebuff_Changed">
-                                                        <TextBlock Text="Annihilator" TextWrapping="Wrap" />
-                                                    </CheckBox>
+                                                    -->
                                                 </StackPanel>
                                             </Border>
                                         </StackPanel>
                                         <StackPanel Grid.Column="1">
-                                            <CheckBox Grid.Column="0" Content="Magical" x:Name="CheckBoxDebuffsMagical" Click="CheckBoxDebuffsMagical_Changed" />
+                                            <TextBlock Grid.Column="0" Text="Magical" Margin="10 0 0 0" />
                                             <Border Margin="2" Padding="2" BorderBrush="#D2D2D2" BorderThickness="1" Background="#EFEFEF" CornerRadius="2">
+                                                <!--
                                                 <StackPanel x:Name="MagicalDebuffs">
                                                     <CheckBox x:Name="CurseOfElements" Margin="1 0 0 0" Checked="MagicalDebuff_Changed">
                                                         <TextBlock Text="Curse of Elements" TextWrapping="Wrap" />
@@ -422,10 +444,10 @@
                                                         <TextBlock Text="% uptime" Margin="16 0 -20 0" FontSize="10" VerticalAlignment="Center" />
                                                     </TabPanel>
                                                 </StackPanel>
+                                                -->
                                             </Border>
                                         </StackPanel>
                                     </Grid>
-                                    -->
                                 </TabItem>
                             </TabControl>
                         </StackPanel>
@@ -434,21 +456,32 @@
                 <TabItem Header="Player setup">
                     <ScrollViewer VerticalScrollBarVisibility="Visible" Padding="4">
                         <StackPanel>
-                            <Grid HorizontalAlignment="Center">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="150" />
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Button Content="⟳" Click="PlayerRefreshClick" Margin="0,2,10,2" Padding="3 0 3 2" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <ComboBox x:Name="PlayerCB" SelectionChanged="PlayerCB_SelectionChanged" Grid.Column="1" SelectedIndex="0" Margin="0 0 10 0" IsEditable="False" IsTextSearchEnabled="True" VerticalAlignment="Center" IsEnabled="True" />
-                                <Button Content="save" Click="SavePlayerClick" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <Button Content="load" Click="LoadPlayerClick" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <Button Content="new" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False" />
-                                <Button Content="copy" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False" />
+                                <Grid HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="250" />
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Button Content="⟳" Click="PlayerRefreshClick" Margin="10,2,10,2" Padding="3 0 3 2" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <ComboBox x:Name="PlayerCB" SelectionChanged="PlayerCB_SelectionChanged" Grid.Column="1" SelectedIndex="0" Margin="0 0 10 0" IsEditable="False" IsTextSearchEnabled="True" VerticalAlignment="Center" IsEnabled="True" />
+                                    <Button Content="save" Click="SavePlayerClick" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <Button Content="load" Click="LoadPlayerClick" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Grid>
+                                <StackPanel Orientation="Horizontal" Margin="10,2,100,2" Grid.Column="1">
+                                    <TextBox Width="150" x:Name="NewPlayerName" />
+                                    <Button Content="new" Click="PlayerNewClick" Margin="10,0,0,0" Padding="3 0 3 0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    <Button Content="rename" Click="PlayerRenameClick" Margin="10,0,0,0" Padding="3 0 3 0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </StackPanel>
+                                <Button Content="delete" Click="PlayerDeleteClick" Margin="0,2,10,2" Padding="3 0 3 0" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                             </Grid>
                             <TabControl x:Name="PlayerTabs" Margin="0 5 0 0" SelectedIndex="0" Grid.Row="0" Grid.ColumnSpan="2">
                                 <TabItem Header="Player">
@@ -754,7 +787,50 @@
                                     </StackPanel>
                                 </TabItem>
                                 <TabItem Header="Cooldowns" IsEnabled="True">
-                                    <TextBlock Margin="5 5 0 0" Text="/!\ UNDER DEVELOPMENT, edit the &quot;player.json&quot; file manually then click the &quot;load&quot; button /!\" TextWrapping="Wrap" />
+                                    <StackPanel Margin="2">
+                                        <TextBlock Margin="5 5 0 0" Text="/!\ UNDER DEVELOPMENT /!\" TextWrapping="Wrap" />
+                                        <Grid Margin="5 10 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="50" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Potion" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="0"/>
+                                            <ComboBox x:Name="Potion" SelectedIndex="0" Width="150" HorizontalAlignment="Left" Grid.Column="1">
+                                                <ComboBoxItem>None</ComboBoxItem>
+                                                <ComboBoxItem>Haste Potion</ComboBoxItem>
+                                                <ComboBoxItem>Insane Strength Potion</ComboBoxItem>
+                                                <ComboBoxItem>Mighty Rage Potion</ComboBoxItem>
+                                            </ComboBox>
+                                        </Grid>
+                                        <Grid Margin="5 5 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="50" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Drums" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="0"/>
+                                            <ComboBox x:Name="Drums" SelectedIndex="0" Width="150" HorizontalAlignment="Left" Grid.Column="1">
+                                                <ComboBoxItem>None</ComboBoxItem>
+                                                <ComboBoxItem>Drums of Battle</ComboBoxItem>
+                                                <ComboBoxItem>Drums of War</ComboBoxItem>
+                                            </ComboBox>
+                                        </Grid>
+                                        <CheckBox x:Name="Bloodlust" Margin="5 5 0 0">
+                                            <TextBlock Text="Bloodlust (cast by a Shaman in your group)" TextWrapping="Wrap" />
+                                        </CheckBox>
+                                        <CheckBox x:Name="Racial" Margin="5 2 0 0">
+                                            <TextBlock Text="Racial" TextWrapping="Wrap" />
+                                        </CheckBox>
+                                        <CheckBox x:Name="DeathWish" Margin="5 10 0 0">
+                                            <TextBlock Text="Death Wish" TextWrapping="Wrap" />
+                                        </CheckBox>
+                                        <CheckBox x:Name="Recklessness" Margin="5 2 0 0">
+                                            <TextBlock Text="Recklessness" TextWrapping="Wrap" />
+                                        </CheckBox>
+                                        <CheckBox x:Name="ShieldBlock" Margin="5 10 0 0">
+                                            <TextBlock Text="Shield Block (used if tanking with a shield to emulate rage loss)" TextWrapping="Wrap" />
+                                        </CheckBox>
+                                    </StackPanel>
+
                                     <!--
                                     <StackPanel Margin="2">
                                         <Grid>
@@ -798,167 +874,161 @@
                                     -->
                                 </TabItem>
                                 <TabItem Header="Buffs" IsEnabled="True">
-                                    <TextBlock Margin="5 5 0 0" Text="/!\ UNDER DEVELOPMENT, edit the &quot;player.json&quot; file manually then click the &quot;load&quot; button /!\" TextWrapping="Wrap" />
-                                    <!--<Grid Margin="2">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel Grid.Column="0" Margin="0 0 5 0">
-                                            <CheckBox Grid.Column="0" x:Name="CheckBoxWorldBuffs" Click="CheckBoxWorldBuffs_Changed" >
-                                                <TextBlock Text="World Buffs" />
-                                            </CheckBox>
-                                            <Border Margin="2" Padding="2" BorderBrush="#D6D6D6" BorderThickness="1" Background="#F2F2F2" CornerRadius="2">
-                                                <StackPanel x:Name="WorldBuffs">
-                                                    <CheckBox Margin="1 0 0 0" Click="WorldBuff_Changed">
-                                                        <TextBlock Text="DM AP" TextWrapping="Wrap" />
-                                                    </CheckBox>
-                                                    <CheckBox Margin="1 0 0 0" Click="WorldBuff_Changed">
-                                                        <TextBlock Text="DM SP" TextWrapping="Wrap" />
-                                                    </CheckBox>
-                                                    <CheckBox Margin="1 0 0 0" Click="WorldBuff_Changed">
-                                                        <TextBlock Text="Ony/Nef" TextWrapping="Wrap" />
-                                                    </CheckBox>
-                                                    <CheckBox Margin="1 0 0 0" Click="WorldBuff_Changed">
-                                                        <TextBlock Text="ZG" TextWrapping="Wrap" />
-                                                    </CheckBox>
-                                                    <CheckBox Margin="1 0 0 0" Click="WorldBuff_Changed">
-                                                        <TextBlock Text="Rend" TextWrapping="Wrap" />
-                                                    </CheckBox>
-                                                    <CheckBox Margin="1 0 0 0" Click="WorldBuff_Changed">
-                                                        <TextBlock Text="Songflower" TextWrapping="Wrap" />
-                                                    </CheckBox>
-                                                    <Border Margin="0" Padding="0" BorderBrush="#D6D6D6" BorderThickness="1" Background="#F2F2F2" CornerRadius="2">
-                                                        <StackPanel>
-                                                            <CheckBox Margin="0 0 0 0" x:Name="DMFStr" Checked="WorldBuff_Changed">
-                                                                <TextBlock Text="DMF Strength" TextWrapping="Wrap" />
-                                                            </CheckBox>
-                                                            <CheckBox Margin="0 0 0 0" x:Name="DMFAgi" Checked="WorldBuff_Changed">
-                                                                <TextBlock Text="DMF Agility" TextWrapping="Wrap" />
-                                                            </CheckBox>
-                                                            <CheckBox Margin="0 0 0 0" x:Name="DMFInt" Checked="WorldBuff_Changed">
-                                                                <TextBlock Text="DMF Intellect" TextWrapping="Wrap" />
-                                                            </CheckBox>
-                                                            <CheckBox Margin="0 0 0 0" x:Name="DMFSpi" Checked="WorldBuff_Changed">
-                                                                <TextBlock Text="DMF Spirit" TextWrapping="Wrap" />
-                                                            </CheckBox>
-                                                            <CheckBox Margin="0 0 0 0" x:Name="DMFDmg" Checked="WorldBuff_Changed">
-                                                                <TextBlock Text="DMF Damage" TextWrapping="Wrap" />
-                                                            </CheckBox>
-                                                        </StackPanel>
-                                                    </Border>
-                                                </StackPanel>
-                                            </Border>
-                                        </StackPanel>
-                                        <StackPanel Grid.Column="1" Margin="0 0 5 0">
-                                            <CheckBox Grid.Column="0" Content="Raid Buffs" x:Name="CheckBoxRaidBuffs" Click="CheckBoxRaidBuffs_Changed" />
-                                            <Border Margin="2" Padding="2" BorderBrush="#D6D6D6" BorderThickness="1" Background="#F2F2F2" CornerRadius="2">
-                                                <StackPanel x:Name="RaidBuffs">
-                                                    <CheckBox Margin="1 0 0 0" Checked="RaidBuff_Changed">
-                                                        <TextBlock Text="Mark of the Wild" TextWrapping="Wrap" />
-                                                    </CheckBox>
-                                                    <CheckBox Margin="1 0 0 0" Checked="RaidBuff_Changed">
-                                                        <TextBlock Text="Arcane Intellect" TextWrapping="Wrap" />
-                                                    </CheckBox>
-                                                    <CheckBox Margin="1 0 0 0" Checked="RaidBuff_Changed">
-                                                        <TextBlock Text="Divine Spirit" TextWrapping="Wrap" />
-                                                    </CheckBox>
-                                                    <CheckBox Margin="1 0 0 0" Checked="RaidBuff_Changed">
-                                                        <TextBlock Text="Blessing of Kings" TextWrapping="Wrap" />
-                                                    </CheckBox>
-                                                    <CheckBox Margin="1 0 0 0" Checked="RaidBuff_Changed">
-                                                        <TextBlock Text="Blessing of Might" TextWrapping="Wrap" />
-                                                    </CheckBox>
-                                                    <CheckBox Margin="1 0 0 0" Checked="RaidBuff_Changed">
-                                                        <TextBlock Text="Blessing of Wisdom" TextWrapping="Wrap" />
-                                                    </CheckBox>
-                                                    <CheckBox Margin="1 0 0 0" Checked="RaidBuff_Changed">
-                                                        <TextBlock Text="Windfury Totem" TextWrapping="Wrap" />
-                                                    </CheckBox>
-                                                    <CheckBox Margin="1 0 0 0" Checked="RaidBuff_Changed">
-                                                        <TextBlock Text="Agility Totem" TextWrapping="Wrap" />
-                                                    </CheckBox>
-                                                    <CheckBox Margin="1 0 0 0" Checked="RaidBuff_Changed">
-                                                        <TextBlock Text="Strength Totem" TextWrapping="Wrap" />
-                                                    </CheckBox>
-                                                    <CheckBox Margin="1 0 0 0" Checked="RaidBuff_Changed">
-                                                        <TextBlock Text="MP5 Totem" TextWrapping="Wrap" />
-                                                    </CheckBox>
-                                                    <CheckBox Margin="1 0 0 0" Checked="RaidBuff_Changed">
-                                                        <TextBlock Text="Battle Shout" TextWrapping="Wrap" />
-                                                    </CheckBox>
-                                                    <CheckBox Margin="1 0 0 0" Checked="RaidBuff_Changed">
-                                                        <TextBlock Text="Trueshot Aura" TextWrapping="Wrap" />
-                                                    </CheckBox>
-                                                </StackPanel>
-                                            </Border>
-                                        </StackPanel>
-                                        <StackPanel Grid.Column="2" Margin="0 0 5 0">
-                                            <CheckBox Grid.Column="0" Content="Consumables" x:Name="CheckBoxConsumables" Checked="CheckBoxConsumables_Changed" Unchecked="CheckBoxConsumables_Changed" />
-                                            <Border Margin="2" Padding="2" BorderBrush="#D2D2D2" BorderThickness="1" Background="#EFEFEF" CornerRadius="2">
-                                                <StackPanel x:Name="Consumables">
-                                                    <Border Margin="0" Padding="0" BorderBrush="#D6D6D6" BorderThickness="1" Background="#F2F2F2" CornerRadius="2">
-                                                        <StackPanel>
-                                                            <CheckBox x:Name="BL1" Margin="1 0 0 0" Checked="Consumable_Changed">
-                                                                <TextBlock Text="Spirit of Zanza" TextWrapping="Wrap" />
-                                                            </CheckBox>
-                                                            <CheckBox x:Name="BL2" Margin="1 0 0 0" Checked="Consumable_Changed">
-                                                                <TextBlock Text="Ground Scorpok Assay" TextWrapping="Wrap" />
-                                                            </CheckBox>
-                                                            <CheckBox x:Name="BL3" Margin="1 0 0 0" Checked="Consumable_Changed">
-                                                                <TextBlock Text="R.O.I.D.S" TextWrapping="Wrap" />
-                                                            </CheckBox>
-                                                        </StackPanel>
-                                                    </Border>
-                                                    <Border Margin="0" Padding="0" BorderBrush="#D6D6D6" BorderThickness="1" Background="#F2F2F2" CornerRadius="2">
-                                                        <StackPanel>
-                                                            <CheckBox x:Name="Agi1" Margin="1 0 0 0" Checked="Consumable_Changed">
-                                                                <TextBlock Text="Elixir of Greater Agility" TextWrapping="Wrap" />
-                                                            </CheckBox>
-                                                            <CheckBox x:Name="Agi2" Margin="1 0 0 0" Checked="Consumable_Changed">
-                                                                <TextBlock Text="Elixir of the Mongoose" TextWrapping="Wrap" />
-                                                            </CheckBox>
-                                                        </StackPanel>
-                                                    </Border>
-                                                    <Border Margin="0" Padding="0" BorderBrush="#D6D6D6" BorderThickness="1" Background="#F2F2F2" CornerRadius="2">
-                                                        <StackPanel>
-                                                            <CheckBox x:Name="Str1" Margin="1 0 0 0" Checked="Consumable_Changed">
-                                                                <TextBlock Text="Elixir of Giants" TextWrapping="Wrap" />
-                                                            </CheckBox>
-                                                            <CheckBox x:Name="Str2" Margin="1 0 0 0" Checked="Consumable_Changed">
-                                                                <TextBlock Text="Juju Power" TextWrapping="Wrap" />
-                                                            </CheckBox>
-                                                        </StackPanel>
-                                                    </Border>
-                                                    <Border Margin="0" Padding="0" BorderBrush="#D6D6D6" BorderThickness="1" Background="#F2F2F2" CornerRadius="2">
-                                                        <StackPanel>
-                                                            <CheckBox x:Name="AP1" Margin="1 0 0 0" Checked="Consumable_Changed">
-                                                                <TextBlock Text="Juju Might" TextWrapping="Wrap" />
-                                                            </CheckBox>
-                                                            <CheckBox x:Name="AP2" Margin="1 0 0 0" Checked="Consumable_Changed">
-                                                                <TextBlock Text="Winterfall Firewater" TextWrapping="Wrap" />
-                                                            </CheckBox>
-                                                        </StackPanel>
-                                                    </Border>
-                                                    <Border Margin="0" Padding="0" BorderBrush="#D6D6D6" BorderThickness="1" Background="#F2F2F2" CornerRadius="2">
-                                                        <StackPanel>
-                                                            <CheckBox x:Name="Food1" Margin="1 0 0 0" Checked="Consumable_Changed">
-                                                                <TextBlock Text="Grilled Squid" TextWrapping="Wrap" />
-                                                            </CheckBox>
-                                                            <CheckBox x:Name="Food2" Margin="1 0 0 0" Checked="Consumable_Changed">
-                                                                <TextBlock Text="Blessed Sunfruit" TextWrapping="Wrap" />
-                                                            </CheckBox>
-                                                            <CheckBox x:Name="Food3" Margin="1 0 0 0" Checked="Consumable_Changed">
-                                                                <TextBlock Text="Smoked Desert Dumplings" TextWrapping="Wrap" />
-                                                            </CheckBox>
-                                                        </StackPanel>
-                                                    </Border>
-                                                </StackPanel>
-                                            </Border>
-                                        </StackPanel>
-                                    </Grid>
-                                    -->
+                                    <StackPanel Grid.Column="0" Margin="2 2 2 2">
+                                        <TextBlock Margin="5 5 0 0" Text="/!\ UNDER DEVELOPMENT /!\" TextWrapping="Wrap" />
+                                        <Grid Margin="5 10 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Flask/Elixir" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="0"/>
+                                            <ComboBox x:Name="FlaskElixir" SelectedIndex="0" Width="250" HorizontalAlignment="Left" Grid.Column="1">
+                                                <ComboBoxItem>None</ComboBoxItem>
+                                                <ComboBoxItem>Flask of Relentless Assault (+120 AP)</ComboBoxItem>
+                                                <ComboBoxItem>Elixir of Major Agility (+35 Agi / +20 Crit)</ComboBoxItem>
+                                            </ComboBox>
+                                        </Grid>
+                                        <Grid Margin="5 5 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Food" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="0"/>
+                                            <ComboBox x:Name="Food" SelectedIndex="0" Width="250" HorizontalAlignment="Left" Grid.Column="1">
+                                                <ComboBoxItem>None</ComboBoxItem>
+                                                <ComboBoxItem>+20 Str</ComboBoxItem>
+                                                <ComboBoxItem>+40 AP</ComboBoxItem>
+                                                <ComboBoxItem>+20 Hit</ComboBoxItem>
+                                                <ComboBoxItem>+20 Agi</ComboBoxItem>
+                                            </ComboBox>
+                                        </Grid>
+                                        <Grid Margin="5 5 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Battle Shout" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="0"/>
+                                            <ComboBox x:Name="BattleShout" SelectedIndex="0" Width="250" HorizontalAlignment="Left" Grid.Column="1">
+                                                <ComboBoxItem>None</ComboBoxItem>
+                                                <ComboBoxItem>+306 AP (0/5)</ComboBoxItem>
+                                                <ComboBoxItem>+382 AP (5/5)</ComboBoxItem>
+                                            </ComboBox>
+                                        </Grid>
+                                        <Grid Margin="5 5 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Blessing of Might" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="0"/>
+                                            <ComboBox x:Name="Might" SelectedIndex="0" Width="250" HorizontalAlignment="Left" Grid.Column="1">
+                                                <ComboBoxItem>None</ComboBoxItem>
+                                                <ComboBoxItem>+220 AP (0/5)</ComboBoxItem>
+                                                <ComboBoxItem>+264 AP (5/5)</ComboBoxItem>
+                                            </ComboBox>
+                                        </Grid>
+                                        <Grid Margin="5 5 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Mark of the Wild " TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="0"/>
+                                            <ComboBox x:Name="MotW" SelectedIndex="0" Width="250" HorizontalAlignment="Left" Grid.Column="1">
+                                                <ComboBoxItem>None</ComboBoxItem>
+                                                <ComboBoxItem>+14 All stats (0/5)</ComboBoxItem>
+                                                <ComboBoxItem>+18 All stats (5/5)</ComboBoxItem>
+                                            </ComboBox>
+                                        </Grid>
+                                        <Grid Margin="5 5 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Strength Totem" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="0"/>
+                                            <ComboBox x:Name="TotemStr" SelectedIndex="0" Width="250" HorizontalAlignment="Left" Grid.Column="1">
+                                                <ComboBoxItem>None</ComboBoxItem>
+                                                <ComboBoxItem>+86 Str (0/2)</ComboBoxItem>
+                                                <ComboBoxItem>+98 Str (2/2)</ComboBoxItem>
+                                            </ComboBox>
+                                        </Grid>
+                                        <Grid Margin="5 5 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Agility Totem " TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="0"/>
+                                            <ComboBox x:Name="TotemAgi" SelectedIndex="0" Width="250" HorizontalAlignment="Left" Grid.Column="1">
+                                                <ComboBoxItem>None</ComboBoxItem>
+                                                <ComboBoxItem>+77 Agi (0/2)</ComboBoxItem>
+                                                <ComboBoxItem>+88 Agi (2/2)</ComboBoxItem>
+                                            </ComboBox>
+                                        </Grid>
+                                        <Grid Margin="5 5 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Windfury Totem" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="0"/>
+                                            <ComboBox x:Name="Windfury" SelectedIndex="0" Width="250" HorizontalAlignment="Left" Grid.Column="1">
+                                                <ComboBoxItem>None</ComboBoxItem>
+                                                <ComboBoxItem>+445 AP (0/2)</ComboBoxItem>
+                                                <ComboBoxItem>+578 AP (2/2)</ComboBoxItem>
+                                            </ComboBox>
+                                        </Grid>
+                                        <Grid Margin="5 5 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Ferocious Inspiration (+3% dmg)" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="0"/>
+                                            <ComboBox x:Name="Ferocious" SelectedIndex="0" Width="250" HorizontalAlignment="Left" Grid.Column="1">
+                                                <ComboBoxItem>None</ComboBoxItem>
+                                                <ComboBoxItem>1</ComboBoxItem>
+                                                <ComboBoxItem>2</ComboBoxItem>
+                                                <ComboBoxItem>3</ComboBoxItem>
+                                                <ComboBoxItem>4</ComboBoxItem>
+                                            </ComboBox>
+                                        </Grid>
+                                        <Grid Margin="5 5 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Blessing of Kings (+10% All stats)" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="0"/>
+                                            <CheckBox x:Name="Kings" Grid.Column="1" />
+                                        </Grid>
+                                        <Grid Margin="5 5 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Trueshot Aura (+125 AP)" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="0"/>
+                                            <CheckBox x:Name="Trueshot" Grid.Column="1" />
+                                        </Grid>
+                                        <Grid Margin="5 5 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Leader of the Pack (+5% Crit)" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="0"/>
+                                            <CheckBox x:Name="LotP" Grid.Column="1" />
+                                        </Grid>
+                                        <Grid Margin="5 5 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Unleashed Rage (+10% AP)" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="0"/>
+                                            <CheckBox x:Name="Unleashed" Grid.Column="1" />
+                                        </Grid>
+                                        <Grid Margin="5 5 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Improved Sanctity Aura (+2% dmg)" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="0"/>
+                                            <CheckBox x:Name="ISA" Grid.Column="1" />
+                                        </Grid>
+                                    </StackPanel>
                                 </TabItem>
                             </TabControl>
                         </StackPanel>

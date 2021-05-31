@@ -278,59 +278,26 @@ namespace ClassicCraft
                     buffs.Add(new Enchantment(0, headGems.Name, null));
                 }
 
-                bool windfurytotem = jp.Buffs != null && jp.Buffs.Any(b => b.Name.ToLower().Equals("windfury totem"));
                 List<string> cooldowns = jp.Cooldowns.Where(v => v.Value == true).Select(c => c.Key).ToList();
                 
                 switch(Player.ToClass(jp.Class))
                 {
                     case Player.Classes.Druid:
-                        return new Druid(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing)
-                        {
-                            WindfuryTotem = windfurytotem,
-                            Cooldowns = cooldowns
-                        };
+                        return new Druid(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns);
                     case Player.Classes.Hunter:
-                        return new Hunter(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing)
-                        {
-                            WindfuryTotem = windfurytotem,
-                            Cooldowns = cooldowns
-                        };
+                        return new Hunter(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns);
                     case Player.Classes.Paladin:
-                        return new Paladin(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing)
-                        {
-                            WindfuryTotem = windfurytotem,
-                            Cooldowns = cooldowns
-                        };
+                        return new Paladin(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns);
                     case Player.Classes.Priest:
-                        return new Priest(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing)
-                        {
-                            WindfuryTotem = windfurytotem,
-                            Cooldowns = cooldowns
-                        };
+                        return new Priest(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns);
                     case Player.Classes.Rogue:
-                        return new Rogue(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing)
-                        {
-                            WindfuryTotem = windfurytotem,
-                            Cooldowns = cooldowns
-                        };
+                        return new Rogue(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns);
                     case Player.Classes.Shaman:
-                        return new Shaman(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing)
-                        {
-                            WindfuryTotem = windfurytotem,
-                            Cooldowns = cooldowns
-                        };
+                        return new Shaman(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns);
                     case Player.Classes.Warlock:
-                        return new Warlock(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing)
-                        {
-                            WindfuryTotem = windfurytotem,
-                            Cooldowns = cooldowns
-                        };
+                        return new Warlock(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns);
                     case Player.Classes.Warrior:
-                        return new Warrior(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing)
-                        {
-                            WindfuryTotem = windfurytotem,
-                            Cooldowns = cooldowns
-                        };
+                        return new Warrior(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns);
                     default:
                         throw new NotImplementedException("This class isn't supported yet : " + Player.ToClass(jp.Class));
                 }

@@ -15,7 +15,7 @@ namespace ClassicCraft
         public static double AP_RATIO_PER_POINTS = 0.03;
 
         public Envenom(Player p)
-            : base(p, CD, BASE_COST) { }
+            : base(p, CD, BASE_COST - (p.NbSet("Assassination") >= 4 ? 10 : 0)) { }
 
         public override void DoAction()
         {

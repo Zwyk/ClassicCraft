@@ -38,8 +38,8 @@ namespace ClassicCraft
         {
         }
 
-        public Warrior(Simulation s = null, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false)
-            : base(s, Classes.Warrior, r, level, items, talents, buffs, tanking, facing)
+        public Warrior(Simulation s = null, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false, List<string> cooldowns = null)
+            : base(s, Classes.Warrior, r, level, items, talents, buffs, tanking, facing, cooldowns)
         {
         }
 
@@ -195,7 +195,7 @@ namespace ClassicCraft
                     {
                         case "Death Wish": if (Talents["DeathWish"] > 0) cds.Add(new DeathWish(this), DeathWishBuff.LENGTH); break;
                         case "Juju Flurry": cds.Add(new JujuFlurry(this), JujuFlurryBuff.LENGTH); break;
-                        case "Mighty Rage": cds.Add(new MightyRage(this), MightyRageBuff.LENGTH); break;
+                        case "Mighty Rage Potion": cds.Add(new MightyRage(this), MightyRageBuff.LENGTH); break;
                         case "Recklessness": cds.Add(new Recklessness(this), RecklessnessBuff.LENGTH); break;
                         case "Shield Block": cds.Add(new ShieldBlock(this), 5); break;
                         case "Racial":

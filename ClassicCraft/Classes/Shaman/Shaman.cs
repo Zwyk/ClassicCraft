@@ -18,8 +18,8 @@ namespace ClassicCraft
         {
         }
 
-        public Shaman(Simulation s = null, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false)
-            : base(s, Classes.Shaman, r, level, items, talents, buffs, tanking, facing)
+        public Shaman(Simulation s = null, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false, List<string> cooldowns = null)
+            : base(s, Classes.Shaman, r, level, items, talents, buffs, tanking, facing, cooldowns)
         {
         }
 

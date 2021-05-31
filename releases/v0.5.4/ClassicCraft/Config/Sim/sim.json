@@ -2,10 +2,11 @@
   "FightLength": 240.0,
   "FightLengthMod": 0.1,
   "NbSim": 1,
+  "Threat": false,
   "StatsWeights": false,
   "TargetErrorPct": 0.5,
-  "TargetError": false,
-  "LogFight": true,
+  "TargetError": true,
+  "LogFight": false,
   "BossAutoLife": true,
   "BossLowLifeTime": 0.0,
   "Boss": {
@@ -15,7 +16,7 @@
     "Debuffs": {
       "Sunder Armor": true,
       "Expose Armor": false,
-      "Improved Expose Armor": true,
+      "Improved Expose Armor": false,
       "Faerie Fire": true,
       "Improved Faerie Fire": true,
       "Curse of Recklessness": true,
@@ -29,10 +30,9 @@
   },
   "UnlimitedMana": false,
   "UnlimitedResource": false,
-  "Tanking": false,
+  "Facing": true,
+  "Tanking": true,
   "TankHitEvery": 2.0,
   "TankHitRage": 30.0,
-  "NbTargets": 1,
-  "Facing": false,
-  "Threat": false,
+  "NbTargets": 1
 }
