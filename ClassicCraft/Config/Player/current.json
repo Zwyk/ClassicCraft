@@ -110,14 +110,14 @@
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 184.0,
-      "DamageMax": 343.0,
+      "DamageMin": 172.0,
+      "DamageMax": 320.0,
       "Speed": 2.7,
       "TwoHanded": false,
       "Type": "Mace",
       "Buff": null,
       "School": null,
-      "Name": "Dragonstrike",
+      "Name": "Dragonmaw",
       "Id": 5,
       "Slot": "Weapon",
       "Stats": {},
@@ -154,15 +154,15 @@
       "DamageMax": 0.0,
       "Speed": 0.0,
       "TwoHanded": false,
-      "Type": "Bow",
+      "Type": "Gun",
       "Buff": null,
       "School": null,
-      "Name": "Serpen Spine",
+      "Name": "Shuriken",
       "Id": 6,
       "Slot": "Ranged",
       "Stats": {
-        "Crit": 16.0,
-        "AP": 38.0
+        "Hit": 12.0,
+        "Crit": 20.0
       },
       "Enchantment": null,
       "Gems": null
@@ -170,13 +170,13 @@
   },
   "Equipment": {
     "Head": {
-      "Name": "Destroyer Helm",
+      "Name": "Goggles",
       "Id": 0,
       "Slot": "Head",
       "Stats": {
-        "Str": 47.0,
-        "Crit": 36.0,
-        "Hit": 21.0
+        "Str": 48.0,
+        "Crit": 38.0,
+        "Hit": 13.0
       },
       "Enchantment": {
         "Id": 4,
@@ -193,7 +193,8 @@
         "Slot": "Head",
         "Stats": {
           "Agi": 12.0,
-          "Str": 8.0
+          "Crit": 4.0,
+          "Str": 4.0
         }
       }
     },
@@ -203,19 +204,19 @@
       "Slot": "Neck",
       "Stats": {
         "Str": 32.0,
-        "Crit": 23.0
+        "Crit": 23.0,
       },
       "Enchantment": null,
       "Gems": null
     },
     "Shoulders": {
-      "Name": "Destroyer",
+      "Name": "Warbringer",
       "Id": 2,
       "Slot": "Shoulders",
       "Stats": {
-        "Str": 36.0,
-        "Hit": 18.0,
-        "Crit": 20.0,
+        "Str": 32.0,
+        "Hit": 13.0,
+        "Agi": 22.0
       },
       "Enchantment": {
         "Id": 4,
@@ -246,7 +247,7 @@
       },
       "Enchantment": {
         "Id": 5,
-        "Name": "Greater Agi",
+        "Name": "Greater Agility",
         "Slot": "Back",
         "Stats": {
           "Agi": 12.0
@@ -264,13 +265,12 @@
       }
     },
     "Chest": {
-      "Name": "Destroyer Chest",
+      "Name": "Warbringer",
       "Id": 4,
       "Slot": "Chest",
       "Stats": {
-        "Str": 50.0,
-        "Crit": 33.0,
-        "Hit": 15.0
+        "Str": 44.0,
+        "Crit": 26.0
       },
       "Enchantment": {
         "Id": 6,
@@ -288,8 +288,8 @@
         "Name": "Gems",
         "Slot": "Chest",
         "Stats": {
-          "Str": 16.0,
-          "Crit": 8.0
+          "Str": 12.0,
+          "Crit": 12.0
         }
       }
     },
@@ -300,7 +300,7 @@
       "Stats": {
         "Str": 25.0,
         "Crit": 24.0,
-        "Hit": 17.0
+        "Hit": 17.0,
       },
       "Enchantment": {
         "Id": 7,
@@ -316,17 +316,17 @@
         "Slot": "Wrists",
         "Stats": {
           "Str": 4.0,
-          "Crit": 4.0
+          "Crit": 4.0,
         }
       }
     },
     "Hands": {
-      "Name": "Destroyer Hands",
+      "Name": "Martial",
       "Id": 6,
       "Slot": "Hands",
       "Stats": {
-        "Str": 44.0,
-        "Crit": 30.0
+        "Str": 36.0,
+        "Crit": 23.0,
       },
       "Enchantment": {
         "Id": 8,
@@ -340,17 +340,19 @@
         "Id": 8,
         "Name": "Gems",
         "Slot": "Hands",
-        "Stats": {}
+        "Stats": {
+          "Str": 8.0,
+          "Crit": 8.0,
+        }
       }
     },
     "Waist": {
-      "Name": "Hundred Deaths",
+      "Name": "Endless Pit",
       "Id": 7,
       "Slot": "Waist",
       "Stats": {
-        "Agi": 29.0,
-        "Expertise": 25.0,
-        "AP": 74.0
+        "Str": 34.0,
+        "Crit": 28.0
       },
       "Enchantment": null,
       "Gems": {
@@ -364,21 +366,20 @@
       }
     },
     "Legs": {
-      "Name": "Murderous",
+      "Name": "Bloodwarder",
       "Id": 8,
       "Slot": "Legs",
       "Stats": {
-        "Agi": 45.0,
-        "Crit": 37.0,
-        "AP": 92.0
+        "Crit": 31.0,
+        "Str": 49.0,
       },
       "Enchantment": {
         "Id": 8,
         "Name": "Cobrahide",
         "Slot": "Legs",
         "Stats": {
-          "AP": 50.0,
-          "Crit": 12.0
+          "AP": 40.0,
+          "Crit": 10.0
         }
       },
       "Gems": {
@@ -386,16 +387,19 @@
         "Name": "Gems",
         "Slot": "Legs",
         "Stats": {
+          "Crit": 8.0,
+          "Str": 16.0
         }
       }
     },
     "Feet": {
-      "Name": "Obliteration",
+      "Name": "Edgewalker",
       "Id": 9,
       "Slot": "Feet",
       "Stats": {
-        "Str": 44.0,
-        "Crit": 31.0
+        "Agi": 29.0,
+        "Hit": 13.0,
+        "AP": 44.0
       },
       "Enchantment": {
         "Id": 8,
@@ -409,50 +413,53 @@
         "Id": 8,
         "Name": "Str",
         "Slot": "Feet",
-        "Stats": {}
+        "Stats": {
+          "Str": 8.0,
+          "Crit": 8.0,
+          "Hit": 3.0
+        }
       }
     },
     "Finger1": {
-      "Name": "Thounsand Marks",
+      "Name": "Unscarred",
       "Id": 10,
       "Slot": "Finger",
       "Stats": {
-        "Crit": 23.0,
-        "Hit": 19.0,
-        "AP": 44.0
+        "Str": 25.0,
+        "Crit": 20.0
       },
       "Enchantment": null,
       "Gems": null
     },
     "Finger2": {
-      "Name": "Band of the Ranger-General",
+      "Name": "Thousand",
       "Id": 10,
       "Slot": "Finger",
       "Stats": {
-        "Crit": 28.0,
-        "Hit": 18.0,
-        "AP": 56.0
+        "Crit": 23.0,
+        "AP": 44.0,
+        "Hit": 19
       },
       "Enchantment": null,
       "Gems": null
     },
     "Trinket1": {
-      "Name": "Tsunami Talisman",
+      "Name": "Dragonspine Trophy",
       "Id": 12,
       "Slot": "Trinket",
       "Stats": {
-        "Crit": 38.0,
-        "Hit": 10.0
+        "AP": 40.0
       },
       "Enchantment": null,
       "Gems": null
     },
     "Trinket2": {
-      "Name": "Dragonspine Trophy",
-      "Id": 13,
+      "Name": "Tsunami Talisman",
+      "Id": 12,
       "Slot": "Trinket",
       "Stats": {
-        "AP": 40.0
+        "Crit": 38.0,
+        "Hit": 10,
       },
       "Enchantment": null,
       "Gems": null

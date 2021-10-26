@@ -53,7 +53,10 @@ namespace ClassicCraft
         
         public override double GetExternalModifiers()
         {
-            return base.GetExternalModifiers() * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen));
+            return base.GetExternalModifiers()
+                * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen)
+                * (Target.Effects.ContainsKey("Mangle") ? 1.3 : 1)
+                );
         }
     }
 }

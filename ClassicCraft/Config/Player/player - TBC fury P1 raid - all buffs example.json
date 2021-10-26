@@ -34,7 +34,7 @@
     },
     {
       "Id": 0,
-      "Name": "Battle SHout",
+      "Name": "Battle Shout",
       "Slot": "Any",
       "Stats": {
         "AP": 382.0
@@ -57,6 +57,22 @@
         "Agi": 18.0,
         "Int": 18.0,
         "Spi": 18.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Totem Strength",
+      "Slot": "Any",
+      "Stats": {
+        "Str": 98.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Totem Agility",
+      "Slot": "Any",
+      "Stats": {
+        "Agi": 88.0
       }
     },
     {

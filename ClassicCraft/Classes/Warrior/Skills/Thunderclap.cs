@@ -17,7 +17,7 @@ namespace ClassicCraft
         public static int MAX_TARGETS = 4;
 
         public Thunderclap(Player p)
-            : base(p, CD, BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("ITC") > 2 ? 4 : p.GetTalentPoints("ITC") : 0))
+            : base(p, CD, BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") + (p.GetTalentPoints("ITC") > 2 ? 4 : p.GetTalentPoints("ITC")) : 0))
         {
         }
 

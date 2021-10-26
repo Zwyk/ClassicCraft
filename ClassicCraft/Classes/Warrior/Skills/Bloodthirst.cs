@@ -54,6 +54,27 @@ namespace ClassicCraft
             Player.CheckOnHits(true, false, res);
 
             SweepingStrikesBuff.CheckProc(Player, damage, res);
+
+            if ((Player.Equipment[Player.Slot.Trinket1]?.Name.ToLower() == "ashtongue talisman of valor" || Player.Equipment[Player.Slot.Trinket2]?.Name.ToLower() == "ashtongue talisman of valor")
+                && Randomer.NextDouble() < 0.25)
+            {
+                string procName = "Ashtongue Talisman of Valor";
+                Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.Strength, 55 }
+                        };
+                int procDuration = 12;
+
+                if (Player.Effects.ContainsKey(procName))
+                {
+                    Player.Effects[procName].Refresh();
+                }
+                else
+                {
+                    CustomStatsBuff buff = new CustomStatsBuff(Player, procName, procDuration, 1, attributes);
+                    buff.StartEffect();
+                }
+            }
         }
 
         public override string ToString()

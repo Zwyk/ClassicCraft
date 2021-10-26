@@ -209,13 +209,14 @@
       "Gems": null
     },
     "Shoulders": {
-      "Name": "Destroyer",
+      "Name": "Stranger",
       "Id": 2,
       "Slot": "Shoulders",
       "Stats": {
-        "Str": 36.0,
-        "Hit": 18.0,
-        "Crit": 20.0,
+        "Agi": 33.0,
+        "Crit": 16.0,
+        "Expertise": 10.0,
+        "AP": 60.0
       },
       "Enchantment": {
         "Id": 4,
@@ -231,8 +232,9 @@
         "Name": "Gems",
         "Slot": "Shoulders",
         "Stats": {
-          "Str": 8.0,
-          "Crit": 8.0,
+          "Str": 4.0,
+          "Crit": 4.0,
+          "Agi": 2.0
         }
       }
     },
@@ -264,13 +266,13 @@
       }
     },
     "Chest": {
-      "Name": "Destroyer Chest",
+      "Name": "Bloodsea",
       "Id": 4,
       "Slot": "Chest",
       "Stats": {
-        "Str": 50.0,
-        "Crit": 33.0,
-        "Hit": 15.0
+        "AP": 92.0,
+        "Crit": 36.0,
+        "Hit": 27.0
       },
       "Enchantment": {
         "Id": 6,
@@ -288,8 +290,9 @@
         "Name": "Gems",
         "Slot": "Chest",
         "Stats": {
-          "Str": 16.0,
-          "Crit": 8.0
+          "Str": 12.0,
+          "Crit": 8.0,
+          "AP": 8
         }
       }
     },
@@ -321,12 +324,12 @@
       }
     },
     "Hands": {
-      "Name": "Destroyer Hands",
+      "Name": "Searing",
       "Id": 6,
       "Slot": "Hands",
       "Stats": {
-        "Str": 44.0,
-        "Crit": 30.0
+        "Expertise": 18.0,
+        "AP": 66.0
       },
       "Enchantment": {
         "Id": 8,

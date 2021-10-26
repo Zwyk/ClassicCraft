@@ -1403,6 +1403,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <ProgressBar x:Name="ProgressBar" Grid.Column="0" Margin="5" Value="100" />
+                    <TextBlock x:Name="ProgressTime" Text="" HorizontalAlignment="Left" Grid.Column="0" Margin="5" Padding="2" />
                     <TextBlock x:Name="ProgressText" Text="Waiting for configuration..." HorizontalAlignment="Center" Grid.Column="0" Margin="5" Padding="2" />
                     <TextBlock x:Name="ProgressPercent" Text="" HorizontalAlignment="Right" Grid.Column="0" Margin="5" Padding="2" />
                     <Button x:Name="RunButton" Content="Let's go!" Click="Run" Padding="10 2 10 2" Grid.Column="1" Margin="4" />

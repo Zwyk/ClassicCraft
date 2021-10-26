@@ -523,7 +523,7 @@ namespace ClassicCraft
                     else if (playerBase.Class == Player.Classes.Warlock)
                         logListActions.AddRange(new List<string>() { "Shadow Bolt" });
 
-                    logListActions.AddRange(new List<string>() { "Thunderfury", "Deathbringer", "Vis'kag the Bloodletter", "Perdition's Blade", "Romulo's Poison Vial" });
+                    logListActions.AddRange(new List<string>() { "Thunderfury", "Deathbringer", "Vis'kag the Bloodletter", "Perdition's Blade", "Romulo's Poison Vial", "Syphon of the Nathrezim" });
 
                     //logListEffects = totalEffects.SelectMany(a => a.Select(t => t.Effect.ToString()).OrderBy(b => b)).Distinct().ToList();
                     logListEffects = new List<string>() { };
@@ -566,8 +566,14 @@ namespace ClassicCraft
                         for (int i = 0; i < nbSim; i++)
                         {
                             string txt = string.Format("\n\n---SIM NUMBER {0}---\n", i + 1);
+                            double pct = (i + 1) / nbSim * 100;
+                            GUISetProgress(pct);
                             GUISetProgressText(txt);
-                            GUISetProgress((i + 1) / nbSim * 100);
+                            if (pct > 0.001)
+                            {
+                                double t = (DateTime.Now - start).TotalMilliseconds;
+                                GUISetProgressTime(TimeSpan.FromMilliseconds(t / (pct / 100) - t));
+                            }
                             Log(txt);
                             DoSim();
                         }
@@ -586,6 +592,11 @@ namespace ClassicCraft
                                 double pct = (double)CurrentDpsList.Count / nbSim * 100;
                                 GUISetProgress(pct);
                                 GUISetProgressText(String.Format("Simulating {0} - {1}/{2}", simOrder[done], done + 1, statsWeights ? simOrder.Count : 1));
+                                if (pct > 0.001)
+                                {
+                                    double t = (DateTime.Now - start).TotalMilliseconds;
+                                    GUISetProgressTime(TimeSpan.FromMilliseconds(t / (pct / 100) - t));
+                                }
                                 string outputText = "";
 
                                 if (!logFight)
@@ -650,9 +661,15 @@ namespace ClassicCraft
                                     }
                                 }
 
-                                GUISetProgress((double)done / (statsWeights ? simOrder.Count : 1) * 100 + currentPct / (statsWeights ? simOrder.Count : 1));
+                                double pct = (double)done / (statsWeights ? simOrder.Count : 1) * 100 + currentPct / (statsWeights ? simOrder.Count : 1);
+                                GUISetProgress(pct);
                                 GUISetProgressText(String.Format("Simulating {0} - {1}/{2}", simOrder[done], done + 1, statsWeights ? simOrder.Count : 1));
-                                
+                                if(pct > 0.001)
+                                {
+                                    double t = (DateTime.Now - start).TotalMilliseconds;
+                                    GUISetProgressTime(TimeSpan.FromMilliseconds(t / (pct / 100) - t));
+                                }
+
                                 string outputText = "";
                                 outputText += String.Format("Simulating {0}, aiming for minimum ±{1:N2}% precision...", simOrder[done], targetErrorPct);
                                 outputText += String.Format("\nSims done : {0:N0}", CurrentDpsList.Count);
@@ -1408,6 +1425,14 @@ namespace ClassicCraft
             if (GUI != null)
             {
                 GUI.SetProgressText(str);
+            }
+        }
+
+        public static void GUISetProgressTime(TimeSpan time)
+        {
+            if (GUI != null)
+            {
+                GUI.SetProgressTime(time);
             }
         }
 

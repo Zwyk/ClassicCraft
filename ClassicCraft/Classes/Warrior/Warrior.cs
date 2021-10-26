@@ -628,68 +628,72 @@ namespace ClassicCraft
 
         public List<Action> Spells;
         public List<KeyValuePair<Action, double>> SpellsDPR;
+        public List<KeyValuePair<Action, double>> SpellsDmg;
         int DPRAtRage = -1;
         double DPRAtAP = -1;
 
         // TODO : SweepingStrikes
         public void CalcDPR()
         {
+            SpellsDmg = new List<KeyValuePair<Action, double>>();
             SpellsDPR = new List<KeyValuePair<Action, double>>();
             DPRAtRage = Resource;
             DPRAtAP = AP;
             double aaDmg = AvgAADmg();
             double aaRage = AvgAARage(aaDmg);
 
+            double dmg;
             foreach (Action a in Spells)
             {
                 if (a is Bloodthirst)
                 {
-                    SpellsDPR.Add(new KeyValuePair<Action, double>(a,
-                    0.45 * AP
-                    / bt.Cost));
+                    dmg = 0.45 * AP;
+                    SpellsDmg.Add(new KeyValuePair<Action, double>(a, dmg));
+                    SpellsDPR.Add(new KeyValuePair<Action, double>(a, dmg / bt.Cost));
                 }
                 else if (a is Whirlwind)
                 {
-                    SpellsDPR.Add(new KeyValuePair<Action, double>(a,
-                    ((MH.DamageMin + MH.DamageMax) / 2 + Simulation.Normalization(MH) * AP / 14
+                    dmg = ((MH.DamageMin + MH.DamageMax) / 2 + Simulation.Normalization(MH) * AP / 14
                         + (Program.version == Version.Vanilla || !DualWielding ? 0 : ((OH.DamageMin + OH.DamageMax) / 2 + Simulation.Normalization(OH) * AP / 14) * 0.5 * (1 + 0.05 * GetTalentPoints("DWS"))))
-                    * Math.Min(4, Sim.NbTargets)
-                    / ww.Cost));
+                    * Math.Min(4, Sim.NbTargets);
+                    SpellsDmg.Add(new KeyValuePair<Action, double>(a, dmg));
+                    SpellsDPR.Add(new KeyValuePair<Action, double>(a, dmg / ww.Cost));
                 }
                 else if (a is MortalStrike)
                 {
-                    SpellsDPR.Add(new KeyValuePair<Action, double>(a,
-                    ((MH.DamageMin + MH.DamageMax) / 2 + Simulation.Normalization(MH) * AP / 14 + MortalStrike.BASE_DMG)
-                    / ms.Cost));
+                    dmg = (MH.DamageMin + MH.DamageMax) / 2 + Simulation.Normalization(MH) * AP / 14 + MortalStrike.BASE_DMG;
+                    SpellsDmg.Add(new KeyValuePair<Action, double>(a, dmg));
+                    SpellsDPR.Add(new KeyValuePair<Action, double>(a, dmg / ms.Cost));
                 }
                 else if (a is Execute && Sim.Boss.LifePct <= 0.2)
                 {
-                    SpellsDPR.Add(new KeyValuePair<Action, double>(a,
-                    (Execute.BASE_DMG + Execute.DMG_BY_RAGE * (Resource - exec.Cost))
-                    / (double)Resource));
+                    dmg = Execute.BASE_DMG + Execute.DMG_BY_RAGE * (Resource - exec.Cost);
+                    SpellsDmg.Add(new KeyValuePair<Action, double>(a, dmg));
+                    SpellsDPR.Add(new KeyValuePair<Action, double>(a, dmg / Resource));
                 }
                 else if (a is HeroicStrike)
                 {
-                    SpellsDPR.Add(new KeyValuePair<Action, double>(a,
-                    (((MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + HeroicStrike.BONUS_DMG) - aaDmg)
-                    / (hs.Cost + aaRage)));
+                    dmg = (MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + HeroicStrike.BONUS_DMG - aaDmg;
+                    SpellsDmg.Add(new KeyValuePair<Action, double>(a, dmg));
+                    SpellsDPR.Add(new KeyValuePair<Action, double>(a, dmg / (hs.Cost + aaRage)));
                 }
                 else if (a is Cleave)
                 {
-                    SpellsDPR.Add(new KeyValuePair<Action, double>(a,
-                    ((MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + HeroicStrike.BONUS_DMG - aaDmg)
-                    * Math.Min(2, Sim.NbTargets)
-                    / (hs.Cost + aaRage)));
+                    dmg = (MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + HeroicStrike.BONUS_DMG - aaDmg
+                    * Math.Min(2, Sim.NbTargets);
+                    SpellsDmg.Add(new KeyValuePair<Action, double>(a, dmg));
+                    SpellsDPR.Add(new KeyValuePair<Action, double>(a, dmg / (cl.Cost + aaRage)));
                 }
                 else if (a is Slam)
                 {
-                    SpellsDPR.Add(new KeyValuePair<Action, double>(a,
-                    ((MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + Slam.BASE_DMG - (1 - ((mh.LockedUntil - Sim.CurrentTime) / mh.CurrentSpeed())) * aaDmg)
-                    / (slam.Cost + (1 - ((mh.LockedUntil - Sim.CurrentTime) / mh.CurrentSpeed())) * aaRage)));
+                    dmg = (MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + Slam.BASE_DMG - (1 - ((mh.LockedUntil - Sim.CurrentTime) / mh.CurrentSpeed())) * aaDmg;
+                    SpellsDmg.Add(new KeyValuePair<Action, double>(a, dmg));
+                    SpellsDPR.Add(new KeyValuePair<Action, double>(a, dmg / (slam.Cost + (1 - ((mh.LockedUntil - Sim.CurrentTime) / mh.CurrentSpeed())) * aaRage)));
                 }
                 // TODO : Prot spells
             }
 
+            SpellsDmg.Sort((x, y) => y.Value.CompareTo(x.Value));
             SpellsDPR.Sort((x,y) => y.Value.CompareTo(x.Value));
 
             /*

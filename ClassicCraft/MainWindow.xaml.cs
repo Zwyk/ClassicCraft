@@ -2271,6 +2271,16 @@ namespace ClassicCraftGUI
             }));
         }
 
+        public void SetProgressTime(TimeSpan time)
+        {
+            Dispatcher.Invoke(new System.Action(() => {
+                int h = (int)time.TotalHours;
+                int m = time.Minutes;
+                int s = time.Seconds;
+                ProgressTime.Text = (h > 0 ? string.Format("{0}h", h) : "") + (h > 0 || m > 0 ? string.Format("{0:D2}m", m) : "") + string.Format("{0:D2}s", s);
+            }));
+        }
+
         public void Run_Enable()
         {
             Dispatcher.Invoke(new System.Action(() => {

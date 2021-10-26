@@ -28,7 +28,7 @@ namespace ClassicCraft
         {
             ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
 
-            int damage = (int)Math.Round(Randomer.Next(DMG_MIN, DMG_MAX + 1)
+            int damage = (int)Math.Round((Randomer.Next(DMG_MIN, DMG_MAX + 1) + (Player.NbSet("Dreadnaught") >= 2 ? 75 : 0))
                 * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0.1 * Player.GetTalentPoints("Impale") : 0))
                 * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                 * Player.DamageMod

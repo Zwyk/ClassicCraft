@@ -808,6 +808,7 @@ namespace ClassicCraft
 
         public static List<string> SPECIALSETS_LIST = new List<string>()
         {
+            "Dreadnaught",
             "Nightslayer", "Shadowcraft", "Darkmantle",
             "Warbringer", "Destroyer", "Onslaught",
             "Netherblade", "Deathmantle", "Slayer's",
@@ -1873,7 +1874,7 @@ namespace ClassicCraft
                         alreadyProc.Add(procName);
                         Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
                             {
-                                { Attribute.Strength, 100 },
+                                { Attribute.Strength, Program.version == Version.TBC ? 60 : 100 },
                             };
                         int procDuration = 15;
                         
@@ -2030,6 +2031,10 @@ namespace ClassicCraft
                     ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Sim.Boss);
                     int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Nature) * mitigation);
                     CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round((dmg + bonusThreat) * ThreatMod)));
+                    for(int i = 1; i < Sim.NbTargets; i++)
+                    {
+                        CustomActions[procName].RegisterDamage(new ActionResult(res2, 0, (int)Math.Round(bonusThreat * ThreatMod)));
+                    }
                 }
 
                 if(Program.version == Version.TBC)
@@ -2084,6 +2089,32 @@ namespace ClassicCraft
                         }
                     }
 
+                    if (!alreadyProc.Contains("Thundering Skyfire Diamond")
+                        && Buffs.Any(b => b.Name.ToLower().Contains("thundering"))
+                        && (!icds.ContainsKey("Thundering Skyfire Diamond") || icds["Thundering Skyfire Diamond"] < Sim.CurrentTime - 60)
+                        && Randomer.NextDouble() < MH.Speed * 0.8 / 60)   // TODO : Check proc-rate + ICD
+                    {
+                        string procName = "Thundering Skyfire Diamond";
+                        alreadyProc.Add(procName);
+                        icds[procName] = Sim.CurrentTime;
+
+                        Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.Haste, 240 / RatingRatios[Attribute.Haste] / 100 }
+                        };
+                        int procDuration = 6;
+
+                        if (Effects.ContainsKey(procName))
+                        {
+                            Effects[procName].Refresh();
+                        }
+                        else
+                        {
+                            CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
+                            buff.StartEffect();
+                        }
+                    }
+
                     if (!alreadyProc.Contains("Warglaives")
                         && (MH?.Name.ToLower().Contains("warglaive") == true && OH?.Name.ToLower().Contains("warglaive") == true)
                         && (!icds.ContainsKey("Warglaives") || icds["Warglaives"] < Sim.CurrentTime - 45)
@@ -2091,6 +2122,7 @@ namespace ClassicCraft
                     {
                         string procName = "Warglaives";
                         alreadyProc.Add(procName);
+                        icds[procName] = Sim.CurrentTime;
 
                         Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
                         {
@@ -2225,6 +2257,37 @@ namespace ClassicCraft
                         {
                             Program.Log(string.Format("{0:N2} : Rod of the Sun King procs ({3} {1}/{2})", Sim.CurrentTime, Resource, MaxResource, Class == Classes.Warrior ? "rage" : "energy"));
                         }
+                    }
+                    if (!alreadyProc.Contains("Syphon of the Nathrezim")
+                        && w.Name.ToLower().Contains("syphon of the nathrezim")
+                        && Randomer.NextDouble() < w.Speed * 1 / 60) // TODO : Check proc-rate
+                    {
+                        string procName = "Syphon of the Nathrezim";
+                        alreadyProc.Add(procName);
+                        int procDuration = 6;
+
+                        if (Effects.ContainsKey(procName))
+                        {
+                            Effects[procName].Refresh();
+                        }
+                        else
+                        {
+                            CustomEffect buff = new CustomEffect(this, this, procName, true, procDuration);
+                            buff.StartEffect();
+                        }
+                    }
+                    if (Effects.ContainsKey("Syphon of the Nathrezim"))
+                    {
+                        string procName = "Syphon of the Nathrezim";
+                        if (!CustomActions.ContainsKey(procName))
+                        {
+                            CustomActions.Add(procName, new CustomAction(this, procName, School.Shadow));
+                        }
+
+                        double mitigation = Simulation.MagicMitigation(Sim.Boss.ResistChances[School.Shadow]);
+                        ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Sim.Boss);
+                        int dmg = (int)Math.Round(MiscDamageCalc(20, res2, School.Shadow) * mitigation);
+                        CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round(dmg * ThreatMod)));
                     }
 
                     if (!alreadyProc.Contains("Hourglass")
@@ -2417,7 +2480,7 @@ namespace ClassicCraft
                     {
                         string procName = "Doomplate";
                         alreadyProc.Add(procName);
-                        icds[procName] = Sim.CurrentTime;
+
                         Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
                         {
                             { Attribute.AP, 160 }
@@ -2440,7 +2503,7 @@ namespace ClassicCraft
                     {
                         string procName = "Doomplate";
                         alreadyProc.Add(procName);
-                        icds[procName] = Sim.CurrentTime;
+
                         Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
                         {
                             { Attribute.AP, 160 }

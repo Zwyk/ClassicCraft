@@ -14,7 +14,7 @@ namespace ClassicCraft
         public static int BONUS_DMG = Program.version == Version.TBC ? 70 : 50;
 
         public Cleave(Player p)
-            : base(p, CD, BASE_COST, true)
+            : base(p, CD, BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") : 0), true)
         {
         }
 

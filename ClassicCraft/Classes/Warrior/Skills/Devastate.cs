@@ -40,7 +40,7 @@ namespace ClassicCraft
                 * (Player.Effects.ContainsKey("T4 4P") ? 1.1 : 1)
                 );
 
-            int threat = (int)Math.Round((damage + BONUS_THREAT) * Player.ThreatMod);
+            int threat = (int)Math.Round((damage + BONUS_THREAT) * Player.ThreatMod);   // TODO + SunderArmor.BONUS_THREAT if <5 stacks
 
             CommonAction();
             if (res == ResultType.Parry || res == ResultType.Dodge)
