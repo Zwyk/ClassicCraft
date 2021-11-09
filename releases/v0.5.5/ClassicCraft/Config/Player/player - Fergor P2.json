@@ -1,0 +1,451 @@
+{
+  "Class": "Warrior",
+  "Level": 70,
+  "Race": "Orc",
+  "Talents": "32003301352010500221-0505000500521203",
+  "Cooldowns": {
+    "Racial": true,
+    "Death Wish": true,
+    "Recklessness": false,
+    "Bloodlust": true,
+    "Drums of War": false,
+    "Drums of Battle": true,
+    "Mighty Rage Potion": false,
+    "Haste Potion": true,
+    "Insane Strength Potion": false,
+    "Shield Block": false
+  },
+  "Buffs": [
+    {
+      "Id": 0,
+      "Name": "Flask/Elixir",
+      "Slot": "Any",
+      "Stats": {
+        "AP": 120.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Food",
+      "Slot": "Any",
+      "Stats": {
+        "Str": 20.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Battle Shout",
+      "Slot": "Any",
+      "Stats": {
+        "AP": 382.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Blessing of Might",
+      "Slot": "Any",
+      "Stats": {
+        "AP": 264.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Mark of the Wild",
+      "Slot": "Any",
+      "Stats": {
+        "Str": 18.0,
+        "Agi": 18.0,
+        "Int": 18.0,
+        "Spi": 18.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Totem Strength",
+      "Slot": "Any",
+      "Stats": {
+        "Str": 98.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Totem Agility",
+      "Slot": "Any",
+      "Stats": {
+        "Agi": 88.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Windfury Totem *2",
+      "Slot": "Any",
+      "Stats": {}
+    },
+    {
+      "Id": 0,
+      "Name": "Ferocious Inspiration *1",
+      "Slot": "Any",
+      "Stats": {}
+    },
+    {
+      "Id": 0,
+      "Name": "Blessing of Kings",
+      "Slot": "Any",
+      "Stats": {}
+    },
+    {
+      "Id": 0,
+      "Name": "Leader of the Pack",
+      "Slot": "Any",
+      "Stats": {
+        "Crit": 110.4
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Unleashed Rage",
+      "Slot": "Any",
+      "Stats": {}
+    }
+  ],
+  "Weapons": {
+    "MH": {
+      "DamageMin": 341.0,
+      "DamageMax": 513.0,
+      "Speed": 3.6,
+      "TwoHanded": true,
+      "Type": "Sword",
+      "Buff": null,
+      "School": null,
+      "Name": "Lionheart Champion",
+      "Id": 5,
+      "Slot": "Weapon",
+      "Stats": {
+        "Str": 49.0
+      },
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Mongoose",
+        "Slot": "Weapon",
+        "Stats": {}
+      },
+      "Gems": null
+    },
+    "Ranged": {
+      "DamageMin": 0.0,
+      "DamageMax": 0.0,
+      "Speed": 0.0,
+      "TwoHanded": false,
+      "Type": "Bow",
+      "Buff": null,
+      "School": null,
+      "Name": "Pistol",
+      "Id": 6,
+      "Slot": "Ranged",
+      "Stats": {
+        "Agi": 20.0,
+        "Hit": 19.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    }
+  },
+  "Equipment": {
+    "Head": {
+      "Name": "Warbringer Helm",
+      "Id": 0,
+      "Slot": "Head",
+      "Stats": {
+        "Str": 45.0,
+        "Crit": 24.0,
+        "Hit": 14.0
+      },
+      "Enchantment": {
+        "Id": 4,
+        "Name": "Ferocity",
+        "Slot": "Head",
+        "Stats": {
+          "AP": 34.0,
+          "Hit": 16.0
+        }
+      },
+      "Gems": {
+        "Id": 0,
+        "Name": "Relentless Earthstorm Diamond",
+        "Slot": "Head",
+        "Stats": {
+          "Agi": 12.0,
+          "Str": 4.0
+        }
+      }
+    },
+    "Neck": {
+      "Name": "Vile Intent",
+      "Id": 1,
+      "Slot": "Neck",
+      "Stats": {
+        "Agi": 20.0,
+        "Hit": 18.0,
+        "AP": 42.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Shoulders": {
+      "Name": "Warbringer Shoulders",
+      "Id": 2,
+      "Slot": "Shoulders",
+      "Stats": {
+        "Str": 32.0,
+        "Agi": 22.0,
+        "Hit": 13.0
+      },
+      "Enchantment": {
+        "Id": 4,
+        "Name": "Aldor",
+        "Slot": "Shoulders",
+        "Stats": {
+          "AP": 26.0
+        }
+      },
+      "Gems": {
+        "Id": 4,
+        "Name": "Gems",
+        "Slot": "Shoulders",
+        "Stats": {
+          "Str": 3.0,
+          "Crit": 10.0
+        }
+      }
+    },
+    "Back": {
+      "Name": "Vengeance",
+      "Id": 3,
+      "Slot": "Back",
+      "Stats": {
+        "Crit": 23.0,
+        "AP": 52.0
+      },
+      "Enchantment": {
+        "Id": 5,
+        "Name": "Greater Agility",
+        "Slot": "Back",
+        "Stats": {
+          "Agi": 12.0
+        }
+      },
+      "Gems": {
+        "Id": 5,
+        "Name": "Gems",
+        "Slot": "Back",
+        "Stats": {
+          "Str": 3.0,
+          "Crit": 3.0,
+          "Hit": 2.0
+        }
+      }
+    },
+    "Chest": {
+      "Name": "Ranger",
+      "Id": 4,
+      "Slot": "Chest",
+      "Stats": {
+        "Agi": 36.0,
+        "Crit": 14.0,
+        "AP": 88.0
+      },
+      "Enchantment": {
+        "Id": 6,
+        "Name": "Exceptional Stats",
+        "Slot": "Chest",
+        "Stats": {
+          "Str": 6.0,
+          "Agi": 6.0,
+          "Int": 6.0,
+          "Spi": 6.0
+        }
+      },
+      "Gems": {
+        "Id": 6,
+        "Name": "Gems",
+        "Slot": "Chest",
+        "Stats": {
+          "Str": 0.0,
+          "Crit": 24.0
+        }
+      }
+    },
+    "Wrists": {
+      "Name": "Bladespire",
+      "Id": 5,
+      "Slot": "Wrists",
+      "Stats": {
+        "Str": 20.0,
+        "Crit": 24.0
+      },
+      "Enchantment": {
+        "Id": 7,
+        "Name": "Brawn",
+        "Slot": "Wrists",
+        "Stats": {
+          "Str": 12.0
+        }
+      },
+      "Gems": {
+        "Id": 7,
+        "Name": "Gems",
+        "Slot": "Wrists",
+        "Stats": {
+          "Str": 6.0,
+          "Crit": 5.0,
+          "AP": 8.0
+        }
+      }
+    },
+    "Hands": {
+      "Name": "Searing",
+      "Id": 6,
+      "Slot": "Hands",
+      "Stats": {
+        "Agi": 33.0,
+        "Expertise": 18.0,
+        "AP": 66.0
+      },
+      "Enchantment": {
+        "Id": 8,
+        "Name": "Str",
+        "Slot": "Hands",
+        "Stats": {
+          "Str": 15.0
+        }
+      },
+      "Gems": {
+        "Id": 8,
+        "Name": "Gems",
+        "Slot": "Hands",
+        "Stats": {
+          "Str": 0.0,
+          "Crit": 0.0
+        }
+      }
+    },
+    "Waist": {
+      "Name": "Endless Pit",
+      "Id": 7,
+      "Slot": "Waist",
+      "Stats": {
+        "Str": 34.0,
+        "Crit": 28.0
+      },
+      "Enchantment": null,
+      "Gems": {
+        "Id": 8,
+        "Name": "Gems",
+        "Slot": "Waist",
+        "Stats": {
+          "Str": 0.0,
+          "Crit": 16.0
+        }
+      }
+    },
+    "Legs": {
+      "Name": "Warbringer",
+      "Id": 8,
+      "Slot": "Legs",
+      "Stats": {
+        "Str": 51.0,
+        "Crit": 37.0
+      },
+      "Enchantment": {
+        "Id": 8,
+        "Name": "Cobrahide",
+        "Slot": "Legs",
+        "Stats": {
+          "AP": 50.0,
+          "Crit": 12.0
+        }
+      },
+      "Gems": {
+        "Id": 8,
+        "Name": "Gems",
+        "Slot": "Legs",
+        "Stats": {
+          "Str": 0.0,
+          "Crit": 0.0
+        }
+      }
+    },
+    "Feet": {
+      "Name": "Fel Leather",
+      "Id": 9,
+      "Slot": "Feet",
+      "Stats": {
+        "Hit": 25.0,
+        "Crit": 17.0,
+        "AP": 36.0
+      },
+      "Enchantment": {
+        "Id": 8,
+        "Name": "Agi",
+        "Slot": "Feet",
+        "Stats": {
+          "Agi": 12.0
+        }
+      },
+      "Gems": {
+        "Id": 8,
+        "Name": "Str",
+        "Slot": "Feet",
+        "Stats": {
+          "Str": 11.0,
+          "Crit": 3.0,
+          "AP": 6.0
+        }
+      }
+    },
+    "Finger1": {
+      "Name": "Thounsand Marks",
+      "Id": 10,
+      "Slot": "Finger",
+      "Stats": {
+        "Crit": 23.0,
+        "Hit": 19.0,
+        "AP": 44.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Finger2": {
+      "Name": "Garona",
+      "Id": 10,
+      "Slot": "Finger",
+      "Stats": {
+        "Agi": 20.0,
+        "Hit": 18.0,
+        "AP": 40.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Trinket1": {
+      "Name": "Hourglass of the Unraveller",
+      "Id": 12,
+      "Slot": "Trinket",
+      "Stats": {
+        "Crit": 32.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Trinket2": {
+      "Name": "Bloodlust Brooch",
+      "Id": 13,
+      "Slot": "Trinket",
+      "Stats": {
+        "AP": 72.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    }
+  }
+}

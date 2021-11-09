@@ -1,0 +1,471 @@
+{
+  "Class": "Rogue",
+  "Level": 70,
+  "Race": "Orc",
+  "Talents": "0053201054-023305002005015002321151",
+  "Cooldowns": {
+    "Racial": true,
+    "Haste Potion": true,
+    "Drums of War": false,
+    "Drums of Battle": true,
+    "Bloodlust": true
+  },
+  "Buffs": [
+    {
+      "Id": 0,
+      "Name": "Flask/Elixir",
+      "Slot": "Any",
+      "Stats": {
+        "AP": 120.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Food",
+      "Slot": "Any",
+      "Stats": {
+        "Agi": 20.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Battle Shout",
+      "Slot": "Any",
+      "Stats": {
+        "AP": 382.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Blessing of Might",
+      "Slot": "Any",
+      "Stats": {
+        "AP": 264.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Mark of the Wild",
+      "Slot": "Any",
+      "Stats": {
+        "Str": 18.0,
+        "Agi": 18.0,
+        "Int": 18.0,
+        "Spi": 18.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Totem Strength",
+      "Slot": "Any",
+      "Stats": {
+        "Str": 98.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Windfury Totem *2",
+      "Slot": "Any",
+      "Stats": {}
+    },
+    {
+      "Id": 0,
+      "Name": "Ferocious Inspiration *1",
+      "Slot": "Any",
+      "Stats": {}
+    },
+    {
+      "Id": 0,
+      "Name": "Blessing of Kings",
+      "Slot": "Any",
+      "Stats": {}
+    },
+    {
+      "Id": 0,
+      "Name": "Unleashed Rage",
+      "Slot": "Any",
+      "Stats": {}
+    }
+  ],
+  "Weapons": {
+    "MH": {
+      "DamageMin": 214.0,
+      "DamageMax": 398.0,
+      "Speed": 2.8,
+      "TwoHanded": false,
+      "Type": "Sword",
+      "Buff": null,
+      "School": null,
+      "Name": "Warglaive MH",
+      "Id": 7,
+      "Slot": "Weapon",
+      "Stats": {},
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Mongoose",
+        "Slot": "Weapon",
+        "Stats": {
+          "Agi": 22.0,
+          "Hit": 21.0,
+          "AP": 44.0
+        }
+      },
+      "Gems": null
+    },
+    "OH": {
+      "DamageMin": 107.0,
+      "DamageMax": 199.0,
+      "Speed": 1.4,
+      "TwoHanded": false,
+      "Type": "Sword",
+      "Buff": {
+        "Id": 0,
+        "Name": "Deadly Poison",
+        "Slot": null,
+        "Stats": {}
+      },
+      "School": null,
+      "Name": "Warglaive OH",
+      "Id": 5,
+      "Slot": "Weapon",
+      "Stats": {},
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Mongoose",
+        "Slot": "Weapon",
+        "Stats": {
+          "Agi": 21.0,
+          "Crit": 23.0,
+          "AP": 44.0
+        }
+      },
+      "Gems": null
+    },
+    "Ranged": {
+      "DamageMin": 0.0,
+      "DamageMax": 0.0,
+      "Speed": 0.0,
+      "TwoHanded": false,
+      "Type": "Gun",
+      "Buff": null,
+      "School": null,
+      "Name": "Longrifle",
+      "Id": 6,
+      "Slot": "Ranged",
+      "Stats": {
+        "Agi": 16.0
+      },
+      "Enchantment": null,
+      "Gems": {
+        "Id": 0,
+        "Name": "Gems",
+        "Slot": "Ranged",
+        "Stats": {
+          "Agi": 20.0
+        }
+      }
+    }
+  },
+  "Equipment": {
+    "Head": {
+      "Name": "Sargeras",
+      "Id": 0,
+      "Slot": "Head",
+      "Stats": {
+        "Agi": 39.0,
+        "Crit": 38.0,
+        "Hit": 21.0,
+        "AP": 108.0
+      },
+      "Enchantment": {
+        "Id": 4,
+        "Name": "Ferocity",
+        "Slot": "Head",
+        "Stats": {
+          "AP": 34.0,
+          "Hit": 16.0
+        }
+      },
+      "Gems": {
+        "Id": 0,
+        "Name": "Relentless",
+        "Slot": "Head",
+        "Stats": {
+          "Agi": 22.0
+        }
+      }
+    },
+    "Neck": {
+      "Name": "Nightmares",
+      "Id": 1,
+      "Slot": "Neck",
+      "Stats": {
+        "Crit": 27.0,
+        "Hit": 21.0,
+        "AP": 72.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Shoulders": {
+      "Name": "Slayer's",
+      "Id": 2,
+      "Slot": "Shoulders",
+      "Stats": {
+        "Agi": 34.0,
+        "AP": 68.0,
+        "ArmorPen": 175.0
+      },
+      "Enchantment": {
+        "Id": 4,
+        "Name": "Scryers",
+        "Slot": "Shoulders",
+        "Stats": {
+          "AP": 20.0,
+          "Crit": 15.0
+        }
+      },
+      "Gems": {
+        "Id": 4,
+        "Name": "Gems",
+        "Slot": "Shoulders",
+        "Stats": {
+          "Agi": 20.0
+        }
+      }
+    },
+    "Back": {
+      "Name": "Destroyer",
+      "Id": 3,
+      "Slot": "Back",
+      "Stats": {
+        "Crit": 24.0,
+        "Hit": 17.0,
+        "AP": 72.0
+      },
+      "Enchantment": {
+        "Id": 5,
+        "Name": "Greater Agility",
+        "Slot": "Back",
+        "Stats": {
+          "Agi": 12.0
+        }
+      },
+      "Gems": {
+        "Id": 5,
+        "Name": "Gems",
+        "Slot": "Back",
+        "Stats": {
+          "Str": 4.0,
+          "Crit": 4.0,
+          "Hit": 2.0
+        }
+      }
+    },
+    "Chest": {
+      "Name": "Slayer's",
+      "Id": 4,
+      "Slot": "Chest",
+      "Stats": {
+        "Agi": 45.0,
+        "Crit": 28.0,
+        "Hit": 15.0,
+        "AP": 92.0
+      },
+      "Enchantment": {
+        "Id": 6,
+        "Name": "Exceptional Stats",
+        "Slot": "Chest",
+        "Stats": {
+          "Str": 6.0,
+          "Agi": 6.0,
+          "Int": 6.0,
+          "Spi": 6.0
+        }
+      },
+      "Gems": {
+        "Id": 6,
+        "Name": "Gems",
+        "Slot": "Chest",
+        "Stats": {
+          "Agi": 5.0,
+          "AP": 28.0,
+          "Crit": 10.0
+        }
+      }
+    },
+    "Wrists": {
+      "Name": "Insidious",
+      "Id": 5,
+      "Slot": "Wrists",
+      "Stats": {
+        "Agi": 28.0,
+        "Hit": 12.0,
+        "AP": 58.0
+      },
+      "Enchantment": {
+        "Id": 7,
+        "Name": "Brawn",
+        "Slot": "Wrists",
+        "Stats": {
+          "AP": 24.0
+        }
+      },
+      "Gems": {
+        "Id": 7,
+        "Name": "Gems",
+        "Slot": "Wrists",
+        "Stats": {
+          "Agi": 2.0,
+          "AP": 10.0,
+          "Crit": 5.0
+        }
+      }
+    },
+    "Hands": {
+      "Name": "Slayer's",
+      "Id": 6,
+      "Slot": "Hands",
+      "Stats": {
+        "Agi": 34.0,
+        "Hit": 18.0,
+        "AP": 68.0,
+        "ArmorPen": 175.0
+      },
+      "Enchantment": {
+        "Id": 8,
+        "Name": "Agi",
+        "Slot": "Hands",
+        "Stats": {
+          "Agi": 15.0
+        }
+      },
+      "Gems": {
+        "Id": 8,
+        "Name": "Gems",
+        "Slot": "Hands",
+        "Stats": {
+          "Str": 8.0,
+          "Crit": 8.0
+        }
+      }
+    },
+    "Waist": {
+      "Name": "Shadow-Walker",
+      "Id": 7,
+      "Slot": "Waist",
+      "Stats": {
+        "Agi": 27.0,
+        "Haste": 37.0,
+        "AP": 76.0
+      },
+      "Enchantment": null,
+      "Gems": {
+        "Id": 8,
+        "Name": "Gems",
+        "Slot": "Waist",
+        "Stats": {}
+      }
+    },
+    "Legs": {
+      "Name": "Slayer's",
+      "Id": 8,
+      "Slot": "Legs",
+      "Stats": {
+        "Agi": 46.0,
+        "Crit": 45.0,
+        "AP": 94.0
+      },
+      "Enchantment": {
+        "Id": 8,
+        "Name": "Cobrahide",
+        "Slot": "Legs",
+        "Stats": {
+          "AP": 50.0,
+          "Crit": 12.0
+        }
+      },
+      "Gems": {
+        "Id": 8,
+        "Name": "Gems",
+        "Slot": "Legs",
+        "Stats": {
+          "Agi": 10.0
+        }
+      }
+    },
+    "Feet": {
+      "Name": "Shadowmaster",
+      "Id": 9,
+      "Slot": "Feet",
+      "Stats": {
+        "Agi": 30.0,
+        "Crit": 17.0,
+        "AP": 76.0
+      },
+      "Enchantment": {
+        "Id": 8,
+        "Name": "Agi",
+        "Slot": "Feet",
+        "Stats": {
+          "Agi": 12.0
+        }
+      },
+      "Gems": {
+        "Id": 8,
+        "Name": "Str",
+        "Slot": "Feet",
+        "Stats": {
+          "Agi": 10.0,
+          "AP": 10.0,
+          "Crit": 8.0
+        }
+      }
+    },
+    "Finger1": {
+      "Name": "Stormrage",
+      "Id": 10,
+      "Slot": "Finger",
+      "Stats": {
+        "Hit": 30.0,
+        "AP": 66.0,
+        "ArmorPen": 126.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Finger2": {
+      "Name": "Ranger-General",
+      "Id": 10,
+      "Slot": "Finger",
+      "Stats": {
+        "Crit": 28.0,
+        "Hit": 18.0,
+        "AP": 56.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Trinket1": {
+      "Name": "Dragonspine Trophy",
+      "Id": 12,
+      "Slot": "Trinket",
+      "Stats": {
+        "AP": 40.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Trinket2": {
+      "Name": "Tsunami Talisman",
+      "Id": 13,
+      "Slot": "Trinket",
+      "Stats": {
+        "Crit": 38.0,
+        "Hit": 10.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    }
+  }
+}

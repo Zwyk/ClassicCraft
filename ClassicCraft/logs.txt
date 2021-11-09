@@ -1,30 +1,29 @@
-Date : 2021/10/26 01:33:17
+Date : 2021/11/09 13:09:24
 
 Fight length : 180 seconds (±10%)
 Number of targets : 1
 
 Player :
-Orc Warrior level 70 | Talents : 32024001302-050500055050120521251 | Stats : [Strength:749.1][Agility:303.6][Stamina:123.2][Intellect:56.1][Spirit:79.2][Health:2741][Mana:0][AP:3181.08][RangedAP:667.2][CritChance:40.23%][HitChance:12.48%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:2%]
-Main weapon : Mace with 350 skill
+Orc Warrior level 70 | Talents : 32003301352010500221-0505000500521203 | Stats : [Strength:605][Agility:413.6][Stamina:123.2][Intellect:56.1][Spirit:79.2][Health:2741][Mana:0][AP:2893.8][RangedAP:887.2][CritChance:38.17%][HitChance:12.13%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.14%]
+Main weapon : Sword with 350 skill
 
 Boss :
 Level 73, 6193 Armor (27.28% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
 After raid debuffs and player penetration :
 Level 73, 2183 Armor (11.68% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
 
-432521 simulations done in 1,994,708.49 ms, for 4.61 ms by sim
-Overall accuracy of results : ±0.05% (±1.04 DPS)
+180368 simulations done in 673,464.67 ms, for 3.73 ms by sim
+Overall accuracy of results : ±0.08% (±1.37 DPS)
 
-Base : 2,080.54 DPS (±229.27)
+Base : 1,723.32 DPS (±207.11)
 
 Weights by DPS :
-1 AP = 0.5335 DPS
-1 Str = 1.1737 DPS = 2.2000 AP
-1 Agi = 0.8700 DPS = 1.6308 AP
-1 Crit = 1.1821 DPS = 2.2158 AP
-1 Hit = 0.4209 DPS = 0.7890 AP
-1 Haste = 1.0464 DPS = 1.9614 AP
-1 Expertise = 1.3631 DPS = 2.5551 AP
-1 Armor Penetration = 0.1289 DPS = 0.2415 AP
-1 MH DPS = 3.4540 DPS = 6.4743 AP
-1 OH DPS = 1.7580 DPS = 3.2952 AP
+1 AP = 0.3958 DPS
+1 Str = 0.8708 DPS = 2.2000 AP
+1 Agi = 0.6105 DPS = 1.5423 AP
+1 Crit = 0.8295 DPS = 2.0956 AP
+1 Hit = 0.0832 DPS = 0.2103 AP
+1 Haste = 0.7828 DPS = 1.9776 AP
+1 Expertise = 1.1848 DPS = 2.9932 AP
+1 Armor Penetration = 0.1036 DPS = 0.2618 AP
+1 MH DPS = 4.9369 DPS = 12.4723 AP

@@ -1,0 +1,353 @@
+{
+  "Class": "Warrior",
+  "Level": 70,
+  "Race": "Orc",
+  "Talents": "02-055000055050120521251-032501103",
+  "Cooldowns": {
+    "Racial": true,
+    "Death Wish": false,
+    "Recklessness": false,
+    "Bloodlust": true,
+    "Drums of War": false,
+    "Drums of Battle": true,
+    "Mighty Rage Potion": false,
+    "Haste Potion": true,
+    "Insane Strength Potion": false,
+    "Shield Block": false
+  },
+  "Buffs": [
+    {
+      "Id": 0,
+      "Name": "Battle Shout",
+      "Slot": "Any",
+      "Stats": {
+        "AP": 382.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Unleashed Rage",
+      "Slot": "Any",
+      "Stats": {}
+    }
+  ],
+  "Weapons": {
+    "MH": {
+      "DamageMin": 60.0,
+      "DamageMax": 145.0,
+      "Speed": 1.9,
+      "TwoHanded": false,
+      "Type": "Sword",
+      "Buff": null,
+      "School": null,
+      "Name": "Thunderfury",
+      "Id": 5,
+      "Slot": "Weapon",
+      "Stats": {
+      },
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Crusader",
+        "Slot": "Weapon",
+        "Stats": {}
+      },
+      "Gems": null
+    },
+    "OH": {
+      "DamageMin": 0.0,
+      "DamageMax": 0.0,
+      "Speed": 0,
+      "TwoHanded": false,
+      "Type": "Shield",
+      "Buff": null,
+      "School": null,
+      "Name": "Platinum",
+      "Id": 5,
+      "Slot": "Shield",
+      "Stats": {
+        "Block": 83
+      },
+      "Enchantment": {
+      },
+      "Gems": null
+    },
+    "Ranged": {
+      "DamageMin": 0.0,
+      "DamageMax": 0.0,
+      "Speed": 0.0,
+      "TwoHanded": false,
+      "Type": "Gun",
+      "Buff": null,
+      "School": null,
+      "Name": "Mama",
+      "Id": 6,
+      "Slot": "Ranged",
+      "Stats": {
+        "Agi": 8.0,
+        "AP": 14.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    }
+  },
+  "Equipment": {
+    "Head": {
+      "Name": "Felsteel",
+      "Id": 0,
+      "Slot": "Head",
+      "Stats": {
+      },
+      "Enchantment": {
+        "Id": 4,
+        "Name": "Ferocity",
+        "Slot": "Head",
+        "Stats": {
+        }
+      },
+      "Gems": {
+        "Id": 0,
+        "Name": "Gems",
+        "Slot": "Head",
+        "Stats": {
+          "Agi": 3.0,
+          "Hit": 4.0,
+        }
+      }
+    },
+    "Neck": {
+      "Name": "Natasha",
+      "Id": 1,
+      "Slot": "Neck",
+      "Stats": {
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Shoulders": {
+      "Name": "Dreadnaught",
+      "Id": 2,
+      "Slot": "Shoulders",
+      "Stats": {
+        "Str": 16.0,
+        "Hit": 10,
+        "Block": 21,
+      },
+      "Enchantment": {
+        "Id": 4,
+        "Name": "Scryers",
+        "Slot": "Shoulders",
+        "Stats": {
+        }
+      },
+      "Gems": {
+        "Id": 4,
+        "Name": "Gems",
+        "Slot": "Shoulders",
+        "Stats": {
+        }
+      }
+    },
+    "Back": {
+      "Name": "Vengeance",
+      "Id": 3,
+      "Slot": "Back",
+      "Stats": {
+        "Block": 29
+      },
+      "Enchantment": {
+        "Id": 5,
+        "Name": "Greater Agility",
+        "Slot": "Back",
+        "Stats": {
+          "Agi": 0
+        }
+      },
+      "Gems": {
+        "Id": 5,
+        "Name": "Gems",
+        "Slot": "Back",
+        "Stats": {
+        }
+      }
+    },
+    "Chest": {
+      "Name": "Dreadnaught",
+      "Id": 4,
+      "Slot": "Chest",
+      "Stats": {
+        "Str": 21.0,
+        "Hit": 20.0
+      },
+      "Enchantment": {
+        "Id": 6,
+        "Name": "Exceptional Stats",
+        "Slot": "Chest",
+        "Stats": {
+          "Str": 4.0,
+          "Agi": 4.0,
+          "Int": 4.0,
+          "Spi": 4.0
+        }
+      },
+      "Gems": {
+        "Id": 6,
+        "Name": "Gems",
+        "Slot": "Chest",
+        "Stats": {
+        }
+      }
+    },
+    "Wrists": {
+      "Name": "Bladespire",
+      "Id": 5,
+      "Slot": "Wrists",
+      "Stats": {
+        "Str": 20.0,
+      },
+      "Enchantment": {
+        "Id": 7,
+        "Name": "Brawn",
+        "Slot": "Wrists",
+        "Stats": {
+          "Str": 0.0
+        }
+      },
+      "Gems": {
+        "Id": 7,
+        "Name": "Gems",
+        "Slot": "Wrists",
+        "Stats": {
+        }
+      }
+    },
+    "Hands": {
+      "Name": "Bold",
+      "Id": 6,
+      "Slot": "Hands",
+      "Stats": {
+        "Str": 17.0,
+        "Agi": 16.0
+      },
+      "Enchantment": {
+        "Id": 8,
+        "Name": "Str",
+        "Slot": "Hands",
+        "Stats": {
+          "Str": 0.0,
+        }
+      },
+      "Gems": {
+        "Id": 8,
+        "Name": "Gems",
+        "Slot": "Hands",
+        "Stats": {
+          "Agi": 3
+        }
+      }
+    },
+    "Waist": {
+      "Name": "Deathforge",
+      "Id": 7,
+      "Slot": "Waist",
+      "Stats": {
+        "Block": 23.0,
+      },
+      "Enchantment": null,
+      "Gems": {
+        "Id": 8,
+        "Name": "Gems",
+        "Slot": "Waist",
+        "Stats": {
+        }
+      }
+    },
+    "Legs": {
+      "Name": "Clefthoof",
+      "Id": 8,
+      "Slot": "Legs",
+      "Stats": {
+      },
+      "Enchantment": {
+        "Id": 8,
+        "Name": "Cobrahide",
+        "Slot": "Legs",
+        "Stats": {
+          "AP": 0.0,
+          "Crit": 0.0
+        }
+      },
+      "Gems": {
+        "Id": 8,
+        "Name": "Gems",
+        "Slot": "Legs",
+        "Stats": {
+        }
+      }
+    },
+    "Feet": {
+      "Name": "Shatari",
+      "Id": 9,
+      "Slot": "Feet",
+      "Stats": {
+        "Str": 24.0,
+        "Agi": 21.0,
+      },
+      "Enchantment": {
+        "Id": 8,
+        "Name": "Agi",
+        "Slot": "Feet",
+        "Stats": {
+          "Agi": 0.0
+        }
+      },
+      "Gems": {
+        "Id": 8,
+        "Name": "Str",
+        "Slot": "Feet",
+        "Stats": {
+          "Agi": 6.0,
+        }
+      }
+    },
+    "Finger1": {
+      "Name": "Umbral",
+      "Id": 10,
+      "Slot": "Finger",
+      "Stats": {
+        "Agi": 16.0,
+        "Hit": 11.0,
+        "AP": 32,
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Finger2": {
+      "Name": "Slayer",
+      "Id": 10,
+      "Slot": "Finger",
+      "Stats": {
+        "Str": 16.0,
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Trinket1": {
+      "Name": "f",
+      "Id": 12,
+      "Slot": "Trinket",
+      "Stats": {
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Trinket2": {
+      "Name": "f",
+      "Id": 13,
+      "Slot": "Trinket",
+      "Stats": {
+      },
+      "Enchantment": null,
+      "Gems": null
+    }
+  }
+}
