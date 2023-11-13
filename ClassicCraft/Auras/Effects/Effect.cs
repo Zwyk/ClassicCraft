@@ -12,7 +12,7 @@ namespace ClassicCraft
         public bool Friendly { get; set; }
         public double Start { get; set; }
         public double End { get; set; }
-        public double BaseLength { get; set; }
+        public double Duration { get; set; }
         public int BaseStacks { get; set; }
         public int MaxStacks { get; set; }
         public int CurrentStacks { get; set; }
@@ -27,8 +27,8 @@ namespace ClassicCraft
             Target = target;
             Friendly = friendly;
             Start = IsPermanent ? -1 : Player.Sim.CurrentTime;
-            BaseLength = IsPermanent ? -1 : baseLength;
-            End = IsPermanent ? -1 : Start + BaseLength;
+            Duration = IsPermanent ? -1 : baseLength;
+            End = IsPermanent ? -1 : Start + Duration;
             BaseStacks = baseStacks;
             MaxStacks = maxStacks;
             CurrentStacks = BaseStacks;
@@ -51,7 +51,7 @@ namespace ClassicCraft
 
         public virtual void Refresh()
         {
-            End = Player.Sim.CurrentTime + BaseLength;
+            End = Player.Sim.CurrentTime + Duration;
             AppliedTimes.Add(Player.Sim.CurrentTime);
 
             if(Program.logFight)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -80,6 +81,7 @@ namespace ClassicCraft
             Humanoid,
             Bear,
             Cat,
+            Metamorphosis,
         }
 
         public static Races ToRace(string s)
@@ -955,6 +957,8 @@ namespace ClassicCraft
 
         public Dictionary<Slot, Item> Equipment { get; set; }
 
+        public List<string> Runes { get; set; }
+
         public Dictionary<string, int> Talents { get; set; }
 
         public List<Enchantment> Buffs { get; set; }
@@ -1063,6 +1067,10 @@ namespace ClassicCraft
             {
                 return Attributes.GetValue(Attribute.SpellCritChance);
             }
+            set
+            {
+                Attributes.SetValue(Attribute.SpellCritChance, value);
+            }
         }
 
         public double SpellHitChance
@@ -1070,6 +1078,10 @@ namespace ClassicCraft
             get
             {
                 return Attributes.GetValue(Attribute.SpellHitChance);
+            }
+            set
+            {
+                Attributes.SetValue(Attribute.SpellHitChance, value);
             }
         }
 
@@ -1135,7 +1147,7 @@ namespace ClassicCraft
         }
 
         public Player(Simulation s, Player p)
-            : this(s, p.Class, p.Race, p.Level, p.Equipment, p.Talents, p.Buffs, p.Tanking, p.Facing)
+            : this(s, p.Class, p.Race, p.Level, p.Equipment, p.Talents, p.Buffs, p.Tanking, p.Facing, p.Cooldowns, p.Runes)
         {
             Attributes.Values = new Dictionary<Attribute, double>(p.Attributes.Values);
 
@@ -1165,7 +1177,7 @@ namespace ClassicCraft
         }
 
         public Player(Simulation s = null, Classes c = Classes.Warrior, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, 
-            Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false, List<string> cooldowns = null)
+            Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false, List<string> cooldowns = null, List<string> runes = null)
             : base(s, MobType.Humanoid, level)
         {
             Race = r;
@@ -1178,7 +1190,9 @@ namespace ClassicCraft
             rune = new ManaRune(this);
             
             Talents = new Dictionary<string, int>(talents != null ? talents : new Dictionary<string, int>());
-            
+
+            Runes = runes;
+
             Buffs = new List<Enchantment>(buffs != null ? buffs : new List<Enchantment>());
 
             int baseSkill = Level * 5;
@@ -1293,6 +1307,11 @@ namespace ClassicCraft
             if (tr.Any(x => x.Contains("nightseye panther")))
             {
                 cds.Add(new ActiveItemBuff(this, 180, 12, "Figurine - Nightseye Panther", new Dictionary<Attribute, double>() { { Attribute.AP, 320 } }), 12);
+            }
+
+            if(Equipment[Slot.Chest].Name.ToLower().Contains("bulwark of"))
+            {
+                cds.Add(new ActiveItemBuff(this, 1800, 15, "Bulwark chest", new Dictionary<Attribute, double>() { { Attribute.Strength, 150 } }), 15);
             }
         }
 
@@ -1487,11 +1506,6 @@ namespace ClassicCraft
                 if(Tanking && Sim.TankHitRage > 0 && Sim.TankHitEvery > 0)
                 {
                     ThreatMod *= 1.3 * (1 + 0.03 * GetTalentPoints("FI"));
-                    Form = Forms.Bear;
-                }
-                else
-                {
-                    Form = Forms.Cat;   // TODO : Moonkin
                 }
             }
             else if (Class == Classes.Mage)
@@ -1531,6 +1545,11 @@ namespace ClassicCraft
             {
                 Attributes.AddToValue(Attribute.Stamina, 0.03 * GetTalentPoints("DE"));
                 Attributes.AddToValue(Attribute.Spirit, -0.01 * GetTalentPoints("DE"));
+
+                if (Tanking)
+                {
+                    ThreatMod *= 2;
+                }
             }
             else if (Class == Classes.Warrior)
             {
@@ -2509,6 +2528,30 @@ namespace ClassicCraft
                             { Attribute.AP, 160 }
                         };
                         int procDuration = 15;
+
+                        if (Effects.ContainsKey(procName))
+                        {
+                            Effects[procName].Refresh();
+                        }
+                        else
+                        {
+                            CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
+                            buff.StartEffect();
+                        }
+                    }
+
+                    if ((Equipment[Slot.Finger1]?.Name.ToLower() == "band of the eternal champion" || Equipment[Slot.Finger2]?.Name.ToLower() == "band of the eternal champion")
+                        && (!icds.ContainsKey("Band of the Eternal Champion") || icds["Band of the Eternal Champion"] < Sim.CurrentTime - 60))
+                    {
+                        string procName = "Band of the Eternal Champion";
+                        alreadyProc.Add(procName);
+                        icds[procName] = Sim.CurrentTime;
+
+                        Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.AP, 160 }
+                        };
+                        int procDuration = 10;
 
                         if (Effects.ContainsKey(procName))
                         {

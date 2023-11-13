@@ -407,9 +407,9 @@ namespace ClassicCraftGUI
             Class.SelectedIndex = GetComboBoxIndexWithString(Class, player.Class);
             Talents.Text = player.Talents;
             
-            Drums.SelectedIndex = player.Cooldowns["Drums of War"] ? 2 : (player.Cooldowns["Drums of Battle"] ? 1 : 0);
-            Racial.IsChecked = player.Cooldowns["Racial"];
-            Bloodlust.IsChecked = player.Cooldowns["Bloodlust"];
+            Drums.SelectedIndex = (player.Cooldowns.ContainsKey("Drums of War") && player.Cooldowns["Drums of War"]) ? 2 : (player.Cooldowns.ContainsKey("Drums of Battle") && player.Cooldowns["Drums of Battle"] ? 1 : 0);
+            Racial.IsChecked = player.Cooldowns.ContainsKey("Racial") && player.Cooldowns["Racial"];
+            Bloodlust.IsChecked = player.Cooldowns.ContainsKey("Bloodlust") && player.Cooldowns["Bloodlust"];
 
             if(player.Class == "Warrior")
             {
@@ -420,7 +420,7 @@ namespace ClassicCraftGUI
             }
             else
             {
-                Potion.SelectedIndex = player.Cooldowns["Haste Potion"] ? 1 : 0;
+                Potion.SelectedIndex = player.Cooldowns.ContainsKey("Haste Potion") && player.Cooldowns["Haste Potion"] ? 1 : 0;
             }
 
             Kings.IsChecked = player.Buffs.Any(b => b.Name.Equals("Blessing of Kings"));

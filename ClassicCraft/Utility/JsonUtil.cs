@@ -230,12 +230,13 @@ namespace ClassicCraft
             public int Level { get; set; }
             public string Race { get; set; }
             public string Talents { get; set; }
+            public List<String> Runes { get; set; }
             public Dictionary<string, bool> Cooldowns { get; set; }
             public List<JsonEnchantment> Buffs { get; set; }
             public Dictionary<string, JsonWeapon> Weapons { get; set; }
             public Dictionary<string, JsonItem> Equipment { get; set; }
 
-            public JsonPlayer(Dictionary<string, JsonWeapon> weapons = null, Dictionary<string, JsonItem> equipment = null, string @class = "Warrior", int level = 60, string race = "Orc", string talents = "", List<JsonEnchantment> buffs = null, Dictionary<string, bool> cooldowns = null)
+            public JsonPlayer(Dictionary<string, JsonWeapon> weapons = null, Dictionary<string, JsonItem> equipment = null, string @class = "Warrior", int level = 60, string race = "Orc", string talents = "", List<JsonEnchantment> buffs = null, Dictionary<string, bool> cooldowns = null, List<string> runes = null)
             {
                 Class = @class;
                 Level = level;
@@ -245,6 +246,7 @@ namespace ClassicCraft
                 Equipment = equipment;
                 Buffs = buffs;
                 Cooldowns = cooldowns;
+                Runes = runes;
             }
 
             public static Player ToPlayer(JsonPlayer jp, bool tanking = false, bool facing = false)
@@ -283,21 +285,21 @@ namespace ClassicCraft
                 switch(Player.ToClass(jp.Class))
                 {
                     case Player.Classes.Druid:
-                        return new Druid(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns);
+                        return new Druid(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns, jp.Runes);
                     case Player.Classes.Hunter:
-                        return new Hunter(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns);
+                        return new Hunter(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns, jp.Runes);
                     case Player.Classes.Paladin:
-                        return new Paladin(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns);
+                        return new Paladin(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns, jp.Runes);
                     case Player.Classes.Priest:
-                        return new Priest(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns);
+                        return new Priest(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns, jp.Runes);
                     case Player.Classes.Rogue:
-                        return new Rogue(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns);
+                        return new Rogue(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns, jp.Runes);
                     case Player.Classes.Shaman:
-                        return new Shaman(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns);
+                        return new Shaman(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns, jp.Runes);
                     case Player.Classes.Warlock:
-                        return new Warlock(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns);
+                        return new Warlock(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns, jp.Runes);
                     case Player.Classes.Warrior:
-                        return new Warrior(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns);
+                        return new Warrior(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns, jp.Runes);
                     default:
                         throw new NotImplementedException("This class isn't supported yet : " + Player.ToClass(jp.Class));
                 }

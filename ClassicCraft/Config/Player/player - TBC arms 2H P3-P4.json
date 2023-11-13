@@ -9,7 +9,7 @@
     "Recklessness": false,
     "Bloodlust": true,
     "Drums of War": false,
-    "Drums of Battle": true,
+    "Drums of Battle": false,
     "Mighty Rage Potion": false,
     "Haste Potion": true,
     "Insane Strength Potion": false,
@@ -30,14 +30,6 @@
       "Slot": "Any",
       "Stats": {
         "Str": 20.0
-      }
-    },
-    {
-      "Id": 0,
-      "Name": "Battle SHout",
-      "Slot": "Any",
-      "Stats": {
-        "AP": 382.0
       }
     },
     {
@@ -105,8 +97,8 @@
       "Id": 5,
       "Slot": "Weapon",
       "Stats": {
-        "Str": 75,
-        "ArmorPen": 335,
+        "Str": 75.0,
+        "ArmorPen": 335.0
       },
       "Enchantment": {
         "Id": 0,
@@ -129,9 +121,10 @@
       "Slot": "Ranged",
       "Stats": {
         "AP": 23.0,
-        "Crit": 16.0,
+        "Crit": 16.0
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null
     }
   },
   "Equipment": {
@@ -143,7 +136,7 @@
         "Agi": 39.0,
         "Crit": 38.0,
         "Hit": 21.0,
-        "AP": 108.0,
+        "AP": 108.0
       },
       "Enchantment": {
         "Id": 4,
@@ -161,7 +154,7 @@
         "Stats": {
           "Agi": 12.0,
           "Str": 5.0,
-          "Crit": 5.0,
+          "Crit": 5.0
         }
       }
     },
@@ -175,7 +168,7 @@
         "AP": 72.0
       },
       "Enchantment": null,
-      "Gems": null,
+      "Gems": null
     },
     "Shoulders": {
       "Name": "Onslaught",
@@ -184,7 +177,7 @@
       "Stats": {
         "Str": 39.0,
         "Agi": 39.0,
-        "ArmorPen": 91.0,
+        "ArmorPen": 91.0
       },
       "Enchantment": {
         "Id": 4,
@@ -201,7 +194,7 @@
         "Slot": "Shoulders",
         "Stats": {
           "Str": 10.0,
-          "Crit": 8.0,
+          "Crit": 8.0
         }
       }
     },
@@ -221,7 +214,8 @@
         "Stats": {
           "Agi": 12.0
         }
-      }
+      },
+      "Gems": null
     },
     "Chest": {
       "Name": "Onslaught",
@@ -231,7 +225,7 @@
         "Str": 53.0,
         "Agi": 34.0,
         "Hit": 16.0,
-        "ArmorPen": 126,
+        "ArmorPen": 126.0
       },
       "Enchantment": {
         "Id": 6,
@@ -250,7 +244,7 @@
         "Slot": "Chest",
         "Stats": {
           "Str": 15.0,
-          "Crit": 15.0,
+          "Crit": 15.0
         }
       }
     },
@@ -277,7 +271,7 @@
         "Slot": "Wrists",
         "Stats": {
           "Str": 10.0,
-          "Crit": 10.0,
+          "Crit": 10.0
         }
       }
     },
@@ -288,7 +282,7 @@
       "Stats": {
         "Str": 41.0,
         "Agi": 30.0,
-        "ArmorPen": 91
+        "ArmorPen": 91.0
       },
       "Enchantment": {
         "Id": 8,
@@ -304,7 +298,7 @@
         "Slot": "Hands",
         "Stats": {
           "Str": 5.0,
-          "Crit": 7.0,
+          "Crit": 7.0
         }
       }
     },
@@ -315,7 +309,7 @@
       "Stats": {
         "Agi": 29.0,
         "Expertise": 25.0,
-        "AP": 74.0,
+        "AP": 74.0
       },
       "Enchantment": null,
       "Gems": {
@@ -336,7 +330,7 @@
         "Str": 62.0,
         "Agi": 41.0,
         "Hit": 14.0,
-        "ArmorPen": 105.0,
+        "ArmorPen": 105.0
       },
       "Enchantment": {
         "Id": 8,
@@ -352,7 +346,7 @@
         "Name": "Gems",
         "Slot": "Legs",
         "Stats": {
-          "Str": 7.0,
+          "Str": 7.0
         }
       }
     },
@@ -363,7 +357,7 @@
       "Stats": {
         "Str": 38.0,
         "Crit": 30.0,
-        "Hit": 18.0,
+        "Hit": 18.0
       },
       "Enchantment": {
         "Id": 8,
@@ -389,9 +383,10 @@
       "Slot": "Finger",
       "Stats": {
         "Str": 36.0,
-        "Crit": 30.0,
+        "Crit": 30.0
       },
-      "Enchantment": null
+      "Enchantment": null,
+      "Gems": null
     },
     "Finger2": {
       "Name": "Band of the Ranger-General",
@@ -400,7 +395,7 @@
       "Stats": {
         "Crit": 28.0,
         "Hit": 18.0,
-        "AP": 56.0,
+        "AP": 56.0
       },
       "Enchantment": null,
       "Gems": null
@@ -411,7 +406,7 @@
       "Slot": "Trinket",
       "Stats": {
         "Crit": 38.0,
-        "Hit": 10.0,
+        "Hit": 10.0
       },
       "Enchantment": null,
       "Gems": null

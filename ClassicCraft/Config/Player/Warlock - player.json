@@ -1,0 +1,295 @@
+{
+  "Class": "Warlock",
+  "Level": 60,
+  "Race": "Orc",
+  "Talents": "-2050300142501251-50050050005",
+  "Runes": [
+    "Metamorphosis",
+    "Demonic Tactics",
+    "Demonic Grace",
+  ],
+  "Unused Runes": [
+    "Master Channeler",
+  ],
+  "Cooldowns": {
+    "Racial": false,
+    "Corruption": false,
+    "Curse of Agony": true,
+    "Drain Life": true,
+    "Haste Potion": false,
+    "Drums of Battle": false,
+    "Drums of War": false
+  },
+  "Buffs": [
+    {
+      "Id": 0,
+      "Name": "Mark of the Wild",
+      "Slot": "Any",
+      "Stats": {
+        "Str": 14.0,
+        "Agi": 14.0,
+        "Int": 14.0,
+        "Spi": 14.0
+      }
+    }
+  ],
+  "Weapons": {
+    "MH": {
+      "DamageMin": 64.0,
+      "DamageMax": 140.0,
+      "Speed": 2.4,
+      "TwoHanded": false,
+      "Type": "Sword",
+      "Buff": null,
+      "School": null,
+      "Name": "Azuresong Mageblade",
+      "Id": 0,
+      "Slot": "Weapon",
+      "Stats": {
+        "Int": 12.0,
+        "SP": 40.0,
+        "SCrit": 1.0
+      },
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Spell Power",
+        "Slot": null,
+        "Stats": {
+          "SP": 30.0
+        }
+      },
+      "Gems": null
+    },
+    "OH": {
+      "DamageMin": 0.0,
+      "DamageMax": 0.0,
+      "Speed": 0.0,
+      "TwoHanded": false,
+      "Type": "Offhand",
+      "Buff": null,
+      "School": null,
+      "Name": "Fire Runed Grimoire",
+      "Id": 0,
+      "Slot": "Weapon",
+      "Stats": {
+        "Int": 21.0,
+        "SP": 11.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Ranged": {
+      "DamageMin": 0.0,
+      "DamageMax": 0.0,
+      "Speed": 0.0,
+      "TwoHanded": false,
+      "Type": "Wand",
+      "Buff": null,
+      "School": null,
+      "Name": "Skul's Ghastly Touch",
+      "Id": 0,
+      "Slot": "Ranged",
+      "Stats": {
+        "SP": 14.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    }
+  },
+  "Equipment": {
+    "Head": {
+      "Name": "head",
+      "Id": 0,
+      "Slot": null,
+      "Stats": {
+        "SCrit": 1.0,
+        "Int": 21.0,
+        "SP": 21.0
+      },
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Arcanum of Focus",
+        "Slot": null,
+        "Stats": {
+          "SP": 8.0
+        }
+      },
+      "Gems": null
+    },
+    "Neck": {
+      "Name": "neck",
+      "Id": 0,
+      "Slot": null,
+      "Stats": {
+        "Int": 7.0,
+        "SP": 34.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Shoulders": {
+      "Name": "shoulders",
+      "Id": 0,
+      "Slot": null,
+      "Stats": {
+        "Int": 13.0,
+        "SP": 12.0,
+        "SCrit": 1.0,
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Back": {
+      "Name": "back",
+      "Id": 0,
+      "Slot": null,
+      "Stats": {
+        "Int": 17.0,
+        "SP": 14.0
+      },
+      "Enchantment": {
+        "Id": 0,
+        "Name": "none",
+        "Slot": null,
+        "Stats": {}
+      },
+      "Gems": null
+    },
+    "Chest": {
+      "Name": "chest",
+      "Id": 0,
+      "Slot": null,
+      "Stats": {
+        "Int": 15.0,
+        "Spi": 10.0,
+        "SCrit": 2.0,
+        "SP": 23.0
+      },
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Greater Stats",
+        "Slot": null,
+        "Stats": {
+          "Str": 4.0,
+          "Agi": 4.0,
+          "Int": 4.0,
+          "Spi": 4.0
+        }
+      },
+      "Gems": null
+    },
+    "Wrist": {
+      "Name": "cool wrists",
+      "Id": 0,
+      "Slot": null,
+      "Stats": {
+        "Int": 13.0,
+        "Spi": 8.0,
+        "SCrit": 1.0
+      },
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Superior Strength",
+        "Slot": null,
+        "Stats": {}
+      },
+      "Gems": null
+    },
+    "Hands": {
+      "Name": "op hands",
+      "Id": 0,
+      "Slot": null,
+      "Stats": {
+        "SP": 33.0
+      },
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Greater Strength",
+        "Slot": null,
+        "Stats": {}
+      },
+      "Gems": null
+    },
+    "Waist": {
+      "Name": "bis waist",
+      "Id": 0,
+      "Slot": null,
+      "Stats": {
+        "Int": 16.0,
+        "SP": 25.0,
+        "SCrit": 1.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Legs": {
+      "Name": "legs out of this world",
+      "Id": 0,
+      "Slot": null,
+      "Stats": {
+        "SP": 64.0
+      },
+      "Enchantment": {
+        "Id": 0,
+        "Name": "Lesser Arcane Amalgamation",
+        "Slot": null,
+        "Stats": {
+          "SP": 8.0
+        }
+      },
+      "Gems": null
+    },
+    "Feet": {
+      "Name": "wow",
+      "Id": 0,
+      "Slot": null,
+      "Stats": {
+        "SP": 32.0,
+        "Int": 10.0,
+        "MP5": 5.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Ring1": {
+      "Name": "k",
+      "Id": 0,
+      "Slot": null,
+      "Stats": {
+        "SP": 33.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Ring2": {
+      "Name": "kk",
+      "Id": 0,
+      "Slot": null,
+      "Stats": {
+        "SP": 33.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Trinket1": {
+      "Name": "Briarwood Reed",
+      "Id": 0,
+      "Slot": null,
+      "Stats": {
+        "SP": 29.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Trinket2": {
+      "Name": "something something trinket",
+      "Id": 0,
+      "Slot": null,
+      "Stats": {
+        "SCrit": 2.0
+      },
+      "Enchantment": null,
+      "Gems": null
+    }
+  }
+}

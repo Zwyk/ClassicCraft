@@ -18,8 +18,8 @@ namespace ClassicCraft
         {
         }
 
-        public Mage(Simulation s = null, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null)
-            : base(s, Classes.Mage, r, level, items, talents, buffs)
+        public Mage(Simulation s = null, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false, List<string> cooldowns = null, List<string> runes = null)
+            : base(s, Classes.Mage, r, level, items, talents, buffs, tanking, facing, cooldowns, runes)
         {
         }
 

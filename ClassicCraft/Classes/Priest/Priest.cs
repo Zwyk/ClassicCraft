@@ -24,8 +24,8 @@ namespace ClassicCraft
         {
         }
 
-        public Priest(Simulation s = null, Races r = Races.Undead, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false, List<string> cooldowns = null)
-            : base(s, Classes.Priest, r, level, items, talents, buffs, tanking, facing, cooldowns)
+        public Priest(Simulation s = null, Races r = Races.Undead, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false, List<string> cooldowns = null, List<string> runes = null)
+            : base(s, Classes.Priest, r, level, items, talents, buffs, tanking, facing, cooldowns, runes)
         {
         }
 

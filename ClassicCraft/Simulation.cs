@@ -264,15 +264,16 @@ namespace ClassicCraft
         {
             double res = 0;
             armor -= (int)Math.Round(armorpen);
-            //armor = Math.Max(0, armor);
+            armor = Math.Max(0, armor);
 
-            if(Program.version == Version.Vanilla || attackerLevel < 60)
+            if(Program.version == Version.Vanilla || attackerLevel <= 60)
             {
                 res = armor / (armor + 400 + 85.0 * attackerLevel);
             }
             else if(Program.version == Version.TBC)
             {
-                res = armor / (armor + 400 + 85 * (attackerLevel + (5.5 * attackerLevel - 265.5)));
+                //res = armor / (armor + 400 + 85.0 * (attackerLevel + (5.5 * attackerLevel - 265.5)));
+                res = armor / (armor + 400 + 85.0 * (5.5 * attackerLevel - 265.5));
             }
             return 1 - (res > 0.75 ? 0.75 : res);
         }

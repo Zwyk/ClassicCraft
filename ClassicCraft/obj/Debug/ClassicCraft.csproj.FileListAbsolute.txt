@@ -13,5 +13,5 @@ D:\VSProjects\ClassicCraft\ClassicCraft\obj\Debug\ClassicCraft.csproj.CoreCompil
 D:\VSProjects\ClassicCraft\ClassicCraft\obj\Debug\ClassicCraft.csproj.CopyComplete
 D:\VSProjects\ClassicCraft\ClassicCraft\obj\Debug\ClassicCraft.exe
 D:\VSProjects\ClassicCraft\ClassicCraft\obj\Debug\ClassicCraft.pdb
-D:\VSProjects\ClassicCraft\ClassicCraft\obj\Debug\ClassicCraft.csprojAssemblyReference.cache
 D:\VSProjects\ClassicCraft\ClassicCraft\obj\Debug\ClassicCraft_Content.g.cs
+D:\VSProjects\ClassicCraft\ClassicCraft\obj\Debug\ClassicCraft.csproj.AssemblyReference.cache

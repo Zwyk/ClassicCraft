@@ -12,9 +12,27 @@ namespace ClassicCraft
 
         public static double DURATION = 24;
         public static double RATIO = 1;
-        public static int NB_TICKS = (int)(DURATION / 2);
+        public static int TICK_DELAY = 2;
+        public static int NB_TICKS = (int)(DURATION / TICK_DELAY);
 
-        public static double DMG = 666;
+        public int? _DMG;
+        public int DMG
+        {
+            get
+            {
+                if (!_DMG.HasValue)
+                {
+                    if (Player.Level >= 58) _DMG = 1044;
+                    else if (Player.Level >= 48) _DMG = 780;
+                    else if (Player.Level >= 38) _DMG = 504;
+                    else if (Player.Level >= 28) _DMG = 324;
+                    else if (Player.Level >= 18) _DMG = 180;
+                    else if (Player.Level >= 8) _DMG = 84;
+                    else _DMG = 0;
+                }
+                return _DMG.Value;
+            }
+        }
 
         public CurseOfAgonyDoT(Player p, Entity target)
             : base(p, target, false, DURATION, 1, 2)

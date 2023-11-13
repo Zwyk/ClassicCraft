@@ -38,8 +38,8 @@ namespace ClassicCraft
         {
         }
 
-        public Warrior(Simulation s = null, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false, List<string> cooldowns = null)
-            : base(s, Classes.Warrior, r, level, items, talents, buffs, tanking, facing, cooldowns)
+        public Warrior(Simulation s = null, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false, List<string> cooldowns = null, List<string> runes = null)
+            : base(s, Classes.Warrior, r, level, items, talents, buffs, tanking, facing, cooldowns, runes)
         {
         }
 
@@ -245,6 +245,10 @@ namespace ClassicCraft
 
                 rota = Tanking && Sim.TankHitRage > 0 && Sim.TankHitEvery > 0 ? 21 : 20;
                 Spells = new List<Action>();
+                /*
+                Spells.Add(hs);
+                if (Sim.NbTargets > 1) Spells.Add(cl);
+                */
                 if (bt != null) Spells.Add(bt);
                 if (ms != null) Spells.Add(ms);
                 if (slam != null) Spells.Add(slam);
@@ -552,6 +556,7 @@ namespace ClassicCraft
                     {
                         foreach (KeyValuePair<Action, double> a in SpellsDPR)
                         {
+                            //Program.Log(a.Key.ToString() + " : " + a.Value);
                             if (a.Key.CanUse() && a.Value > 0)
                             {
                                 if (a.Key is Slam)
@@ -569,7 +574,7 @@ namespace ClassicCraft
                         }
                     }
                 }
-
+                
                 if (applyAtNextAA == null && Sim.NbTargets > 1 && Resource >= ww.Cost + cl.Cost && cl.CanUse())
                 {
                     cl.Cast();
@@ -673,16 +678,16 @@ namespace ClassicCraft
                 }
                 else if (a is HeroicStrike)
                 {
-                    dmg = (MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + HeroicStrike.BONUS_DMG - aaDmg;
+                    dmg = (MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + HeroicStrike.BONUS_DMG - ((1 - (WindfuryTotem ? 0.2 : 0)) * aaDmg);
                     SpellsDmg.Add(new KeyValuePair<Action, double>(a, dmg));
-                    SpellsDPR.Add(new KeyValuePair<Action, double>(a, dmg / (hs.Cost + aaRage)));
+                    SpellsDPR.Add(new KeyValuePair<Action, double>(a, dmg / (hs.Cost + ((1 - (WindfuryTotem ? 0.2 : 0)) * aaRage))));
                 }
                 else if (a is Cleave)
                 {
-                    dmg = (MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + HeroicStrike.BONUS_DMG - aaDmg
+                    dmg = ((MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + HeroicStrike.BONUS_DMG - ((1 - (WindfuryTotem ? 0.2 : 0)) * aaDmg))
                     * Math.Min(2, Sim.NbTargets);
                     SpellsDmg.Add(new KeyValuePair<Action, double>(a, dmg));
-                    SpellsDPR.Add(new KeyValuePair<Action, double>(a, dmg / (cl.Cost + aaRage)));
+                    SpellsDPR.Add(new KeyValuePair<Action, double>(a, dmg / (cl.Cost + ((1 - (WindfuryTotem ? 0.2 : 0)) * aaRage))));
                 }
                 else if (a is Slam)
                 {
@@ -693,7 +698,7 @@ namespace ClassicCraft
                 // TODO : Prot spells
             }
 
-            SpellsDmg.Sort((x, y) => y.Value.CompareTo(x.Value));
+            SpellsDmg.Sort((x,y) => y.Value.CompareTo(x.Value));
             SpellsDPR.Sort((x,y) => y.Value.CompareTo(x.Value));
 
             /*
@@ -707,13 +712,21 @@ namespace ClassicCraft
         public double AvgAADmg()
         {
             return ((MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14)
-                * 1;    // TODO : properly mitigate using dmg lost from glancing blows (+ crit% lost)
+                //* (1 + CritChance)
+                * (1 + (WindfuryTotem ? 0.2 : 0))
+                ;
+            
+            // TODO : properly mitigate using dmg lost from glancing blows (+ crit% lost)
         }
 
         public double AvgAARage(double avgDmg)
         {
             return Simulation.RageGained(avgDmg, Level, true, false, MH.Speed)
-                * 2;    // TODO : properly estimate with Crit, glancing etc.
+                //* (1 + CritChance)
+                * (1 + (WindfuryTotem ? 0.2 : 0))
+                * 1;    
+            
+            // TODO : properly estimate with Crit, glancing etc.
         }
 
         public double AngerManagementTick { get; set; }

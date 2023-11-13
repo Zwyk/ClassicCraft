@@ -325,13 +325,13 @@
       }
     },
     "Hands": {
-      "Name": "Onslaught",
+      "Name": "Silent",
       "Id": 6,
       "Slot": "Hands",
       "Stats": {
-        "Str": 41.0,
-        "Agi": 30.0,
-        "ArmorPen": 91.0
+        "Str": 40.0,
+        "Hit": 15.0,
+        "ArmorPen": 175.0
       },
       "Enchantment": {
         "Id": 8,
@@ -346,8 +346,8 @@
         "Name": "Gems",
         "Slot": "Hands",
         "Stats": {
-          "Str": 5.0,
-          "Crit": 7.0
+          "Str": 10.0,
+          "Crit": 10.0
         }
       }
     },
@@ -372,14 +372,14 @@
       }
     },
     "Legs": {
-      "Name": "Onslaught",
+      "Name": "Divine",
       "Id": 8,
       "Slot": "Legs",
       "Stats": {
-        "Str": 62.0,
-        "Agi": 41.0,
-        "Hit": 14.0,
-        "ArmorPen": 105.0
+        "Str": 51.0,
+        "Crit": 35.0,
+        "Hit":0.0,
+        "ArmorPen": 350.0
       },
       "Enchantment": {
         "Id": 8,
@@ -395,7 +395,7 @@
         "Name": "Gems",
         "Slot": "Legs",
         "Stats": {
-          "Str": 7.0
+          "Str": 0.0
         }
       }
     },

@@ -2,36 +2,36 @@
   "FightLength": 180.0,
   "FightLengthMod": 0.1,
   "NbSim": 1,
-  "Threat": false,
+  "Threat": true,
   "StatsWeights": false,
-  "TargetErrorPct": 0.1,
+  "TargetErrorPct": 0.5,
   "TargetError": true,
   "LogFight": false,
   "BossAutoLife": true,
   "BossLowLifeTime": 0.0,
   "Boss": {
-    "Level": 73,
+    "Level": 63,
     "Type": null,
-    "Armor": 6193,
+    "Armor": 4400,
     "Debuffs": {
       "Sunder Armor": true,
       "Expose Armor": false,
       "Improved Expose Armor": false,
       "Faerie Fire": true,
-      "Improved Faerie Fire": true,
+      "Improved Faerie Fire": false,
       "Curse of Recklessness": true,
       "Annihilator": false,
-      "Blood Frenzy": true,
-      "Improved Seal of the Crusader": true
+      "Blood Frenzy": false,
+      "Improved Seal of the Crusader": false
     },
     "SchoolResists": {
       "All": 0
     }
   },
-  "UnlimitedMana": false,
+  "UnlimitedMana": true,
   "UnlimitedResource": false,
-  "Facing": false,
-  "Tanking": false,
+  "Facing": true,
+  "Tanking": true,
   "TankHitEvery": 2.0,
   "TankHitRage": 30.0,
   "NbTargets": 1

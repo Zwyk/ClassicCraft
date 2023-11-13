@@ -32,9 +32,9 @@ namespace ClassicCraft
 
         public override void Refresh()
         {
-            BaseLength = DurationCalc(Player);
+            Duration = DurationCalc(Player);
             CurrentStacks = BaseStacks;
-            End = Player.Sim.CurrentTime + BaseLength;
+            End = Player.Sim.CurrentTime + Duration;
             AppliedTimes.Add(Player.Sim.CurrentTime);
 
             if (Program.logFight)

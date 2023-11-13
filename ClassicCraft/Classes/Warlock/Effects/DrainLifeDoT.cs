@@ -3,23 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace ClassicCraft
 {
-    class CorruptionDoT : EffectOnTime
+    class DrainLifeDoT : EffectOnTime
     {
-        public override string ToString() { return NAME; } public static new string NAME = "Corruption";
+        public override string ToString() { return NAME; }
+        public static new string NAME = "Drain Life";
 
-        public static double DURATION(int level)
-        {
-            if (level >= 24) return 18;
-            else if (level >= 14) return 15;
-            else return 12;
-        }
-
+        public static double DURATION = 15;
         public static double RATIO = 1;
-        public int NB_TICKS;
+        public static int TICK_DELAY = 1;
+        public static int NB_TICKS = (int)(DURATION / TICK_DELAY);
 
         public int? _DMG;
         public int DMG
@@ -40,30 +35,20 @@ namespace ClassicCraft
             }
         }
 
-        public CorruptionDoT(Player p, Entity target)
-            : base(p, target, false, 0)
+        public DrainLifeDoT(Player p, Entity target)
+            : base(p, target, false, DURATION, 1, TICK_DELAY)
         {
-            Duration = DURATION(p.Level);
-            NB_TICKS = (int)(Duration / 3);
         }
 
         public override int GetTickDamage()
         {
             return (int)Math.Round((DMG + Player.SP * RATIO) / NB_TICKS
+                * (1 + 0.02 * Player.GetTalentPoints("IDL"))
                 * (1 + 0.02 * Player.GetTalentPoints("SM"))
                 * (1 + 0.15 * Player.GetTalentPoints("DS"))
+                * (1 + 0.03 * Player.GetTalentPoints("SL"))
                 * Player.DamageMod
                 );
-        }
-
-        public override void ApplyTick(int damage)
-        {
-            base.ApplyTick(damage);
-
-            if(Player.GetTalentPoints("NF") > 0)
-            {
-                ShadowTrance.CheckProc(Player);
-            }
         }
 
         public override double GetExternalModifiers()

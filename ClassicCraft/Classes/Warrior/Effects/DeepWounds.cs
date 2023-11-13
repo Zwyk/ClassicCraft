@@ -48,7 +48,7 @@ namespace ClassicCraft
                 * (Player.Sim.Boss.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
                 );
 
-            return (int)Math.Round(damage / BaseLength * TickDelay);
+            return (int)Math.Round(damage / Duration * TickDelay);
         }
         
         public override double GetExternalModifiers()

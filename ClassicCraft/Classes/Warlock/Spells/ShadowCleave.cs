@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class ShadowBolt : Spell
+    class ShadowCleave : Spell
     {
-        public override string ToString() { return NAME; } public static new string NAME = "Shadow Bolt";
+        public override string ToString() { return NAME; }
+        public static new string NAME = "Shadow Cleave";
 
         public static int CD = 0;
 
@@ -21,28 +22,22 @@ namespace ClassicCraft
             {
                 if (!_BASE_COST.HasValue)
                 {
-                    if (Player.Level >= 60) _BASE_COST = 380;
-                    //else if (Player.Level >= 60) _BASE_COST = 370; // Rank 9
-                    else if (Player.Level >= 52) _BASE_COST = 315;
-                    else if (Player.Level >= 44) _BASE_COST = 265;
-                    else if (Player.Level >= 36) _BASE_COST = 210;
-                    else if (Player.Level >= 28) _BASE_COST = 160;
-                    else if (Player.Level >= 20) _BASE_COST = 110;
-                    else if (Player.Level >= 12) _BASE_COST = 70;
-                    else if (Player.Level >= 6) _BASE_COST = 40;
-                    else _BASE_COST = 25;
+                    if (Player.Level >= 60) _BASE_COST = 190;
+                    //else if (Player.Level >= 60) _BASE_COST = 185; // Rank 9
+                    else if (Player.Level >= 52) _BASE_COST = 157;
+                    else if (Player.Level >= 44) _BASE_COST = 132;
+                    else if (Player.Level >= 36) _BASE_COST = 105;
+                    else if (Player.Level >= 28) _BASE_COST = 80;
+                    else if (Player.Level >= 20) _BASE_COST = 55;
+                    else if (Player.Level >= 12) _BASE_COST = 35;
+                    else if (Player.Level >= 6) _BASE_COST = 20;
+                    else _BASE_COST = 12;
                 }
                 return _BASE_COST.Value;
             }
         }
 
-        public static double CAST_TIME(int level)
-        {
-            if (level >= 20) return 3;
-            else if (level >= 12) return 2.8;
-            else if (level >= 6) return 2.2;
-            else return 1.7;
-        }
+        public double CAST_TIME = 0;
 
         public int? _MIN_DMG = null;
         public int MIN_DMG
@@ -51,16 +46,16 @@ namespace ClassicCraft
             {
                 if (!_MIN_DMG.HasValue)
                 {
-                    if (Player.Level >= 60) _MIN_DMG = 482;
-                    //else if (Player.Level >= 60) _MIN_DMG = 455; // Rank 9
-                    else if (Player.Level >= 52) _MIN_DMG = 373;
-                    else if (Player.Level >= 44) _MIN_DMG = 292;
-                    else if (Player.Level >= 36) _MIN_DMG = 213;
-                    else if (Player.Level >= 28) _MIN_DMG = 150;
-                    else if (Player.Level >= 20) _MIN_DMG = 92;
-                    else if (Player.Level >= 12) _MIN_DMG = 52;
-                    else if (Player.Level >= 6) _MIN_DMG = 26;
-                    else _MIN_DMG = 13;
+                    if (Player.Level >= 60) _MIN_DMG = 136;
+                    //else if (Player.Level >= 60) _MIN_DMG = 128; // Rank 9
+                    else if (Player.Level >= 52) _MIN_DMG = 105;
+                    else if (Player.Level >= 44) _MIN_DMG = 82;
+                    else if (Player.Level >= 36) _MIN_DMG = 60;
+                    else if (Player.Level >= 28) _MIN_DMG = 42;
+                    else if (Player.Level >= 20) _MIN_DMG = 26;
+                    else if (Player.Level >= 12) _MIN_DMG = 14;
+                    else if (Player.Level >= 6) _MIN_DMG = 7;
+                    else _MIN_DMG = 3;
                 }
                 return _MIN_DMG.Value;
             }
@@ -73,32 +68,31 @@ namespace ClassicCraft
             {
                 if (!_MAX_DMG.HasValue)
                 {
-                    if (Player.Level >= 60) _MAX_DMG = 538;
-                    //else if (Player.Level >= 60) _MAX_DMG = 507; // Rank 9
-                    else if (Player.Level >= 52) _MAX_DMG = 415;
-                    else if (Player.Level >= 44) _MAX_DMG = 327;
-                    else if (Player.Level >= 36) _MAX_DMG = 240;
-                    else if (Player.Level >= 28) _MAX_DMG = 170;
-                    else if (Player.Level >= 20) _MAX_DMG = 104;
-                    else if (Player.Level >= 12) _MAX_DMG = 61;
-                    else if (Player.Level >= 6) _MAX_DMG = 32;
-                    else _MAX_DMG = 18;
+                    if (Player.Level >= 60) _MAX_DMG = 204;
+                    //else if (Player.Level >= 60) _MAX_DMG = 193; // Rank 9
+                    else if (Player.Level >= 52) _MAX_DMG = 158;
+                    else if (Player.Level >= 44) _MAX_DMG = 124;
+                    else if (Player.Level >= 36) _MAX_DMG = 91;
+                    else if (Player.Level >= 28) _MAX_DMG = 64;
+                    else if (Player.Level >= 20) _MAX_DMG = 39;
+                    else if (Player.Level >= 12) _MAX_DMG = 23;
+                    else if (Player.Level >= 6) _MAX_DMG = 12;
+                    else _MAX_DMG = 7;
                 }
                 return _MAX_DMG.Value;
             }
         }
 
-        public static int VOLLEEY_MAX_TARGETS = 5;
+        public static int MAX_TARGETS = 3;
 
         public double castTimeKeeper;
 
-        public ShadowBolt(Player p)
+        public ShadowCleave(Player p)
             : base(p, CD, 0, true, true, School.Shadow, 0)
         {
             Cost = (int)(BASE_COST * 1 - (0.01 * p.GetTalentPoints("Cata")));
-            double baseCast = CAST_TIME(p.Level);
-            CastTime = baseCast - 0.1 * p.GetTalentPoints("ISB");
-            RATIO = Math.Max(1.5, baseCast) / 3.5;
+            CastTime = CAST_TIME;
+            RATIO = Math.Max(1.5, CAST_TIME) / 3.5;
 
             castTimeKeeper = CastTime;
         }
@@ -107,7 +101,7 @@ namespace ClassicCraft
         {
             bool st = Player.Effects.ContainsKey(ShadowTrance.NAME);
             StartCast(st);
-            if(st) Player.Effects[ShadowTrance.NAME].EndEffect();
+            if (st) Player.Effects[ShadowTrance.NAME].EndEffect();
         }
 
         public override void DoAction()
@@ -120,9 +114,7 @@ namespace ClassicCraft
             int minDmg = MIN_DMG;
             int maxDmg = MAX_DMG;
 
-            int nbt = 1; // Shadow Volley
-
-            for (int i = 1; i <= nbt; i++)
+            for (int i = 1; i <= Math.Min(MAX_TARGETS, Player.Sim.NbTargets); i++)
             {
                 double mitigation = Simulation.MagicMitigation(Player.Sim.Boss.ResistChances[School]);
                 if (mitigation == 0)
@@ -145,7 +137,6 @@ namespace ClassicCraft
                     * Player.DamageMod
                     );
 
-                ShadowVulnerability.CheckProc(Player, this, res);
                 RegisterDamage(new ActionResult(res, damage, (int)(damage * Player.ThreatMod)));
             }
         }

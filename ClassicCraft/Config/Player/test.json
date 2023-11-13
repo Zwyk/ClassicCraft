@@ -2,7 +2,7 @@
   "Class": "Warrior",
   "Level": 70,
   "Race": "Orc",
-  "Talents": "3202430130201-05050005505012050115",
+  "Talents": "32024001302-050500055050120521251",
   "Cooldowns": {
     "Racial": true,
     "Death Wish": true,
@@ -110,20 +110,17 @@
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 214.0,
-      "DamageMax": 398.0,
-      "Speed": 2.8,
+      "DamageMin": 184.0,
+      "DamageMax": 343.0,
+      "Speed": 2.7,
       "TwoHanded": false,
-      "Type": "Sword",
+      "Type": "Mace",
       "Buff": null,
       "School": null,
-      "Name": "Warglaive",
+      "Name": "Dragonstrike",
       "Id": 5,
       "Slot": "Weapon",
       "Stats": {
-        "Agi": 22,
-        "Hit": 21,
-        "AP": 44,
       },
       "Enchantment": {
         "Id": 0,
@@ -148,20 +145,17 @@
       }
     },
     "OH": {
-      "DamageMin": 107.0,
-      "DamageMax": 199.0,
-      "Speed": 1.4,
+      "DamageMin": 147.0,
+      "DamageMax": 275.0,
+      "Speed": 2.6,
       "TwoHanded": false,
       "Type": "Sword",
       "Buff": null,
       "School": null,
-      "Name": "Warglaive",
+      "Name": "Blinkstrike",
       "Id": 5,
       "Slot": "Weapon",
       "Stats": {
-          "Agi": 21,
-          "Crit": 23,
-          "AP": 44,
         },
       "Enchantment": {
         "Id": 0,
@@ -193,13 +187,13 @@
   },
   "Equipment": {
     "Head": {
-      "Name": "Illidary",
+      "Name": "Destroyer",
       "Id": 0,
       "Slot": "Head",
       "Stats": {
-        "Str": 51.0,
-        "Hit": 34.0,
-        "Crit": 42.0
+        "Str": 47.0,
+        "Crit": 36.0,
+        "Hit": 21.0
       },
       "Enchantment": {
         "Id": 4,
@@ -216,8 +210,7 @@
         "Slot": "Head",
         "Stats": {
           "Agi": 12.0,
-          "Str": 5.0,
-          "Crit": 5.0,
+          "Str": 9.0
         }
       }
     },
@@ -263,13 +256,12 @@
       }
     },
     "Back": {
-      "Name": "Dory",
+      "Name": "Vengeance",
       "Id": 3,
       "Slot": "Back",
       "Stats": {
-        "Crit": 20.0,
-        "AP": 46.0,
-        "ArmorPen": 112.0,
+        "Crit": 23.0,
+        "AP": 52.0
       },
       "Enchantment": {
         "Id": 5,
@@ -284,8 +276,8 @@
         "Name": "Gems",
         "Slot": "Back",
         "Stats": {
-          "Str": 0.0,
-          "Crit": 0.0,
+          "Str": 5.0,
+          "Crit": 5.0,
           "Hit": 0.0
         }
       }
@@ -323,13 +315,13 @@
       }
     },
     "Wrists": {
-      "Name": "Deadly",
+      "Name": "Eradication",
       "Id": 5,
       "Slot": "Wrists",
       "Stats": {
-        "Hit": 12.0,
-        "Crit": 28.0,
-        "AP": 58.0,
+        "Str": 25.0,
+        "Crit": 24.0,
+        "Hit": 17.0,
       },
       "Enchantment": {
         "Id": 7,
@@ -355,7 +347,7 @@
       "Slot": "Hands",
       "Stats": {
         "Str": 41.0,
-        "Hit": 30.0,
+        "Agi": 30.0,
         "ArmorPen": 91.0,
       },
       "Enchantment": {
@@ -426,13 +418,12 @@
       }
     },
     "Feet": {
-      "Name": "Dreadboots",
+      "Name": "Obliteration",
       "Id": 9,
       "Slot": "Feet",
       "Stats": {
-        "Str": 38.0,
-        "Hit": 18.0,
-        "Crit": 30.0,
+        "Str": 44.0,
+        "Crit": 31.0
       },
       "Enchantment": {
         "Id": 8,
@@ -447,31 +438,28 @@
         "Name": "Gems",
         "Slot": "Feet",
         "Stats": {
-          "Str": 13.0,
-          "Crit": 10.0,
         }
       }
     },
     "Finger1": {
-      "Name": "Stormrage",
+      "Name": "Ranger",
       "Id": 10,
       "Slot": "Finger",
       "Stats": {
-        "Str": 36.0,
-        "Crit": 30.0,
-        "ArmorPen": 0.0,
+        "Crit": 28.0,
+        "Hit": 18.0,
+        "AP": 56,
       },
       "Enchantment": null,
       "Gems": null
     },
     "Finger2": {
-      "Name": "Primal",
+      "Name": "Unstoppable",
       "Id": 10,
       "Slot": "Finger",
       "Stats": {
-        "Agi": 28.0,
-        "AP": 58,
-        "ArmorPen": 126,
+        "Str": 36.0,
+        "Crit": 30
       },
       "Enchantment": null,
       "Gems": null
@@ -487,11 +475,12 @@
       "Gems": null
     },
     "Trinket2": {
-      "Name": "Shard of Contempt",
+      "Name": "Madness of the Betrayer",
       "Id": 12,
       "Slot": "Trinket",
       "Stats": {
-        "Expertise": 44.0,
+        "AP": 84.0,
+        "Hit": 20,
       },
       "Enchantment": null,
       "Gems": null

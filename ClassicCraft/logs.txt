@@ -1,29 +1,33 @@
-Date : 2021/11/09 13:09:24
+Date : 2023/11/13 04:23:01
 
 Fight length : 180 seconds (±10%)
 Number of targets : 1
 
 Player :
-Orc Warrior level 70 | Talents : 32003301352010500221-0505000500521203 | Stats : [Strength:605][Agility:413.6][Stamina:123.2][Intellect:56.1][Spirit:79.2][Health:2741][Mana:0][AP:2893.8][RangedAP:887.2][CritChance:38.17%][HitChance:12.13%][Haste:0%][SpellHitChance:0%][SpellCritChance:0%][Expertise:3.14%]
-Main weapon : Sword with 350 skill
+Orc Warlock level 60 | Talents : -2050300142501251-50050050005 | Stats : [Strength:66][Agility:65][Stamina:66.15][Intellect:257][Spirit:145.95][Health:1895.5][Mana:5228][CritChance:5.75%][AP:56][RangedAP:65][SpellCritChance:13.94%][SP:398][HitChance:3%][Haste:0%][SpellHitChance:0%][Expertise:0%][MP5:5]
+Main weapon : Sword with 300 skill
 
 Boss :
-Level 73, 6193 Armor (27.28% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
+Level 63, 4400 Armor (44.44% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
 After raid debuffs and player penetration :
-Level 73, 2183 Armor (11.68% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
+Level 63, 1005 Armor (15.45% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
 
-180368 simulations done in 673,464.67 ms, for 3.73 ms by sim
-Overall accuracy of results : ±0.08% (±1.37 DPS)
+608 simulations done in 1 085.81 ms, for 1.79 ms by sim
+Overall accuracy of results : ±0.33% (±1.30 DPS) (±4.75 TPS)
+Average TPS : 1 440.76 TPS (±127.05)
+Average DPS : 393.88 DPS (±32.00)
 
-Base : 1,723.32 DPS (±207.11)
+Average stats for [Searing Pain] : 326.50 DPS (82.89%) / 1 305.98 TPS (90.65%)
+	Average of 2 129.63 threat for 110.29 uses (or 1 use every 1.63s)
+	Average of 532.41 damage for 110.29 uses (or 1 use every 1.63s)
+	43.29% Hit, 39.82% Crit, 16.90% Resist
 
-Weights by DPS :
-1 AP = 0.3958 DPS
-1 Str = 0.8708 DPS = 2.2000 AP
-1 Agi = 0.6105 DPS = 1.5423 AP
-1 Crit = 0.8295 DPS = 2.0956 AP
-1 Hit = 0.0832 DPS = 0.2103 AP
-1 Haste = 0.7828 DPS = 1.9776 AP
-1 Expertise = 1.1848 DPS = 2.9932 AP
-1 Armor Penetration = 0.1036 DPS = 0.2618 AP
-1 MH DPS = 4.9369 DPS = 12.4723 AP
+Average stats for [Curse of Agony] : 0.00 DPS (0.00%) / 0.00 TPS (0.00%)
+	Average of 0.00 threat for 9.53 uses (or 1 use every 18.86s)
+	Average of 0.00 damage for 9.53 uses (or 1 use every 18.86s)
+	84.90% Hit, 0.00% Crit, 15.10% Resist
+
+Average stats for [Curse of Agony] : 67.39 DPS (17.11%) / 134.78 TPS (9.35%)
+	Average of 276.00 threat for 87.82 ticks (or 1 tick every 2.05s)
+	Average of 138.00 damage for 87.82 ticks (or 1 tick every 2.05s)
+	97.67% Uptime

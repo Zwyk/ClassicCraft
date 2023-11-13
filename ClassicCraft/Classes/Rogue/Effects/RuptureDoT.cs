@@ -53,13 +53,13 @@ namespace ClassicCraft
         public override void StartEffect()
         {
             Combo = Player.Combo;
-            BaseLength = DURATION[Combo - 1];
+            Duration = DURATION[Combo - 1];
             base.StartEffect();
         }
 
         public override int GetTickDamage()
         {
-            return (int)Math.Round((BASE_DMG[Combo - 1] + Player.AP * AP_RATIO[Combo - 1] + (Player.NbSet("Deathmantle") >= 2 ? 40 : 0)) / (BaseLength / TickDelay)
+            return (int)Math.Round((BASE_DMG[Combo - 1] + Player.AP * AP_RATIO[Combo - 1] + (Player.NbSet("Deathmantle") >= 2 ? 40 : 0)) / (Duration / TickDelay)
                 * Player.DamageMod
                 * (1 + (0.01 * Player.GetTalentPoints("Murder")))
                 );
