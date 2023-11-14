@@ -27,9 +27,9 @@ namespace ClassicCraft
         {
             if (Randomer.NextDouble() < ProcRate(p))
             {
-                if (p.Sim.Boss.Effects.ContainsKey(NAME))
+                if (p.Target.Effects.ContainsKey(NAME))
                 {
-                    p.Sim.Boss.Effects[NAME].Refresh();
+                    p.Target.Effects[NAME].Refresh();
                 }
                 else
                 {

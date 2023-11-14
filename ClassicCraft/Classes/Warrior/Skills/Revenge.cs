@@ -19,23 +19,23 @@ namespace ClassicCraft
         public Revenge(Player p)
             : base(p, CD, BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") : 0)) { }
 
-        public override void Cast()
+        public override void Cast(Entity t)
         {
             DoAction();
         }
 
         public override void DoAction()
         {
-            ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
+            ResultType res = Player.YellowAttackEnemy(Target);
 
             int damage = (int)Math.Round((Randomer.Next(DMG_MIN, DMG_MAX + 1) + (Player.NbSet("Dreadnaught") >= 2 ? 75 : 0))
                 * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0.1 * Player.GetTalentPoints("Impale") : 0))
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
+                * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                 * Player.DamageMod
                 * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
                 * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
-                * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
-                * (Player.Sim.Boss.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
+                * (res == ResultType.Crit && Player.Buffs.Any(bu => bu.Name.ToLower().Contains("relentless") || bu.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
+                * (Target.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
                 * (Player.Effects.ContainsKey("T4 4P") ? 1.1 : 1)
                 );
 

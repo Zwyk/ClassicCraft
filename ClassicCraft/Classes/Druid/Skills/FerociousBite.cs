@@ -35,11 +35,6 @@ namespace ClassicCraft
         public FerociousBite(Player p)
             : base(p, CD, BASE_COST) { }
 
-        public override void Cast()
-        {
-            DoAction();
-        }
-
         public override bool CanUse()
         {
             return (Player.Effects.ContainsKey(ClearCasting.NAME) || Player.Resource >= Cost) && Available() && (AffectedByGCD ? Player.HasGCD() : true) && Player.Combo > 0;
@@ -47,7 +42,7 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
+            ResultType res = Player.YellowAttackEnemy(Target);
 
             int minDmg = min[Player.Combo - 1];
             int maxDmg = max[Player.Combo - 1];
@@ -64,7 +59,7 @@ namespace ClassicCraft
                 (Randomer.Next(minDmg, maxDmg + 1) + Player.AP * 0.15 + 2.5 * (Player.Resource - cost))
                 * (1 + Player.GetTalentPoints("FA") * 0.03)
                 * Player.Sim.DamageMod(res)
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
+                * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                 * Player.DamageMod);
 
             CommonAction();

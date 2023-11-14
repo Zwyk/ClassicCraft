@@ -65,7 +65,7 @@ namespace ClassicCraft
             Cost = p.Form == Player.Forms.Metamorphosis ? (int)(BASE_COST * RUNE_COST_RATIO) : BASE_COST;
         }
 
-        public override void Cast()
+        public override void Cast(Entity t)
         {
             if(Player.Form == Player.Forms.Metamorphosis)
             {
@@ -85,23 +85,23 @@ namespace ClassicCraft
 
             LogAction();
 
-            ResultType res = Simulation.MagicMitigationBinary(Player.Sim.Boss.MagicResist[School]);
+            ResultType res = Simulation.MagicMitigationBinary(Target.MagicResist[School]);
 
             if (res == ResultType.Hit)
             {
-                res = Player.SpellAttackEnemy(Player.Sim.Boss, false, 0.02 * Player.GetTalentPoints("Suppr"));
+                res = Player.SpellAttackEnemy(Target, false, 0.02 * Player.GetTalentPoints("Suppr"));
             }
 
             if (res == ResultType.Hit)
             {
                 Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Hit, 0, 0), Player.Sim.CurrentTime));
-                if (Player.Sim.Boss.Effects.ContainsKey(DrainLifeDoT.NAME))
+                if (Target.Effects.ContainsKey(DrainLifeDoT.NAME))
                 {
-                    Player.Sim.Boss.Effects[DrainLifeDoT.NAME].Refresh();
+                    Target.Effects[DrainLifeDoT.NAME].Refresh();
                 }
                 else
                 {
-                    new DrainLifeDoT(Player, Player.Sim.Boss).StartEffect();
+                    new DrainLifeDoT(Player, Target).StartEffect();
                 }
             }
             else
@@ -115,10 +115,9 @@ namespace ClassicCraft
             return (int)Math.Round((DMG + Player.SP * RATIO) / NB_TICKS
                 * (1 + 0.02 * Player.GetTalentPoints("IDL"))
                 * (1 + 0.02 * Player.GetTalentPoints("SM"))
-                * (1 + 0.15 * Player.GetTalentPoints("DS"))
-                * (1 + 0.03 * Player.GetTalentPoints("SL"))
-                * (Player.Sim.Boss.Effects.ContainsKey(ShadowVulnerability.NAME) ? ((ShadowVulnerability)Player.Sim.Boss.Effects[ShadowVulnerability.NAME]).Modifier : 1)
-                * (Player.Sim.Boss.Effects.ContainsKey("Shadow Weaving") ? 1.15 : 1)
+                * Math.Max(Player.Tanking ? 0 : (1 + 0.15 * Player.GetTalentPoints("DS")), 1 + 0.02 * Player.GetTalentPoints("MD") * (1 + 0.03 * Player.GetTalentPoints("SL")))
+                * (Player.Target.Effects.ContainsKey(ShadowVulnerability.NAME) ? ((ShadowVulnerability)Player.Target.Effects[ShadowVulnerability.NAME]).Modifier : 1)
+                * (Player.Target.Effects.ContainsKey("Shadow Weaving") ? 1.15 : 1)
                 * Player.DamageMod
                 );
         }

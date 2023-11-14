@@ -13,15 +13,13 @@ namespace ClassicCraft
 
         public static int BASE_COST(int level)
         {
-            int _BASE_COST;
-            if (level >= 60) _BASE_COST = 168;
-            else if (level >= 50) _BASE_COST = 141;
-            else if (level >= 42) _BASE_COST = 118;
-            else if (level >= 34) _BASE_COST = 91;
-            else if (level >= 26) _BASE_COST = 68;
-            else if (level >= 18) _BASE_COST = 45;
-            else _BASE_COST = 0;
-            return _BASE_COST;
+            if (level >= 60) return 168;
+            else if (level >= 50) return 141;
+            else if (level >= 42) return 118;
+            else if (level >= 34) return 91;
+            else if (level >= 26) return 68;
+            else if (level >= 18) return 45;
+            else return 0;
         }
 
         public static int CD = 0;
@@ -31,28 +29,24 @@ namespace ClassicCraft
 
         public int MIN_DMG(int level)
         {
-            int _MIN_DMG;
-            if (level >= 60) _MIN_DMG = 208;
-            else if (level >= 50) _MIN_DMG = 168;
-            else if (level >= 42) _MIN_DMG = 131;
-            else if (level >= 34) _MIN_DMG = 93;
-            else if (level >= 26) _MIN_DMG = 65;
-            else if (level >= 18) _MIN_DMG = 38;
-            else _MIN_DMG = 0;
-            return _MIN_DMG;
+            if (level >= 60) return 208;
+            else if (level >= 50) return 168;
+            else if (level >= 42) return 131;
+            else if (level >= 34) return 93;
+            else if (level >= 26) return 65;
+            else if (level >= 18) return 38;
+            else return 0;
         }
 
         public int MAX_DMG(int level)
         {
-            int _MAX_DMG;
-            if (level >= 60) _MAX_DMG = 244;
-            else if (level >= 50) _MAX_DMG = 199;
-            else if (level >= 42) _MAX_DMG = 155;
-            else if (level >= 34) _MAX_DMG = 112;
-            else if (level >= 26) _MAX_DMG = 77;
-            else if (level >= 18) _MAX_DMG = 47;
-            else _MAX_DMG = 0;
-            return _MAX_DMG;
+            if (level >= 60) return 244;
+            else if (level >= 50) return 199;
+            else if (level >= 42) return 155;
+            else if (level >= 34) return 112;
+            else if (level >= 26) return 77;
+            else if (level >= 18) return 47;
+            else return 0;
         }
 
         public double castTimeKeeper;
@@ -64,7 +58,7 @@ namespace ClassicCraft
             castTimeKeeper = CastTime;
         }
 
-        public override void Cast()
+        public override void Cast(Entity t)
         {
             StartCast(Player.Form == Player.Forms.Metamorphosis);
         }
@@ -74,14 +68,14 @@ namespace ClassicCraft
             base.DoAction();
 
             ResultType res;
-            double mitigation = Simulation.MagicMitigation(Player.Sim.Boss.ResistChances[School]);
+            double mitigation = Simulation.MagicMitigation(Target.ResistChances[School]);
             if (mitigation == 0)
             {
                 res = ResultType.Resist;
             }
             else
             {
-                res = Player.SpellAttackEnemy(Player.Sim.Boss, true, 0, 0.01 * Player.GetTalentPoints("Deva") + 0.02 * Player.GetTalentPoints("ISP"));
+                res = Player.SpellAttackEnemy(Target, true, 0, 0.01 * Player.GetTalentPoints("Deva") + 0.02 * Player.GetTalentPoints("ISP"));
             }
 
             CommonManaSpell();
@@ -91,11 +85,10 @@ namespace ClassicCraft
 
             int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Player.SP * RATIO))
                 * (Player.Sim.DamageMod(res, School) + (res == ResultType.Crit ? 0.5 * Player.GetTalentPoints("Ruin") : 0))
-                * (1 + 0.15 * Player.GetTalentPoints("DS"))
-                * (1 + 0.02 * Player.GetTalentPoints("MD"))
+                * Math.Max(1 + 0.15 * Player.GetTalentPoints("DS"), 1 + 0.02 * Player.GetTalentPoints("MD"))
                 * (1 + 0.03 * Player.GetTalentPoints("SL"))
                 * (1 + 0.02 * Player.GetTalentPoints("Emberstorm"))
-                * (Player.Sim.Boss.Effects.ContainsKey("Improved Scorch") ? 1.15 : 1)
+                * (Target.Effects.ContainsKey("Improved Scorch") ? 1.15 : 1)
                 * mitigation
                 * Player.DamageMod
                 );

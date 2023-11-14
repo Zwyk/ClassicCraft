@@ -16,7 +16,7 @@ namespace ClassicCraft
         public Backstab(Player p)
             : base(p, CD, BASE_COST) { }
 
-        public override void Cast()
+        public override void Cast(Entity t)
         {
             DoAction();
         }
@@ -25,7 +25,7 @@ namespace ClassicCraft
         {
             Weapon weapon = Player.MH;
 
-            ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss, ToString());
+            ResultType res = Player.YellowAttackEnemy(Target, ToString());
 
             int minDmg = (int)Math.Round(weapon.DamageMin * 1.5 + Simulation.Normalization(weapon) * Player.AP / 14);
             int maxDmg = (int)Math.Round(weapon.DamageMax * 1.5 + Simulation.Normalization(weapon) * Player.AP / 14);
@@ -34,12 +34,12 @@ namespace ClassicCraft
 
             int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + BASE_DMG)
                 * Player.Sim.DamageMod(res)
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
+                * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                 * (1 + (0.04 * Player.GetTalentPoints("Oppo")))
                 * (res == ResultType.Crit ? 1 + (0.06 * Player.GetTalentPoints("Letha")) : 1)
                 * (1 + (0.01 * Player.GetTalentPoints("Murder")))
                 * Player.DamageMod
-                * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
+                * (res == ResultType.Crit && Player.Buffs.Any(bu => bu.Name.ToLower().Contains("relentless") || bu.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
                 );
 
             CommonAction();

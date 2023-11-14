@@ -21,7 +21,7 @@ namespace ClassicCraft
             throw new NotImplementedException();
         }
 
-        public override void Cast()
+        public override void Cast(Entity t)
         {
             throw new NotImplementedException();
         }

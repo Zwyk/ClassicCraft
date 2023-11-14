@@ -37,7 +37,7 @@ namespace ClassicCraft
         public Eviscerate(Player p)
             : base(p, CD, BASE_COST - (p.NbSet("Assassination") >= 4 ? 10 : 0)) { }
 
-        public override void Cast()
+        public override void Cast(Entity t)
         {
             CDAction();
 
@@ -53,7 +53,7 @@ namespace ClassicCraft
         {
             CommonAction();
 
-            ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
+            ResultType res = Player.YellowAttackEnemy(Target);
 
             int minDmg = Program.version == Version.Vanilla ? min[Player.Combo - 1] : MIN_TBC;
             int maxDmg = Program.version == Version.Vanilla ? max[Player.Combo - 1] : MAX_TBC;
@@ -62,12 +62,12 @@ namespace ClassicCraft
                 (Randomer.Next(minDmg, maxDmg + 1) + Player.AP * (Program.version == Version.Vanilla ? 0.15 : AP_RATIO_PER_POINTS * Player.Combo)
                     + (Player.NbSet("Deathmantle") >= 2 ? 40 : 0))
                 * Player.Sim.DamageMod(res)
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
+                * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                 * Player.DamageMod
                 * (1 + (0.02 * Player.GetTalentPoints("Agg")))
                 * (1 + (0.05 * Player.GetTalentPoints("IE")))
                 * (1 + (0.01 * Player.GetTalentPoints("Murder")))
-                * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
+                * (res == ResultType.Crit && Player.Buffs.Any(bu => bu.Name.ToLower().Contains("relentless") || bu.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
                 * (1 + (Player.Class == Player.Classes.Rogue && res == ResultType.Crit && Player.MH.Type == Weapon.WeaponType.Mace ? 0.01 * Player.GetTalentPoints("Mace") : 0))
                 );
 

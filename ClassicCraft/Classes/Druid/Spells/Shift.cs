@@ -21,7 +21,7 @@ namespace ClassicCraft
             return Player.Mana >= Cost && Available() && (AffectedByGCD ? Player.HasGCD() : true);
         }
 
-        public override void Cast()
+        public override void Cast(Entity t)
         {
             CommonManaSpell(Player.Effects.ContainsKey(RuneOfMeta.NAME) ? 0 : Cost);
             DoAction();

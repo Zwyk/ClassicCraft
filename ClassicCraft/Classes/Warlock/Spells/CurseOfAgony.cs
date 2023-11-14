@@ -44,23 +44,23 @@ namespace ClassicCraft
 
             LogAction();
 
-            ResultType res = Simulation.MagicMitigationBinary(Player.Sim.Boss.MagicResist[School]);
+            ResultType res = Simulation.MagicMitigationBinary(Target.MagicResist[School]);
 
             if (res == ResultType.Hit)
             {
-                res = Player.SpellAttackEnemy(Player.Sim.Boss, false, 0.02 * Player.GetTalentPoints("Suppr"));
+                res = Player.SpellAttackEnemy(Target, false, 0.02 * Player.GetTalentPoints("Suppr"));
             }
 
             if (res == ResultType.Hit)
             {
                 Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Hit, 0, 0), Player.Sim.CurrentTime));
-                if (Player.Sim.Boss.Effects.ContainsKey(CurseOfAgonyDoT.NAME))
+                if (Target.Effects.ContainsKey(CurseOfAgonyDoT.NAME))
                 {
-                    Player.Sim.Boss.Effects[CurseOfAgonyDoT.NAME].Refresh();
+                    Target.Effects[CurseOfAgonyDoT.NAME].Refresh();
                 }
                 else
                 {
-                    new CurseOfAgonyDoT(Player, Player.Sim.Boss).StartEffect();
+                    new CurseOfAgonyDoT(Player, Target).StartEffect();
                 }
             }
             else

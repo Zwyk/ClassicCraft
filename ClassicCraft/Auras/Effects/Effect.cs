@@ -66,7 +66,21 @@ namespace ClassicCraft
 
             if(Program.logFight)
             {
-                Program.Log(string.Format("{0:N2} : {1} started", Player.Sim.CurrentTime, ToString()));
+                string log = string.Format("{0:N2} : {1} started", Player.Sim.CurrentTime, ToString());
+
+                if (Target != Player && Player.Sim.NbTargets > 1)
+                {
+                    for (int i = 0; i < Player.Sim.Boss.Count; i++)
+                    {
+                        if (Player.Sim.Boss[i] == Target)
+                        {
+                            log += string.Format(" on Target {0}", i + 1);
+                            break;
+                        }
+                    }
+                }
+
+                Program.Log(log);
             }
         }
 

@@ -18,7 +18,7 @@ namespace ClassicCraft
         {
         }
 
-        public override void Cast()
+        public override void Cast(Entity t)
         {
             DoAction();
         }
@@ -31,21 +31,23 @@ namespace ClassicCraft
             int firstDamage = 0;
             ResultType firstRes = ResultType.Hit;
 
-            for (int i = 1; i <= Math.Min(MAX_TARGETS, Player.Sim.NbTargets); i++)
+            Entity t = Target;
+            for (int i = 0; i < Math.Min(MAX_TARGETS, Player.Sim.NbTargets); i++)
             {
-                ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
+                Target = Player.Sim.Boss[i];
+                ResultType res = Player.YellowAttackEnemy(Target);
 
                 int minDmg = (int)Math.Round(Player.MH.DamageMin + Simulation.Normalization(Player.MH) * Player.AP / 14);
                 int maxDmg = (int)Math.Round(Player.MH.DamageMax + Simulation.Normalization(Player.MH) * Player.AP / 14);
 
                 int damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
                     * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0.1 * Player.GetTalentPoints("Impale") : 0))
-                    * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
+                    * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                     * Player.DamageMod
                     * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
                     * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
-                    * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
-                    * (Player.Sim.Boss.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
+                    * (res == ResultType.Crit && Player.Buffs.Any(bu => bu.Name.ToLower().Contains("relentless") || bu.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
+                    * (Target.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
                     * (Player.Effects.ContainsKey("T4 4P") ? 1.1 : 1)
                     );
 
@@ -67,10 +69,10 @@ namespace ClassicCraft
                     damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
                         * 0.5 * (1 + 0.05 * Player.GetTalentPoints("DWS"))
                         * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0.1 * Player.GetTalentPoints("Impale") : 0))
-                        * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
+                        * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                         * Player.DamageMod
-                        * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
-                        * (Player.Sim.Boss.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
+                        * (res == ResultType.Crit && Player.Buffs.Any(bu => bu.Name.ToLower().Contains("relentless") || bu.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
+                        * (Target.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
                         * (Player.Effects.ContainsKey("T4 4P") ? 1.1 : 1)
                         );
 
@@ -79,6 +81,7 @@ namespace ClassicCraft
                     Player.CheckOnHits(false, false, res);
                 }
             }
+            Target = t;
 
             if(Player.Effects.ContainsKey("T4 4P")) Player.Effects["T4 4P"].EndEffect();
 

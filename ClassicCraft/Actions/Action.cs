@@ -44,17 +44,23 @@ namespace ClassicCraft
 
         public School School { get; set; }
 
+        public Entity Target { get; set; }
+
         public Action(Player p, double baseCD, School school = School.Physical)
             : base(p)
         {
             BaseCD = baseCD;
             LockedUntil = 0;
             School = school;
+            Target = p?.Target;
         }
 
-        public abstract void Cast();
+        public virtual void Cast(Entity t)
+        {
+            Target = t;
+        }
 
-        public abstract void DoAction();
+        public virtual void DoAction() { }
 
         public abstract bool CanUse();
 
@@ -97,6 +103,16 @@ namespace ClassicCraft
                 {
                     log += string.Format(" for {0} damage", res.Damage);
                 }
+                if(Player.Sim.NbTargets > 1)
+                {
+                    for(int i = 0;  i < Player.Sim.Boss.Count; i++)
+                    {
+                        if (Player.Sim.Boss[i] == Target)
+                        {
+                            log += string.Format(" on Target {0}", i+1);
+                        }
+                    }
+                }
                 if (!ResourceName().Equals("mana"))
                 {
                     log += string.Format(" ({0} {1}/{2})", ResourceName(), Player.Resource, Player.MaxResource);
@@ -123,6 +139,16 @@ namespace ClassicCraft
             if(Program.logFight)
             {
                 string log = string.Format("{0:N2} : [{1}] cast", Player.Sim.CurrentTime, ToString());
+                if (Player.Sim.NbTargets > 1)
+                {
+                    for (int i = 0; i < Player.Sim.Boss.Count; i++)
+                    {
+                        if (Player.Sim.Boss[i] == Target)
+                        {
+                            log += string.Format(" on Target {0}", i + 1);
+                        }
+                    }
+                }
                 if (!ResourceName().Equals("mana"))
                 {
                     log += string.Format(" ({0} {1}/{2})", ResourceName(), Player.Resource, Player.MaxResource);

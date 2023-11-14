@@ -25,23 +25,23 @@ namespace ClassicCraft
             base.DoAction();
             CommonManaSpell();
             
-            ResultType res = Simulation.MagicMitigationBinary(Player.Sim.Boss.MagicResist[School]);
+            ResultType res = Simulation.MagicMitigationBinary(Target.MagicResist[School]);
 
             if (res == ResultType.Hit)
             {
-                res = Player.SpellAttackEnemy(Player.Sim.Boss, false, 0.02 * Player.GetTalentPoints("SF"));
+                res = Player.SpellAttackEnemy(Target, false, 0.02 * Player.GetTalentPoints("SF"));
             }
 
             if (res == ResultType.Hit)
             {
                 Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Hit, 0, 0), Player.Sim.CurrentTime));
-                if (Player.Sim.Boss.Effects.ContainsKey(SWPDoT.NAME))
+                if (Target.Effects.ContainsKey(SWPDoT.NAME))
                 {
-                    Player.Sim.Boss.Effects[SWPDoT.NAME].Refresh();
+                    Target.Effects[SWPDoT.NAME].Refresh();
                 }
                 else
                 {
-                    new SWPDoT(Player, Player.Sim.Boss).StartEffect();
+                    new SWPDoT(Player, Target).StartEffect();
                 }
             }
             else

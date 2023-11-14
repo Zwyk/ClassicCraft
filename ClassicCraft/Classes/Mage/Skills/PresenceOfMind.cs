@@ -25,9 +25,9 @@ namespace ClassicCraft
             base.DoAction();
             CommonManaSpell();
 
-            if (Player.Sim.Boss.Effects.ContainsKey(PresenceOfMindEffect.NAME))
+            if (Target.Effects.ContainsKey(PresenceOfMindEffect.NAME))
             {
-                Player.Sim.Boss.Effects[PresenceOfMindEffect.NAME].Refresh();
+                Target.Effects[PresenceOfMindEffect.NAME].Refresh();
             }
             else
             {

@@ -56,9 +56,22 @@ namespace ClassicCraft
         {
             Player.Sim.RegisterEffect(new RegisteredEffect(this, damage, Player.Sim.CurrentTime, (int)(damage * Player.ThreatMod)));
 
-            if(Program.logFight)
+            if (Program.logFight)
             {
-                Program.Log(string.Format("{0:N2} : {1} ticks for {2} damage", Player.Sim.CurrentTime, ToString(), damage));
+                string log = string.Format("{0:N2} : {1} ticks for {2} damage", Player.Sim.CurrentTime, ToString(), damage);
+
+                if (Player.Sim.NbTargets > 1)
+                {
+                    for (int i = 0; i < Player.Sim.Boss.Count; i++)
+                    {
+                        if (Player.Sim.Boss[i] == Target)
+                        {
+                            log += string.Format(" on Target {0}", i + 1);
+                        }
+                    }
+                }
+
+                Program.Log(log);
             }
         }
     }

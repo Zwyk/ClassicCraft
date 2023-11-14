@@ -16,14 +16,14 @@ namespace ClassicCraft
         public SunderArmor(Player p)
             : base(p, CD, BASE_COST - p.GetTalentPoints("ISA") - (Program.version == Version.TBC ? p.GetTalentPoints("FR") : 0)) { }
 
-        public override void Cast()
+        public override void Cast(Entity t)
         {
             DoAction();
         }
 
         public override void DoAction()
         {
-            ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
+            ResultType res = Player.YellowAttackEnemy(Target);
 
             int damage = 0;
 

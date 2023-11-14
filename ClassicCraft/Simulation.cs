@@ -25,7 +25,7 @@ namespace ClassicCraft
         public static double RATE = 40;
 
         public Player Player { get; set; }
-        public Boss Boss { get; set; }
+        public List<Boss> Boss { get; set; }
         public double FightLength { get; set; }
 
         public SimResult Results { get; set; }
@@ -59,9 +59,14 @@ namespace ClassicCraft
         public Simulation(Player player, Boss boss, double fightLength, bool autoBossLife = true, double lowLifeTime = 0, double fightLengthMod = 0.2, bool unlimitedMana = false, bool unlimitedResource = false, bool tanking = false, double tankHitEvery = 1, double tankHitRage = 25, int nbTargets = 1, bool doThreat = false)
         {
             Player = player;
-            Boss = boss;
+            Boss = new List<Boss>();
+            for(int i = 1;  i <= nbTargets; i++)
+            {
+                Boss b = new Boss(boss);
+                b.Sim = this;
+                Boss.Add(b);
+            }
             player.Sim = this;
-            Boss.Sim = this;
             FightLength = fightLength * (1 + fightLengthMod/2 - (Randomer.NextDouble() * fightLengthMod));
             Results = new SimResult(FightLength);
             Damage = 0;
@@ -89,7 +94,10 @@ namespace ClassicCraft
             Player.PrepFight();
 
             CurrentTime = 0;
-            Boss.LifePct = 1;
+            foreach(var b in Boss)
+            {
+                b.LifePct = 1;
+            }
             
             /*
             if (Randomer.NextDouble() < 0.002)
@@ -123,16 +131,25 @@ namespace ClassicCraft
         {
             if (AutoLife)
             {
-                Boss.LifePct = Math.Max(0, 1 - (CurrentTime / FightLength) * (Program.version == Version.Vanilla ? 16.0 / 17.0 : 1));
+                foreach(Boss b in Boss)
+                {
+                    b.LifePct = Math.Max(0, 1 - (CurrentTime / FightLength) * (Program.version == Version.Vanilla ? 16.0 / 17.0 : 1));
+                }
             }
-            else if (CurrentTime >= LowLifeTime && Boss.LifePct == 1)
+            else if (CurrentTime >= LowLifeTime && Boss[0].LifePct == 1)
             {
-                Boss.LifePct = 0.10;
+                foreach (Boss b in Boss)
+                {
+                    b.LifePct = 0.10;
+                }
             }
 
-            foreach (Effect e in new List<Effect>(Boss.Effects.Values))
+            foreach(Boss b in Boss)
             {
-                e.CheckEffect();
+                foreach (Effect e in new List<Effect>(b.Effects.Values))
+                {
+                    e.CheckEffect();
+                }
             }
 
             foreach (Effect e in new List<Effect>(Player.Effects.Values))
@@ -160,14 +177,15 @@ namespace ClassicCraft
 
             if (Player.casting != null)
             {
-                if (Player.casting is ChannelSpell)
+                Spell spell = Player.casting;
+                if (spell is ChannelSpell channel)
                 {
-                    ((ChannelSpell)Player.casting).CheckTick();
+                    channel.CheckTick();
                 }
 
-                if (Player.casting.CastFinish <= CurrentTime)
+                if (spell.CastFinish <= CurrentTime)
                 {
-                    Player.casting.DoAction();
+                    spell.DoAction();
                 }
             }
 
@@ -244,7 +262,7 @@ namespace ClassicCraft
                 // TODO BLOCK / BLOCKCRIT
                 case ResultType.Crit: return (school == School.Physical || isWeapon) ? 2 : 1.5;
                 case ResultType.Hit: return 1;
-                case ResultType.Glance: return GlancingDamage(Player.WeaponSkill[MH ? Player.MH.Type : Player.OH.Type], Boss.Level);
+                case ResultType.Glance: return GlancingDamage(Player.WeaponSkill[MH ? Player.MH.Type : Player.OH.Type], Boss[0].Level);
                 default: return 0;
             }
         }
@@ -254,7 +272,7 @@ namespace ClassicCraft
             switch (type)
             {
                 case ResultType.Crit: return 2;
-                case ResultType.Glance: return GlancingDamage(Player.WeaponSkill[MH ? Player.MH.Type : Player.OH.Type], Boss.Level);
+                case ResultType.Glance: return GlancingDamage(Player.WeaponSkill[MH ? Player.MH.Type : Player.OH.Type], Boss[0].Level);
                 case ResultType.Miss: return 0;
                 default: return 1;
             }

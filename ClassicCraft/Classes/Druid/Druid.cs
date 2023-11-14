@@ -103,7 +103,7 @@ namespace ClassicCraft
 
             if (Equipment[Slot.MH].Name.ToLower().Equals("manual crowd pummeler"))
             {
-                new MCP(this).Cast();
+                new MCP(this).Cast(Target);
             }
 
             if(Tanking && Sim.TankHitRage > 0 && Sim.TankHitEvery > 0)
@@ -125,11 +125,11 @@ namespace ClassicCraft
             {
                 if(maul.CanUse())
                 {
-                    maul.Cast();
+                    maul.Cast(Target);
                 }
                 if(swipe.CanUse() && Resource > maul.Cost + swipe.Cost)
                 {
-                    swipe.Cast();
+                    swipe.Cast(Target);
                 }
             }
             else if (rota == 0) //SHRED + FB + SHIFT + INNERV
@@ -142,11 +142,11 @@ namespace ClassicCraft
                         || (Combo > 4 && Resource > fb.Cost + shred.Cost - (20 * (GCDUntil - Sim.CurrentTime) / GCD))
                         ))
                     {
-                        shred.Cast();
+                        shred.Cast(Target);
                     }
                     else if (Combo > 4 && fb.CanUse())
                     {
-                        fb.Cast();
+                        fb.Cast(Target);
                     }
                     else if (Resource < shred.Cost - 20 && shift.CanUse() && (innerv.Available() || Effects.ContainsKey(InnervateBuff.NAME)
                                                                     || (rom != null && rom.Available()) || Effects.ContainsKey(RuneOfMeta.NAME)
@@ -163,11 +163,11 @@ namespace ClassicCraft
                     {
                         if (pot.CanUse() && MaxMana - Mana > ManaPotion.MAX)
                         {
-                            pot.Cast();
+                            pot.Cast(Target);
                         }
                         if (rune.CanUse() && MaxMana - Mana > ManaRune.MANA_MAX)
                         {
-                            rune.Cast();
+                            rune.Cast(Target);
                         }
                     }
 
@@ -175,17 +175,17 @@ namespace ClassicCraft
                     {
                         if (innerv.CanUse())
                         {
-                            innerv.Cast();
+                            innerv.Cast(Target);
                         }
                         else if (rom != null && rom.CanUse())
                         {
-                            rom.Cast();
+                            rom.Cast(Target);
                         }
                     }
 
                     if (shift.CanUse())
                     {
-                        shift.Cast();
+                        shift.Cast(Target);
                     }
                 }
             }

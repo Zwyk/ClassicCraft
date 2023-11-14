@@ -24,13 +24,13 @@ namespace ClassicCraft
         {
             if (type == ResultType.Crit)
             {
-                if (p.Sim.Boss.Effects.ContainsKey(NAME))
+                if (p.Target.Effects.ContainsKey(NAME))
                 {
-                    p.Sim.Boss.Effects[NAME].Refresh();
+                    p.Target.Effects[NAME].Refresh();
                 }
                 else
                 {
-                    new DeepWounds(p, points, p.Sim.Boss).StartEffect();
+                    new DeepWounds(p, points, p.Target).StartEffect();
                 }
             }
         }
@@ -45,7 +45,7 @@ namespace ClassicCraft
                 * Player.DamageMod
                 * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
                 * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
-                * (Player.Sim.Boss.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
+                * (Player.Target.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
                 );
 
             return (int)Math.Round(damage / Duration * TickDelay);

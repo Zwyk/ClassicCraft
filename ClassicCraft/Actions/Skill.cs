@@ -20,8 +20,9 @@ namespace ClassicCraft
             UseMana = useMana;
         }
 
-        public override void Cast()
+        public override void Cast(Entity t)
         {
+            Target = t;
             DoAction();
         }
 
@@ -44,7 +45,7 @@ namespace ClassicCraft
 
         public void CastIfCan()
         {
-            if (CanUse()) Cast();
+            if (CanUse()) Cast(Target);
         }
     }
 }

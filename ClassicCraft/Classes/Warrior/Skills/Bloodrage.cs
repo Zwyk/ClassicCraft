@@ -23,7 +23,7 @@ namespace ClassicCraft
             Rage = 10 + (p.GetTalentPoints("IBR") > 0 ? (p.GetTalentPoints("IBR") == 1 ? 2 : 5) : 0);
         }
 
-        public override void Cast()
+        public override void Cast(Entity t)
         {
             CommonRessourceSkill();
             DoAction();

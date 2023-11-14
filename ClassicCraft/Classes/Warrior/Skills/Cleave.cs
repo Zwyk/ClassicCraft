@@ -23,7 +23,7 @@ namespace ClassicCraft
             return Player.Resource >= Cost;
         }
 
-        public override void Cast()
+        public override void Cast(Entity t)
         {
             Player.applyAtNextAA = this;
         }
@@ -39,9 +39,10 @@ namespace ClassicCraft
             List<int> damages = new List<int>(); ;
             List<ResultType> ress = new List<ResultType>();
 
-            for (int i = 1; i <= Math.Min(2, Player.Sim.NbTargets); i++)
+            for (int i = 0; i < Math.Min(2, Player.Sim.NbTargets); i++)
             {
-                ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
+                Boss t = Player.Sim.Boss[i];
+                ResultType res = Player.YellowAttackEnemy(t);
 
                 int minDmg = (int)Math.Round(weapon.DamageMin + weapon.Speed * (Player.AP + Player.nextAABonus) / 14);
                 int maxDmg = (int)Math.Round(weapon.DamageMax + weapon.Speed * (Player.AP + Player.nextAABonus) / 14);
@@ -50,12 +51,12 @@ namespace ClassicCraft
 
                 int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + BONUS_DMG)
                     * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0.1 * Player.GetTalentPoints("Impale") : 0))
-                    * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
+                    * Simulation.ArmorMitigation(t.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                     * Player.DamageMod
                     * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
                     * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
-                    * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
-                    * (Player.Sim.Boss.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
+                    * (res == ResultType.Crit && Player.Buffs.Any(bu => bu.Name.ToLower().Contains("relentless") || bu.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
+                    * (t.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
                     * (Player.Effects.ContainsKey("T4 4P") ? 1.1 : 1)
                     );
 

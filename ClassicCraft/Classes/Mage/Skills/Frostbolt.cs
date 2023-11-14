@@ -25,7 +25,7 @@ namespace ClassicCraft
         {
         }
 
-        public override void Cast()
+        public override void Cast(Entity t)
         {
             StartCast(Player.Effects.ContainsKey(PresenceOfMindEffect.NAME));
             Player.Effects[PresenceOfMindEffect.NAME].EndEffect();
@@ -38,14 +38,14 @@ namespace ClassicCraft
             double winterChillBonusCrit = 0.1;
 
             ResultType res;
-            double mitigation = Simulation.MagicMitigation(Player.Sim.Boss.ResistChances[School]);
+            double mitigation = Simulation.MagicMitigation(Target.ResistChances[School]);
             if (mitigation == 0)
             {
                 res = ResultType.Resist;
             }
             else
             {
-                res = Player.SpellAttackEnemy(Player.Sim.Boss, true, 0.02 * Player.GetTalentPoints("EP"), winterChillBonusCrit);
+                res = Player.SpellAttackEnemy(Target, true, 0.02 * Player.GetTalentPoints("EP"), winterChillBonusCrit);
             }
 
             CommonManaSpell();

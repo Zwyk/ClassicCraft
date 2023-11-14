@@ -285,13 +285,13 @@ namespace ClassicCraft
         {
             if (br.CanUse() && Resource < 90)
             {
-                br.Cast();
+                br.Cast(Target);
             }
 
             /*
             if (bs.CanUse() && (!Effects.Any(e => e is BattleShoutBuff) || ((BattleShoutBuff)Effects.Where(e => e is BattleShoutBuff).First()).RemainingTime() < GCD))
             {
-                bs.Cast();
+                bs.Cast(target);
             }
             */
 
@@ -305,7 +305,7 @@ namespace ClassicCraft
                     {
                         if (!(cd is MightyRage) || Sim.FightLength - Sim.CurrentTime >= cd.BaseCD + cds[cd] || ((!Tanking || Sim.TankHitRage == 0 || Sim.TankHitEvery == 0) && Resource < exec.Cost))
                         {
-                            cd.Cast();
+                            cd.Cast(Target);
                         }
                     }
                 }
@@ -314,32 +314,32 @@ namespace ClassicCraft
             // VANILLA
             if (rota == 0) //BT > WW > HAM + HS + EXEC
             {
-                if (Sim.Boss.LifePct > 0.2)
+                if (Target.LifePct > 0.2)
                 {
                     if (Sim.NbTargets > 1 && ww.CanUse())
                     {
-                        ww.Cast();
+                        ww.Cast(Target);
                     }
                     else if (bt.CanUse())
                     {
-                        bt.Cast();
+                        bt.Cast(Target);
                     }
                     else if (ww.CanUse() && Resource >= ww.Cost + bt.Cost && bt.RemainingCD() >= GCD)
                     {
-                        ww.Cast();
+                        ww.Cast(Target);
                     }
                     else if (ham.CanUse() && Resource >= bt.Cost + ww.Cost + hs.Cost && ww.RemainingCD() >= GCD && bt.RemainingCD() >= GCD && bt.RemainingCD() >= GCD && (!Effects.ContainsKey(Flurry.NAME) || ((Flurry)Effects[Flurry.NAME]).CurrentStacks < 3))
                     {
-                        ham.Cast();
+                        ham.Cast(Target);
                     }
 
                     if (applyAtNextAA == null && Sim.NbTargets > 1 && Resource >= ww.Cost + cl.Cost && cl.CanUse())
                     {
-                        cl.Cast();
+                        cl.Cast(Target);
                     }
                     else if (!MH.TwoHanded && applyAtNextAA == null && Resource >= bt.Cost + ww.Cost + hs.Cost && hs.CanUse())
                     {
-                        hs.Cast();
+                        hs.Cast(Target);
                     }
                     else if (!MH.TwoHanded && Resource < bt.Cost + ww.Cost + hs.Cost)
                     {
@@ -350,24 +350,24 @@ namespace ClassicCraft
                 {
                     if (exec.CanUse())
                     {
-                        exec.Cast();
+                        exec.Cast(Target);
                     }
                 }
             }
             else if (rota == 1) //SLAM + EXEC
             {
-                if (Sim.Boss.LifePct > 0.2)
+                if (Target.LifePct > 0.2)
                 {
                     if (slam.CanUse())
                     {
-                        slam.Cast();
+                        slam.Cast(Target);
                     }
                 }
                 else
                 {
                     if (exec.CanUse())
                     {
-                        exec.Cast();
+                        exec.Cast(Target);
                     }
                 }
             }
@@ -375,24 +375,24 @@ namespace ClassicCraft
             {
                 if (bt.CanUse())
                 {
-                    bt.Cast();
+                    bt.Cast(Target);
                 }
                 else if (rev.CanUse())
                 {
-                    rev.Cast();
+                    rev.Cast(Target);
                 }
                 else if (sa.CanUse())
                 {
-                    sa.Cast();
+                    sa.Cast(Target);
                 }
 
                 if (applyAtNextAA == null && Sim.NbTargets > 1 && Resource >= ww.Cost + cl.Cost && cl.CanUse())
                 {
-                    cl.Cast();
+                    cl.Cast(Target);
                 }
                 else if (!MH.TwoHanded && applyAtNextAA == null && Resource >= bt.Cost + sa.Cost + hs.Cost && hs.CanUse())
                 {
-                    hs.Cast();
+                    hs.Cast(Target);
                 }
                 else if (!MH.TwoHanded && applyAtNextAA != null && Resource < bt.Cost + sa.Cost + hs.Cost)
                 {
@@ -403,24 +403,24 @@ namespace ClassicCraft
             {
                 if (bt.CanUse())
                 {
-                    bt.Cast();
+                    bt.Cast(Target);
                 }
                 else if (rev.CanUse())
                 {
-                    rev.Cast();
+                    rev.Cast(Target);
                 }
                 else if (bs.CanUse())
                 {
-                    bs.Cast();
+                    bs.Cast(Target);
                 }
 
                 if (applyAtNextAA == null && Sim.NbTargets > 1 && Resource >= ww.Cost + cl.Cost && cl.CanUse())
                 {
-                    cl.Cast();
+                    cl.Cast(Target);
                 }
                 else if (!MH.TwoHanded && applyAtNextAA == null && Resource >= bt.Cost + sa.Cost + hs.Cost && hs.CanUse())
                 {
-                    hs.Cast();
+                    hs.Cast(Target);
                 }
                 else if (!MH.TwoHanded && applyAtNextAA != null && Resource < bt.Cost + sa.Cost + hs.Cost)
                 {
@@ -432,125 +432,125 @@ namespace ClassicCraft
             {
                 if (ss != null && Sim.NbTargets > 1 && ss.CanUse())
                 {
-                    ss.Cast();
+                    ss.Cast(Target);
                 }
 
                 if (ramp != null && (!Effects.ContainsKey(RampageBuff.NAME) || Effects[RampageBuff.NAME].RemainingTime() < GCD_Hasted() * 2) && ramp.CanUse())
                 {
-                    ramp.Cast();
+                    ramp.Cast(Target);
                 }
                 else if (ww.CanUse())
                 {
-                    ww.Cast();
+                    ww.Cast(Target);
                 }
                 else if (bt.CanUse())
                 {
-                    bt.Cast();
+                    bt.Cast(Target);
                 }
-                else if (Sim.Boss.LifePct <= 0.2 && exec.CanUse())
+                else if (Target.LifePct <= 0.2 && exec.CanUse())
                 {
-                    exec.Cast();
+                    exec.Cast(Target);
                 }
 
                 if (applyAtNextAA == null && Sim.NbTargets > 1 && Resource >= ww.Cost + cl.Cost && cl.CanUse())
                 {
-                    cl.Cast();
+                    cl.Cast(Target);
                 }
                 else if (applyAtNextAA == null && Resource >= bt.Cost + ww.Cost + hs.Cost && hs.CanUse())
                 {
-                    hs.Cast();
+                    hs.Cast(Target);
                 }
             }
             else if (rota == 11) // Slam > MS > WW + HS + Exec
             {
                 if (ss != null && Sim.NbTargets > 1 && ss.CanUse())
                 {
-                    ss.Cast();
+                    ss.Cast(Target);
                 }
 
 
                 if (Sim.NbTargets > 1 && ww.CanUse())
                 {
-                    ww.Cast();
+                    ww.Cast(Target);
                 }
                 else if (mh.LockedUntil - Sim.CurrentTime >= mh.CurrentSpeed() * 0.95 && slam.CanUse())
                 {
-                    slam.Cast();
+                    slam.Cast(Target);
                 }
                 else if (ms.CanUse())
                 {
-                    ms.Cast();
+                    ms.Cast(Target);
                 }
                 else if (ww.CanUse())
                 {
-                    ww.Cast();
+                    ww.Cast(Target);
                 }
-                else if (Sim.Boss.LifePct <= 0.2 && exec.CanUse())
+                else if (Target.LifePct <= 0.2 && exec.CanUse())
                 {
-                    exec.Cast();
+                    exec.Cast(Target);
                 }
 
                 if (applyAtNextAA == null && Sim.NbTargets > 1 && Resource >= ww.Cost + cl.Cost && cl.CanUse())
                 {
-                    cl.Cast();
+                    cl.Cast(Target);
                 }
                 else if (applyAtNextAA == null && Resource >= ms.Cost + ww.Cost + hs.Cost && hs.CanUse())
                 {
-                    hs.Cast();
+                    hs.Cast(Target);
                 }
             }
             else if (rota == 111) // MS > WW > HS + Exec
             {
                 if (ss != null && Sim.NbTargets > 1 && ss.CanUse())
                 {
-                    ss.Cast();
+                    ss.Cast(Target);
                 }
 
                 if (Sim.NbTargets > 1 && ww.CanUse())
                 {
-                    ww.Cast();
+                    ww.Cast(Target);
                 }
-                else if (Sim.Boss.LifePct <= 0.2 && exec.CanUse())
+                else if (Target.LifePct <= 0.2 && exec.CanUse())
                 {
-                    exec.Cast();
+                    exec.Cast(Target);
                 }
                 else if (ms.CanUse())
                 {
-                    ms.Cast();
+                    ms.Cast(Target);
                 }
                 else if (ww.CanUse())
                 {
-                    ww.Cast();
+                    ww.Cast(Target);
                 }
 
                 if (applyAtNextAA == null && Sim.NbTargets > 1 && Resource >= ww.Cost + cl.Cost && cl.CanUse())
                 {
-                    cl.Cast();
+                    cl.Cast(Target);
                 }
                 else if (applyAtNextAA == null && Resource >= ms.Cost + ww.Cost + hs.Cost && hs.CanUse())
                 {
-                    hs.Cast();
+                    hs.Cast(Target);
                 }
             }
             // AUTO DPS BY DPR
             else if (rota == 20)
             {
                 if (HasGCD() && 
-                    (DPRAtAP != AP || (Sim.Boss.LifePct <= 0.2 && DPRAtRage != Resource) || (slam != null && slam.CanUse())))
+                    (DPRAtAP != AP || (Target.LifePct <= 0.2 && DPRAtRage != Resource) || (slam != null && slam.CanUse())))
                 {
                     CalcDPR();
                 }
 
                 if (ss != null && Sim.NbTargets > 1 && ss.CanUse())
                 {
-                    ss.Cast();
+                    ss.Cast(Target);
                 }
 
                 if(HasGCD())
                 {
                     if (ramp != null && (!Effects.ContainsKey(RampageBuff.NAME) || Effects[RampageBuff.NAME].RemainingTime() < GCD_Hasted() * 2) && ramp.CanUse())
                     {
-                        ramp.Cast();
+                        ramp.Cast(Target);
                     }
                     else
                     {
@@ -563,12 +563,12 @@ namespace ClassicCraft
                                 {
                                     if (a.Value == SpellsDPR.Max(v => v.Value))
                                     {
-                                        a.Key.Cast();
+                                        a.Key.Cast(Target);
                                     }
                                 }
                                 else
                                 {
-                                    a.Key.Cast();
+                                    a.Key.Cast(Target);
                                 }
                             }
                         }
@@ -577,11 +577,11 @@ namespace ClassicCraft
                 
                 if (applyAtNextAA == null && Sim.NbTargets > 1 && Resource >= ww.Cost + cl.Cost && cl.CanUse())
                 {
-                    cl.Cast();
+                    cl.Cast(Target);
                 }
                 else if (DualWielding && applyAtNextAA == null && Resource >= (bt != null ? bt.Cost : 0) + (ms != null ? ms.Cost : 0) + (slam != null ? slam.Cost : 0) + ww.Cost + hs.Cost && hs.CanUse())
                 {
-                    hs.Cast();
+                    hs.Cast(Target);
                 }
             }
             // TANKING
@@ -589,40 +589,40 @@ namespace ClassicCraft
             {
                 if (tc != null && Sim.NbTargets > 1 && tc.CanUse())
                 {
-                    tc.Cast();
+                    tc.Cast(Target);
                 }
                 else if (bt != null && bt.CanUse())
                 {
-                    bt.Cast();
+                    bt.Cast(Target);
                 }
                 else if (ms != null && ms.CanUse())
                 {
-                    ms.Cast();
+                    ms.Cast(Target);
                 }
                 else if (shslam != null && shslam.CanUse())
                 {
-                    shslam.Cast();
+                    shslam.Cast(Target);
                 }
                 else if (rev.CanUse())
                 {
-                    rev.Cast();
+                    rev.Cast(Target);
                 }
                 else if (dev != null && dev.CanUse())
                 {
-                    dev.Cast();
+                    dev.Cast(Target);
                 }
                 else if (dev == null && sa.CanUse())
                 {
-                    sa.Cast();
+                    sa.Cast(Target);
                 }
 
                 if (applyAtNextAA == null && Sim.NbTargets > 1 && Resource >= 50 && cl.CanUse())
                 {
-                    cl.Cast();
+                    cl.Cast(Target);
                 }
                 else if (applyAtNextAA == null && !MH.TwoHanded && Resource >= 50 && hs.CanUse())
                 {
-                    hs.Cast();
+                    hs.Cast(Target);
                 }
             }
 
@@ -670,7 +670,7 @@ namespace ClassicCraft
                     SpellsDmg.Add(new KeyValuePair<Action, double>(a, dmg));
                     SpellsDPR.Add(new KeyValuePair<Action, double>(a, dmg / ms.Cost));
                 }
-                else if (a is Execute && Sim.Boss.LifePct <= 0.2)
+                else if (a is Execute && Target.LifePct <= 0.2)
                 {
                     dmg = Execute.BASE_DMG + Execute.DMG_BY_RAGE * (Resource - exec.Cost);
                     SpellsDmg.Add(new KeyValuePair<Action, double>(a, dmg));

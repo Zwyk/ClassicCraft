@@ -24,11 +24,11 @@ namespace ClassicCraft
 
             NextTick = Player.Sim.CurrentTime + TickDelay;
 
-            ResultType res = Simulation.MagicMitigationBinary(Player.Sim.Boss.MagicResist[School]);
+            ResultType res = Simulation.MagicMitigationBinary(Target.MagicResist[School]);
 
             if (res == ResultType.Hit)
             {
-                res = Player.SpellAttackEnemy(Player.Sim.Boss, false, 0.02 * Player.GetTalentPoints("SF"));
+                res = Player.SpellAttackEnemy(Target, false, 0.02 * Player.GetTalentPoints("SF"));
             }
 
             if (res == ResultType.Hit)
@@ -57,11 +57,24 @@ namespace ClassicCraft
         public virtual void ApplyTick(int damage)
         {
             //Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Hit, damage), Player.Sim.CurrentTime));
-            Player.Sim.RegisterEffect(new RegisteredEffect(new CustomEffect(Player, Player.Sim.Boss, ToString(), false, 1), damage, Player.Sim.CurrentTime, (int)(damage * Player.ThreatMod)));
+            Player.Sim.RegisterEffect(new RegisteredEffect(new CustomEffect(Player, Target, ToString(), false, 1), damage, Player.Sim.CurrentTime, (int)(damage * Player.ThreatMod)));
 
             if (Program.logFight)
             {
-                Program.Log(string.Format("{0:N2} : {1} ticks for {2} damage", Player.Sim.CurrentTime, ToString(), damage));
+                string log = string.Format("{0:N2} : {1} ticks for {2} damage", Player.Sim.CurrentTime, ToString(), damage);
+
+                if (Player.Sim.NbTargets > 1)
+                {
+                    for (int i = 0; i < Player.Sim.Boss.Count; i++)
+                    {
+                        if (Player.Sim.Boss[i] == Target)
+                        {
+                            log += string.Format(" on Target {0}", i + 1);
+                        }
+                    }
+                }
+
+                Program.Log(log);
             }
         }
     }

@@ -21,17 +21,17 @@ namespace ClassicCraft
         {
             CommonAction();
 
-            ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
+            ResultType res = Player.YellowAttackEnemy(Target);
 
             int damage = (int)Math.Round(
                 (DMG * Player.Combo + Player.AP * AP_RATIO_PER_POINTS * Player.Combo)
                 * Player.Sim.DamageMod(res)
-                * Simulation.MagicMitigation(Player.Sim.Boss.ResistChances[School.Nature])
+                * Simulation.MagicMitigation(Target.ResistChances[School.Nature])
                 * Player.DamageMod
                 * (1 + (0.02 * Player.GetTalentPoints("Agg")))
                 * (1 + (0.05 * Player.GetTalentPoints("IE")))
                 * (1 + (0.01 * Player.GetTalentPoints("Murder")))
-                * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
+                * (res == ResultType.Crit && Player.Buffs.Any(bu => bu.Name.ToLower().Contains("relentless") || bu.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
                 * (1 + (Player.Class == Player.Classes.Rogue && res == ResultType.Crit && Player.MH.Type == Weapon.WeaponType.Mace ? 0.01 * Player.GetTalentPoints("Mace") : 0))
                 );
 
@@ -46,9 +46,9 @@ namespace ClassicCraft
                 Player.Resource -= Player.Effects.ContainsKey("CdG") ? 0 : Cost;
                 if (Player.Effects.ContainsKey("CdG")) Player.Effects["CdG"].EndEffect();
 
-                if (Player.Sim.Boss.Effects.ContainsKey("Deadly Poison"))
+                if (Target.Effects.ContainsKey("Deadly Poison"))
                 {
-                    Player.Sim.Boss.Effects["Deadly Poison"].StackRemove(Player.Combo);
+                    Target.Effects["Deadly Poison"].StackRemove(Player.Combo);
                 }
 
                 if (Player.GetTalentPoints("RS") > 0 && Randomer.NextDouble() < 0.2 * Player.Combo)

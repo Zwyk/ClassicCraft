@@ -33,22 +33,22 @@ namespace ClassicCraft
                 Player.Effects[InnerFocusBuff.NAME].EndEffect();
             }
 
-            ResultType res = Simulation.MagicMitigationBinary(Player.Sim.Boss.MagicResist[School]);
+            ResultType res = Simulation.MagicMitigationBinary(Target.MagicResist[School]);
 
             if (res == ResultType.Hit)
             {
-                res = Player.SpellAttackEnemy(Player.Sim.Boss, false, 0.02 * Player.GetTalentPoints("SF"));
+                res = Player.SpellAttackEnemy(Target, false, 0.02 * Player.GetTalentPoints("SF"));
             }
 
             if (res == ResultType.Hit)
             {
-                if (Player.Sim.Boss.Effects.ContainsKey(DevouringPlagueDoT.NAME))
+                if (Target.Effects.ContainsKey(DevouringPlagueDoT.NAME))
                 {
-                    Player.Sim.Boss.Effects[DevouringPlagueDoT.NAME].Refresh();
+                    Target.Effects[DevouringPlagueDoT.NAME].Refresh();
                 }
                 else
                 {
-                    new DevouringPlagueDoT(Player, Player.Sim.Boss).StartEffect();
+                    new DevouringPlagueDoT(Player, Target).StartEffect();
                 }
             }
         }

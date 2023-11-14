@@ -1,10 +1,10 @@
-Date : 2023/11/13 04:23:01
+Date : 2023/11/14 01:20:23
 
 Fight length : 180 seconds (±10%)
 Number of targets : 1
 
 Player :
-Orc Warlock level 60 | Talents : -2050300142501251-50050050005 | Stats : [Strength:66][Agility:65][Stamina:66.15][Intellect:257][Spirit:145.95][Health:1895.5][Mana:5228][CritChance:5.75%][AP:56][RangedAP:65][SpellCritChance:13.94%][SP:398][HitChance:3%][Haste:0%][SpellHitChance:0%][Expertise:0%][MP5:5]
+Orc Warlock level 60 | Talents : -205030214250104-50050051005001 | Stats : [Strength:66][Agility:65][Stamina:66.15][Intellect:257][Spirit:145.95][Health:1895.5][Mana:5228][CritChance:5.75%][AP:56][RangedAP:65][SpellCritChance:13.94%][SP:398][HitChance:3%][Haste:0%][SpellHitChance:0%][Expertise:0%][MP5:5]
 Main weapon : Sword with 300 skill
 
 Boss :
@@ -12,22 +12,27 @@ Level 63, 4400 Armor (44.44% mitigation), Magic Resists : [Shadow:0][Light:0][Fi
 After raid debuffs and player penetration :
 Level 63, 1005 Armor (15.45% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
 
-608 simulations done in 1 085.81 ms, for 1.79 ms by sim
-Overall accuracy of results : ±0.33% (±1.30 DPS) (±4.75 TPS)
-Average TPS : 1 440.76 TPS (±127.05)
-Average DPS : 393.88 DPS (±32.00)
+651 simulations done in 1 245.70 ms, for 1.91 ms by sim
+Overall accuracy of results : ±0.38% (±1.73 DPS) (±5.97 TPS)
+Average TPS : 1 584.92 TPS (±162.96)
+Average DPS : 459.93 DPS (±44.18)
 
-Average stats for [Searing Pain] : 326.50 DPS (82.89%) / 1 305.98 TPS (90.65%)
-	Average of 2 129.63 threat for 110.29 uses (or 1 use every 1.63s)
-	Average of 532.41 damage for 110.29 uses (or 1 use every 1.63s)
-	43.29% Hit, 39.82% Crit, 16.90% Resist
+Average stats for action [Searing Pain] : 332.53 DPS (72.30%) / 1 330.12 TPS (83.92%)
+	Average of 2 422.73 threat for 98.60 uses (or 1 use every 1.82s)
+	Average of 605.68 damage for 98.60 uses (or 1 use every 1.82s)
+	42.38% Hit, 40.30% Crit, 17.32% Resist
 
-Average stats for [Curse of Agony] : 0.00 DPS (0.00%) / 0.00 TPS (0.00%)
-	Average of 0.00 threat for 9.53 uses (or 1 use every 18.86s)
-	Average of 0.00 damage for 9.53 uses (or 1 use every 18.86s)
-	84.90% Hit, 0.00% Crit, 15.10% Resist
+Average stats for action [Shadowburn] : 61.25 DPS (13.32%) / 122.50 TPS (7.73%)
+	Average of 1 788.85 threat for 12.30 uses (or 1 use every 14.60s)
+	Average of 894.43 damage for 12.30 uses (or 1 use every 14.60s)
+	48.07% Hit, 35.00% Crit, 16.92% Resist
 
-Average stats for [Curse of Agony] : 67.39 DPS (17.11%) / 134.78 TPS (9.35%)
-	Average of 276.00 threat for 87.82 ticks (or 1 tick every 2.05s)
-	Average of 138.00 damage for 87.82 ticks (or 1 tick every 2.05s)
-	97.67% Uptime
+Average stats for action [Curse of Agony] : 66.15 DPS (14.38%) / 132.29 TPS (8.35%)
+	Average of 3 312.00 threat for 8.76 uses (or 1 use every 20.51s)
+	Average of 1 656.00 damage for 8.76 uses (or 1 use every 20.51s)
+	84.94% Hit, 0.00% Crit, 15.06% Resist
+
+Average stats for effect [Curse of Agony] : 66.15 DPS (14.38%) / 132.29 TPS (8.35%)
+	Average of 276.00 threat for 86.09 ticks (or 1 tick every 2.09s)
+	Average of 138.00 damage for 86.09 ticks (or 1 tick every 2.09s)
+	95.87% Uptime

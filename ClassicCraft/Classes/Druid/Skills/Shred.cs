@@ -14,11 +14,6 @@ namespace ClassicCraft
         public Shred(Player p)
             : base(p, CD, BASE_COST - p.GetTalentPoints("IS") * 6) { }
 
-        public override void Cast()
-        {
-            DoAction();
-        }
-
         public override bool CanUse()
         {
             return (Player.Effects.ContainsKey(ClearCasting.NAME) || Player.Resource >= Cost) && Available() && (AffectedByGCD ? Player.HasGCD() : true);
@@ -26,7 +21,7 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
+            ResultType res = Player.YellowAttackEnemy(Target);
 
             int minDmg = (int)Math.Round(Player.Level * 0.85 + Player.AP / 14);
             int maxDmg = (int)Math.Round(Player.Level * 1.25 + Player.AP / 14);
@@ -35,7 +30,7 @@ namespace ClassicCraft
                 (Randomer.Next(minDmg, maxDmg + 1) * 2.25 + 180)
                 * (1 + Player.GetTalentPoints("NW") * 0.02)
                 * Player.Sim.DamageMod(res)
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
+                * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                 * Player.DamageMod);
 
             CommonAction();

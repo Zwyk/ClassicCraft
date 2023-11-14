@@ -2,20 +2,21 @@
   "Class": "Warlock",
   "Level": 60,
   "Race": "Orc",
-  "Talents": "-2050300142501251-50050050005",
+  "Talents": "-205030214250105-50050050005001",
   "Runes": [
     "Metamorphosis",
     "Demonic Tactics",
-    "Demonic Grace",
+    "Demonic Grace"
   ],
   "Unused Runes": [
     "Master Channeler",
   ],
   "Cooldowns": {
-    "Racial": false,
+    "Shadowburn": true,
     "Corruption": false,
     "Curse of Agony": true,
     "Drain Life": true,
+    "Racial": false,
     "Haste Potion": false,
     "Drums of Battle": false,
     "Drums of War": false
@@ -134,7 +135,7 @@
       "Stats": {
         "Int": 13.0,
         "SP": 12.0,
-        "SCrit": 1.0,
+        "SCrit": 1.0
       },
       "Enchantment": null,
       "Gems": null

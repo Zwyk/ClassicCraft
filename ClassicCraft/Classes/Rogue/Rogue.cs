@@ -201,7 +201,7 @@ namespace ClassicCraft
                             (Sim.FightLength - Sim.CurrentTime <= cds[cd]
                             || Sim.FightLength - Sim.CurrentTime >= cd.BaseCD + cds[cd]))
                         {
-                            cd.Cast();
+                            cd.Cast(Target);
                         }
                     }
                 }
@@ -211,30 +211,30 @@ namespace ClassicCraft
             {
                 if (Combo > 0 && sndLeft == 0 && snd.CanUse())
                 {
-                    snd.Cast();
+                    snd.Cast(Target);
                 }
                 else if (Combo > 4 && sndLeft < 4 && snd.CanUse() && Sim.FightLength - Sim.CurrentTime > SliceAndDiceBuff.DurationCalc(this))
                 {
-                    snd.Cast();
+                    snd.Cast(Target);
                 }
-                else if (Combo > 4 && rup.CanUse() && Sim.FightLength - Sim.CurrentTime > RuptureDoT.DurationCalc(this) && !Sim.Boss.Effects.ContainsKey("Rupture"))
+                else if (Combo > 4 && rup.CanUse() && Sim.FightLength - Sim.CurrentTime > RuptureDoT.DurationCalc(this) && !Target.Effects.ContainsKey("Rupture"))
                 {
-                    rup.Cast();
+                    rup.Cast(Target);
                 }
-                else if (Combo > 2 && ev.CanUse() && Sim.Boss.Effects.ContainsKey("Rupture"))
+                else if (Combo > 2 && ev.CanUse() && Target.Effects.ContainsKey("Rupture"))
                 {
-                    ev.Cast();
+                    ev.Cast(Target);
                 }
                 else if (ss.CanUse())
                 {
-                    ss.Cast();
+                    ss.Cast(Target);
                 }
             }
             else if (rota == 1) // BS + EV
             {
                 if (Sim.FightLength - Sim.CurrentTime > SliceAndDiceBuff.DurationCalc(this) && Combo > 1 && sndLeft == 0 && snd.CanUse())
                 {
-                    snd.Cast();
+                    snd.Cast(Target);
                 }
                 else if (Combo > 4)
                 {
@@ -242,17 +242,17 @@ namespace ClassicCraft
                     {
                         if (Resource >= 80 && snd.CanUse())
                         {
-                            snd.Cast();
+                            snd.Cast(Target);
                         }
                     }
                     else if (ev.CanUse())
                     {
-                        ev.Cast();
+                        ev.Cast(Target);
                     }
                 }
                 else if (bs.CanUse())
                 {
-                    bs.Cast();
+                    bs.Cast(Target);
                 }
             }
 

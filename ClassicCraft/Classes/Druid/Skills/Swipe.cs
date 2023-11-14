@@ -15,40 +15,40 @@ namespace ClassicCraft
 
         public static double THREAT_MOD = 1.75;
 
+        public static int MAX_TARGETS = 3;
+
         public Swipe(Player p)
             : base(p, CD, BASE_COST - p.GetTalentPoints("Fero")) { }
 
-        public override void Cast()
-        {
-            DoAction();
-        }
-
         public override void DoAction()
         {
-            ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
-
-            int damage = (int)Math.Round(DAMAGE
-                * Player.Sim.DamageMod(res)
-                * (1 + Player.GetTalentPoints("SF") * 0.1)
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
-                * Player.DamageMod
-                );
-
-            int threat = (int)Math.Round(damage * THREAT_MOD * Player.ThreatMod);
-
-            CommonAction();
-            if (res == ResultType.Parry || res == ResultType.Dodge)
+            for (int i = 1; i <= Math.Min(MAX_TARGETS, Player.Sim.NbTargets); i++)
             {
-                Player.Resource -= (int)(Cost * 0.2);
-            }
-            else
-            {
-                Player.Resource -= Cost;
-            }
+                ResultType res = Player.YellowAttackEnemy(Target);
 
-            RegisterDamage(new ActionResult(res, damage, threat));
+                int damage = (int)Math.Round(DAMAGE
+                    * Player.Sim.DamageMod(res)
+                    * (1 + Player.GetTalentPoints("SF") * 0.1)
+                    * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
+                    * Player.DamageMod
+                    );
 
-            Player.CheckOnHits(true, false, res);
+                int threat = (int)Math.Round(damage * THREAT_MOD * Player.ThreatMod);
+
+                CommonAction();
+                if (res == ResultType.Parry || res == ResultType.Dodge)
+                {
+                    Player.Resource -= (int)(Cost * 0.2);
+                }
+                else
+                {
+                    Player.Resource -= Cost;
+                }
+
+                RegisterDamage(new ActionResult(res, damage, threat));
+
+                Player.CheckOnHits(true, false, res);
+            }
         }
 
         public override string ToString()

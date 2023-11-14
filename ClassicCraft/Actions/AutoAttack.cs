@@ -36,6 +36,16 @@ namespace ClassicCraft
             if (Program.logFight)
             {
                 string log = string.Format("{0:N2} : {1} started", Player.Sim.CurrentTime, ToString());
+                if (Player.Sim.NbTargets > 1)
+                {
+                    for (int i = 0; i < Player.Sim.Boss.Count; i++)
+                    {
+                        if (Player.Sim.Boss[i] == Target)
+                        {
+                            log += string.Format(" on Target {0}", i + 1);
+                        }
+                    }
+                }
                 if (!ResourceName().Equals("mana"))
                 {
                     log += string.Format(" ({0} {1}/{2})", ResourceName(), Player.Resource, Player.MaxResource);
@@ -48,8 +58,9 @@ namespace ClassicCraft
             }
         }
 
-        public override void Cast()
+        public override void Cast(Entity t)
         {
+            Target = t;
             DoAction();
         }
 
@@ -69,8 +80,8 @@ namespace ClassicCraft
             ResultType res;
             if (Type == AAType.Wand)
             {
-                mitigation = Simulation.MagicMitigation(Player.Sim.Boss.ResistChances[School]);
-                res = mitigation == 0 ? ResultType.Resist : Player.RangedMagicAttackEnemy(Player.Sim.Boss);
+                mitigation = Simulation.MagicMitigation(Target.ResistChances[School]);
+                res = mitigation == 0 ? ResultType.Resist : Player.RangedMagicAttackEnemy(Target);
             }
             else if (Type == AAType.Ranged)
             {
@@ -79,11 +90,11 @@ namespace ClassicCraft
             }
             else if (isYellow || (Player.Class == Player.Classes.Warrior && !MH && Player.applyAtNextAA != null))
             {
-                res = Player.YellowAttackEnemy(Player.Sim.Boss);
+                res = Player.YellowAttackEnemy(Target);
             }
             else
             {
-                res = Player.WhiteAttackEnemy(Player.Sim.Boss, MH);
+                res = Player.WhiteAttackEnemy(Target, MH);
             }
 
             int minDmg, maxDmg, damage;
@@ -111,13 +122,13 @@ namespace ClassicCraft
                     (Weapon.DamageMax + Weapon.Speed * (Player.AP + Player.nextAABonus) / 14)));
                 damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
                     * Player.Sim.DamageMod(res, Weapon.School, MH, true)
-                    * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
+                    * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                     * Player.DamageMod
                     * (Player.DualWielding ? (MH ? 1 : 0.5 * (1 + ((Player.Class == Player.Classes.Rogue ? 0.1 : 0.05) * Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Player.GetTalentPoints("2HS")))
                     * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
                     * mitigation
-                    * (res == ResultType.Crit && Player.Buffs.Any(b => b.Name.ToLower().Contains("relentless") || b.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
-                    * (Player.Sim.Boss.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
+                    * (res == ResultType.Crit && Player.Buffs.Any(bu => bu.Name.ToLower().Contains("relentless") || bu.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
+                    * (Target.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
                     * (1 + (Player.Class == Player.Classes.Rogue && res == ResultType.Crit && Weapon.Type == Weapon.WeaponType.Mace ? 0.01 * Player.GetTalentPoints("Mace") : 0))
                     );
             }

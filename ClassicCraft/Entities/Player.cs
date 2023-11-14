@@ -1142,7 +1142,7 @@ namespace ClassicCraft
         #region Constructors
 
         public Player(Player p)
-            : this(null, p)
+            : this(p.Sim, p)
         {
         }
 
@@ -1230,8 +1230,12 @@ namespace ClassicCraft
 
         #region Rota
 
+        public Boss Target = null;
+
         public virtual void PrepFight()
         {
+            Target = Sim.Boss[0];
+
             if (MH.Speed > 0)
             {
                 mh = new AutoAttack(this, MH, true);
@@ -1345,12 +1349,12 @@ namespace ClassicCraft
                         else
                         {
                             applyAtNextAA = null;
-                            aa.Cast();
+                            aa.Cast(Target);
                         }
                     }
                     else
                     {
-                        aa.Cast();
+                        aa.Cast(Target);
                     }
                 }
                 else
@@ -1811,8 +1815,8 @@ namespace ClassicCraft
                             CustomActions.Add(procName, new CustomAction(this, procName, School.Nature));
                         }
 
-                        double mitigation = Simulation.MagicMitigation(Sim.Boss.ResistChances[School.Nature]);
-                        ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Sim.Boss);
+                        double mitigation = Simulation.MagicMitigation(Target.ResistChances[School.Nature]);
+                        ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
                         int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Nature) * mitigation);
                         CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)(dmg * ThreatMod)));
                     }
@@ -1823,7 +1827,7 @@ namespace ClassicCraft
                     {
                         alreadyProc.Add("IP");
                         string procName = "Deadly Poison";
-                        double mitigation = Simulation.MagicMitigation(Sim.Boss.ResistChances[School.Nature]);
+                        double mitigation = Simulation.MagicMitigation(Target.ResistChances[School.Nature]);
                         ResultType res2 = mitigation == 0 ? ResultType.Resist : ResultType.Hit;
 
                         if (!CustomActions.ContainsKey(procName))
@@ -1834,14 +1838,14 @@ namespace ClassicCraft
 
                         if(res2 == ResultType.Hit)
                         {
-                            if (Sim.Boss.Effects.ContainsKey(DeadlyPoisonDoT.NAME))
+                            if (Target.Effects.ContainsKey(DeadlyPoisonDoT.NAME))
                             {
-                                Sim.Boss.Effects[DeadlyPoisonDoT.NAME].StackAdd();
-                                Sim.Boss.Effects[DeadlyPoisonDoT.NAME].Refresh();
+                                Target.Effects[DeadlyPoisonDoT.NAME].StackAdd();
+                                Target.Effects[DeadlyPoisonDoT.NAME].Refresh();
                             }
                             else
                             {
-                                new DeadlyPoisonDoT(this, Sim.Boss).StartEffect();
+                                new DeadlyPoisonDoT(this, Target).StartEffect();
                             }
                         }
                     }
@@ -2001,8 +2005,8 @@ namespace ClassicCraft
                         CustomActions.Add(procName, new CustomAction(this, procName, School.Shadow));
                     }
 
-                    double mitigation = Simulation.MagicMitigation(Sim.Boss.ResistChances[School.Shadow]);
-                    ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Sim.Boss);
+                    double mitigation = Simulation.MagicMitigation(Target.ResistChances[School.Shadow]);
+                    ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
                     int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Shadow) * mitigation);
                     CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round(dmg * ThreatMod)));
                 }
@@ -2016,8 +2020,8 @@ namespace ClassicCraft
                         CustomActions.Add(procName, new CustomAction(this, procName, School.Fire));
                     }
 
-                    double mitigation = Simulation.MagicMitigation(Sim.Boss.ResistChances[School.Fire]);
-                    ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Sim.Boss);
+                    double mitigation = Simulation.MagicMitigation(Target.ResistChances[School.Fire]);
+                    ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
                     int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Fire) * mitigation);
                     CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round(dmg * ThreatMod)));
                 }
@@ -2031,7 +2035,7 @@ namespace ClassicCraft
                         CustomActions.Add(procName, new CustomAction(this, procName));
                     }
 
-                    ResultType res2 = YellowAttackEnemy(Sim.Boss);
+                    ResultType res2 = YellowAttackEnemy(Target);
                     int dmg = MiscDamageCalc(procDmg, res2);
                     CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round(dmg * ThreatMod)));
                 }
@@ -2040,14 +2044,14 @@ namespace ClassicCraft
                     alreadyProc.Add("tf");
                     string procName = "Thunderfury";
                     int procDmg = 300;
-                    int bonusThreat = Simulation.MagicMitigationBinary(Sim.Boss.MagicResist[School.Nature]) == ResultType.Hit && SpellAttackEnemy(Sim.Boss, false) == ResultType.Hit ? 235 : 0;
+                    int bonusThreat = Simulation.MagicMitigationBinary(Target.MagicResist[School.Nature]) == ResultType.Hit && SpellAttackEnemy(Target, false) == ResultType.Hit ? 235 : 0;
                     if (!CustomActions.ContainsKey(procName))
                     {
                         CustomActions.Add(procName, new CustomAction(this, procName, School.Nature));
                     }
 
-                    double mitigation = Simulation.MagicMitigation(Sim.Boss.ResistChances[School.Nature]);
-                    ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Sim.Boss);
+                    double mitigation = Simulation.MagicMitigation(Target.ResistChances[School.Nature]);
+                    ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
                     int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Nature) * mitigation);
                     CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round((dmg + bonusThreat) * ThreatMod)));
                     for(int i = 1; i < Sim.NbTargets; i++)
@@ -2303,8 +2307,8 @@ namespace ClassicCraft
                             CustomActions.Add(procName, new CustomAction(this, procName, School.Shadow));
                         }
 
-                        double mitigation = Simulation.MagicMitigation(Sim.Boss.ResistChances[School.Shadow]);
-                        ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Sim.Boss);
+                        double mitigation = Simulation.MagicMitigation(Target.ResistChances[School.Shadow]);
+                        ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
                         int dmg = (int)Math.Round(MiscDamageCalc(20, res2, School.Shadow) * mitigation);
                         CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round(dmg * ThreatMod)));
                     }
@@ -2371,8 +2375,8 @@ namespace ClassicCraft
                             CustomActions.Add(procName, new CustomAction(this, procName, School.Nature));
                         }
 
-                        double mitigation = Simulation.MagicMitigation(Sim.Boss.ResistChances[School.Nature]);
-                        ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Sim.Boss);
+                        double mitigation = Simulation.MagicMitigation(Target.ResistChances[School.Nature]);
+                        ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
                         int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Nature) * mitigation);
                         CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)(dmg * ThreatMod)));
                     }
@@ -2581,14 +2585,14 @@ namespace ClassicCraft
             {
                 return (int)Math.Round(baseDmg
                     * Sim.DamageMod(res)
-                    * Simulation.ArmorMitigation(Sim.Boss.Armor, Level, Attributes.GetValue(Attribute.ArmorPen))
+                    * Simulation.ArmorMitigation(Target.Armor, Level, Attributes.GetValue(Attribute.ArmorPen))
                     * DamageMod);
             }
             else
             {
                 return (int)Math.Round((baseDmg + APRatio * AP)
                     * Sim.DamageMod(res)
-                    * Simulation.MagicMitigation(Sim.Boss.ResistChances[school])
+                    * Simulation.MagicMitigation(Target.ResistChances[school])
                     * DamageMod);
             }
         }
@@ -2597,7 +2601,7 @@ namespace ClassicCraft
         {
             if(enemy == null)
             {
-                enemy = Sim.Boss;
+                enemy = Target;
             }
 
             double MHParryExpertise = 0, OHParryExpertise = 0;

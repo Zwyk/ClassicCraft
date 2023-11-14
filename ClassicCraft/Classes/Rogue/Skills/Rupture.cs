@@ -23,7 +23,7 @@ namespace ClassicCraft
         {
             CommonAction();
 
-            ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
+            ResultType res = Player.YellowAttackEnemy(Target);
 
             if (res == ResultType.Parry || res == ResultType.Dodge)
             {
@@ -44,12 +44,12 @@ namespace ClassicCraft
                 }
 
                 Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Hit, 0, 0), Player.Sim.CurrentTime));
-                if (Player.Sim.Boss.Effects.ContainsKey(RuptureDoT.NAME))
+                if (Target.Effects.ContainsKey(RuptureDoT.NAME))
                 {
-                    Player.Sim.Boss.Effects[RuptureDoT.NAME].EndEffect();
+                    Target.Effects[RuptureDoT.NAME].EndEffect();
                 }
 
-                new RuptureDoT(Player, Player.Sim.Boss).StartEffect();
+                new RuptureDoT(Player, Target).StartEffect();
 
                 Player.Combo = 0;
 

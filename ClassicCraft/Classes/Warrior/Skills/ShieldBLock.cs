@@ -16,7 +16,7 @@ namespace ClassicCraft
         {
         }
 
-        public override void Cast()
+        public override void Cast(Entity t)
         {
             DoAction();
         }

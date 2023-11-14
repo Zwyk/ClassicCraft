@@ -15,23 +15,15 @@ namespace ClassicCraft
         public static int TICK_DELAY = 2;
         public static int NB_TICKS = (int)(DURATION / TICK_DELAY);
 
-        public int? _DMG;
-        public int DMG
+        public int DMG(int level)
         {
-            get
-            {
-                if (!_DMG.HasValue)
-                {
-                    if (Player.Level >= 58) _DMG = 1044;
-                    else if (Player.Level >= 48) _DMG = 780;
-                    else if (Player.Level >= 38) _DMG = 504;
-                    else if (Player.Level >= 28) _DMG = 324;
-                    else if (Player.Level >= 18) _DMG = 180;
-                    else if (Player.Level >= 8) _DMG = 84;
-                    else _DMG = 0;
-                }
-                return _DMG.Value;
-            }
+            if (level >= 58) return 1044;
+            else if (level >= 48) return 780;
+            else if (level >= 38) return 504;
+            else if (level >= 28) return 324;
+            else if (level >= 18) return 180;
+            else if (level >= 8) return 84;
+            else return 0;
         }
 
         public CurseOfAgonyDoT(Player p, Entity target)
@@ -41,10 +33,10 @@ namespace ClassicCraft
 
         public override int GetTickDamage()
         {
-            return (int)Math.Round((DMG + Player.SP * RATIO) / NB_TICKS
+            return (int)Math.Round((DMG(Player.Level) + Player.SP * RATIO) / NB_TICKS
                 * (1 + 0.02 * Player.GetTalentPoints("ICA"))
                 * (1 + 0.02 * Player.GetTalentPoints("SM"))
-                * (1 + 0.15 * Player.GetTalentPoints("DS"))
+                * Math.Max(Player.Tanking ? 0 : (1 + 0.15 * Player.GetTalentPoints("DS")), 1 + 0.02 * Player.GetTalentPoints("MD") * (1 + 0.03 * Player.GetTalentPoints("SL")))
                 * Player.DamageMod
                 );
         }

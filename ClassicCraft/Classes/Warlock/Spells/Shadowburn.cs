@@ -10,69 +10,45 @@ namespace ClassicCraft
     {
         public override string ToString() { return NAME; } public static new string NAME = "Shadowburn";
 
-        public static int CD = 0;
+        public static int CD = 15;
         public static double CAST_TIME = 0;
 
         public static double RATIO = Math.Max(1.5, CAST_TIME) / 3.5;
 
-        public int? _BASE_COST = null;
-        public int BASE_COST
+        public int BASE_COST(int level)
         {
-            get
-            {
-                if (!_BASE_COST.HasValue)
-                {
-                    if (Player.Level >= 56) _BASE_COST = 365;
-                    else if (Player.Level >= 48) _BASE_COST = 305;
-                    else if (Player.Level >= 40) _BASE_COST = 245;
-                    else if (Player.Level >= 32) _BASE_COST = 190;
-                    else if (Player.Level >= 24) _BASE_COST = 130;
-                    else _BASE_COST = 105;
-                }
-                return _BASE_COST.Value;
-            }
+            if (level >= 56) return 365;
+            else if (level >= 48) return 305;
+            else if (level >= 40) return 245;
+            else if (level >= 32) return 190;
+            else if (level >= 24) return 130;
+            else return 105;
         }
 
-        public int? _MIN_DMG = null;
-        public int MIN_DMG
+        public int MIN_DMG(int level)
         {
-            get
-            {
-                if (!_MIN_DMG.HasValue)
-                {
-                    if (Player.Level >= 56) _MIN_DMG = 462;
-                    else if (Player.Level >= 48) _MIN_DMG = 365;
-                    else if (Player.Level >= 40) _MIN_DMG = 274;
-                    else if (Player.Level >= 32) _MIN_DMG = 196;
-                    else if (Player.Level >= 24) _MIN_DMG = 123;
-                    else _MIN_DMG = 91;
-                }
-                return _MIN_DMG.Value;
-            }
+            if (level >= 56) return 462;
+            else if (level >= 48) return 365;
+            else if (level >= 40) return 274;
+            else if (level >= 32) return 196;
+            else if (level >= 24) return 123;
+            else return 91;
         }
 
-        public int? _MAX_DMG;
-        public int MAX_DMG
+        public int MAX_DMG(int level)
         {
-            get
-            {
-                if (!_MAX_DMG.HasValue)
-                {
-                    if (Player.Level >= 56) _MAX_DMG = 514;
-                    else if (Player.Level >= 48) _MAX_DMG = 408;
-                    else if (Player.Level >= 40) _MAX_DMG = 307;
-                    else if (Player.Level >= 32) _MAX_DMG = 221;
-                    else if (Player.Level >= 24) _MAX_DMG = 140;
-                    else _MAX_DMG = 104;
-                }
-                return _MAX_DMG.Value;
-            }
+            if (level >= 56) return 514;
+            else if (level >= 48) return 408;
+            else if (level >= 40) return 307;
+            else if (level >= 32) return 221;
+            else if (level >= 24) return 140;
+            else return 104;
         }
 
         public Shadowburn(Player p)
             : base(p, CD, 0, true, true, School.Shadow, CAST_TIME)
         {
-            Cost = (int)(BASE_COST * 1 - (0.01 * p.GetTalentPoints("Cata")));
+            Cost = (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata")));
         }
 
         public override void DoAction()
@@ -80,27 +56,27 @@ namespace ClassicCraft
             base.DoAction();
 
             ResultType res;
-            double mitigation = Simulation.MagicMitigation(Player.Sim.Boss.ResistChances[School]);
+            double mitigation = Simulation.MagicMitigation(Target.ResistChances[School]);
             if (mitigation == 0)
             {
                 res = ResultType.Resist;
             }
             else
             {
-                res = Player.SpellAttackEnemy(Player.Sim.Boss, true, 0, 0.02 * Player.GetTalentPoints("Deva"));
+                res = Player.SpellAttackEnemy(Target, true, 0, 0.02 * Player.GetTalentPoints("Deva"));
             }
 
             CommonManaSpell();
 
-            int minDmg = MIN_DMG;
-            int maxDmg = MAX_DMG;
+            int minDmg = MIN_DMG(Player.Level);
+            int maxDmg = MAX_DMG(Player.Level);
 
             int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Player.SP * RATIO))
                 * (Player.Sim.DamageMod(res, School) + (res == ResultType.Crit ? 0.5 * Player.GetTalentPoints("Ruin") : 0))
                 * (1 + 0.02 * Player.GetTalentPoints("SM"))
-                * (1 + 0.15 * Player.GetTalentPoints("DS"))
-                * (Player.Sim.Boss.Effects.ContainsKey(ShadowVulnerability.NAME) ? ((ShadowVulnerability)Player.Sim.Boss.Effects[ShadowVulnerability.NAME]).Modifier : 1)
-                * (Player.Sim.Boss.Effects.ContainsKey("Shadow Weaving") ? 1.15 : 1)
+                * Math.Max(Player.Tanking ? 0 : (1 + 0.15 * Player.GetTalentPoints("DS")), 1 + 0.02 * Player.GetTalentPoints("MD") * (1 + 0.03 * Player.GetTalentPoints("SL")))
+                * (Target.Effects.ContainsKey(ShadowVulnerability.NAME) ? ((ShadowVulnerability)Target.Effects[ShadowVulnerability.NAME]).Modifier : 1)
+                * (Target.Effects.ContainsKey("Shadow Weaving") ? 1.15 : 1)
                 * mitigation
                 * Player.DamageMod
                 );

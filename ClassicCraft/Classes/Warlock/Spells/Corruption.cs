@@ -10,24 +10,16 @@ namespace ClassicCraft
     {
         public override string ToString() { return NAME; } public static new string NAME = "Corruption";
 
-        public int? _BASE_COST = null;
-        public int BASE_COST
+        public int BASE_COST(int level)
         {
-            get
-            {
-                if (!_BASE_COST.HasValue)
-                {
-                    if (Player.Level >= 60) _BASE_COST = 340;
-                    else if (Player.Level >= 54) _BASE_COST = 290;
-                    else if (Player.Level >= 44) _BASE_COST = 225;
-                    else if (Player.Level >= 34) _BASE_COST = 160;
-                    else if (Player.Level >= 24) _BASE_COST = 100;
-                    else if (Player.Level >= 14) _BASE_COST = 55;
-                    else if (Player.Level >= 4) _BASE_COST = 35;
-                    else _BASE_COST = 0;
-                }
-                return _BASE_COST.Value;
-            }
+            if (level >= 60) return 340;
+            else if (level >= 54) return 290;
+            else if (level >= 44) return 225;
+            else if (level >= 34) return 160;
+            else if (level >= 24) return 100;
+            else if (level >= 14) return 55;
+            else if (level >= 4) return 35;
+            else return 0;
         }
         public static int CD = 0;
         public static double CAST_TIME = 2;
@@ -35,7 +27,7 @@ namespace ClassicCraft
         public Corruption(Player p)
             : base(p, CD, 0, true, true, School.Shadow, CAST_TIME - 0.4 * p.GetTalentPoints("IC"))
         {
-            Cost = BASE_COST;
+            Cost = BASE_COST(p.Level);
         }
 
         public override void DoAction()
@@ -43,23 +35,25 @@ namespace ClassicCraft
             base.DoAction();
             CommonManaSpell();
 
-            ResultType res = Simulation.MagicMitigationBinary(Player.Sim.Boss.MagicResist[School]);
+            LogAction();
+
+            ResultType res = Simulation.MagicMitigationBinary(Target.MagicResist[School]);
 
             if(res == ResultType.Hit)
             {
-                res = Player.SpellAttackEnemy(Player.Sim.Boss, false, 0.02 * Player.GetTalentPoints("Suppr"));
+                res = Player.SpellAttackEnemy(Target, false, 0.02 * Player.GetTalentPoints("Suppr"));
             }
             
             if(res == ResultType.Hit)
             {
                 Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Hit, 0, 0), Player.Sim.CurrentTime));
-                if (Player.Sim.Boss.Effects.ContainsKey(CorruptionDoT.NAME))
+                if (Target.Effects.ContainsKey(CorruptionDoT.NAME))
                 {
-                    Player.Sim.Boss.Effects[CorruptionDoT.NAME].Refresh();
+                    Target.Effects[CorruptionDoT.NAME].Refresh();
                 }
                 else
                 {
-                    new CorruptionDoT(Player, Player.Sim.Boss).StartEffect();
+                    new CorruptionDoT(Player, Target).StartEffect();
                 }
             }
             else

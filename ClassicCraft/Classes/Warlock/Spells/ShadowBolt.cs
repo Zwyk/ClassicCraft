@@ -14,26 +14,18 @@ namespace ClassicCraft
 
         public double RATIO = 0;
 
-        public int? _BASE_COST = null;
-        public int BASE_COST
+        public int BASE_COST(int level)
         {
-            get
-            {
-                if (!_BASE_COST.HasValue)
-                {
-                    if (Player.Level >= 60) _BASE_COST = 380;
-                    //else if (Player.Level >= 60) _BASE_COST = 370; // Rank 9
-                    else if (Player.Level >= 52) _BASE_COST = 315;
-                    else if (Player.Level >= 44) _BASE_COST = 265;
-                    else if (Player.Level >= 36) _BASE_COST = 210;
-                    else if (Player.Level >= 28) _BASE_COST = 160;
-                    else if (Player.Level >= 20) _BASE_COST = 110;
-                    else if (Player.Level >= 12) _BASE_COST = 70;
-                    else if (Player.Level >= 6) _BASE_COST = 40;
-                    else _BASE_COST = 25;
-                }
-                return _BASE_COST.Value;
-            }
+            if (level >= 60) return 380;
+            //else if (level >= 60) return 370; // Rank 9
+            else if (level >= 52) return 315;
+            else if (level >= 44) return 265;
+            else if (level >= 36) return 210;
+            else if (level >= 28) return 160;
+            else if (level >= 20) return 110;
+            else if (level >= 12) return 70;
+            else if (level >= 6) return 40;
+            else return 25;
         }
 
         public static double CAST_TIME(int level)
@@ -44,48 +36,32 @@ namespace ClassicCraft
             else return 1.7;
         }
 
-        public int? _MIN_DMG = null;
-        public int MIN_DMG
+        public int MIN_DMG(int level)
         {
-            get
-            {
-                if (!_MIN_DMG.HasValue)
-                {
-                    if (Player.Level >= 60) _MIN_DMG = 482;
-                    //else if (Player.Level >= 60) _MIN_DMG = 455; // Rank 9
-                    else if (Player.Level >= 52) _MIN_DMG = 373;
-                    else if (Player.Level >= 44) _MIN_DMG = 292;
-                    else if (Player.Level >= 36) _MIN_DMG = 213;
-                    else if (Player.Level >= 28) _MIN_DMG = 150;
-                    else if (Player.Level >= 20) _MIN_DMG = 92;
-                    else if (Player.Level >= 12) _MIN_DMG = 52;
-                    else if (Player.Level >= 6) _MIN_DMG = 26;
-                    else _MIN_DMG = 13;
-                }
-                return _MIN_DMG.Value;
-            }
+            if (level >= 60) return 482;
+            //else if (level >= 60) return 455; // Rank 9
+            else if (level >= 52) return 373;
+            else if (level >= 44) return 292;
+            else if (level >= 36) return 213;
+            else if (level >= 28) return 150;
+            else if (level >= 20) return 92;
+            else if (level >= 12) return 52;
+            else if (level >= 6) return 26;
+            else return 13;
         }
 
-        public int? _MAX_DMG;
-        public int MAX_DMG
+        public int MAX_DMG(int level)
         {
-            get
-            {
-                if (!_MAX_DMG.HasValue)
-                {
-                    if (Player.Level >= 60) _MAX_DMG = 538;
-                    //else if (Player.Level >= 60) _MAX_DMG = 507; // Rank 9
-                    else if (Player.Level >= 52) _MAX_DMG = 415;
-                    else if (Player.Level >= 44) _MAX_DMG = 327;
-                    else if (Player.Level >= 36) _MAX_DMG = 240;
-                    else if (Player.Level >= 28) _MAX_DMG = 170;
-                    else if (Player.Level >= 20) _MAX_DMG = 104;
-                    else if (Player.Level >= 12) _MAX_DMG = 61;
-                    else if (Player.Level >= 6) _MAX_DMG = 32;
-                    else _MAX_DMG = 18;
-                }
-                return _MAX_DMG.Value;
-            }
+            if (level >= 60) return 538;
+            //else if (level >= 60) return 507; // Rank 9
+            else if (level >= 52) return 415;
+            else if (level >= 44) return 327;
+            else if (level >= 36) return 240;
+            else if (level >= 28) return 170;
+            else if (level >= 20) return 104;
+            else if (level >= 12) return 61;
+            else if (level >= 6) return 32;
+            else return 18;
         }
 
         public static int VOLLEEY_MAX_TARGETS = 5;
@@ -95,7 +71,7 @@ namespace ClassicCraft
         public ShadowBolt(Player p)
             : base(p, CD, 0, true, true, School.Shadow, 0)
         {
-            Cost = (int)(BASE_COST * 1 - (0.01 * p.GetTalentPoints("Cata")));
+            Cost = (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata")));
             double baseCast = CAST_TIME(p.Level);
             CastTime = baseCast - 0.1 * p.GetTalentPoints("ISB");
             RATIO = Math.Max(1.5, baseCast) / 3.5;
@@ -103,7 +79,7 @@ namespace ClassicCraft
             castTimeKeeper = CastTime;
         }
 
-        public override void Cast()
+        public override void Cast(Entity t)
         {
             bool st = Player.Effects.ContainsKey(ShadowTrance.NAME);
             StartCast(st);
@@ -117,30 +93,29 @@ namespace ClassicCraft
             CommonManaSpell();
 
             ResultType res;
-            int minDmg = MIN_DMG;
-            int maxDmg = MAX_DMG;
+            int minDmg = MIN_DMG(Player.Level);
+            int maxDmg = MAX_DMG(Player.Level);
 
             int nbt = 1; // Shadow Volley
 
             for (int i = 1; i <= nbt; i++)
             {
-                double mitigation = Simulation.MagicMitigation(Player.Sim.Boss.ResistChances[School]);
+                double mitigation = Simulation.MagicMitigation(Player.Target.ResistChances[School]);
                 if (mitigation == 0)
                 {
                     res = ResultType.Resist;
                 }
                 else
                 {
-                    res = Player.SpellAttackEnemy(Player.Sim.Boss, true, 0, 0.02 * Player.GetTalentPoints("Deva"));
+                    res = Player.SpellAttackEnemy(Player.Target, true, 0, 0.02 * Player.GetTalentPoints("Deva"));
                 }
 
                 int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Player.SP * RATIO))
                     * (Player.Sim.DamageMod(res, School) + (res == ResultType.Crit ? 0.5 * Player.GetTalentPoints("Ruin") : 0))
                     * (1 + 0.02 * Player.GetTalentPoints("SM"))
-                    * (1 + 0.15 * Player.GetTalentPoints("DS"))
-                    * (1 + 0.03 * Player.GetTalentPoints("SL"))
-                    * (Player.Sim.Boss.Effects.ContainsKey(ShadowVulnerability.NAME) ? ((ShadowVulnerability)Player.Sim.Boss.Effects[ShadowVulnerability.NAME]).Modifier : 1)
-                    * (Player.Sim.Boss.Effects.ContainsKey("Shadow Weaving") ? 1.15 : 1)
+                    * Math.Max(Player.Tanking ? 0 : (1 + 0.15 * Player.GetTalentPoints("DS")), 1 + 0.02 * Player.GetTalentPoints("MD") * (1 + 0.03 * Player.GetTalentPoints("SL")))
+                    * (Player.Target.Effects.ContainsKey(ShadowVulnerability.NAME) ? ((ShadowVulnerability)Player.Target.Effects[ShadowVulnerability.NAME]).Modifier : 1)
+                    * (Player.Target.Effects.ContainsKey("Shadow Weaving") ? 1.15 : 1)
                     * mitigation
                     * Player.DamageMod
                     );

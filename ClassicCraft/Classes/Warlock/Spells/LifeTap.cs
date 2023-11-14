@@ -10,23 +10,15 @@ namespace ClassicCraft
     {
         public override string ToString() { return NAME; } public static new string NAME = "Life Tap";
 
-        public int? _BASE_COST = null;
-        public int BASE_COST
+        public int BASE_COST(int level)
         {
-            get
-            {
-                if (!_BASE_COST.HasValue)
-                {
-                    if (Player.Level >= 56) _BASE_COST = 424;
-                    else if (Player.Level >= 46) _BASE_COST = 310;
-                    else if (Player.Level >= 36) _BASE_COST = 220;
-                    else if (Player.Level >= 26) _BASE_COST = 140;
-                    else if (Player.Level >= 16) _BASE_COST = 75;
-                    else if (Player.Level >= 6) _BASE_COST = 30;
-                    else _BASE_COST = 0;
-                }
-                return _BASE_COST.Value;
-            }
+            if (level >= 56) return 424;
+            else if (level >= 46) return 310;
+            else if (level >= 36) return 220;
+            else if (level >= 26) return 140;
+            else if (level >= 16) return 75;
+            else if (level >= 6) return 30;
+            else return 0;
         }
         public static int CD = 0;
         public static double CAST_TIME = 0;
@@ -34,7 +26,7 @@ namespace ClassicCraft
         public LifeTap(Player p)
             : base(p, CD, 0, false, true, School.Shadow, CAST_TIME)
         {
-            Cost = BASE_COST;
+            Cost = BASE_COST(p.Level);
         }
 
         public override bool CanUse()
@@ -44,7 +36,7 @@ namespace ClassicCraft
 
         public int LifeCost()
         {
-            return (int)(BASE_COST + 0.8 * Player.AP);
+            return (int)(BASE_COST(Player.Level) + 0.8 * Player.AP);
         }
 
         public int ManaGain()

@@ -23,8 +23,9 @@ namespace ClassicCraft
             return Player.Effects.ContainsKey(ClearCasting.NAME) || Player.Resource >= Cost;
         }
 
-        public override void Cast()
+        public override void Cast(Entity t)
         {
+            Target = t;
             Player.applyAtNextAA = this;
         }
 
@@ -36,7 +37,7 @@ namespace ClassicCraft
 
             LockedUntil = Player.Sim.CurrentTime + weapon.Speed / Player.HasteMod;
 
-            ResultType res = Player.YellowAttackEnemy(Player.Sim.Boss);
+            ResultType res = Player.YellowAttackEnemy(Target);
 
             int minDmg = (int)Math.Round(Player.Level * 0.85 + 2.5 * (Player.AP + Player.nextAABonus) / 14);
             int maxDmg = (int)Math.Round(Player.Level * 1.25 + 2.5 * (Player.AP + Player.nextAABonus) / 14);
@@ -45,7 +46,7 @@ namespace ClassicCraft
 
             int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + 101)
                 * Player.Sim.DamageMod(res)
-                * Simulation.ArmorMitigation(Player.Sim.Boss.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
+                * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                 * (1 + Player.GetTalentPoints("SF") * 0.1)
                 * Player.DamageMod
                 );

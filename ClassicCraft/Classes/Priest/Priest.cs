@@ -96,11 +96,11 @@ namespace ClassicCraft
                     {
                         if (pot.CanUse() && MaxMana - Mana > ManaPotion.MAX)
                         {
-                            pot.Cast();
+                            pot.Cast(Target);
                         }
                         if (rune.CanUse() && MaxMana - Mana > ManaRune.MANA_MAX)
                         {
-                            rune.Cast();
+                            rune.Cast(Target);
                         }
                     }
 
@@ -110,7 +110,7 @@ namespace ClassicCraft
                         {
                             if (ranged.Available())
                             {
-                                ranged.Cast();
+                                ranged.Cast(Target);
                             }
                             if (Mana / mf.Cost * mf.CastTime >= Sim.TimeLeft || Mana >= 0.98 * MaxMana)
                             {
@@ -124,18 +124,18 @@ namespace ClassicCraft
                         }
                     }
 
-                    if (Sim.TimeLeft > SWPDoT.DURATION / 2 && swp.CanUse() && !Sim.Boss.Effects.ContainsKey(SWPDoT.NAME))
+                    if (Sim.TimeLeft > SWPDoT.DURATION / 2 && swp.CanUse() && !Target.Effects.ContainsKey(SWPDoT.NAME))
                     {
-                        swp.Cast();
+                        swp.Cast(Target);
                         wanding = false;
                     }
                     if (Race == Races.Undead && Sim.TimeLeft > DevouringPlagueDoT.DURATION / 2 && dp.CanUse())
                     {
                         if (inner.CanUse())
                         {
-                            inner.Cast();
+                            inner.Cast(Target);
                         }
-                        dp.Cast();
+                        dp.Cast(Target);
                         wanding = false;
                     }
                     if (!wanding)
@@ -144,13 +144,13 @@ namespace ClassicCraft
                         {
                             if (Race != Races.Undead && inner.CanUse())
                             {
-                                inner.Cast();
+                                inner.Cast(Target);
                             }
-                            mb.Cast();
+                            mb.Cast(Target);
                         }
                         if (mf.CanUse())
                         {
-                            mf.Cast();
+                            mf.Cast(Target);
                         }
                     }
                 }

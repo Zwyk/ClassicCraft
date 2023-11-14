@@ -20,8 +20,9 @@ namespace ClassicCraft
             TravelSpeed = travelSpeed;
         }
 
-        public override void Cast()
+        public override void Cast(Entity t)
         {
+            Target = t;
             StartCast();
         }
 
@@ -47,9 +48,9 @@ namespace ClassicCraft
         {
             CDAction();
 
-            Player.Mana -= customCost.HasValue ? customCost.Value : Cost;
+            Player.Mana -= customCost ?? Cost;
         }
-
+        
         public override void DoAction()
         {
             Player.casting = null;
@@ -61,7 +62,17 @@ namespace ClassicCraft
         {
             if (Program.logFight)
             {
-                string log = string.Format("{0:N2} : {1} started cast", Player.Sim.CurrentTime, ToString());
+                string log = string.Format("{0:N2} : [{1}] started cast", Player.Sim.CurrentTime, ToString());
+                if (Player.Sim.NbTargets > 1)
+                {
+                    for (int i = 0; i < Player.Sim.Boss.Count; i++)
+                    {
+                        if (Player.Sim.Boss[i] == Target)
+                        {
+                            log += string.Format(" on Target {0}", i + 1);
+                        }
+                    }
+                }
                 if (!ResourceName().Equals("mana"))
                 {
                     log += string.Format(" ({0} {1}/{2})", ResourceName(), Player.Resource, Player.MaxResource);

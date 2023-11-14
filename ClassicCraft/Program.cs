@@ -511,7 +511,7 @@ namespace ClassicCraft
                     else if (playerBase.Class == Player.Classes.Rogue)
                         logListActions.AddRange(new List<string>() { "Sinister Strike", "Backstab", "Eviscerate", "Ambush", "Blade Flurry", "Instant Poison" });
                     else if (playerBase.Class == Player.Classes.Warlock)
-                        logListActions.AddRange(new List<string>() { "Searing Pain", "Shadow Cleave", "Shadow Bolt", "Curse of Agony", "Drain Life" });
+                        logListActions.AddRange(new List<string>() { "Shadow Bolt", "Searing Pain", "Shadow Cleave", "Shadowburn", "Curse of Agony", "Corruption", "Drain Life" });
 
                     logListActions.AddRange(new List<string>() { "Thunderfury", "Deathbringer", "Vis'kag the Bloodletter", "Perdition's Blade", "Romulo's Poison Vial", "Syphon of the Nathrezim" });
 
@@ -524,7 +524,7 @@ namespace ClassicCraft
                     if (playerBase.Class == Player.Classes.Warrior)
                         logListEffects.AddRange(new List<string>() { "Deep Wounds" });
                     if (playerBase.Class == Player.Classes.Warlock)
-                        logListEffects.AddRange(new List<string>() { "Corruption", "Curse of Agony", "Drain Life"}) ;
+                        logListEffects.AddRange(new List<string>() { "Curse of Agony", "Corruption", "Drain Life"}) ;
 
                     CurrentData = new SimData();
                 }
@@ -1151,8 +1151,6 @@ namespace ClassicCraft
                             double avgAcUse = data.AvgUses;
                             double avgAcDps = data.AvgDPS;
                             double avgAcDmg = data.AvgDmg;
-                            string res = "\nAverage stats for [" + ac + "] : ";
-                            res += string.Format("{0:N2} DPS ({1:N2}%)", avgAcDps, avgAcDps / avgDps * 100);
 
                             double avgAcTps = 0;
                             double avgAcThreat = 0;
@@ -1161,6 +1159,8 @@ namespace ClassicCraft
                                 avgAcTps = data.AvgTPS;
                                 avgAcThreat = data.AvgThreat;
                             }
+
+                            double dotmult = 1;
 
                             if (ac == "Cleave")
                             {
@@ -1186,9 +1186,35 @@ namespace ClassicCraft
                                 avgAcDmg *= Math.Min(3, nbTargets);
                                 avgAcThreat *= Math.Min(3, nbTargets);
                             }
+                            else if (ac == "Curse of Agony")
+                            {
+                                StatsData data2 = CurrentData.DataEffects[ac];
+                                dotmult = CurseOfAgonyDoT.NB_TICKS;
+                                avgAcDps = data2.AvgDPS;
+                                avgAcDmg = data2.AvgDmg;
+                                if (jsonSim.Threat)
+                                {
+                                    avgAcTps = data2.AvgTPS;
+                                    avgAcThreat = data2.AvgThreat;
+                                }
+                            }
+                            else if (ac == "Corruption")
+                            {
+                                StatsData data2 = CurrentData.DataEffects[ac];
+                                dotmult = CorruptionDoT.NB_TICKS(playerBase.Level);
+                                avgAcDps = data2.AvgDPS;
+                                avgAcDmg = data2.AvgDmg;
+                                if (jsonSim.Threat)
+                                {
+                                    avgAcTps = data2.AvgTPS;
+                                    avgAcThreat = data2.AvgThreat;
+                                }
+                            }
 
-                            if (jsonSim.Threat) res += string.Format(" / {0:N2} TPS ({1:N2}%)\n\tAverage of {2:N2} threat for {3:N2} uses (or 1 use every {4:N2}s)", avgAcTps, avgAcTps / avgTps * 100, avgAcThreat, avgAcUse, avgFightLength / avgAcUse);
-                            res += string.Format("\n\tAverage of {0:N2} damage for {1:N2} uses (or 1 use every {2:N2}s)", avgAcDmg, avgAcUse, avgFightLength / avgAcUse);
+                            string res = "\nAverage stats for action [" + ac + "] : ";
+                            res += string.Format("{0:N2} DPS ({1:N2}%)", avgAcDps, avgAcDps / avgDps * 100);
+                            if (jsonSim.Threat) res += string.Format(" / {0:N2} TPS ({1:N2}%)\n\tAverage of {2:N2} threat for {3:N2} uses (or 1 use every {4:N2}s)", avgAcTps, avgAcTps / avgTps * 100, avgAcThreat * dotmult, avgAcUse, avgFightLength / avgAcUse);
+                            res += string.Format("\n\tAverage of {0:N2} damage for {1:N2} uses (or 1 use every {2:N2}s)", avgAcDmg * dotmult, avgAcUse, avgFightLength / avgAcUse);
 
                             double hitPct = data.AvgHit;
                             double critPct = data.AvgCrit;
@@ -1233,7 +1259,7 @@ namespace ClassicCraft
                                 avgAcThreat = data.AvgThreat;
                             }
 
-                            string res = "\nAverage stats for [" + ac + "] : ";
+                            string res = "\nAverage stats for effect [" + ac + "] : ";
                             res += string.Format("{0:N2} DPS ({1:N2}%)", avgAcDps, avgAcDps / avgDps * 100);
                             if (jsonSim.Threat) res += string.Format(" / {0:N2} TPS ({1:N2}%)\n\tAverage of {2:N2} threat for {3:N2} ticks (or 1 tick every {4:N2}s)", avgAcTps, avgAcTps / avgTps * 100, avgAcThreat, avgAcUse, avgFightLength / avgAcUse);
                             res += string.Format("\n\tAverage of {0:N2} damage for {1:N2} ticks (or 1 tick every {2:N2}s)", avgAcDmg, avgAcUse, avgFightLength / avgAcUse);

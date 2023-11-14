@@ -25,7 +25,7 @@ namespace ClassicCraft
         {
         }
 
-        public override void Cast()
+        public override void Cast(Entity t)
         {
             StartCast();
         }
@@ -37,14 +37,14 @@ namespace ClassicCraft
             bool inner = Player.Effects.ContainsKey(InnerFocusBuff.NAME);
 
             ResultType res;
-            double mitigation = Simulation.MagicMitigation(Player.Sim.Boss.ResistChances[School]);
+            double mitigation = Simulation.MagicMitigation(Target.ResistChances[School]);
             if (mitigation == 0)
             {
                 res = ResultType.Resist;
             }
             else
             {
-                res = Player.SpellAttackEnemy(Player.Sim.Boss, true, 0.02 * Player.GetTalentPoints("SF"), inner ? 0.25 : 0);
+                res = Player.SpellAttackEnemy(Target, true, 0.02 * Player.GetTalentPoints("SF"), inner ? 0.25 : 0);
             }
 
             CommonManaSpell(inner ? 0 : Cost);
