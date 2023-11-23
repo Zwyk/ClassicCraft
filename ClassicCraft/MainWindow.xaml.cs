@@ -402,7 +402,8 @@ namespace ClassicCraftGUI
 
         public void LoadPlayer()
         {
-            Level.SelectedIndex = GetComboBoxIndexWithString(Level, player.Level.ToString());
+            if (player.Level > 0 && player.Level <= 70) Level.Text = player.Level.ToString();
+            else Level.SelectedIndex = 0;
             Race.SelectedIndex = GetComboBoxIndexWithString(Race, player.Race);
             Class.SelectedIndex = GetComboBoxIndexWithString(Class, player.Class);
             Talents.Text = player.Talents;
@@ -452,7 +453,7 @@ namespace ClassicCraftGUI
                         break;
                     case "Battle Shout": BattleShout.SelectedIndex = buff.Stats["AP"] == 382.0 ? 2 : 1; break;
                     case "Blessing of Might": Might.SelectedIndex = buff.Stats["AP"] == 264.0 ? 2 : 1; break;
-                    case "Mark of the Wild": MotW.SelectedIndex = buff.Stats["Str"] == 18.0 ? 2 : 1; break;
+                    case "Mark of the Wild": MotW.Text = buff.Stats["Str"].ToString(); break;
                     case "Totem Strength": TotemStr.SelectedIndex = buff.Stats["Str"] == 98.0 ? 2 : 1; break;
                     case "Totem Agility": TotemAgi.SelectedIndex = buff.Stats["Agi"] == 88.0 ? 2 : 1; break;
                 }
@@ -571,13 +572,13 @@ namespace ClassicCraftGUI
                 player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Battle Shout", "Any", new Dictionary<string, double>() { { "AP", BattleShout.SelectedIndex == 2 ? 382 : 306 } }));
             if (Might.SelectedIndex > 0)
                 player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Blessing of Might", "Any", new Dictionary<string, double>() { { "AP", Might.SelectedIndex == 2 ? 264 : 220 } }));
-            if (MotW.SelectedIndex > 0)
-                player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Mark of the Wild", "Any", new Dictionary<string, double>() {
-                    { "Str", MotW.SelectedIndex == 2 ? 18 : 14 },
-                    { "Agi", MotW.SelectedIndex == 2 ? 18 : 14 },
-                    { "Int", MotW.SelectedIndex == 2 ? 18 : 14 },
-                    { "Spi", MotW.SelectedIndex == 2 ? 18 : 14 },
-                }));
+            player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Mark of the Wild", "Any", new Dictionary<string, double>() {
+                { "Str", int.Parse(MotW.Text) },
+                { "Agi", int.Parse(MotW.Text) },
+                { "Int", int.Parse(MotW.Text) },
+                { "Spi", int.Parse(MotW.Text) },
+                { "Sta", int.Parse(MotW.Text) },
+            }));
             if (TotemStr.SelectedIndex > 0)
                 player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Totem Strength", "Any", new Dictionary<string, double>() { { "Str", TotemStr.SelectedIndex == 2 ? 98 : 86 } }));
             if (TotemAgi.SelectedIndex > 0)

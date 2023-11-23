@@ -10,31 +10,22 @@ namespace ClassicCraft
     {
         public override string ToString() { return NAME; } public static new string NAME = "Curse of Agony";
 
-        public int? _BASE_COST = null;
-        public int BASE_COST
+        public static int BASE_COST(int level)
         {
-            get
-            {
-                if (!_BASE_COST.HasValue)
-                {
-                    if (Player.Level >= 58) _BASE_COST = 215;
-                    else if (Player.Level >= 48) _BASE_COST = 170;
-                    else if (Player.Level >= 38) _BASE_COST = 130;
-                    else if (Player.Level >= 28) _BASE_COST = 90;
-                    else if (Player.Level >= 18) _BASE_COST = 50;
-                    else if (Player.Level >= 8) _BASE_COST = 25;
-                    else _BASE_COST = 0;
-                }
-                return _BASE_COST.Value;
-            }
+            if (level >= 58) return 215;
+            else if (level >= 48) return 170;
+            else if (level >= 38) return 130;
+            else if (level >= 28) return 90;
+            else if (level >= 18) return 50;
+            else if (level >= 8) return 25;
+            else return 0;
         }
         public static int CD = 0;
         public static double CAST_TIME = 0;
 
         public CurseOfAgony(Player p)
-            : base(p, CD, 0, true, true, School.Shadow, CAST_TIME)
+            : base(p, CD, BASE_COST(p.Level), true, true, School.Shadow, CAST_TIME)
         {
-            Cost = BASE_COST;
         }
 
         public override void DoAction()

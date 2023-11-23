@@ -226,6 +226,7 @@ namespace ClassicCraft
 
         public class JsonPlayer
         {
+            public string Ver { get; set; }
             public string Class { get; set; }
             public int Level { get; set; }
             public string Race { get; set; }
@@ -236,7 +237,7 @@ namespace ClassicCraft
             public Dictionary<string, JsonWeapon> Weapons { get; set; }
             public Dictionary<string, JsonItem> Equipment { get; set; }
 
-            public JsonPlayer(Dictionary<string, JsonWeapon> weapons = null, Dictionary<string, JsonItem> equipment = null, string @class = "Warrior", int level = 60, string race = "Orc", string talents = "", List<JsonEnchantment> buffs = null, Dictionary<string, bool> cooldowns = null, List<string> runes = null)
+            public JsonPlayer(Dictionary<string, JsonWeapon> weapons = null, Dictionary<string, JsonItem> equipment = null, string @class = "Warrior", int level = 60, string race = "Orc", string talents = "", List<JsonEnchantment> buffs = null, Dictionary<string, bool> cooldowns = null, List<string> runes = null, string ver = null)
             {
                 Class = @class;
                 Level = level;
@@ -247,6 +248,7 @@ namespace ClassicCraft
                 Buffs = buffs;
                 Cooldowns = cooldowns;
                 Runes = runes;
+                Ver = ver;
             }
 
             public static Player ToPlayer(JsonPlayer jp, bool tanking = false, bool facing = false)
@@ -394,6 +396,8 @@ namespace ClassicCraft
 
         public class JsonSim
         {
+            public bool DoCompare {  get; set; }
+            public List<string> Compare { get; set; }
             public double FightLength { get; set; }
             public double FightLengthMod { get; set; }
             public int NbSim { get; set; }
@@ -413,7 +417,7 @@ namespace ClassicCraft
             public double TankHitRage { get; set; }
             public int NbTargets { get; set; }
 
-            public JsonSim(JsonBoss boss = null, double fightLength = 300, double fightLengthMod = 0.2, int nbSim = 1000, double targetErrorPct = 0.5, bool targetError = true, bool logFight = false, bool statsWeights = false, bool bossAutoLife = true, double bossLowLifeTime = 0, bool unlimitedMana = false, bool unlimitedResource = false, bool tanking = false, double tankHitEvery = 1, double tankHitRage = 25, int nbTargets = 1, bool threat = false, bool facing = false)
+            public JsonSim(JsonBoss boss = null, double fightLength = 300, double fightLengthMod = 0.2, int nbSim = 1000, double targetErrorPct = 0.5, bool targetError = true, bool logFight = false, bool statsWeights = false, bool bossAutoLife = true, double bossLowLifeTime = 0, bool unlimitedMana = false, bool unlimitedResource = false, bool tanking = false, double tankHitEvery = 1, double tankHitRage = 25, int nbTargets = 1, bool threat = false, bool facing = false, bool doCompare = false, List<string> compare = null)
             {
                 Boss = boss;
                 FightLength = fightLength;
@@ -433,6 +437,8 @@ namespace ClassicCraft
                 NbTargets = nbTargets;
                 Facing = facing;
                 Threat = threat;
+                DoCompare = doCompare;
+                Compare = compare;
             }
         }
 

@@ -8,15 +8,15 @@ namespace ClassicCraft
 {
     class Warlock : Player
     {
-        private ShadowBolt sb;
-        private Corruption co;
-        private CurseOfAgony ca;
-        private LifeTap lt;
-        private DrainLife dl;
-        private SearingPain sp;
-        private ShadowCleave sc;
-        private DemonicGrace dg;
-        private Shadowburn sburn;
+        private ShadowBolt sb = null;
+        private Corruption co = null;
+        private CurseOfAgony ca = null;
+        private LifeTap lt = null;
+        private DrainLife dl = null;
+        private SearingPain sp = null;
+        private ShadowCleave sc = null;
+        private DemonicGrace dg = null;
+        private Shadowburn sburn = null;
 
         #region Constructors
 
@@ -58,7 +58,7 @@ namespace ClassicCraft
             Talents = new Dictionary<string, int>
             {
                 // Affli
-                { "Sup", affli.Length > 0 ? (int)Char.GetNumericValue(affli[0]) : 0 },
+                { "Suppr", affli.Length > 0 ? (int)Char.GetNumericValue(affli[0]) : 0 },
                 { "IC", affli.Length > 1 ? (int)Char.GetNumericValue(affli[1]) : 0 },
                 { "ILT", affli.Length > 4 ? (int)Char.GetNumericValue(affli[4]) : 0 },
                 { "IDL", affli.Length > 5 ? (int)Char.GetNumericValue(affli[5]) : 0 },
@@ -96,18 +96,13 @@ namespace ClassicCraft
 
             Mana = MaxMana;
 
-            if(Runes.Contains("Demonic Tactics"))
-            {
-                SpellCritChance += 0.1;
-            }
-
             if (Tanking && Runes.Contains("Metamorphosis"))
             {
                 Form = Forms.Metamorphosis;
                 dl = (Runes.Contains("Master Channeler") && Cooldowns.Contains("Drain Life")) ? new DrainLife(this) : null;
                 sp = new SearingPain(this);
                 sc = new ShadowCleave(this);
-                if (Runes.Contains("Demonic Grace")) dg = new DemonicGrace(this);
+                dg = Runes.Contains("Demonic Grace") ? new DemonicGrace(this) : null;
             }
             else
             {
@@ -117,7 +112,7 @@ namespace ClassicCraft
             co = Cooldowns.Contains("Corruption") ? new Corruption(this) : null;
             ca = Cooldowns.Contains("Curse of Agony") ? new CurseOfAgony(this) : null;
             lt = new LifeTap(this);
-            if(GetTalentPoints("Shadowburn") > 0 && Cooldowns.Contains("Shadowburn")) sburn = new Shadowburn(this);
+            sburn = (GetTalentPoints("Shadowburn") > 0 && Cooldowns.Contains("Shadowburn")) ? new Shadowburn(this) : null;
         }
 
         public override void Rota()

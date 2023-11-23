@@ -492,7 +492,7 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="Level" Grid.Column="0" />
-                                            <ComboBox x:Name="Level" Grid.Column="1" SelectedIndex="1">
+                                            <ComboBox x:Name="Level" Width="Auto" IsEditable="True" IsTextSearchEnabled="True" PreviewTextInput="NumberCheck" Grid.Column="1" SelectedIndex="1">
                                                 <ComboBoxItem>60</ComboBoxItem>
                                                 <ComboBoxItem>70</ComboBoxItem>
                                             </ComboBox>
@@ -932,10 +932,15 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="Mark of the Wild " TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="0"/>
-                                            <ComboBox x:Name="MotW" SelectedIndex="0" Width="250" HorizontalAlignment="Left" Grid.Column="1">
-                                                <ComboBoxItem>None</ComboBoxItem>
-                                                <ComboBoxItem>+14 All stats (0/5)</ComboBoxItem>
-                                                <ComboBoxItem>+18 All stats (5/5)</ComboBoxItem>
+                                            <ComboBox x:Name="MotW" IsEditable="True" IsTextSearchEnabled="True" PreviewTextInput="NumberCheck" SelectedIndex="0" Width="250" HorizontalAlignment="Left" Grid.Column="1">
+                                                <ComboBoxItem>0</ComboBoxItem>
+                                                <ComboBoxItem>4</ComboBoxItem>
+                                                <ComboBoxItem>8</ComboBoxItem>
+                                                <ComboBoxItem>10</ComboBoxItem>
+                                                <ComboBoxItem>12</ComboBoxItem>
+                                                <ComboBoxItem>16</ComboBoxItem>
+                                                <ComboBoxItem>14</ComboBoxItem>
+                                                <ComboBoxItem>18</ComboBoxItem>
                                             </ComboBox>
                                         </Grid>
                                         <Grid Margin="5 5 0 0">

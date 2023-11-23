@@ -15,7 +15,7 @@ namespace ClassicCraft
 
         public double RATIO = 0;
 
-        public int BASE_COST(int level)
+        public static int BASE_COST(int level)
         {
             if (level >= 60) return 190;
             //else if (level >= 60) return 185; // Rank 9
@@ -29,9 +29,9 @@ namespace ClassicCraft
             else return 12;
         }
 
-        public double CAST_TIME = 0;
+        public static double CAST_TIME = 0;
 
-        public int MIN_DMG(int level)
+        public static int MIN_DMG(int level)
         {
             if (level >= 60) return 136;
             //else if (level >= 60) return 128; // Rank 9
@@ -45,7 +45,7 @@ namespace ClassicCraft
             else return 3;
         }
 
-        public int MAX_DMG(int level)
+        public static int MAX_DMG(int level)
         {
             if (level >= 60) return 204;
             //else if (level >= 60) return 193; // Rank 9
@@ -64,10 +64,8 @@ namespace ClassicCraft
         public double castTimeKeeper;
 
         public ShadowCleave(Player p)
-            : base(p, CD, 0, true, true, School.Shadow, 0)
+            : base(p, CD, (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata"))), true, true, School.Shadow, CAST_TIME)
         {
-            Cost = (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata")));
-            CastTime = CAST_TIME;
             RATIO = Math.Max(1.5, CAST_TIME) / 3.5;
 
             castTimeKeeper = CastTime;
@@ -107,7 +105,7 @@ namespace ClassicCraft
                 int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Player.SP * RATIO))
                     * (Player.Sim.DamageMod(res, School) + (res == ResultType.Crit ? 0.5 * Player.GetTalentPoints("Ruin") : 0))
                     * (1 + 0.02 * Player.GetTalentPoints("SM"))
-                    * Math.Max(Player.Tanking ? 0 : (1 + 0.15 * Player.GetTalentPoints("DS")), 1 + 0.02 * Player.GetTalentPoints("MD") * (1 + 0.03 * Player.GetTalentPoints("SL")))
+                    * Math.Max(Player.Tanking ? 0 : (1 + 0.15 * Player.GetTalentPoints("DS")), (1 + 0.02 * Player.GetTalentPoints("MD")) * (1 + 0.03 * Player.GetTalentPoints("SL")))
                     * (Target.Effects.ContainsKey(ShadowVulnerability.NAME) ? ((ShadowVulnerability)Target.Effects[ShadowVulnerability.NAME]).Modifier : 1)
                     * (Target.Effects.ContainsKey("Shadow Weaving") ? 1.15 : 1)
                     * mitigation

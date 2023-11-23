@@ -119,7 +119,7 @@ namespace ClassicCraft
                 Program.AddSimThreat(Threat / FightLength);
             }
 
-            if (!Program.statsWeights)
+            if (!Program.statsWeights && !Program.comparing)
             {
                 Program.AddSimResult(Results);
             }
@@ -355,7 +355,7 @@ namespace ClassicCraft
             return Randomer.NextDouble() * (high - low) + low;
         }
 
-        public static double RageGained(double damage, int level = 60, bool mh = true, bool crit = false, double speed = 1.0)
+        public static double RageGained(double damage, int level, bool mh = true, bool crit = false, double speed = 1.0)
         {
             switch(Program.version)
             {
@@ -365,7 +365,7 @@ namespace ClassicCraft
             }
         }
 
-        public static double RageConversionValue(int level = 60)
+        public static double RageConversionValue(int level)
         {
             return 0.0091107836 * Math.Pow(level,2) + 3.225598133 * level + 4.2652911;
         }

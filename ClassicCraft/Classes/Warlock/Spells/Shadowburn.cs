@@ -15,7 +15,7 @@ namespace ClassicCraft
 
         public static double RATIO = Math.Max(1.5, CAST_TIME) / 3.5;
 
-        public int BASE_COST(int level)
+        public static int BASE_COST(int level)
         {
             if (level >= 56) return 365;
             else if (level >= 48) return 305;
@@ -25,7 +25,7 @@ namespace ClassicCraft
             else return 105;
         }
 
-        public int MIN_DMG(int level)
+        public static int MIN_DMG(int level)
         {
             if (level >= 56) return 462;
             else if (level >= 48) return 365;
@@ -35,7 +35,7 @@ namespace ClassicCraft
             else return 91;
         }
 
-        public int MAX_DMG(int level)
+        public static int MAX_DMG(int level)
         {
             if (level >= 56) return 514;
             else if (level >= 48) return 408;
@@ -46,9 +46,8 @@ namespace ClassicCraft
         }
 
         public Shadowburn(Player p)
-            : base(p, CD, 0, true, true, School.Shadow, CAST_TIME)
+            : base(p, CD, (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata"))), true, true, School.Shadow, CAST_TIME)
         {
-            Cost = (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata")));
         }
 
         public override void DoAction()
@@ -74,7 +73,7 @@ namespace ClassicCraft
             int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Player.SP * RATIO))
                 * (Player.Sim.DamageMod(res, School) + (res == ResultType.Crit ? 0.5 * Player.GetTalentPoints("Ruin") : 0))
                 * (1 + 0.02 * Player.GetTalentPoints("SM"))
-                * Math.Max(Player.Tanking ? 0 : (1 + 0.15 * Player.GetTalentPoints("DS")), 1 + 0.02 * Player.GetTalentPoints("MD") * (1 + 0.03 * Player.GetTalentPoints("SL")))
+                * Math.Max(Player.Tanking ? 0 : (1 + 0.15 * Player.GetTalentPoints("DS")), (1 + 0.02 * Player.GetTalentPoints("MD")) * (1 + 0.03 * Player.GetTalentPoints("SL")))
                 * (Target.Effects.ContainsKey(ShadowVulnerability.NAME) ? ((ShadowVulnerability)Target.Effects[ShadowVulnerability.NAME]).Modifier : 1)
                 * (Target.Effects.ContainsKey("Shadow Weaving") ? 1.15 : 1)
                 * mitigation

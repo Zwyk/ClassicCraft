@@ -18,12 +18,12 @@ namespace ClassicCraft
 
         public int DMG(int level)
         {
-            if (level >= 54) return 71 * 5;
-            else if (level >= 46) return 55 * 5;
-            else if (level >= 38) return 41 * 5;
-            else if (level >= 30) return 29 * 5;
-            else if (level >= 22) return 17 * 5;
-            else if (level >= 14) return 10 * 5;
+            if (level >= 54) return 71 * 15;
+            else if (level >= 46) return 55 * 15;
+            else if (level >= 38) return 41 * 15;
+            else if (level >= 30) return 29 * 15;
+            else if (level >= 22) return 17 * 15;
+            else if (level >= 14) return 10 * 15;
             else return 0;
         }
 
@@ -37,7 +37,7 @@ namespace ClassicCraft
             return (int)Math.Round((DMG(Player.Level) + Player.SP * RATIO) / NB_TICKS
                 * (1 + 0.02 * Player.GetTalentPoints("IDL"))
                 * (1 + 0.02 * Player.GetTalentPoints("SM"))
-                * Math.Max(Player.Tanking ? 0 : (1 + 0.15 * Player.GetTalentPoints("DS")), 1 + 0.02 * Player.GetTalentPoints("MD") * (1 + 0.03 * Player.GetTalentPoints("SL")))
+                * Math.Max(Player.Tanking ? 0 : (1 + 0.15 * Player.GetTalentPoints("DS")), (1 + 0.02 * Player.GetTalentPoints("MD")) * (1 + 0.03 * Player.GetTalentPoints("SL")))
                 * Player.DamageMod
                 );
         }

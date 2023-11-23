@@ -10,7 +10,7 @@ namespace ClassicCraft
     {
         public override string ToString() { return NAME; } public static new string NAME = "Corruption";
 
-        public int BASE_COST(int level)
+        public static int BASE_COST(int level)
         {
             if (level >= 60) return 340;
             else if (level >= 54) return 290;
@@ -25,9 +25,8 @@ namespace ClassicCraft
         public static double CAST_TIME = 2;
 
         public Corruption(Player p)
-            : base(p, CD, 0, true, true, School.Shadow, CAST_TIME - 0.4 * p.GetTalentPoints("IC"))
+            : base(p, CD, BASE_COST(p.Level), true, true, School.Shadow, CAST_TIME - 0.4 * p.GetTalentPoints("IC"))
         {
-            Cost = BASE_COST(p.Level);
         }
 
         public override void DoAction()

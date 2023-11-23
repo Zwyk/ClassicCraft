@@ -175,7 +175,7 @@ namespace ClassicCraft
 
         public double CurrentSpeed()
         {
-            return (Player.Form == Player.Forms.Humanoid ? BaseCD : (Player.Form == Player.Forms.Cat ? 1 : 2.5)) / Player.HasteMod;
+            return (Player.Form == Player.Forms.Cat ? 1 : (Player.Form == Player.Forms.Bear ? 2.5 : BaseCD)) / Player.HasteMod;
         }
 
         public override string ToString()

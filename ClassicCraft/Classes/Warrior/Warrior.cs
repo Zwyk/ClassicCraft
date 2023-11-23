@@ -171,7 +171,7 @@ namespace ClassicCraft
                 rev = new Revenge(this);
                 dev = new Devastate(this);
                 tc = new Thunderclap(this);
-                if(!DualWielding) shslam = new ShieldSlam(this);
+                if(!DualWielding && GetTalentPoints("ShieldSlam") > 0) shslam = new ShieldSlam(this);
             }
             else
             {

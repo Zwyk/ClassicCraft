@@ -45,12 +45,13 @@ namespace ClassicCraft
     public enum Version
     {
         Vanilla,
-        TBC
+        TBC,
+        SoD,
     }
 
     public class Program
     {
-        public static Version version = Version.TBC;
+        public static Version version = Version.Vanilla;
 
         public static JsonUtil.Config Config = null;
 
@@ -66,6 +67,7 @@ namespace ClassicCraft
         public static string debugPath = @".\..\..";
 
         public static Player playerBase = null;
+        public static Dictionary<string, Player> playerList = null;
         public static Boss bossBase = null;
 
         public static int nbSim = 1000;
@@ -76,6 +78,7 @@ namespace ClassicCraft
         public static bool calcDpss = false;
 
         public static bool statsWeights = false;
+        public static bool comparing = false;
 
         public static int nbTargets = 1;
 
@@ -272,22 +275,41 @@ namespace ClassicCraft
 
         public static void LoadConfigJsons(bool player = true, bool sim = true)
         {
+            if (sim)
+            {
+                jsonSim = ReadSimJson(Config.Sim);
+            }
+            if (player)
+            {
+                jsonPlayer = ReadPlayerJson(Config.Player);
+            }
+        }
+
+        public static JsonUtil.JsonSim ReadSimJson(string fileName)
+        {
             try
             {
-                if(sim)
-                {
-                    string simString = File.ReadAllText(Path.Combine(basePath(), CONFIG_FOLDER, SIM_CONFIG_FOLDER, Config.Sim + ".json"));
-                    jsonSim = JsonConvert.DeserializeObject<JsonUtil.JsonSim>(simString);
-                }
-                if(player)
-                {
-                    string playerString = File.ReadAllText(Path.Combine(basePath(), CONFIG_FOLDER, PLAYER_CONFIG_FOLDER, Config.Player + ".json"));
-                    jsonPlayer = JsonConvert.DeserializeObject<JsonUtil.JsonPlayer>(playerString);
-                }
+                string simString = File.ReadAllText(Path.Combine(basePath(), CONFIG_FOLDER, SIM_CONFIG_FOLDER, fileName + ".json"));
+                return JsonConvert.DeserializeObject<JsonUtil.JsonSim>(simString);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Output("Json loading failed :\n" + e);
+                Output("Player JSON loading failed :\n" + e);
+                return null;
+            }
+        }
+
+        public static JsonUtil.JsonPlayer ReadPlayerJson(string fileName)
+        {
+            try
+            {
+                string playerString = File.ReadAllText(Path.Combine(basePath(), CONFIG_FOLDER, PLAYER_CONFIG_FOLDER, fileName + ".json"));
+                return JsonConvert.DeserializeObject<JsonUtil.JsonPlayer>(playerString);
+            }
+            catch (Exception e)
+            {
+                Output("Player JSON loading failed :\n" + e);
+                return null;
             }
         }
 
@@ -316,6 +338,14 @@ namespace ClassicCraft
                 Display = GUI == null ? DisplayMode.Console : DisplayMode.GUI;
                 GUI.SetProgress(0);
                 GUISetProgressText("Setting up...");
+
+                if(comparing && !jsonSim.Compare.Contains(Config.Player))
+                {
+                    jsonPlayer = ReadPlayerJson(jsonSim.Compare[0]);
+                }
+
+                if (jsonPlayer.Ver == "Vanilla") version = Version.Vanilla;
+                else if (jsonPlayer.Ver == "TBC") version = Version.TBC;
 
                 if (jsonPlayer.Level > 60) version = Version.TBC;
                 else version = Version.Vanilla;
@@ -355,14 +385,26 @@ namespace ClassicCraft
                     }
                 }
 
-                playerBase = JsonUtil.JsonPlayer.ToPlayer(jsonPlayer, jsonSim.Tanking, jsonSim.Facing);
+                comparing = jsonSim.DoCompare;
 
-                if(playerBase.MH == null)
+                if (!comparing)
                 {
-                    playerBase.MH = new Weapon();
+                    jsonSim.Compare = new List<string>() { Config.Player };
+                }
+                else
+                {
+                    statsWeights = false;
+                    logFight = false;
                 }
 
-                if(statsWeights)
+                playerList = new Dictionary<string, Player>();
+                foreach (string p in jsonSim.Compare)
+                {
+                    playerList.Add(p, JsonUtil.JsonPlayer.ToPlayer(ReadPlayerJson(p), jsonSim.Tanking, jsonSim.Facing));
+                }
+                playerBase = playerList.First().Value;
+
+                if (statsWeights)
                 {
                     if (playerBase.Class == Player.Classes.Rogue || playerBase.Class == Player.Classes.Warrior)
                     {
@@ -470,223 +512,228 @@ namespace ClassicCraft
                 simOrder.Remove("DPS OH");
                 */
 
-                playerBase.SetupTalents(jsonPlayer.Talents);
-                playerBase.CalculateAttributes();
-                playerBase.CheckSets();
-                playerBase.ApplySets();
-
-                Log("\nPlayer :");
-                Log(playerBase.ToString());
-                Log(playerBase.MainWeaponInfo());
-
-                if(playerBase.Class == Player.Classes.Mage)
+                if (jsonPlayer.Class == "Mage")
                 {
                     int reduction = playerBase.GetTalentPoints("AS") * 5;
-                    if(reduction > 0)
+                    if (reduction > 0)
                     {
-                        foreach(string k in jsonSim.Boss.SchoolResists.Keys)
+                        foreach (string k in jsonSim.Boss.SchoolResists.Keys)
                         {
                             jsonSim.Boss.SchoolResists[k] = Math.Max(0, jsonSim.Boss.SchoolResists[k] - reduction);
                         }
                     }
                 }
-                bossBase = JsonUtil.JsonBoss.ToBoss(jsonSim.Boss);
-                int bossBaseArmor = bossBase.Armor;
-
-                Log("\nBoss :");
-                Log(bossBase.ToString(0, jsonSim.Boss.Armor));  // TODO : base magic armor
-                Log("After raid debuffs and player penetration :");
-                Log(bossBase.ToString(playerBase.Attributes.GetValue(Attribute.ArmorPen)) + "\n");
-
-                if(!statsWeights)
-                {
-                    //logListActions = totalActions.SelectMany(a => a.Select(t => t.Action.ToString()).OrderBy(b => b)).Distinct().ToList();
-                    logListActions = new List<string>() { "AA MH", "AA OH", "AA Ranged", "AA Wand" };
-                    if (playerBase.Class == Player.Classes.Warrior)
-                        logListActions.AddRange(new List<string>() { "Slam", "Bloodthirst", "Mortal Strike", "Shield Slam", "Devastate", "Sunder Armor", "Revenge", "Whirlwind", "Thunder Clap", "Sweeping Strikes", "Cleave", "Heroic Strike", "Execute", "Hamstring", "Battle Shout" });
-                    else if (playerBase.Class == Player.Classes.Druid)
-                        logListActions.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift", "Maul", "Swipe" });
-                    else if (playerBase.Class == Player.Classes.Priest)
-                        logListActions.AddRange(new List<string>() { "Mind Blast", "Mind Flay", "SW:P", "Devouring Plague" });
-                    else if (playerBase.Class == Player.Classes.Rogue)
-                        logListActions.AddRange(new List<string>() { "Sinister Strike", "Backstab", "Eviscerate", "Ambush", "Blade Flurry", "Instant Poison" });
-                    else if (playerBase.Class == Player.Classes.Warlock)
-                        logListActions.AddRange(new List<string>() { "Shadow Bolt", "Searing Pain", "Shadow Cleave", "Shadowburn", "Curse of Agony", "Corruption", "Drain Life" });
-
-                    logListActions.AddRange(new List<string>() { "Thunderfury", "Deathbringer", "Vis'kag the Bloodletter", "Perdition's Blade", "Romulo's Poison Vial", "Syphon of the Nathrezim" });
-
-                    //logListEffects = totalEffects.SelectMany(a => a.Select(t => t.Effect.ToString()).OrderBy(b => b)).Distinct().ToList();
-                    logListEffects = new List<string>() { };
-                    if (playerBase.Class == Player.Classes.Priest)
-                        logListEffects.AddRange(new List<string>() { "Mind Flay", "SW:P", "Devouring Plague" });
-                    if (playerBase.Class == Player.Classes.Rogue)
-                        logListEffects.AddRange(new List<string>() { "Rupture", "Deadly Poison" });
-                    if (playerBase.Class == Player.Classes.Warrior)
-                        logListEffects.AddRange(new List<string>() { "Deep Wounds" });
-                    if (playerBase.Class == Player.Classes.Warlock)
-                        logListEffects.AddRange(new List<string>() { "Curse of Agony", "Corruption", "Drain Life"}) ;
-
-                    CurrentData = new SimData();
-                }
 
                 DateTime start = DateTime.Now;
 
-                List<Task> tasks = new List<Task>();
-
-                Enchantment we = new Enchantment(0, "Weights", new Attributes(new Dictionary<Attribute, double>()));
-                playerBase.Buffs.Add(we);
-
-                // Doing simulations
-                for (int done = 0; done < (statsWeights ? simOrder.Count : 1); done++)
+                foreach (string ps in playerList.Keys)
                 {
-                    CurrentDpsList = new List<double>();
-                    CurrentTpsList = new List<double>();
-                    
-                    if (done > 0)
-                    {
-                        we.Attributes = simBonusAttribs[simOrder[done]];
-                        playerBase.CalculateAttributes();
+                    playerBase = playerList[ps];
+                    playerBase.SetupTalents(jsonPlayer.Talents);
+                    playerBase.CalculateAttributes();
+                    playerBase.CheckSets();
+                    playerBase.ApplySets();
 
-                        //Log(simOrder[done] + "\n\t" + bossBase.ToString(playerBase.Attributes.GetValue(Attribute.ArmorPen)));
-                        //Log(simOrder[done] + "\n\t" + playerBase.ToString());
+                    Log("\nPlayer :");
+                    Log(playerBase.ToString());
+                    Log(playerBase.MainWeaponInfo());
+
+                    bossBase = JsonUtil.JsonBoss.ToBoss(jsonSim.Boss);
+                    int bossBaseArmor = bossBase.Armor;
+
+                    Log("\nBoss :");
+                    Log(bossBase.ToString(0, jsonSim.Boss.Armor));  // TODO : base magic armor
+                    Log("After raid debuffs and player penetration :");
+                    Log(bossBase.ToString(playerBase.Attributes.GetValue(Attribute.ArmorPen)) + "\n");
+
+                    if (!statsWeights && !comparing)
+                    {
+                        //logListActions = totalActions.SelectMany(a => a.Select(t => t.Action.ToString()).OrderBy(b => b)).Distinct().ToList();
+                        logListActions = new List<string>() { "AA MH", "AA OH", "AA Ranged", "AA Wand" };
+                        if (playerBase.Class == Player.Classes.Warrior)
+                            logListActions.AddRange(new List<string>() { "Slam", "Bloodthirst", "Mortal Strike", "Shield Slam", "Devastate", "Sunder Armor", "Revenge", "Whirlwind", "Thunder Clap", "Sweeping Strikes", "Cleave", "Heroic Strike", "Execute", "Hamstring", "Battle Shout" });
+                        else if (playerBase.Class == Player.Classes.Druid)
+                            logListActions.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift", "Maul", "Swipe" });
+                        else if (playerBase.Class == Player.Classes.Priest)
+                            logListActions.AddRange(new List<string>() { "Mind Blast", "Mind Flay", "SW:P", "Devouring Plague" });
+                        else if (playerBase.Class == Player.Classes.Rogue)
+                            logListActions.AddRange(new List<string>() { "Sinister Strike", "Backstab", "Eviscerate", "Ambush", "Blade Flurry", "Instant Poison" });
+                        else if (playerBase.Class == Player.Classes.Warlock)
+                            logListActions.AddRange(new List<string>() { "Shadow Bolt", "Searing Pain", "Shadow Cleave", "Shadowburn", "Curse of Agony", "Corruption", "Drain Life" });
+
+                        logListActions.AddRange(new List<string>() { "Thunderfury", "Deathbringer", "Vis'kag the Bloodletter", "Perdition's Blade", "Romulo's Poison Vial", "Syphon of the Nathrezim" });
+
+                        //logListEffects = totalEffects.SelectMany(a => a.Select(t => t.Effect.ToString()).OrderBy(b => b)).Distinct().ToList();
+                        logListEffects = new List<string>() { };
+                        if (playerBase.Class == Player.Classes.Priest)
+                            logListEffects.AddRange(new List<string>() { "Mind Flay", "SW:P", "Devouring Plague" });
+                        if (playerBase.Class == Player.Classes.Rogue)
+                            logListEffects.AddRange(new List<string>() { "Rupture", "Deadly Poison" });
+                        if (playerBase.Class == Player.Classes.Warrior)
+                            logListEffects.AddRange(new List<string>() { "Deep Wounds" });
+                        if (playerBase.Class == Player.Classes.Warlock)
+                            logListEffects.AddRange(new List<string>() { "Curse of Agony", "Corruption", "Drain Life" });
+
+                        CurrentData = new SimData();
                     }
 
-                    if (!threading && !targetError)
+                    List<Task> tasks = new List<Task>();
+
+                    Enchantment we = new Enchantment(0, "Weights", new Attributes(new Dictionary<Attribute, double>()));
+                    playerBase.Buffs.Add(we);
+
+                    // Doing simulations
+                    for (int done = 0; done < (statsWeights ? simOrder.Count : 1); done++)
                     {
-                        for (int i = 0; i < nbSim; i++)
+                        CurrentDpsList = new List<double>();
+                        CurrentTpsList = new List<double>();
+
+                        if (done > 0)
                         {
-                            string txt = string.Format("\n\n---SIM NUMBER {0}---\n", i + 1);
-                            double pct = (i + 1) / nbSim * 100;
-                            GUISetProgress(pct);
-                            GUISetProgressText(txt);
-                            if (pct > 0.001)
-                            {
-                                double t = (DateTime.Now - start).TotalMilliseconds;
-                                GUISetProgressTime(TimeSpan.FromMilliseconds(t / (pct / 100) - t));
-                            }
-                            Log(txt);
-                            DoSim();
+                            we.Attributes = simBonusAttribs[simOrder[done]];
+                            playerBase.CalculateAttributes();
+
+                            //Log(simOrder[done] + "\n\t" + bossBase.ToString(playerBase.Attributes.GetValue(Attribute.ArmorPen)));
+                            //Log(simOrder[done] + "\n\t" + playerBase.ToString());
                         }
-                    }
-                    else
-                    {
-                        if (!targetError)
+
+                        if (!threading && !targetError)
                         {
                             for (int i = 0; i < nbSim; i++)
                             {
-                                tasks.Add(Task.Factory.StartNew(() => DoSim()));
-                            }
-
-                            while (!tasks.All(t => t.IsCompleted))
-                            {
-                                double pct = (double)CurrentDpsList.Count / nbSim * 100;
+                                string txt = string.Format("\n\n---SIM NUMBER {0}---\n", i + 1);
+                                double pct = (i + 1) / nbSim * 100;
                                 GUISetProgress(pct);
-                                GUISetProgressText(String.Format("Simulating {0} - {1}/{2}", simOrder[done], done + 1, statsWeights ? simOrder.Count : 1));
+                                GUISetProgressText(txt);
                                 if (pct > 0.001)
                                 {
                                     double t = (DateTime.Now - start).TotalMilliseconds;
                                     GUISetProgressTime(TimeSpan.FromMilliseconds(t / (pct / 100) - t));
                                 }
-                                string outputText = "";
-
-                                if (!logFight)
-                                {
-                                    outputText += String.Format("Simulating {0}...", simOrder[done]);
-                                    outputText += String.Format("\nSims done : {0:N0}", CurrentDpsList.Count);
-                                    outputText += String.Format("\nSims running : {0:N0}", tasks.Count(t => !t.IsCompleted));
-
-                                    lock (CurrentDpsList)
-                                    {
-                                        if (CurrentDpsList.Count > 1)
-                                        {
-                                            outputText += String.Format("\nCurrent precision : ±{0:N2}%", Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average()));
-                                        }
-                                    }
-                                    Output(outputText, true, !logFight);
-                                }
-
-                                Thread.Sleep(TimeSpan.FromSeconds(Display == DisplayMode.Console ? 1.0/2 : 1.0/60));
-                            }
-
-                            if (!logFight)
-                            {
-                                OutputClear();
-                                Output(String.Format("{0:N2}% ({1}/{2})", (double)CurrentDpsList.Count / nbSim * 100, CurrentDpsList.Count, nbSim));
+                                Log(txt);
+                                DoSim();
                             }
                         }
                         else
                         {
-                            if(done == 0)
+                            if (!targetError)
                             {
-                                nbSim = 0;
-                            }
-
-                            double errorPct = 100;
-
-                            while (errorPct > targetErrorPct || tasks.Count > 0)
-                            {
-                                double currentPct = Math.Min(1, Math.Pow((100 - errorPct) / (100 - targetErrorPct), 0.2 / targetErrorPct * 1000)) * 100;
-
-                                double working = tasks.Count(t => !t.IsCompleted);
-                                while (errorPct > targetErrorPct
-                                    && working < nbTasksForSims && (currentPct == 0 || 
-                                        (CurrentDpsList.Count+working*0.9) < (100/currentPct*CurrentDpsList.Count)))
+                                for (int i = 0; i < nbSim; i++)
                                 {
-                                    working++;
-                                    nbSim++;
                                     tasks.Add(Task.Factory.StartNew(() => DoSim()));
                                 }
 
-                                foreach (Task t in tasks.Where(t => t.IsCompleted))
+                                while (!tasks.All(t => t.IsCompleted))
                                 {
-                                    t.Dispose();
-                                }
-                                tasks.RemoveAll(t => t.IsCompleted);
-
-                                lock(CurrentDpsList)
-                                {
-                                    if (CurrentDpsList.Count > 10)
+                                    double pct = (double)ErrorList.Count / playerList.Count + (double)CurrentDpsList.Count / nbSim / playerList.Count * 100;
+                                    GUISetProgress(pct);
+                                    GUISetProgressText(String.Format("Simulating {0}{3} - {1}/{2}", simOrder[done], (statsWeights ? done : ErrorList.Count) + 1, statsWeights ? simOrder.Count : playerList.Count, comparing ? " for " + ps : ""));
+                                    if (pct > 0.001)
                                     {
-                                        errorPct = Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average());
+                                        double t = (DateTime.Now - start).TotalMilliseconds;
+                                        GUISetProgressTime(TimeSpan.FromMilliseconds(t / (pct / 100) - t));
                                     }
+                                    string outputText = "";
+
+                                    if (!logFight)
+                                    {
+                                        outputText += String.Format("Simulating {0}{1}...", simOrder[done], comparing ? " for " + playerList.Count : "");
+                                        outputText += String.Format("\nSims done : {0:N0}", CurrentDpsList.Count);
+                                        outputText += String.Format("\nSims running : {0:N0}", tasks.Count(t => !t.IsCompleted));
+
+                                        lock (CurrentDpsList)
+                                        {
+                                            if (CurrentDpsList.Count > 1)
+                                            {
+                                                outputText += String.Format("\nCurrent precision : ±{0:N2}%", Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average()));
+                                            }
+                                        }
+                                        Output(outputText, true, !logFight);
+                                    }
+
+                                    Thread.Sleep(TimeSpan.FromSeconds(Display == DisplayMode.Console ? 1.0 / 2 : 1.0 / 60));
                                 }
 
-                                double pct = (double)done / (statsWeights ? simOrder.Count : 1) * 100 + currentPct / (statsWeights ? simOrder.Count : 1);
-                                GUISetProgress(pct);
-                                GUISetProgressText(String.Format("Simulating {0} - {1}/{2}", simOrder[done], done + 1, statsWeights ? simOrder.Count : 1));
-                                if(pct > 0.001)
+                                if (!logFight)
                                 {
-                                    double t = (DateTime.Now - start).TotalMilliseconds;
-                                    GUISetProgressTime(TimeSpan.FromMilliseconds(t / (pct / 100) - t));
+                                    OutputClear();
+                                    Output(String.Format("{0:N2}% ({1}/{2})", (double)CurrentDpsList.Count / nbSim * 100, CurrentDpsList.Count, nbSim));
                                 }
-
-                                string outputText = "";
-                                outputText += String.Format("Simulating {0}, aiming for minimum ±{1:N2}% precision...", simOrder[done], targetErrorPct);
-                                outputText += String.Format("\nSims done : {0:N0}", CurrentDpsList.Count);
-                                outputText += String.Format("\nSims running : {0:N0}", tasks.Count(t => !t.IsCompleted));
-                                outputText += String.Format("\nCurrent precision : ±{0:N2}%", errorPct);
-                                Output(outputText, true, true);
-
-                                if(errorPct <= targetErrorPct)
+                            }
+                            else
+                            {
+                                if (done == 0)
                                 {
-                                    Output("Waiting for remaining simulations to complete...");
+                                    nbSim = 0;
                                 }
 
-                                Thread.Sleep(TimeSpan.FromSeconds(Display == DisplayMode.Console ? 1.0 / 2 : 1.0 / 60));
+                                double errorPct = 100;
+
+                                while (errorPct > targetErrorPct || tasks.Count > 0)
+                                {
+                                    double currentPct = Math.Min(1, Math.Pow((100 - errorPct) / (100 - targetErrorPct), 0.2 / targetErrorPct * 1000)) * 100;
+
+                                    double working = tasks.Count(t => !t.IsCompleted);
+                                    while (errorPct > targetErrorPct
+                                        && working < nbTasksForSims && (currentPct == 0 ||
+                                            (CurrentDpsList.Count + working * 0.9) < (100 / currentPct * CurrentDpsList.Count)))
+                                    {
+                                        working++;
+                                        nbSim++;
+                                        tasks.Add(Task.Factory.StartNew(() => DoSim()));
+                                    }
+
+                                    foreach (Task t in tasks.Where(t => t.IsCompleted))
+                                    {
+                                        t.Dispose();
+                                    }
+                                    tasks.RemoveAll(t => t.IsCompleted);
+
+                                    lock (CurrentDpsList)
+                                    {
+                                        if (CurrentDpsList.Count > 10)
+                                        {
+                                            errorPct = Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average());
+                                        }
+                                    }
+
+                                    double pct = (comparing ? (double)ErrorList.Count / playerList.Count : (double)done / (statsWeights ? simOrder.Count : 1)) * 100 + currentPct / (statsWeights ? simOrder.Count : playerList.Count);
+                                    GUISetProgress(pct);
+                                    GUISetProgressText(String.Format("Simulating {0}{3} - {1}/{2}", simOrder[done], (statsWeights ? done : ErrorList.Count) + 1, statsWeights ? simOrder.Count : playerList.Count, comparing ? " for " + playerList.Count : ""));
+                                    if (pct > 0.001)
+                                    {
+                                        double t = (DateTime.Now - start).TotalMilliseconds;
+                                        GUISetProgressTime(TimeSpan.FromMilliseconds(t / (pct / 100) - t));
+                                    }
+
+                                    string outputText = "";
+                                    outputText += String.Format("Simulating {0}{2}, aiming for minimum ±{1:N2}% precision...", simOrder[done], targetErrorPct, comparing ? " for " + ps : "");
+                                    outputText += String.Format("\nSims done : {0:N0}", CurrentDpsList.Count);
+                                    outputText += String.Format("\nSims running : {0:N0}", tasks.Count(t => !t.IsCompleted));
+                                    outputText += String.Format("\nCurrent precision : ±{0:N2}%", errorPct);
+                                    Output(outputText, true, true);
+
+                                    if (errorPct <= targetErrorPct)
+                                    {
+                                        Output("Waiting for remaining simulations to complete...");
+                                    }
+
+                                    Thread.Sleep(TimeSpan.FromSeconds(Display == DisplayMode.Console ? 1.0 / 2 : 1.0 / 60));
+                                }
                             }
                         }
-                    }
 
-                    ErrorList.Add(Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average()));
-                    SimsAvgDPS.Add(simOrder[done], CurrentDpsList.Average());
-                    SimsDPSStDev.Add(simOrder[done], Stats.StandardError(Stats.StdDev(CurrentDpsList.ToArray())));
-                    if(jsonSim.Threat)
-                    {
-                        SimsAvgTPS.Add(simOrder[done], CurrentTpsList.Average());
-                        SimsTPSStDev.Add(simOrder[done], Stats.StandardError(Stats.StdDev(CurrentTpsList.ToArray())));
-                    }
+                        ErrorList.Add(Stats.ErrorPct(CurrentDpsList.ToArray(), CurrentDpsList.Average()));
+                        SimsAvgDPS.Add(comparing ? ps : simOrder[done], CurrentDpsList.Average());
+                        SimsDPSStDev.Add(comparing ? ps : simOrder[done], Stats.StandardError(Stats.StdDev(CurrentDpsList.ToArray())));
+                        if (jsonSim.Threat)
+                        {
+                            SimsAvgTPS.Add(comparing ? ps : simOrder[done], CurrentTpsList.Average());
+                            SimsTPSStDev.Add(comparing ? ps : simOrder[done], Stats.StandardError(Stats.StdDev(CurrentTpsList.ToArray())));
+                        }
 
-                    //Log(simOrder[done] + " : " + CurrentDpsList.Average());
+                        //Log(simOrder[done] + " : " + CurrentDpsList.Average());
+                    }
                 }
 
 
@@ -721,15 +768,29 @@ namespace ClassicCraft
                 Output(endMsg1);
                 Log(endMsg1);
 
-                string endMsg2 = string.Format("Overall accuracy of results : ±{0:N2}% (±{1:N2} DPS)", ErrorList.Average(), ErrorList[0] / 100 * SimsAvgDPS["Base"]);
-                if(jsonSim.Threat) endMsg2 += string.Format(" (±{1:N2} TPS)", ErrorList.Average(), ErrorList[0] / 100 * SimsAvgTPS["Base"]);
+                string endMsg2 = string.Format("Overall accuracy of results : ±{0:N2}% (±{1:N2} DPS)", ErrorList.Average(), ErrorList[0] / 100 * (comparing ? SimsAvgDPS.Average(s => s.Value) : SimsAvgDPS["Base"]));
+                if(jsonSim.Threat) endMsg2 += string.Format(" (±{1:N2} TPS)", ErrorList.Average(), ErrorList[0] / 100 * (comparing ? SimsAvgTPS.Average(s => s.Value) : SimsAvgTPS["Base"]));
                 Output(endMsg2);
                 Log(endMsg2);
 
                 string endMsg3 = string.Format("\nGenerating results...");
                 Output(endMsg3);
 
-                if (statsWeights)
+                if (comparing)
+                {
+                    GUISetProgressText(String.Format("Generating Comparison Stats..."));
+
+                    foreach(string ps in playerList.Keys)
+                    {
+                        Log(string.Format("\nStats for {0}:", ps));
+                        if (jsonSim.Threat)
+                        {
+                            Log(string.Format("Average TPS : {0:N2} TPS (±{1:N2})", SimsAvgTPS[ps], SimsTPSStDev[ps]));
+                        }
+                        Log(string.Format("Average DPS : {0:N2} TPS (±{1:N2})", SimsAvgDPS[ps], SimsDPSStDev[ps]));
+                    }
+                }
+                else if (statsWeights)
                 {
                     GUISetProgressText(String.Format("Generating Stats Weights..."));
 
@@ -768,9 +829,6 @@ namespace ClassicCraft
                             }
                             Log(string.Format("1 SP = {0:N4} TPS", baseDif));
 
-                            double strDif = baseDif * Player.StrToAPRatio(playerBase.Class) * Player.BonusStrRatio(playerBase);
-                            Log(string.Format("1 Str = {0:N4} TPS = {1:N4} SP", strDif, strDif / baseDif));
-
                             weightsDone += 1;
                         }
                         if (simOrder.Contains("AP"))
@@ -782,8 +840,8 @@ namespace ClassicCraft
                             string endStr = hybrid ? string.Format(" = {0:N4} {1}", apDif / baseDif, baseName) : "";
                             Log(string.Format("1 AP = {0:N4} TPS{1}", apDif, endStr));
 
-                            double strDif = baseDif * Player.StrToAPRatio(playerBase.Class) * Player.BonusStrRatio(playerBase);
-                            Log(string.Format("1 Str = {0:N4} TPS = {1:N4} {2}", strDif, strDif / apDif, baseName));
+                            double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * Player.BonusStrRatio(playerBase);
+                            Log(string.Format("1 Str = {0:N4} TPS = {1:N4} {2}", strDif, strDif / baseDif, baseName));
 
                             weightsDone += 1;
                         }
@@ -793,7 +851,7 @@ namespace ClassicCraft
                             double critDif = Math.Max(0, critTps - baseTps);
 
                             double agiDif = Player.AgiToAPRatio(playerBase) * Player.BonusAgiRatio(playerBase) * baseDif
-                                + Player.AgiToCritRatio(playerBase.Class) * Player.BonusAgiRatio(playerBase) * 100 * critDif;
+                                + Player.AgiToCritRatio(playerBase.Class, playerBase.Level) * Player.BonusAgiRatio(playerBase) * 100 * critDif;
                             Log(string.Format("1 Agi = {0:N4} TPS = {1:N4} {2}", agiDif, agiDif / baseDif, baseName));
 
                             Log(string.Format("1{2} Crit = {0:N4} TPS = {1:N4} {3}", critDif, critDif / baseDif, version == Version.TBC ? "" : "%", baseName));
@@ -964,7 +1022,7 @@ namespace ClassicCraft
                             Log(string.Format("1 AP = {0:N4} DPS{1}", apDif, endStr));
 
                             double strDif = apDif * Player.StrToAPRatio(playerBase.Class) * Player.BonusStrRatio(playerBase);
-                            Log(string.Format("1 Str = {0:N4} DPS = {1:N4} {2}", strDif, strDif / apDif, baseName));
+                            Log(string.Format("1 Str = {0:N4} DPS = {1:N4} {2}", strDif, strDif / baseDif, baseName));
 
                             weightsDone += 1;
                         }
@@ -973,7 +1031,7 @@ namespace ClassicCraft
                             double critDps = SimsAvgDPS["Crit"];
                             double critDif = Math.Max(0, critDps - baseDps);
 
-                            double agiDif = Player.AgiToAPRatio(playerBase) * baseDif + Player.AgiToCritRatio(playerBase.Class) * Player.BonusAgiRatio(playerBase) * 100 * critDif;
+                            double agiDif = Player.AgiToAPRatio(playerBase) * baseDif + Player.AgiToCritRatio(playerBase.Class, playerBase.Level) * Player.BonusAgiRatio(playerBase) * 100 * critDif;
                             Log(string.Format("1 Agi = {0:N4} DPS = {1:N4} {2}", agiDif, agiDif / baseDif, baseName));
 
                             critDif /= (version == Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1);
@@ -1202,6 +1260,18 @@ namespace ClassicCraft
                             {
                                 StatsData data2 = CurrentData.DataEffects[ac];
                                 dotmult = CorruptionDoT.NB_TICKS(playerBase.Level);
+                                avgAcDps = data2.AvgDPS;
+                                avgAcDmg = data2.AvgDmg;
+                                if (jsonSim.Threat)
+                                {
+                                    avgAcTps = data2.AvgTPS;
+                                    avgAcThreat = data2.AvgThreat;
+                                }
+                            }
+                            else if (ac == "Drain Life" && playerBase.Runes.Contains("Master Channeler"))
+                            {
+                                StatsData data2 = CurrentData.DataEffects[ac];
+                                dotmult = DrainLifeDoT.NB_TICKS;
                                 avgAcDps = data2.AvgDPS;
                                 avgAcDmg = data2.AvgDmg;
                                 if (jsonSim.Threat)

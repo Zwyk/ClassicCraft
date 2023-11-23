@@ -1,22 +1,23 @@
 {
-  "Version": "SoD",
+  "Version": "Vanilla",
   "Class": "Warlock",
-  "Level": 60,
+  "Level": 25,
   "Race": "Orc",
-  "Talents": "-205030214250105-50050050005001",
+  "Talents": "3500053--",
   "Runes": [
     "Metamorphosis",
-    "Demonic Tactics",
+    "Master Channeler",
     "Demonic Grace"
   ],
   "Unused Runes": [
-    "Master Channeler",
+    "Demonic Tactics",
   ],
   "Cooldowns": {
-    "Shadowburn": true,
-    "Corruption": false,
+    "Shadowburn": false,
+    "Corruption": true,
     "Curse of Agony": true,
     "Drain Life": true,
+    "Immolate": false,
     "Racial": false,
     "Haste Potion": false,
     "Drums of Battle": false,
@@ -28,36 +29,42 @@
       "Name": "Mark of the Wild",
       "Slot": "Any",
       "Stats": {
-        "Str": 14.0,
-        "Agi": 14.0,
-        "Int": 14.0,
-        "Spi": 14.0
+        "Str": 4.0,
+        "Agi": 4.0,
+        "Int": 4.0,
+        "Spi": 4.0
+      }
+    },
+    {
+      "Id": 0,
+      "Name": "Arcane Intellect",
+      "Slot": "Any",
+      "Stats": {
+        "Int": 7.0,
       }
     }
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 64.0,
-      "DamageMax": 140.0,
-      "Speed": 2.4,
+      "DamageMin": 23.0,
+      "DamageMax": 41.0,
+      "Speed": 1.7,
       "TwoHanded": false,
-      "Type": "Sword",
+      "Type": "Dagger",
       "Buff": null,
       "School": null,
-      "Name": "Azuresong Mageblade",
+      "Name": "Scout's Blade",
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
-        "Int": 12.0,
-        "SP": 40.0,
-        "SCrit": 1.0
+        "Agi": 5.0,
       },
       "Enchantment": {
         "Id": 0,
-        "Name": "Spell Power",
+        "Name": "Striking",
         "Slot": null,
         "Stats": {
-          "SP": 30.0
+          "WDmg": 3.0
         }
       },
       "Gems": null
@@ -74,8 +81,7 @@
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
-        "Int": 21.0,
-        "SP": 11.0
+        "Int": 0.0,
       },
       "Enchantment": null,
       "Gems": null
@@ -92,7 +98,7 @@
       "Id": 0,
       "Slot": "Ranged",
       "Stats": {
-        "SP": 14.0
+        "Spi": 1.0
       },
       "Enchantment": null,
       "Gems": null
@@ -104,18 +110,9 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "SCrit": 1.0,
-        "Int": 21.0,
-        "SP": 21.0
+        "Spi": 9.0,
       },
-      "Enchantment": {
-        "Id": 0,
-        "Name": "Arcanum of Focus",
-        "Slot": null,
-        "Stats": {
-          "SP": 8.0
-        }
-      },
+      "Enchantment": null,
       "Gems": null
     },
     "Neck": {
@@ -123,8 +120,7 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Int": 7.0,
-        "SP": 34.0
+        "Spi": 6.0,
       },
       "Enchantment": null,
       "Gems": null
@@ -134,9 +130,8 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Int": 13.0,
-        "SP": 12.0,
-        "SCrit": 1.0
+        "Int": 9.0,
+        "SP": 5.0,
       },
       "Enchantment": null,
       "Gems": null
@@ -146,8 +141,7 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Int": 17.0,
-        "SP": 14.0
+        "Int": 0.0,
       },
       "Enchantment": {
         "Id": 0,
@@ -162,20 +156,18 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Int": 15.0,
-        "Spi": 10.0,
-        "SCrit": 2.0,
-        "SP": 23.0
+        "Agi": 4.0,
+        "Int": 6.0,
       },
       "Enchantment": {
         "Id": 0,
         "Name": "Greater Stats",
         "Slot": null,
         "Stats": {
-          "Str": 4.0,
-          "Agi": 4.0,
-          "Int": 4.0,
-          "Spi": 4.0
+          "Str": 0.0,
+          "Agi": 0.0,
+          "Int": 0.0,
+          "Spi": 0.0
         }
       },
       "Gems": null
@@ -185,9 +177,7 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Int": 13.0,
-        "Spi": 8.0,
-        "SCrit": 1.0
+        "Int": 0.0,
       },
       "Enchantment": {
         "Id": 0,
@@ -202,13 +192,15 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "SP": 33.0
+        "Agi": 6.0
       },
       "Enchantment": {
         "Id": 0,
-        "Name": "Greater Strength",
+        "Name": "enchant",
         "Slot": null,
-        "Stats": {}
+        "Stats": {
+          "Agi": 5,
+        }
       },
       "Gems": null
     },
@@ -217,9 +209,7 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Int": 16.0,
-        "SP": 25.0,
-        "SCrit": 1.0
+        "Int": 8.0,
       },
       "Enchantment": null,
       "Gems": null
@@ -229,14 +219,14 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "SP": 64.0
+        "Agi": 7.0
       },
       "Enchantment": {
         "Id": 0,
         "Name": "Lesser Arcane Amalgamation",
         "Slot": null,
         "Stats": {
-          "SP": 8.0
+          "SP": 0.0
         }
       },
       "Gems": null
@@ -246,9 +236,10 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "SP": 32.0,
-        "Int": 10.0,
-        "MP5": 5.0
+        "Int": 4.0,
+        "Spi": 7.0,
+        "SP": 7.0,
+        "SHit": 1.0,
       },
       "Enchantment": null,
       "Gems": null
@@ -258,7 +249,7 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "SP": 33.0
+        "Str": 3.0
       },
       "Enchantment": null,
       "Gems": null
@@ -268,7 +259,7 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "SP": 33.0
+        "Int": 3.0
       },
       "Enchantment": null,
       "Gems": null
@@ -278,7 +269,7 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "SP": 29.0
+        "SP": 8.0
       },
       "Enchantment": null,
       "Gems": null
@@ -288,7 +279,7 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "SCrit": 2.0
+        "SCrit": 0.0
       },
       "Enchantment": null,
       "Gems": null

@@ -1,0 +1,43 @@
+{
+  "DoCompare" : true,
+  "Compare": [
+    "Warlock - 25 destru",
+    "Warlock - 25 affli",
+  ],
+  "FightLength": 120.0,
+  "FightLengthMod": 0.1,
+  "NbSim": 1,
+  "Threat": true,
+  "StatsWeights": false,
+  "TargetErrorPct": 0.5,
+  "TargetError": true,
+  "LogFight": false,
+  "BossAutoLife": true,
+  "BossLowLifeTime": 0.0,
+  "Boss": {
+    "Level": 28,
+    "Type": null,
+    "Armor": 1000,
+    "Debuffs": {
+      "Sunder Armor": false,
+      "Expose Armor": false,
+      "Improved Expose Armor": false,
+      "Faerie Fire": false,
+      "Improved Faerie Fire": false,
+      "Curse of Recklessness": false,
+      "Annihilator": false,
+      "Blood Frenzy": false,
+      "Improved Seal of the Crusader": false
+    },
+    "SchoolResists": {
+      "All": 0
+    }
+  },
+  "UnlimitedMana": true,
+  "UnlimitedResource": false,
+  "Facing": true,
+  "Tanking": true,
+  "TankHitEvery": 2.0,
+  "TankHitRage": 30.0,
+  "NbTargets": 1
+}

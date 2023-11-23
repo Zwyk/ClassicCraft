@@ -122,9 +122,9 @@ namespace ClassicCraft
             {
                 Player.Attributes.AddToValue(Attribute.AP, bonus * Player.AgiToAPRatio(Player) * (1 + 0.02 * Player.GetTalentPoints("IBStance")));
                 Player.Attributes.AddToValue(Attribute.RangedAP, bonus * Player.AgiToRangedAPRatio(Player.Class));
-                Player.Attributes.AddToValue(Attribute.CritChance, bonus * Player.AgiToCritRatio(Player.Class));
+                Player.Attributes.AddToValue(Attribute.CritChance, bonus * Player.AgiToCritRatio(Player.Class, Player.Level));
             }
-            else if (a == Attribute.Intellect) Player.Attributes.AddToValue(Attribute.SpellCritChance, bonus * Player.IntToCritRatio(Player.Class));
+            else if (a == Attribute.Intellect) Player.Attributes.AddToValue(Attribute.SpellCritChance, bonus * Player.IntToCritRatio(Player.Class, Player.Level));
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace ClassicCraft
 {
@@ -240,32 +241,63 @@ namespace ClassicCraft
             return 0.05;
         }
 
-        public static double AgiToCritRatio(Classes c)
+        public static double AgiToDodgeRatio(Classes c, int level)
         {
-            switch (c)
+            if (level < 60 && c == Classes.Warlock)
             {
-                case Classes.Hunter: return 1.0 / 100 / (Program.version == Version.TBC ? 40 : 53);
-                case Classes.Rogue: return 1.0 / 100 / (Program.version == Version.TBC ? 40 : 29);
-                case Classes.Warrior: return 1.0 / 100 / (Program.version == Version.TBC ? 33 : 20);
-                default: return 1.0 / 100 / (Program.version == Version.TBC ? 25 : 20);
+                return (0.0446055 * Math.Pow(level, 1.39285) + 6.64614) / 100; // Approx
+            }
+            else
+            {
+                switch (c)
+                {
+                    case Classes.Hunter: return 1.0 / 100 / (Program.version == Version.TBC ? 40 : 26);     // TBC ?
+                    case Classes.Rogue: return 1.0 / 100 / (Program.version == Version.TBC ? 40 : 14.5);    // TBC ?
+                    default: return 1.0 / 100 / (Program.version == Version.TBC ? 25 : 20);                 // TBC ?
+                }
             }
         }
 
-        public static double IntToCritRatio(Classes c)
+        public static double AgiToCritRatio(Classes c, int level)
         {
-            switch (c)
+            if(level < 60 && c == Classes.Warlock)
             {
-                case Classes.Druid: return 1.0 / 100 / (Program.version == Version.TBC ? 80 : 60);
-                case Classes.Mage: return 1.0 / 100 / (Program.version == Version.TBC ? 80 : 59.50);
-                case Classes.Paladin: return 1.0 / 100 / (Program.version == Version.TBC ? 80.05 : 54);
-                case Classes.Priest: return 1.0 / 100 / (Program.version == Version.TBC ? 80 : 59.20);
-                case Classes.Shaman: return 1.0 / 100 / (Program.version == Version.TBC ? 80 : 59.50);
-                case Classes.Warlock: return 1.0 / 100 / (Program.version == Version.TBC ? 81.92 : 60.60);
-                default: return 0;
+                return (-0.026779 * Math.Pow(level, 0.330417) + 0.153575) /100; // Approx
+            }
+            else
+            {
+                switch (c)
+                {
+                    case Classes.Hunter: return 1.0 / 100 / (Program.version == Version.TBC ? 40 : 53);
+                    case Classes.Rogue: return 1.0 / 100 / (Program.version == Version.TBC ? 40 : 29);
+                    case Classes.Warrior: return 1.0 / 100 / (Program.version == Version.TBC ? 33 : 20);
+                    default: return 1.0 / 100 / (Program.version == Version.TBC ? 25 : 20);
+                }
             }
         }
 
-        public static double BaseSpellCrit(Classes c)
+        public static double IntToCritRatio(Classes c, int level)
+        {
+            if (level < 60 && c == Classes.Warlock)
+            {
+                return (-0.435224 * Math.Pow(level, 0.0574586) + 0.565842) / 100; // Approx
+            }
+            else
+            {
+                switch (c)
+                {
+                    case Classes.Druid: return 1.0 / 100 / (Program.version == Version.TBC ? 80 : 60);
+                    case Classes.Mage: return 1.0 / 100 / (Program.version == Version.TBC ? 80 : 59.50);
+                    case Classes.Paladin: return 1.0 / 100 / (Program.version == Version.TBC ? 80.05 : 54);
+                    case Classes.Priest: return 1.0 / 100 / (Program.version == Version.TBC ? 80 : 59.20);
+                    case Classes.Shaman: return 1.0 / 100 / (Program.version == Version.TBC ? 80 : 59.50);
+                    case Classes.Warlock: return 1.0 / 100 / (Program.version == Version.TBC ? 81.92 : 60.60);
+                    default: return 0;
+                }
+            }
+        }
+
+        public static double BaseSpellCrit(Classes c, int level)
         {
             switch (c)
             {
@@ -280,7 +312,7 @@ namespace ClassicCraft
             }
         }
 
-        public static Attributes BaseAttributes(Classes c, Races r, int level = 60)
+        public static Attributes BaseAttributes(Classes c, Races r, int level)
         {
             // TODO : by level, TBC, BF/Dra
 
@@ -601,43 +633,82 @@ namespace ClassicCraft
                     }
                     break;
                 case Classes.Warlock:
+                    if(level <= 1)
+                    {
+                        res.Values.Add(Attribute.Strength, 23);
+                        res.Values.Add(Attribute.Agility, 17);
+                        res.Values.Add(Attribute.Intellect, 19);
+                    }
+                    else if (level <= 10)
+                    {
+                        res.Values.Add(Attribute.Strength, 26);
+                        res.Values.Add(Attribute.Agility, 20);
+                        res.Values.Add(Attribute.Intellect, 28);
+                    }
+                    else if (level <= 25)
+                    {
+                        res.Values.Add(Attribute.Strength, 31);
+                        res.Values.Add(Attribute.Agility, 27);
+                        res.Values.Add(Attribute.Intellect, 47);
+                    }
+                    else if (level <= 40)
+                    {
+                        res.Values.Add(Attribute.Strength, 37);
+                        res.Values.Add(Attribute.Agility, 34);
+                        res.Values.Add(Attribute.Intellect, 69);
+                    }
+                    else if (level <= 50)
+                    {
+                        res.Values.Add(Attribute.Strength, 42);
+                        res.Values.Add(Attribute.Agility, 40);
+                        res.Values.Add(Attribute.Intellect, 87);
+                    }
+                    else if (level <= 60)
+                    {
+                        res.Values.Add(Attribute.Strength, 48);
+                        res.Values.Add(Attribute.Agility, 47);
+                        res.Values.Add(Attribute.Intellect, 107);
+                    }
+                    else if (level <= 70)
+                    {
+                        res.Values.Add(Attribute.Strength, 40);
+                        res.Values.Add(Attribute.Agility, 53);
+                        res.Values.Add(Attribute.Intellect, 119);
+                    }
                     switch (r)
                     {
                         case Races.Gnome:
-                            res.Values.Add(Attribute.Strength, 40);
-                            res.Values.Add(Attribute.Agility, 53);
+                            res.Values[Attribute.Strength] -= 8;
+                            res.Values[Attribute.Agility] += 6;
+                            res.Values[Attribute.Intellect] += 7;
                             res.Values.Add(Attribute.Stamina, 64);
-                            res.Values.Add(Attribute.Intellect, 119);
                             res.Values.Add(Attribute.Spirit, 115);
                             res.Values.Add(Attribute.Health, 1414);
                             res.Values.Add(Attribute.Mana, 1373);
                             res.Values.Add(Attribute.CritChance, 0.025);
-                            break;
+                    break;
                         case Races.Human:
-                            res.Values.Add(Attribute.Strength, 45);
-                            res.Values.Add(Attribute.Agility, 50);
+                            res.Values[Attribute.Strength] -= 3;
+                            res.Values[Attribute.Agility] += 3;
+                            res.Values[Attribute.Intellect] += 3;
                             res.Values.Add(Attribute.Stamina, 65);
-                            res.Values.Add(Attribute.Intellect, 110);
                             res.Values.Add(Attribute.Spirit, 120);
                             res.Values.Add(Attribute.Health, 1414);
                             res.Values.Add(Attribute.Mana, 1373);
                             res.Values.Add(Attribute.CritChance, 0.025);
                             break;
                         case Races.Orc:
-                            res.Values.Add(Attribute.Strength, 48);
-                            res.Values.Add(Attribute.Agility, 47);
                             res.Values.Add(Attribute.Stamina, 66);
-                            res.Values.Add(Attribute.Intellect, 107);
                             res.Values.Add(Attribute.Spirit, 118);
                             res.Values.Add(Attribute.Health, 1414);
                             res.Values.Add(Attribute.Mana, 1373);
                             res.Values.Add(Attribute.CritChance, 0.025);
                             break;
                         case Races.Undead:
-                            res.Values.Add(Attribute.Strength, 44);
-                            res.Values.Add(Attribute.Agility, 48);
+                            res.Values[Attribute.Strength] -= 4;
+                            res.Values[Attribute.Agility] += 1;
+                            res.Values[Attribute.Intellect] += 1;
                             res.Values.Add(Attribute.Stamina, 66);
-                            res.Values.Add(Attribute.Intellect, 108);
                             res.Values.Add(Attribute.Spirit, 120);
                             res.Values.Add(Attribute.Health, 1414);
                             res.Values.Add(Attribute.Mana, 1373);
@@ -757,7 +828,7 @@ namespace ClassicCraft
             return res;
         }
 
-        public int BaseAP(Classes c, int level = 60)
+        public int BaseAP(Classes c, int level)
         {
             switch (c)
             {
@@ -782,7 +853,7 @@ namespace ClassicCraft
             }
         }
 
-        public static int BaseRAP(Classes c, int level = 60)
+        public static int BaseRAP(Classes c, int level)
         {
             switch (c)
             {
@@ -1043,6 +1114,10 @@ namespace ClassicCraft
             {
                 return Attributes.GetValue(Attribute.CritChance);
             }
+            set
+            {
+                Attributes.SetValue(Attribute.CritChance, value);
+            }
         }
 
         public double HitChance
@@ -1050,6 +1125,10 @@ namespace ClassicCraft
             get
             {
                 return Attributes.GetValue(Attribute.HitChance);
+            }
+            set
+            {
+                Attributes.SetValue(Attribute.HitChance, value);
             }
         }
 
@@ -1214,6 +1293,8 @@ namespace ClassicCraft
             {
                 Equipment = new Dictionary<Slot, Item>(items);
             }
+
+            if (MH == null) MH = new Weapon();
 
             HitChancesByEnemy = new Dictionary<Entity, HitChances>();
 
@@ -1439,7 +1520,7 @@ namespace ClassicCraft
         public void SetBaseAttributes()
         {
             Attributes = new Attributes();
-            Attributes.Values = new Dictionary<Attribute, double>(BaseAttributes(Class, Race).Values);
+            Attributes.Values = new Dictionary<Attribute, double>(BaseAttributes(Class, Race, Level).Values);
             Attributes.SetValue(Attribute.AP, BaseAP(Class, Level));
             Attributes.SetValue(Attribute.RangedAP, BaseRAP(Class, Level));
             BaseMana = Attributes.GetValue(Attribute.Mana);
@@ -1474,7 +1555,7 @@ namespace ClassicCraft
             {
                 Attributes += e.Attributes;
             }
-            
+
             double wbonus = Attributes.GetValue(Attribute.WeaponDamage);
             double wbonusMH = Attributes.GetValue(Attribute.WeaponDamageMH);
             double wbonusOH = Attributes.GetValue(Attribute.WeaponDamageOH);
@@ -1550,9 +1631,15 @@ namespace ClassicCraft
                 Attributes.AddToValue(Attribute.Stamina, 0.03 * GetTalentPoints("DE"));
                 Attributes.AddToValue(Attribute.Spirit, -0.01 * GetTalentPoints("DE"));
 
-                if (Tanking)
+                if (Runes.Contains("Demonic Tactics"))
                 {
-                    ThreatMod *= 2;
+                    SpellCritChance += 0.1;
+                    CritChance += 0.1;
+                }
+
+                if (Tanking && Runes.Contains("Metamorphosis"))
+                {
+                    ThreatMod *= 1.5;   // Meta 50% threat increase
                 }
             }
             else if (Class == Classes.Warrior)
@@ -1616,8 +1703,8 @@ namespace ClassicCraft
             }
             Attributes.AddToValue(Attribute.AP, Attributes.GetValue(Attribute.Strength) * StrToAPRatio(Class) + Attributes.GetValue(Attribute.Agility) * AgiToAPRatio(this));
             Attributes.AddToValue(Attribute.RangedAP, Attributes.GetValue(Attribute.Agility) * AgiToRangedAPRatio(Class));
-            Attributes.AddToValue(Attribute.CritChance, Attributes.GetValue(Attribute.Agility) * AgiToCritRatio(Class));
-            Attributes.AddToValue(Attribute.SpellCritChance, BaseSpellCrit(Class) + Attributes.GetValue(Attribute.Intellect) * IntToCritRatio(Class));
+            Attributes.AddToValue(Attribute.CritChance, Attributes.GetValue(Attribute.Agility) * AgiToCritRatio(Class, Level));
+            Attributes.AddToValue(Attribute.SpellCritChance, BaseSpellCrit(Class, Level) + Attributes.GetValue(Attribute.Intellect) * IntToCritRatio(Class, Level));
 
             if (Class == Classes.Druid && Program.version == Version.TBC && Form != Forms.Bear) Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) * (1 + 0.02 * GetTalentPoints("HW")));
             if (Class == Classes.Warrior && Program.version == Version.TBC) Attributes.SetValue(Attribute.AP, Attributes.GetValue(Attribute.AP) * (1 + 0.02 * GetTalentPoints("IBStance")));
@@ -2878,7 +2965,20 @@ namespace ClassicCraft
                 CalculateHitChances(enemy);
             }
 
-            return PickFromTable(MH ? HitChancesByEnemy[enemy].WhiteHitChancesMH : HitChancesByEnemy[enemy].WhiteHitChancesOH, Randomer.NextDouble());
+            var table = MH ? HitChancesByEnemy[enemy].WhiteHitChancesMH : HitChancesByEnemy[enemy].WhiteHitChancesOH;
+
+            if (Class == Classes.Warrior && Effects.ContainsKey(RecklessnessBuff.NAME))
+            {
+                table = new Dictionary<ResultType, double>(table);
+                table[ResultType.Crit] = 1;
+            }
+            else if (Class == Classes.Warlock && Effects.ContainsKey(DemonicGraceBuff.NAME))
+            {
+                table = new Dictionary<ResultType, double>(table);
+                table[ResultType.Crit] += 0.3;
+            }
+
+            return PickFromTable(table, Randomer.NextDouble());
         }
 
         public ResultType YellowAttackEnemy(Entity enemy, string spell = "")
@@ -2895,8 +2995,7 @@ namespace ClassicCraft
                 table = new Dictionary<ResultType, double>(table);
                 table[ResultType.Crit] = 1;
             }
-
-            if (Class == Classes.Rogue)
+            else if (Class == Classes.Rogue)
             {
                 if (spell.Equals("Backstab")) // TODO : Mutilate
                 {
@@ -2906,13 +3005,16 @@ namespace ClassicCraft
                 if (GetTalentPoints("SA") > 0 && (spell.Equals("Eviscerate") || spell.Equals("Rupture")))
                 {
                     table = new Dictionary<ResultType, double>(table);
-                    table[ResultType.Dodge] += 0.1 * GetTalentPoints("IB");
+                    table[ResultType.Dodge] = 0;
                 }
             }
+            else if(Class == Classes.Warlock && Effects.ContainsKey(DemonicGraceBuff.NAME))
+            {
+                table = new Dictionary<ResultType, double>(table);
+                table[ResultType.Crit] += 0.3;
+            }
 
-            ResultType res = PickFromTable(table, Randomer.NextDouble());
-
-            return res;
+            return PickFromTable(table, Randomer.NextDouble());
         }
 
         public ResultType PickFromTable(Dictionary<ResultType, double> pickTable, double roll)

@@ -52,9 +52,8 @@ namespace ClassicCraft
         public double castTimeKeeper;
 
         public SearingPain(Player p)
-            : base(p, CD, 0, true, true, School.Fire, CAST_TIME)
+            : base(p, CD, (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata"))), true, true, School.Fire, CAST_TIME)
         {
-            Cost = (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata")));
             castTimeKeeper = CastTime;
         }
 
@@ -85,8 +84,7 @@ namespace ClassicCraft
 
             int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Player.SP * RATIO))
                 * (Player.Sim.DamageMod(res, School) + (res == ResultType.Crit ? 0.5 * Player.GetTalentPoints("Ruin") : 0))
-                * Math.Max(1 + 0.15 * Player.GetTalentPoints("DS"), 1 + 0.02 * Player.GetTalentPoints("MD"))
-                * (1 + 0.03 * Player.GetTalentPoints("SL"))
+                * Math.Max(1 + 0.15 * Player.GetTalentPoints("DS"), (1 + 0.02 * Player.GetTalentPoints("MD")) * (1 + 0.03 * Player.GetTalentPoints("SL")))
                 * (1 + 0.02 * Player.GetTalentPoints("Emberstorm"))
                 * (Target.Effects.ContainsKey("Improved Scorch") ? 1.15 : 1)
                 * mitigation

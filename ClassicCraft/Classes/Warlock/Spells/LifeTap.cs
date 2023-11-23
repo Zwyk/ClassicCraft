@@ -10,7 +10,7 @@ namespace ClassicCraft
     {
         public override string ToString() { return NAME; } public static new string NAME = "Life Tap";
 
-        public int BASE_COST(int level)
+        public static int BASE_COST(int level)
         {
             if (level >= 56) return 424;
             else if (level >= 46) return 310;
@@ -23,10 +23,11 @@ namespace ClassicCraft
         public static int CD = 0;
         public static double CAST_TIME = 0;
 
+        public static double META_MANA_RATIO = 2;
+
         public LifeTap(Player p)
-            : base(p, CD, 0, false, true, School.Shadow, CAST_TIME)
+            : base(p, CD, BASE_COST(p.Level), false, true, School.Shadow, CAST_TIME)
         {
-            Cost = BASE_COST(p.Level);
         }
 
         public override bool CanUse()
@@ -41,7 +42,7 @@ namespace ClassicCraft
 
         public int ManaGain()
         {
-            return (int)(LifeCost() * 1 + (0.1 * Player.GetTalentPoints("ILT")));
+            return (int)(LifeCost() * (1 + (0.1 * Player.GetTalentPoints("ILT"))) * (Player.Form == Player.Forms.Metamorphosis ? META_MANA_RATIO : 1));
         }
 
         public override void DoAction()

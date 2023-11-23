@@ -36,7 +36,7 @@ namespace ClassicCraft
             return (int)Math.Round((DMG(Player.Level) + Player.SP * RATIO) / NB_TICKS
                 * (1 + 0.02 * Player.GetTalentPoints("ICA"))
                 * (1 + 0.02 * Player.GetTalentPoints("SM"))
-                * Math.Max(Player.Tanking ? 0 : (1 + 0.15 * Player.GetTalentPoints("DS")), 1 + 0.02 * Player.GetTalentPoints("MD") * (1 + 0.03 * Player.GetTalentPoints("SL")))
+                * Math.Max(Player.Tanking ? 0 : (1 + 0.15 * Player.GetTalentPoints("DS")), (1 + 0.02 * Player.GetTalentPoints("MD")) * (1 + 0.03 * Player.GetTalentPoints("SL")))
                 * Player.DamageMod
                 );
         }
