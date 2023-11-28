@@ -31,6 +31,14 @@ namespace ClassicCraft
 
         public static double CAST_TIME = 0;
 
+        public static double SB_CAST_TIME(int level)
+        {
+            if (level >= 20) return 3;
+            else if (level >= 12) return 2.8;
+            else if (level >= 6) return 2.2;
+            else return 1.7;
+        }
+
         public static int MIN_DMG(int level)
         {
             if (level >= 60) return 136;
@@ -61,14 +69,11 @@ namespace ClassicCraft
 
         public static int MAX_TARGETS = 3;
 
-        public double castTimeKeeper;
-
         public ShadowCleave(Player p)
             : base(p, CD, (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata"))), true, true, School.Shadow, CAST_TIME)
         {
-            RATIO = Math.Max(1.5, CAST_TIME) / 3.5;
-
-            castTimeKeeper = CastTime;
+            double baseCast = SB_CAST_TIME(p.Level);
+            RATIO = Math.Max(1.5, baseCast) / 3.5;
         }
 
         public override void Cast(Entity t)
@@ -99,20 +104,17 @@ namespace ClassicCraft
                 }
                 else
                 {
-                    res = Player.SpellAttackEnemy(Target, true, 0, 0.02 * Player.GetTalentPoints("Deva"));
+                    res = Player.SpellAttackEnemy(Target, true, 0, 0.01 * Player.GetTalentPoints("Deva"));
                 }
 
-                int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Player.SP * RATIO))
-                    * (Player.Sim.DamageMod(res, School) + (res == ResultType.Crit ? 0.5 * Player.GetTalentPoints("Ruin") : 0))
-                    * (1 + 0.02 * Player.GetTalentPoints("SM"))
-                    * Math.Max(Player.Tanking ? 0 : (1 + 0.15 * Player.GetTalentPoints("DS")), (1 + 0.02 * Player.GetTalentPoints("MD")) * (1 + 0.03 * Player.GetTalentPoints("SL")))
-                    * (Target.Effects.ContainsKey(ShadowVulnerability.NAME) ? ((ShadowVulnerability)Target.Effects[ShadowVulnerability.NAME]).Modifier : 1)
-                    * (Target.Effects.ContainsKey("Shadow Weaving") ? 1.15 : 1)
+                int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Player.SchoolSP(School) * RATIO))
+                    * Player.Sim.DamageMod(res, School)
                     * mitigation
                     * Player.DamageMod
-                    );
+                    * Player.TotalModifiers(NAME, Target, School, res));
 
                 RegisterDamage(new ActionResult(res, damage, (int)(damage * Player.ThreatMod)));
+                ShadowVulnerability.CheckProc(Player, this, res);
             }
             Target = t;
         }

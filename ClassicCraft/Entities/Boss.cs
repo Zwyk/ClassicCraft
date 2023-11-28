@@ -16,27 +16,27 @@ namespace ClassicCraft
         }
 
         public Boss(Boss b)
-            : base(null, b.Type, b.Level, b.Armor, b.MaxLife, b.MagicResist, b.BaseEffects)
+            : base("Boss", null, b.Type, b.Level, b.Armor, b.MaxLife, b.MagicResist, b.BaseEffects)
         {
         }
 
         public Boss(MobType type = MobType.Humanoid, int level = 63, int customArmor = 4400, Dictionary<School, int> magicResist = null, Dictionary<string, Effect> debuffs = null, int maxLife = 100000)
-            : base(null, type, level, customArmor, maxLife, magicResist, debuffs)
+            : base("Boss", null, type, level, customArmor, maxLife, magicResist, debuffs)
         {
         }
 
         public Boss(Simulation s, Boss b)
-            : base(s, b.Type, b.Level, b.Armor, b.MaxLife, b.MagicResist, b.BaseEffects)
+            : base("Boss", s, b.Type, b.Level, b.Armor, b.MaxLife, b.MagicResist, b.BaseEffects)
         {
         }
 
         public Boss(Simulation s, MobType type = MobType.Humanoid, int level = 63, int customArmor = 4400, Dictionary<School, int> magicResist = null, Dictionary<string, Effect> debuffs = null, int maxLife = 100000)
-            : base(s, type, level, customArmor, maxLife, magicResist, debuffs)
+            : base("Boss", s, type, level, customArmor, maxLife, magicResist, debuffs)
         {
         }
 
         public Boss(Simulation s, MobType type = MobType.Humanoid, int level = 63, ArmorType armor = ArmorType.LightArmor, Dictionary<School, int> magicResist = null, Dictionary<string, Effect> debuffs = null, int maxLife = 100000)
-            : base(s, type, level, ArmorByType(armor), maxLife, magicResist, debuffs)
+            : base("Boss", s, type, level, ArmorByType(armor), maxLife, magicResist, debuffs)
         {
         }
 

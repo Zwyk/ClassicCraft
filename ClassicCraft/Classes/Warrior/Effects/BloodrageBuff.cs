@@ -8,14 +8,18 @@ namespace ClassicCraft
 {
     public class BloodrageBuff : EffectOnTime
     {
-        public BloodrageBuff(Player p, bool friendly = true, double baseLength = 10, int baseStacks = 1, int tickDelay = 1)
-            : base(p, p, friendly, baseLength, baseStacks, tickDelay)
+        public override string ToString()
         {
+            return NAME;
         }
+        public static new string NAME = "Bloodrage Buff";
 
-        public override int GetTickDamage()
+        public static int TICK_DELAY = 1;
+        public static int DURATION = 10;
+
+        public BloodrageBuff(Player p)
+            : base(p, p, true, DURATION, 1, 0, TICK_DELAY, 1, School.Physical)
         {
-            return 0;
         }
 
         public override void ApplyTick(int damage)
@@ -27,11 +31,5 @@ namespace ClassicCraft
                 Program.Log(string.Format("{0:N2} : {1} for {2} rage (rage {3}/{4})", Player.Sim.CurrentTime, ToString(), 1, Player.Resource, Player.MaxResource));
             }
         }
-
-        public override string ToString()
-        {
-            return NAME;
-        }
-        public static new string NAME = "Bloodrage Buff";
     }
 }

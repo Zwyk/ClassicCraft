@@ -3,7 +3,8 @@
   "Class": "Warlock",
   "Level": 25,
   "Race": "Orc",
-  "Talents": "3500053--",
+  "Talents": "05--50050001000",
+  "Pet": "Succubus",
   "Runes": [
     "Metamorphosis",
     "Master Channeler",
@@ -14,8 +15,9 @@
   ],
   "Cooldowns": {
     "Melee": true,
-    "Shadow Cleave mono": false,
-    "Shadowburn": false,
+    "Demonic Sacrifice": false,
+    "Shadow Cleave mono": true,
+    "Shadowburn": true,
     "Corruption": true,
     "Curse of Agony": true,
     "Drain Life": true,
@@ -54,9 +56,9 @@
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 23.0,
-      "DamageMax": 41.0,
-      "Speed": 1.7,
+      "DamageMin": 15.0,
+      "DamageMax": 29.0,
+      "Speed": 1.5,
       "TwoHanded": false,
       "Type": "Dagger",
       "Buff": null,

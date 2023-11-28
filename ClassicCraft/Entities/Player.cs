@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
@@ -1028,9 +1029,12 @@ namespace ClassicCraft
 
         public Dictionary<Slot, Item> Equipment { get; set; }
 
-        public List<string> Runes { get; set; }
+        public Entity Pet { get; set; }
 
+        public string TalentsStr { get; set; }
         public Dictionary<string, int> Talents { get; set; }
+
+        public List<string> Runes { get; set; }
 
         public List<Enchantment> Buffs { get; set; }
 
@@ -1091,6 +1095,21 @@ namespace ClassicCraft
 
         public double MPTRatio { get; set; }
         public double CastingManaRegenRate { get; set; }
+
+        public double SchoolSP(School school)
+        {
+            double bonus;
+            switch(school)
+            {
+                case School.Arcane: bonus = Attributes.GetValue(Attribute.SPArcane); break;
+                case School.Fire: bonus = Attributes.GetValue(Attribute.SPFire); break;
+                case School.Frost: bonus = Attributes.GetValue(Attribute.SPFrost); break;
+                case School.Nature: bonus = Attributes.GetValue(Attribute.SPNature); break;
+                case School.Shadow: bonus = Attributes.GetValue(Attribute.SPShadow); break;
+                default: bonus = 0; break;
+            }
+            return SP + bonus;
+        }
 
         public double AP
         {
@@ -1226,7 +1245,7 @@ namespace ClassicCraft
         }
 
         public Player(Simulation s, Player p)
-            : this(s, p.Class, p.Race, p.Level, p.Equipment, p.Talents, p.Buffs, p.Tanking, p.Facing, p.Cooldowns, p.Runes)
+            : this(s, p.Class, p.Race, p.Level, p.Equipment, p.Talents, p.Buffs, p.Tanking, p.Facing, p.Cooldowns, p.Runes, p.Pet)
         {
             Attributes.Values = new Dictionary<Attribute, double>(p.Attributes.Values);
 
@@ -1255,9 +1274,9 @@ namespace ClassicCraft
             ApplySets();
         }
 
-        public Player(Simulation s = null, Classes c = Classes.Warrior, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, 
-            Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false, List<string> cooldowns = null, List<string> runes = null)
-            : base(s, MobType.Humanoid, level)
+        public Player(Simulation s, Classes c, Races r, int level, Dictionary<Slot, Item> items, 
+            Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, Entity pet)
+            : base("Player", s, MobType.Humanoid, level, 0, 0, null, null)
         {
             Race = r;
             Class = c;
@@ -1269,6 +1288,8 @@ namespace ClassicCraft
             rune = new ManaRune(this);
             
             Talents = new Dictionary<string, int>(talents != null ? talents : new Dictionary<string, int>());
+
+            Pet = pet;
 
             Runes = runes;
 
@@ -1300,9 +1321,10 @@ namespace ClassicCraft
 
             CustomActions = new Dictionary<string, CustomAction>();
 
-            Sets = new Dictionary<string, int>();
-
             Cooldowns = cooldowns;
+
+            Sets = new Dictionary<string, int>();
+            ApplySets();
 
             Reset();
         }
@@ -1449,8 +1471,6 @@ namespace ClassicCraft
 
         #region Methods
 
-        public abstract void SetupTalents(string ptal);
-
         public void ResetMHSwing()
         {
             ResetAATimer(mh);
@@ -1464,6 +1484,21 @@ namespace ClassicCraft
             }
         }
 
+        public void SetupSets()
+        {
+            CheckSets();
+            ApplySets();
+        }
+
+        public void CheckSets()
+        {
+            foreach (string s in SPECIALSETS_LIST)
+            {
+                int nb = NbSet(s);
+                if (nb > 0) Sets.Add(s, nb);
+            }
+        }
+
         public void ApplySets()
         {
             if (Class == Classes.Rogue)
@@ -1472,15 +1507,6 @@ namespace ClassicCraft
                 {
                     MaxResource += 10;
                 }
-            }
-        }
-
-        public void CheckSets()
-        {
-            foreach(string s in SPECIALSETS_LIST)
-            {
-                int nb = NbSet(s);
-                if(nb > 0) Sets.Add(s, nb);
             }
         }
 
@@ -1630,6 +1656,15 @@ namespace ClassicCraft
             {
                 Attributes.AddToValue(Attribute.Stamina, 0.03 * GetTalentPoints("DE"));
                 Attributes.AddToValue(Attribute.Spirit, -0.01 * GetTalentPoints("DE"));
+
+                if(!Cooldowns.Contains("Demonic Sacrifice"))
+                {
+                    Program.Log(DamageMod);
+                    DamageMod *= (1 + 0.03 * GetTalentPoints("SL"))
+                                * (Pet.Name == "Succubus" ? 1 + 0.02 * GetTalentPoints("MD") : 1);
+                    Program.Log(DamageMod);
+                    ThreatMod *= Pet.Name == "Imp" ? 1 - 0.04 * GetTalentPoints("MD") : 1;
+                }
 
                 if (Runes.Contains("Demonic Tactics"))
                 {
@@ -1808,6 +1843,51 @@ namespace ClassicCraft
             }
         }
 
+        public double TotalModifiers(string name, Entity target, School school, ResultType res)
+        {
+            return SelfModifiers(name, target, school, res) * ExternalModifiers(name, target, school, res);
+        }
+
+        public double SelfModifiers(string name, Entity target, School school, ResultType res)
+        {
+            double ratio = 1;
+
+            if (Class == Classes.Warlock)
+            {
+                ratio *= (school == School.Fire ? 1 + 0.02 * GetTalentPoints("Emberstorm") : 1)
+                    * (res == ResultType.Crit ? 1 + (0.5 / 1.5) * GetTalentPoints("Ruin") : 1)
+                    * ((school == School.Fire && GetTalentPoints("DS") > 0 && Cooldowns.Contains("Demonic Sacrifice") && Pet.Name == "Imp") ? 1.15 : 1)
+                    * ((school == School.Shadow && GetTalentPoints("DS") > 0 && Cooldowns.Contains("Demonic Sacrifice") && Pet.Name == "Succubus") ? 1.15 : 1)
+                    * (school == School.Shadow ? 1 + 0.02 * GetTalentPoints("SM") : 1)
+                    ;
+            }
+            else if(Class == Classes.Warrior)
+            {
+                ratio *= (DualWielding ? 1 : (1 + 0.01 * GetTalentPoints("2HS")))
+                    * (Program.version == Version.TBC && !MH.TwoHanded ? 1 + 0.02 * GetTalentPoints("1HS") : 1)
+                    ;
+            }
+            else if(Class == Classes.Rogue)
+            {
+                ratio *= (new List<string>() { DeadlyPoisonDoT.NAME }.Contains(name) ? 1 + 0.04 * GetTalentPoints("VP") : 1)
+                    ;
+            }
+
+            return ratio;
+        }
+
+        public double ExternalModifiers(string name, Entity target, School school, ResultType res)
+        {
+            return (school == School.Fire && target.Effects.ContainsKey("Improved Scorch") ? 1.15 : 1)
+                * (school == School.Fire && target.Effects.ContainsKey("Lake of Fire") ? 1.40 : 1)
+                * (new List<School>() { School.Fire, School.Frost }.Contains(school) && target.Effects.ContainsKey("Curse of the Elements") ? Level >= 60 ? 1.10 : (Level >= 46 ? 1.08 : (Level >= 32 ? 1.06 : 1)) : 1)
+                * (school == School.Shadow && target.Effects.ContainsKey("Shadow Weaving") ? 1.15 : 1)
+                * (school == School.Shadow && target.Effects.ContainsKey(ShadowVulnerability.NAME) ? ShadowVulnerability.Modifier : 1)
+                * (new List<string>() { Shred.NAME, RuptureDoT.NAME, DeepWounds.NAME }.Contains(name) && Target.Effects.ContainsKey("Mangle") ? 1.3 : 1)
+                * (school == School.Physical && target.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
+                ;
+        }
+
         public void CheckOnHits(bool isMH, bool isAA, ResultType res, bool extra = false, List<string> alreadyProc = null, Action action = null)
         {
             if(alreadyProc == null)
@@ -1871,6 +1951,11 @@ namespace ClassicCraft
                 }
                 else if (Class == Classes.Rogue)
                 {
+                    if(new List<Entity.MobType>() { MobType.Humanoid, MobType.Giant, MobType.Beast, MobType.Dragonkin }.Contains(Sim.Boss[0].Type))
+                    {
+                        DamageMod *= 1 + 0.01 * GetTalentPoints("Murder");
+                    }
+
                     if (!alreadyProc.Contains("rSP") && GetTalentPoints("SS") > 0 && Randomer.NextDouble() < 0.01 * GetTalentPoints("SS"))
                     {
                         alreadyProc.Add("rSP");
@@ -1973,8 +2058,47 @@ namespace ClassicCraft
                         Resource += 7;
                     }
                 }
+                else if(Class == Classes.Warlock)
+                {
+                    if (isMH
+                        && OH.Name.Contains("Firestone")
+                        && !alreadyProc.Contains("Firestone")
+                        && (!icds.ContainsKey("Firestone") || icds["Firestone"] < Sim.CurrentTime - 5)  // ICD 5s ?
+                        //&& Randomer.NextDouble() < MH.Speed * 10 / 60                                 // PPM 10 ?
+                        )
+                    {
+                        string procName = "Firestone";
+                        alreadyProc.Add(procName);
+                        icds[procName] = Sim.CurrentTime;
 
-                if (Form == Forms.Humanoid)
+                        int min;
+                        if (Level >= 56) min = 80;
+                        else if (Level >= 46) min = 60;
+                        else if (Level >= 36) min = 40;
+                        else min = 25;
+
+                        int max;
+                        if (Level >= 56) max = 120;
+                        else if (Level >= 46) max = 90;
+                        else if (Level >= 36) max = 60;
+                        else max = 35;
+
+                        School school = School.Fire;
+
+                        int procDmg = (int)(Randomer.Next(min, max + 1) * (1 + 0.15 * GetTalentPoints("IF")));
+                        if (!CustomActions.ContainsKey(procName))
+                        {
+                            CustomActions.Add(procName, new CustomAction(this, procName, school));
+                        }
+
+                        double mitigation = Simulation.MagicMitigation(Target.ResistChances[school]);
+                        ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
+                        int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, school) * mitigation);
+                        CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)(dmg * ThreatMod)));
+                    }
+                }
+
+                if (Form == Forms.Humanoid || Form == Forms.Metamorphosis)
                 {
                     if (!alreadyProc.Contains("crusader") &&
                         ((isMH && MH?.Enchantment?.Name.ToLower().Contains("crusader") == true) || (!isMH && OH?.Enchantment?.Name.ToLower().Contains("crusader") == true))
@@ -2843,7 +2967,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return string.Format("{0} {1} level {2} | Talents : {3} | Stats : {4}", Race, Class, Level, Program.jsonPlayer.Talents, Attributes);
+            return string.Format("{0} {1} level {2} | Talents : {3} | Stats : {4}", Race, Class, Level, TalentsStr, Attributes);
         }
 
         #endregion

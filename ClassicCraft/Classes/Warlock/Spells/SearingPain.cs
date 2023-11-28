@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Activation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -82,16 +83,12 @@ namespace ClassicCraft
             int minDmg = MIN_DMG(Player.Level);
             int maxDmg = MAX_DMG(Player.Level);
 
-            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Player.SP * RATIO))
-                * (Player.Sim.DamageMod(res, School) + (res == ResultType.Crit ? 0.5 * Player.GetTalentPoints("Ruin") : 0))
-                * Math.Max(1 + 0.15 * Player.GetTalentPoints("DS"), (1 + 0.02 * Player.GetTalentPoints("MD")) * (1 + 0.03 * Player.GetTalentPoints("SL")))
-                * (1 + 0.02 * Player.GetTalentPoints("Emberstorm"))
-                * (Target.Effects.ContainsKey("Improved Scorch") ? 1.15 : 1)
+            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Player.SchoolSP(School) * RATIO))
+                * Player.Sim.DamageMod(res, School)
                 * mitigation
                 * Player.DamageMod
-                );
+                * Player.TotalModifiers(NAME, Target, School, res));
 
-            ShadowVulnerability.CheckProc(Player, this, res);
             RegisterDamage(new ActionResult(res, damage, (int)(damage * Player.ThreatMod * 2)));
         }
     }

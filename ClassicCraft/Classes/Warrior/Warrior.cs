@@ -38,8 +38,8 @@ namespace ClassicCraft
         {
         }
 
-        public Warrior(Simulation s = null, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false, List<string> cooldowns = null, List<string> runes = null)
-            : base(s, Classes.Warrior, r, level, items, talents, buffs, tanking, facing, cooldowns, runes)
+        public Warrior(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes)
+            : base(s, Classes.Warrior, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null)
         {
         }
 
@@ -47,11 +47,11 @@ namespace ClassicCraft
 
         #region Talents
 
-        public override void SetupTalents(string ptal)
+        public static Dictionary<string, int> TalentsFromString(string ptal, bool twoHanded = false)
         {
             if (ptal == null || ptal == "")
             {
-                if (MH.TwoHanded)
+                if (twoHanded)
                 {
                     // DPS Fury 2H
                     switch (Program.version)
@@ -76,7 +76,7 @@ namespace ClassicCraft
             string fury = talents.Length > 1 ? talents[1] : "";
             string prot = talents.Length > 2 ? talents[2] : "";
 
-            Talents = new Dictionary<string, int>();
+            var Talents = new Dictionary<string, int>();
 
             switch (Program.version)
             {
@@ -146,6 +146,8 @@ namespace ClassicCraft
                     Talents.Add("Devastate", prot.Length > 21 ? (int)Char.GetNumericValue(prot[21]) : 0);
                     break;
             }
+
+            return Talents;
         }
 
         #endregion

@@ -62,7 +62,7 @@ namespace ClassicCraft
             }
             else
             {
-                res = Player.SpellAttackEnemy(Target, true, 0, 0.02 * Player.GetTalentPoints("Deva"));
+                res = Player.SpellAttackEnemy(Target, true, 0, 0.01 * Player.GetTalentPoints("Deva"));
             }
 
             CommonManaSpell();
@@ -70,19 +70,14 @@ namespace ClassicCraft
             int minDmg = MIN_DMG(Player.Level);
             int maxDmg = MAX_DMG(Player.Level);
 
-            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Player.SP * RATIO))
-                * (Player.Sim.DamageMod(res, School) + (res == ResultType.Crit ? 0.5 * Player.GetTalentPoints("Ruin") : 0))
-                * (1 + 0.02 * Player.GetTalentPoints("SM"))
-                * Math.Max(Player.Tanking ? 0 : (1 + 0.15 * Player.GetTalentPoints("DS")), (1 + 0.02 * Player.GetTalentPoints("MD")) * (1 + 0.03 * Player.GetTalentPoints("SL")))
-                * (Target.Effects.ContainsKey(ShadowVulnerability.NAME) ? ((ShadowVulnerability)Target.Effects[ShadowVulnerability.NAME]).Modifier : 1)
-                * (Target.Effects.ContainsKey("Shadow Weaving") ? 1.15 : 1)
+            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Player.SchoolSP(School) * RATIO))
+                * Player.Sim.DamageMod(res, School)
                 * mitigation
                 * Player.DamageMod
-                );
-
-            ShadowVulnerability.CheckProc(Player, this, res);
+                * Player.TotalModifiers(NAME, Target, School, res));
 
             RegisterDamage(new ActionResult(res, damage, (int)(damage * Player.ThreatMod)));
+            ShadowVulnerability.CheckProc(Player, this, res);
         }
     }
 }

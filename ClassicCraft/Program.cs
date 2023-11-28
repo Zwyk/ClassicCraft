@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System.IO;
 using ClassicCraftGUI;
 using System.Runtime.InteropServices.ComTypes;
+using System.IO.Packaging;
 
 namespace ClassicCraft
 {
@@ -198,6 +199,26 @@ namespace ClassicCraft
                 { "SP", new Attributes(new Dictionary<Attribute, double>()
                         {
                             { Attribute.SP, version == Version.TBC ? 100 : 50 }
+                        })},
+                { "SPArcane", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.SPArcane, version == Version.TBC ? 100 : 50 }
+                        })},
+                { "SPFire", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.SPFire, version == Version.TBC ? 100 : 50 }
+                        })},
+                { "SPFrost", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.SPFrost, version == Version.TBC ? 100 : 50 }
+                        })},
+                { "SPNature", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.SPNature, version == Version.TBC ? 100 : 50 }
+                        })},
+                { "SPShadow", new Attributes(new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.SPShadow, version == Version.TBC ? 100 : 50 }
                         })},
                 { "Hit", new Attributes(new Dictionary<Attribute, double>()
                         {
@@ -398,9 +419,13 @@ namespace ClassicCraft
                 }
 
                 playerList = new Dictionary<string, Player>();
-                foreach (string p in jsonSim.Compare)
+                foreach (string ps in jsonSim.Compare)
                 {
-                    playerList.Add(p, JsonUtil.JsonPlayer.ToPlayer(ReadPlayerJson(p), jsonSim.Tanking, jsonSim.Facing));
+                    JsonUtil.JsonPlayer jp = ReadPlayerJson(ps);
+                    Player player = JsonUtil.JsonPlayer.ToPlayer(jp, jsonSim.Tanking, jsonSim.Facing);
+                    player.CalculateAttributes();
+                    player.SetupSets();
+                    playerList.Add(ps, player);
                 }
                 playerBase = playerList.First().Value;
 
@@ -444,11 +469,26 @@ namespace ClassicCraft
                         simOrder.Remove("Crit");
                         simOrder.Remove("Haste");
                     }
-                    else if(playerBase.Class !=  Player.Classes.Warlock)
+                    else if(playerBase.Class != Player.Classes.Warlock)
                     {
                         simOrder.Remove("SP");
                         simOrder.Remove("SpellHit");
                         simOrder.Remove("SpellCrit");
+                    }
+
+                    int spIndex = simOrder.FindIndex(i => i == "SP") + 1;
+                    if (playerBase.Class == Player.Classes.Warlock || playerBase.Class == Player.Classes.Priest)
+                    {
+                        simOrder.Insert(spIndex, "SPShadow");
+                    }
+                    if (playerBase.Class == Player.Classes.Warlock || playerBase.Class == Player.Classes.Mage)
+                    {
+                        simOrder.Insert(spIndex, "SPFire");
+                    }
+                    if (playerBase.Class == Player.Classes.Mage)
+                    {
+                        simOrder.Insert(spIndex, "SPFrost");
+                        simOrder.Insert(spIndex, "SPArcane");
                     }
 
                     if (version == Version.TBC)
@@ -529,22 +569,18 @@ namespace ClassicCraft
                 foreach (string ps in playerList.Keys)
                 {
                     playerBase = playerList[ps];
-                    playerBase.SetupTalents(jsonPlayer.Talents);
-                    playerBase.CalculateAttributes();
-                    playerBase.CheckSets();
-                    playerBase.ApplySets();
 
-                    Log("\nPlayer :");
+                    Log("\n" + ps + ":");
                     Log(playerBase.ToString());
                     Log(playerBase.MainWeaponInfo());
 
                     bossBase = JsonUtil.JsonBoss.ToBoss(jsonSim.Boss);
                     int bossBaseArmor = bossBase.Armor;
 
-                    Log("\nBoss :");
+                    Log("\nBoss:");
                     Log(bossBase.ToString(0, jsonSim.Boss.Armor));  // TODO : base magic armor
                     Log("After raid debuffs and player penetration :");
-                    Log(bossBase.ToString(playerBase.Attributes.GetValue(Attribute.ArmorPen)) + "\n");
+                    Log(bossBase.ToString(playerBase.Attributes.GetValue(Attribute.ArmorPen)));
 
                     if (!statsWeights && !comparing)
                     {
@@ -559,7 +595,7 @@ namespace ClassicCraft
                         else if (playerBase.Class == Player.Classes.Rogue)
                             logListActions.AddRange(new List<string>() { "Sinister Strike", "Backstab", "Eviscerate", "Ambush", "Blade Flurry", "Instant Poison" });
                         else if (playerBase.Class == Player.Classes.Warlock)
-                            logListActions.AddRange(new List<string>() { "Shadow Bolt", "Searing Pain", "Shadow Cleave", "Shadowburn", "Curse of Agony", "Corruption", "Drain Life" });
+                            logListActions.AddRange(new List<string>() { "Shadow Bolt", "Searing Pain", "Shadow Cleave", "Shadowburn", "Curse of Agony", "Corruption", "Drain Life", "Firestone" });
 
                         logListActions.AddRange(new List<string>() { "Thunderfury", "Deathbringer", "Vis'kag the Bloodletter", "Perdition's Blade", "Romulo's Poison Vial", "Syphon of the Nathrezim" });
 
@@ -572,7 +608,7 @@ namespace ClassicCraft
                         if (playerBase.Class == Player.Classes.Warrior)
                             logListEffects.AddRange(new List<string>() { "Deep Wounds" });
                         if (playerBase.Class == Player.Classes.Warlock)
-                            logListEffects.AddRange(new List<string>() { "Curse of Agony", "Corruption", "Drain Life" });
+                            logListEffects.AddRange(new List<string>() { "Curse of Agony", "Corruption", "Drain Life", "Shadow Vulnerabiliy" });
 
                         CurrentData = new SimData();
                     }
@@ -637,7 +673,7 @@ namespace ClassicCraft
 
                                     if (!logFight)
                                     {
-                                        outputText += String.Format("Simulating {0}{1}...", simOrder[done], comparing ? " for " + playerList.Count : "");
+                                        outputText += String.Format("Simulating {0}{1}...", simOrder[done], comparing ? " for " + ps : "");
                                         outputText += String.Format("\nSims done : {0:N0}", CurrentDpsList.Count);
                                         outputText += String.Format("\nSims running : {0:N0}", tasks.Count(t => !t.IsCompleted));
 
@@ -699,7 +735,7 @@ namespace ClassicCraft
 
                                     double pct = (comparing ? (double)ErrorList.Count / playerList.Count : (double)done / (statsWeights ? simOrder.Count : 1)) * 100 + currentPct / (statsWeights ? simOrder.Count : playerList.Count);
                                     GUISetProgress(pct);
-                                    GUISetProgressText(String.Format("Simulating {0}{3} - {1}/{2}", simOrder[done], (statsWeights ? done : ErrorList.Count) + 1, statsWeights ? simOrder.Count : playerList.Count, comparing ? " for " + playerList.Count : ""));
+                                    GUISetProgressText(String.Format("Simulating {0}{3} - {1}/{2}", simOrder[done], (statsWeights ? done : ErrorList.Count) + 1, statsWeights ? simOrder.Count : playerList.Count, comparing ? " for " + ps : ""));
                                     if (pct > 0.001)
                                     {
                                         double t = (DateTime.Now - start).TotalMilliseconds;
@@ -764,12 +800,11 @@ namespace ClassicCraft
                 */
 
                 Output("");
-                string endMsg1 = string.Format("{0} simulations done in {1:N2} ms, for {2:N2} ms by sim", nbSim, time, time / nbSim);
+                string endMsg1 = string.Format("\n{0} simulations done in {1:N2} ms, for {2:N2} ms by sim", nbSim, time, time / nbSim);
                 Output(endMsg1);
                 Log(endMsg1);
 
-                string endMsg2 = string.Format("Overall accuracy of results : ±{0:N2}% (±{1:N2} DPS)", ErrorList.Average(), ErrorList[0] / 100 * (comparing ? SimsAvgDPS.Average(s => s.Value) : SimsAvgDPS["Base"]));
-                if(jsonSim.Threat) endMsg2 += string.Format(" (±{1:N2} TPS)", ErrorList.Average(), ErrorList[0] / 100 * (comparing ? SimsAvgTPS.Average(s => s.Value) : SimsAvgTPS["Base"]));
+                string endMsg2 = string.Format("Overall accuracy of results : ±{0:N2}% ({1}±{2:N2} DPS)", ErrorList.Average(), !jsonSim.Threat ? "" : string.Format("±{0:N2} TPS / ", ErrorList[0] / 100 * (comparing ? SimsAvgTPS.Average(s => s.Value) : SimsAvgTPS["Base"])), ErrorList[0] / 100 * (comparing ? SimsAvgDPS.Average(s => s.Value) : SimsAvgDPS["Base"]));
                 Output(endMsg2);
                 Log(endMsg2);
 
@@ -780,7 +815,7 @@ namespace ClassicCraft
                 {
                     GUISetProgressText(String.Format("Generating Comparison Stats..."));
 
-                    foreach(string ps in playerList.Keys)
+                    foreach (string ps in playerList.Keys)
                     {
                         Log(string.Format("\nStats for {0}:", ps));
                         if (jsonSim.Threat)
@@ -798,6 +833,7 @@ namespace ClassicCraft
                     double baseDif = 0;
                     double apDif = 0;
                     double spDif = 0;
+                    List<string> SPSchools = new List<string>() { "SPArcane", "SPFire", "SPFrost", "SPNature", "SPShadow" };
 
                     bool hybrid = false;
                     string baseName = "AP";
@@ -830,6 +866,17 @@ namespace ClassicCraft
                             Log(string.Format("1 SP = {0:N4} TPS", baseDif));
 
                             weightsDone += 1;
+                        }
+                        foreach(string school in SPSchools)
+                        {
+                            if (simOrder.Contains(school))
+                            {
+                                double thisTps = SimsAvgTPS[school];
+                                double thisDif = Math.Max(0, (thisTps - baseTps) / (version == Version.TBC ? 100 : 50));
+                                Log(string.Format("1 {3} = {0:N4} TPS = {1:N4} {2}", thisDif, thisDif / baseDif, baseName, school));
+
+                                weightsDone += 1;
+                            }
                         }
                         if (simOrder.Contains("AP"))
                         {
@@ -1011,6 +1058,17 @@ namespace ClassicCraft
                             Log(string.Format("1 SP = {0:N4} DPS", spDif));
 
                             weightsDone += 1;
+                        }
+                        foreach (string school in SPSchools)
+                        {
+                            if (simOrder.Contains(school))
+                            {
+                                double thisDps = SimsAvgDPS[school];
+                                double thisDif = Math.Max(0, (thisDps - baseDps) / (version == Version.TBC ? 100 : 50));
+                                Log(string.Format("1 {3} = {0:N4} DPS = {1:N4} {2}", thisDif, thisDif / baseDif, baseName, school));
+
+                                weightsDone += 1;
+                            }
                         }
                         if (simOrder.Contains("AP"))
                         {
@@ -1200,6 +1258,10 @@ namespace ClassicCraft
                     int statsDone = 0;
                     int statsTotal = logListActions.Count + logListEffects.Count;
 
+                    if(logListActions.Count > 0)
+                    {
+                        Log("\nActions :");
+                    }
                     foreach (string ac in logListActions)
                     {
                         StatsData data = CurrentData.DataActions[ac];
@@ -1281,7 +1343,7 @@ namespace ClassicCraft
                                 }
                             }
 
-                            string res = "\nAverage stats for action [" + ac + "] : ";
+                            string res = /*"\n" +*/ /*"Average stats for action" + */ "[" + ac + "] : ";
                             res += string.Format("{0:N2} DPS ({1:N2}%)", avgAcDps, avgAcDps / avgDps * 100);
                             if (jsonSim.Threat) res += string.Format(" / {0:N2} TPS ({1:N2}%)\n\tAverage of {2:N2} threat for {3:N2} uses (or 1 use every {4:N2}s)", avgAcTps, avgAcTps / avgTps * 100, avgAcThreat * dotmult, avgAcUse, avgFightLength / avgAcUse);
                             res += string.Format("\n\tAverage of {0:N2} damage for {1:N2} uses (or 1 use every {2:N2}s)", avgAcDmg * dotmult, avgAcUse, avgFightLength / avgAcUse);
@@ -1311,6 +1373,12 @@ namespace ClassicCraft
 
                         statsDone++;
                     }
+
+
+                    if (logListEffects.Count > 0)
+                    {
+                        Log("\nEffects :");
+                    }
                     foreach (string ac in logListEffects)
                     {
                         StatsData data = CurrentData.DataEffects[ac];
@@ -1329,7 +1397,7 @@ namespace ClassicCraft
                                 avgAcThreat = data.AvgThreat;
                             }
 
-                            string res = "\nAverage stats for effect [" + ac + "] : ";
+                            string res = /*"\n" +*/ /*"Average stats for effect" + */ "[" + ac + "] : ";
                             res += string.Format("{0:N2} DPS ({1:N2}%)", avgAcDps, avgAcDps / avgDps * 100);
                             if (jsonSim.Threat) res += string.Format(" / {0:N2} TPS ({1:N2}%)\n\tAverage of {2:N2} threat for {3:N2} ticks (or 1 tick every {4:N2}s)", avgAcTps, avgAcTps / avgTps * 100, avgAcThreat, avgAcUse, avgFightLength / avgAcUse);
                             res += string.Format("\n\tAverage of {0:N2} damage for {1:N2} ticks (or 1 tick every {2:N2}s)", avgAcDmg, avgAcUse, avgFightLength / avgAcUse);
@@ -1505,7 +1573,9 @@ namespace ClassicCraft
 
         public static void Log(object log, bool newLine = true)
         {
-            logs += log.ToString() + (newLine ? "\n" : "");
+            string s = log.ToString() + (newLine ? "\n" : "");
+            //Debug(s);
+            logs += s;
         }
 
         public static void Debug(object str)

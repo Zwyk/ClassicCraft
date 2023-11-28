@@ -1,34 +1,393 @@
-Date : 2023/11/23 05:05:36
+Date : 2023/11/28 01:58:50
 
 Fight length : 120 seconds (±10%)
 Number of targets : 1
+1
+1
 
-Player :
-Orc Warlock level 25 | Talents : 05--05050001000 | Stats : [Strength:35][Agility:58][Intellect:85][Stamina:66][Spirit:145][Health:1894][Mana:2648][CritChance:6.91%][AP:25][RangedAP:58][HitChance:3%][Haste:0%][SpellHitChance:1%][SpellCritChance:5.29%][Expertise:0%][SP:20][WeaponDamage:3]
+Warlock - 25 destru isb:
+Orc Warlock level 25 | Talents : 05--50050001000 | Stats : [Strength:35][Agility:58][Intellect:85][Stamina:66][Spirit:145][Health:1894][Mana:2648][CritChance:6.91%][AP:25][RangedAP:58][HitChance:3%][Haste:0%][SpellHitChance:1%][SpellCritChance:5.29%][Expertise:0%][SP:20][WeaponDamage:3]
 Main weapon : Dagger with 125 skill
 
-Boss :
-Level 28, 1000 Armor (15.38% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
+Boss:
+Level 28, 1000 Armor (15.38% mitigation), Magic Resists : [Shadow:0][Holy:0][Fire:0][Nature:0][Frost:0][Arcane:0]
 After raid debuffs and player penetration :
-Level 28, 1000 Armor (15.38% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
+Level 28, 1000 Armor (15.38% mitigation), Magic Resists : [Shadow:0][Holy:0][Fire:0][Nature:0][Frost:0][Arcane:0]
 
 
-Player :
-Orc Warlock level 25 | Talents : 05--05050001000 | Stats : [Strength:35][Agility:58][Intellect:85][Stamina:66][Spirit:145][Health:1894][Mana:2648][CritChance:6.91%][AP:25][RangedAP:58][HitChance:3%][Haste:0%][SpellHitChance:1%][SpellCritChance:5.29%][Expertise:0%][SP:20][WeaponDamage:3]
-Main weapon : Dagger with 125 skill
+---SIM NUMBER 1---
 
-Boss :
-Level 28, 1000 Armor (15.38% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
-After raid debuffs and player penetration :
-Level 28, 1000 Armor (15.38% mitigation), Magic Resists : [Shadow:0][Light:0][Fire:0][Nature:0][Frost:0][Arcane:0]
+0.00 : Demonic Grace's Buff started
+0.00 : [Shadow Cleave] Resist - Mana 2648/2648
+1.53 : [Curse of Agony] cast - Mana 2648/2648
+1.53 : Curse of Agony started
+3.05 : [Corruption] cast - Mana 2648/2648
+3.05 : Corruption started
+3.55 : Curse of Agony ticks for 17 damage
+4.55 : [Drain Life] cast - Mana 2648/2648
+5.53 : Curse of Agony ticks for 17 damage
+6.00 : Demonic Grace's Buff ended
+6.05 : Corruption ticks for 40 damage
+6.05 : [Shadow Cleave] Hit for 45 damage - Mana 2648/2648
+7.53 : Curse of Agony ticks for 17 damage
+7.55 : [Drain Life] cast - Mana 2648/2648
+9.05 : Corruption ticks for 40 damage
+9.05 : [Drain Life] cast - Mana 2648/2648
+9.05 : Drain Life started
+9.53 : Curse of Agony ticks for 17 damage
+10.05 : Drain Life ticks for 18 damage
+10.55 : [Shadowburn] Hit for 142 damage - Mana 2648/2648
+11.05 : Drain Life ticks for 18 damage
+11.53 : Curse of Agony ticks for 17 damage
+12.05 : Corruption ticks for 40 damage
+12.05 : Drain Life ticks for 18 damage
+12.05 : [Shadow Cleave] Hit for 48 damage - Mana 2648/2648
+13.05 : Drain Life ticks for 18 damage
+13.53 : Curse of Agony ticks for 17 damage
+13.55 : [Searing Pain] Hit for 51 damage - Mana 2648/2648
+14.05 : Drain Life ticks for 18 damage
+15.05 : Corruption ticks for 40 damage
+15.05 : Drain Life ticks for 18 damage
+15.05 : [Searing Pain] Hit for 51 damage - Mana 2648/2648
+15.53 : Curse of Agony ticks for 17 damage
+16.05 : Drain Life ticks for 18 damage
+16.58 : [Searing Pain] Hit for 53 damage - Mana 2648/2648
+17.05 : Drain Life ticks for 18 damage
+17.53 : Curse of Agony ticks for 17 damage
+18.05 : Corruption ticks for 40 damage
+18.08 : Drain Life ticks for 18 damage
+18.10 : [Shadow Cleave] Hit for 47 damage - Mana 2648/2648
+19.08 : Drain Life ticks for 18 damage
+19.55 : Curse of Agony ticks for 17 damage
+19.63 : [Searing Pain] Hit for 52 damage - Mana 2648/2648
+20.02 : Demonic Grace's Buff started
+20.07 : Drain Life ticks for 18 damage
+21.07 : Corruption ticks for 40 damage
+21.07 : Corruption ended
+21.07 : Drain Life ticks for 18 damage
+21.15 : [Corruption] cast - Mana 2648/2648
+21.15 : Corruption started
+21.55 : Curse of Agony ticks for 17 damage
+22.07 : Drain Life ticks for 18 damage
+22.67 : [Searing Pain] Resist - Mana 2648/2648
+23.07 : Drain Life ticks for 18 damage
+23.55 : Curse of Agony ticks for 17 damage
+24.07 : Drain Life ticks for 18 damage
+24.07 : Drain Life ended
+24.17 : Corruption ticks for 40 damage
+24.20 : [Shadow Cleave] Hit for 48 damage - Mana 2648/2648
+25.55 : Curse of Agony ticks for 17 damage
+25.55 : Curse of Agony ended
+25.72 : [Curse of Agony] cast - Mana 2648/2648
+25.72 : Curse of Agony started
+26.05 : Demonic Grace's Buff ended
+27.17 : Corruption ticks for 40 damage
+27.25 : [Drain Life] cast - Mana 2648/2648
+27.25 : Drain Life started
+27.75 : Curse of Agony ticks for 17 damage
+28.27 : Drain Life ticks for 18 damage
+28.77 : [Shadowburn] Hit for 146 damage - Mana 2648/2648
+29.27 : Drain Life ticks for 18 damage
+29.75 : Curse of Agony ticks for 17 damage
+30.17 : Corruption ticks for 40 damage
+30.27 : Drain Life ticks for 18 damage
+30.30 : [Shadow Cleave] Hit for 46 damage - Mana 2648/2648
+31.27 : Drain Life ticks for 18 damage
+31.75 : Curse of Agony ticks for 17 damage
+31.82 : [Searing Pain] Resist - Mana 2648/2648
+32.27 : Drain Life ticks for 18 damage
+33.17 : Corruption ticks for 40 damage
+33.27 : Drain Life ticks for 18 damage
+33.35 : [Searing Pain] Hit for 52 damage - Mana 2648/2648
+33.75 : Curse of Agony ticks for 17 damage
+34.27 : Drain Life ticks for 18 damage
+34.87 : [Searing Pain] Hit for 48 damage - Mana 2648/2648
+35.27 : Drain Life ticks for 18 damage
+35.75 : Curse of Agony ticks for 17 damage
+36.17 : Corruption ticks for 40 damage
+36.27 : Drain Life ticks for 18 damage
+36.40 : [Shadow Cleave] Hit for 47 damage - Mana 2648/2648
+37.27 : Drain Life ticks for 18 damage
+37.75 : Curse of Agony ticks for 17 damage
+37.92 : [Searing Pain] Crit for 77 damage - Mana 2648/2648
+38.27 : Drain Life ticks for 18 damage
+39.17 : Corruption ticks for 40 damage
+39.17 : Corruption ended
+39.27 : Drain Life ticks for 18 damage
+39.45 : [Corruption] cast - Mana 2648/2648
+39.45 : Corruption started
+39.75 : Curse of Agony ticks for 17 damage
+40.05 : Demonic Grace's Buff started
+40.27 : Drain Life ticks for 18 damage
+40.97 : [Searing Pain] Hit for 54 damage - Mana 2648/2648
+41.27 : Drain Life ticks for 18 damage
+41.75 : Curse of Agony ticks for 17 damage
+42.27 : Drain Life ticks for 18 damage
+42.27 : Drain Life ended
+42.47 : Corruption ticks for 40 damage
+42.50 : [Shadow Cleave] Hit for 47 damage - Mana 2648/2648
+43.75 : Curse of Agony ticks for 17 damage
+44.02 : [Drain Life] cast - Mana 2648/2648
+44.02 : Drain Life started
+45.05 : Drain Life ticks for 18 damage
+45.47 : Corruption ticks for 40 damage
+45.55 : [Shadowburn] Crit for 212 damage - Mana 2648/2648
+45.75 : Curse of Agony ticks for 17 damage
+46.05 : Drain Life ticks for 18 damage
+46.07 : Demonic Grace's Buff ended
+47.05 : Drain Life ticks for 18 damage
+47.07 : [Searing Pain] Hit for 48 damage - Mana 2648/2648
+47.75 : Curse of Agony ticks for 17 damage
+48.05 : Drain Life ticks for 18 damage
+48.47 : Corruption ticks for 40 damage
+48.60 : [Shadow Cleave] Hit for 56 damage - Mana 2648/2648
+49.05 : Drain Life ticks for 18 damage
+49.75 : Curse of Agony ticks for 17 damage
+49.75 : Curse of Agony ended
+50.05 : Drain Life ticks for 18 damage
+50.12 : [Curse of Agony] cast - Mana 2648/2648
+50.12 : Curse of Agony started
+51.05 : Drain Life ticks for 18 damage
+51.47 : Corruption ticks for 40 damage
+51.65 : [Searing Pain] Hit for 55 damage - Mana 2648/2648
+52.05 : Drain Life ticks for 18 damage
+52.15 : Curse of Agony ticks for 17 damage
+53.05 : Drain Life ticks for 18 damage
+53.17 : [Searing Pain] Hit for 47 damage - Mana 2648/2648
+54.05 : Drain Life ticks for 18 damage
+54.15 : Curse of Agony ticks for 17 damage
+54.47 : Corruption ticks for 40 damage
+54.70 : [Shadow Cleave] Hit for 48 damage - Mana 2648/2648
+55.05 : Drain Life ticks for 18 damage
+56.05 : Drain Life ticks for 18 damage
+56.15 : Curse of Agony ticks for 17 damage
+56.22 : [Searing Pain] Hit for 55 damage - Mana 2648/2648
+57.05 : Drain Life ticks for 18 damage
+57.47 : Corruption ticks for 40 damage
+57.47 : Corruption ended
+57.75 : [Corruption] cast - Mana 2648/2648
+57.75 : Corruption started
+58.05 : Drain Life ticks for 18 damage
+58.15 : Curse of Agony ticks for 17 damage
+59.05 : Drain Life ticks for 18 damage
+59.05 : Drain Life ended
+59.27 : [Drain Life] cast - Mana 2648/2648
+59.27 : Drain Life started
+60.07 : Demonic Grace's Buff started
+60.15 : Curse of Agony ticks for 17 damage
+60.30 : Drain Life ticks for 18 damage
+60.77 : Corruption ticks for 40 damage
+60.80 : [Shadow Cleave] Crit for 65 damage - Mana 2648/2648
+60.80 : Shadow Vulnerability started
+61.30 : Drain Life ticks for 22 damage
+62.15 : Curse of Agony ticks for 20 damage
+62.30 : Drain Life ticks for 22 damage
+62.32 : [Shadowburn] Crit for 266 damage - Mana 2648/2648
+63.30 : Drain Life ticks for 22 damage
+63.77 : Corruption ticks for 48 damage
+63.85 : [Searing Pain] Crit for 70 damage - Mana 2648/2648
+64.15 : Curse of Agony ticks for 20 damage
+64.30 : Drain Life ticks for 22 damage
+65.27 : Drain Life ticks for 22 damage
+65.35 : [Searing Pain] Hit for 55 damage - Mana 2648/2648
+66.07 : Demonic Grace's Buff ended
+66.15 : Curse of Agony ticks for 20 damage
+66.27 : Drain Life ticks for 22 damage
+66.75 : Corruption ticks for 48 damage
+66.85 : [Shadow Cleave] Hit for 53 damage - Mana 2648/2648
+66.85 : Shadow Vulnerability stacks lost, at 3
+67.27 : Drain Life ticks for 22 damage
+68.12 : Curse of Agony ticks for 20 damage
+68.27 : Drain Life ticks for 22 damage
+68.35 : [Searing Pain] Hit for 51 damage - Mana 2648/2648
+69.27 : Drain Life ticks for 22 damage
+69.75 : Corruption ticks for 48 damage
+69.85 : [Searing Pain] Hit for 48 damage - Mana 2648/2648
+70.12 : Curse of Agony ticks for 20 damage
+70.27 : Drain Life ticks for 22 damage
+71.27 : Drain Life ticks for 22 damage
+71.35 : [Searing Pain] Hit for 55 damage - Mana 2648/2648
+72.12 : Curse of Agony ticks for 20 damage
+72.27 : Drain Life ticks for 22 damage
+72.75 : Corruption ticks for 48 damage
+72.80 : Shadow Vulnerability ended
+72.85 : [Shadow Cleave] Hit for 53 damage - Mana 2648/2648
+73.27 : Drain Life ticks for 18 damage
+74.12 : Curse of Agony ticks for 17 damage
+74.12 : Curse of Agony ended
+74.27 : Drain Life ticks for 18 damage
+74.27 : Drain Life ended
+74.35 : [Curse of Agony] cast - Mana 2648/2648
+74.35 : Curse of Agony started
+75.75 : Corruption ticks for 40 damage
+75.75 : Corruption ended
+75.85 : [Corruption] cast - Mana 2648/2648
+75.85 : Corruption started
+76.35 : Curse of Agony ticks for 17 damage
+77.35 : [Drain Life] cast - Mana 2648/2648
+78.35 : Curse of Agony ticks for 17 damage
+78.85 : Corruption ticks for 40 damage
+78.85 : [Shadow Cleave] Hit for 44 damage - Mana 2648/2648
+80.08 : Demonic Grace's Buff started
+80.35 : Curse of Agony ticks for 17 damage
+80.35 : [Drain Life] cast - Mana 2648/2648
+80.35 : Drain Life started
+81.35 : Drain Life ticks for 18 damage
+81.85 : Corruption ticks for 40 damage
+81.85 : [Shadowburn] Crit for 209 damage - Mana 2648/2648
+82.35 : Drain Life ticks for 18 damage
+82.35 : Curse of Agony ticks for 17 damage
+83.35 : Drain Life ticks for 18 damage
+83.35 : [Searing Pain] Crit for 83 damage - Mana 2648/2648
+84.35 : Drain Life ticks for 18 damage
+84.35 : Curse of Agony ticks for 17 damage
+84.85 : Corruption ticks for 40 damage
+84.85 : [Shadow Cleave] Hit for 49 damage - Mana 2648/2648
+85.35 : Drain Life ticks for 18 damage
+86.08 : Demonic Grace's Buff ended
+86.35 : Drain Life ticks for 18 damage
+86.35 : Curse of Agony ticks for 17 damage
+86.35 : [Searing Pain] Hit for 48 damage - Mana 2648/2648
+87.35 : Drain Life ticks for 18 damage
+87.85 : Corruption ticks for 40 damage
+87.85 : [Searing Pain] Hit for 48 damage - Mana 2648/2648
+88.35 : Drain Life ticks for 18 damage
+88.35 : Curse of Agony ticks for 17 damage
+89.35 : Drain Life ticks for 18 damage
+89.35 : [Searing Pain] Resist - Mana 2648/2648
+90.35 : Drain Life ticks for 18 damage
+90.35 : Curse of Agony ticks for 17 damage
+90.85 : Corruption ticks for 40 damage
+90.85 : [Shadow Cleave] Hit for 43 damage - Mana 2648/2648
+91.35 : Drain Life ticks for 18 damage
+92.35 : Drain Life ticks for 18 damage
+92.35 : Curse of Agony ticks for 17 damage
+92.35 : [Searing Pain] Resist - Mana 2648/2648
+93.35 : Drain Life ticks for 18 damage
+93.85 : Corruption ticks for 40 damage
+93.85 : Corruption ended
+93.85 : [Corruption] cast - Mana 2648/2648
+93.85 : Corruption started
+94.35 : Drain Life ticks for 18 damage
+94.35 : Curse of Agony ticks for 17 damage
+95.35 : Drain Life ticks for 18 damage
+95.35 : Drain Life ended
+95.35 : [Drain Life] cast - Mana 2648/2648
+95.35 : Drain Life started
+96.35 : Drain Life ticks for 18 damage
+96.35 : Curse of Agony ticks for 17 damage
+96.85 : Corruption ticks for 40 damage
+96.85 : [Shadow Cleave] Hit for 52 damage - Mana 2648/2648
+97.35 : Drain Life ticks for 18 damage
+98.35 : Drain Life ticks for 18 damage
+98.35 : Curse of Agony ticks for 17 damage
+98.35 : Curse of Agony ended
+98.35 : [Curse of Agony] cast - Mana 2648/2648
+98.35 : Curse of Agony started
+99.35 : Drain Life ticks for 18 damage
+99.85 : Corruption ticks for 40 damage
+99.85 : [Shadowburn] Hit for 143 damage - Mana 2648/2648
+100.08 : Demonic Grace's Buff started
+100.35 : Drain Life ticks for 18 damage
+100.35 : Curse of Agony ticks for 17 damage
+101.35 : Drain Life ticks for 18 damage
+101.35 : [Searing Pain] Hit for 47 damage - Mana 2648/2648
+102.35 : Drain Life ticks for 18 damage
+102.35 : Curse of Agony ticks for 17 damage
+102.85 : Corruption ticks for 40 damage
+102.85 : [Shadow Cleave] Resist - Mana 2648/2648
+103.35 : Drain Life ticks for 18 damage
+104.35 : Drain Life ticks for 18 damage
+104.35 : Curse of Agony ticks for 17 damage
+104.35 : [Searing Pain] Resist - Mana 2648/2648
+105.35 : Drain Life ticks for 18 damage
+105.85 : Corruption ticks for 40 damage
+105.85 : [Searing Pain] Hit for 54 damage - Mana 2648/2648
+106.08 : Demonic Grace's Buff ended
+106.35 : Drain Life ticks for 18 damage
+106.35 : Curse of Agony ticks for 17 damage
+107.35 : Drain Life ticks for 18 damage
+107.35 : [Searing Pain] Hit for 50 damage - Mana 2648/2648
+108.35 : Drain Life ticks for 18 damage
+108.35 : Curse of Agony ticks for 17 damage
+108.85 : Corruption ticks for 40 damage
+108.85 : [Shadow Cleave] Hit for 47 damage - Mana 2648/2648
+109.35 : Drain Life ticks for 18 damage
+110.35 : Drain Life ticks for 18 damage
+110.35 : Drain Life ended
+110.35 : Curse of Agony ticks for 17 damage
+110.35 : [Drain Life] cast - Mana 2648/2648
+111.85 : Corruption ticks for 40 damage
+111.85 : Corruption ended
+111.85 : [Corruption] cast - Mana 2648/2648
+111.85 : Corruption started
+112.35 : Curse of Agony ticks for 17 damage
+113.35 : [Drain Life] cast - Mana 2648/2648
+113.35 : Drain Life started
+114.35 : Drain Life ticks for 18 damage
+114.35 : Curse of Agony ticks for 17 damage
+114.85 : Corruption ticks for 40 damage
+114.85 : [Shadow Cleave] Resist - Mana 2648/2648
+115.35 : Drain Life ticks for 18 damage
+116.35 : Drain Life ticks for 18 damage
+116.35 : Curse of Agony ticks for 17 damage
+116.35 : [Shadowburn] Hit for 140 damage - Mana 2648/2648
+117.35 : Drain Life ticks for 18 damage
+117.85 : Corruption ticks for 40 damage
+117.85 : [Searing Pain] Hit for 56 damage - Mana 2648/2648
+118.35 : Drain Life ticks for 18 damage
+118.35 : Curse of Agony ticks for 17 damage
+119.35 : Drain Life ticks for 18 damage
+119.35 : [Searing Pain] Hit for 50 damage - Mana 2648/2648
+120.08 : Demonic Grace's Buff started
+120.35 : Drain Life ticks for 18 damage
+120.35 : Curse of Agony ticks for 17 damage
+120.85 : Corruption ticks for 40 damage
+120.85 : [Shadow Cleave] Crit for 84 damage - Mana 2648/2648
+120.85 : Shadow Vulnerability started
+121.35 : Drain Life ticks for 22 damage
 
-556 simulations done in 1 671.47 ms, for 3.01 ms by sim
-Overall accuracy of results : ±0.29% (±0.19 DPS) (±0.38 TPS)
+1 simulations done in 82.30 ms, for 82.30 ms by sim
+Overall accuracy of results : ±0.00% (±0.00 TPS / ±0.00 DPS)
+Average TPS : 114.18 TPS (±0.00)
+Average DPS : 65.19 DPS (±0.00)
 
-Stats for Warlock - 25 destru:
-Average TPS : 138.91 TPS (±10.72)
-Average DPS : 73.57 TPS (±4.96)
+Actions :
+[Searing Pain] : 11.11 DPS (17.05%) / 33.33 TPS (29.19%)
+	Average of 135.80 threat for 30.00 uses (or 1 use every 4.07s)
+	Average of 45.27 damage for 30.00 uses (or 1 use every 4.07s)
+	73.33% Hit, 10.00% Crit, 16.67% Resist
+[Shadow Cleave] : 7.54 DPS (11.57%) / 11.27 TPS (9.87%)
+	Average of 65.62 threat for 21.00 uses (or 1 use every 5.82s)
+	Average of 43.90 damage for 21.00 uses (or 1 use every 5.82s)
+	76.19% Hit, 9.52% Crit, 14.29% Resist
+[Shadowburn] : 10.29 DPS (15.79%) / 15.43 TPS (13.51%)
+	Average of 269.43 threat for 7.00 uses (or 1 use every 17.46s)
+	Average of 179.71 damage for 7.00 uses (or 1 use every 17.46s)
+	57.14% Hit, 42.86% Crit, 0.00% Resist
+[Curse of Agony] : 8.35 DPS (12.82%) / 12.31 TPS (10.78%)
+	Average of 306.10 threat for 5.00 uses (or 1 use every 24.44s)
+	Average of 207.66 damage for 5.00 uses (or 1 use every 24.44s)
+	100.00% Hit, 0.00% Crit, 0.00% Resist
+[Corruption] : 13.03 DPS (19.98%) / 19.54 TPS (17.11%)
+	Average of 367.38 threat for 7.00 uses (or 1 use every 17.46s)
+	Average of 244.92 damage for 7.00 uses (or 1 use every 17.46s)
+	100.00% Hit, 0.00% Crit, 0.00% Resist
+[Drain Life] : 14.86 DPS (22.79%) / 22.29 TPS (19.52%)
+	Average of 416.94 threat for 11.00 uses (or 1 use every 11.11s)
+	Average of 277.96 damage for 11.00 uses (or 1 use every 11.11s)
+	63.64% Hit, 0.00% Crit, 36.36% Resist
 
-Stats for Warlock - 25 affli:
-Average TPS : 121.52 TPS (±10.76)
-Average DPS : 58.97 TPS (±3.98)
+Effects :
+[Curse of Agony] : 8.35 DPS (12.82%) / 12.31 TPS (10.78%)
+	Average of 25.51 threat for 59.00 ticks (or 1 tick every 2.07s)
+	Average of 17.31 damage for 59.00 ticks (or 1 tick every 2.07s)
+	96.55% Uptime
+[Corruption] : 13.03 DPS (19.98%) / 19.54 TPS (17.11%)
+	Average of 61.23 threat for 39.00 ticks (or 1 tick every 3.13s)
+	Average of 40.82 damage for 39.00 ticks (or 1 tick every 3.13s)
+	95.73% Uptime
+[Drain Life] : 14.86 DPS (22.79%) / 22.29 TPS (19.52%)
+	Average of 27.80 threat for 98.00 ticks (or 1 tick every 1.25s)
+	Average of 18.53 damage for 98.00 ticks (or 1 tick every 1.25s)
+	80.18% Uptime

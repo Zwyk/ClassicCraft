@@ -127,6 +127,20 @@ namespace ClassicCraftGUI
                     */
                 }
 
+                if (sim.DoCompare && !sim.Compare.Contains(Program.Config.Player))
+                {
+                    bool run = false;
+                    foreach(var item in PlayerCB.Items)
+                    {
+                        if(item.ToString() == sim.Compare[0])
+                        {
+                            PlayerCB.SelectedItem = item;
+                            run = true;
+                        }
+                    }
+                    if (!run) return;
+                }
+
                 UpdatePlayer();
                 player = Program.jsonPlayer;
                 UpdateSimConfig();
@@ -296,7 +310,7 @@ namespace ClassicCraftGUI
                 sim.Boss.SchoolResists.Add("Arcane", int.Parse(BossArcaneResist.Text));
                 sim.Boss.SchoolResists.Add("Fire", int.Parse(BossFireResist.Text));
                 sim.Boss.SchoolResists.Add("Frost", int.Parse(BossFrostResist.Text));
-                sim.Boss.SchoolResists.Add("Light", int.Parse(BossLightResist.Text));
+                sim.Boss.SchoolResists.Add("Holy", int.Parse(BossHolyResist.Text));
                 sim.Boss.SchoolResists.Add("Nature", int.Parse(BossNatureResist.Text));
                 sim.Boss.SchoolResists.Add("Shadow", int.Parse(BossShadowResist.Text));
             }
@@ -2463,7 +2477,7 @@ namespace ClassicCraftGUI
                 BossFireResist.Text = BossAllResist.Text;
                 BossFrostResist.Text = BossAllResist.Text;
                 BossNatureResist.Text = BossAllResist.Text;
-                BossLightResist.Text = BossAllResist.Text;
+                BossHolyResist.Text = BossAllResist.Text;
                 BossShadowResist.Text = BossAllResist.Text;
             }
         }

@@ -57,7 +57,7 @@ namespace ClassicCraft
             int minDmg = MIN_DMG;
             int maxDmg = MAX_DMG;
 
-            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Player.SP * RATIO))
+            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Player.SchoolSP(School) * RATIO))
                 * Player.Sim.DamageMod(res, School)
                 * (1 + 0.02 * Player.GetTalentPoints("Darkness"))
                 * 1.15 // shadow weaving

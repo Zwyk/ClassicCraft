@@ -12,28 +12,24 @@ namespace ClassicCraft
         public static new string NAME = "Deadly Poison";
 
         public static double DURATION = 12;
-        public static int NB_TICKS = (int)(DURATION / 3);
+        public static int TICK_DELAY = 3;
+        public static int MAX_STACKS = 5;
 
-        public static double DMG = 180;
+        public static int RATIO = 0;
+
+        public override double BaseDmg()
+        {
+            return DMG(Player.Level);
+        }
+
+        public static int DMG(int level)
+        {
+            return 180;
+        }
 
         public DeadlyPoisonDoT(Player p, Entity target)
-            : base(p, target, false, DURATION, 1, 3, 5)
+            : base(p, target, false, DURATION, 1, RATIO, TICK_DELAY, MAX_STACKS)
         {
-        }
-
-        public override int GetTickDamage()
-        {
-            return (int)Math.Round(DMG * CurrentStacks / NB_TICKS
-                * Player.DamageMod
-                * (1 + 0.01 * Player.GetTalentPoints("Murder"))
-                * (1 + 0.04 * Player.GetTalentPoints("VP"))
-                );
-        }
-
-        public override double GetExternalModifiers()
-        {
-            return (base.GetExternalModifiers()
-                );
         }
     }
 }

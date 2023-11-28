@@ -1,17 +1,18 @@
 {
-  "DoCompare" : true,
+  "DoCompare": false,
   "Compare": [
     "Warlock - 25 destru",
-    "Warlock - 25 affli",
+    "Warlock - 25 destru sc",
+    "Warlock - 25 destru isb"
   ],
   "FightLength": 120.0,
   "FightLengthMod": 0.1,
   "NbSim": 1,
   "Threat": true,
   "StatsWeights": false,
-  "TargetErrorPct": 0.5,
-  "TargetError": true,
-  "LogFight": false,
+  "TargetErrorPct": 0.2,
+  "TargetError": false,
+  "LogFight": true,
   "BossAutoLife": true,
   "BossLowLifeTime": 0.0,
   "Boss": {
@@ -19,6 +20,9 @@
     "Type": null,
     "Armor": 1000,
     "Debuffs": {
+      "Curse of the Elements": false,
+      "Shadow Vulnerability": false,
+      "Shadow Weaving": false,
       "Sunder Armor": false,
       "Expose Armor": false,
       "Improved Expose Armor": false,

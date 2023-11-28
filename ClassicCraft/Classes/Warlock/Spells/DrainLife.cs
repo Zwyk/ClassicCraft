@@ -95,14 +95,12 @@ namespace ClassicCraft
 
         public override int GetTickDamage()
         {
-            return (int)Math.Round((DMG(Player.Level) + Player.SP * RATIO) / NB_TICKS
-                * (1 + 0.02 * Player.GetTalentPoints("IDL"))
-                * (1 + 0.02 * Player.GetTalentPoints("SM"))
-                * Math.Max(Player.Tanking ? 0 : (1 + 0.15 * Player.GetTalentPoints("DS")), (1 + 0.02 * Player.GetTalentPoints("MD")) * (1 + 0.03 * Player.GetTalentPoints("SL")))
-                * (Player.Target.Effects.ContainsKey(ShadowVulnerability.NAME) ? ((ShadowVulnerability)Player.Target.Effects[ShadowVulnerability.NAME]).Modifier : 1)
-                * (Player.Target.Effects.ContainsKey("Shadow Weaving") ? 1.15 : 1)
+            double mitigation = 1;
+            return (int)Math.Round((DMG(Player.Level) + Player.SchoolSP(School) * RATIO) / NB_TICKS
+                * Player.Sim.DamageMod(ResultType.Hit, School)
+                * mitigation
                 * Player.DamageMod
-                );
+                * Player.TotalModifiers(NAME, Target, School, ResultType.Hit));
         }
     }
 }

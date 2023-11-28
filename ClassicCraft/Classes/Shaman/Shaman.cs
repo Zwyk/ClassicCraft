@@ -18,8 +18,8 @@ namespace ClassicCraft
         {
         }
 
-        public Shaman(Simulation s = null, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false, List<string> cooldowns = null, List<string> runes = null)
-            : base(s, Classes.Shaman, r, level, items, talents, buffs, tanking, facing, cooldowns, runes)
+        public Shaman(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes)
+            : base(s, Classes.Shaman, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null)
         {
         }
 
@@ -28,7 +28,7 @@ namespace ClassicCraft
             throw new NotImplementedException();
         }
 
-        public override void SetupTalents(string ptal)
+        public static Dictionary<string, int> TalentsFromString(string ptal)
         {
             throw new NotImplementedException();
         }

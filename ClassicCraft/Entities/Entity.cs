@@ -11,18 +11,19 @@ namespace ClassicCraft
         Physical,
         Magical,
         Shadow,
-        Light,
+        Holy,
         Fire,
         Nature,
         Frost,
         Arcane,
     }
 
-    public abstract class Entity : SimulationObject
+    public class Entity : SimulationObject
     {
         public enum MobType
         {
             Humanoid,
+            Demon,
             Giant,
             Beast,
             Dragonkin,
@@ -32,6 +33,7 @@ namespace ClassicCraft
 
         public static double BASE_MISS = 0.05;
 
+        public string Name { get; set; }
         public int Life { get; set; }
         public int MaxLife { get; set; }
         public double LifePct
@@ -56,9 +58,10 @@ namespace ClassicCraft
         public Dictionary<string, Effect> BaseEffects { get; set; }
         public Dictionary<string, Effect> Effects { get; set; }
 
-        public Entity(Simulation s, MobType type, int level, int armor = 0, int maxLife = 1, Dictionary<School, int> magicResist = null, Dictionary<string, Effect> baseEffects = null)
+        public Entity(string name, Simulation s, MobType type, int level, int armor, int maxLife, Dictionary<School, int> magicResist, Dictionary<string, Effect> baseEffects)
             : base(s)
         {
+            Name = name;
             Type = type;
             Level = level;
             Armor = armor;
@@ -113,6 +116,9 @@ namespace ClassicCraft
             return Math.Max(0.05 + 0.001 * (Level * 5 - attackerSkill), 0);
         }
 
-        public abstract double BlockChance();
+        public virtual double BlockChance()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

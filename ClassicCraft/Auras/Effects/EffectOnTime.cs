@@ -9,14 +9,21 @@ namespace ClassicCraft
     public abstract class EffectOnTime : Effect
     {
         public int TickDelay { get; set; }
-
         public double NextTick { get; set; }
         public int TickDamage { get; set; }
+        public double Ratio { get; set; }
+        
+        public School School { get; set; }
 
-        public EffectOnTime(Player p, Entity target, bool friendly, double baseLength, int baseStacks = 1, int tickDelay = 3, int maxStacks = 1)
+        public double BonusDmg { get; set; }
+
+        public EffectOnTime(Player p, Entity target, bool friendly, double baseLength, int baseStacks, double ratio, int tickDelay, int maxStacks, School school = School.Magical)
             : base(p, target, friendly, baseLength, baseStacks, maxStacks)
         {
+            Ratio = ratio;
             TickDelay = tickDelay;
+            School = school;
+            BonusDmg = 0;
         }
 
         public override void StartEffect()
@@ -31,7 +38,7 @@ namespace ClassicCraft
         {
             if (NextTick <= Player.Sim.CurrentTime)
             {
-                ApplyTick((int)Math.Round(TickDamage * GetExternalModifiers()));
+                ApplyTick((int)Math.Round(TickDamage * Player.ExternalModifiers(ToString(), Target, School, ResultType.Hit)));
                 NextTick += TickDelay;
             }
 
@@ -45,11 +52,20 @@ namespace ClassicCraft
             TickDamage = GetTickDamage();
         }
 
-        public abstract int GetTickDamage();
-
-        public virtual double GetExternalModifiers()
+        public virtual double BaseDmg()
         {
-            return 1;
+            return 0;
+        }
+
+        public int GetTickDamage()
+        {
+            double mitigation = 1;
+            return (int)Math.Round((BaseDmg() * CurrentStacks + (School == School.Physical ? Player.AP : Player.SchoolSP(School)) * Ratio) / (Duration / TickDelay)
+                * Player.Sim.DamageMod(ResultType.Hit, School)
+                * mitigation
+                * Player.DamageMod
+                * Player.SelfModifiers(ToString(), Target, School, ResultType.Hit)
+                );
         }
 
         public virtual void ApplyTick(int damage)

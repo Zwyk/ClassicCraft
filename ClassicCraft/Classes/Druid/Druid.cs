@@ -30,8 +30,8 @@ namespace ClassicCraft
         {
         }
 
-        public Druid(Simulation s = null, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false, List<string> cooldowns = null, List<string> runes = null)
-            : base(s, Classes.Druid, r, level, items, talents, buffs, tanking, facing, cooldowns, runes)
+        public Druid(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes)
+            : base(s, Classes.Druid, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null)
         {
         }
 
@@ -39,7 +39,7 @@ namespace ClassicCraft
 
         #region Talents
 
-        public override void SetupTalents(string ptal)
+        public static Dictionary<string, int> TalentsFromString(string ptal)
         {
             if (ptal == null || ptal == "")
             {
@@ -52,24 +52,28 @@ namespace ClassicCraft
             string feral = talents.Length > 1 ? talents[1] : "";
             string resto = talents.Length > 2 ? talents[2] : "";
 
-            Talents = new Dictionary<string, int>();
-            // Balance
-            Talents.Add("NW", balance.Length > 5 ? (int)Char.GetNumericValue(balance[5]) : 0);
-            Talents.Add("NS", balance.Length > 6 ? (int)Char.GetNumericValue(balance[6]) : 0);
-            Talents.Add("OC", balance.Length > 8 ? (int)Char.GetNumericValue(balance[8]) : 0);
-            // Feral
-            Talents.Add("Fero", feral.Length > 0 ? (int)Char.GetNumericValue(feral[0]) : 0);
-            Talents.Add("FA", feral.Length > 1 ? (int)Char.GetNumericValue(feral[1]) : 0);
-            Talents.Add("FI", feral.Length > 2 ? (int)Char.GetNumericValue(feral[2]) : 0);
-            Talents.Add("SC", feral.Length > 7 ? (int)Char.GetNumericValue(feral[7]) : 0);
-            Talents.Add("IS", feral.Length > 8 ? (int)Char.GetNumericValue(feral[8]) : 0);
-            Talents.Add("PS", feral.Length > 9 ? (int)Char.GetNumericValue(feral[9]) : 0);
-            Talents.Add("BF", feral.Length > 10 ? (int)Char.GetNumericValue(feral[10]) : 0);
-            Talents.Add("PF", feral.Length > 11 ? (int)Char.GetNumericValue(feral[11]) : 0);
-            Talents.Add("SF", feral.Length > 12 ? (int)Char.GetNumericValue(feral[12]) : 0);
-            Talents.Add("HW", feral.Length > 14 ? (int)Char.GetNumericValue(feral[14]) : 0);
-            // Resto
-            Talents.Add("Furor", resto.Length > 1 ? (int)Char.GetNumericValue(resto[1]) : 0);
+            var Talents = new Dictionary<string, int>
+            {
+                // Balance
+                { "NW", balance.Length > 5 ? (int)Char.GetNumericValue(balance[5]) : 0 },
+                { "NS", balance.Length > 6 ? (int)Char.GetNumericValue(balance[6]) : 0 },
+                { "OC", balance.Length > 8 ? (int)Char.GetNumericValue(balance[8]) : 0 },
+                // Feral
+                { "Fero", feral.Length > 0 ? (int)Char.GetNumericValue(feral[0]) : 0 },
+                { "FA", feral.Length > 1 ? (int)Char.GetNumericValue(feral[1]) : 0 },
+                { "FI", feral.Length > 2 ? (int)Char.GetNumericValue(feral[2]) : 0 },
+                { "SC", feral.Length > 7 ? (int)Char.GetNumericValue(feral[7]) : 0 },
+                { "IS", feral.Length > 8 ? (int)Char.GetNumericValue(feral[8]) : 0 },
+                { "PS", feral.Length > 9 ? (int)Char.GetNumericValue(feral[9]) : 0 },
+                { "BF", feral.Length > 10 ? (int)Char.GetNumericValue(feral[10]) : 0 },
+                { "PF", feral.Length > 11 ? (int)Char.GetNumericValue(feral[11]) : 0 },
+                { "SF", feral.Length > 12 ? (int)Char.GetNumericValue(feral[12]) : 0 },
+                { "HW", feral.Length > 14 ? (int)Char.GetNumericValue(feral[14]) : 0 },
+                // Resto
+                { "Furor", resto.Length > 1 ? (int)Char.GetNumericValue(resto[1]) : 0 }
+            };
+
+            return Talents;
         }
 
         #endregion

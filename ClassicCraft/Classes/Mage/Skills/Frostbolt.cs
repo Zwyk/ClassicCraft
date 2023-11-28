@@ -53,7 +53,7 @@ namespace ClassicCraft
             int minDmg = MIN_DMG;
             int maxDmg = MAX_DMG;
 
-            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Player.SP * RATIO))
+            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Player.SchoolSP(School) * RATIO))
                 * (Player.Sim.DamageMod(res, School) + (res == ResultType.Crit ? 0.1 * Player.GetTalentPoints("IS") : 0))
                 * (1 + 0.02 * Player.GetTalentPoints("PI"))
                 * mitigation

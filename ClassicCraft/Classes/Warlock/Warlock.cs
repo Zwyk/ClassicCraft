@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,8 +31,8 @@ namespace ClassicCraft
         {
         }
 
-        public Warlock(Simulation s = null, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false, List<string> cooldowns = null, List<string> runes = null)
-            : base(s, Classes.Warlock, r, level, items, talents, buffs, tanking, facing, cooldowns, runes)
+        public Warlock(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, Entity pet)
+            : base(s, Classes.Warlock, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, pet)
         {
         }
 
@@ -39,7 +40,7 @@ namespace ClassicCraft
 
         #region Talents
 
-        public override void SetupTalents(string ptal)
+        public static Dictionary<string, int> TalentsFromString(string ptal)
         {
             if (ptal == null || ptal == "")
             {
@@ -55,7 +56,7 @@ namespace ClassicCraft
             string demo = talents.Length > 1 ? talents[1] : "";
             string destru = talents.Length > 2 ? talents[2] : "";
 
-            Talents = new Dictionary<string, int>
+            return new Dictionary<string, int>
             {
                 // Affli
                 { "Suppr", affli.Length > 0 ? (int)Char.GetNumericValue(affli[0]) : 0 },
@@ -101,7 +102,7 @@ namespace ClassicCraft
                 Form = Forms.Metamorphosis;
                 dl = (Runes.Contains("Master Channeler") && Cooldowns.Contains("Drain Life")) ? new DrainLife(this) : null;
                 sp = new SearingPain(this);
-                sc = new ShadowCleave(this);
+                sc = Sim.NbTargets > 1 || Cooldowns.Contains("Shadow Cleave mono") ? new ShadowCleave(this) : null;
                 dg = Runes.Contains("Demonic Grace") ? new DemonicGrace(this) : null;
             }
             else
@@ -125,7 +126,11 @@ namespace ClassicCraft
                     {
                         dg.Cast(Target);
                     }
-                    foreach(Boss b in Sim.Boss)
+                    if (sc!= null && sc.CanUse())
+                    {
+                        sc.Cast(Target);
+                    }
+                    foreach (Boss b in Sim.Boss)
                     {
                         if (ca != null && ca.CanUse() && Sim.TimeLeft >= CurseOfAgonyDoT.DURATION / 2 && !b.Effects.ContainsKey(CurseOfAgonyDoT.NAME))
                         {
@@ -139,10 +144,6 @@ namespace ClassicCraft
                         {
                             dl.Cast(b);
                         }
-                    }
-                    if (Sim.NbTargets > 1 && sc.CanUse())
-                    {
-                        sc.Cast(Target);
                     }
                     if (sburn != null && sburn.CanUse())
                     {
@@ -158,7 +159,10 @@ namespace ClassicCraft
                     }
                 }
 
-                CheckAAs();
+                if(Cooldowns.Contains("Melee"))
+                {
+                    CheckAAs();
+                }
             }
             else
             {

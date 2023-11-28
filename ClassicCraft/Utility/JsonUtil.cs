@@ -231,13 +231,14 @@ namespace ClassicCraft
             public int Level { get; set; }
             public string Race { get; set; }
             public string Talents { get; set; }
+            public string Pet { get; set; }
             public List<String> Runes { get; set; }
             public Dictionary<string, bool> Cooldowns { get; set; }
             public List<JsonEnchantment> Buffs { get; set; }
             public Dictionary<string, JsonWeapon> Weapons { get; set; }
             public Dictionary<string, JsonItem> Equipment { get; set; }
 
-            public JsonPlayer(Dictionary<string, JsonWeapon> weapons = null, Dictionary<string, JsonItem> equipment = null, string @class = "Warrior", int level = 60, string race = "Orc", string talents = "", List<JsonEnchantment> buffs = null, Dictionary<string, bool> cooldowns = null, List<string> runes = null, string ver = null)
+            public JsonPlayer(Dictionary<string, JsonWeapon> weapons = null, Dictionary<string, JsonItem> equipment = null, string @class = "Warrior", int level = 60, string race = "Orc", string talents = "", List<JsonEnchantment> buffs = null, Dictionary<string, bool> cooldowns = null, List<string> runes = null, string ver = null, string pet = null)
             {
                 Class = @class;
                 Level = level;
@@ -249,6 +250,7 @@ namespace ClassicCraft
                 Cooldowns = cooldowns;
                 Runes = runes;
                 Ver = ver;
+                Pet = pet;
             }
 
             public static Player ToPlayer(JsonPlayer jp, bool tanking = false, bool facing = false)
@@ -287,21 +289,21 @@ namespace ClassicCraft
                 switch(Player.ToClass(jp.Class))
                 {
                     case Player.Classes.Druid:
-                        return new Druid(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns, jp.Runes);
+                        return new Druid(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Druid.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes) { TalentsStr = jp.Talents };
                     case Player.Classes.Hunter:
-                        return new Hunter(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns, jp.Runes);
+                        return new Hunter(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Hunter.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes, new Entity(jp.Pet, null, Entity.MobType.Demon, jp.Level, 0, 0, null, null)) { TalentsStr = jp.Talents };
                     case Player.Classes.Paladin:
-                        return new Paladin(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns, jp.Runes);
+                        return new Paladin(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Paladin.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes) { TalentsStr = jp.Talents };
                     case Player.Classes.Priest:
-                        return new Priest(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns, jp.Runes);
+                        return new Priest(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Priest.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes) { TalentsStr = jp.Talents };
                     case Player.Classes.Rogue:
-                        return new Rogue(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns, jp.Runes);
+                        return new Rogue(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Rogue.TalentsFromString(jp.Talents, Weapon.StringToType(jp.Weapons["MH"]?.Type)), buffs, tanking, facing, cooldowns, jp.Runes) { TalentsStr = jp.Talents };
                     case Player.Classes.Shaman:
-                        return new Shaman(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns, jp.Runes);
+                        return new Shaman(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Shaman.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes) { TalentsStr = jp.Talents };
                     case Player.Classes.Warlock:
-                        return new Warlock(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns, jp.Runes);
+                        return new Warlock(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Warlock.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes, new Entity(jp.Pet, null, Entity.MobType.Demon, jp.Level, 0, 0, null, null)) { TalentsStr = jp.Talents };
                     case Player.Classes.Warrior:
-                        return new Warrior(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), null, buffs, tanking, facing, cooldowns, jp.Runes);
+                        return new Warrior(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Warrior.TalentsFromString(jp.Talents, jp.Weapons.ContainsKey("MH") && jp.Weapons["MH"].TwoHanded), buffs, tanking, facing, cooldowns, jp.Runes) { TalentsStr = jp.Talents };
                     default:
                         throw new NotImplementedException("This class isn't supported yet : " + Player.ToClass(jp.Class));
                 }
@@ -319,9 +321,9 @@ namespace ClassicCraft
                     case "All": return School.Magical;
                     case "Any": return School.Magical;
                     case "Fire": return School.Fire;
-                    case "Ice": return School.Frost;
+                    case "Frost": return School.Frost;
                     case "Shadow": return School.Shadow;
-                    case "Light": return School.Light;
+                    case "Holy": return School.Holy;
                     case "Arcane": return School.Arcane;
                     case "Nature": return School.Nature;
                     default: throw new NotImplementedException("School type unknown : " + s);
@@ -382,14 +384,29 @@ namespace ClassicCraft
 
             public static Entity.MobType ToType(string s)
             {
-                switch(s)
+                switch (s)
                 {
                     case "Humanoid": return Entity.MobType.Humanoid;
+                    case "Demon": return Entity.MobType.Demon;
                     case "Dragonkin": return Entity.MobType.Dragonkin;
                     case "Beast": return Entity.MobType.Beast;
                     case "Giant": return Entity.MobType.Giant;
                     case "Undead": return Entity.MobType.Undead;
                     default: return Entity.MobType.Other;
+                }
+            }
+
+            public static string ToMobType(Entity.MobType mt)
+            {
+                switch (mt)
+                {
+                    case Entity.MobType.Humanoid: return "Humanoid";
+                    case Entity.MobType.Demon: return "Demon";
+                    case Entity.MobType.Dragonkin: return "Dragonkin";
+                    case Entity.MobType.Beast: return "Beast";
+                    case Entity.MobType.Giant: return "Giant";
+                    case Entity.MobType.Undead: return "Undead";
+                    default: return "Other";
                 }
             }
         }
@@ -482,7 +499,7 @@ namespace ClassicCraft
                 case "Frost": return School.Frost;
                 case "Shadow": return School.Shadow;
                 case "Nature": return School.Nature;
-                case "Light": return School.Light;
+                case "Holy": return School.Holy;
                 default: return School.Physical;
             }
         }
@@ -497,7 +514,7 @@ namespace ClassicCraft
                 case School.Frost: return "Frost";
                 case School.Shadow: return "Shadow";
                 case School.Nature: return "Nature";
-                case School.Light: return  "Light";
+                case School.Holy: return "Holy";
                 default: return "Physical";
             }
         }

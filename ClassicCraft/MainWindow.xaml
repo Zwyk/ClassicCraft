@@ -258,8 +258,8 @@
                                                                         <ColumnDefinition Width="200" />
                                                                         <ColumnDefinition Width="100" />
                                                                     </Grid.ColumnDefinitions>
-                                                                    <TextBlock Text="Light" TextWrapping="Wrap" Grid.Column="0" />
-                                                                    <ComboBox IsEditable="True" x:Name="BossLightResist" TextBoxBase.TextChanged="BossResist_TextChanged" PreviewTextInput="WholeNumberCheck" Grid.Column="1" SelectedIndex="1">
+                                                                    <TextBlock Text="Holy" TextWrapping="Wrap" Grid.Column="0" />
+                                                                    <ComboBox IsEditable="True" x:Name="BossHolyResist" TextBoxBase.TextChanged="BossResist_TextChanged" PreviewTextInput="WholeNumberCheck" Grid.Column="1" SelectedIndex="1">
                                                                         <ComboBoxItem>0</ComboBoxItem>
                                                                         <ComboBoxItem>50</ComboBoxItem>
                                                                         <ComboBoxItem>100</ComboBoxItem>

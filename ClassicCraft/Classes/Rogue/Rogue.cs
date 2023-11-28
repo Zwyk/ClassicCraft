@@ -29,8 +29,8 @@ namespace ClassicCraft
         {
         }
 
-        public Rogue(Simulation s = null, Races r = Races.Orc, int level = 60, Dictionary<Slot, Item> items = null, Dictionary<string, int> talents = null, List<Enchantment> buffs = null, bool tanking = false, bool facing = false, List<string> cooldowns = null, List<string> runes = null)
-            : base(s, Classes.Rogue, r, level, items, talents, buffs, tanking, facing, cooldowns, runes)
+        public Rogue(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes)
+            : base(s, Classes.Rogue, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null)
         {
         }
 
@@ -38,16 +38,16 @@ namespace ClassicCraft
 
         #region Talents
 
-        public override void SetupTalents(string ptal)
+        public static Dictionary<string, int> TalentsFromString(string ptal, Weapon.WeaponType mhtype = Weapon.WeaponType.Sword)
         {
             if (ptal == null || ptal == "")
             {
-                if (MH?.Type == Weapon.WeaponType.Dagger)
+                if (mhtype == Weapon.WeaponType.Dagger)
                 {
                     // Combat Daggers
                     ptal = "005303103-3203052020550100201-05";
                 }
-                else if (MH?.Type == Weapon.WeaponType.Fist)
+                else if (mhtype == Weapon.WeaponType.Fist)
                 {
                     // Combat Fists
                     ptal = "005323105-3210052020050105231";
@@ -64,7 +64,7 @@ namespace ClassicCraft
             string combat = talents.Length > 1 ? talents[1] : "";
             string subti = talents.Length > 2 ? talents[2] : "";
 
-            Talents = new Dictionary<string, int>();
+            var Talents = new Dictionary<string, int>();
 
             switch(Program.version)
             {
@@ -73,8 +73,7 @@ namespace ClassicCraft
                     Talents.Add("IE", assass.Length > 0 ? (int)Char.GetNumericValue(assass[0]) : 0);
                     Talents.Add("Malice", assass.Length > 2 ? (int)Char.GetNumericValue(assass[2]) : 0);
                     Talents.Add("Ruth", assass.Length > 3 ? (int)Char.GetNumericValue(assass[3]) : 0);
-                    Talents.Add("Murder", (assass.Length > 4 && (Program.jsonSim.Boss.Type == "Humanoid" || Program.jsonSim.Boss.Type == "Giant" || Program.jsonSim.Boss.Type == "Beast" || Program.jsonSim.Boss.Type == "Dragonkin"))
-                         ? (int)Char.GetNumericValue(assass[4]) : 0);
+                    Talents.Add("Murder", assass.Length > 4 ? (int)Char.GetNumericValue(assass[4]) : 0);
                     Talents.Add("ISD", assass.Length > 5 ? (int)Char.GetNumericValue(assass[5]) : 0);
                     Talents.Add("RS", assass.Length > 6 ? (int)Char.GetNumericValue(assass[6]) : 0);
                     Talents.Add("Letha", assass.Length > 8 ? (int)Char.GetNumericValue(assass[8]) : 0);
@@ -125,6 +124,8 @@ namespace ClassicCraft
                     Talents.Add("Oppo", subti.Length > 1 ? (int)Char.GetNumericValue(subti[1]) : 0);
                     break;
             }
+
+            return Talents;
         }
 
         #endregion

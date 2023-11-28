@@ -37,7 +37,6 @@ namespace ClassicCraft
                 * Player.Sim.DamageMod(res)
                 * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                 * (1 + (0.04 * Player.GetTalentPoints("Oppo")))
-                * (1 + (0.01 * Player.GetTalentPoints("Murder")))
                 * Player.DamageMod
                 * (res == ResultType.Crit && Player.Buffs.Any(bu => bu.Name.ToLower().Contains("relentless") || bu.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
                 );

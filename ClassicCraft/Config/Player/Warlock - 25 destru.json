@@ -4,6 +4,7 @@
   "Level": 25,
   "Race": "Orc",
   "Talents": "05--05050001000",
+  "Pet": "Succubus",
   "Runes": [
     "Metamorphosis",
     "Master Channeler",
@@ -13,6 +14,9 @@
     "Demonic Tactics",
   ],
   "Cooldowns": {
+    "Melee": true,
+    "Demonic Sacrifice": false,
+    "Shadow Cleave mono": false,
     "Shadowburn": true,
     "Corruption": true,
     "Curse of Agony": true,
@@ -24,6 +28,12 @@
     "Drums of War": false
   },
   "Buffs": [
+    {
+      "Name": "Custom",
+      "Stats": {
+        "SP": 0,
+      }
+    },
     {
       "Id": 0,
       "Name": "Mark of the Wild",
@@ -48,7 +58,7 @@
     "MH": {
       "DamageMin": 15.0,
       "DamageMax": 29.0,
-      "Speed": 1.4,
+      "Speed": 1.5,
       "TwoHanded": false,
       "Type": "Dagger",
       "Buff": null,

@@ -33,7 +33,7 @@ namespace ClassicCraft
 
         public override int GetTickDamage()
         {
-            return (int)Math.Round((DMG + Player.SP * RATIO) / NB_TICKS
+            return (int)Math.Round((DMG + Player.SchoolSP(School) * RATIO) / NB_TICKS
                 * (1 + 0.02 * Player.GetTalentPoints("Darkness"))
                 * 1.15 // shadow weaving
                 * 1.15 // shadow form

@@ -10,8 +10,15 @@ namespace ClassicCraft
     {
         public override string ToString() { return NAME; }
         public static new string NAME = "Rupture";
+        public override double BaseDmg()
+        {
+            return DMG(Player.Level, Player.Combo);
+        }
 
-        public int Combo;
+        public static int DMG(int level, int combo)
+        {
+            return BASE_DMG[combo-1];
+        }
 
         public static double[] DURATION =
         {
@@ -22,7 +29,7 @@ namespace ClassicCraft
             16,
         };
 
-        public static double[] BASE_DMG =
+        public static int[] BASE_DMG =
         {
             324,
             460,
@@ -46,30 +53,9 @@ namespace ClassicCraft
         }
 
         public RuptureDoT(Player p, Entity target)
-            : base(p, target, false, DURATION[0], 1, 2)
+            : base(p, target, false, DurationCalc(p), 1, AP_RATIO[p.Combo - 1], 2, 1, School.Physical)
         {
-        }
-
-        public override void StartEffect()
-        {
-            Combo = Player.Combo;
-            Duration = DURATION[Combo - 1];
-            base.StartEffect();
-        }
-
-        public override int GetTickDamage()
-        {
-            return (int)Math.Round((BASE_DMG[Combo - 1] + Player.AP * AP_RATIO[Combo - 1] + (Player.NbSet("Deathmantle") >= 2 ? 40 : 0)) / (Duration / TickDelay)
-                * Player.DamageMod
-                * (1 + (0.01 * Player.GetTalentPoints("Murder")))
-                );
-        }
-
-        public override double GetExternalModifiers()
-        {
-            return base.GetExternalModifiers()
-                * ((Target.Effects.ContainsKey("Mangle") ? 1.3 : 1)
-                );
+            BonusDmg = Player.NbSet("Deathmantle") >= 2 ? 40 : 0;
         }
     }
 }

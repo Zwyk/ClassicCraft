@@ -21,6 +21,12 @@ namespace ClassicCraft
         AP,
         RangedAP,
         SP,
+        SPFire,
+        SPShadow,
+        SPNature,
+        SPHoly,
+        SPArcane,
+        SPFrost,
         HSP,
         HitChance,
         SpellHitChance,
@@ -73,6 +79,12 @@ namespace ClassicCraft
                 case "AP": return Attribute.AP;
                 case "RAP": return Attribute.RangedAP;
                 case "SP": return Attribute.SP;
+                case "SPArcane": return Attribute.SPArcane;
+                case "SPFire": return Attribute.SPFire;
+                case "SPFrost": return Attribute.SPFrost;
+                case "SPHoly": return Attribute.SPHoly;
+                case "SPNature": return Attribute.SPNature;
+                case "SPShadow": return Attribute.SPShadow;
                 case "HSP": return Attribute.HSP;
                 case "Hit": return Attribute.HitChance;
                 case "SHit": return Attribute.SpellHitChance;
@@ -122,6 +134,12 @@ namespace ClassicCraft
                 case Attribute.AP: return "AP";
                 case Attribute.RangedAP: return "RAP";
                 case Attribute.SP: return "SP";
+                case Attribute.SPArcane: return "SPArcane";
+                case Attribute.SPFire: return "SPFire";
+                case Attribute.SPFrost: return "SPFrost";
+                case Attribute.SPHoly: return "SPHoly";
+                case Attribute.SPNature: return "SPNature";
+                case Attribute.SPShadow: return "SPShadow";
                 case Attribute.HSP: return "HSP";
                 case Attribute.HitChance: return "Hit";
                 case Attribute.SpellHitChance: return "SHit";
