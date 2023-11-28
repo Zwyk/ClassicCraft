@@ -55,12 +55,14 @@
 			- Any 1H/2H DPS or Tank spec (Fury, Arms, Slam, Prot, 21/40/0, 0/31/30, ...)
 
 ### FAQ
-- When I try to run a simualtion there seems to be an error
-	- Try searching for corrupted files in `\Config\Player\` and `\Config\Sim\` folders, and resetting them to the example files in the release. If you're still having issues please copy/paste (or screenshot) the error and open a ticket on [GitHub](https://github.com/Zwyk/ClassicCraft/issues)!
-- Is X item's/set's special effect implemented yet ?
-	- Try running a simulation with the item/set equipped (__its name properly written__) and activating "Full Fight Log" ("LogFight" in the json) to see if it procs or is being used! For sets, you if you want to test the X parts effect, you'll need to have X items with the set's name in it. If it seems to be not implemented, open a ticket.
+- How do I setup my character's equipment ?
+	- Equipment/Item selection is not yet implemented in the GUI. You currently have to manually add every item in one of the Player configuration json file located in the `\Config\Player\` folder. Refer to examples files in there.
+- When I try to run a simulation there seems to be an error
+	- Try searching for corrupted files in `\Config\Player\` and `\Config\Sim\` folders, and resetting them to the example files in the most recent release as they might be obsolete. If you're still having issues please copy/paste (or screenshot) the error and open a ticket on [GitHub](https://github.com/Zwyk/ClassicCraft/issues)!
 - Is there a Wiki with all the information about the program (mechanics, proc-rates, etc.) ?
 	- Not yet, but it would be great. Scrap the code for now, or ask me!
+- Is X item's/set's special effect implemented yet ?
+	- See last question. If you want to make sure what you're trying to use works by yourself, try running a simulation with the item/set equipped (__its name properly written__) and activating "Full Fight Log" ("LogFight" in the json) to see if it procs or is being used! For sets, you if you want to test the X parts effect, you'll need to have X items with the set's name in it. If it seems to be not implemented, open a ticket.
 - When will X class/thing be implemented ?
 	- Not a proper roadmap but here is a rough order of priority (purely personnal and indicative) : Popular Melee Specs > GUI > Popular Caster Specs > Alternative DPS Specs > Extra features (multiple players, healing sim, ...)
 
