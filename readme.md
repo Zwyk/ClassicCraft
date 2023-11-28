@@ -56,7 +56,7 @@
 
 ### FAQ
 - How do I setup my character's equipment ?
-	- Equipment/Item selection is not yet implemented in the GUI. You currently have to manually add every item in one of the Player configuration json file located in the `\Config\Player\` folder. Refer to examples files in there.
+	- Equipment/Item selection is not yet implemented in the GUI. You currently have to manually add every item in your desired Player configuration json file located in the `\Config\Player\` folder. Refer to examples files in there.
 - When I try to run a simulation there seems to be an error
 	- Try searching for corrupted files in `\Config\Player\` and `\Config\Sim\` folders, and resetting them to the example files in the most recent release as they might be obsolete. If you're still having issues please copy/paste (or screenshot) the error and open a ticket on [GitHub](https://github.com/Zwyk/ClassicCraft/issues)!
 - Is there a Wiki with all the information about the program (mechanics, proc-rates, etc.) ?
