@@ -13,7 +13,10 @@ namespace ClassicCraft
 
         public static int CD = 6;
 
-        public double RATIO = 0;
+        public static double CAST_TIME = 0;
+
+        public static double BASE_RATIO = Math.Max(1.5, CAST_TIME) / 3.5;
+        public static double RATIO = 2.0/3.0;
 
         public static int BASE_COST(int level)
         {
@@ -28,8 +31,6 @@ namespace ClassicCraft
             else if (level >= 6) return 20;
             else return 12;
         }
-
-        public static double CAST_TIME = 0;
 
         public static double SB_CAST_TIME(int level)
         {
@@ -70,53 +71,8 @@ namespace ClassicCraft
         public static int MAX_TARGETS = 3;
 
         public ShadowCleave(Player p)
-            : base(p, CD, (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata"))), true, true, School.Shadow, CAST_TIME)
+            : base(p, CD, (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata"))), true, true, School.Shadow, CAST_TIME, 1, MAX_TARGETS, new EndDmg(MIN_DMG(p.Level), MAX_DMG(p.Level), BASE_RATIO * RATIO), null, null)
         {
-            double baseCast = SB_CAST_TIME(p.Level);
-            RATIO = Math.Max(1.5, baseCast) / 3.5;
-        }
-
-        public override void Cast(Entity t)
-        {
-            bool st = Player.Effects.ContainsKey(ShadowTrance.NAME);
-            StartCast(st);
-            if (st) Player.Effects[ShadowTrance.NAME].EndEffect();
-        }
-
-        public override void DoAction()
-        {
-            base.DoAction();
-
-            CommonManaSpell();
-
-            ResultType res;
-            int minDmg = MIN_DMG(Player.Level);
-            int maxDmg = MAX_DMG(Player.Level);
-
-            Entity t = Target;
-            for (int i = 0; i < Math.Min(MAX_TARGETS, Player.Sim.NbTargets); i++)
-            {
-                Target = Player.Sim.Boss[i];
-                double mitigation = Simulation.MagicMitigation(Target.ResistChances[School]);
-                if (mitigation == 0)
-                {
-                    res = ResultType.Resist;
-                }
-                else
-                {
-                    res = Player.SpellAttackEnemy(Target, true, 0, 0.01 * Player.GetTalentPoints("Deva"));
-                }
-
-                int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Player.SchoolSP(School) * RATIO))
-                    * Player.Sim.DamageMod(res, School)
-                    * mitigation
-                    * Player.DamageMod
-                    * Player.TotalModifiers(NAME, Target, School, res));
-
-                RegisterDamage(new ActionResult(res, damage, (int)(damage * Player.ThreatMod)));
-                ShadowVulnerability.CheckProc(Player, this, res);
-            }
-            Target = t;
         }
     }
 }

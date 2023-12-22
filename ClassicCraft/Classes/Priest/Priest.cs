@@ -24,8 +24,8 @@ namespace ClassicCraft
         {
         }
 
-        public Priest(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes)
-            : base(s, Classes.Priest, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null)
+        public Priest(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, string prepull)
+            : base(s, Classes.Priest, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null, prepull)
         {
         }
 
@@ -50,6 +50,7 @@ namespace ClassicCraft
                 { "SR", disc.Length > 2 ? (int)Char.GetNumericValue(disc[2]) : 0 },
                 { "IF", disc.Length > 6 ? (int)Char.GetNumericValue(disc[6]) : 0 },
                 { "Med", disc.Length > 7 ? (int)Char.GetNumericValue(disc[7]) : 0 },
+                { "MS", disc.Length > 11 ? (int)Char.GetNumericValue(disc[11]) : 0 },
                 // Shadow
                 { "SA", shadow.Length > 2 ? (int)Char.GetNumericValue(shadow[2]) : 0 },
                 { "ISWP", shadow.Length > 3 ? (int)Char.GetNumericValue(shadow[3]) : 0 },
@@ -87,6 +88,7 @@ namespace ClassicCraft
 
         public static bool USE_WAND = true;
         public static bool USE_POTS = true;
+        public static bool USE_RUNES = false;
 
         public bool wanding = false;
 
@@ -98,17 +100,20 @@ namespace ClassicCraft
                 {
                     if(USE_POTS)
                     {
-                        if (pot.CanUse() && MaxMana - Mana > ManaPotion.MAX)
+                        if (pot.CanUse() && MaxMana - Mana > ManaPotion.MAX(Level))
                         {
                             pot.Cast(Target);
                         }
+                    }
+                    if (USE_RUNES)
+                    {
                         if (rune.CanUse() && MaxMana - Mana > ManaRune.MANA_MAX)
                         {
                             rune.Cast(Target);
                         }
                     }
 
-                    if(USE_WAND)
+                    if (USE_WAND)
                     {
                         if (wanding)
                         {

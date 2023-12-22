@@ -40,7 +40,7 @@ namespace ClassicCraft
 
         public override bool CanUse()
         {
-            return (UseMana ? Player.Mana >= Cost : Player.Resource >= Cost) && Available() && (AffectedByGCD ? Player.HasGCD() : true);
+            return (UseMana ? Player.Mana >= Cost : Player.Resource >= Cost) && Available() && (!AffectedByGCD || Player.HasGCD());
         }
 
         public void CastIfCan()

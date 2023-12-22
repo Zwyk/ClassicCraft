@@ -29,8 +29,8 @@ namespace ClassicCraft
         {
         }
 
-        public Rogue(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes)
-            : base(s, Classes.Rogue, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null)
+        public Rogue(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, string prepull)
+            : base(s, Classes.Rogue, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null, prepull)
         {
         }
 

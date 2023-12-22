@@ -12,6 +12,10 @@ namespace ClassicCraft
         private FerociousBite fb;
         private Shift shift;
         private Innervate innerv;
+        private SavageRoar roar = null;
+        private Rip rip = null;
+        private MangleCat mangleCat = null;
+        private MangleBear mangleBear = null;
 
         private Maul maul;
         private Swipe swipe;
@@ -30,8 +34,8 @@ namespace ClassicCraft
         {
         }
 
-        public Druid(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes)
-            : base(s, Classes.Druid, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null)
+        public Druid(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, string prepull)
+            : base(s, Classes.Druid, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null, prepull)
         {
         }
 
@@ -88,6 +92,7 @@ namespace ClassicCraft
             {
                 maul = new Maul(this);
                 swipe = new Swipe(this);
+                mangleBear = new MangleBear(this);
             }
             else
             {
@@ -95,6 +100,10 @@ namespace ClassicCraft
                 fb = new FerociousBite(this);
                 shift = new Shift(this);
                 innerv = new Innervate(this);
+
+                mangleCat = new MangleCat(this);
+                roar = new SavageRoar(this);
+                rip = new Rip(this);
             }
 
             if(Equipment[Slot.Trinket1].Name.ToLower().Equals("rune of metamorphosis") || Equipment[Slot.Trinket2].Name.ToLower().Equals("rune of metamorphosis"))
@@ -109,19 +118,10 @@ namespace ClassicCraft
             {
                 new MCP(this).Cast(Target);
             }
-
-            if(Tanking && Sim.TankHitRage > 0 && Sim.TankHitEvery > 0)
-            {
-                Form = Forms.Bear;
-            }
-            else
-            {
-                Form = Forms.Cat;
-                Resource = MaxResource;
-            }
         }
 
         public static bool USE_POTS = true;
+        public static bool USE_RUNES = false;
 
         public override void Rota()
         {
@@ -136,6 +136,80 @@ namespace ClassicCraft
                     swipe.Cast(Target);
                 }
             }
+            else if (Runes.Count > 0)   // SOD
+            {
+                rota = 0;
+
+                double roarLeft = 0;
+                if (Effects.ContainsKey(SavageRoar.NAME))
+                {
+                    roarLeft = Effects[SavageRoar.NAME].RemainingTime();
+                }
+
+                if (Form == Forms.Cat)
+                {
+                    if (Combo > 0 && roarLeft <= GCD_Hasted() && roar.CanUse())
+                    {
+                        roar.Cast(this);
+                    }
+                    else if (shred.CanUse() && Effects.ContainsKey(ClearCasting.NAME))
+                    {
+                        shred.Cast(Target);
+                    }
+                    else if (Combo >= 5 && !Target.Effects.ContainsKey(RipDoT.NAME) && roarLeft > GCD_Hasted() * 4 && rip.CanUse())
+                    {
+                        rip.Cast(Target);
+                    }
+                    else if (mangleCat.CanUse() && (Combo == 0 || roarLeft > GCD_Hasted()))
+                    {
+                        mangleCat.Cast(Target);
+                    }
+                    else if (GetTalentPoints("Furor") > 0 && Resource < mangleCat.Cost - 20 && shift.CanUse() && (
+                                                                    (innerv != null && innerv.Available()) || Effects.ContainsKey(InnervateBuff.NAME)
+                                                                    || (rom != null && rom.Available())
+                                                                    || Effects.ContainsKey(RuneOfMeta.NAME)
+                                                                    || ((int)((double)Mana / shift.Cost)) * 4 + 5 >= (Sim.FightLength - Sim.CurrentTime)
+                                                                    || !(SpiritTicking() && Mana + SpiritMPT() < MaxMana)))
+                    {
+                        Unshift();
+                    }
+                }
+
+                if (Form == Forms.Humanoid)
+                {
+                    if (USE_POTS)
+                    {
+                        if (pot.CanUse() && MaxMana - Mana > ManaPotion.MAX(Level))
+                        {
+                            pot.Cast(Target);
+                        }
+                    }
+                    if (USE_RUNES)
+                    {
+                        if (rune.CanUse() && MaxMana - Mana > ManaRune.MANA_MAX)
+                        {
+                            rune.Cast(Target);
+                        }
+                    }
+
+                    if (Mana < shift.Cost * 2 && !(Effects.ContainsKey(InnervateBuff.NAME) || Effects.ContainsKey(RuneOfMeta.NAME)))
+                    {
+                        if (innerv.CanUse())
+                        {
+                            innerv.Cast(Target);
+                        }
+                        else if (rom != null && rom.CanUse())
+                        {
+                            rom.Cast(Target);
+                        }
+                    }
+
+                    if (shift.CanUse())
+                    {
+                        shift.Cast(Target);
+                    }
+                }
+            }
             else if (rota == 0) //SHRED + FB + SHIFT + INNERV
             {
                 if (Form == Forms.Cat)
@@ -148,7 +222,7 @@ namespace ClassicCraft
                     {
                         shred.Cast(Target);
                     }
-                    else if (Combo > 4 && fb.CanUse())
+                    else if (Combo >= 5 && fb.CanUse())
                     {
                         fb.Cast(Target);
                     }
@@ -165,10 +239,13 @@ namespace ClassicCraft
                 {
                     if (USE_POTS)
                     {
-                        if (pot.CanUse() && MaxMana - Mana > ManaPotion.MAX)
+                        if (pot.CanUse() && MaxMana - Mana > ManaPotion.MAX(Level))
                         {
                             pot.Cast(Target);
                         }
+                    }
+                    if (USE_RUNES)
+                    {
                         if (rune.CanUse() && MaxMana - Mana > ManaRune.MANA_MAX)
                         {
                             rune.Cast(Target);
@@ -195,17 +272,6 @@ namespace ClassicCraft
             }
 
             CheckAAs();
-        }
-
-        public void Unshift()
-        {
-            Form = Forms.Humanoid;
-            ResetMHSwing();
-
-            if (Program.logFight)
-            {
-                Program.Log(string.Format("{0:N2} : Unshifted", Sim.CurrentTime));
-            }
         }
 
         #endregion

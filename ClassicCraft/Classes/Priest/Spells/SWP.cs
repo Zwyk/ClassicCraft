@@ -16,38 +16,8 @@ namespace ClassicCraft
         public static double CAST_TIME = 0;
 
         public SWP(Player p)
-            : base(p, CD, BASE_COST, true, true, School.Shadow, CAST_TIME)
+            : base(p, CD, BASE_COST, true, true, School.Shadow, CAST_TIME, 1, 1, null, new EndEffect(SWPDoT.NAME), null)
         {
-        }
-
-        public override void DoAction()
-        {
-            base.DoAction();
-            CommonManaSpell();
-            
-            ResultType res = Simulation.MagicMitigationBinary(Target.MagicResist[School]);
-
-            if (res == ResultType.Hit)
-            {
-                res = Player.SpellAttackEnemy(Target, false, 0.02 * Player.GetTalentPoints("SF"));
-            }
-
-            if (res == ResultType.Hit)
-            {
-                Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Hit, 0, 0), Player.Sim.CurrentTime));
-                if (Target.Effects.ContainsKey(SWPDoT.NAME))
-                {
-                    Target.Effects[SWPDoT.NAME].Refresh();
-                }
-                else
-                {
-                    new SWPDoT(Player, Target).StartEffect();
-                }
-            }
-            else
-            {
-                Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Resist, 0, 0), Player.Sim.CurrentTime));
-            }
         }
     }
 }

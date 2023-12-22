@@ -126,6 +126,7 @@ namespace ClassicCraft
                     * Player.DamageMod
                     * (Player.DualWielding ? (MH ? 1 : 0.5 * (1 + ((Player.Class == Player.Classes.Rogue ? 0.1 : 0.05) * Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Player.GetTalentPoints("2HS")))
                     * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
+                    * (1 + (Player.Class == Player.Classes.Druid ? Player.GetTalentPoints("NW") * 0.02 : 0))
                     * mitigation
                     * (res == ResultType.Crit && Player.Buffs.Any(bu => bu.Name.ToLower().Contains("relentless") || bu.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
                     * (Target.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)

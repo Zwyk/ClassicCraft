@@ -22,17 +22,16 @@ namespace ClassicCraft
 
         public static int TICK_DELAY = 3;
 
-        public static double RATIO = 1.0 / 14;
+        public static double RATIO = 1;
 
-        public DeepWounds(Player p, int points, Entity target)
-            : base(p, target, false, DURATION, 1, RATIO, TICK_DELAY, 1, School.Physical)
+        public DeepWounds(Player p, Entity target)
+            : base(p, target, false, DURATION, 1, RATIO * 0.2 * p.GetTalentPoints("DW"), TICK_DELAY, 1, School.Physical)
         {
-            Ratio = 0.2 * points;
         }
 
-        public static void CheckProc(Player p, ResultType type, int points)
+        public static void CheckProc(Player p, ResultType type)
         {
-            if (type == ResultType.Crit)
+            if (type == ResultType.Crit && p.GetTalentPoints("DW") > 0)
             {
                 if (p.Target.Effects.ContainsKey(NAME))
                 {
@@ -40,7 +39,7 @@ namespace ClassicCraft
                 }
                 else
                 {
-                    new DeepWounds(p, points, p.Target).StartEffect();
+                    new DeepWounds(p, p.Target).StartEffect();
                 }
             }
         }

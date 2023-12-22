@@ -13,8 +13,16 @@ namespace ClassicCraft
 
         public static int CD = 120;
 
-        public static int MIN = 1350;
-        public static int MAX = 2250;
+        public static int MIN(int level)
+        {
+            if (level >= 60) return 1350;
+            else return 455;
+        }
+        public static int MAX(int level)
+        {
+            if (level >= 60) return 2250;
+            else return 585;
+        }
 
         public ManaPotion(Player p)
             : base(p, CD)
@@ -23,7 +31,7 @@ namespace ClassicCraft
 
         public override void DoAction()
         {
-            Player.Mana += Randomer.Next(MIN, MAX + 1);
+            Player.Mana += Randomer.Next(MIN(Player.Level), MAX(Player.Level) + 1);
 
             LogAction();
         }

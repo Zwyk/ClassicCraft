@@ -8,11 +8,10 @@ namespace ClassicCraft
 {
     class ShadowBolt : Spell
     {
-        public override string ToString() { return NAME; } public static new string NAME = "Shadow Bolt";
+        public override string ToString() { return NAME; }
+        public static new string NAME = "Shadow Bolt";
 
         public static int CD = 0;
-
-        public double RATIO = 0;
 
         public static int BASE_COST(int level)
         {
@@ -64,58 +63,18 @@ namespace ClassicCraft
             else return 18;
         }
 
-        public static int VOLLEEY_MAX_TARGETS = 5;
-
-        public double castTimeKeeper;
+        public static int VOLLEY_MAX_TARGETS = 5;
 
         public ShadowBolt(Player p)
-            : base(p, CD, (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata"))), true, true, School.Shadow, CAST_TIME(p.Level) - 0.1 * p.GetTalentPoints("ISB"))
+            : base(p, CD, (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata"))), true, true, School.Shadow, CAST_TIME(p.Level) - 0.1 * p.GetTalentPoints("ISB"), 1, 1, new EndDmg(MIN_DMG(p.Level), MAX_DMG(p.Level), Math.Max(1.5, CAST_TIME(p.Level)) / 3.5), null, null)
         {
-            RATIO = Math.Max(1.5, CAST_TIME(p.Level)) / 3.5;
-
-            castTimeKeeper = CastTime;
         }
 
         public override void Cast(Entity t)
         {
             bool st = Player.Effects.ContainsKey(ShadowTrance.NAME);
-            StartCast(st);
-            if(st) Player.Effects[ShadowTrance.NAME].EndEffect();
-        }
-
-        public override void DoAction()
-        {
-            base.DoAction();
-
-            CommonManaSpell();
-
-            ResultType res;
-            int minDmg = MIN_DMG(Player.Level);
-            int maxDmg = MAX_DMG(Player.Level);
-
-            int nbt = 1; // Shadow Volley
-
-            for (int i = 1; i <= nbt; i++)
-            {
-                double mitigation = Simulation.MagicMitigation(Player.Target.ResistChances[School]);
-                if (mitigation == 0)
-                {
-                    res = ResultType.Resist;
-                }
-                else
-                {
-                    res = Player.SpellAttackEnemy(Player.Target, true, 0, 0.01 * Player.GetTalentPoints("Deva"));
-                }
-
-                int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Player.SchoolSP(School) * RATIO))
-                    * Player.Sim.DamageMod(res, School)
-                    * mitigation
-                    * Player.DamageMod
-                    * Player.TotalModifiers(NAME, Target, School, res));
-
-                RegisterDamage(new ActionResult(res, damage, (int)(damage * Player.ThreatMod)));
-                ShadowVulnerability.CheckProc(Player, this, res);
-            }
+            if (st) Player.Effects[ShadowTrance.NAME].EndEffect();
+            Cast(t, st, false);
         }
     }
 }

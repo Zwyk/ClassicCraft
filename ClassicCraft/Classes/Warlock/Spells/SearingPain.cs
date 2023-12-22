@@ -28,7 +28,11 @@ namespace ClassicCraft
 
         public static double RATIO = Math.Max(1.5, CAST_TIME) / 3.5;
 
-        public int MIN_DMG(int level)
+        public static double THREAT_RATIO = 2;
+
+        public static int MAX_TARGETS = 1;
+
+        public static int MIN_DMG(int level)
         {
             if (level >= 60) return 208;
             else if (level >= 50) return 168;
@@ -39,7 +43,7 @@ namespace ClassicCraft
             else return 0;
         }
 
-        public int MAX_DMG(int level)
+        public static int MAX_DMG(int level)
         {
             if (level >= 60) return 244;
             else if (level >= 50) return 199;
@@ -50,46 +54,14 @@ namespace ClassicCraft
             else return 0;
         }
 
-        public double castTimeKeeper;
-
         public SearingPain(Player p)
-            : base(p, CD, (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata"))), true, true, School.Fire, CAST_TIME)
+            : base(p, CD, (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata"))), true, true, School.Fire, CAST_TIME, MAX_TARGETS, THREAT_RATIO, new EndDmg(MIN_DMG(p.Level), MAX_DMG(p.Level), RATIO), null, null)
         {
-            castTimeKeeper = CastTime;
         }
 
         public override void Cast(Entity t)
         {
-            StartCast(Player.Form == Player.Forms.Metamorphosis);
-        }
-
-        public override void DoAction()
-        {
-            base.DoAction();
-
-            ResultType res;
-            double mitigation = Simulation.MagicMitigation(Target.ResistChances[School]);
-            if (mitigation == 0)
-            {
-                res = ResultType.Resist;
-            }
-            else
-            {
-                res = Player.SpellAttackEnemy(Target, true, 0, 0.01 * Player.GetTalentPoints("Deva") + 0.02 * Player.GetTalentPoints("ISP"));
-            }
-
-            CommonManaSpell();
-
-            int minDmg = MIN_DMG(Player.Level);
-            int maxDmg = MAX_DMG(Player.Level);
-
-            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + (Player.SchoolSP(School) * RATIO))
-                * Player.Sim.DamageMod(res, School)
-                * mitigation
-                * Player.DamageMod
-                * Player.TotalModifiers(NAME, Target, School, res));
-
-            RegisterDamage(new ActionResult(res, damage, (int)(damage * Player.ThreatMod * 2)));
+            Cast(t, Player.Form == Player.Forms.Metamorphosis, false);
         }
     }
 }

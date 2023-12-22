@@ -17,13 +17,16 @@ namespace ClassicCraft
 
         public double BonusDmg { get; set; }
 
-        public EffectOnTime(Player p, Entity target, bool friendly, double baseLength, int baseStacks, double ratio, int tickDelay, int maxStacks, School school = School.Magical)
+        public double ThreatRatio { get; set; }
+
+        public EffectOnTime(Player p, Entity target, bool friendly, double baseLength, int baseStacks, double ratio, int tickDelay, int maxStacks, School school, double threatRatio = 1)
             : base(p, target, friendly, baseLength, baseStacks, maxStacks)
         {
             Ratio = ratio;
             TickDelay = tickDelay;
             School = school;
             BonusDmg = 0;
+            ThreatRatio = threatRatio;
         }
 
         public override void StartEffect()
@@ -59,8 +62,8 @@ namespace ClassicCraft
 
         public int GetTickDamage()
         {
-            double mitigation = 1;
-            return (int)Math.Round((BaseDmg() * CurrentStacks + (School == School.Physical ? Player.AP : Player.SchoolSP(School)) * Ratio) / (Duration / TickDelay)
+            double mitigation = School == School.Physical ? Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen)) : 1;
+            return (int)Math.Round((BaseDmg() * CurrentStacks + (School == School.Physical ? Player.AP * 1/14 : Player.SchoolSP(School)) * Ratio) / (Duration / TickDelay)
                 * Player.Sim.DamageMod(ResultType.Hit, School)
                 * mitigation
                 * Player.DamageMod
@@ -89,6 +92,8 @@ namespace ClassicCraft
 
                 Program.Log(log);
             }
+
+            Player.CheckOnTick(this);
         }
     }
 }

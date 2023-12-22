@@ -8,6 +8,47 @@ namespace ClassicCraft
 {
     public abstract class Effect : Aura
     {
+        public static Effect NewEffectFromString(string s, Player p, Entity t)
+        {
+            // DRUID
+            if (s == ClearCasting.NAME) return new ClearCasting(p);
+            else if (s == InnervateBuff.NAME) return new InnervateBuff(p);
+            else if (s == MangleCat.NAME) return MangleCat.NewEffect(p, t);
+            else if (s == MangleBear.NAME) return MangleBear.NewEffect(p, t);
+            else if (s == MCPBuff.NAME) return new MCPBuff(p);
+            else if (s == RipDoT.NAME) return new RipDoT(p, t);
+            // MAGE
+            else if (s == PresenceOfMindEffect.NAME) return new PresenceOfMindEffect(p);
+            // PRIEST
+            else if (s == DevouringPlagueDoT.NAME) return new DevouringPlagueDoT(p, t);
+            else if (s == InnerFocusBuff.NAME) return new InnerFocusBuff(p);
+            else if (s == SWPDoT.NAME) return new SWPDoT(p, t);
+            // ROGUE
+            else if (s == AdrenalineRushBuff.NAME) return new AdrenalineRushBuff(p);
+            else if (s == BladeFlurryBuff.NAME) return new BladeFlurryBuff(p);
+            else if (s == DeadlyPoisonDoT.NAME) return new DeadlyPoisonDoT(p, t);
+            else if (s == RuptureDoT.NAME) return new RuptureDoT(p, t);
+            else if (s == SliceAndDiceBuff.NAME) return new SliceAndDiceBuff(p);
+            // WARLOCK
+            else if (s == CorruptionDoT.NAME) return new CorruptionDoT(p, t);
+            else if (s == CurseOfAgonyDoT.NAME) return new CurseOfAgonyDoT(p, t);
+            else if (s == DemonicGraceBuff.NAME) return new DemonicGraceBuff(p);
+            else if (s == DrainLifeDoT.NAME) return new DrainLifeDoT(p, t);
+            else if (s == Incinerate.NAME) return Incinerate.NewEffect(p, t);
+            else if (s == ShadowTrance.NAME) return new ShadowTrance(p);
+            else if (s == ShadowVulnerability.NAME) return new DrainLifeDoT(p, t);
+            // WARRIOR
+            else if (s == BattleShoutBuff.NAME) return new BattleShoutBuff(p);
+            else if (s == BloodrageBuff.NAME) return new BloodrageBuff(p);
+            else if (s == DeathWishBuff.NAME) return new DeathWishBuff(p);
+            else if (s == DeepWounds.NAME) return new DeepWounds(p, t);
+            else if (s == Flurry.NAME) return new Flurry(p);
+            else if (s == RampageBuff.NAME) return new RampageBuff(p);
+            else if (s == RecklessnessBuff.NAME) return new RecklessnessBuff(p);
+            else if (s == SweepingStrikesBuff.NAME) return new SweepingStrikesBuff(p);
+            else throw new NotImplementedException();
+        }
+
         public Entity Target { get; set; }
         public bool Friendly { get; set; }
         public double Start { get; set; }
@@ -32,8 +73,10 @@ namespace ClassicCraft
             BaseStacks = baseStacks;
             MaxStacks = maxStacks;
             CurrentStacks = BaseStacks;
-            AppliedTimes = new List<double>();
-            AppliedTimes.Add(Start);
+            AppliedTimes = new List<double>
+            {
+                Start
+            };
         }
 
         public double RemainingTime()
@@ -98,7 +141,7 @@ namespace ClassicCraft
         public virtual void StackRemove(int nb = 1)
         {
             int oldStacks = CurrentStacks;
-            CurrentStacks -= Math.Max(0, nb);
+            CurrentStacks -= Math.Max(IsPermanent ? 1 : 0, nb);
             if(CurrentStacks < 1)
             {
                 EndEffect();

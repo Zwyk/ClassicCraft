@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ClassicCraft
 {
@@ -14,10 +15,12 @@ namespace ClassicCraft
         private CurseOfAgony ca = null;
         private LifeTap lt = null;
         private DrainLife dl = null;
+        private DrainLifeRune dlr = null;
         private SearingPain sp = null;
         private ShadowCleave sc = null;
         private DemonicGrace dg = null;
         private Shadowburn sburn = null;
+        private Incinerate inc = null;
 
         #region Constructors
 
@@ -31,8 +34,8 @@ namespace ClassicCraft
         {
         }
 
-        public Warlock(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, Entity pet)
-            : base(s, Classes.Warlock, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, pet)
+        public Warlock(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, Entity pet, string prepull)
+            : base(s, Classes.Warlock, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, pet, prepull)
         {
         }
 
@@ -100,7 +103,7 @@ namespace ClassicCraft
             if (Tanking && Runes.Contains("Metamorphosis"))
             {
                 Form = Forms.Metamorphosis;
-                dl = (Runes.Contains("Master Channeler") && Cooldowns.Contains("Drain Life")) ? new DrainLife(this) : null;
+                dlr = (Runes.Contains("Master Channeler") && Cooldowns.Contains("Drain Life")) ? new DrainLifeRune(this) : null;
                 sp = new SearingPain(this);
                 sc = Sim.NbTargets > 1 || Cooldowns.Contains("Shadow Cleave mono") ? new ShadowCleave(this) : null;
                 dg = Runes.Contains("Demonic Grace") ? new DemonicGrace(this) : null;
@@ -114,13 +117,31 @@ namespace ClassicCraft
             ca = Cooldowns.Contains("Curse of Agony") ? new CurseOfAgony(this) : null;
             lt = new LifeTap(this);
             sburn = (GetTalentPoints("Shadowburn") > 0 && Cooldowns.Contains("Shadowburn")) ? new Shadowburn(this) : null;
+            inc = Runes.Contains("Incinerate") ? new Incinerate(this) : null;
+
+            if (Runes.Contains("Lake of Fire") && Cooldowns.Contains("Lake of Fire pre-pull"))
+            {
+                foreach(var b in Sim.Boss)
+                {
+                    new CustomEffect(this, b, "Lake of Fire", false, 15).StartEffect();
+                }
+            }
+            if(Runes.Contains("Incinerate") && Cooldowns.Contains("Incinerate pre-pull"))
+            {
+                inc.Cast(Target, true, false);
+            }
         }
 
         public override void Rota()
         {
             if (Tanking)
             {
-                if(casting == null)
+                if (QCS && Cooldowns.Contains("Melee"))
+                {
+                    CheckAAs();
+                }
+
+                if (casting == null)
                 {
                     if (dg != null && dg.CanUse())
                     {
@@ -140,9 +161,9 @@ namespace ClassicCraft
                         {
                             co.Cast(b);
                         }
-                        if (dl != null && dl.CanUse() && Sim.TimeLeft >= DrainLifeDoT.DURATION / 2 && !b.Effects.ContainsKey(DrainLifeDoT.NAME))
+                        if (dlr != null && dlr.CanUse() && Sim.TimeLeft >= DrainLifeDoT.DURATION / 2 && !b.Effects.ContainsKey(DrainLifeDoT.NAME))
                         {
-                            dl.Cast(b);
+                            dlr.Cast(b);
                         }
                     }
                     if (sburn != null && sburn.CanUse())
@@ -159,7 +180,7 @@ namespace ClassicCraft
                     }
                 }
 
-                if(Cooldowns.Contains("Melee"))
+                if(!QCS && Cooldowns.Contains("Melee"))
                 {
                     CheckAAs();
                 }

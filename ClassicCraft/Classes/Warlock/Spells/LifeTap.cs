@@ -20,20 +20,6 @@ namespace ClassicCraft
             else if (level >= 6) return 30;
             else return 0;
         }
-        public static int CD = 0;
-        public static double CAST_TIME = 0;
-
-        public static double META_MANA_RATIO = 2;
-
-        public LifeTap(Player p)
-            : base(p, CD, BASE_COST(p.Level), false, true, School.Shadow, CAST_TIME)
-        {
-        }
-
-        public override bool CanUse()
-        {
-            return /*Player.Life >= Cost && */Available() && (AffectedByGCD ? Player.HasGCD() : true);
-        }
 
         public int LifeCost()
         {
@@ -45,10 +31,26 @@ namespace ClassicCraft
             return (int)(LifeCost() * (1 + (0.1 * Player.GetTalentPoints("ILT"))) * (Player.Form == Player.Forms.Metamorphosis ? META_MANA_RATIO : 1));
         }
 
+        public static int CD = 0;
+        public static double CAST_TIME = 0;
+
+        public static double META_MANA_RATIO = 2;
+
+        public LifeTap(Player p)
+            : base(p, CD, BASE_COST(p.Level), false, true, School.Shadow, CAST_TIME, 1, 1, null, null, null)
+        {
+        }
+
+        /*
+        public override bool CanUse()
+        {
+            return base.CanUse() && Player.Life >= Cost;
+        }
+        */
+
         public override void DoAction()
         {
             base.DoAction();
-            CDAction();
 
             //Player.Life -= LifeCost();
             Player.Mana += ManaGain();

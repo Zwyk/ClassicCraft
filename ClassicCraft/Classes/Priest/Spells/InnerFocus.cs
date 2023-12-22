@@ -15,34 +15,8 @@ namespace ClassicCraft
         public static int CD = 180;
 
         public InnerFocus(Player p)
-            : base(p, CD, BASE_COST, true, false)
+            : base(p, CD, BASE_COST, true, false, School.Magical, 0, 1, 1, null, new EndEffect(InnerFocusBuff.NAME), null)
         {
-        }
-
-        public override void Cast(Entity t)
-        {
-            DoAction();
-        }
-
-        public void StartCD()
-        {
-            CDAction();
-        }
-
-        public override void DoAction()
-        {
-            base.DoAction();
-
-            if (Player.Effects.ContainsKey(InnerFocusBuff.NAME))
-            {
-                Player.Effects[InnerFocusBuff.NAME].Refresh();
-            }
-            else
-            {
-                new InnerFocusBuff(Player).StartEffect();
-            }
-
-            LogAction();
         }
     }
 }

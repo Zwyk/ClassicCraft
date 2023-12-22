@@ -6,27 +6,30 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Maul : Skill
+    class MangleBear : Skill
     {
-        public static int BASE_COST = 15;
-        public static int CD = 0;
-
-        public static double THREAT_MOD = 1.75;
-
-        public Maul(Player p)
-            : base(p, CD, BASE_COST - p.GetTalentPoints("Fero"), true)
+        public override string ToString()
         {
+            return NAME;
+        }
+        public static new string NAME = "Mangle";
+
+        public static Effect NewEffect(Player p, Entity t)
+        {
+            return new CustomEffect(p, t, NAME, false, 60);
         }
 
-        public override bool CanUse()
+        public static int BASE_COST = 20;
+        public static int CD = 6;
+
+        public MangleBear(Player p)
+            : base(p, CD, BASE_COST)
         {
-            return Player.Effects.ContainsKey(ClearCasting.NAME) || Player.Resource >= Cost;
         }
 
         public override void Cast(Entity t)
         {
-            Target = t;
-            Player.applyAtNextAA = this;
+            DoAction();
         }
 
         public override void DoAction()
@@ -44,14 +47,14 @@ namespace ClassicCraft
 
             Player.nextAABonus = 0;
 
-            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + 101)
+            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) * 1.6)
                 * Player.Sim.DamageMod(res)
                 * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
-                * (1 + Player.GetTalentPoints("SF") * 0.1)
+                * Player.SelfModifiers(NAME, Target, School.Physical, res)
                 * Player.DamageMod
                 );
 
-            int threat = (int)Math.Round(damage * THREAT_MOD * Player.ThreatMod);
+            int threat = (int)Math.Round(damage * Player.ThreatMod);
 
             int cost = Cost;
             if (Player.Effects.ContainsKey(ClearCasting.NAME))
@@ -73,11 +76,5 @@ namespace ClassicCraft
 
             Player.CheckOnHits(true, false, res);
         }
-
-        public override string ToString()
-        {
-            return NAME;
-        }
-        public static new string NAME = "Maul";
     }
 }

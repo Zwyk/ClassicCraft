@@ -13,7 +13,7 @@ namespace ClassicCraft
         public static int CD = 0;
 
         public Shift(Player p)
-            : base(p, CD, (int)(p.BaseMana * 0.55 * (1 - p.GetTalentPoints("NS") * 0.1)), true, true) {  }
+            : base(p, CD, (int)(p.BaseMana * 0.55 * (1 - p.GetTalentPoints("NS") * 0.1)), true, true, School.Magical, 0, 1, 1, null, null, null) {  }
         
 
         public override bool CanUse()
@@ -23,7 +23,7 @@ namespace ClassicCraft
 
         public override void Cast(Entity t)
         {
-            CommonManaSpell(Player.Effects.ContainsKey(RuneOfMeta.NAME) ? 0 : Cost);
+            OnCommonSpellCast(Player.Effects.ContainsKey(RuneOfMeta.NAME) ? 0 : Cost);
             DoAction();
             Player.StartGCD();
         }

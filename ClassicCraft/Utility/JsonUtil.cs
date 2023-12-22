@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -197,12 +198,18 @@ namespace ClassicCraft
                 if (slot == Player.Slot.MH || slot == Player.Slot.OH || slot == Player.Slot.Ranged)
                 {
                     string s = Player.FromSlot(slot);
-                    res.Add(slot, jw.ContainsKey(s) ? JsonWeapon.ToWeapon(jw[s]) : null);
+                    if (jw.ContainsKey(s) && jw[s] != null)
+                    {
+                        res.Add(slot, jw.ContainsKey(s) ? JsonWeapon.ToWeapon(jw[s]) : null);
+                    }
                 }
                 else
                 {
                     string s = Player.FromSlot(slot);
-                    res.Add(slot, je.ContainsKey(s) ? JsonItem.ToItem(je[s]) : null);
+                    if (je.ContainsKey(s) && je[s] != null)
+                    {
+                        res.Add(slot, je.ContainsKey(s) ? JsonItem.ToItem(je[s]) : null);
+                    }
                 }
             }
 
@@ -233,12 +240,13 @@ namespace ClassicCraft
             public string Talents { get; set; }
             public string Pet { get; set; }
             public List<String> Runes { get; set; }
+            public string PrePull {  get; set; }
             public Dictionary<string, bool> Cooldowns { get; set; }
             public List<JsonEnchantment> Buffs { get; set; }
             public Dictionary<string, JsonWeapon> Weapons { get; set; }
             public Dictionary<string, JsonItem> Equipment { get; set; }
 
-            public JsonPlayer(Dictionary<string, JsonWeapon> weapons = null, Dictionary<string, JsonItem> equipment = null, string @class = "Warrior", int level = 60, string race = "Orc", string talents = "", List<JsonEnchantment> buffs = null, Dictionary<string, bool> cooldowns = null, List<string> runes = null, string ver = null, string pet = null)
+            public JsonPlayer(Dictionary<string, JsonWeapon> weapons = null, Dictionary<string, JsonItem> equipment = null, string @class = "Warrior", int level = 60, string race = "Orc", string talents = "", List<JsonEnchantment> buffs = null, Dictionary<string, bool> cooldowns = null, List<string> runes = null, string ver = null, string pet = null, string prePull = null)
             {
                 Class = @class;
                 Level = level;
@@ -251,6 +259,7 @@ namespace ClassicCraft
                 Runes = runes;
                 Ver = ver;
                 Pet = pet;
+                PrePull = prePull;
             }
 
             public static Player ToPlayer(JsonPlayer jp, bool tanking = false, bool facing = false)
@@ -289,21 +298,21 @@ namespace ClassicCraft
                 switch(Player.ToClass(jp.Class))
                 {
                     case Player.Classes.Druid:
-                        return new Druid(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Druid.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes) { TalentsStr = jp.Talents };
+                        return new Druid(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Druid.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes, jp.PrePull) { TalentsStr = jp.Talents };
                     case Player.Classes.Hunter:
-                        return new Hunter(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Hunter.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes, new Entity(jp.Pet, null, Entity.MobType.Demon, jp.Level, 0, 0, null, null)) { TalentsStr = jp.Talents };
+                        return new Hunter(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Hunter.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes, new Entity(jp.Pet, null, Entity.MobType.Demon, jp.Level, 0, 0, null, null), jp.PrePull) { TalentsStr = jp.Talents };
                     case Player.Classes.Paladin:
-                        return new Paladin(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Paladin.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes) { TalentsStr = jp.Talents };
+                        return new Paladin(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Paladin.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes, jp.PrePull) { TalentsStr = jp.Talents };
                     case Player.Classes.Priest:
-                        return new Priest(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Priest.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes) { TalentsStr = jp.Talents };
+                        return new Priest(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Priest.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes, jp.PrePull) { TalentsStr = jp.Talents };
                     case Player.Classes.Rogue:
-                        return new Rogue(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Rogue.TalentsFromString(jp.Talents, Weapon.StringToType(jp.Weapons["MH"]?.Type)), buffs, tanking, facing, cooldowns, jp.Runes) { TalentsStr = jp.Talents };
+                        return new Rogue(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Rogue.TalentsFromString(jp.Talents, Weapon.StringToType(jp.Weapons["MH"]?.Type)), buffs, tanking, facing, cooldowns, jp.Runes, jp.PrePull) { TalentsStr = jp.Talents };
                     case Player.Classes.Shaman:
-                        return new Shaman(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Shaman.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes) { TalentsStr = jp.Talents };
+                        return new Shaman(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Shaman.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes, jp.PrePull) { TalentsStr = jp.Talents };
                     case Player.Classes.Warlock:
-                        return new Warlock(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Warlock.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes, new Entity(jp.Pet, null, Entity.MobType.Demon, jp.Level, 0, 0, null, null)) { TalentsStr = jp.Talents };
+                        return new Warlock(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Warlock.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes, new Entity(jp.Pet, null, Entity.MobType.Demon, jp.Level, 0, 0, null, null), jp.PrePull) { TalentsStr = jp.Talents };
                     case Player.Classes.Warrior:
-                        return new Warrior(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Warrior.TalentsFromString(jp.Talents, jp.Weapons.ContainsKey("MH") && jp.Weapons["MH"].TwoHanded), buffs, tanking, facing, cooldowns, jp.Runes) { TalentsStr = jp.Talents };
+                        return new Warrior(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Warrior.TalentsFromString(jp.Talents, jp.Weapons.ContainsKey("MH") && jp.Weapons["MH"].TwoHanded), buffs, tanking, facing, cooldowns, jp.Runes, jp.PrePull) { TalentsStr = jp.Talents };
                     default:
                         throw new NotImplementedException("This class isn't supported yet : " + Player.ToClass(jp.Class));
                 }

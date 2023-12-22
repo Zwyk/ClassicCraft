@@ -8,7 +8,8 @@ namespace ClassicCraft
 {
     class ClearCasting : Effect
     {
-        public override string ToString() { return NAME; } public static new string NAME = "Clearcasting";
+        public override string ToString() { return NAME; }
+        public static new string NAME = "Clearcasting";
 
         public static double PROC_RATE = 0.06;
         public static int LENGTH = 15;

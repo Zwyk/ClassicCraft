@@ -38,8 +38,8 @@ namespace ClassicCraft
         {
         }
 
-        public Warrior(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes)
-            : base(s, Classes.Warrior, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null)
+        public Warrior(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, string prepull)
+            : base(s, Classes.Warrior, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null, prepull)
         {
         }
 
@@ -249,7 +249,7 @@ namespace ClassicCraft
                 Spells = new List<Action>();
                 /*
                 Spells.Add(hs);
-                if (Sim.NbTargets > 1) Spells.Add(cl);
+                if (Sim.MaxTargets > 1) Spells.Add(cl);
                 */
                 if (bt != null) Spells.Add(bt);
                 if (ms != null) Spells.Add(ms);

@@ -8,9 +8,10 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>ClassicCraft</RootNamespace>
     <AssemblyName>ClassicCraft</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -56,7 +57,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\Action.cs" />
-    <Compile Include="Actions\ChannelSpell.cs" />
     <Compile Include="Actions\Spell.cs" />
     <Compile Include="Actions\CustomAction.cs" />
     <Compile Include="App.xaml.cs">
@@ -66,21 +66,24 @@
     <Compile Include="Auras\Effects\CustomEffect.cs" />
     <Compile Include="Classes\Druid\Druid.cs" />
     <Compile Include="Classes\Druid\Effects\InnervateBuff.cs" />
+    <Compile Include="Classes\Druid\Effects\RipDoT.cs" />
     <Compile Include="Classes\Druid\Skills\FerociousBite.cs" />
+    <Compile Include="Classes\Druid\Skills\MangleBear.cs" />
+    <Compile Include="Classes\Druid\Skills\MangleCat.cs" />
     <Compile Include="Classes\Druid\Skills\Maul.cs" />
+    <Compile Include="Classes\Druid\Skills\Rip.cs" />
+    <Compile Include="Classes\Druid\Skills\SavageRoar.cs" />
     <Compile Include="Classes\Druid\Skills\Swipe.cs" />
     <Compile Include="Classes\Druid\Spells\Innervate.cs" />
     <Compile Include="Classes\Druid\Spells\Shift.cs" />
     <Compile Include="Classes\Hunter\Hunter.cs" />
     <Compile Include="Classes\Mage\Consumables\ManaRuby.cs" />
-    <Compile Include="Classes\Mage\Effects\ArcanePowerEffect.cs" />
-    <Compile Include="Classes\Mage\Effects\Clearcasting.cs" />
     <Compile Include="Classes\Mage\Effects\PresenceOfMindEffect.cs" />
     <Compile Include="Classes\Mage\Mage.cs" />
-    <Compile Include="Classes\Mage\Skills\ArcanePower.cs" />
-    <Compile Include="Classes\Mage\Skills\ColdSnap.cs" />
-    <Compile Include="Classes\Mage\Skills\Frostbolt.cs" />
-    <Compile Include="Classes\Mage\Skills\PresenceOfMind.cs" />
+    <Compile Include="Classes\Mage\Spells\ArcanePower.cs" />
+    <Compile Include="Classes\Mage\Spells\ColdSnap.cs" />
+    <Compile Include="Classes\Mage\Spells\Frostbolt.cs" />
+    <Compile Include="Classes\Mage\Spells\PresenceOfMind.cs" />
     <Compile Include="Classes\Paladin\Paladin.cs" />
     <Compile Include="Classes\Priest\Effects\DevouringPlagueDoT.cs" />
     <Compile Include="Classes\Priest\Effects\InnerFocusEffect.cs" />
@@ -116,6 +119,8 @@
     <Compile Include="Classes\Warlock\Spells\CurseOfAgony.cs" />
     <Compile Include="Classes\Warlock\Spells\DemonicGrace.cs" />
     <Compile Include="Classes\Warlock\Spells\DrainLife.cs" />
+    <Compile Include="Classes\Warlock\Spells\DrainLifeRune.cs" />
+    <Compile Include="Classes\Warlock\Spells\Incinerate.cs" />
     <Compile Include="Classes\Warlock\Spells\LifeTap.cs" />
     <Compile Include="Classes\Warlock\Spells\Corruption.cs" />
     <Compile Include="Classes\Warlock\Spells\SearingPain.cs" />
@@ -127,8 +132,8 @@
     <Compile Include="Classes\Warrior\Effects\RampageBuff.cs" />
     <Compile Include="Classes\Warrior\Effects\SweepingStrikesBuff.cs" />
     <Compile Include="Classes\Warrior\Skills\BattleShout.cs" />
-    <Compile Include="Classes\Warrior\Skills\Berserking.cs" />
-    <Compile Include="Classes\Warrior\Skills\BloodFury.cs" />
+    <Compile Include="Actions\Spells\Berserking.cs" />
+    <Compile Include="Actions\Spells\BloodFury.cs" />
     <Compile Include="Classes\Warrior\Skills\Bloodrage.cs" />
     <Compile Include="Classes\Warrior\Skills\Cleave.cs" />
     <Compile Include="Classes\Warrior\Skills\DeathWish.cs" />
@@ -159,8 +164,8 @@
     <Compile Include="Classes\Druid\Skills\Shred.cs" />
     <Compile Include="Classes\Druid\Effects\ClearCasting.cs" />
     <Compile Include="Classes\Warrior\Effects\BattleShoutBuff.cs" />
-    <Compile Include="Classes\Warrior\Effects\BerserkingBuff.cs" />
-    <Compile Include="Classes\Warrior\Effects\BloodFuryBuff.cs" />
+    <Compile Include="Actions\Effects\BerserkingBuff.cs" />
+    <Compile Include="Actions\Effects\BloodFuryBuff.cs" />
     <Compile Include="Classes\Warrior\Effects\DeathWishBuff.cs" />
     <Compile Include="Classes\Warrior\Effects\BloodrageBuff.cs" />
     <Compile Include="Misc\Consumables\ManaRune.cs" />

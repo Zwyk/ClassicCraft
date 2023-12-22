@@ -6,19 +6,18 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Shred : Skill
+    class MangleCat : Skill
     {
-        public static int BASE_COST = 60;
+        public static int BASE_COST = 40;
         public static int CD = 0;
 
-        public static int DMG(int level)
+        public static Effect NewEffect(Player p, Entity t)
         {
-            if (level >= 54) return 180;
-            else return 54;
+            return new CustomEffect(p, t, NAME, false, 60);
         }
 
-        public Shred(Player p)
-            : base(p, CD, BASE_COST - p.GetTalentPoints("IS") * 6) { }
+        public MangleCat(Player p)
+            : base(p, CD, BASE_COST - 5 * p.GetTalentPoints("Fero")) { }
 
         public override bool CanUse()
         {
@@ -33,17 +32,16 @@ namespace ClassicCraft
             int maxDmg = (int)Math.Round(Player.Level * 1.25 + Player.AP / 14);
 
             int damage = (int)Math.Round(
-                (Randomer.Next(minDmg, maxDmg + 1) * 2.25 + DMG(Player.Level))
-                * (1 + Player.GetTalentPoints("NW") * 0.02)
-                * (1 + (Target.Effects.ContainsKey("Mangle") ? 0.3 : 0))
-                * Player.Sim.DamageMod(res)
+                (Randomer.Next(minDmg, maxDmg + 1) * 3.0)
+                * Player.Sim.DamageMod(res, School)
                 * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
-                * Player.DamageMod);
+                * Player.DamageMod
+                * Player.SelfModifiers(NAME, Target, School, res));
 
             CommonAction();
 
             int cost = Cost;
-            if(Player.Effects.ContainsKey(ClearCasting.NAME))
+            if (Player.Effects.ContainsKey(ClearCasting.NAME))
             {
                 cost = 0;
                 Player.Effects[ClearCasting.NAME].StackRemove();
@@ -74,6 +72,7 @@ namespace ClassicCraft
             Player.CheckOnHits(true, false, res);
         }
 
-        public override string ToString() { return NAME; } public static new string NAME = "Shred";
+        public override string ToString() { return NAME; }
+        public static new string NAME = "Mangle";
     }
 }

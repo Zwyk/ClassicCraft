@@ -1,31 +1,18 @@
 {
   "Version": "Vanilla",
-  "Class": "Warlock",
+  "Class": "Druid",
   "Level": 25,
-  "Race": "Orc",
-  "Talents": "05--50050001000",
-  "Pet": "Succubus",
+  "Race": "Tauren",
+  "Talents": "014005001--05",
   "Runes": [
-    "Metamorphosis",
+    "Wild Strikes",
     "Master Channeler",
-    "Demonic Grace"
+    "Demonic Grace",
   ],
   "Unused Runes": [
     "Demonic Tactics",
   ],
   "Cooldowns": {
-    "Melee": true,
-    "Demonic Sacrifice": false,
-    "Shadow Cleave mono": true,
-    "Shadowburn": true,
-    "Corruption": true,
-    "Curse of Agony": true,
-    "Drain Life": true,
-    "Immolate": false,
-    "Racial": false,
-    "Haste Potion": false,
-    "Drums of Battle": false,
-    "Drums of War": false
   },
   "Buffs": [
     {
@@ -33,6 +20,9 @@
       "Stats": {
         "SP": 0,
       }
+    },
+    {
+      "Name": "Wild Strikes",
     },
     {
       "Id": 0,
@@ -56,63 +46,32 @@
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 15.0,
-      "DamageMax": 29.0,
-      "Speed": 1.5,
-      "TwoHanded": false,
-      "Type": "Dagger",
+      "DamageMin": 44.0,
+      "DamageMax": 72.0,
+      "Speed": 2.8,
+      "TwoHanded": true,
+      "Type": "Mace",
       "Buff": null,
       "School": null,
       "Name": "Scout's Blade",
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
-        "Agi": 5.0,
+        "Int": 6.0,
+        "Spi": 6.0,
+        "Str": 6.0,
+        "Agi": 6.0,
       },
       "Enchantment": {
         "Id": 0,
         "Name": "Striking",
         "Slot": null,
         "Stats": {
-          "WDmg": 3.0
+          "Int": 3.0
         }
       },
       "Gems": null
     },
-    "OH": {
-      "DamageMin": 0.0,
-      "DamageMax": 0.0,
-      "Speed": 0.0,
-      "TwoHanded": false,
-      "Type": "Offhand",
-      "Buff": null,
-      "School": null,
-      "Name": "Fire Runed Grimoire",
-      "Id": 0,
-      "Slot": "Weapon",
-      "Stats": {
-        "Int": 0.0,
-      },
-      "Enchantment": null,
-      "Gems": null
-    },
-    "Ranged": {
-      "DamageMin": 0.0,
-      "DamageMax": 0.0,
-      "Speed": 0.0,
-      "TwoHanded": false,
-      "Type": "Wand",
-      "Buff": null,
-      "School": null,
-      "Name": "Skul's Ghastly Touch",
-      "Id": 0,
-      "Slot": "Ranged",
-      "Stats": {
-        "Spi": 1.0
-      },
-      "Enchantment": null,
-      "Gems": null
-    }
   },
   "Equipment": {
     "Head": {
@@ -120,7 +79,8 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Spi": 9.0,
+        "Agi": 10.0,
+        "AP": 14
       },
       "Enchantment": null,
       "Gems": null
@@ -130,7 +90,8 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Spi": 6.0,
+        "Agi": 4.0,
+        "Str": 7
       },
       "Enchantment": null,
       "Gems": null
@@ -140,8 +101,8 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Int": 9.0,
-        "SP": 5.0,
+        "Agi": 10.0,
+        "Spi": 3
       },
       "Enchantment": null,
       "Gems": null
@@ -151,7 +112,9 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Int": 0.0,
+        "Int": 4.0,
+        "Agi": 4.0,
+        "Str": 4.0,
       },
       "Enchantment": {
         "Id": 0,
@@ -166,18 +129,17 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Agi": 4.0,
-        "Int": 6.0,
+        "Agi": 13.0,
       },
       "Enchantment": {
         "Id": 0,
         "Name": "Greater Stats",
         "Slot": null,
         "Stats": {
-          "Str": 0.0,
-          "Agi": 0.0,
-          "Int": 0.0,
-          "Spi": 0.0
+          "Str": 1.0,
+          "Agi": 1.0,
+          "Int": 1.0,
+          "Spi": 1.0
         }
       },
       "Gems": null
@@ -187,13 +149,16 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Int": 0.0,
+        "Agi": 5.0,
+        "Str": 2
       },
       "Enchantment": {
         "Id": 0,
         "Name": "Superior Strength",
         "Slot": null,
-        "Stats": {}
+        "Stats": {
+          "Str": 3
+        }
       },
       "Gems": null
     },
@@ -202,14 +167,16 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Agi": 6.0
+        "Agi": 6.0,
+        "Spi": 3,
+        "Hit": 1,
       },
       "Enchantment": {
         "Id": 0,
         "Name": "enchant",
         "Slot": null,
         "Stats": {
-          "Agi": 5,
+          "Agi": 3,
         }
       },
       "Gems": null
@@ -219,7 +186,8 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Int": 8.0,
+        "Agi": 6.0,
+        "Str": 6
       },
       "Enchantment": null,
       "Gems": null
@@ -229,7 +197,8 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Agi": 7.0
+        "Agi": 9.0,
+        "Str": 5
       },
       "Enchantment": {
         "Id": 0,
@@ -246,10 +215,8 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Int": 4.0,
-        "Spi": 7.0,
-        "SP": 7.0,
-        "SHit": 1.0,
+        "Agi": 7.0,
+        "Str": 5
       },
       "Enchantment": null,
       "Gems": null
@@ -259,7 +226,8 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Str": 3.0
+        "Agi": 3.0,
+        "Str": 8
       },
       "Enchantment": null,
       "Gems": null
@@ -269,7 +237,8 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Int": 3.0
+        "Agi": 7.0,
+        "Str": 4
       },
       "Enchantment": null,
       "Gems": null
@@ -279,7 +248,7 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "SP": 8.0
+        "AP": 18.0,
       },
       "Enchantment": null,
       "Gems": null

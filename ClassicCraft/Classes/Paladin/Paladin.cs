@@ -18,8 +18,8 @@ namespace ClassicCraft
         {
         }
 
-        public Paladin(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes)
-            : base(s, Classes.Paladin, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null)
+        public Paladin(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, string prepull)
+            : base(s, Classes.Paladin, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null, prepull)
         {
         }
 

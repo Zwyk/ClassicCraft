@@ -47,15 +47,5 @@ namespace ClassicCraft
             : base(p, target, false, DURATION(p.Level), 1, RATIO, 3, 1, School.Shadow)
         {
         }
-
-        public override void ApplyTick(int damage)
-        {
-            base.ApplyTick(damage);
-
-            if(Player.GetTalentPoints("NF") > 0)
-            {
-                ShadowTrance.CheckProc(Player);
-            }
-        }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class MindFlay : ChannelSpell
+    class MindFlay : Spell
     {
         public override string ToString() { return NAME; }
         public static new string NAME = "Mind Flay";
@@ -22,23 +22,8 @@ namespace ClassicCraft
         public static int DMG = 426;
 
         public MindFlay(Player p)
-            : base(p, CD, BASE_COST, true, true, School.Shadow, CAST_TIME)
+            : base(p, CD, BASE_COST, true, true, School.Shadow, CAST_TIME, 1, 1, null, null, new ChannelDmg(DMG, TICK_DELAY, RATIO))
         {
-        }
-
-        public override void Cast(Entity t)
-        {
-            StartCast();
-        }
-
-        public override int GetTickDamage()
-        {
-            return (int)Math.Round((DMG + Player.SchoolSP(School) * RATIO) / NB_TICKS
-                * (1 + 0.02 * Player.GetTalentPoints("Darkness"))
-                * 1.15 // shadow weaving
-                * 1.15 // shadow form
-                * Player.DamageMod
-                );
         }
     }
 }

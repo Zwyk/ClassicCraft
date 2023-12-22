@@ -16,14 +16,14 @@ namespace ClassicCraft
         public static double CAST_TIME = 0;
 
         public PresenceOfMind(Player p)
-            : base(p, CD, BASE_COST, true, false)
+            : base(p, CD, BASE_COST, true, false, School.Magical, 0, 1, 1, null, new EndEffect(PresenceOfMindEffect.NAME), null)
         {
         }
 
         public override void DoAction()
         {
             base.DoAction();
-            CommonManaSpell();
+            OnCommonSpellCast();
 
             if (Target.Effects.ContainsKey(PresenceOfMindEffect.NAME))
             {

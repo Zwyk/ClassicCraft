@@ -8,6 +8,9 @@ namespace ClassicCraft
 {
     class Slam : Spell
     {
+        public override string ToString() { return NAME; }
+        public static new string NAME = "Slam";
+
         public static int BASE_COST = 15;
         public static int CD = 0;
         public static double CAST_TIME = 1.5;
@@ -15,7 +18,7 @@ namespace ClassicCraft
         public static int BASE_DMG = Program.version == Version.TBC ? 140 : 87;
 
         public Slam(Player p)
-            : base(p, CD, BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") : 0), false, true, School.Physical, CAST_TIME - (Program.version == Version.TBC ? 0.5 : 0.1) * p.GetTalentPoints("IS"))
+            : base(p, CD, BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") : 0), false, true, School.Physical, CAST_TIME - (Program.version == Version.TBC ? 0.5 : 0.1) * p.GetTalentPoints("IS"), 1, 1, new EndDmg(BASE_DMG, BASE_DMG, 1), null, null)
         {
         }
 
@@ -43,11 +46,5 @@ namespace ClassicCraft
 
             Player.CheckOnHits(true, false, res);
         }
-
-        public override string ToString()
-        {
-            return NAME;
-        }
-        public static new string NAME = "Slam";
     }
 }

@@ -3,7 +3,7 @@
   "Class": "Warlock",
   "Level": 25,
   "Race": "Orc",
-  "Talents": "3500053--",
+  "Talents": "350003--",
   "Runes": [
     "Metamorphosis",
     "Master Channeler",
@@ -15,7 +15,7 @@
   "Cooldowns": {
     "Melee": true,
     "Shadow Cleave mono": false,
-    "Shadowburn": false,
+    "Shadowburn": true,
     "Corruption": true,
     "Curse of Agony": true,
     "Drain Life": true,
@@ -31,6 +31,9 @@
       "Stats": {
         "SP": 0,
       }
+    },
+    {
+      "Name": "Wild Strikes",
     },
     {
       "Id": 0,
@@ -54,9 +57,9 @@
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 23.0,
-      "DamageMax": 41.0,
-      "Speed": 1.7,
+      "DamageMin": 12.0,
+      "DamageMax": 27.0,
+      "Speed": 1.5,
       "TwoHanded": false,
       "Type": "Dagger",
       "Buff": null,
@@ -65,14 +68,15 @@
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
-        "Agi": 5.0,
+        "Int": 3.0,
+        "SP": 12,
       },
       "Enchantment": {
         "Id": 0,
         "Name": "Striking",
         "Slot": null,
         "Stats": {
-          "WDmg": 3.0
+          "WDmg": 2.0
         }
       },
       "Gems": null
@@ -89,7 +93,7 @@
       "Id": 0,
       "Slot": "Weapon",
       "Stats": {
-        "Int": 0.0,
+        "SP": 7.0,
       },
       "Enchantment": null,
       "Gems": null
@@ -106,7 +110,7 @@
       "Id": 0,
       "Slot": "Ranged",
       "Stats": {
-        "Spi": 1.0
+        "Int": 5.0
       },
       "Enchantment": null,
       "Gems": null
@@ -119,6 +123,7 @@
       "Slot": null,
       "Stats": {
         "Spi": 9.0,
+        "SP": 7
       },
       "Enchantment": null,
       "Gems": null
@@ -128,7 +133,8 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Spi": 6.0,
+        "Int": 2.0,
+        "SP": 6
       },
       "Enchantment": null,
       "Gems": null
@@ -138,7 +144,7 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Int": 9.0,
+        "Int": 6.0,
         "SP": 5.0,
       },
       "Enchantment": null,
@@ -149,7 +155,9 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Int": 0.0,
+        "Int": 4.0,
+        "Agi": 4.0,
+        "Str": 4.0,
       },
       "Enchantment": {
         "Id": 0,
@@ -164,18 +172,18 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Agi": 4.0,
-        "Int": 6.0,
+        "SP": 8.0,
+        "Int": 11.0,
       },
       "Enchantment": {
         "Id": 0,
         "Name": "Greater Stats",
         "Slot": null,
         "Stats": {
-          "Str": 0.0,
-          "Agi": 0.0,
-          "Int": 0.0,
-          "Spi": 0.0
+          "Str": 1.0,
+          "Agi": 1.0,
+          "Int": 1.0,
+          "Spi": 1.0
         }
       },
       "Gems": null
@@ -200,14 +208,15 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Agi": 6.0
+        "Agi": 0.0
       },
       "Enchantment": {
         "Id": 0,
         "Name": "enchant",
         "Slot": null,
         "Stats": {
-          "Agi": 5,
+          "Agi": 6,
+          "Int": 9
         }
       },
       "Gems": null
@@ -227,7 +236,8 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Agi": 7.0
+        "Int": 8.0,
+        "SP": 11,
       },
       "Enchantment": {
         "Id": 0,
@@ -257,7 +267,7 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Str": 3.0
+        "Int": 3.0
       },
       "Enchantment": null,
       "Gems": null
@@ -267,7 +277,7 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Int": 3.0
+        "SP": 7.0
       },
       "Enchantment": null,
       "Gems": null
@@ -277,7 +287,7 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "SP": 8.0
+        "SP": 11.0
       },
       "Enchantment": null,
       "Gems": null

@@ -20,7 +20,7 @@ namespace ClassicCraft
         public override void EndEffect()
         {
             base.EndEffect();
-            ((Priest)Player).inner.StartCD();
+            ((Priest)Player).inner.CDAction();
         }
 
         public override string ToString()

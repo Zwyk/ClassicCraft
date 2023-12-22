@@ -1,7 +1,7 @@
 {
   "DoCompare": false,
   "Compare": [
-    "Druid - 25 Feral"
+    "Warlock - 25 affli"
   ],
   "FightLength": 120.0,
   "FightLengthMod": 0.1,
@@ -35,10 +35,10 @@
       "All": 0
     }
   },
-  "UnlimitedMana": false,
+  "UnlimitedMana": true,
   "UnlimitedResource": false,
-  "Facing": false,
-  "Tanking": false,
+  "Facing": true,
+  "Tanking": true,
   "TankHitEvery": 2.0,
   "TankHitRage": 30.0,
   "NbTargets": 1

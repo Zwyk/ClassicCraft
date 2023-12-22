@@ -104,6 +104,7 @@ namespace ClassicCraft
             public double AvgDodge = 0;
             public double AvgParry = 0;
             public double AvgResist = 0;
+            public double AvgDuration = 0;
 
             public PlayerObject Sample;
 
@@ -589,7 +590,7 @@ namespace ClassicCraft
                         if (playerBase.Class == Player.Classes.Warrior)
                             logListActions.AddRange(new List<string>() { "Slam", "Bloodthirst", "Mortal Strike", "Shield Slam", "Devastate", "Sunder Armor", "Revenge", "Whirlwind", "Thunder Clap", "Sweeping Strikes", "Cleave", "Heroic Strike", "Execute", "Hamstring", "Battle Shout" });
                         else if (playerBase.Class == Player.Classes.Druid)
-                            logListActions.AddRange(new List<string>() { "Shred", "Ferocious Bite", "Shift", "Maul", "Swipe" });
+                            logListActions.AddRange(new List<string>() { MangleCat.NAME, "Shred", "Ferocious Bite", "Shift", "Maul", "Swipe", "Rip", SavageRoar.NAME });
                         else if (playerBase.Class == Player.Classes.Priest)
                             logListActions.AddRange(new List<string>() { "Mind Blast", "Mind Flay", "SW:P", "Devouring Plague" });
                         else if (playerBase.Class == Player.Classes.Rogue)
@@ -601,13 +602,15 @@ namespace ClassicCraft
 
                         //logListEffects = totalEffects.SelectMany(a => a.Select(t => t.Effect.ToString()).OrderBy(b => b)).Distinct().ToList();
                         logListEffects = new List<string>() { };
-                        if (playerBase.Class == Player.Classes.Priest)
+                        if (playerBase.Class == Player.Classes.Druid)
+                            logListEffects.AddRange(new List<string>() { Rip.NAME, SavageRoar.NAME });
+                        else if (playerBase.Class == Player.Classes.Priest)
                             logListEffects.AddRange(new List<string>() { "Mind Flay", "SW:P", "Devouring Plague" });
-                        if (playerBase.Class == Player.Classes.Rogue)
+                        else if (playerBase.Class == Player.Classes.Rogue)
                             logListEffects.AddRange(new List<string>() { "Rupture", "Deadly Poison" });
-                        if (playerBase.Class == Player.Classes.Warrior)
+                        else if (playerBase.Class == Player.Classes.Warrior)
                             logListEffects.AddRange(new List<string>() { "Deep Wounds" });
-                        if (playerBase.Class == Player.Classes.Warlock)
+                        else if (playerBase.Class == Player.Classes.Warlock)
                             logListEffects.AddRange(new List<string>() { "Curse of Agony", "Corruption", "Drain Life", "Shadow Vulnerabiliy" });
 
                         CurrentData = new SimData();
@@ -1342,6 +1345,18 @@ namespace ClassicCraft
                                     avgAcThreat = data2.AvgThreat;
                                 }
                             }
+                            else if (ac == Rip.NAME)
+                            {
+                                StatsData data2 = CurrentData.DataEffects[ac];
+                                dotmult = RipDoT.DURATION / RipDoT.TICK_DELAY;
+                                avgAcDps = data2.AvgDPS;
+                                avgAcDmg = data2.AvgDmg;
+                                if (jsonSim.Threat)
+                                {
+                                    avgAcTps = data2.AvgTPS;
+                                    avgAcThreat = data2.AvgThreat;
+                                }
+                            }
 
                             string res = /*"\n" +*/ /*"Average stats for action" + */ "[" + ac + "] : ";
                             res += string.Format("{0:N2} DPS ({1:N2}%)", avgAcDps, avgAcDps / avgDps * 100);
@@ -1405,6 +1420,7 @@ namespace ClassicCraft
                             if (ac == "Mind Flay") tickDelay = MindFlay.TICK_DELAY;
                             if (ac == "Drain Life") tickDelay = DrainLifeDoT.TICK_DELAY;
                             if (ac == "Curse of Agony") tickDelay = CurseOfAgonyDoT.TICK_DELAY;
+                            if (ac == RipDoT.NAME) tickDelay = RipDoT.TICK_DELAY;
                             double uptime = avgAcUse * tickDelay / avgFightLength * 100;
                             res += string.Format("\n\t{0:N2}% Uptime", uptime);
                             Log(res);
@@ -1534,9 +1550,11 @@ namespace ClassicCraft
                     {
                         double avgDmg = result.Effects.Where(t => t.Effect.ToString().Equals(s)).Average(a => a.Damage);
                         double avgDPS = avgDmg * avgUses / result.FightLength;
+                        //double avgDuration = // TODO
 
                         data.AvgDmg = (CurrentData.NB * data.AvgDmg + avgDmg) / (CurrentData.NB + 1);
                         data.AvgDPS = (CurrentData.NB * data.AvgDPS + avgDPS) / (CurrentData.NB + 1);
+                        //data.AvgDuration = (CurrentData.NB * data.AvgDuration + avgDuration) / (CurrentData.NB + 1);  // TODO
 
                         if (jsonSim.Threat)
                         {

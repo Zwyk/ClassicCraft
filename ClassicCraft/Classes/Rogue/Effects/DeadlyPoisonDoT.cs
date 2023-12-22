@@ -28,7 +28,7 @@ namespace ClassicCraft
         }
 
         public DeadlyPoisonDoT(Player p, Entity target)
-            : base(p, target, false, DURATION, 1, RATIO, TICK_DELAY, MAX_STACKS)
+            : base(p, target, false, DURATION, 1, RATIO, TICK_DELAY, MAX_STACKS, School.Nature)
         {
         }
     }
