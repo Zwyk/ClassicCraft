@@ -16,7 +16,10 @@ namespace ClassicCraft
         public static double CAST_TIME = 0;
 
         public DevouringPlague(Player p)
-            : base(p, CD, BASE_COST, true, true, School.Shadow, CAST_TIME, 1, 1, null, new EndEffect(DevouringPlagueDoT.NAME), null)
+            : base(p, CD, School.Shadow,
+                  new SpellData(SpellType.Magical, BASE_COST, true, CAST_TIME, SMI.Reset),
+                  null,
+                  new EndEffect(DevouringPlagueDoT.NAME))
         {
         }
     }

@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Swipe : Skill
+    class Swipe : Spell
     {
+        public override string ToString() { return NAME; }
+        public static new string NAME = "Swipe";
+
         public static int BASE_COST = 20;
         public static int CD = 0;
 
@@ -18,43 +21,10 @@ namespace ClassicCraft
         public static int MAX_TARGETS = 3;
 
         public Swipe(Player p)
-            : base(p, CD, BASE_COST - p.GetTalentPoints("Fero")) { }
-
-        public override void DoAction()
+            : base(p, CD, School.Physical,
+                  new SpellData(SpellType.Melee, BASE_COST - p.GetTalentPoints("Fero"), true, 0, SMI.None, MAX_TARGETS, THREAT_MOD),
+                  new EndDmg(DAMAGE, DAMAGE, 0, RatioType.None))
         {
-            for (int i = 1; i <= Math.Min(MAX_TARGETS, Player.Sim.NbTargets); i++)
-            {
-                ResultType res = Player.YellowAttackEnemy(Target);
-
-                int damage = (int)Math.Round(DAMAGE
-                    * Player.Sim.DamageMod(res)
-                    * (1 + Player.GetTalentPoints("SF") * 0.1)
-                    * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
-                    * Player.DamageMod
-                    );
-
-                int threat = (int)Math.Round(damage * THREAT_MOD * Player.ThreatMod);
-
-                CommonAction();
-                if (res == ResultType.Parry || res == ResultType.Dodge)
-                {
-                    Player.Resource -= (int)(Cost * 0.2);
-                }
-                else
-                {
-                    Player.Resource -= Cost;
-                }
-
-                RegisterDamage(new ActionResult(res, damage, threat));
-
-                Player.CheckOnHits(true, false, res);
-            }
         }
-
-        public override string ToString()
-        {
-            return NAME;
-        }
-        public static new string NAME = "Swipe";
     }
 }

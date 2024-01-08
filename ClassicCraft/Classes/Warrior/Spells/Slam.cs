@@ -18,33 +18,10 @@ namespace ClassicCraft
         public static int BASE_DMG = Program.version == Version.TBC ? 140 : 87;
 
         public Slam(Player p)
-            : base(p, CD, BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") : 0), false, true, School.Physical, CAST_TIME - (Program.version == Version.TBC ? 0.5 : 0.1) * p.GetTalentPoints("IS"), 1, 1, new EndDmg(BASE_DMG, BASE_DMG, 1), null, null)
+            : base(p, CD, School.Physical,
+                  new SpellData(SpellType.Melee, BASE_COST - (Program.version == Version.TBC ? p.GetTalentPoints("FR") : 0), true, CAST_TIME - (Program.version == Version.TBC ? 0.5 : 0.1) * p.GetTalentPoints("IS"), Program.version == Version.TBC ? SMI.None: SMI.Reset),
+                  new EndDmg(p.MH.DamageMin + BASE_DMG, p.MH.DamageMax + BASE_DMG, 1/14.0, RatioType.WeaponMH))
         {
-        }
-
-        public override void DoAction()
-        {
-            base.DoAction();
-
-            ResultType res = Player.YellowAttackEnemy(Target);
-
-            Player.Resource -= Cost;
-
-            int minDmg = (int)Math.Round(Player.MH.DamageMin + Player.MH.Speed * Player.AP / 14);
-            int maxDmg = (int)Math.Round(Player.MH.DamageMax + Player.MH.Speed * Player.AP / 14);
-
-            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + BASE_DMG)
-                * (Player.Sim.DamageMod(res) + (res == ResultType.Crit ? 0.1 * Player.GetTalentPoints("Impale") : 0))
-                * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
-                * Player.DamageMod
-                * (Player.DualWielding ? 1 : (1 + 0.01 * Player.GetTalentPoints("2HS")))
-                * (res == ResultType.Crit && Player.Buffs.Any(bu => bu.Name.ToLower().Contains("relentless") || bu.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
-                * (Target.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
-                );
-
-            RegisterDamage(new ActionResult(res, damage, (int)(damage * Player.ThreatMod)));
-
-            Player.CheckOnHits(true, false, res);
         }
     }
 }

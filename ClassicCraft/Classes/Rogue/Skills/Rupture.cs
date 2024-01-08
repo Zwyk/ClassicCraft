@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Rupture : Skill
+    class Rupture : Spell
     {
         public override string ToString() { return NAME; }
         public static new string NAME = "Rupture";
@@ -15,55 +15,11 @@ namespace ClassicCraft
         public static int CD = 0;
 
         public Rupture(Player p)
-            : base(p, CD, BASE_COST)
+            : base(p, CD, School.Physical,
+                  new SpellData(SpellType.Melee, BASE_COST, true, 0, SMI.None, 1, 1, 0, EnergyType.ComboSpend),
+                  null,
+                  new EndEffect(RuptureDoT.NAME))
         {
-        }
-
-        public override void DoAction()
-        {
-            CommonAction();
-
-            ResultType res = Player.YellowAttackEnemy(Target);
-
-            if (res == ResultType.Parry || res == ResultType.Dodge)
-            {
-                // TODO à vérifier
-                Player.Resource -= Player.Effects.ContainsKey("CdG") ? 0 : Cost / 2;
-                if (Player.Effects.ContainsKey("CdG")) Player.Effects["CdG"].EndEffect();
-
-                Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(res, 0, 0), Player.Sim.CurrentTime));
-            }
-            else
-            {
-                Player.Resource -= Player.Effects.ContainsKey("CdG") ? 0 : Cost;
-                if (Player.Effects.ContainsKey("CdG")) Player.Effects["CdG"].EndEffect();
-
-                if (Player.GetTalentPoints("RS") > 0 && Randomer.NextDouble() < 0.2 * Player.Combo)
-                {
-                    Player.Resource += 25;
-                }
-
-                Player.Sim.RegisterAction(new RegisteredAction(this, new ActionResult(ResultType.Hit, 0, 0), Player.Sim.CurrentTime));
-                if (Target.Effects.ContainsKey(RuptureDoT.NAME))
-                {
-                    Target.Effects[RuptureDoT.NAME].EndEffect();
-                }
-
-                new RuptureDoT(Player, Target).StartEffect();
-
-                Player.Combo = 0;
-
-                if (Randomer.NextDouble() < 0.2 * Player.GetTalentPoints("Ruth"))
-                {
-                    Player.Combo++;
-                }
-                if (Player.NbSet("Netherblade") >= 4 && Randomer.NextDouble() < 0.15)
-                {
-                    Player.Combo++;
-                }
-            }
-
-            Player.CheckOnHits(true, false, res);
         }
     }
 }

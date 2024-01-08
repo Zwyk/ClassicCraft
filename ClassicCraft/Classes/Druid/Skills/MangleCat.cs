@@ -6,73 +6,27 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class MangleCat : Skill
+    class MangleCat : Spell
     {
+        public override string ToString() { return NAME; }
+        public static new string NAME = "Mangle";
+
         public static int BASE_COST = 40;
         public static int CD = 0;
 
-        public static Effect NewEffect(Player p, Entity t)
-        {
-            return new CustomEffect(p, t, NAME, false, 60);
-        }
+        public static double RATIO = 3.0;
 
         public MangleCat(Player p)
-            : base(p, CD, BASE_COST - 5 * p.GetTalentPoints("Fero")) { }
-
-        public override bool CanUse()
+            : base(p, CD, School.Physical,
+                  new SpellData(SpellType.Melee, BASE_COST - 5 * p.GetTalentPoints("Fero"), true, 0, SMI.None, 1, 1, 0, EnergyType.ComboAward),
+                  new EndDmg(p.Level * 0.85 * RATIO, p.Level * 1.25 * RATIO, 1/14.0, RatioType.AP),
+                  new EndEffect(Mangle.NAME))
         {
-            return (Player.Effects.ContainsKey(ClearCasting.NAME) || Player.Resource >= Cost) && Available() && (AffectedByGCD ? Player.HasGCD() : true);
         }
 
-        public override void DoAction()
+        public override int CustomCost()
         {
-            ResultType res = Player.YellowAttackEnemy(Target);
-
-            int minDmg = (int)Math.Round(Player.Level * 0.85 + Player.AP / 14);
-            int maxDmg = (int)Math.Round(Player.Level * 1.25 + Player.AP / 14);
-
-            int damage = (int)Math.Round(
-                (Randomer.Next(minDmg, maxDmg + 1) * 3.0)
-                * Player.Sim.DamageMod(res, School)
-                * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
-                * Player.DamageMod
-                * Player.SelfModifiers(NAME, Target, School, res));
-
-            CommonAction();
-
-            int cost = Cost;
-            if (Player.Effects.ContainsKey(ClearCasting.NAME))
-            {
-                cost = 0;
-                Player.Effects[ClearCasting.NAME].StackRemove();
-            }
-
-            if (res == ResultType.Parry || res == ResultType.Dodge)
-            {
-                // TODO à vérifier
-                Player.Resource -= cost / 2;
-            }
-            else
-            {
-                Player.Resource -= cost;
-            }
-
-            if (res == ResultType.Hit || res == ResultType.Crit || res == ResultType.Block || res == ResultType.Glance)
-            {
-                Player.Combo++;
-            }
-
-            if (res == ResultType.Crit && Randomer.NextDouble() < 0.5 * Player.GetTalentPoints("BF"))
-            {
-                Player.Combo++;
-            }
-
-            RegisterDamage(new ActionResult(res, damage, (int)(damage * Player.ThreatMod)));
-
-            Player.CheckOnHits(true, false, res);
+            return Player.Effects.ContainsKey(ClearCasting.NAME) ? 0 : Cost;
         }
-
-        public override string ToString() { return NAME; }
-        public static new string NAME = "Mangle";
     }
 }

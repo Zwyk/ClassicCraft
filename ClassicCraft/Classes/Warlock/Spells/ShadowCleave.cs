@@ -71,7 +71,9 @@ namespace ClassicCraft
         public static int MAX_TARGETS = 3;
 
         public ShadowCleave(Player p)
-            : base(p, CD, (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata"))), true, true, School.Shadow, CAST_TIME, 1, MAX_TARGETS, new EndDmg(MIN_DMG(p.Level), MAX_DMG(p.Level), BASE_RATIO * RATIO), null, null)
+            : base(p, CD, School.Shadow,
+                  new SpellData(SpellType.Magical, (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata"))), true, CAST_TIME, SMI.Reset, MAX_TARGETS),
+                  new EndDmg(MIN_DMG(p.Level), MAX_DMG(p.Level), BASE_RATIO * RATIO, RatioType.SP))
         {
         }
     }

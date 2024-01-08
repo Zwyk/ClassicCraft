@@ -6,36 +6,20 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    public class Recklessness : Skill
+    public class Recklessness : Spell
     {
-        public override string ToString() { return NAME; } public static new string NAME = "Recklessness";
+        public override string ToString() { return NAME; }
+        public static new string NAME = "Recklessness";
 
         public static int BASE_COST = 0;
         public static int CD = 300;
 
         public Recklessness(Player p)
-            : base(p, CD, BASE_COST, true)
+            : base(p, CD, School.Physical,
+                  new SpellData(SpellType.Melee, BASE_COST),
+                  null,
+                  new EndEffect(RecklessnessBuff.NAME))
         {
-        }
-
-        public override void Cast(Entity t)
-        {
-            CommonRessourceSkill();
-            DoAction();
-        }
-
-        public override void DoAction()
-        {
-            if (Player.Effects.ContainsKey(RecklessnessBuff.NAME))
-            {
-                Player.Effects[RecklessnessBuff.NAME].Refresh();
-            }
-            else
-            {
-                new RecklessnessBuff(Player).StartEffect();
-            }
-
-            LogAction();
         }
     }
 }

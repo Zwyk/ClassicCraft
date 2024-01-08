@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class DemonicGrace : Skill
+    class DemonicGrace : Spell
     {
         public override string ToString() { return NAME; }
         public static new string NAME = "Demonic Grace";
@@ -14,26 +14,11 @@ namespace ClassicCraft
         public static int CD = 20;
 
         public DemonicGrace(Player p)
-               : base(p, CD, 0, false, true)
+               : base(p, CD, School.Shadow,
+                     new SpellData(SpellType.Magical, 0),
+                     null,
+                     new EndEffect(DemonicGraceBuff.NAME))
         {
-        }
-
-        public override void Cast(Entity t)
-        {
-            CommonRessourceSkill();
-            DoAction();
-        }
-
-        public override void DoAction()
-        {
-            if (Player.Effects.ContainsKey(DemonicGraceBuff.NAME))
-            {
-                Player.Effects[DemonicGraceBuff.NAME].Refresh();
-            }
-            else
-            {
-                new DemonicGraceBuff(Player).StartEffect();
-            }
         }
     }
 }

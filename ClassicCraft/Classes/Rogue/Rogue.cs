@@ -196,7 +196,7 @@ namespace ClassicCraft
             {
                 if (cds != null)
                 {
-                    foreach (Skill cd in cds.Keys)
+                    foreach (Spell cd in cds.Keys)
                     {
                         if (cd.CanUse() &&
                             (Sim.FightLength - Sim.CurrentTime <= cds[cd]

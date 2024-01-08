@@ -55,7 +55,9 @@ namespace ClassicCraft
         }
 
         public SearingPain(Player p)
-            : base(p, CD, (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata"))), true, true, School.Fire, CAST_TIME, MAX_TARGETS, THREAT_RATIO, new EndDmg(MIN_DMG(p.Level), MAX_DMG(p.Level), RATIO), null, null)
+            : base(p, CD, School.Fire, 
+                  new SpellData(SpellType.Magical, (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata"))), true, CAST_TIME, SMI.Reset, MAX_TARGETS, THREAT_RATIO),
+                  new EndDmg(MIN_DMG(p.Level), MAX_DMG(p.Level), RATIO, RatioType.SP))
         {
         }
 

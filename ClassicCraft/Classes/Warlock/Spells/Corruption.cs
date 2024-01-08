@@ -26,7 +26,10 @@ namespace ClassicCraft
         public static double CAST_TIME = 2;
 
         public Corruption(Player p)
-            : base(p, CD, BASE_COST(p.Level), true, true, School.Shadow, CAST_TIME - 0.4 * p.GetTalentPoints("IC"), 1, 1, null, new EndEffect(CorruptionDoT.NAME), null)
+            : base(p, CD, School.Shadow, 
+                  new SpellData(SpellType.Magical, BASE_COST(p.Level), true, CAST_TIME - 0.4 * p.GetTalentPoints("IC")),
+                  null,
+                  new EndEffect(CorruptionDoT.NAME))
         {
         }
     }

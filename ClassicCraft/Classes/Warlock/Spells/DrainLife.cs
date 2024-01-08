@@ -41,7 +41,11 @@ namespace ClassicCraft
         }
 
         public DrainLife(Player p)
-            : base(p, CD, BASE_COST(p.Level), true, true, School.Shadow, CAST_TIME, 1, p.Tanking ? 1.5 : 1, null, null, new ChannelDmg(DMG(p.Level), TICK_DELAY, RATIO))
+            : base(p, CD, School.Shadow,
+                  new SpellData(SpellType.Magical, BASE_COST(p.Level), true, CAST_TIME, SMI.Reset, 1, p.Tanking ? 1.5 : 1),
+                  null,
+                  null,
+                  new ChannelDmg(DMG(p.Level), TICK_DELAY, RATIO))
         {
         }
     }

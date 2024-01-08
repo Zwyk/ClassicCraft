@@ -6,18 +6,6 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    public enum School
-    {
-        Physical,
-        Magical,
-        Shadow,
-        Holy,
-        Fire,
-        Nature,
-        Frost,
-        Arcane,
-    }
-
     public class Entity : SimulationObject
     {
         public enum MobType

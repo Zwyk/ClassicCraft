@@ -897,6 +897,22 @@ namespace ClassicCraft
                 }
             }
         }
+        public enum Resources
+        {
+            Mana,
+            Rage,
+            Energy
+        }
+
+        public Resources CurrentMainResource
+        {
+            get
+            {
+                if (Class == Player.Classes.Rogue || Form == Player.Forms.Cat) return Resources.Energy;
+                else if (Class == Player.Classes.Warrior || Form == Player.Forms.Bear) return Resources.Rage;
+                else return Resources.Mana;
+            }
+        }
 
         public double ThreatMod { get; set; }
 
@@ -1167,7 +1183,7 @@ namespace ClassicCraft
 
         public Dictionary<string, CustomAction> CustomActions { get; set; }
 
-        public Dictionary<Skill, int> cds = new Dictionary<Skill, int>();
+        public Dictionary<Spell, int> cds = new Dictionary<Spell, int>();
         public Dictionary<string, double> icds = new Dictionary<string, double>();
 
         public AutoAttack mh = null;
@@ -1372,7 +1388,7 @@ namespace ClassicCraft
         public void Unshift()
         {
             Form = Forms.Humanoid;
-            ResetMHSwing();
+            ResetSwings();
 
             if (Program.logFight)
             {
@@ -1398,7 +1414,7 @@ namespace ClassicCraft
             {
                 if (casting == null)
                 {
-                    if (aa.MH && applyAtNextAA != null)
+                    if (aa.isMH && applyAtNextAA != null)
                     {
                         if (applyAtNextAA.CanUse())
                         {
@@ -1426,8 +1442,18 @@ namespace ClassicCraft
         #endregion
 
         #region Methods
+        public void ResetSwings()
+        {
+            ResetMHSwing();
+            ResetOHSwing();
+        }
 
         public void ResetMHSwing()
+        {
+            ResetAATimer(mh);
+        }
+
+        public void ResetOHSwing()
         {
             ResetAATimer(mh);
         }
@@ -1790,7 +1816,7 @@ namespace ClassicCraft
             HasteMod = CalcHaste();
         }
 
-        public void ExtraAA(List<string> alreadyProc)
+        public void ExtraAttack(List<string> alreadyProc)
         {
             if(Program.version == Version.Vanilla)
             {
@@ -1806,7 +1832,7 @@ namespace ClassicCraft
             }
             else
             {
-                mh.DoAA(alreadyProc, true);
+                mh.DoAA(alreadyProc, true, true);
             }
         }
 
@@ -1826,6 +1852,43 @@ namespace ClassicCraft
             return res;
         }
 
+        public void BonusComboPoints(Spell spell, ResultType res)
+        {
+            if (res == ResultType.Crit &&
+                ((Form == Forms.Cat && Randomer.NextDouble() < 0.5 * GetTalentPoints("BF"))
+                || (Class == Classes.Rogue && Randomer.NextDouble() < 0.2 * GetTalentPoints("SF"))))
+            {
+                Combo++;
+            }
+
+            if(Class == Classes.Rogue && spell.Energy == Spell.EnergyType.ComboAward)
+            {
+                if (Randomer.NextDouble() < 0.2 * GetTalentPoints("Ruth"))
+                {
+                    Combo++;
+                }
+                if (NbSet("Netherblade") >= 4 && Randomer.NextDouble() < 0.15)
+                {
+                    Combo++;
+                }
+            }
+        }
+
+        public void OnFinisher()
+        {
+            if (Class == Classes.Rogue)
+            {
+                if (Randomer.NextDouble() < 0.2 * GetTalentPoints("Ruth"))
+                {
+                    Combo++;
+                }
+                if (NbSet("Netherblade") >= 4 && Randomer.NextDouble() < 0.15)
+                {
+                    Combo++;
+                }
+            }
+        }
+
         public double BonusCrit(string name, Entity target, School school)
         {
             double res = 0;
@@ -1842,13 +1905,19 @@ namespace ClassicCraft
         {
             double ratio = 1;
 
-            ratio *= ((name == DeepWounds.NAME || name == Rip.NAME || name == Shred.NAME) && target.Effects.ContainsKey("Mangle") ? 1.3 : 1)
-                ;
+            if(Program.version == Version.TBC)
+            {
+                ratio *=
+                    (res == ResultType.Crit && Buffs.Any(bu => bu.Name.ToLower().Contains("relentless") || bu.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
+                    ;
+            }
 
             if(Class == Classes.Druid)
             {
                 ratio *= (school == School.Physical ? 1 + 0.02 * GetTalentPoints("NW") : 1)
                     * (school == School.Physical && Effects.ContainsKey(SavageRoar.NAME) ? 1.3 : 1)
+                    * (new List<String>() { Maul.NAME, Swipe.NAME }.Contains(name) ? 1 + GetTalentPoints("SF") * 0.1 : 1)
+                    * (name == FerociousBite.NAME ? 1 + GetTalentPoints("FA") * 0.03 : 1)
                     ;
             }
             else if(Class == Classes.Priest)
@@ -1861,6 +1930,12 @@ namespace ClassicCraft
             else if (Class == Classes.Rogue)
             {
                 ratio *= (new List<string>() { DeadlyPoisonDoT.NAME }.Contains(name) ? 1 + 0.04 * GetTalentPoints("VP") : 1)
+                    * (new List<String>() { SinisterStrike.NAME, Eviscerate.NAME }.Contains(name) ? 1 + (0.02 * GetTalentPoints("Agg")) : 1)
+                    * (new List<String>() { Backstab.NAME, Ambush.NAME }.Contains(name) ? 1 + 0.04 * GetTalentPoints("Oppo") : 1)
+                    * (name == Eviscerate.NAME ? 1 + (0.05 * GetTalentPoints("IE")) : 1)
+                    * (res == ResultType.Crit && new List<String>() { SinisterStrike.NAME, Backstab.NAME }.Contains(name) ? 1 + (0.06 * GetTalentPoints("Letha")) : 1)
+                    * (res == ResultType.Crit && MH.Type == Weapon.WeaponType.Mace ? 1 + 0.01 * GetTalentPoints("Mace") : 1)
+                    * (new List<String>() { SinisterStrike.NAME, Backstab.NAME }.Contains(name) && NbSet("Slayer's") >= 4 ? 1.06 : 1);
                     ;
             }
             else if (Class == Classes.Warlock)
@@ -1874,8 +1949,11 @@ namespace ClassicCraft
             }
             else if(Class == Classes.Warrior)
             {
-                ratio *= (DualWielding ? 1 : (1 + 0.01 * GetTalentPoints("2HS")))
+                ratio *= (MH.TwoHanded ? 1 + 0.01 * GetTalentPoints("2HS") : 1)
                     * (Program.version == Version.TBC && !MH.TwoHanded ? 1 + 0.02 * GetTalentPoints("1HS") : 1)
+                    * (new List<String>() { MortalStrike.NAME, Bloodthirst.NAME, ShieldSlam.NAME }.Contains(name) && NbSet("Onslaught") >= 4 ? 1.05 : 1)
+                    * (name == Thunderclap.NAME && GetTalentPoints("ITC") > 0 ? 1.1 + 0.3 * GetTalentPoints("ITC") : 1)
+                    * (Effects.ContainsKey("T4 4P Revenge") ? 1.1 : 1)
                     ;
             }
 
@@ -1890,16 +1968,72 @@ namespace ClassicCraft
                 * (new List<School>() { School.Fire, School.Frost }.Contains(school) && target.Effects.ContainsKey("Curse of the Elements") ? Level >= 60 ? 1.10 : (Level >= 46 ? 1.08 : (Level >= 32 ? 1.06 : 1)) : 1)
                 * (school == School.Shadow && target.Effects.ContainsKey("Shadow Weaving") ? 1.15 : 1)
                 * (school == School.Shadow && target.Effects.ContainsKey(ShadowVulnerability.NAME) ? ShadowVulnerability.Modifier : 1)
-                * (new List<string>() { Shred.NAME, RuptureDoT.NAME, DeepWounds.NAME }.Contains(name) && Target.Effects.ContainsKey("Mangle") ? 1.3 : 1)
+                * (new List<string>() { Shred.NAME, Rip.NAME, RuptureDoT.NAME, DeepWounds.NAME }.Contains(name) && target.Effects.ContainsKey("Mangle") ? 1.3 : 1)
                 * (school == School.Physical && target.Effects.ContainsKey("Blood Frenzy") ? 1.04 : 1)
                 ;
         }
 
-        public void CheckOnSpell(Spell spell, ResultType res)
+        public void CheckOnSpell(Spell spell, List<ResultType> resList, List<int> damageList)
         {
-            if(spell.School == School.Shadow)
+            for(int i = 0; i < resList.Count; i++)
             {
-                ShadowVulnerability.CheckProc(this, spell, res);
+                ResultType res = resList[i];
+                int damage = damageList.Count > i ? damageList[i] : 0;
+
+                if (spell.School == School.Shadow)
+                {
+                    ShadowVulnerability.CheckProc(this, spell, res);
+                }
+
+                if (Class == Classes.Warrior)
+                {
+                    if(i == 0)
+                    {
+                        SweepingStrikesBuff.CheckProc(this, damage, res);
+                    }
+
+                    if(Program.version == Version.TBC)
+                    {
+                        if (Effects.ContainsKey("T4 4P Revenge"))
+                        {
+                            Effects["T4 4P Revenge"].EndEffect();
+                        }
+
+                        if ((spell is Bloodthirst || spell is ShieldSlam || spell is MortalStrike)
+                            && (Equipment[Player.Slot.Trinket1]?.Name.ToLower() == "ashtongue talisman of valor" || Equipment[Player.Slot.Trinket2]?.Name.ToLower() == "ashtongue talisman of valor")
+                            && Randomer.NextDouble() < 0.25)
+                        {
+                            string procName = "Ashtongue Talisman of Valor";
+                            Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
+                        {
+                            { Attribute.Strength, 55 }
+                        };
+                            int procDuration = 12;
+
+                            if (Effects.ContainsKey(procName))
+                            {
+                                Effects[procName].Refresh();
+                            }
+                            else
+                            {
+                                CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
+                                buff.StartEffect();
+                            }
+                        }
+                    }
+                }
+                else if (Class == Classes.Rogue)
+                {
+                    BladeFlurryBuff.CheckProc(this, damage, res);
+
+                    if(!(res == ResultType.Parry || res == ResultType.Dodge))
+                    {
+                        if (spell is Envenom && Target.Effects.ContainsKey("Deadly Poison"))
+                        {
+                            Target.Effects["Deadly Poison"].StackRemove(Combo);
+                        }
+                    }
+                }
             }
         }
 
@@ -1990,15 +2124,7 @@ namespace ClassicCraft
                             Program.Log(string.Format("{0:N2} : Sword Specialization procs", Sim.CurrentTime));
                         }
                         
-                        switch (Program.version)
-                        {
-                            case Version.Vanilla:
-                                ExtraAA(alreadyProc);
-                                break;
-                            case Version.TBC:
-                                mh.DoAA(alreadyProc, true, true);
-                                break;
-                        }
+                        ExtraAttack(alreadyProc);
                     }
                     if ((WindfuryTotem || !isMH)
                         && (w.Buff == null || w.Buff.Name == "Instant Poison")
@@ -2090,7 +2216,7 @@ namespace ClassicCraft
                         && OH.Name.Contains("Firestone")
                         && !alreadyProc.Contains("Firestone")
                         && (!icds.ContainsKey("Firestone") || icds["Firestone"] < Sim.CurrentTime - 5)  // ICD 5s ?
-                        //&& Randomer.NextDouble() < MH.Speed * 10 / 60                                 // PPM 10 ?
+                        //&& Randomer.NextDouble() < isMH.Speed * 10 / 60                                 // PPM 10 ?
                         )
                     {
                         string procName = "Firestone";
@@ -2161,15 +2287,8 @@ namespace ClassicCraft
 
                     nextAABonus = (int)(WildStrikes ? AP * 0.2 : ((Program.version == Version.TBC ? 445 : 315) * (1 + 0.15 * WindfuryTotemImp)));
 
-                    switch (Program.version)
-                    {
-                        case Version.Vanilla:
-                            ExtraAA(alreadyProc);
-                            break;
-                        case Version.TBC:
-                            mh.DoAA(alreadyProc, true, true);
-                            break;
-                    }
+                    
+                    ExtraAttack(alreadyProc);
                 }
 
                 if(isAA && (Class == Classes.Rogue || Form == Forms.Cat))
@@ -2195,15 +2314,7 @@ namespace ClassicCraft
                         Program.Log(string.Format("{0:N2} : Sword Specialization procs", Sim.CurrentTime));
                     }
 
-                    switch (Program.version)
-                    {
-                        case Version.Vanilla:
-                            ExtraAA(alreadyProc);
-                            break;
-                        case Version.TBC:
-                            mh.DoAA(alreadyProc, true, true);
-                            break;
-                    }
+                    ExtraAttack(alreadyProc);
                 }
                 if ((Equipment[Slot.Trinket1]?.Name == "Hand of Justice" || Equipment[Slot.Trinket2]?.Name == "Hand of Justice") && !alreadyProc.Contains("HoJ") && Randomer.NextDouble() < (Program.version == Version.Vanilla ? 0.02 : 0.012))
                 {
@@ -2212,7 +2323,7 @@ namespace ClassicCraft
                     {
                         Program.Log(string.Format("{0:N2} : Hand of Justice procs", Sim.CurrentTime));
                     }
-                    ExtraAA(alreadyProc);
+                    ExtraAttack(alreadyProc);
                 }
                 if (((isMH && MH?.Name == "Flurry Axe") || (!isMH && OH?.Name == "Flurry Axe")) && !alreadyProc.Contains("FA") && Randomer.NextDouble() < 0.0466)
                 {
@@ -2221,7 +2332,7 @@ namespace ClassicCraft
                     {
                         Program.Log(string.Format("{0:N2} : Flurry Axe procs", Sim.CurrentTime));
                     }
-                    ExtraAA(alreadyProc);
+                    ExtraAttack(alreadyProc);
                 }
                 if (((isMH && MH?.Name == "Thrash Blade") || (!isMH && OH?.Name == "Thrash Blade")) && !alreadyProc.Contains("TB") && Randomer.NextDouble() < 0.044)
                 {
@@ -2230,7 +2341,7 @@ namespace ClassicCraft
                     {
                         Program.Log(string.Format("{0:N2} : Thrash Blade procs", Sim.CurrentTime));
                     }
-                    ExtraAA(alreadyProc);
+                    ExtraAttack(alreadyProc);
                 }
                 if (((isMH && MH?.Name == "Deathbringer") || (!isMH && OH?.Name == "Deathbringer")) && !alreadyProc.Contains("DB") && Randomer.NextDouble() < 0.0396)
                 {
@@ -2281,7 +2392,7 @@ namespace ClassicCraft
                     alreadyProc.Add("tf");
                     string procName = "Thunderfury";
                     int procDmg = 300;
-                    int bonusThreat = Simulation.MagicMitigationBinary(Target.MagicResist[School.Nature]) == ResultType.Hit && SpellAttackEnemy(Target, false) == ResultType.Hit ? 235 : 0;
+                    int bonusThreat = SpellBinaryResistanceCheck(Target, School.Nature) == ResultType.Hit && SpellAttackEnemy(Target, false) == ResultType.Hit ? 235 : 0;
                     if (!CustomActions.ContainsKey(procName))
                     {
                         CustomActions.Add(procName, new CustomAction(this, procName, School.Nature));
@@ -2500,7 +2611,7 @@ namespace ClassicCraft
                         {
                             Program.Log(string.Format("{0:N2} : Blinkstrike procs", Sim.CurrentTime));
                         }
-                        ExtraAA(alreadyProc);
+                        ExtraAttack(alreadyProc);
                     }
                     if ((Class == Classes.Warrior || Class == Classes.Rogue)
                         && !alreadyProc.Contains("Rod of the Sun King")
@@ -3084,6 +3195,10 @@ namespace ClassicCraft
             {
                 return ResultType.Resist;
             }
+        }
+        public ResultType SpellBinaryResistanceCheck(Entity enemy, School school)
+        {
+            return Simulation.MagicMitigationBinary(enemy.MagicResist[school] - (int)Attributes.GetValue(AttributeUtil.PenFromSchool(school)), Level);
         }
 
         public ResultType RangedMagicAttackEnemy(Entity enemy, bool canCrit = true, double bonusHit = 0, double bonusCrit = 0)

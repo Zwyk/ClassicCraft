@@ -22,7 +22,11 @@ namespace ClassicCraft
         public static int DMG = 426;
 
         public MindFlay(Player p)
-            : base(p, CD, BASE_COST, true, true, School.Shadow, CAST_TIME, 1, 1, null, null, new ChannelDmg(DMG, TICK_DELAY, RATIO))
+            : base(p, CD, School.Shadow,
+                  new SpellData(SpellType.Magical, BASE_COST, true, CAST_TIME, SMI.Reset),
+                  null,
+                  null,
+                  new ChannelDmg(DMG, TICK_DELAY, RATIO))
         {
         }
     }

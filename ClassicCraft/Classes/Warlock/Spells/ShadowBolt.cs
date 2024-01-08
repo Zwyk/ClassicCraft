@@ -64,9 +64,12 @@ namespace ClassicCraft
         }
 
         public static int VOLLEY_MAX_TARGETS = 5;
+        public static double VOLLEY_DAMAGE = 0.8;
 
         public ShadowBolt(Player p)
-            : base(p, CD, (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata"))), true, true, School.Shadow, CAST_TIME(p.Level) - 0.1 * p.GetTalentPoints("ISB"), 1, 1, new EndDmg(MIN_DMG(p.Level), MAX_DMG(p.Level), Math.Max(1.5, CAST_TIME(p.Level)) / 3.5), null, null)
+            : base(p, CD, School.Shadow, 
+                  new SpellData(SpellType.Magical, (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata"))), true, CAST_TIME(p.Level) - 0.1 * p.GetTalentPoints("ISB"), SMI.Reset, 1, p.Runes.Contains("Shadow Bolt Volley") ? VOLLEY_MAX_TARGETS : 1),
+                  new EndDmg((p.Runes.Contains("Shadow Bolt Volley") ? VOLLEY_DAMAGE : 1) * MIN_DMG(p.Level), (p.Runes.Contains("Shadow Bolt Volley") ? VOLLEY_DAMAGE : 1) * MAX_DMG(p.Level), Math.Max(1.5, CAST_TIME(p.Level)) / 3.5, RatioType.SP))
         {
         }
 

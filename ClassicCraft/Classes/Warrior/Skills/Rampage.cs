@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Rampage : Skill
+    class Rampage : Spell
     {
         public override string ToString() { return NAME; }
         public static new string NAME = "Rampage";
@@ -15,28 +15,11 @@ namespace ClassicCraft
         public static int CD = 0;
 
         public Rampage(Player p)
-            : base(p, CD, BASE_COST, true)
+            : base(p, CD, School.Physical,
+                  new SpellData(SpellType.Melee, BASE_COST),
+                  null,
+                  new EndEffect(RampageBuff.NAME))
         {
-        }
-
-        public override void Cast(Entity t)
-        {
-            CommonRessourceSkill();
-            DoAction();
-        }
-
-        public override void DoAction()
-        {
-            LogAction();
-
-            if (Player.Effects.ContainsKey(RampageBuff.NAME))
-            {
-                Player.Effects[RampageBuff.NAME].Refresh();
-            }
-            else
-            {
-                new RampageBuff(Player).StartEffect();
-            }
         }
     }
 }

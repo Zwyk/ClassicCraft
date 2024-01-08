@@ -21,7 +21,9 @@ namespace ClassicCraft
         public static int MAX_DMG = 475;
 
         public Frostbolt(Player p)
-            : base(p, CD, (int)(BASE_COST * 1 - (0.05 * p.GetTalentPoints("FC"))), true, true, School.Frost, CAST_TIME - 0.1 * p.GetTalentPoints("IFB"), 1, 1, new EndDmg(MIN_DMG, MAX_DMG, RATIO), null, null)
+            : base(p, CD, School.Frost,
+                  new SpellData(SpellType.Magical, BASE_COST, true, CAST_TIME, SMI.Reset),
+                  new EndDmg(MIN_DMG, MAX_DMG, RATIO, RatioType.SP))
         {
         }
 

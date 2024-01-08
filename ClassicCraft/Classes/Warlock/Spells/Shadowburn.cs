@@ -47,7 +47,9 @@ namespace ClassicCraft
         }
 
         public Shadowburn(Player p)
-            : base(p, CD, (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata"))), true, true, School.Shadow, CAST_TIME, 1, 1, new EndDmg(MIN_DMG(p.Level), MAX_DMG(p.Level), RATIO), null, null)
+            : base(p, CD, School.Shadow,
+                  new SpellData(SpellType.Magical, (int)(BASE_COST(p.Level) * 1 - (0.01 * p.GetTalentPoints("Cata"))), true, CAST_TIME, SMI.Reset),
+                  new EndDmg(MIN_DMG(p.Level), MAX_DMG(p.Level), RATIO, RatioType.SP))
         {
         }
     }

@@ -6,36 +6,20 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class BladeFlurry : Skill
+    class BladeFlurry : Spell
     {
-        public override string ToString() { return NAME; } public static new string NAME = "Blade Flurry";
+        public override string ToString() { return NAME; }
+        public static new string NAME = "Blade Flurry";
 
         public static int BASE_COST = 25;
         public static int CD = 120;
 
         public BladeFlurry(Player p)
-            : base(p, CD, BASE_COST)
+            : base(p, CD, School.Physical,
+                  new SpellData(SpellType.Melee, BASE_COST, true, 0, SMI.None, 1, 1, 0, EnergyType.ComboSpend),
+                  null,
+                  new EndEffect(BladeFlurryBuff.NAME))
         {
-        }
-
-        public override void Cast(Entity t)
-        {
-            CommonRessourceSkill();
-            DoAction();
-        }
-
-        public override void DoAction()
-        {
-            if (Player.Effects.ContainsKey(BladeFlurryBuff.NAME))
-            {
-                Player.Effects[BladeFlurryBuff.NAME].Refresh();
-            }
-            else
-            {
-                new BladeFlurryBuff(Player).StartEffect();
-            }
-
-            LogAction();
         }
     }
 }

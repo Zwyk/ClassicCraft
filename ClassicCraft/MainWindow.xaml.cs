@@ -1884,7 +1884,7 @@ namespace ClassicCraftGUI
             switch (slot)
             {
                 /*
-                case Player.Slot.MH: return MH;
+                case Player.Slot.isMH: return isMH;
                 case Player.Slot.OH: return OH;
                 case Player.Slot.Ranged: return Ranged;
                 case Player.Slot.Head: return Head;
@@ -1914,7 +1914,7 @@ namespace ClassicCraftGUI
                 case "Trinket2": return "Trinket";
                 case "Finger1": return "Finger";
                 case "Finger2": return "Finger";
-                case "MH": return "Weapon";
+                case "isMH": return "Weapon";
                 case "OH": return "Weapon";
                 default: return pslot;
             }
@@ -1925,7 +1925,7 @@ namespace ClassicCraftGUI
             switch (slot)
             {
                 /*
-                case Player.Slot.MH: return EnchantMH;
+                case Player.Slot.isMH: return EnchantMH;
                 case Player.Slot.OH: return EnchantOH;
                 case Player.Slot.Ranged: return EnchantRanged;
                 case Player.Slot.Head: return EnchantHead;

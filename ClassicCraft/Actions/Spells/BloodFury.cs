@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class BloodFury : Skill
+    class BloodFury : Spell
     {
         public override string ToString() { return NAME; } public static new string NAME = "Blood Fury";
 
@@ -14,28 +14,11 @@ namespace ClassicCraft
         public static int CD = 120;
 
         public BloodFury(Player p)
-            : base(p, CD, BASE_COST, false)
+            : base(p, CD, School.Physical,
+                  new SpellData(SpellType.Melee, BASE_COST, false),
+                  null,
+                  new EndEffect(BloodFuryBuff.NAME))
         {
-        }
-
-        public override void Cast(Entity t)
-        {
-            CommonRessourceSkill();
-            DoAction();
-        }
-
-        public override void DoAction()
-        {
-            if (Player.Effects.ContainsKey(BloodFuryBuff.NAME))
-            {
-                Player.Effects[BloodFuryBuff.NAME].Refresh();
-            }
-            else
-            {
-                new BloodFuryBuff(Player).StartEffect();
-            }
-
-            LogAction();
         }
     }
 }

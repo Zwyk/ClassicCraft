@@ -16,7 +16,10 @@ namespace ClassicCraft
         public static double CAST_TIME = 0;
 
         public PresenceOfMind(Player p)
-            : base(p, CD, BASE_COST, true, false, School.Magical, 0, 1, 1, null, new EndEffect(PresenceOfMindEffect.NAME), null)
+            : base(p, CD, School.Arcane,
+                  new SpellData(SpellType.Magical, BASE_COST, false, CAST_TIME, SMI.Reset),
+                  null,
+                  new EndEffect(PresenceOfMindEffect.NAME), null)
         {
         }
 

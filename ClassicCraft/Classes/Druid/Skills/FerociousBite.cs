@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class FerociousBite : Skill
+    class FerociousBite : Spell
     {
         public override string ToString() { return NAME; } public static new string NAME = "Ferocious Bite";
 
@@ -32,51 +32,30 @@ namespace ClassicCraft
             735,
         };
 
-        public FerociousBite(Player p)
-            : base(p, CD, BASE_COST) { }
+        public double ENERGY_BONUS_DMG = 2.7;
 
-        public override bool CanUse()
+        public double AP_RATIO = 0.15;
+
+        public FerociousBite(Player p)
+            : base(p, CD, School.Physical,
+                  new SpellData(SpellType.Melee, BASE_COST, true, 0, SMI.None, 1, 1, 0, EnergyType.ComboSpend),
+                  new EndDmg(1, 1, 0.15, RatioType.AP))
         {
-            return (Player.Effects.ContainsKey(ClearCasting.NAME) || Player.Resource >= Cost) && Available() && (AffectedByGCD ? Player.HasGCD() : true) && Player.Combo > 0;
         }
 
-        public override void DoAction()
+        public override double GetEndDmgBase(bool mh = true)
         {
-            ResultType res = Player.YellowAttackEnemy(Target);
+            return Randomer.Next(min[Player.Combo - 1], max[Player.Combo - 1] + 1) + ENERGY_BONUS_DMG * Player.Resource;
+        }
 
-            int minDmg = min[Player.Combo - 1];
-            int maxDmg = max[Player.Combo - 1];
+        public override void CustomActionAfter()
+        {
+            Player.Resource = 0;
+        }
 
-
-            int cost = Cost;
-            if (Player.Effects.ContainsKey(ClearCasting.NAME))
-            {
-                cost = 0;
-                Player.Effects[ClearCasting.NAME].StackRemove();
-            }
-
-            int damage = (int)Math.Round(
-                (Randomer.Next(minDmg, maxDmg + 1) + Player.AP * 0.15 + 2.5 * (Player.Resource - cost))
-                * (1 + Player.GetTalentPoints("FA") * 0.03)
-                * Player.Sim.DamageMod(res)
-                * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
-                * Player.DamageMod);
-
-            CommonAction();
-            if (res == ResultType.Parry || res == ResultType.Dodge)
-            {
-                // TODO à vérifier
-                Player.Resource = cost / 2;
-            }
-            else
-            {
-                Player.Resource = 0;
-                Player.Combo = 0;
-            }
-
-            RegisterDamage(new ActionResult(res, damage, (int)(damage * Player.ThreatMod)));
-            
-            Player.CheckOnHits(true, false, res);
+        public override int CustomCost()
+        {
+            return Player.Effects.ContainsKey(ClearCasting.NAME) ? 0 : Cost;
         }
     }
 }

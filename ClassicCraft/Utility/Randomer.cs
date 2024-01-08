@@ -17,6 +17,10 @@ namespace ClassicCraft
                 return random.Next(min, max);
             }
         }
+        public static int Next(double min, double max)
+        {
+            return Next((int)min,(int)max);
+        }
 
         public static double NextDouble()
         {

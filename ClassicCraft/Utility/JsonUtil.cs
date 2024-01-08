@@ -306,13 +306,13 @@ namespace ClassicCraft
                     case Player.Classes.Priest:
                         return new Priest(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Priest.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes, jp.PrePull) { TalentsStr = jp.Talents };
                     case Player.Classes.Rogue:
-                        return new Rogue(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Rogue.TalentsFromString(jp.Talents, Weapon.StringToType(jp.Weapons["MH"]?.Type)), buffs, tanking, facing, cooldowns, jp.Runes, jp.PrePull) { TalentsStr = jp.Talents };
+                        return new Rogue(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Rogue.TalentsFromString(jp.Talents, Weapon.StringToType(jp.Weapons["isMH"]?.Type)), buffs, tanking, facing, cooldowns, jp.Runes, jp.PrePull) { TalentsStr = jp.Talents };
                     case Player.Classes.Shaman:
                         return new Shaman(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Shaman.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes, jp.PrePull) { TalentsStr = jp.Talents };
                     case Player.Classes.Warlock:
                         return new Warlock(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Warlock.TalentsFromString(jp.Talents), buffs, tanking, facing, cooldowns, jp.Runes, new Entity(jp.Pet, null, Entity.MobType.Demon, jp.Level, 0, 0, null, null), jp.PrePull) { TalentsStr = jp.Talents };
                     case Player.Classes.Warrior:
-                        return new Warrior(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Warrior.TalentsFromString(jp.Talents, jp.Weapons.ContainsKey("MH") && jp.Weapons["MH"].TwoHanded), buffs, tanking, facing, cooldowns, jp.Runes, jp.PrePull) { TalentsStr = jp.Talents };
+                        return new Warrior(null, Player.ToRace(jp.Race), jp.Level, ToEquipment(jp.Weapons, jp.Equipment), Warrior.TalentsFromString(jp.Talents, jp.Weapons.ContainsKey("isMH") && jp.Weapons["isMH"].TwoHanded), buffs, tanking, facing, cooldowns, jp.Runes, jp.PrePull) { TalentsStr = jp.Talents };
                     default:
                         throw new NotImplementedException("This class isn't supported yet : " + Player.ToClass(jp.Class));
                 }

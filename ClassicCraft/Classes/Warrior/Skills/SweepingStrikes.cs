@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    public class SweepingStrikes : Skill
+    public class SweepingStrikes : Spell
     {
         public override string ToString() { return NAME; }
         public static new string NAME = "Sweeping Strikes";
@@ -15,28 +15,11 @@ namespace ClassicCraft
         public static int CD = 30;
 
         public SweepingStrikes(Player p)
-            : base(p, CD, BASE_COST, false)
+            : base(p, CD, School.Physical,
+                  new SpellData(SpellType.Melee, BASE_COST, false),
+                  null,
+                  new EndEffect(SweepingStrikesBuff.NAME))
         {
-        }
-
-        public override void Cast(Entity t)
-        {
-            CommonRessourceSkill();
-            DoAction();
-        }
-
-        public override void DoAction()
-        {
-            if (Player.Effects.ContainsKey(SweepingStrikesBuff.NAME))
-            {
-                Player.Effects[SweepingStrikesBuff.NAME].Refresh();
-            }
-            else
-            {
-                new SweepingStrikesBuff(Player).StartEffect();
-            }
-
-            LogAction();
         }
     }
 }

@@ -8,32 +8,27 @@ namespace ClassicCraft
 {
     class Shift : Spell
     {
-        public override string ToString() { return NAME; } public static new string NAME = "Shift";
+        public override string ToString() { return NAME; }
+        public static new string NAME = "Shift";
 
         public static int CD = 0;
 
         public Shift(Player p)
-            : base(p, CD, (int)(p.BaseMana * 0.55 * (1 - p.GetTalentPoints("NS") * 0.1)), true, true, School.Magical, 0, 1, 1, null, null, null) {  }
-        
-
-        public override bool CanUse()
-        {
-            return Player.Mana >= Cost && Available() && (AffectedByGCD ? Player.HasGCD() : true);
+            : base(p, CD, School.Magical,
+                  new SpellData(SpellType.Magical, (int)(p.BaseMana * 0.55 * (1 - p.GetTalentPoints("NS") * 0.1)), true, 0, SMI.Reset))
+        { 
         }
 
-        public override void Cast(Entity t)
+
+        public override int CustomCost()
         {
-            OnCommonSpellCast(Player.Effects.ContainsKey(RuneOfMeta.NAME) ? 0 : Cost);
-            DoAction();
-            Player.StartGCD();
+            return Player.Effects.ContainsKey(RuneOfMeta.NAME) ? 0 : Cost;
         }
 
-        public override void DoAction()
+        public override void CustomActionAfter()
         {
-            base.DoAction();
-
             Player.Form = Player.Forms.Cat;
-            Player.ResetMHSwing();
+            Player.ResetSwings();
 
             Player.Resource = 0
                 + ((Randomer.NextDouble() < Player.GetTalentPoints("Furor") * 0.2) ? 40 : 0)

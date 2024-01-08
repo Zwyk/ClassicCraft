@@ -16,17 +16,17 @@ namespace ClassicCraft
             Wand
         }
 
-        public bool MH { get; set; }
+        public bool isMH { get; set; }
         public Weapon Weapon { get; set; }
         public AAType Type { get; set; }
 
         public static double CAST_WAND = 0.75;
 
-        public AutoAttack(Player p, Weapon weapon, bool mh, AAType type = AAType.Melee)
+        public AutoAttack(Player p, Weapon weapon, bool ismh, AAType type = AAType.Melee)
             : base(p, weapon.Speed, weapon.School)
         {
             Weapon = weapon;
-            MH = mh;
+            isMH = ismh;
             Type = type;
         }
 
@@ -46,9 +46,9 @@ namespace ClassicCraft
                         }
                     }
                 }
-                if (!ResourceName().Equals("mana"))
+                if (!Player.CurrentMainResource.Equals("mana"))
                 {
-                    log += string.Format(" ({0} {1}/{2})", ResourceName(), Player.Resource, Player.MaxResource);
+                    log += string.Format(" ({0} {1}/{2})", Player.CurrentMainResource, Player.Resource, Player.MaxResource);
                 }
                 if (Player.MaxMana > 0)
                 {
@@ -88,13 +88,13 @@ namespace ClassicCraft
                 res = ResultType.Hit;
                 // TODO
             }
-            else if (isYellow || (Player.Class == Player.Classes.Warrior && !MH && Player.applyAtNextAA != null))
+            else if (isYellow || (Player.Class == Player.Classes.Warrior && !isMH && Player.applyAtNextAA != null))
             {
                 res = Player.YellowAttackEnemy(Target);
             }
             else
             {
-                res = Player.WhiteAttackEnemy(Target, MH);
+                res = Player.WhiteAttackEnemy(Target, isMH);
             }
 
             int minDmg, maxDmg, damage;
@@ -121,10 +121,10 @@ namespace ClassicCraft
                     (Player.Form == Player.Forms.Bear ? Player.Level * 1.25 + 2.5 * (Player.AP + Player.nextAABonus) / 14 :
                     (Weapon.DamageMax + Weapon.Speed * (Player.AP + Player.nextAABonus) / 14)));
                 damage = (int)Math.Round(Randomer.Next(minDmg, maxDmg + 1)
-                    * Player.Sim.DamageMod(res, Weapon.School, MH, true)
+                    * Player.Sim.DamageMod(res, Weapon.School, isMH, true)
                     * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
                     * Player.DamageMod
-                    * (Player.DualWielding ? (MH ? 1 : 0.5 * (1 + ((Player.Class == Player.Classes.Rogue ? 0.1 : 0.05) * Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Player.GetTalentPoints("2HS")))
+                    * (Player.DualWielding ? (isMH ? 1 : 0.5 * (1 + ((Player.Class == Player.Classes.Rogue ? 0.1 : 0.05) * Player.GetTalentPoints("DWS")))) : (1 + 0.01 * Player.GetTalentPoints("2HS")))
                     * (Program.version == Version.TBC && !Player.MH.TwoHanded ? 1 + 0.02 * Player.GetTalentPoints("1HS") : 1)
                     * (1 + (Player.Class == Player.Classes.Druid ? Player.GetTalentPoints("NW") * 0.02 : 0))
                     * mitigation
@@ -139,14 +139,14 @@ namespace ClassicCraft
 
             if (Player.Class == Player.Classes.Warrior || Player.Form == Player.Forms.Bear)
             {
-                Player.Resource += (int)Math.Round(Simulation.RageGained(damage, Player.Level, MH, res == ResultType.Crit, Weapon.Speed));
+                Player.Resource += (int)Math.Round(Simulation.RageGained(damage, Player.Level, isMH, res == ResultType.Crit, Weapon.Speed));
             }
 
             RegisterDamage(new ActionResult(res, damage, threat));
             
             if(Type == AAType.Melee)
             {
-                Player.CheckOnHits(MH, true, res, extra, alreadyProc);
+                Player.CheckOnHits(isMH, true, res, extra, alreadyProc);
             }
 
             if(Player.Class == Player.Classes.Warrior)
@@ -181,7 +181,7 @@ namespace ClassicCraft
 
         public override string ToString()
         {
-            return "AA " + (Type == AAType.Wand ? "Wand" : (Type == AAType.Ranged ? "Ranged" : (MH ? "MH" : "OH")));
+            return "AA " + (Type == AAType.Wand ? "Wand" : (Type == AAType.Ranged ? "Ranged" : (isMH ? "MH" : "OH")));
         }
 
         public override bool CanUse()

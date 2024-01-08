@@ -37,7 +37,8 @@ namespace ClassicCraft
         public static double META_MANA_RATIO = 2;
 
         public LifeTap(Player p)
-            : base(p, CD, BASE_COST(p.Level), false, true, School.Shadow, CAST_TIME, 1, 1, null, null, null)
+            : base(p, CD, School.Shadow,
+                  new SpellData(SpellType.Magical, BASE_COST(p.Level), false, CAST_TIME, SMI.Reset))
         {
         }
 

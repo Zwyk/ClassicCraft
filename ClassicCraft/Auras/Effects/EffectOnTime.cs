@@ -63,7 +63,7 @@ namespace ClassicCraft
         public int GetTickDamage()
         {
             double mitigation = School == School.Physical ? Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen)) : 1;
-            return (int)Math.Round((BaseDmg() * CurrentStacks + (School == School.Physical ? Player.AP * 1/14 : Player.SchoolSP(School)) * Ratio) / (Duration / TickDelay)
+            return (int)Math.Round((BaseDmg() * CurrentStacks + (School == School.Physical ? Player.AP : Player.SchoolSP(School)) * Ratio) / (CustomDuration() / TickDelay)
                 * Player.Sim.DamageMod(ResultType.Hit, School)
                 * mitigation
                 * Player.DamageMod

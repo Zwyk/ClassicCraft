@@ -11,10 +11,15 @@ namespace ClassicCraft
         public override string ToString() { return NAME; }
         public static new string NAME = "Innervate";
 
+        public static double COST_PCT = 0.05;
+
         public static int CD = 360;
 
         public Innervate(Player p)
-               : base(p, CD, (int)(p.BaseMana * 0.05), true, true, School.Magical, 0, 1, 1, null, new EndEffect(InnervateBuff.NAME), null)
+               : base(p, CD, School.Magical,
+                     new SpellData(SpellType.Magical, (int)(p.BaseMana * COST_PCT), true, 0, SMI.Reset),
+                     null,
+                     new EndEffect(InnervateBuff.NAME))
         {
         }
     }

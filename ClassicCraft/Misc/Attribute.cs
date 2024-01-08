@@ -17,6 +17,12 @@ namespace ClassicCraft
         Mana,
         Armor,
         ArmorPen,
+        FirePen,
+        ShadowPen,
+        NaturePen,
+        HolyPen,
+        ArcanePen,
+        FrostPen,
         Haste,
         AP,
         RangedAP,
@@ -74,6 +80,18 @@ namespace ClassicCraft
                 case "Mana": return Attribute.Mana;
                 case "Armor": return Attribute.Armor;
                 case "ArmorPen": return Attribute.ArmorPen;
+                case "FirePen":
+                    return Attribute.FirePen;
+                case "ShadowPen":
+                    return Attribute.ShadowPen;
+                case "NaturePen":
+                    return Attribute.NaturePen;
+                case "HolyPen":
+                    return Attribute.HolyPen;
+                case "ArcanePen":
+                    return Attribute.ArcanePen;
+                case "FrostPen":
+                    return Attribute.FrostPen;
                 case "ArPen": return Attribute.ArmorPen;
                 case "Haste": return Attribute.Haste;
                 case "AP": return Attribute.AP;
@@ -130,6 +148,12 @@ namespace ClassicCraft
                 case Attribute.Mana: return "Mana";
                 case Attribute.Armor: return "Armor";
                 case Attribute.ArmorPen: return "ArmorPen";
+                case Attribute.FirePen: return "FirePen";
+                case Attribute.ShadowPen: return "ShadowPen";
+                case Attribute.NaturePen: return "NaturePen";
+                case Attribute.HolyPen: return "HolyPen";
+                case Attribute.ArcanePen: return "ArcanePen";
+                case Attribute.FrostPen: return "FrostPen";
                 case Attribute.Haste: return "Haste";
                 case Attribute.AP: return "AP";
                 case Attribute.RangedAP: return "RAP";
@@ -165,6 +189,34 @@ namespace ClassicCraft
                 case Attribute.Expertise: return "Expertise";
                 case Attribute.BlockValue: return "BlockValue";
                 default: throw new Exception("Attribute not found");
+            }
+        }
+
+        public static Attribute PenFromSchool(School school)
+        {
+            switch(school)
+            {
+                case School.Arcane: return Attribute.ArcanePen;
+                case School.Fire: return Attribute.FirePen;
+                case School.Frost: return Attribute.FrostPen;
+                case School.Holy: return Attribute.HolyPen;
+                case School.Nature: return Attribute.NaturePen;
+                case School.Shadow: return Attribute.ShadowPen;
+                default: throw new Exception("School not found");
+            }
+        }
+
+        public static School SchoolFromPen(Attribute at)
+        {
+            switch (at)
+            {
+                case Attribute.ArcanePen: return School.Arcane;
+                case Attribute.FirePen: return School.Fire;
+                case Attribute.FrostPen:    return School.Frost;
+                case Attribute.HolyPen: return School.Holy;
+                case Attribute.NaturePen: return School.Nature;
+                case Attribute.ShadowPen: return School.Shadow;
+                default: throw new Exception("School not found");
             }
         }
 

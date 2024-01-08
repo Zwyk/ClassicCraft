@@ -21,7 +21,9 @@ namespace ClassicCraft
         public static int MAX_DMG = 537;
 
         public MindBlast(Player p)
-            : base(p, CD - 0.5 * p.GetTalentPoints("IMB"), BASE_COST, true, true, School.Shadow, CAST_TIME, 1, 1, new EndDmg(MIN_DMG, MAX_DMG, RATIO), null, null)
+            : base(p, CD, School.Shadow,
+                  new SpellData(SpellType.Magical, BASE_COST, true, CAST_TIME, SMI.Reset),
+                  new EndDmg(MIN_DMG, MAX_DMG, RATIO, RatioType.SP))
         {
         }
     }

@@ -6,36 +6,20 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Berserking : Skill
+    class Berserking : Spell
     {
-        public override string ToString() { return NAME; } public static new string NAME = "Berserking";
+        public override string ToString() { return NAME; }
+        public static new string NAME = "Berserking";
 
         public static int BASE_COST = 5;
         public static int CD = 180;
 
         public Berserking(Player p)
-            : base(p, CD, BASE_COST, false)
+            : base(p, CD, School.Physical,
+                  new SpellData(SpellType.Melee, BASE_COST, false),
+                  null,
+                  new EndEffect(BerserkingBuff.NAME))
         {
-        }
-
-        public override void Cast(Entity t)
-        {
-            CommonRessourceSkill();
-            DoAction();
-        }
-
-        public override void DoAction()
-        {
-            if (Player.Effects.ContainsKey(BerserkingBuff.NAME))
-            {
-                Player.Effects[BerserkingBuff.NAME].Refresh();
-            }
-            else
-            {
-                new BerserkingBuff(Player).StartEffect();
-            }
-
-            LogAction();
         }
     }
 }

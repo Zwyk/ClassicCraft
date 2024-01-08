@@ -185,7 +185,14 @@ namespace ClassicCraft
 
                 if (spell.CastFinish <= CurrentTime)
                 {
-                    spell.DoAction();
+                    if (spell.MeleeInteraction == Spell.SMI.UseOnNextMHSwing)
+                    {
+                        Player.applyAtNextAA = spell;
+                    }
+                    else
+                    {
+                        spell.DoAction();
+                    }
                 }
             }
 
@@ -263,7 +270,7 @@ namespace ClassicCraft
             switch (type)
             {
                 // TODO BLOCK / BLOCKCRIT
-                case ResultType.Crit: return (school == School.Physical || isWeapon) ? 2 : 1.5;
+                case ResultType.Crit: return (school == School.Physical || isWeapon) ? 2 + (isWeapon ? 0 : 0.1 * Player.GetTalentPoints("Impale")) : 1.5;
                 case ResultType.Hit: return 1;
                 case ResultType.Glance: return GlancingDamage(Player.WeaponSkill[MH ? Player.MH.Type : Player.OH.Type], Boss[0].Level, isCaster);
                 default: return 0;
@@ -303,12 +310,12 @@ namespace ClassicCraft
             return 1;
         }
 
-        public static ResultType MagicMitigationBinary(int resistance)
+        public static ResultType MagicMitigationBinary(int resistance, int attackerLevel)
         {
-            return Randomer.NextDouble() < AverageResistChance(resistance) ? ResultType.Resist : ResultType.Hit;
+            return Randomer.NextDouble() < AverageResistChance(resistance, attackerLevel) ? ResultType.Resist : ResultType.Hit;
         }
 
-        public static double AverageResistChance(int resistance, int attackerLevel = 60)
+        public static double AverageResistChance(int resistance, int attackerLevel)
         {
             return Math.Min(0.75, resistance / (attackerLevel * 5.0) * 0.75);
         }

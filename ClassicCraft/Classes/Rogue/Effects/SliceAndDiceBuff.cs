@@ -30,17 +30,9 @@ namespace ClassicCraft
             Bonus = 1 + (bonusPct + (p.NbSet("Slayer's") >= 2 ? 5 : 0)) / 100;
         }
 
-        public override void Refresh()
+        public override double CustomDuration()
         {
-            Duration = DurationCalc(Player);
-            CurrentStacks = BaseStacks;
-            End = Player.Sim.CurrentTime + Duration;
-            AppliedTimes.Add(Player.Sim.CurrentTime);
-
-            if (Program.logFight)
-            {
-                Program.Log(string.Format("{0:N2} : {1} refreshed", Player.Sim.CurrentTime, ToString()));
-            }
+            return DurationCalc(Player);
         }
 
         public override void StartEffect()

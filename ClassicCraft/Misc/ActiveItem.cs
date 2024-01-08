@@ -6,17 +6,12 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    public abstract class ActiveItem : Skill
+    public abstract class ActiveItem : Spell
     {
         public ActiveItem(Player p, double baseCD)
-            : base(p, baseCD, 0, false)
+            : base(p, baseCD, 0,
+                  new SpellData(SpellType.Magical, 0, false))
         {
-        }
-
-        public override void Cast(Entity t)
-        {
-            DoAction();
-            CDAction();
         }
     }
 }

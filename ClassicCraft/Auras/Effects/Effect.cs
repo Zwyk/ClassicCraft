@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Effects;
 
 namespace ClassicCraft
 {
@@ -13,10 +14,9 @@ namespace ClassicCraft
             // DRUID
             if (s == ClearCasting.NAME) return new ClearCasting(p);
             else if (s == InnervateBuff.NAME) return new InnervateBuff(p);
-            else if (s == MangleCat.NAME) return MangleCat.NewEffect(p, t);
-            else if (s == MangleBear.NAME) return MangleBear.NewEffect(p, t);
-            else if (s == MCPBuff.NAME) return new MCPBuff(p);
+            else if (s == Mangle.NAME) return new Mangle(p, t);
             else if (s == RipDoT.NAME) return new RipDoT(p, t);
+            else if (s == SavageRoarBuff.NAME) return new SavageRoarBuff(p);
             // MAGE
             else if (s == PresenceOfMindEffect.NAME) return new PresenceOfMindEffect(p);
             // PRIEST
@@ -69,7 +69,7 @@ namespace ClassicCraft
             Friendly = friendly;
             Start = IsPermanent ? -1 : Player.Sim.CurrentTime;
             Duration = IsPermanent ? -1 : baseLength;
-            End = IsPermanent ? -1 : Start + Duration;
+            End = IsPermanent ? -1 : Start + CustomDuration();
             BaseStacks = baseStacks;
             MaxStacks = maxStacks;
             CurrentStacks = BaseStacks;
@@ -92,9 +92,32 @@ namespace ClassicCraft
             }
         }
 
+        public virtual void WhenApplied()
+        {
+        }
+
+        public static void Apply(Player source, Entity target, string effect)
+        {
+            if (target.Effects.ContainsKey(effect))
+            {
+                target.Effects[effect].Refresh();
+            }
+            else
+            {
+                NewEffectFromString(effect, source, target).StartEffect();
+            }
+        }
+
+        public virtual double CustomDuration()
+        {
+            return Duration;
+        }
+
         public virtual void Refresh()
         {
-            End = Player.Sim.CurrentTime + Duration;
+            WhenApplied();
+
+            End = Player.Sim.CurrentTime + CustomDuration();
             AppliedTimes.Add(Player.Sim.CurrentTime);
 
             if(Program.logFight)
@@ -105,6 +128,8 @@ namespace ClassicCraft
 
         public virtual void StartEffect()
         {
+            WhenApplied();
+
             Target.Effects.Add(ToString(), this);
 
             if(Program.logFight)

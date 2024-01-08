@@ -25,7 +25,10 @@ namespace ClassicCraft
         public static double CAST_TIME = 0;
 
         public CurseOfAgony(Player p)
-            : base(p, CD, BASE_COST(p.Level), true, true, School.Shadow, CAST_TIME, 1, 1, null, new EndEffect(CurseOfAgonyDoT.NAME), null)
+            : base(p, CD, School.Shadow,
+                  new SpellData(SpellType.Magical, BASE_COST(p.Level), true, CAST_TIME, SMI.Reset),
+                  null,
+                  new EndEffect(CurseOfAgonyDoT.NAME), null)
         {
         }
     }

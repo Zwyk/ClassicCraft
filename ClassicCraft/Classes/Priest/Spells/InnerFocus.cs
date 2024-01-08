@@ -14,8 +14,13 @@ namespace ClassicCraft
         public static int BASE_COST = 0;
         public static int CD = 180;
 
+        public static double CAST_TIME = 0;
+
         public InnerFocus(Player p)
-            : base(p, CD, BASE_COST, true, false, School.Magical, 0, 1, 1, null, new EndEffect(InnerFocusBuff.NAME), null)
+            : base(p, CD, School.Magical,
+                  new SpellData(SpellType.Magical, BASE_COST, false, CAST_TIME, SMI.Reset),
+                  null,
+                  new EndEffect(InnerFocusBuff.NAME), null)
         {
         }
     }

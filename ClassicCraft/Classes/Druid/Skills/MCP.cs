@@ -6,38 +6,18 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class MCP : Skill
+    class MCP : ActiveItemBuff
     {
+        public override string ToString() { return NAME; }
+        public static new string NAME = "MCP";
+
         public static int CD = 30;
 
-        public MCP(Player p, double baseCD = 30)
-            : base(p, baseCD, 0, false)
-        {
-        }
+        public static int LENGTH = 300000000; // 30;
 
-        public override void Cast(Entity t)
+        public MCP(Player p)
+            : base(p, CD, LENGTH, NAME, new Dictionary<Attribute, double>() { { Attribute.Haste, 0.5 } })
         {
-            DoAction();
-            CDAction();
-        }
-
-        public override void DoAction()
-        {
-            if (Player.Effects.ContainsKey(NAME))
-            {
-                Player.Effects[NAME].Refresh();
-            }
-            else
-            {
-                new MCPBuff(Player).StartEffect();
-            }
-
-            LogAction();
-        }
-
-        public override string ToString()
-        {
-            return "MCP";
         }
     }
 }

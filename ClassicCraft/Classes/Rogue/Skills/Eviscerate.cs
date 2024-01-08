@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Eviscerate : Skill
+    class Eviscerate : Spell
     {
+        public override string ToString() { return NAME; }
+        public static new string NAME = "Eviscerate";
+
         public static int BASE_COST = 35;
         public static int CD = 0;
 
@@ -30,85 +33,43 @@ namespace ClassicCraft
             899,
         };
 
-        public static int MIN_TBC = 245;
-        public static int MAX_TBC = 365;
+        public static double VANILLA_AP_RATIO = 0.15;
+
+
+        // rank 8
+        public static int[] minTBC =
+        {
+            60 + 185,
+            60 + 370,
+            60 + 555,
+            60 + 740,
+            60 + 925,
+        };
+        // rank 8
+        public static int[] maxTBC =
+        {
+            180 + 185,
+            180 + 370,
+            180 + 555,
+            180 + 740,
+            180 + 925,
+        };
         public static double AP_RATIO_PER_POINTS = 0.03;
 
         public Eviscerate(Player p)
-            : base(p, CD, BASE_COST - (p.NbSet("Assassination") >= 4 ? 10 : 0)) { }
-
-        public override void Cast(Entity t)
+            : base(p, CD, School.Physical,
+                  new SpellData(SpellType.Melee, BASE_COST - (p.NbSet("Assassination") >= 4 ? 10 : 0), true, 0, SMI.None, 1, 1, 0, EnergyType.ComboSpend),
+                  new EndDmg(1, 1, 0, RatioType.None))
         {
-            CDAction();
-
-            if (AffectedByGCD)
-            {
-                Player.StartGCD();
-            }
-
-            DoAction();
         }
 
-        public override void DoAction()
+        public override double GetEndDmgBase(bool mh = true)
         {
-            CommonAction();
+            double flatMin = (Program.version == Version.Vanilla ? min[Player.Combo - 1] : minTBC[Player.Combo - 1]) + (Player.NbSet("Deathmantle") >= 2 ? 40 : 0);
+            double flatMax = (Program.version == Version.Vanilla ? max[Player.Combo - 1] : maxTBC[Player.Combo - 1]) + (Player.NbSet("Deathmantle") >= 2 ? 40 : 0);
 
-            ResultType res = Player.YellowAttackEnemy(Target);
-
-            int minDmg = Program.version == Version.Vanilla ? min[Player.Combo - 1] : MIN_TBC;
-            int maxDmg = Program.version == Version.Vanilla ? max[Player.Combo - 1] : MAX_TBC;
-
-            int damage = (int)Math.Round(
-                (Randomer.Next(minDmg, maxDmg + 1) + Player.AP * (Program.version == Version.Vanilla ? 0.15 : AP_RATIO_PER_POINTS * Player.Combo)
-                    + (Player.NbSet("Deathmantle") >= 2 ? 40 : 0))
-                * Player.Sim.DamageMod(res)
-                * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
-                * Player.DamageMod
-                * (1 + (0.02 * Player.GetTalentPoints("Agg")))
-                * (1 + (0.05 * Player.GetTalentPoints("IE")))
-                * (res == ResultType.Crit && Player.Buffs.Any(bu => bu.Name.ToLower().Contains("relentless") || bu.Name.ToLower().Contains("chaotic")) ? 1.03 : 1)
-                * (1 + (Player.Class == Player.Classes.Rogue && res == ResultType.Crit && Player.MH.Type == Weapon.WeaponType.Mace ? 0.01 * Player.GetTalentPoints("Mace") : 0))
-                );
-
-            if (res == ResultType.Parry || res == ResultType.Dodge)
-            {
-                // TODO à vérifier
-                Player.Resource -= Player.Effects.ContainsKey("CdG") ? 0 : Cost / 2;
-                if (Player.Effects.ContainsKey("CdG")) Player.Effects["CdG"].EndEffect();
-            }
-            else
-            {
-                Player.Resource -= Player.Effects.ContainsKey("CdG") ? 0 : Cost;
-                if (Player.Effects.ContainsKey("CdG")) Player.Effects["CdG"].EndEffect();
-
-                if (Player.GetTalentPoints("RS") > 0 && Randomer.NextDouble() < 0.2 * Player.Combo)
-                {
-                    Player.Resource += 25;
-                }
-
-                Player.Combo = 0;
-
-                if (Randomer.NextDouble() < 0.2 * Player.GetTalentPoints("Ruth"))
-                {
-                    Player.Combo++;
-                }
-                if (Player.NbSet("Netherblade") >= 4 && Randomer.NextDouble() < 0.15)
-                {
-                    Player.Combo++;
-                }
-            }
-
-            RegisterDamage(new ActionResult(res, damage, (int)(damage * Player.ThreatMod)));
-
-            Player.CheckOnHits(true, false, res);
-
-            BladeFlurryBuff.CheckProc(Player, damage, res);
+            return Randomer.Next(flatMin, flatMax + 1)
+                + Player.AP * (Program.version == Version.Vanilla ? VANILLA_AP_RATIO : AP_RATIO_PER_POINTS * Player.Combo);
         }
-
-        public override string ToString()
-        {
-            return NAME;
-        }
-        public static new string NAME = "Eviscerate";
     }
 }

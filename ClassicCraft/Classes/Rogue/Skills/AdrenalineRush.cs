@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class AdrenalineRush : Skill
+    class AdrenalineRush : Spell
     {
         public override string ToString() { return NAME; } public static new string NAME = "Adrenaline Rush";
 
@@ -14,28 +14,11 @@ namespace ClassicCraft
         public static int CD = 300;
 
         public AdrenalineRush(Player p)
-            : base(p, CD, BASE_COST)
+            : base(p, CD, School.Physical,
+                  new SpellData(SpellType.Melee, BASE_COST),
+                  null,
+                  new EndEffect(AdrenalineRushBuff.NAME))
         {
-        }
-
-        public override void Cast(Entity t)
-        {
-            CommonRessourceSkill();
-            DoAction();
-        }
-
-        public override void DoAction()
-        {
-            if (Player.Effects.ContainsKey(AdrenalineRushBuff.NAME))
-            {
-                Player.Effects[AdrenalineRushBuff.NAME].Refresh();
-            }
-            else
-            {
-                new AdrenalineRushBuff(Player).StartEffect();
-            }
-
-            LogAction();
         }
     }
 }

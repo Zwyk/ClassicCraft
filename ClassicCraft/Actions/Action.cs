@@ -20,6 +20,18 @@ namespace ClassicCraft
         Failure,
     }
 
+    public enum School
+    {
+        Physical,
+        Magical,
+        Shadow,
+        Holy,
+        Fire,
+        Nature,
+        Frost,
+        Arcane,
+    }
+
     public class ActionResult
     {
         public ResultType Type { get; set; }
@@ -85,13 +97,6 @@ namespace ClassicCraft
             return LockedUntil - Player.Sim.CurrentTime;
         }
 
-        public string ResourceName()
-        {
-            if(Player.Class == Player.Classes.Rogue || Player.Form == Player.Forms.Cat) return "energy";
-            else if(Player.Class == Player.Classes.Warrior || Player.Form == Player.Forms.Bear) return "rage";
-            else return "mana";
-        }
-
         public virtual void RegisterDamage(ActionResult res)
         {
             Player.Sim.RegisterAction(new RegisteredAction(this, res, Player.Sim.CurrentTime));
@@ -113,9 +118,9 @@ namespace ClassicCraft
                         }
                     }
                 }
-                if (!ResourceName().Equals("mana"))
+                if (!Player.CurrentMainResource.Equals("mana"))
                 {
-                    log += string.Format(" ({0} {1}/{2})", ResourceName(), Player.Resource, Player.MaxResource);
+                    log += string.Format(" ({0} {1}/{2})", Player.CurrentMainResource, Player.Resource, Player.MaxResource);
                 }
                 if(Player.Form == Player.Forms.Cat || Player.Class == Player.Classes.Rogue)
                 {
@@ -149,9 +154,9 @@ namespace ClassicCraft
                         }
                     }
                 }
-                if (!ResourceName().Equals("mana"))
+                if (!Player.CurrentMainResource.Equals("mana"))
                 {
-                    log += string.Format(" ({0} {1}/{2})", ResourceName(), Player.Resource, Player.MaxResource);
+                    log += string.Format(" ({0} {1}/{2})", Player.CurrentMainResource, Player.Resource, Player.MaxResource);
                 }
                 if (Player.Form == Player.Forms.Cat || Player.Class == Player.Classes.Rogue)
                 {

@@ -6,78 +6,30 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Maul : Skill
+    class Maul : Spell
     {
+        public override string ToString() { return NAME; }
+        public static new string NAME = "Maul";
+
         public static int BASE_COST = 15;
         public static int CD = 0;
 
         public static double THREAT_MOD = 1.75;
 
+        public static double RATIO = 2.5;
+
+        public static int DMG = 128;
+
         public Maul(Player p)
-            : base(p, CD, BASE_COST - p.GetTalentPoints("Fero"), true)
+            : base(p, CD, School.Physical,
+                  new SpellData(SpellType.Melee, BASE_COST - p.GetTalentPoints("Fero"), false, 0, SMI.UseOnNextMHSwing, 1, THREAT_MOD),
+                  new EndDmg(p.Level * 0.85 + DMG, p.Level * 1.25 + DMG, RATIO/14, RatioType.AP))
         {
         }
 
-        public override bool CanUse()
+        public override int CustomCost()
         {
-            return Player.Effects.ContainsKey(ClearCasting.NAME) || Player.Resource >= Cost;
+            return Player.Effects.ContainsKey(ClearCasting.NAME) ? 0 : Cost;
         }
-
-        public override void Cast(Entity t)
-        {
-            Target = t;
-            Player.applyAtNextAA = this;
-        }
-
-        public override void DoAction()
-        {
-            Player.applyAtNextAA = null;
-
-            Weapon weapon = Player.MH;
-
-            LockedUntil = Player.Sim.CurrentTime + weapon.Speed / Player.HasteMod;
-
-            ResultType res = Player.YellowAttackEnemy(Target);
-
-            int minDmg = (int)Math.Round(Player.Level * 0.85 + 2.5 * (Player.AP + Player.nextAABonus) / 14);
-            int maxDmg = (int)Math.Round(Player.Level * 1.25 + 2.5 * (Player.AP + Player.nextAABonus) / 14);
-
-            Player.nextAABonus = 0;
-
-            int damage = (int)Math.Round((Randomer.Next(minDmg, maxDmg + 1) + 101)
-                * Player.Sim.DamageMod(res)
-                * Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen))
-                * (1 + Player.GetTalentPoints("SF") * 0.1)
-                * Player.DamageMod
-                );
-
-            int threat = (int)Math.Round(damage * THREAT_MOD * Player.ThreatMod);
-
-            int cost = Cost;
-            if (Player.Effects.ContainsKey(ClearCasting.NAME))
-            {
-                cost = 0;
-                Player.Effects[ClearCasting.NAME].StackRemove();
-            }
-
-            if (res == ResultType.Parry || res == ResultType.Dodge)
-            {
-                Player.Resource -= (int)(cost * 0.2);
-            }
-            else
-            {
-                Player.Resource -= cost;
-            }
-
-            RegisterDamage(new ActionResult(res, damage, threat));
-
-            Player.CheckOnHits(true, false, res);
-        }
-
-        public override string ToString()
-        {
-            return NAME;
-        }
-        public static new string NAME = "Maul";
     }
 }

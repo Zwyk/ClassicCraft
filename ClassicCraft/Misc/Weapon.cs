@@ -126,7 +126,7 @@ namespace ClassicCraft
                 attributes += "[" + a + ":" + Attributes.Values[a] + "]";
             }
 
-            string s = string.Format("[{0}] ({1}) {2} : {3} | Type = {4}", Slot, Id, Name, attributes, Type);
+            string s = string.Format("[{0}] ({1}) {2} : {3} | SpellType = {4}", Slot, Id, Name, attributes, Type);
             if(Type != WeaponType.Offhand && Type != WeaponType.Shield)
             {
                 s += string.Format(", {0}-{1} at {2}, 2H = {3}", DamageMin, DamageMax, Speed, TwoHanded);
