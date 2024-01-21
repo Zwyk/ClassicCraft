@@ -19,6 +19,10 @@ namespace ClassicCraft
 
         public double ThreatRatio { get; set; }
 
+        public int TicksLeft { get { return (int)Math.Round(RemainingTime() / TickDelay); } }  // meh
+
+        public int TotalTicks { get { return (int)Math.Round(CustomDuration() / TickDelay); } }  // meh
+
         public EffectOnTime(Player p, Entity target, bool friendly, double baseLength, int baseStacks, double ratio, int tickDelay, int maxStacks, School school, double threatRatio = 1)
             : base(p, target, friendly, baseLength, baseStacks, maxStacks)
         {
@@ -60,7 +64,7 @@ namespace ClassicCraft
             return 0;
         }
 
-        public int GetTickDamage()
+        public virtual int GetTickDamage()
         {
             double mitigation = School == School.Physical ? Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen)) : 1;
             return (int)Math.Round((BaseDmg() * CurrentStacks + (School == School.Physical ? Player.AP : Player.SchoolSP(School)) * Ratio) / (CustomDuration() / TickDelay)

@@ -582,8 +582,7 @@ namespace ClassicCraftGUI
                 }
                 player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Food", "Any", stats));
             }
-            if (BattleShout.SelectedIndex > 0)
-                player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Battle Shout", "Any", new Dictionary<string, double>() { { "AP", BattleShout.SelectedIndex == 2 ? 382 : 306 } }));
+            player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Battle Shout", "Any", new Dictionary<string, double>() { { "AP", int.Parse(BattleShout.Text) } }));
             if (Might.SelectedIndex > 0)
                 player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Blessing of Might", "Any", new Dictionary<string, double>() { { "AP", Might.SelectedIndex == 2 ? 264 : 220 } }));
             player.Buffs.Add(new JsonUtil.JsonEnchantment(0, "Mark of the Wild", "Any", new Dictionary<string, double>() {

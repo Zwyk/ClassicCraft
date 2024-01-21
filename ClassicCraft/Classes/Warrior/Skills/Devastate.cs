@@ -17,6 +17,7 @@ namespace ClassicCraft
         public static int BONUS_THREAT = 101;
 
         public static double WEAPON_DMG_RATIO = 0.5;
+        public static double WEAPON_DMG_RATIO_SOD = 0.5;
 
         public static int BASE_DMG = 35;
         public static int TARGET_SUNDERS = 5;
@@ -24,7 +25,7 @@ namespace ClassicCraft
         public Devastate(Player p)
             : base(p, CD, School.Physical,
                   new SpellData(SpellType.Melee, BASE_COST - p.GetTalentPoints("FR"), true, 0, SMI.None, 1, 1, BONUS_THREAT),
-                  new EndDmg(p.MH.DamageMin * 0.5, p.MH.DamageMax * 0.5, 1/14.0, RatioType.WeaponMH))
+                  new EndDmg(p.MH.DamageMin * (Program.version == Version.SoD ? WEAPON_DMG_RATIO_SOD : WEAPON_DMG_RATIO), p.MH.DamageMax * (Program.version == Version.SoD ? WEAPON_DMG_RATIO_SOD : WEAPON_DMG_RATIO), 1/14.0, RatioType.WeaponMH))
         {
         }
     }

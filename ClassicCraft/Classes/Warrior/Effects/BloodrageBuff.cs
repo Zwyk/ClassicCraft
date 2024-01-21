@@ -13,7 +13,7 @@ namespace ClassicCraft
         {
             return NAME;
         }
-        public static new string NAME = "Bloodrage Buff";
+        public static new string NAME = "Bloodrage";
 
         public static int TICK_DELAY = 1;
         public static int DURATION = 10;
@@ -31,7 +31,7 @@ namespace ClassicCraft
 
             if(Program.logFight)
             {
-                Program.Log(string.Format("{0:N2} : {1} for {2} rage (rage {3}/{4})", Player.Sim.CurrentTime, ToString(), 1, Player.Resource, Player.MaxResource));
+                Program.Log(string.Format("{0:N2} : {1} ticks for {2} rage (rage {3}/{4})", Player.Sim.CurrentTime, ToString(), 1, Player.Resource, Player.MaxResource));
             }
         }
 

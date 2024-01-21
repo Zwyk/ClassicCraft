@@ -24,17 +24,27 @@ namespace ClassicCraft
         {
             base.StartEffect();
 
-            Player.Resource += Randomer.Next(45, 75 + 1);
-            Player.Attributes.AddToValue(Attribute.Strength, Bonus);
-            Player.Attributes.AddToValue(Attribute.AP, Bonus * 2 * (Program.version == Version.TBC ? 1 + 0.02 * Player.GetTalentPoints("IBStance") : 1));
+            if(Player.Level >= 46)
+            {
+                Player.Resource += Randomer.Next(45, 75 + 1);
+                Player.Attributes.AddToValue(Attribute.Strength, Bonus);
+                Player.Attributes.AddToValue(Attribute.AP, Bonus * 2 * (Program.version == Version.TBC ? 1 + 0.02 * Player.GetTalentPoints("IBStance") : 1));
+            }
+            else
+            {
+                Player.Resource += Randomer.Next(20, 40 + 1);
+            }
         }
 
         public override void EndEffect()
         {
             base.EndEffect();
 
-            Player.Attributes.AddToValue(Attribute.Strength, -Bonus);
-            Player.Attributes.AddToValue(Attribute.AP, -Bonus * 2 * (Program.version == Version.TBC ? 1 + 0.02 * Player.GetTalentPoints("IBStance") : 1));
+            if (Player.Level >= 46)
+            {
+                Player.Attributes.AddToValue(Attribute.Strength, -Bonus);
+                Player.Attributes.AddToValue(Attribute.AP, -Bonus * 2 * (Program.version == Version.TBC ? 1 + 0.02 * Player.GetTalentPoints("IBStance") : 1));
+            }
         }
     }
 }

@@ -37,6 +37,6 @@ namespace ClassicCraft
         {
             return NAME;
         }
-        public static new string NAME = "Battle Shout's Buff";
+        public static new string NAME = "Battle Shout";
     }
 }

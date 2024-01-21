@@ -233,7 +233,7 @@ namespace ClassicCraft
 
         public class JsonPlayer
         {
-            public string Ver { get; set; }
+            public string Version { get; set; }
             public string Class { get; set; }
             public int Level { get; set; }
             public string Race { get; set; }
@@ -246,7 +246,7 @@ namespace ClassicCraft
             public Dictionary<string, JsonWeapon> Weapons { get; set; }
             public Dictionary<string, JsonItem> Equipment { get; set; }
 
-            public JsonPlayer(Dictionary<string, JsonWeapon> weapons = null, Dictionary<string, JsonItem> equipment = null, string @class = "Warrior", int level = 60, string race = "Orc", string talents = "", List<JsonEnchantment> buffs = null, Dictionary<string, bool> cooldowns = null, List<string> runes = null, string ver = null, string pet = null, string prePull = null)
+            public JsonPlayer(Dictionary<string, JsonWeapon> weapons = null, Dictionary<string, JsonItem> equipment = null, string @class = "Warrior", int level = 60, string race = "Orc", string talents = "", List<JsonEnchantment> buffs = null, Dictionary<string, bool> cooldowns = null, List<string> runes = null, string version = null, string pet = null, string prePull = null)
             {
                 Class = @class;
                 Level = level;
@@ -257,7 +257,7 @@ namespace ClassicCraft
                 Buffs = buffs;
                 Cooldowns = cooldowns;
                 Runes = runes;
-                Ver = ver;
+                Version = version;
                 Pet = pet;
                 PrePull = prePull;
             }
@@ -275,12 +275,12 @@ namespace ClassicCraft
                         {
                             if (e.Attributes != null)
                             {
-                                e.Attributes.SetValue(Attribute.CritChance, e.Attributes.GetValue(Attribute.CritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1));
-                                e.Attributes.SetValue(Attribute.HitChance, e.Attributes.GetValue(Attribute.HitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.HitChance] : 1));
-                                e.Attributes.SetValue(Attribute.Haste, e.Attributes.GetValue(Attribute.Haste) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1));
-                                e.Attributes.SetValue(Attribute.SpellHitChance, e.Attributes.GetValue(Attribute.SpellHitChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1));
-                                e.Attributes.SetValue(Attribute.SpellCritChance, e.Attributes.GetValue(Attribute.SpellCritChance) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1));
-                                e.Attributes.SetValue(Attribute.Expertise, e.Attributes.GetValue(Attribute.Expertise) / 100 / (Program.version == Version.TBC ? Player.RatingRatios[Attribute.Expertise] : 1));
+                                e.Attributes.SetValue(Attribute.CritChance, e.Attributes.GetValue(Attribute.CritChance) / 100 / (Program.version == ClassicCraft.Version.TBC ? Player.RatingRatios[Attribute.CritChance] : 1));
+                                e.Attributes.SetValue(Attribute.HitChance, e.Attributes.GetValue(Attribute.HitChance) / 100 / (Program.version == ClassicCraft.Version.TBC ? Player.RatingRatios[Attribute.HitChance] : 1));
+                                e.Attributes.SetValue(Attribute.Haste, e.Attributes.GetValue(Attribute.Haste) / 100 / (Program.version == ClassicCraft.Version.TBC ? Player.RatingRatios[Attribute.Haste] : 1));
+                                e.Attributes.SetValue(Attribute.SpellHitChance, e.Attributes.GetValue(Attribute.SpellHitChance) / 100 / (Program.version == ClassicCraft.Version.TBC ? Player.RatingRatios[Attribute.SpellHitChance] : 1));
+                                e.Attributes.SetValue(Attribute.SpellCritChance, e.Attributes.GetValue(Attribute.SpellCritChance) / 100 / (Program.version == ClassicCraft.Version.TBC ? Player.RatingRatios[Attribute.SpellCritChance] : 1));
+                                e.Attributes.SetValue(Attribute.Expertise, e.Attributes.GetValue(Attribute.Expertise) / 100 / (Program.version == ClassicCraft.Version.TBC ? Player.RatingRatios[Attribute.Expertise] : 1));
                             }
 
                             buffs.Add(e);

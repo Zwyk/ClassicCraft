@@ -908,10 +908,11 @@
                                                 <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Text="Battle Shout" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="0"/>
-                                            <ComboBox x:Name="BattleShout" SelectedIndex="0" Width="250" HorizontalAlignment="Left" Grid.Column="1">
-                                                <ComboBoxItem>None</ComboBoxItem>
-                                                <ComboBoxItem>+306 AP (0/5)</ComboBoxItem>
-                                                <ComboBoxItem>+382 AP (5/5)</ComboBoxItem>
+                                            <ComboBox x:Name="BattleShout" IsEditable="True" SelectedIndex="0" Width="250" HorizontalAlignment="Left" Grid.Column="1">
+                                                <ComboBoxItem>0</ComboBoxItem>
+                                                <ComboBoxItem>60</ComboBoxItem>
+                                                <ComboBoxItem>306</ComboBoxItem>
+                                                <ComboBoxItem>382</ComboBoxItem>
                                             </ComboBox>
                                         </Grid>
                                         <Grid Margin="5 5 0 0">

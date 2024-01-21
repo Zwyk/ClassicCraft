@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace ClassicCraft
 {
-    class Berserking : Spell
+    class BerserkerRage : Spell
     {
         public override string ToString() { return NAME; }
-        public static new string NAME = "Berserking";
+        public static new string NAME = "Berserker Rage";
 
         public static int BASE_COST = 0;
-        public static int CD = 180;
+        public static int CD = 30;
 
-        public Berserking(Player p)
+        public BerserkerRage(Player p)
             : base(p, CD, School.Physical,
-                  new SpellData(SpellType.Melee, BASE_COST, false),
+                  new SpellData(SpellType.Melee, BASE_COST),
                   null,
-                  new EndEffect(BerserkingBuff.NAME))
+                  new EndEffect(BerserkerRageBuff.NAME))
         {
         }
     }

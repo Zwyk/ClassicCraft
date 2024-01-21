@@ -137,9 +137,11 @@ namespace ClassicCraft
 
             int threat = (int)Math.Round(damage * Player.ThreatMod);
 
-            if (Player.Class == Player.Classes.Warrior || Player.Form == Player.Forms.Bear)
+            if (Player.CurrentMainResource == Player.Resources.Rage)
             {
-                Player.Resource += (int)Math.Round(Simulation.RageGained(damage, Player.Level, isMH, res == ResultType.Crit, Weapon.Speed));
+                double gain = Simulation.RageGained(damage, Player.Level, isMH, res == ResultType.Crit, Weapon.Speed);
+                gain *= Player.Runes.Contains("Endless Rage") ? 1.25 : 1;
+                Player.Resource += (int)Math.Round(gain);
             }
 
             RegisterDamage(new ActionResult(res, damage, threat));

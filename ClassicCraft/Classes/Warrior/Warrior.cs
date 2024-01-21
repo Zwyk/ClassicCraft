@@ -25,6 +25,11 @@ namespace ClassicCraft
         private ShieldSlam shslam = null;
         private Devastate dev = null;
         private Thunderclap tc = null;
+        private Overpower pow = null;
+        private QuickStrike qs = null;
+        private RagingBlow rb = null;
+        private Rend rend = null;
+        private BerserkerRage brage = null;
 
         #region Constructors
 
@@ -80,9 +85,11 @@ namespace ClassicCraft
 
             switch (Program.version)
             {
+                case Version.SoD:
                 case Version.Vanilla:
                     // Arms
                     Talents.Add("IHS", arms.Length > 0 ? (int)Char.GetNumericValue(arms[0]) : 0);
+                    Talents.Add("IO", arms.Length > 6 ? (int)Char.GetNumericValue(arms[6]) : 0);
                     Talents.Add("DW", arms.Length > 8 ? (int)Char.GetNumericValue(arms[8]) : 0);
                     Talents.Add("2HS", arms.Length > 9 ? (int)Char.GetNumericValue(arms[9]) : 0);
                     Talents.Add("Impale", arms.Length > 10 ? (int)Char.GetNumericValue(arms[10]) : 0);
@@ -107,6 +114,7 @@ namespace ClassicCraft
                     // Arms
                     Talents.Add("IHS", arms.Length > 0 ? (int)Char.GetNumericValue(arms[0]) : 0);
                     Talents.Add("ITC", arms.Length > 5 ? (int)Char.GetNumericValue(arms[5]) : 0);
+                    Talents.Add("IO", arms.Length > 6 ? (int)Char.GetNumericValue(arms[6]) : 0);
                     Talents.Add("AM", arms.Length > 7 ? (int)Char.GetNumericValue(arms[7]) : 0);
                     Talents.Add("DW", arms.Length > 8 ? (int)Char.GetNumericValue(arms[8]) : 0);
                     Talents.Add("2HS", arms.Length > 9 ? (int)Char.GetNumericValue(arms[9]) : 0);
@@ -162,12 +170,15 @@ namespace ClassicCraft
             bs = new BattleShout(this);
             hs = new HeroicStrike(this);
             cl = new Cleave(this);
-            if (Talents["BT"] > 0) bt = new Bloodthirst(this);
-            if (Talents["MS"] > 0) ms = new MortalStrike(this);
+            if (GetTalentPoints("BT") > 0) bt = new Bloodthirst(this);
+            if (GetTalentPoints("MS") > 0) ms = new MortalStrike(this);
             if (GetTalentPoints("SS") > 0) ss = new SweepingStrikes(this);
-            if (Talents["IS"] > 0) slam = new Slam(this);
+            if (GetTalentPoints("IS") > 0) slam = new Slam(this);
+            rend = new Rend(this);
+            brage = new BerserkerRage(this);
+            pow = new Overpower(this);
 
-            if (Sim.Tanking && Sim.TankHitRage > 0 && Sim.TankHitEvery > 0)
+            if (Sim.Tanking)
             {
                 sa = new SunderArmor(this);
                 rev = new Revenge(this);
@@ -184,6 +195,11 @@ namespace ClassicCraft
                 if (Program.version == Version.TBC && Talents["Rampage"] > 0)
                 {
                     ramp = new Rampage(this);
+                }
+                else if(Program.version == Version.SoD)
+                {
+                    qs = new QuickStrike(this);
+                    rb = new RagingBlow(this);
                 }
             }
 
@@ -265,9 +281,24 @@ namespace ClassicCraft
                     Spells.Add(exec);
                 }
             }
+            else if(Program.version == Version.SoD)
+            {
+                if(Tanking)
+                {
+                    rota = 300; // Tank
+                }
+                else if(DualWielding)
+                {
+                    rota = 301; // 2x1H
+                }
+                else
+                {
+                    rota = 302; // 2H
+                }
+            }
             else
             {
-                if (Sim.Tanking && Sim.TankHitRage > 0 && Sim.TankHitEvery > 0)
+                if (Sim.Tanking)
                 {
                     rota = 2;   // Fury Tank
                     // rota = 3 // Fury Tank Battle Shout
@@ -285,9 +316,26 @@ namespace ClassicCraft
 
         public override void Rota()
         {
-            if (br.CanUse() && Resource < 90)
+            if (br.CanUse() && Resource < 88)
             {
-                br.Cast(Target);
+                if(Sim.FightLength - Sim.CurrentTime <= BloodrageBuff.DURATION && Resource <= exec.Cost)
+                {
+                    br.Cast(this);
+                }
+                else
+                {
+                    if (Program.version == Version.SoD && Runes.Contains(ConsumedByRage.NAME))
+                    {
+                        if (Resource < 80 && !Effects.ContainsKey(ConsumedByRage.NAME))
+                        {
+                            br.Cast(this);
+                        }
+                    }
+                    else if(Sim.FightLength - Sim.CurrentTime >= br.BaseCD + BloodrageBuff.DURATION)
+                    {
+                        br.Cast(this);
+                    }
+                }
             }
 
             /*
@@ -627,6 +675,37 @@ namespace ClassicCraft
                     hs.Cast(Target);
                 }
             }
+            else if(rota == 301)
+            {
+                if(rb.CanUse())
+                {
+                    rb.Cast(Target);
+                }
+                else if(Resource > 80 && Cooldowns.Contains(Rend.NAME) && !Target.Effects.ContainsKey(Rend.NAME) && rend.CanUse())
+                {
+                    rend.Cast(Target);
+                }
+                else if(Resource > 80 && ham.CanUse())
+                {
+                    ham.Cast(Target);
+                }
+
+                if (applyAtNextAA == null && Resource >= 95)
+                {
+                    if (Sim.NbTargets > 1)
+                    {
+                        cl.Cast(Target);
+                    }
+                    else
+                    {
+                        hs.Cast(Target);
+                    }
+                }
+                else if (Resource < 80)
+                {
+                    applyAtNextAA = null;
+                }
+            }
 
             CheckAAs();
         }
@@ -726,7 +805,7 @@ namespace ClassicCraft
             return Simulation.RageGained(avgDmg, Level, true, false, MH.Speed)
                 //* (1 + CritChance)
                 * (1 + (WindfuryTotem ? 0.2 : 0))
-                * 1;    
+                * (Runes.Contains("Endless Rage") ? 1.25 : 1);    
             
             // TODO : properly estimate with Crit, glancing etc.
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography.X509Certificates;
@@ -876,6 +877,8 @@ namespace ClassicCraft
             }
             set
             {
+                int old = resource;
+
                 if (Sim != null && Sim.UnlimitedResource)
                 {
                     resource = MaxResource;
@@ -894,6 +897,11 @@ namespace ClassicCraft
                     {
                         resource = value;
                     }
+                }
+
+                if(Class == Classes.Warrior && Runes.Contains(ConsumedByRage.NAME))
+                {
+                    ConsumedByRage.CheckProc(this, old, resource);
                 }
             }
         }
@@ -1668,8 +1676,7 @@ namespace ClassicCraft
             }
             else if (Class == Classes.Warrior)
             {
-                Attributes.AddToValue(Attribute.CritChance, 0.01 * GetTalentPoints("Cruelty")
-                    + (Tanking ? 0 : 0.03)); // Berserker Stance, should be a spell for stance dancing
+                Attributes.AddToValue(Attribute.CritChance, 0.01 * GetTalentPoints("Cruelty"));
 
                 Attributes.AddToValue(Attribute.HitChance, 0.01 * GetTalentPoints("Precision"));
 
@@ -1689,15 +1696,21 @@ namespace ClassicCraft
                     if (DualWielding && (OH.Type == Weapon.WeaponType.Axe || MH.Type == Weapon.WeaponType.Polearm)) OH.Buff.Attributes.SetValue(Attribute.CritChance, 0.01 * GetTalentPoints("Poleaxe"));
                 }
 
-                if (Tanking && Program.jsonSim.TankHitRage > 0 && Program.jsonSim.TankHitEvery > 0)
+
+                if (Tanking)
+                // Defensive Stance
                 {
                     DamageMod *= 0.9;
                     ThreatMod *= 1.3 * (1 + 0.03 * GetTalentPoints("Defiance"));
                 }
-                else
+                else if(Level >= 30)
+                // Berserker Stance
                 {
+                    Attributes.AddToValue(Attribute.CritChance, 0.03);
                     ThreatMod *= 0.8 * (1 - 0.02 * GetTalentPoints("IBS"));
                 }
+
+                HasteMod *= (MH.TwoHanded && Runes.Contains("Frenzied Assault")) ? 1.2 : 1;
             }
 
             if(Buffs.Any(b => b.Name.ToLower().Equals("blessing of salvation")))
@@ -1954,7 +1967,9 @@ namespace ClassicCraft
                     * (new List<String>() { MortalStrike.NAME, Bloodthirst.NAME, ShieldSlam.NAME }.Contains(name) && NbSet("Onslaught") >= 4 ? 1.05 : 1)
                     * (name == Thunderclap.NAME && GetTalentPoints("ITC") > 0 ? 1.1 + 0.3 * GetTalentPoints("ITC") : 1)
                     * (Effects.ContainsKey("T4 4P Revenge") ? 1.1 : 1)
-                    ;
+                    * (school == School.Physical && Effects.ContainsKey(Enrage.NAME) ? Enrage.BONUS_DMG : 1)
+                    * (school == School.Physical && Runes.Contains("Single-Minded Fury") ? 1.1 : 1)
+                ;
             }
 
             return ratio;
@@ -2005,9 +2020,9 @@ namespace ClassicCraft
                         {
                             string procName = "Ashtongue Talisman of Valor";
                             Dictionary<Attribute, double> attributes = new Dictionary<Attribute, double>()
-                        {
-                            { Attribute.Strength, 55 }
-                        };
+                            {
+                                { Attribute.Strength, 55 }
+                            };
                             int procDuration = 12;
 
                             if (Effects.ContainsKey(procName))
@@ -2018,6 +2033,21 @@ namespace ClassicCraft
                             {
                                 CustomStatsBuff buff = new CustomStatsBuff(this, procName, procDuration, 1, attributes);
                                 buff.StartEffect();
+                            }
+                        }
+                    }
+                    else if(Program.version == Version.SoD)
+                    {
+                        if(Runes.Contains("Flagellation")
+                            && (spell is Bloodrage || spell is BerserkerRage))
+                        {
+                            if (Effects.ContainsKey(Enrage.NAME))
+                            {
+                                Effects[Enrage.NAME].Refresh();
+                            }
+                            else
+                            {
+                                new Enrage(this).StartEffect();
                             }
                         }
                     }
@@ -2044,6 +2074,13 @@ namespace ClassicCraft
                 if (GetTalentPoints("NF") > 0)
                 {
                     ShadowTrance.CheckProc(this);
+                }
+            }
+            else if(Class == Classes.Warrior)
+            {
+                if((spell is RendDoT || spell is DeepWounds) && Runes.Contains("Blood Frenzy"))
+                {
+                    Resource += 3;
                 }
             }
         }
@@ -2092,6 +2129,13 @@ namespace ClassicCraft
                             {
                                 Program.Log(string.Format("{0:N2} : Mace specialization procs ({3} {1}/{2})", Sim.CurrentTime, Resource, MaxResource, "rage"));
                             }
+                        }
+                    }
+                    if(Program.version == Version.SoD)
+                    {
+                        if(Runes.Contains(ConsumedByRage.NAME) && isAA && !extra)
+                        {
+                            ConsumedByRage.OnHit(this, res);
                         }
                     }
                 }
@@ -2916,6 +2960,57 @@ namespace ClassicCraft
                         }
                     }
                 }
+                else if(Program.version == Version.SoD)
+                {
+                    if (((isMH && MH?.Name.ToLower().Contains("honed darkwater talwar") == true) || (!isMH && OH?.Name.ToLower().Contains("honed darkwater talwar") == true))
+                        && !alreadyProc.Contains("honed darkwater talwar") && Randomer.NextDouble() < 0.21)
+                    {
+                        alreadyProc.Add("honed darkwater talwar");
+                        string procName = "Honed Darkwater Talwar";
+                        int procDmg = 30;
+                        if (!CustomActions.ContainsKey(procName))
+                        {
+                            CustomActions.Add(procName, new CustomAction(this, procName, School.Shadow));
+                        }
+
+                        double mitigation = Simulation.MagicMitigation(Target.ResistChances[School.Shadow]);
+                        ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
+                        int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Shadow) * mitigation);
+                        CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round(dmg * ThreatMod)));
+                    }
+                    if (((isMH && MH?.Name.ToLower().Contains("gusting wind") == true) || (!isMH && OH?.Name.ToLower().Contains("gusting wind") == true))
+                        && !alreadyProc.Contains("gusting wind") && Randomer.NextDouble() < 0.21)
+                    {
+                        alreadyProc.Add("gusting wind");
+                        string procName = "Gusting Wind";
+                        int procDmg = 15;
+                        if (!CustomActions.ContainsKey(procName))
+                        {
+                            CustomActions.Add(procName, new CustomAction(this, procName, School.Nature));
+                        }
+
+                        double mitigation = Simulation.MagicMitigation(Target.ResistChances[School.Nature]);
+                        ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
+                        int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Nature) * mitigation);
+                        CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round(dmg * ThreatMod)));
+                    }
+                    if (isMH && MH?.Name.ToLower().Contains("deadly strike of the hydra") == true
+                        && !alreadyProc.Contains("deadly strike of the hydra") && Randomer.NextDouble() < 0.21)
+                    {
+                        alreadyProc.Add("deadly strike of the hydra");
+                        string procName = "Deadly Strike of the Hydra";
+                        int procDmg = 20 * 5;       // 5 ticks of 20 dmg, should be a DoT
+                        if (!CustomActions.ContainsKey(procName))
+                        {
+                            CustomActions.Add(procName, new CustomAction(this, procName, School.Nature));
+                        }
+
+                        double mitigation = Simulation.MagicMitigation(Target.ResistChances[School.Nature]);
+                        ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
+                        int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Nature) * mitigation);
+                        CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round(dmg * ThreatMod)));
+                    }
+                }
             }
             else if(Class == Classes.Warrior && (res == ResultType.Parry || res == ResultType.Dodge) && NbSet("Warbringer") >= 4)
             {
@@ -3252,10 +3347,20 @@ namespace ClassicCraft
 
             Dictionary<ResultType, double> table = HitChancesByEnemy[enemy].YellowHitChances;
 
-            if (Class == Classes.Warrior && Effects.ContainsKey(RecklessnessBuff.NAME))
+            if (Class == Classes.Warrior)
             {
                 table = new Dictionary<ResultType, double>(table);
-                table[ResultType.Crit] = 1;
+                if (Effects.ContainsKey(RecklessnessBuff.NAME))
+                {
+                    table[ResultType.Crit] = 1;
+                }
+                else
+                {
+                    if (spell == Overpower.NAME)
+                    {
+                        table[ResultType.Crit] += 0.25 * GetTalentPoints("IO");
+                    }
+                }
             }
             else if (Class == Classes.Rogue)
             {

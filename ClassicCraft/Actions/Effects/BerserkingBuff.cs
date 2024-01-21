@@ -38,6 +38,6 @@ namespace ClassicCraft
         {
             return NAME;
         }
-        public static new string NAME = "Blood Fury's Buff";
+        public static new string NAME = "Berserking";
     }
 }

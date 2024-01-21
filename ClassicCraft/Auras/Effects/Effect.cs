@@ -11,8 +11,11 @@ namespace ClassicCraft
     {
         public static Effect NewEffectFromString(string s, Player p, Entity t)
         {
+            // COMMON
+            if (s == BerserkingBuff.NAME) return new BerserkingBuff(p);
+            else if (s == BloodFuryBuff.NAME) return new BloodFuryBuff(p);
             // DRUID
-            if (s == ClearCasting.NAME) return new ClearCasting(p);
+            else if (s == ClearCasting.NAME) return new ClearCasting(p);
             else if (s == InnervateBuff.NAME) return new InnervateBuff(p);
             else if (s == Mangle.NAME) return new Mangle(p, t);
             else if (s == RipDoT.NAME) return new RipDoT(p, t);
@@ -45,8 +48,9 @@ namespace ClassicCraft
             else if (s == Flurry.NAME) return new Flurry(p);
             else if (s == RampageBuff.NAME) return new RampageBuff(p);
             else if (s == RecklessnessBuff.NAME) return new RecklessnessBuff(p);
+            else if (s == RendDoT.NAME) return new RendDoT(p, t);
             else if (s == SweepingStrikesBuff.NAME) return new SweepingStrikesBuff(p);
-            else throw new NotImplementedException();
+            else throw new NotImplementedException(s);
         }
 
         public Entity Target { get; set; }
@@ -119,8 +123,9 @@ namespace ClassicCraft
 
             End = Player.Sim.CurrentTime + CustomDuration();
             AppliedTimes.Add(Player.Sim.CurrentTime);
+            CurrentStacks = BaseStacks;
 
-            if(Program.logFight)
+            if (Program.logFight)
             {
                 Program.Log(string.Format("{0:N2} : {1} refreshed", Player.Sim.CurrentTime, ToString()));
             }
@@ -131,8 +136,9 @@ namespace ClassicCraft
             WhenApplied();
 
             Target.Effects.Add(ToString(), this);
+            CurrentStacks = BaseStacks;
 
-            if(Program.logFight)
+            if (Program.logFight)
             {
                 string log = string.Format("{0:N2} : {1} started", Player.Sim.CurrentTime, ToString());
 

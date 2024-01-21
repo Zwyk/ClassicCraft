@@ -367,11 +367,16 @@ namespace ClassicCraft
                     jsonPlayer = ReadPlayerJson(jsonSim.Compare[0]);
                 }
 
-                if (jsonPlayer.Ver == "Vanilla") version = Version.Vanilla;
-                else if (jsonPlayer.Ver == "TBC") version = Version.TBC;
+                if (jsonPlayer.Version == "Vanilla") version = Version.Vanilla;
+                else if (jsonPlayer.Version == "TBC") version = Version.TBC;
+                else if (jsonPlayer.Version == "SoD") version = Version.SoD;
 
+                /*
                 if (jsonPlayer.Level > 60) version = Version.TBC;
                 else version = Version.Vanilla;
+                */
+
+                //Console.WriteLine(jsonPlayer.Version);
 
                 if (customPath != null)
                 {
@@ -587,9 +592,9 @@ namespace ClassicCraft
                     if (!statsWeights && !comparing)
                     {
                         //logListActions = totalActions.SelectMany(a => a.Select(t => t.Action.ToString()).OrderBy(b => b)).Distinct().ToList();
-                        logListActions = new List<string>() { "AA isMH", "AA OH", "AA Ranged", "AA Wand" };
+                        logListActions = new List<string>() { "AA MH", "AA OH", "AA Ranged", "AA Wand", "Deadly Strike of the Hydra", "Honed Darkwater Talwar", "Gusting Wind" };
                         if (playerBase.Class == Player.Classes.Warrior)
-                            logListActions.AddRange(new List<string>() { "Slam", "Bloodthirst", "Mortal Strike", "Shield Slam", "Devastate", "Sunder Armor", "Revenge", "Whirlwind", "Thunder Clap", "Sweeping Strikes", "Cleave", "Heroic Strike", "Execute", "Hamstring", "Battle Shout" });
+                            logListActions.AddRange(new List<string>() { "Slam", "Bloodthirst", "Mortal Strike", "Shield Slam", "Devastate", "Sunder Armor", "Revenge", "Whirlwind", "Thunder Clap", "Sweeping Strikes", "Cleave", "Heroic Strike", "Execute", Rend.NAME, "Hamstring", "Battle Shout" });
                         else if (playerBase.Class == Player.Classes.Druid)
                             logListActions.AddRange(new List<string>() { MangleCat.NAME, "Shred", "Ferocious Bite", "Shift", "Maul", "Swipe", "Rip", SavageRoar.NAME });
                         else if (playerBase.Class == Player.Classes.Priest)
@@ -610,7 +615,7 @@ namespace ClassicCraft
                         else if (playerBase.Class == Player.Classes.Rogue)
                             logListEffects.AddRange(new List<string>() { "Rupture", "Deadly Poison" });
                         else if (playerBase.Class == Player.Classes.Warrior)
-                            logListEffects.AddRange(new List<string>() { "Deep Wounds" });
+                            logListEffects.AddRange(new List<string>() { Rend.NAME, "Deep Wounds" });
                         else if (playerBase.Class == Player.Classes.Warlock)
                             logListEffects.AddRange(new List<string>() { "Curse of Agony", "Corruption", "Drain Life", "Shadow Vulnerabiliy" });
 
@@ -1350,6 +1355,18 @@ namespace ClassicCraft
                             {
                                 StatsData data2 = CurrentData.DataEffects[ac];
                                 dotmult = RipDoT.DURATION / RipDoT.TICK_DELAY;
+                                avgAcDps = data2.AvgDPS;
+                                avgAcDmg = data2.AvgDmg;
+                                if (jsonSim.Threat)
+                                {
+                                    avgAcTps = data2.AvgTPS;
+                                    avgAcThreat = data2.AvgThreat;
+                                }
+                            }
+                            else if (ac == Rend.NAME)
+                            {
+                                StatsData data2 = CurrentData.DataEffects[ac];
+                                dotmult = RendDoT.DURATION / RendDoT.TICK_DELAY;
                                 avgAcDps = data2.AvgDPS;
                                 avgAcDmg = data2.AvgDmg;
                                 if (jsonSim.Threat)

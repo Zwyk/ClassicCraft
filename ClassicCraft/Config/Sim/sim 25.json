@@ -6,7 +6,7 @@
   "FightLength": 120.0,
   "FightLengthMod": 0.1,
   "NbSim": 1,
-  "Threat": true,
+  "Threat": false,
   "StatsWeights": false,
   "TargetErrorPct": 0.5,
   "TargetError": true,
@@ -16,7 +16,7 @@
   "Boss": {
     "Level": 27,
     "Type": null,
-    "Armor": 100,
+    "Armor": 0,
     "Debuffs": {
       "Curse of the Elements": false,
       "Shadow Vulnerability": false,
