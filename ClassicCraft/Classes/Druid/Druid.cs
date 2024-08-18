@@ -34,8 +34,8 @@ namespace ClassicCraft
         {
         }
 
-        public Druid(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, string prepull)
-            : base(s, Classes.Druid, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null, prepull)
+        public Druid(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, string prepull, double startResourcePct)
+            : base(s, Classes.Druid, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null, prepull, startResourcePct)
         {
         }
 
@@ -110,9 +110,6 @@ namespace ClassicCraft
             {
                 rom = new RuneOfMeta(this);
             }
-
-            HasteMod = CalcHaste();
-            Mana = MaxMana;
 
             if (Equipment[Slot.MH].Name.ToLower().Equals("manual crowd pummeler"))
             {

@@ -29,8 +29,8 @@ namespace ClassicCraft
         {
         }
 
-        public Rogue(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, string prepull)
-            : base(s, Classes.Rogue, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null, prepull)
+        public Rogue(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, string prepull, double startResourcePct)
+            : base(s, Classes.Rogue, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null, prepull, startResourcePct)
         {
         }
 
@@ -142,10 +142,6 @@ namespace ClassicCraft
             rup = new Rupture(this);
 
             Stealthed = true;
-
-            HasteMod = CalcHaste();
-
-            Resource = MaxResource;
 
             if (MH.Type == Weapon.WeaponType.Dagger)
             {

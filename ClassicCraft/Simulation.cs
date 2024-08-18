@@ -265,7 +265,7 @@ namespace ClassicCraft
         public double DamageMod(ResultType type, School school = School.Physical, bool MH = true, bool isWeapon = false)
         {
             var casters = new List<Player.Classes>() { Player.Classes.Mage, Player.Classes.Warlock, Player.Classes.Priest, Player.Classes.Druid };
-            var forms = new List<Player.Forms>() { Player.Forms.Humanoid };                                                                         // Moonkin
+            var forms = new List<Player.Forms>() { Player.Forms.Humanoid, Player.Forms.Metamorphosis };                                                                         // Moonkin
             bool isCaster = forms.Any(f => f == Player.Form) && casters.Any(c => c == Player.Class);
             switch (type)
             {
@@ -348,8 +348,8 @@ namespace ClassicCraft
 
         public double GlancingDamage(int skill, int enemyLevel, bool isCaster)
         {
-            double low = Math.Max(0.01, Math.Min(isCaster ? 0.6 : 0.91, (isCaster ? 0.7 : 1.3) - 0.05 * (enemyLevel * 5 - skill)));
-            double high = Math.Max(0.2, Math.Min(0.99, 1.2 - 0.03 * (enemyLevel * 5 - skill)));
+            double low = Math.Max(0.01, Math.Min(isCaster ? 0.6 : 0.91, 1.3 - 0.05 * (enemyLevel * 5 - skill) - (isCaster ? 0.7 : 0)));
+            double high = Math.Max(0.2, Math.Min(0.99, 1.2 - 0.03 * (enemyLevel * 5 - skill) - (isCaster ? 0.3 : 0)));
             return Randomer.NextDouble() * (high - low) + low;
         }
 

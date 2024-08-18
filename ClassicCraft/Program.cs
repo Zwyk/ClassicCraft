@@ -184,9 +184,9 @@ namespace ClassicCraft
                 "Base",
                 "AP", "SP",
                 "Hit","Crit", "Haste",
-                "DPS isMH", "DPS OH",
-                "+1 isMH Skill", "+1 OH Skill",
-                "+5 isMH Skill", "+5 OH Skill",
+                "DPS MH", "DPS OH",
+                "+1 MH Skill", "+1 OH Skill",
+                "+5 MH Skill", "+5 OH Skill",
                 "SpellHit","SpellCrit",
                 "Int", "Spi", "MP5",
             };
@@ -246,7 +246,7 @@ namespace ClassicCraft
                         {
                             { Attribute.ArmorPen, 1000 }
                         })},
-                { "DPS isMH", new Attributes(new Dictionary<Attribute, double>()
+                { "DPS MH", new Attributes(new Dictionary<Attribute, double>()
                         {
                             { Attribute.WeaponDamageMH, 10 }
                         })},
@@ -254,9 +254,9 @@ namespace ClassicCraft
                         {
                             { Attribute.WeaponDamageOH, 10 }
                         })},
-                { "+1 isMH Skill", new Attributes(new Dictionary<Attribute, double>()) },
+                { "+1 MH Skill", new Attributes(new Dictionary<Attribute, double>()) },
                 { "+1 OH Skill", new Attributes(new Dictionary<Attribute, double>()) },
-                { "+5 isMH Skill", new Attributes(new Dictionary<Attribute, double>()) },
+                { "+5 MH Skill", new Attributes(new Dictionary<Attribute, double>()) },
                 { "+5 OH Skill", new Attributes(new Dictionary<Attribute, double>()) },
                 { "Block Value", new Attributes(new Dictionary<Attribute, double>()
                         {
@@ -462,9 +462,9 @@ namespace ClassicCraft
                         || playerBase.Class == Player.Classes.Priest
                         || playerBase.MH == null)
                     {
-                        simOrder.Remove("DPS isMH");
-                        simOrder.Remove("+1 isMH Skill");
-                        simOrder.Remove("+5 isMH Skill");
+                        simOrder.Remove("DPS MH");
+                        simOrder.Remove("+1 MH Skill");
+                        simOrder.Remove("+5 MH Skill");
                     }
 
                     if ((!playerBase.Tanking && playerBase.Class == Player.Classes.Warlock)
@@ -500,8 +500,8 @@ namespace ClassicCraft
 
                     if (version == Version.TBC)
                     {
-                        simOrder.Remove("+1 isMH Skill");
-                        simOrder.Remove("+5 isMH Skill");
+                        simOrder.Remove("+1 MH Skill");
+                        simOrder.Remove("+5 MH Skill");
                         simOrder.Remove("+1 OH Skill");
                         simOrder.Remove("+5 OH Skill");
 
@@ -520,27 +520,27 @@ namespace ClassicCraft
                         simOrder.Add("Block Value");
                     }
 
-                    if (simOrder.Contains("DPS isMH"))
+                    if (simOrder.Contains("DPS MH"))
                     {
-                        double dmg = simBonusAttribs["DPS isMH"].GetValue(Attribute.WeaponDamageMH) * playerBase.MH.Speed;
-                        simBonusAttribs["DPS isMH"].SetValue(Attribute.WeaponDamageMH, dmg);
+                        double dmg = simBonusAttribs["DPS MH"].GetValue(Attribute.WeaponDamageMH) * playerBase.MH.Speed;
+                        simBonusAttribs["DPS MH"].SetValue(Attribute.WeaponDamageMH, dmg);
                     }
                     if (simOrder.Contains("DPS OH"))
                     {
                         double dmg = simBonusAttribs["DPS OH"].GetValue(Attribute.WeaponDamageOH) * playerBase.OH.Speed;
                         simBonusAttribs["DPS OH"].SetValue(Attribute.WeaponDamageOH, dmg);
                     }
-                    if (simOrder.Contains("+1 isMH Skill"))
+                    if (simOrder.Contains("+1 MH Skill"))
                     {
-                        simBonusAttribs["+1 isMH Skill"].SetValue(AttributeUtil.FromWeaponType(playerBase.MH.Type), 1);
+                        simBonusAttribs["+1 MH Skill"].SetValue(AttributeUtil.FromWeaponType(playerBase.MH.Type), 1);
                     }
                     if (simOrder.Contains("+1 OH Skill"))
                     {
                         simBonusAttribs["+1 OH Skill"].SetValue(AttributeUtil.FromWeaponType(playerBase.OH.Type), 1);
                     }
-                    if (simOrder.Contains("+5 isMH Skill"))
+                    if (simOrder.Contains("+5 MH Skill"))
                     {
-                        simBonusAttribs["+5 isMH Skill"].SetValue(AttributeUtil.FromWeaponType(playerBase.MH.Type), 5);
+                        simBonusAttribs["+5 MH Skill"].SetValue(AttributeUtil.FromWeaponType(playerBase.MH.Type), 5);
                     }
                     if (simOrder.Contains("+5 OH Skill"))
                     {
@@ -555,7 +555,7 @@ namespace ClassicCraft
                 simOrder.Remove("Hit");
                 simOrder.Remove("Crit");
                 simOrder.Remove("Haste");
-                simOrder.Remove("DPS isMH");
+                simOrder.Remove("DPS MH");
                 simOrder.Remove("DPS OH");
                 */
 
@@ -831,7 +831,7 @@ namespace ClassicCraft
                         {
                             Log(string.Format("Average TPS : {0:N2} TPS (±{1:N2})", SimsAvgTPS[ps], SimsTPSStDev[ps]));
                         }
-                        Log(string.Format("Average DPS : {0:N2} TPS (±{1:N2})", SimsAvgDPS[ps], SimsDPSStDev[ps]));
+                        Log(string.Format("Average DPS : {0:N2} DPS (±{1:N2})", SimsAvgDPS[ps], SimsDPSStDev[ps]));
                     }
                 }
                 else if (statsWeights)
@@ -954,11 +954,11 @@ namespace ClassicCraft
 
                             weightsDone += 1;
                         }
-                        if (simOrder.Contains("DPS isMH"))
+                        if (simOrder.Contains("DPS MH"))
                         {
-                            double mhTps = SimsAvgTPS["DPS isMH"];
+                            double mhTps = SimsAvgTPS["DPS MH"];
                             double mhDif = Math.Max(0, (mhTps - baseTps) / 10);
-                            Log(string.Format("1 isMH DPS = {0:N4} TPS = {1:N4} {2}", mhDif, mhDif / baseDif, baseName));
+                            Log(string.Format("1 MH DPS = {0:N4} TPS = {1:N4} {2}", mhDif, mhDif / baseDif, baseName));
 
                             weightsDone += 1;
                         }
@@ -970,11 +970,11 @@ namespace ClassicCraft
 
                             weightsDone += 1;
                         }
-                        if (simOrder.Contains("+1 isMH Skill"))
+                        if (simOrder.Contains("+1 MH Skill"))
                         {
-                            double mhSkillTps = SimsAvgTPS["+1 isMH Skill"];
+                            double mhSkillTps = SimsAvgTPS["+1 MH Skill"];
                             double mhSkillDif = Math.Max(0, mhSkillTps - baseTps);
-                            Log(string.Format("1 isMH Skill = {0:N4} TPS = {1:N4} {2}", mhSkillDif, mhSkillDif / baseDif, baseName));
+                            Log(string.Format("1 MH Skill = {0:N4} TPS = {1:N4} {2}", mhSkillDif, mhSkillDif / baseDif, baseName));
 
                             weightsDone += 1;
                         }
@@ -986,11 +986,11 @@ namespace ClassicCraft
 
                             weightsDone += 1;
                         }
-                        if (simOrder.Contains("+5 isMH Skill"))
+                        if (simOrder.Contains("+5 MH Skill"))
                         {
-                            double mhSkillTps = SimsAvgTPS["+5 isMH Skill"];
+                            double mhSkillTps = SimsAvgTPS["+5 MH Skill"];
                             double mhSkillDif = Math.Max(0, mhSkillTps - baseTps);
-                            Log(string.Format("5 isMH Skill = {0:N4} TPS = {1:N4} {2}", mhSkillDif, mhSkillDif / baseDif, baseName));
+                            Log(string.Format("5 MH Skill = {0:N4} TPS = {1:N4} {2}", mhSkillDif, mhSkillDif / baseDif, baseName));
 
                             weightsDone += 1;
                         }
@@ -1147,11 +1147,11 @@ namespace ClassicCraft
 
                             weightsDone += 1;
                         }
-                        if (simOrder.Contains("DPS isMH"))
+                        if (simOrder.Contains("DPS MH"))
                         {
-                            double mhDps = SimsAvgDPS["DPS isMH"];
+                            double mhDps = SimsAvgDPS["DPS MH"];
                             double mhDif = Math.Max(0, (mhDps - baseDps) / 10);
-                            Log(string.Format("1 isMH DPS = {0:N4} DPS = {1:N4} {2}", mhDif, mhDif / baseDif, baseName));
+                            Log(string.Format("1 MH DPS = {0:N4} DPS = {1:N4} {2}", mhDif, mhDif / baseDif, baseName));
 
                             weightsDone += 1;
                         }
@@ -1163,11 +1163,11 @@ namespace ClassicCraft
 
                             weightsDone += 1;
                         }
-                        if (simOrder.Contains("+1 isMH Skill"))
+                        if (simOrder.Contains("+1 MH Skill"))
                         {
-                            double mhSkillDps = SimsAvgDPS["+1 isMH Skill"];
+                            double mhSkillDps = SimsAvgDPS["+1 MH Skill"];
                             double mhSkillDif = Math.Max(0, mhSkillDps - baseDps);
-                            Log(string.Format("1 isMH Skill = {0:N4} DPS = {1:N4} {2}", mhSkillDif, mhSkillDif / baseDif, baseName));
+                            Log(string.Format("1 MH Skill = {0:N4} DPS = {1:N4} {2}", mhSkillDif, mhSkillDif / baseDif, baseName));
 
                             weightsDone += 1;
                         }
@@ -1179,11 +1179,11 @@ namespace ClassicCraft
 
                             weightsDone += 1;
                         }
-                        if (simOrder.Contains("+5 isMH Skill"))
+                        if (simOrder.Contains("+5 MH Skill"))
                         {
-                            double mhSkillDps = SimsAvgDPS["+5 isMH Skill"];
+                            double mhSkillDps = SimsAvgDPS["+5 MH Skill"];
                             double mhSkillDif = Math.Max(0, mhSkillDps - baseDps);
-                            Log(string.Format("5 isMH Skill = {0:N4} DPS = {1:N4} {2}", mhSkillDif, mhSkillDif / baseDif, baseName));
+                            Log(string.Format("5 MH Skill = {0:N4} DPS = {1:N4} {2}", mhSkillDif, mhSkillDif / baseDif, baseName));
 
                             weightsDone += 1;
                         }

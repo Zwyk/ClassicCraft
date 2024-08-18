@@ -7,6 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
+using System.Windows.Markup;
 
 namespace ClassicCraft
 {
@@ -334,7 +335,7 @@ namespace ClassicCraft
                         res.Values.Add(Attribute.Agility, 28 + 5);
                         res.Values.Add(Attribute.Intellect, 42 + 5);
                         res.Values.Add(Attribute.Spirit, 52 - 1);
-                        res.Values.Add(Attribute.Mana, 923 - (20 + 15 * (res.Values[Attribute.Intellect] - 20)));
+                        res.Values.Add(Attribute.Mana, 923);
                     }
                     else
                     {
@@ -643,31 +644,38 @@ namespace ClassicCraft
                         res.Values.Add(Attribute.Agility, 27 + 3);
                         res.Values.Add(Attribute.Intellect, 47 + 3);
                         res.Values.Add(Attribute.Spirit, 55 - 2);
-                        res.Values.Add(Attribute.Mana, 923 - (20 + 15 * (res.Values[Attribute.Intellect] - 20)));
+                        res.Values.Add(Attribute.Mana, 923);
                     }
                     else if (level <= 40)
                     {
                         res.Values.Add(Attribute.Strength, 37 - 3);
                         res.Values.Add(Attribute.Agility, 34 + 3);
                         res.Values.Add(Attribute.Intellect, 69 + 3);
+                        res.Values.Add(Attribute.Spirit, 78 - 2);
+                        res.Values.Add(Attribute.Mana, 1678);
                     }
                     else if (level <= 50)
                     {
                         res.Values.Add(Attribute.Strength, 42 - 3);
                         res.Values.Add(Attribute.Agility, 40 + 3);
                         res.Values.Add(Attribute.Intellect, 87 + 3);
+                        res.Values.Add(Attribute.Spirit, 97 - 2);
+                        res.Values.Add(Attribute.Mana, 2188);
                     }
                     else if (level <= 60)
                     {
                         res.Values.Add(Attribute.Strength, 48 - 3);
                         res.Values.Add(Attribute.Agility, 47 + 3);
                         res.Values.Add(Attribute.Intellect, 107 + 3);
+                        res.Values.Add(Attribute.Spirit, 118 - 2);
+                        res.Values.Add(Attribute.Mana, 2698);
                     }
                     else
                     {
                         res.Values.Add(Attribute.Strength, 40 - 3);
                         res.Values.Add(Attribute.Agility, 53 + 3);
                         res.Values.Add(Attribute.Intellect, 119 + 3);
+                        res.Values.Add(Attribute.Spirit, 130 - 2);  // ?
                     }
                     break;
                 case Classes.Warrior:
@@ -746,6 +754,15 @@ namespace ClassicCraft
                     res.Values[Attribute.Spirit] += 0;
                     break;
                 default: break;
+            }
+
+            if(res.Values.ContainsKey(Attribute.Mana))
+            {
+                res.Values[Attribute.Mana] -= 20 + 15 * (res.Values[Attribute.Intellect] - 20);
+            }
+            else
+            {
+                res.Values.Add(Attribute.Mana, 100000);
             }
 
             return res;
@@ -916,8 +933,8 @@ namespace ClassicCraft
         {
             get
             {
-                if (Class == Player.Classes.Rogue || Form == Player.Forms.Cat) return Resources.Energy;
-                else if (Class == Player.Classes.Warrior || Form == Player.Forms.Bear) return Resources.Rage;
+                if (Class == Classes.Rogue || Form == Forms.Cat) return Resources.Energy;
+                else if (Class == Classes.Warrior || Form == Forms.Bear) return Resources.Rage;
                 else return Resources.Mana;
             }
         }
@@ -1184,7 +1201,8 @@ namespace ClassicCraft
         public bool WildStrikes { get; set; }
             
         public List<string> Cooldowns { get; set; }
-        public string PrePull {  get; set; }
+        public string PrePull { get; set; }
+        public double StartResourcePct { get; set; }
 
         public Dictionary<string, int> Sets { get; set; }
         public int SetPieces(string set) { return Sets.ContainsKey(set) ? Sets[set] : 0; }
@@ -1212,7 +1230,7 @@ namespace ClassicCraft
         }
 
         public Player(Simulation s, Player p)
-            : this(s, p.Class, p.Race, p.Level, p.Equipment, p.Talents, p.Buffs, p.Tanking, p.Facing, p.Cooldowns, p.Runes, p.Pet, p.PrePull)
+            : this(s, p.Class, p.Race, p.Level, p.Equipment, p.Talents, p.Buffs, p.Tanking, p.Facing, p.Cooldowns, p.Runes, p.Pet, p.PrePull, p.StartResourcePct)
         {
             Attributes.Values = new Dictionary<Attribute, double>(p.Attributes.Values);
 
@@ -1235,7 +1253,6 @@ namespace ClassicCraft
             WindfuryTotem = p.WindfuryTotem;
             WindfuryTotemImp = p.WindfuryTotemImp;
             WildStrikes = p.WildStrikes;
-            Cooldowns = p.Cooldowns;
             BaseMana = p.BaseMana;
 
             Sets = p.Sets;
@@ -1243,7 +1260,7 @@ namespace ClassicCraft
         }
 
         public Player(Simulation s, Classes c, Races r, int level, Dictionary<Slot, Item> items, 
-            Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, Entity pet, string prepull)
+            Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, Entity pet, string prepull, double startResourcePct)
             : base("Player", s, MobType.Humanoid, level, 0, 0, null, null)
         {
             Race = r;
@@ -1291,6 +1308,7 @@ namespace ClassicCraft
 
             Cooldowns = cooldowns;
             PrePull = prepull;
+            StartResourcePct = startResourcePct;
 
             Sets = new Dictionary<string, int>();
             ApplySets();
@@ -1302,11 +1320,16 @@ namespace ClassicCraft
 
         #region Rota
 
-        public Boss Target = null;
+        public Entity Target = null;
 
         public virtual void PrepFight()
         {
             Target = Sim.Boss[0];
+
+            Mana = (int)Math.Round(MaxMana * StartResourcePct / 100);
+            Resource = (int)Math.Round(MaxResource * StartResourcePct / 100);
+
+            HasteMod = CalcHaste();
 
             if (MH.Speed > 0)
             {
@@ -1958,6 +1981,7 @@ namespace ClassicCraft
                     * ((school == School.Fire && GetTalentPoints("DS") > 0 && Cooldowns.Contains("Demonic Sacrifice") && Pet.Name == "Imp") ? 1.15 : 1)
                     * ((school == School.Shadow && GetTalentPoints("DS") > 0 && Cooldowns.Contains("Demonic Sacrifice") && Pet.Name == "Succubus") ? 1.15 : 1)
                     * (school == School.Shadow ? 1 + 0.02 * GetTalentPoints("SM") : 1)
+                    * (new List<School>() { School.Shadow, School.Fire }.Contains(school) && Effects.ContainsKey("Shadow and Flame") ? 1.1 : 1)
                     ;
             }
             else if(Class == Classes.Warrior)
@@ -2062,6 +2086,13 @@ namespace ClassicCraft
                         {
                             Target.Effects["Deadly Poison"].StackRemove(Combo);
                         }
+                    }
+                }
+                else if (Class == Classes.Warlock)
+                {
+                    if(Runes.Contains("Shadow and Flame") && res == ResultType.Crit && (spell.School == School.Shadow || spell.School == School.Fire))
+                    {
+                        Effect.Apply(this, this, "Shadow and Flame");
                     }
                 }
             }
@@ -2185,7 +2216,7 @@ namespace ClassicCraft
 
                         double mitigation = Simulation.MagicMitigation(Target.ResistChances[School.Nature]);
                         ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
-                        int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Nature) * mitigation);
+                        int dmg = (int)Math.Round(MiscDamageCalc(procName, Target, procDmg, res2, School.Nature) * mitigation);
                         CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)(dmg * ThreatMod)));
                     }
                     if ((WindfuryTotem || !isMH)
@@ -2259,8 +2290,9 @@ namespace ClassicCraft
                     if (isMH
                         && OH.Name.Contains("Firestone")
                         && !alreadyProc.Contains("Firestone")
-                        && (!icds.ContainsKey("Firestone") || icds["Firestone"] < Sim.CurrentTime - 5)  // ICD 5s ?
-                        //&& Randomer.NextDouble() < isMH.Speed * 10 / 60                                 // PPM 10 ?
+                        //&& (!icds.ContainsKey("Firestone") || icds["Firestone"] < Sim.CurrentTime - 5)  // ICD 5s ?
+                        //&& Randomer.NextDouble() < MH.Speed * 10 / 60                                 // PPM 10 ?
+                        && Randomer.NextDouble() < 0.2                                                    // 20% ?
                         )
                     {
                         string procName = "Firestone";
@@ -2289,7 +2321,7 @@ namespace ClassicCraft
 
                         double mitigation = Simulation.MagicMitigation(Target.ResistChances[school]);
                         ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
-                        int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, school) * mitigation);
+                        int dmg = (int)Math.Round(MiscDamageCalc(procName, Target, procDmg, res2, school) * mitigation);
                         CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)(dmg * ThreatMod)));
                     }
                 }
@@ -2399,7 +2431,7 @@ namespace ClassicCraft
 
                     double mitigation = Simulation.MagicMitigation(Target.ResistChances[School.Shadow]);
                     ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
-                    int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Shadow) * mitigation);
+                    int dmg = (int)Math.Round(MiscDamageCalc(procName, Target, procDmg, res2, School.Shadow) * mitigation);
                     CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round(dmg * ThreatMod)));
                 }
                 if (((isMH && MH?.Name == "Perdition's Blade") || (!isMH && OH?.Name == "Perdition's Blade")) && !alreadyProc.Contains("PB") && Randomer.NextDouble() < 0.04)
@@ -2414,7 +2446,7 @@ namespace ClassicCraft
 
                     double mitigation = Simulation.MagicMitigation(Target.ResistChances[School.Fire]);
                     ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
-                    int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Fire) * mitigation);
+                    int dmg = (int)Math.Round(MiscDamageCalc(procName, Target, procDmg, res2, School.Fire) * mitigation);
                     CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round(dmg * ThreatMod)));
                 }
                 if (((isMH && MH?.Name == "Vis'kag the Bloodletter") || (!isMH && OH?.Name == "Vis'kag the Bloodletter")) && !alreadyProc.Contains("VtB") && Randomer.NextDouble() < 0.0253)
@@ -2428,7 +2460,7 @@ namespace ClassicCraft
                     }
 
                     ResultType res2 = YellowAttackEnemy(Target);
-                    int dmg = MiscDamageCalc(procDmg, res2);
+                    int dmg = MiscDamageCalc(procName, Target, procDmg, res2);
                     CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round(dmg * ThreatMod)));
                 }
                 if (((isMH && MH?.Name.ToLower().Contains("thunderfury") == true) || (!isMH && OH?.Name.ToLower().Contains("thunderfury") == true)) && !alreadyProc.Contains("tf") && Randomer.NextDouble() < 0.1917)
@@ -2444,7 +2476,7 @@ namespace ClassicCraft
 
                     double mitigation = Simulation.MagicMitigation(Target.ResistChances[School.Nature]);
                     ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
-                    int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Nature) * mitigation);
+                    int dmg = (int)Math.Round(MiscDamageCalc(procName, Target, procDmg, res2, School.Nature) * mitigation);
                     CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round((dmg + bonusThreat) * ThreatMod)));
                     for(int i = 1; i < Sim.NbTargets; i++)
                     {
@@ -2701,7 +2733,7 @@ namespace ClassicCraft
 
                         double mitigation = Simulation.MagicMitigation(Target.ResistChances[School.Shadow]);
                         ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
-                        int dmg = (int)Math.Round(MiscDamageCalc(20, res2, School.Shadow) * mitigation);
+                        int dmg = (int)Math.Round(MiscDamageCalc(procName, Target, 20, res2, School.Shadow) * mitigation);
                         CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round(dmg * ThreatMod)));
                     }
 
@@ -2769,7 +2801,7 @@ namespace ClassicCraft
 
                         double mitigation = Simulation.MagicMitigation(Target.ResistChances[School.Nature]);
                         ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
-                        int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Nature) * mitigation);
+                        int dmg = (int)Math.Round(MiscDamageCalc(procName, Target, procDmg, res2, School.Nature) * mitigation);
                         CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)(dmg * ThreatMod)));
                     }
                     if (!alreadyProc.Contains("Tsunami Talisman")
@@ -2968,14 +3000,15 @@ namespace ClassicCraft
                         alreadyProc.Add("honed darkwater talwar");
                         string procName = "Honed Darkwater Talwar";
                         int procDmg = 30;
+                        School school = School.Shadow;
                         if (!CustomActions.ContainsKey(procName))
                         {
-                            CustomActions.Add(procName, new CustomAction(this, procName, School.Shadow));
+                            CustomActions.Add(procName, new CustomAction(this, procName, school));
                         }
 
-                        double mitigation = Simulation.MagicMitigation(Target.ResistChances[School.Shadow]);
+                        double mitigation = Simulation.MagicMitigation(Target.ResistChances[school]);
                         ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
-                        int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Shadow) * mitigation);
+                        int dmg = (int)Math.Round(MiscDamageCalc(procName, Target, procDmg, res2, school) * mitigation);
                         CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round(dmg * ThreatMod)));
                     }
                     if (((isMH && MH?.Name.ToLower().Contains("gusting wind") == true) || (!isMH && OH?.Name.ToLower().Contains("gusting wind") == true))
@@ -2984,15 +3017,33 @@ namespace ClassicCraft
                         alreadyProc.Add("gusting wind");
                         string procName = "Gusting Wind";
                         int procDmg = 15;
+                        School school = School.Nature;
                         if (!CustomActions.ContainsKey(procName))
                         {
-                            CustomActions.Add(procName, new CustomAction(this, procName, School.Nature));
+                            CustomActions.Add(procName, new CustomAction(this, procName, school));
                         }
 
-                        double mitigation = Simulation.MagicMitigation(Target.ResistChances[School.Nature]);
+                        double mitigation = Simulation.MagicMitigation(Target.ResistChances[school]);
                         ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
-                        int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Nature) * mitigation);
+                        int dmg = (int)Math.Round(MiscDamageCalc(procName, Target, procDmg, res2, school) * mitigation);
                         CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round(dmg * ThreatMod)));
+                    }
+                    if (((isMH && MH?.Name.ToLower().Contains("vampiric boot knife") == true) || (!isMH && OH?.Name.ToLower().Contains("vampiric boot knife") == true))
+                        && !alreadyProc.Contains("vampiric boot knife") && Randomer.NextDouble() < 0.21)
+                    {
+                        alreadyProc.Add("vampiric boot knife");
+                        string procName = "Vampiric Boot Knife";
+                        int procDmg = 10;
+                        School school = School.Shadow;
+                        if (!CustomActions.ContainsKey(procName))
+                        {
+                            CustomActions.Add(procName, new CustomAction(this, procName, school));
+                        }
+
+                        double mitigation = Simulation.MagicMitigation(Target.ResistChances[school]);
+                        ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
+                        int dmg = (int)Math.Round(MiscDamageCalc(procName, Target, procDmg, res2, school) * mitigation);
+                        CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round(dmg * ThreatMod * (Tanking ? 1.5 :1))));
                     }
                     if (isMH && MH?.Name.ToLower().Contains("deadly strike of the hydra") == true
                         && !alreadyProc.Contains("deadly strike of the hydra") && Randomer.NextDouble() < 0.21)
@@ -3007,28 +3058,36 @@ namespace ClassicCraft
 
                         double mitigation = Simulation.MagicMitigation(Target.ResistChances[School.Nature]);
                         ResultType res2 = mitigation == 0 ? ResultType.Resist : SpellAttackEnemy(Target);
-                        int dmg = (int)Math.Round(MiscDamageCalc(procDmg, res2, School.Nature) * mitigation);
+                        int dmg = (int)Math.Round(MiscDamageCalc(procName, Target, procDmg, res2, School.Nature) * mitigation);
                         CustomActions[procName].RegisterDamage(new ActionResult(res2, dmg, (int)Math.Round(dmg * ThreatMod)));
                     }
                 }
             }
-            else if(Class == Classes.Warrior && (res == ResultType.Parry || res == ResultType.Dodge) && NbSet("Warbringer") >= 4)
+            else if(Class == Classes.Warrior)
             {
-                Resource += 2;
-                if (Program.logFight)
+                if(res == ResultType.Dodge)
                 {
-                    Program.Log(string.Format("{0:N2} : Warbringer 4P procs (rage {1}/{2})", Sim.CurrentTime, Resource, MaxResource));
+                    Effect.Apply(this, Target, Overpower.NAME);
+                }
+                if ((res == ResultType.Parry || res == ResultType.Dodge) && NbSet("Warbringer") >= 4)
+                {
+                    Resource += 2;
+                    if (Program.logFight)
+                    {
+                        Program.Log(string.Format("{0:N2} : Warbringer 4P procs (rage {1}/{2})", Sim.CurrentTime, Resource, MaxResource));
+                    }
                 }
             }
         }
 
-        public int MiscDamageCalc(int baseDmg, ResultType res, School school = School.Physical, double APRatio = 0)
+        public int MiscDamageCalc(string name, Entity target, int baseDmg, ResultType res, School school = School.Physical, double APRatio = 0)
         {
             if(school == School.Physical)
             {
                 return (int)Math.Round(baseDmg
                     * Sim.DamageMod(res)
                     * Simulation.ArmorMitigation(Target.Armor, Level, Attributes.GetValue(Attribute.ArmorPen))
+                    * SelfModifiers(name, target, school, res)
                     * DamageMod);
             }
             else
@@ -3036,6 +3095,7 @@ namespace ClassicCraft
                 return (int)Math.Round((baseDmg + APRatio * AP)
                     * Sim.DamageMod(res)
                     * Simulation.MagicMitigation(Target.ResistChances[school])
+                    * SelfModifiers(name, target, school, res)
                     * DamageMod);
             }
         }
@@ -3062,7 +3122,7 @@ namespace ClassicCraft
             whiteHitChancesMH.Add(ResultType.Miss, MissChance(DualWielding, HitChance, WeaponSkill[MH.Type], enemy.Level));
             whiteHitChancesMH.Add(ResultType.Dodge, Program.version == Version.TBC ? EnemyDodgeChance(enemy.DodgeChance(WeaponSkill[MH.Type]), ExpertisePercent + (MH.Buff == null ? 0 : MH.Buff.Attributes.GetValue(Attribute.Expertise))) : enemy.DodgeChance(WeaponSkill[MH.Type]));
             whiteHitChancesMH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[MH.Type], enemy.Level, Facing, MHParryExpertise));
-            whiteHitChancesMH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level));
+            whiteHitChancesMH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level, IsCaster()));
             whiteHitChancesMH.Add(ResultType.Block, enemy.BlockChance());
             whiteHitChancesMH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritChance + MHBonusCrit, Level, enemy.Level), whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glance], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
             whiteHitChancesMH.Add(ResultType.Hit, RealHitChance(whiteHitChancesMH[ResultType.Miss], whiteHitChancesMH[ResultType.Glance], whiteHitChancesMH[ResultType.Crit], whiteHitChancesMH[ResultType.Dodge], whiteHitChancesMH[ResultType.Parry], whiteHitChancesMH[ResultType.Block]));
@@ -3074,7 +3134,7 @@ namespace ClassicCraft
                 whiteHitChancesOH.Add(ResultType.Miss, MissChance(true, HitChance + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.HitChance)), WeaponSkill[OH.Type], enemy.Level));
                 whiteHitChancesOH.Add(ResultType.Dodge, Program.version == Version.TBC ? EnemyDodgeChance(enemy.DodgeChance(WeaponSkill[OH.Type]), ExpertisePercent + (OH.Buff == null ? 0 : OH.Buff.Attributes.GetValue(Attribute.Expertise))) : enemy.DodgeChance(WeaponSkill[OH.Type]));
                 whiteHitChancesOH.Add(ResultType.Parry, EnemyParryChance(Level, WeaponSkill[OH.Type], enemy.Level, Facing, OHParryExpertise));
-                whiteHitChancesOH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level));
+                whiteHitChancesOH.Add(ResultType.Glance, GlancingChance(Level, enemy.Level, IsCaster())) ;
                 whiteHitChancesOH.Add(ResultType.Block, enemy.BlockChance());
                 whiteHitChancesOH.Add(ResultType.Crit, RealCritChance(CritWithSuppression(CritChance + OHBonusCrit, Level, enemy.Level), whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glance], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
                 whiteHitChancesOH.Add(ResultType.Hit, RealHitChance(whiteHitChancesOH[ResultType.Miss], whiteHitChancesOH[ResultType.Glance], whiteHitChancesOH[ResultType.Crit], whiteHitChancesOH[ResultType.Dodge], whiteHitChancesOH[ResultType.Parry], whiteHitChancesOH[ResultType.Block]));
@@ -3210,9 +3270,9 @@ namespace ClassicCraft
             return Math.Max(0, dualWield ? miss * 0.8 + 0.2 : miss);
         }
 
-        public static double GlancingChance(int level, int enemyLevel)
+        public static double GlancingChance(int level, int enemyLevel, bool isCaster)
         {
-            return Math.Max(0, 0.10 + (enemyLevel * 5 - level * 5) * 0.02);
+            return Math.Max(0, (isCaster ? (level >= 30 ? 0.6 : (level - 10) * 0.03) : 0) + 0.10 + (enemyLevel * 5 - level * 5) * 0.02);
         }
 
         public static double RealCritChance(double netCritChance, double realMiss, double realGlancing, double enemyDodgeChance, double enemyParryChance, double enemyBlockChance)

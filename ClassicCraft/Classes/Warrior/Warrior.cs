@@ -25,7 +25,7 @@ namespace ClassicCraft
         private ShieldSlam shslam = null;
         private Devastate dev = null;
         private Thunderclap tc = null;
-        private Overpower pow = null;
+        private Overpower over = null;
         private QuickStrike qs = null;
         private RagingBlow rb = null;
         private Rend rend = null;
@@ -43,8 +43,8 @@ namespace ClassicCraft
         {
         }
 
-        public Warrior(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, string prepull)
-            : base(s, Classes.Warrior, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null, prepull)
+        public Warrior(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, string prepull, double startResourcePct)
+            : base(s, Classes.Warrior, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null, prepull, startResourcePct)
         {
         }
 
@@ -176,7 +176,7 @@ namespace ClassicCraft
             if (GetTalentPoints("IS") > 0) slam = new Slam(this);
             rend = new Rend(this);
             brage = new BerserkerRage(this);
-            pow = new Overpower(this);
+            over = new Overpower(this);
 
             if (Sim.Tanking)
             {
@@ -203,8 +203,6 @@ namespace ClassicCraft
                 }
             }
 
-            HasteMod = CalcHaste();
-
             if (Cooldowns != null)
             {
                 foreach (string s in Cooldowns)
@@ -227,6 +225,10 @@ namespace ClassicCraft
                             }
                             break;
                     }
+                }
+                if (Runes.Contains("Flagellation"))
+                {
+                    cds.Add(brage, Enrage.LENGTH);
                 }
             }
             
@@ -283,17 +285,35 @@ namespace ClassicCraft
             }
             else if(Program.version == Version.SoD)
             {
-                if(Tanking)
+                if(Level <= 25)
                 {
-                    rota = 300; // Tank
+                    if (Tanking)
+                    {
+                        rota = 300; // Tank
+                    }
+                    else if (DualWielding)
+                    {
+                        rota = 301; // 2x1H
+                    }
+                    else
+                    {
+                        rota = 302; // 2H
+                    }
                 }
-                else if(DualWielding)
+                else if(Level <= 40)
                 {
-                    rota = 301; // 2x1H
-                }
-                else
-                {
-                    rota = 302; // 2H
+                    if (Tanking)
+                    {
+                        rota = 310; // Tank
+                    }
+                    else if (DualWielding)
+                    {
+                        rota = 311; // 2x1H
+                    }
+                    else
+                    {
+                        rota = 312; // 2H
+                    }
                 }
             }
             else
@@ -351,9 +371,10 @@ namespace ClassicCraft
                 {
                     if (cd.CanUse() &&
                         (Sim.FightLength - Sim.CurrentTime <= cds[cd]
-                        || Sim.FightLength - Sim.CurrentTime >= cd.BaseCD + cds[cd]))
+                        || Sim.TimeLeft >= cd.BaseCD + cds[cd]))
                     {
-                        if (!(cd is MightyRage) || Sim.FightLength - Sim.CurrentTime >= cd.BaseCD + cds[cd] || ((!Tanking || Sim.TankHitRage == 0 || Sim.TankHitEvery == 0) && Resource < exec.Cost))
+                        if ((!(cd is MightyRage) || Sim.TimeLeft >= cd.BaseCD + cds[cd] || (!Tanking && Resource < exec.Cost))
+                            && !(cd is BerserkerRage && Effects.ContainsKey(BloodrageBuff.NAME)))
                         {
                             cd.Cast(Target);
                         }
@@ -675,22 +696,73 @@ namespace ClassicCraft
                     hs.Cast(Target);
                 }
             }
-            else if(rota == 301)
+            else if (rota == 301)    // SoD 1H
             {
-                if(rb.CanUse())
+                if (over.CanUse())
+                {
+                    over.Cast(Target);
+                }
+                if (exec.CanUse() && (Resource <= exec.Cost + 5 || Sim.TimeLeft <= 10))
+                {
+                    exec.Cast(Target);
+                }
+                if (rb.CanUse())
                 {
                     rb.Cast(Target);
                 }
-                else if(Resource > 80 && Cooldowns.Contains(Rend.NAME) && !Target.Effects.ContainsKey(Rend.NAME) && rend.CanUse())
+                else if (Resource > 80 && Cooldowns.Contains(Rend.NAME) && !Target.Effects.ContainsKey(Rend.NAME) && rend.CanUse())
                 {
                     rend.Cast(Target);
                 }
-                else if(Resource > 80 && ham.CanUse())
+                else if (Resource > 80 && ham.CanUse())
                 {
                     ham.Cast(Target);
                 }
 
                 if (applyAtNextAA == null && Resource >= 95)
+                {
+                    if (Sim.NbTargets > 1)
+                    {
+                        cl.Cast(Target);
+                    }
+                    else
+                    {
+                        hs.Cast(Target);
+                    }
+                }
+                else if (Resource < 80)
+                {
+                    applyAtNextAA = null;
+                }
+            }
+            else if (rota == 311)    // SoD 1H
+            {
+                if (exec.CanUse() && (Resource <= exec.Cost + 5 || Sim.TimeLeft <= 10))
+                {
+                    exec.Cast(Target);
+                }
+                else if (rb != null && rb.CanUse())
+                {
+                    rb.Cast(Target);
+                }
+                else if(bt != null && (Resource >= 80 || !Runes.Contains(ConsumedByRage.NAME)) && bt.CanUse())
+                {
+                    bt.Cast(Target);
+                }
+                else if(ms != null && (Resource >= 80 || !Runes.Contains(ConsumedByRage.NAME)) && ms.CanUse())
+                {
+                    ms.Cast(Target);
+                }
+                else if (ww != null && (Resource >= 80 || !Runes.Contains(ConsumedByRage.NAME)) && ms.CanUse())
+                {
+                    ww.Cast(Target);
+                }
+                else if (Resource >= 80 && ham.CanUse())
+                {
+                    ham.Cast(Target);
+                }
+
+                if (applyAtNextAA == null && Resource > 90)
                 {
                     if (Sim.NbTargets > 1)
                     {
@@ -753,19 +825,19 @@ namespace ClassicCraft
                 }
                 else if (a is Execute && Target.LifePct <= 0.2)
                 {
-                    dmg = Execute.BASE_DMG + Execute.DMG_BY_RAGE * (Resource - exec.Cost);
+                    dmg = Execute.BASE_DMG(Level) + Execute.DMG_BY_RAGE(Level) * (Resource - exec.Cost);
                     SpellsDmg.Add(new KeyValuePair<Action, double>(a, dmg));
                     SpellsDPR.Add(new KeyValuePair<Action, double>(a, dmg / Resource));
                 }
                 else if (a is HeroicStrike)
                 {
-                    dmg = (MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + HeroicStrike.BONUS_DMG - ((1 - (WindfuryTotem ? 0.2 : 0)) * aaDmg);
+                    dmg = (MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + HeroicStrike.BONUS_DMG(Level) - ((1 - (WindfuryTotem ? 0.2 : 0)) * aaDmg);
                     SpellsDmg.Add(new KeyValuePair<Action, double>(a, dmg));
                     SpellsDPR.Add(new KeyValuePair<Action, double>(a, dmg / (hs.Cost + ((1 - (WindfuryTotem ? 0.2 : 0)) * aaRage))));
                 }
                 else if (a is Cleave)
                 {
-                    dmg = ((MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + HeroicStrike.BONUS_DMG - ((1 - (WindfuryTotem ? 0.2 : 0)) * aaDmg))
+                    dmg = ((MH.DamageMin + MH.DamageMax) / 2 + MH.Speed * AP / 14 + HeroicStrike.BONUS_DMG(Level) - ((1 - (WindfuryTotem ? 0.2 : 0)) * aaDmg))
                     * Math.Min(2, Sim.NbTargets);
                     SpellsDmg.Add(new KeyValuePair<Action, double>(a, dmg));
                     SpellsDPR.Add(new KeyValuePair<Action, double>(a, dmg / (cl.Cost + ((1 - (WindfuryTotem ? 0.2 : 0)) * aaRage))));

@@ -34,8 +34,8 @@ namespace ClassicCraft
         {
         }
 
-        public Warlock(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, Entity pet, string prepull)
-            : base(s, Classes.Warlock, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, pet, prepull)
+        public Warlock(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, Entity pet, string prepull, double startResourcePct)
+            : base(s, Classes.Warlock, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, pet, prepull, startResourcePct)
         {
         }
 
@@ -98,14 +98,12 @@ namespace ClassicCraft
         {
             base.PrepFight();
 
-            Mana = MaxMana;
-
             if (Tanking && Runes.Contains("Metamorphosis"))
             {
                 Form = Forms.Metamorphosis;
                 dlr = (Runes.Contains("Master Channeler") && Cooldowns.Contains("Drain Life")) ? new DrainLifeRune(this) : null;
                 sp = new SearingPain(this);
-                sc = Sim.NbTargets > 1 || Cooldowns.Contains("Shadow Cleave mono") ? new ShadowCleave(this) : null;
+                sc = new ShadowCleave(this);
                 dg = Runes.Contains("Demonic Grace") ? new DemonicGrace(this) : null;
             }
             else
@@ -143,11 +141,16 @@ namespace ClassicCraft
 
                 if (casting == null)
                 {
-                    if (dg != null && dg.CanUse())
+                    if (dg != null && dg.CanUse() 
+                        && (Sim.TimeLeft <= DemonicGraceBuff.LENGTH ||
+                            ((ca == null || Sim.Boss[0].Effects.ContainsKey(CurseOfAgonyDoT.NAME))
+                            && (co == null || Sim.Boss[0].Effects.ContainsKey(CorruptionDoT.NAME))
+                            && (dl == null || Sim.Boss[0].Effects.ContainsKey(DrainLifeDoT.NAME))))
+                        )
                     {
                         dg.Cast(Target);
                     }
-                    if (sc!= null && sc.CanUse())
+                    if ((Sim.NbTargets > 1 || Cooldowns.Contains("Shadow Cleave mono")) && sc.CanUse())
                     {
                         sc.Cast(Target);
                     }

@@ -64,8 +64,8 @@
       "Slot": "Any",
       "Stats": {
         "AP": 12,
-        "Hit": 1,
-        "SHit": 1,
+        "Hit": 0,
+        "SHit": 0,
       }
     },
   ],
@@ -259,8 +259,8 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Agi": 0.0,
-        "Str": 10.0
+        "Agi": 5.0,
+        "Str": 9.0
       },
       "Enchantment": {
         "Id": 0,

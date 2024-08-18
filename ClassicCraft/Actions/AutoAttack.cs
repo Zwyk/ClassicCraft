@@ -46,7 +46,7 @@ namespace ClassicCraft
                         }
                     }
                 }
-                if (!Player.CurrentMainResource.Equals("mana"))
+                if (Player.CurrentMainResource != Player.Resources.Mana)
                 {
                     log += string.Format(" ({0} {1}/{2})", Player.CurrentMainResource, Player.Resource, Player.MaxResource);
                 }

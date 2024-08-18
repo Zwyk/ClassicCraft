@@ -57,6 +57,11 @@ namespace ClassicCraft
             base.Refresh();
 
             TickDamage = GetTickDamage();
+
+            if(Player.Runes.Contains("Invocation"))
+            {
+                // remaining ticks damage if remaining < 6sec
+            }
         }
 
         public virtual double BaseDmg()
@@ -66,10 +71,17 @@ namespace ClassicCraft
 
         public virtual int GetTickDamage()
         {
-            double mitigation = School == School.Physical ? Simulation.ArmorMitigation(Target.Armor, Player.Level, Player.Attributes.GetValue(Attribute.ArmorPen)) : 1;
+            ResultType res = ResultType.Hit;
+
+            if(Player.Class == Player.Classes.Warlock && Player.Runes.Contains("Pandemic")
+                && new List<String>() { CorruptionDoT.NAME, CurseOfAgonyDoT.NAME }.Contains(ToString())
+                && Randomer.NextDouble() < Player.SpellCritChance)
+            {
+                res = ResultType.Crit;
+            }
+
             return (int)Math.Round((BaseDmg() * CurrentStacks + (School == School.Physical ? Player.AP : Player.SchoolSP(School)) * Ratio) / (CustomDuration() / TickDelay)
-                * Player.Sim.DamageMod(ResultType.Hit, School)
-                * mitigation
+                * Player.Sim.DamageMod(res, School)
                 * Player.DamageMod
                 * Player.SelfModifiers(ToString(), Target, School, ResultType.Hit)
                 );

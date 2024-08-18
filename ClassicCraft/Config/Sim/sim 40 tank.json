@@ -1,13 +1,12 @@
 {
-  "DoCompare": true,
+  "DoCompare": false,
   "Compare": [
-    "Warrior - 25 1H DPS",
-    "Warrior - 25 1H DPS 2",
+    "Warlock - 40 meta destru"
   ],
   "FightLength": 120.0,
   "FightLengthMod": 0.1,
   "NbSim": 1,
-  "Threat": false,
+  "Threat": true,
   "StatsWeights": false,
   "TargetErrorPct": 0.5,
   "TargetError": true,
@@ -15,9 +14,9 @@
   "BossAutoLife": true,
   "BossLowLifeTime": 0.0,
   "Boss": {
-    "Level": 27,
+    "Level": 42,
     "Type": null,
-    "Armor": 0,
+    "Armor": 3000,
     "Debuffs": {
       "Curse of the Elements": false,
       "Shadow Vulnerability": false,
@@ -36,10 +35,10 @@
       "All": 0
     }
   },
-  "UnlimitedMana": false,
+  "UnlimitedMana": true,
   "UnlimitedResource": false,
-  "Facing": false,
-  "Tanking": false,
+  "Facing": true,
+  "Tanking": true,
   "TankHitEvery": 2.0,
   "TankHitRage": 30.0,
   "NbTargets": 1

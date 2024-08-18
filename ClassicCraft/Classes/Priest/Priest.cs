@@ -24,8 +24,8 @@ namespace ClassicCraft
         {
         }
 
-        public Priest(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, string prepull)
-            : base(s, Classes.Priest, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null, prepull)
+        public Priest(Simulation s, Races r, int level, Dictionary<Slot, Item> items, Dictionary<string, int> talents, List<Enchantment> buffs, bool tanking, bool facing, List<string> cooldowns, List<string> runes, string prepull, double startResourcePct)
+            : base(s, Classes.Priest, r, level, items, talents, buffs, tanking, facing, cooldowns, runes, null, prepull, startResourcePct)
         {
         }
 
@@ -71,8 +71,6 @@ namespace ClassicCraft
         public override void PrepFight()
         {
             base.PrepFight();
-
-            Mana = MaxMana;
 
             inner = new InnerFocus(this);
             mb = new MindBlast(this);

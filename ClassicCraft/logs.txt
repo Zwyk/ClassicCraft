@@ -1,43 +1,58 @@
-Date : 2024/01/21 03:03:29
+Date : 2024/03/02 18:57:53
 
 Fight length : 120 seconds (±10%)
 Number of targets : 1
 
-Warrior - 25 1H DPS:
-Troll Warrior level 25 | Talents : 303220203-01 | Stats : [CritChance:7.4%][Stamina:117][Health:2679][Mana:0][Strength:116][Agility:78][Intellect:24][Spirit:35][AP:365][RangedAP:171][HitChance:4%][Haste:0%][SpellHitChance:1%][SpellCritChance:0%][Expertise:0%][SP:0][WeaponDamage:4]
-Main weapon : Sword with 125 skill
+Warlock - 40 meta destru:
+Undead Warlock level 40 | Talents : 050005--50500050005001 | Stats : [CritChance:5.33%][Stamina:66][Health:1894][Strength:45][Agility:45][Intellect:148][Spirit:114][Mana:3128][AP:141][RangedAP:45][SP:162][HitChance:4%][Haste:10%][SpellHitChance:1%][SpellCritChance:9.82%][Expertise:0%][WeaponDamage:3]
+Main weapon : Dagger with 200 skill
 
 Boss:
-Level 27, 0 Armor (0.00% mitigation), Magic Resists : [Shadow:0][Holy:0][Fire:0][Nature:0][Frost:0][Arcane:0]
+Level 42, 3000 Armor (35.29% mitigation), Magic Resists : [Shadow:0][Holy:0][Fire:0][Nature:0][Frost:0][Arcane:0]
 After raid debuffs and player penetration :
-Level 27, 0 Armor (0.00% mitigation), Magic Resists : [Shadow:0][Holy:0][Fire:0][Nature:0][Frost:0][Arcane:0]
+Level 42, 3000 Armor (35.29% mitigation), Magic Resists : [Shadow:0][Holy:0][Fire:0][Nature:0][Frost:0][Arcane:0]
 
-1066 simulations done in 2 972.02 ms, for 2.79 ms by sim
-Overall accuracy of results : ±0.46% (±0.53 DPS)
+95324 simulations done in 228 649.56 ms, for 2.40 ms by sim
+Overall accuracy of results : ±0.10% (±0.42 TPS / ±0.19 DPS)
 
-Average DPS : 113.87 DPS (±17.21)
+Base : 432.29 TPS (±37.91)
 
-Actions :
-[AA MH] : 34.97 DPS (30.71%)
-	Average of 100.15 damage for 41.92 uses (or 1 use every 2.86s)
-	37.05% Hit, 5.36% Crit, 21.39% Miss, 30.12% Glancing, 6.08% Dodge
-[AA OH] : 19.14 DPS (16.80%)
-	Average of 26.10 damage for 87.85 uses (or 1 use every 1.36s)
-	41.32% Hit, 5.36% Crit, 20.19% Miss, 27.17% Glancing, 5.97% Dodge
-[Honed Darkwater Talwar] : 4.57 DPS (4.01%)
-	Average of 28.47 damage for 19.21 uses (or 1 use every 6.24s)
-	94.89% Hit, 0.00% Crit, 5.11% Resist
-[Gusting Wind] : 1.62 DPS (1.42%)
-	Average of 14.28 damage for 13.61 uses (or 1 use every 8.80s)
-	95.20% Hit, 0.00% Crit, 4.80% Resist
-[Heroic Strike] : 9.74 DPS (8.55%)
-	Average of 307.61 damage for 3.76 uses (or 1 use every 31.84s)
-	87.28% Hit, 5.30% Crit, 2.25% Miss, 0.00% Glancing, 5.17% Dodge
-[Hamstring] : 19.66 DPS (17.27%)
-	Average of 48.64 damage for 48.45 uses (or 1 use every 2.47s)
-	86.40% Hit, 5.49% Crit, 1.98% Miss, 0.00% Glancing, 6.13% Dodge
+Weights by TPS :
+1 SP = 0.8798 TPS
+1 SPFire = 0.6732 TPS = 0.7652 SP
+1 SPShadow = 0.2001 TPS = 0.2274 SP
+1 AP = 0.0185 TPS = 0.0210 SP
+1 Str = 0.0185 TPS = 0.0210 SP
+1 Agi = 0.0000 TPS = 0.0000 SP
+1% Crit = 0.0000 TPS = 0.0000 SP
+1% Hit = 0.2271 TPS = 0.2581 SP
+1% Haste = 0.3352 TPS = 0.3810 SP
+1 MH DPS = 0.3827 TPS = 0.4350 SP
+1 MH Skill = 1.6463 TPS = 1.8711 SP
+5 MH Skill = 6.0186 TPS = 6.8406 SP
+1% SpellCrit = 3.1279 TPS = 3.5552 SP
+1% SpellHit = 4.4306 TPS = 5.0357 SP
+1 Int = 0.0854 TPS = 0.0971 SP
+1 Spi = 0.0000 TPS = 0.0000 SP
+1 MP5 = 0.0027 TPS = 0.0031 SP
 
-Effects :
-[Deep Wounds] : 7.41 DPS (6.51%)
-	Average of 36.90 damage for 23.78 ticks (or 1 tick every 5.04s)
-	59.53% Uptime
+Base : 198.32 DPS (±15.07)
+
+Weights by DPS :
+1 SP = 0.3575 DPS
+1 SPFire = 0.2229 DPS = 0.6235 SP
+1 SPShadow = 0.1315 DPS = 0.3677 SP
+1 AP = 0.0149 DPS = 0.0416 SP
+1 Str = 0.0149 DPS = 0.0416 SP
+1 Agi = 0.0000 DPS = 0.0000 SP
+1% Crit = 0.0000 DPS = 0.0000 SP
+1% Hit = 0.1569 DPS = 0.4390 SP
+1% Haste = 0.1076 DPS = 0.3011 SP
+1 MH DPS = 0.2532 DPS = 0.7083 SP
+1 MH Skill = 0.9862 DPS = 2.7588 SP
+5 MH Skill = 4.1339 DPS = 11.5638 SP
+1% SpellCrit = 1.1086 DPS = 3.1010 SP
+1% SpellHit = 1.7128 DPS = 4.7911 SP
+1 Int = 0.0313 DPS = 0.0875 SP
+1 Spi = 0.0000 DPS = 0.0000 SP
+1 MP5 = 0.0000 DPS = 0.0000 SP

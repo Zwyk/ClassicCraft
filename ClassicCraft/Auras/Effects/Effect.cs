@@ -38,6 +38,7 @@ namespace ClassicCraft
             else if (s == DemonicGraceBuff.NAME) return new DemonicGraceBuff(p);
             else if (s == DrainLifeDoT.NAME) return new DrainLifeDoT(p, t);
             else if (s == Incinerate.NAME) return Incinerate.NewEffect(p, t);
+            else if (s == "Shadow and Flame") return new CustomEffect(p, t, "Shadow and Flame", true, 10);
             else if (s == ShadowTrance.NAME) return new ShadowTrance(p);
             else if (s == ShadowVulnerability.NAME) return new DrainLifeDoT(p, t);
             // WARRIOR
@@ -46,6 +47,7 @@ namespace ClassicCraft
             else if (s == DeathWishBuff.NAME) return new DeathWishBuff(p);
             else if (s == DeepWounds.NAME) return new DeepWounds(p, t);
             else if (s == Flurry.NAME) return new Flurry(p);
+            else if (s == Overpower.NAME) return new CustomEffect(p, t, Overpower.NAME, true, Overpower.EFFECT_DURATION);
             else if (s == RampageBuff.NAME) return new RampageBuff(p);
             else if (s == RecklessnessBuff.NAME) return new RecklessnessBuff(p);
             else if (s == RendDoT.NAME) return new RendDoT(p, t);

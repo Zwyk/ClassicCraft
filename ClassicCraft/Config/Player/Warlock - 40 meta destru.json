@@ -1,37 +1,56 @@
 {
   "Version": "SoD",
-  "Class": "Warrior",
-  "Level": 25,
-  "Race": "Troll",
-  "Talents": "303220203-01",
-  "Pet": null,
+  "Class": "Warlock",
+  "Level": 40,
+  "Race": "Undead",
+  "Talents": "050005--50500050005001",
+  "Pet": "Succubus",
   "Runes": [
-    "Raging Blow",
-    "Single-Minded Fury",
-    "Consumed by Rage"
+    "Metamorphosis",
+    "Master Channeler",
+    "Demonic Grace",
+    "Shadow and Flame",
   ],
-  "PrePull": null,
-  "StartResourcePct": 0,
+  "Unused Runes": [
+    "Demonic Tactics",
+  ],
   "Cooldowns": {
-    "Racial": true,
-    "Mighty Rage Potion": true,
-    "Rend": false,
+    "Melee": true,
+    "Shadow Cleave mono": false,
+    "Shadowburn": true,
+    "Corruption": true,
+    "Curse of Agony": true,
+    "Drain Life": true,
+    "Immolate": false,
+    "Racial": false,
     "Haste Potion": false,
     "Drums of Battle": false,
-    "Drums of War": false,
-    "Insane Strength Potion": false,
-    "Death Wish": false,
-    "Recklessness": false,
-    "Bloodlust": false,
-    "Shield Block": false
+    "Drums of War": false
   },
   "Buffs": [
     {
+      "Name": "Custom",
+      "Stats": {
+        "SP": 0,
+      }
+    },
+    {
+      "Name": "Sets",
+      "Stats": {
+        "SP": 9,
+      }
+    },
+    {
+      "Name": "Wild Strikes",
+    },
+    {
       "Id": 0,
-      "Name": "Battle Shout",
+      "Name": "WB Gnome",
       "Slot": "Any",
       "Stats": {
-        "AP": 60.0
+        "SCrit": 4,
+        "SP": 42,
+        "Haste": 10,
       }
     },
     {
@@ -39,79 +58,87 @@
       "Name": "Mark of the Wild",
       "Slot": "Any",
       "Stats": {
-        "Str": 4.0,
-        "Agi": 4.0,
-        "Int": 4.0,
-        "Spi": 4.0,
-        "Sta": 4.0
+        "Str": 8.0,
+        "Agi": 8.0,
+        "Int": 8.0,
+        "Spi": 8.0
       }
     },
     {
       "Id": 0,
-      "Name": "BFD",
+      "Name": "Arcane Intellect",
       "Slot": "Any",
       "Stats": {
-        "Crit": 2.0,
-        "SCrit": 2.0,
-        "SHit": 3,
-        "AP": 20,
-        "SP": 25
+        "Int": 15.0,
       }
     },
     {
       "Id": 0,
-      "Name": "Twilight",
+      "Name": "Battle Shout",
       "Slot": "Any",
       "Stats": {
-        "AP": 12,
-        "Hit": 1,
-        "SHit": 1,
+        "AP": 106.0,
       }
     },
   ],
   "Weapons": {
     "MH": {
-      "DamageMin": 43.0,
-      "DamageMax": 82.0,
-      "Speed": 2.7,
+      "DamageMin": 26.0,
+      "DamageMax": 69.0,
+      "Speed": 1.4,
       "TwoHanded": false,
-      "Type": "Sword",
+      "Type": "Dagger",
       "Buff": null,
       "School": null,
-      "Name": "Honed Darkwater Talwar",
+      "Name": "Scout's Blade",
       "Id": 0,
       "Slot": "Weapon",
-      "Stats": {},
+      "Stats": {
+        "Int": 8.0,
+        "SP": 9,
+      },
       "Enchantment": {
         "Id": 0,
         "Name": "Striking",
         "Slot": null,
         "Stats": {
-          "WDmg": 2.0
+          "WDmg": 3.0
         }
       },
       "Gems": null
     },
     "OH": {
-      "DamageMin": 21.0,
-      "DamageMax": 38.0,
-      "Speed": 1.4,
+      "DamageMin": 0.0,
+      "DamageMax": 0.0,
+      "Speed": 0.0,
       "TwoHanded": false,
-      "Type": "Fist",
+      "Type": "Offhand",
       "Buff": null,
       "School": null,
-      "Name": "Gusting Wind",
+      "Name": "Orb",
       "Id": 0,
       "Slot": "Weapon",
-      "Stats": {},
-      "Enchantment": {
-        "Id": 0,
-        "Name": "Striking",
-        "Slot": null,
-        "Stats": {
-          "WDmg": 2.0
-        }
+      "Stats": {
+        "SP": 12.0,
       },
+      "Enchantment": null,
+      "Gems": null
+    },
+    "Ranged": {
+      "DamageMin": 0.0,
+      "DamageMax": 0.0,
+      "Speed": 0.0,
+      "TwoHanded": false,
+      "Type": "Wand",
+      "Buff": null,
+      "School": null,
+      "Name": "Skul's Ghastly Touch",
+      "Id": 0,
+      "Slot": "Ranged",
+      "Stats": {
+        "SP": 7.0
+      },
+      "Enchantment": null,
       "Gems": null
     }
   },
@@ -121,8 +148,8 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Agi": 11.0,
-        "Str": 9.0,
+        "Spi": 9.0,
+        "SP": 7
       },
       "Enchantment": null,
       "Gems": null
@@ -132,8 +159,8 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Agi": 0.0,
-        "Str": 6.0
+        "Int": 0.0,
+        "SP": 5
       },
       "Enchantment": null,
       "Gems": null
@@ -143,8 +170,8 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Str": 6.0,
-        "Spi": 0.0
+        "Int": 8.0,
+        "SP": 9.0,
       },
       "Enchantment": null,
       "Gems": null
@@ -154,17 +181,15 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Int": 0.0,
-        "Agi": 0.0,
-        "Str": 6.0
+        "Int": 5.0,
+        "SP": 7.0,
+        "Str": 0.0,
       },
       "Enchantment": {
         "Id": 0,
         "Name": "none",
         "Slot": null,
-        "Stats": {
-          "Agi": 1.0
-        }
+        "Stats": {}
       },
       "Gems": null
     },
@@ -173,18 +198,18 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Str": 9.0,
-        "Agi": 6.0,
+        "SP": 8.0,
+        "Int": 11.0,
       },
       "Enchantment": {
         "Id": 0,
         "Name": "Greater Stats",
         "Slot": null,
         "Stats": {
-          "Str": 1.0,
-          "Agi": 1.0,
-          "Int": 1.0,
-          "Spi": 1.0
+          "Str": 2.0,
+          "Agi": 2.0,
+          "Int": 2.0,
+          "Spi": 2.0
         }
       },
       "Gems": null
@@ -194,16 +219,13 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Agi": 1.0,
-        "Str": 5.0
+        "SPFire": 13.0,
       },
       "Enchantment": {
         "Id": 0,
         "Name": "Superior Strength",
         "Slot": null,
-        "Stats": {
-          "Str": 3.0
-        }
+        "Stats": {}
       },
       "Gems": null
     },
@@ -212,15 +234,13 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Str": 10.0,
-        "Agi": 3,
+        "SP": 15.0
       },
       "Enchantment": {
         "Id": 0,
         "Name": "enchant",
         "Slot": null,
         "Stats": {
-          "Agi": 0.0
         }
       },
       "Gems": null
@@ -230,8 +250,8 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Agi": 3.0,
-        "Str": 8.0
+        "Int": 7.0,
+        "SP": 7,
       },
       "Enchantment": null,
       "Gems": null
@@ -241,8 +261,9 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Agi": 7.0,
-        "Str": 10.0
+        "Int": 9.0,
+        "Spi": 9,
+        "SP": 7,
       },
       "Enchantment": {
         "Id": 0,
@@ -259,17 +280,13 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Agi": 0.0,
-        "Str": 10.0
+        "Int": 5.0,
+        "Spi": 6.0,
+        "SP": 7.0,
+        "SHit": 1.0,
+        "Hit": 1,
       },
-      "Enchantment": {
-        "Id": 0,
-        "Name": "Lesser Arcane Amalgamation",
-        "Slot": null,
-        "Stats": {
-          "Agi": 1.0
-        }
-      },
+      "Enchantment": null,
       "Gems": null
     },
     "Ring1": {
@@ -277,8 +294,7 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Agi": 7.0,
-        "Str": 4.0
+        "SP": 9.0
       },
       "Enchantment": null,
       "Gems": null
@@ -288,8 +304,7 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "Agi": 4.0,
-        "Str": 4.0
+        "SP": 7.0
       },
       "Enchantment": null,
       "Gems": null
@@ -299,7 +314,7 @@
       "Id": 0,
       "Slot": null,
       "Stats": {
-        "AP": 18.0
+        "SP": 11.0
       },
       "Enchantment": null,
       "Gems": null
